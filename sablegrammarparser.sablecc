@@ -1,0 +1,86 @@
+Package SableGrammarParser;
+
+Helpers
+	digit	= ['0' .. '9'];
+	smallchar  =['a' .. 'z'];
+	bigchar  = ['A' .. 'Z'];
+	allcharacters = [0 .. 65535];
+	
+	singlespace = ' ';
+	cr = 13;
+	lf = 10;
+	tabular = 9;
+    newline = cr | lf | cr lf;
+	
+	
+	
+Tokens
+	
+	helperstoken = 'Helpers';
+	packagetoken = 'Package';
+	tokenstoken = 'Tokens';
+	productionstoken = 'Productions';
+	asttoken = 'Abstract Syntax Tree';
+	newtoken = 'New';
+	
+	number	= (digit+ | digit+ '.' digit+);
+	word = (smallchar|bigchar)+;
+	rulename = smallchar+;
+	lparen	= '(';
+	rparen	= ')';
+	semi = ';';
+	colon = ':';
+	equal = '=';
+	or = '|';
+	star = '*';
+	question = '?';
+	lcurly = '{';
+	rcurly = '}';
+	lsquare = '[';
+	rsquare = ']';
+	lbracket = '(';
+	rbracket = ')';
+	arrow = '->';
+	dot = '.';
+	comma = ',';
+	
+	
+	whitespace = (singlespace | tabular)*;
+	newline = newline;
+	
+Ignored Tokens
+	whitespace, newline;
+
+Productions	
+	start = package helpers tokens productions ast;
+	
+	package = packagetoken word semi;
+	
+	helpers = helperstoken helperdefinition*;
+	helperdefinition = word equal sequence multisequence* semi;
+	multisequence = or sequence;
+	sequence = word*;
+	
+	tokens = tokenstoken tokendefinition*;
+	
+	productions = productionstoken production*;
+	tokendefinition = word equal sequence multisequence* semi;
+	production = rulename astdef? equal prodname?  prodrules semi;
+	astdef = lcurly arrow word star? rcurly;
+	astrule = lcurly arrow astruleforms;
+	astruleforms = {new}newast | {list}list | {transformation} transformation;
+	newast = newtoken transformation lbracket multiastparam rbracket;
+	astparams = astparam multiastparam*;
+	astparam = {transformation}transformation | {list}list;
+	multiastparam = comma astparam;
+	list = lsquare listelements? rsquare;
+	transformation = {single}word | {multi} [left]:word dot word;
+	listelements = {single}transformation | {multi}transformation comma listelements;
+	prodrules = {single} prodrule | {multi} prodrule or prodrules;
+	prodrule = {singlerule} ruleword | {multirule} ruleword star| {optionalrule}ruleword question;
+	ruleword = identifier word;
+	identifier = lsquare word rsquare colon ;
+	prodname = lcurly word rcurly;
+	
+	ast = asttoken astproductions;
+	astproductions = word equal prodrules semi;	

@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SableGrammarParser", "SableGrammarParser\SableGrammarParser.csproj", "{5441C1D8-4091-4B8F-A2E6-50C65666324F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5441C1D8-4091-4B8F-A2E6-50C65666324F}.Debug|x86.ActiveCfg = Debug|x86
+		{5441C1D8-4091-4B8F-A2E6-50C65666324F}.Debug|x86.Build.0 = Debug|x86
+		{5441C1D8-4091-4B8F-A2E6-50C65666324F}.Release|x86.ActiveCfg = Release|x86
+		{5441C1D8-4091-4B8F-A2E6-50C65666324F}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
