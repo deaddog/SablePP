@@ -1,54 +1,6 @@
-/*
-
-Copyright (C) 1997-2000 Etienne M. Gagnon, M.Sc. .
-All rights reserved.
-
-This work is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as
-published by the Free Software Foundation; either version 2 of the
-License, or (at your option) any later version.
-
-This work is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public
-License along with this work in the file "COPYING-LESSER"; if not,
-write to the Free Software Foundation, Inc., 59 Temple Place, Suite
-330, Boston, MA 02111-1307  USA
-
-If you have any question, send an electronic message to
-Etienne M. Gagnon, M.Sc. , or write to:
-
-Etienne M. Gagnon
-J-Meg inc.
-11348 Brunet
-Montreal-Nord (Quebec)
-H1G 5G1  Canada
-
-If you you want to submit a bug report, or a patch, please visit the
-SableCC Grammars web site: 
-  
-  http://sablecc.sourceforge.net/
-
-If you want to discuss this grammar, please subscribe to the
-SableCC mailing list.  You can find all the necessary information
-on the SableCC web site at: 
- 
-  http://www.sable.mcgill.ca/sablecc/
-
-*/
-
-
-/* This grammar defines the SableCC 2.x input language. */
-
-Package org.sablecc.sablecc2x; // Root Java package for generated files.
+Package SableGrammarParser;
 
 Helpers
-
-/* These are character sets and regular expressions used in the definition of tokens. */
-   
     all = [0 .. 0xFFFF];  
     lowercase = ['a' .. 'z'];
     uppercase = ['A' .. 'Z'];
@@ -74,18 +26,10 @@ Helpers
     id_part = lowercase (lowercase | digit)*;
 
 States
-    normal, /* The first state is the initial state. */
+    normal,
     package;
 
 Tokens
-
-/* These are token definitions. It is allowed to use helper regular *
- * expressions in the body of a token definition.                   *
- * On a given input, the longest valid definition is chosen, In     *
- * case of a match, the definition that appears first is chosen.    *
- * Example: on input -> 's' <- "char" will have precedence on       *
- * "string", because it appears first.                              */
-
 {package}
     pkg_id = letter (letter | digit)*;
 
@@ -135,27 +79,11 @@ Tokens
     blank = blank;
     comment = comment;
 
-Ignored Tokens 
-
-/* These tokens are simply ignored by the parser. */
-
+Ignored Tokens
     blank,
     comment;
 
 Productions
-
-/* These are the productions of the grammar. The first production is *
- * used by the implicit start production:                            *
- *   start = (first production) EOF;                                 *
- * ?, * and + have the same meaning as in a regular expression.      *
- * In case a token and a production share the same name, the use of  *
- * P. (for production) or T. (for token) is required.                *
- * Each alternative can be explicitely named by preceding it with a  *
- * name enclosed in braces.                                          *
- * Each alternative element can be explicitely named by preceding it *
- * with a name enclosed in brackets and followed by a colon.         */
-
-
     grammar =
         P.package? P.helpers? P.states? P.tokens? ign_tokens? P.productions?;
 
