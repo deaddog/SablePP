@@ -31,7 +31,7 @@ States
 
 Tokens
 {package}
-    pkg_id = letter (letter | digit)*;
+    packagename = letter (letter | digit)* ('.' letter (letter | digit)*)*;
 
 {normal->package}
     package = 'Package';
@@ -88,13 +88,7 @@ Productions
         P.package? P.helpers? P.states? P.tokens? ign_tokens? P.productions?;
 
     package = 
-        T.package pkg_name;
-        
-    pkg_name =
-        pkg_id [pkg_ids]:pkg_name_tail* semicolon;
-
-    pkg_name_tail =
-        dot pkg_id;
+        T.package packagename semicolon;
 
     helpers =
         T.helpers [helper_defs]:helper_def+;
