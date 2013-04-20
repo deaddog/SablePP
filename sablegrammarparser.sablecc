@@ -34,13 +34,12 @@ Tokens
     packagename = letter (letter | digit)* ('.' letter (letter | digit)*)*;
 
 {normal->package}
-    package = 'Package';
-
-    states = 'States';
-    helpers = 'Helpers';
-    tokens = 'Tokens';
-    ignored = 'Ignored';
-    productions = 'Productions';
+    packagetoken = 'Package';
+    statestoken = 'States';
+    helperstoken = 'Helpers';
+    tokenstoken = 'Tokens';
+    ignoredtoken = 'Ignored';
+    productionstoken = 'Productions';
 
     token_specifier = 'T';
     production_specifier = 'P';
@@ -88,16 +87,16 @@ Productions
         P.package? P.helpers? P.states? P.tokens? ign_tokens? P.productions?;
 
     package = 
-        T.package packagename semicolon;
+        packagetoken packagename semicolon;
 
     helpers =
-        T.helpers [helper_defs]:helper_def+;
+        helperstoken [helper_defs]:helper_def+;
 
     helper_def =
         id equal reg_exp semicolon;
 
     states =
-        T.states id_list semicolon;
+        statestoken id_list semicolon;
 
     id_list = 
         id [ids]:id_list_tail*;
@@ -106,7 +105,7 @@ Productions
         comma id;
 
     tokens =
-        T.tokens [token_defs]:token_def+;
+        tokenstoken [token_defs]:token_def+;
 
     token_def =
         state_list? id equal reg_exp look_ahead? semicolon;
@@ -121,7 +120,7 @@ Productions
         arrow id;
 
     ign_tokens =
-        ignored T.tokens id_list? semicolon;
+        ignoredtoken tokenstoken id_list? semicolon;
 
     look_ahead =
         slash reg_exp;
@@ -164,7 +163,7 @@ Productions
         {minus} minus;
 
     productions =
-        T.productions [prods]:prod+;
+        productionstoken [prods]:prod+;
 
     prod =
         id equal alts semicolon;
