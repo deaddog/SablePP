@@ -84,6 +84,8 @@ public class SimplePrinter : DepthFirstAdapter
         ConsoleColor color = Console.ForegroundColor;
         Console.ForegroundColor = treecolor;
 
+        if (Console.CursorTop - dotLines.Count < 0)
+            return;
         Console.CursorTop -= dotLines.Count;
         for (int i = 0; i < dotLines.Count; i++)
         {

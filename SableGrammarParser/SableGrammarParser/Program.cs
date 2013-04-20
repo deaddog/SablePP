@@ -46,6 +46,7 @@ namespace AST
                 }
 
                 // Print tree
+                Console.BufferHeight += 600;
                 SimplePrinter printer = new SimplePrinter(false, ConsoleColor.White, ConsoleColor.Gray, ConsoleColor.Red, ConsoleColor.Blue);
                 ast.Apply(printer);
             }
