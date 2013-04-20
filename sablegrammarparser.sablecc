@@ -11,9 +11,7 @@ Helpers
 	lf = 10;
 	tabular = 9;
     newline = cr | lf | cr lf;
-	
-	
-	
+
 Tokens
 	
 	helperstoken = 'Helpers';
@@ -22,6 +20,7 @@ Tokens
 	productionstoken = 'Productions';
 	asttoken = 'Abstract Syntax Tree';
 	newtoken = 'New';
+	
 	
 	number	= (digit+ | digit+ '.' digit+);
 	word = (smallchar|bigchar)+;
@@ -32,6 +31,7 @@ Tokens
 	colon = ':';
 	equal = '=';
 	or = '|';
+	minus = '-';
 	star = '*';
 	question = '?';
 	lcurly = '{';
@@ -43,10 +43,13 @@ Tokens
 	arrow = '->';
 	dot = '.';
 	comma = ',';
+	apostrophe = ''';
+	dotdot = '..';
 	
 	
 	whitespace = (singlespace | tabular)*;
 	newline = newline;
+	
 	
 Ignored Tokens
 	whitespace, newline;
@@ -59,7 +62,17 @@ Productions
 	helpers = helperstoken helperdefinition*;
 	helperdefinition = word equal sequence multisequence* semi;
 	multisequence = or sequence;
-	sequence = word*;
+	
+	sequence 
+	={char} char
+	| {range} lsquare [first]:char dotdot [last]:char rsquare
+	| {subtract} lsquare [first]:word minus [last]:word rsquare
+	;
+	
+	char = {char} [first]:apostrophe number [last]:apostrophe 
+	| {string} [first]:apostrophe word [last]:apostrophe
+	| {number} number
+	;
 	
 	tokens = tokenstoken tokendefinition*;
 	
