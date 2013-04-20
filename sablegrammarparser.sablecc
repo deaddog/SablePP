@@ -61,7 +61,7 @@ Tokens
     minus = '-';
     q_mark = '?';
     star = '*';
-    bar = '|';
+    pipe = '|';
     comma = ',';
     slash = '/';
     arrow = '->';
@@ -69,7 +69,7 @@ Tokens
 
     id = id_part ('_' id_part)*;
 
-    char = ''' not_cr_lf ''';
+    character = ''' not_cr_lf ''';
     dec_char = digit+;
     hex_char = '0' ('x' | 'X') hex_digit+;
 
@@ -83,17 +83,21 @@ Ignored Tokens
     comment;
 
 Productions
-    grammar =
-        package? helpers? states? tokens? ign_tokens? productions?;
+    grammar
+		= package? helpers? states? tokens? ign_tokens? productions?
+		{-> New grammar(package.package, helpers.helpers)}
+		;
 
     package = 
         packagetoken packagename semicolon;
 
-    helpers =
-        helperstoken [helper_defs]:helper_def+;
+    helpers
+		= helperstoken [helper_defs]:helper_def+ {-> New helpers(helperstoken, [helper_defs.helper])}
+		;
 
-    helper_def =
-        id equal reg_exp semicolon;
+    helper_def {-> helper}
+		= id equal reg_exp semicolon {-> New helper(id, equal, reg_exp.regex, semicolon)}
+		;
 
     states =
         statestoken id_list semicolon;
@@ -125,42 +129,50 @@ Productions
     look_ahead =
         slash reg_exp;
 
-    reg_exp =
-        concat [concats]:reg_exp_tail*;
+    reg_exp {-> regex}
+		= {single} concat {-> New regex.sequence([concat.regexpart])}
+		| {multiple} concat [concats]:reg_exp_tail+ {-> New regex.or([New orpart.regex(Null, [concat.regexpart]), concats.orpart])}
+		;
 
-    reg_exp_tail =
-        bar concat;
+    reg_exp_tail {-> orpart}
+		= pipe concat {-> New orpart.regex(pipe, [concat.regexpart])}
+		;
 
-    concat =
-        [un_exps]:un_exp*;
+    concat {-> regexpart+}
+		= [un_exps]:un_exp+ {-> [un_exps.regexpart]}
+		;
 
-    un_exp =
-        basic un_op?;
+    un_exp {-> regexpart}
+		= {simple} basic {-> basic.regexpart}
+		| {star} basic star {-> New regexpart.unarystar(basic.regexpart, star)}
+		| {question} basic q_mark {-> New regexpart.unaryquestion(basic.regexpart, q_mark)}
+		| {plus} basic plus {-> New regexpart.unaryplus(basic.regexpart, plus)}
+		;
 
-    basic =
-        {char}    P.char |
-        {set}     set |
-        {string}  string |
-        {id}      id |
-        {reg_exp} l_par reg_exp r_par;
+    basic {-> regexpart}
+		= {char} char {-> char.regexpart}
+		| {set} set {-> set.regexpart}
+		| {string} string {-> New regexpart.string(string)}
+		| {id} id {-> New regexpart.id(id)}
+		| {reg_exp} l_par reg_exp r_par {-> New regexpart.parenthesis(l_par, reg_exp.regex, r_par)}
+		;
 
-    char = 
-        {char} T.char | 
-        {dec}  dec_char |
-        {hex}  hex_char;
+    char {-> regexpart}
+		= {char} character {-> New regexpart.char(character)}
+		| {dec}  dec_char {-> New regexpart.dec(dec_char)}
+		| {hex}  hex_char {-> New regexpart.hex(hex_char)}
+		;
 
-    set =
-        {operation} l_bkt [left]:basic  bin_op [right]:basic  r_bkt |
-        {interval}  l_bkt [left]:P.char d_dot  [right]:P.char r_bkt;
+    set {-> regexpart}
+		= {plus} l_bkt [left]:basic plus [right]:basic r_bkt {-> New regexpart.binaryplus(l_bkt, left.regexpart, plus, right.regexpart, r_bkt)}
+        | {minus} l_bkt [left]:basic minus [right]:basic r_bkt {-> New regexpart.binaryminus(l_bkt, left.regexpart, minus, right.regexpart, r_bkt)}
+		| {interval} l_bkt [left]:char d_dot [right]:char r_bkt {-> New regexpart.interval(l_bkt, left.regexpart, d_dot, right.regexpart, r_bkt)}
+		;
 
     un_op = 
         {star}   star |
         {q_mark} q_mark |
         {plus}   plus;
-
-    bin_op =
-        {plus}  plus |
-        {minus} minus;
 
     productions =
         productionstoken [prods]:prod+;
@@ -172,7 +184,7 @@ Productions
         alt [alts]:alts_tail*;
 
     alts_tail =
-        bar alt;
+        pipe alt;
 
     alt =
         {parsed} alt_name? [elems]:elem* |
@@ -190,3 +202,32 @@ Productions
     specifier =
         {token}         token_specifier dot |
         {production} production_specifier dot;
+
+Abstract Syntax Tree
+	grammar = package? helpers?;
+	package = packagetoken packagename semicolon;
+	helpers = helperstoken [helpers]:helper*;
+	helper = id equal regex semicolon;
+	
+	regex
+		= {sequence} regexpart+
+		| {or} orpart+
+		;
+	orpart = {regex} pipe? regexpart+;
+	regexpart
+		= {char} character
+		| {dec} dec_char
+		| {hex} hex_char
+		
+		| {unarystar} regexpart star
+		| {unaryquestion} regexpart [question]:q_mark
+		| {unaryplus} regexpart plus
+		
+		| {binaryplus} [lpar]:l_bkt [left]:regexpart plus [right]:regexpart [rpar]:r_bkt
+		| {binaryminus} [lpar]:l_bkt [left]:regexpart minus [right]:regexpart [rpar]:r_bkt
+		| {interval} [lpar]:l_bkt [left]:regexpart [dots]:d_dot [right]:regexpart [rpar]:r_bkt
+		
+		| {string} string
+		| {id} id
+		| {parenthesis} [lpar]:l_par regex [rpar]:r_par
+		;
