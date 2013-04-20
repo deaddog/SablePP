@@ -84,7 +84,7 @@ Ignored Tokens
 
 Productions
     grammar =
-        P.package? P.helpers? P.states? P.tokens? ign_tokens? P.productions?;
+        package? helpers? states? tokens? ign_tokens? productions?;
 
     package = 
         packagetoken packagename semicolon;
