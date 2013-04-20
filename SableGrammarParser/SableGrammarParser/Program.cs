@@ -8,17 +8,30 @@ namespace AST
 {
     class Program
     {
+        private static string inputFile = "test";
+
         private static void Main(string[] args)
         {
-            /*
-            if (args.Length != 1)
-                exit("Usage: Simplecalc.exe filename");
-            */
-            using (StreamReader sr = new StreamReader(File.Open("test", FileMode.Open)))
+            using (StreamReader sr = new StreamReader(File.Open(inputFile, FileMode.Open)))
+            {
+                Token t;
+                Lexer lexer = new Lexer(sr);
+                try
+                {
+                    while (!((t = lexer.Next()) is EOF))
+                        Console.WriteLine("{0}: {1}", t.GetType().Name, t.Text);
+                }
+                catch (LexerException ex)
+                {
+                    exit(ex.ToString());
+                }
+            }
+
+            using (StreamReader sr = new StreamReader(File.Open(inputFile, FileMode.Open)))
             {
                 // Read source
                 Lexer lexer = new Lexer(sr);
-                
+
                 // Parse source
                 Parser parser = new Parser(lexer);
                 Start ast = null;
@@ -33,7 +46,7 @@ namespace AST
                 }
 
                 // Print tree
-                SimplePrinter printer = new SimplePrinter(true, ConsoleColor.White, ConsoleColor.Gray, ConsoleColor.Red, ConsoleColor.Blue);
+                SimplePrinter printer = new SimplePrinter(false, ConsoleColor.White, ConsoleColor.Gray, ConsoleColor.Red, ConsoleColor.Blue);
                 ast.Apply(printer);
             }
 
