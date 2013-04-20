@@ -67,7 +67,7 @@ Tokens
     arrow = '->';
     colon = ':';
 
-    id = id_part ('_' id_part)*;
+    identifier = id_part ('_' id_part)*;
 
     character = ''' not_cr_lf ''';
     dec_char = digit+;
@@ -85,7 +85,7 @@ Ignored Tokens
 Productions
     grammar
 		= package? helpers? states? tokens? ign_tokens? productions?
-		{-> New grammar(package.package, helpers.helpers)}
+		{-> New grammar(package.package, helpers.helpers, states.states, tokens.tokens, ign_tokens.ignoredtokens)}
 		;
 
     package = 
@@ -96,38 +96,48 @@ Productions
 		;
 
     helper_def {-> helper}
-		= id equal reg_exp semicolon {-> New helper(id, equal, reg_exp.regex, semicolon)}
+		= identifier equal reg_exp semicolon {-> New helper(identifier, equal, reg_exp.regex, semicolon)}
 		;
 
-    states =
-        statestoken id_list semicolon;
+    states
+		= statestoken id_list semicolon {-> New states(statestoken, New list.identifier([id_list.listitem]), semicolon)}
+		;
 
-    id_list = 
-        id [ids]:id_list_tail*;
+    id_list {-> listitem+}
+		= identifier [ids]:id_list_tail* {-> [New listitem.identifier(Null, identifier), ids.listitem]}
+		;
 
-    id_list_tail =
-        comma id;
+    id_list_tail {-> listitem}
+		= comma identifier {-> New listitem.identifier(comma, identifier)}
+		;
 
-    tokens =
-        tokenstoken [token_defs]:token_def+;
+    tokens
+		= tokenstoken [token_defs]:token_def+ {-> New tokens(tokenstoken, [token_defs.token])}
+		;
 
-    token_def =
-        state_list? id equal reg_exp look_ahead? semicolon;
+    token_def {-> token}
+		= state_list? identifier equal reg_exp look_ahead? semicolon {-> New token(state_list.list, identifier, equal, reg_exp.regex, look_ahead.tokenlookahead, semicolon)}
+		;
 
-    state_list =
-        l_brace id transition? [state_lists]:state_list_tail* r_brace;
+    state_list {-> list}
+		= {notransition} l_brace identifier [state_lists]:state_list_tail* r_brace
+		  {-> New list.tokenstate(l_brace, [New listitem.tokenstate(Null, identifier), state_lists.listitem], r_brace)}
+		| {transition} l_brace [f]:identifier arrow [t]:identifier [state_lists]:state_list_tail* r_brace
+		  {-> New list.tokenstate(l_brace, [New listitem.tokenstatetransition(Null, f, arrow, t), state_lists.listitem], r_brace)}
+		;
 
-    state_list_tail =
-        comma id transition?;
+    state_list_tail {-> listitem}
+		= {notransition} comma identifier {-> New listitem.tokenstate(comma, identifier)}
+		| {transition} comma [f]:identifier arrow [t]:identifier {-> New listitem.tokenstatetransition(comma, f, arrow, t)}
+		;
 
-    transition =
-        arrow id;
+    ign_tokens {-> ignoredtokens}
+		= ignoredtoken tokenstoken id_list semicolon {-> New ignoredtokens(ignoredtoken, tokenstoken, New list.identifier([id_list.listitem]), semicolon)}
+		;
 
-    ign_tokens =
-        ignoredtoken tokenstoken id_list? semicolon;
-
-    look_ahead =
-        slash reg_exp;
+    look_ahead {-> tokenlookahead}
+		= slash reg_exp {-> New tokenlookahead(slash, reg_exp.regex)}
+		;
 
     reg_exp {-> regex}
 		= {single} concat {-> New regex.sequence([concat.regexpart])}
@@ -153,7 +163,7 @@ Productions
 		= {char} char {-> char.regexpart}
 		| {set} set {-> set.regexpart}
 		| {string} string {-> New regexpart.string(string)}
-		| {id} id {-> New regexpart.id(id)}
+		| {identifier} identifier {-> New regexpart.identifier(identifier)}
 		| {reg_exp} l_par reg_exp r_par {-> New regexpart.parenthesis(l_par, reg_exp.regex, r_par)}
 		;
 
@@ -178,7 +188,7 @@ Productions
         productionstoken [prods]:prod+;
 
     prod =
-        id equal alts semicolon;
+        identifier equal alts semicolon;
 
     alts =
         alt [alts]:alts_tail*;
@@ -191,23 +201,28 @@ Productions
         {ignored} l_par alt_name? [elems]:elem* r_par;
         
     alt_name =
-        l_brace id r_brace;
+        l_brace identifier r_brace;
 
     elem =
-        elem_name? specifier? id un_op?;
+        elem_name? specifier? identifier un_op?;
 
     elem_name =
-        l_bkt id r_bkt colon;
+        l_bkt identifier r_bkt colon;
 
     specifier =
         {token}         token_specifier dot |
         {production} production_specifier dot;
 
 Abstract Syntax Tree
-	grammar = package? helpers?;
+	grammar = package? helpers? states? tokens? ignoredtokens?;
 	package = packagetoken packagename semicolon;
+	
 	helpers = helperstoken [helpers]:helper*;
-	helper = id equal regex semicolon;
+	helper = identifier equal regex semicolon;
+	
+	tokens = tokenstoken [tokens]:token*;
+	token = list? identifier equal regex tokenlookahead? semicolon;
+	tokenlookahead = slash regex;
 	
 	regex
 		= {sequence} regexpart+
@@ -228,6 +243,18 @@ Abstract Syntax Tree
 		| {interval} [lpar]:l_bkt [left]:regexpart [dots]:d_dot [right]:regexpart [rpar]:r_bkt
 		
 		| {string} string
-		| {id} id
+		| {identifier} identifier
 		| {parenthesis} [lpar]:l_par regex [rpar]:r_par
+		;
+	
+	states = statestoken list semicolon;
+	ignoredtokens = ignoredtoken tokenstoken list semicolon;
+	list
+		= {identifier} listitem+
+		| {tokenstate} [lpar]:l_brace listitem+ [rpar]:r_brace
+		;
+	listitem
+		= {identifier} comma? identifier
+		| {tokenstate} comma? identifier
+		| {tokenstatetransition} comma? [from]:identifier arrow [to]:identifier
 		;
