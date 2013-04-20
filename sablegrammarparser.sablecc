@@ -85,7 +85,7 @@ Ignored Tokens
 Productions
     grammar
 		= package? helpers? states? tokens? ign_tokens? productions?
-		{-> New grammar(package.package, helpers.helpers, states.states, tokens.tokens, ign_tokens.ignoredtokens)}
+		{-> New grammar(package.package, helpers.helpers, states.states, tokens.tokens, ign_tokens.ignoredtokens, productions.productions)}
 		;
 
     package = 
@@ -179,42 +179,46 @@ Productions
 		| {interval} l_bkt [left]:char d_dot [right]:char r_bkt {-> New regexpart.interval(l_bkt, left.regexpart, d_dot, right.regexpart, r_bkt)}
 		;
 
-    un_op = 
-        {star}   star |
-        {q_mark} q_mark |
-        {plus}   plus;
+    productions
+		= productionstoken [prods]:prod+ {-> New productions(productionstoken, [prods.production])}
+		;
 
-    productions =
-        productionstoken [prods]:prod+;
+    prod {-> production}
+		= identifier equal alts semicolon {-> New production(identifier, equal, alts.productionrule, semicolon)}
+		;
 
-    prod =
-        identifier equal alts semicolon;
+    alts {-> productionrule}
+		= {simple} alt_name? [elems]:elem* {-> New productionrule.simple(alt_name.alternativename, [elems.element])}
+		| {multiple} alt_name? [elems]:elem* [alts]:alts_tail+ {-> New productionrule.or([New alternative(Null, alt_name.alternativename, [elems.element]), alts.alternative])}
+		;
 
-    alts =
-        alt [alts]:alts_tail*;
-
-    alts_tail =
-        pipe alt;
-
-    alt =
-        {parsed} alt_name? [elems]:elem* |
-        {ignored} l_par alt_name? [elems]:elem* r_par;
+    alts_tail {-> alternative}
+		= pipe alt_name? [elems]:elem* {-> New alternative(pipe, alt_name.alternativename, [elems.element])}
+		;
         
-    alt_name =
-        l_brace identifier r_brace;
+    alt_name {-> alternativename}
+		= l_brace identifier r_brace {-> New alternativename(l_brace, identifier, r_brace)}
+		;
 
-    elem =
-        elem_name? specifier? identifier un_op?;
+    elem {-> element}
+		= {simple} elem_name? elem_id {-> New element.simple(elem_name.elementname, elem_id.elementid)}
+		| {star} elem_name? elem_id star {-> New element.star(elem_name.elementname, elem_id.elementid, star)}
+		| {question} elem_name? elem_id q_mark {-> New element.question(elem_name.elementname, elem_id.elementid, q_mark)}
+		| {plus} elem_name? elem_id plus {-> New element.plus(elem_name.elementname, elem_id.elementid, plus)}
+		;
 
-    elem_name =
-        l_bkt identifier r_bkt colon;
-
-    specifier =
-        {token}         token_specifier dot |
-        {production} production_specifier dot;
+    elem_name {-> elementname}
+		= l_bkt identifier r_bkt colon {-> New elementname(l_bkt, identifier, r_bkt, colon)}
+		;
+	
+	elem_id {-> elementid}
+		= {clean} identifier {-> New elementid.clean(identifier)}
+		| {token} token_specifier dot identifier {-> New elementid.token(token_specifier, dot, identifier)}
+		| {production} production_specifier dot identifier {-> New elementid.production(production_specifier, dot, identifier)}
+		;
 
 Abstract Syntax Tree
-	grammar = package? helpers? states? tokens? ignoredtokens?;
+	grammar = package? helpers? states? tokens? ignoredtokens? productions?;
 	package = packagetoken packagename semicolon;
 	
 	helpers = helperstoken [helpers]:helper*;
@@ -258,3 +262,28 @@ Abstract Syntax Tree
 		| {tokenstate} comma? identifier
 		| {tokenstatetransition} comma? [from]:identifier arrow [to]:identifier
 		;
+
+	productions = productionstoken [productions]:production+;
+	production = identifier equal productionrule semicolon;
+	
+	productionrule
+		= {simple} alternativename? element+
+		| {or} alternative+
+		;
+	alternative = pipe? alternativename? element+;
+	
+	alternativename = [lpar]:l_brace [name]:identifier [rpar]:r_brace;
+	
+	element
+		= {simple} elementname? elementid
+		| {star} elementname? elementid star
+		| {question} elementname? elementid q_mark
+		| {plus} elementname? elementid plus
+		;
+	elementname = [lpar]:l_bkt [name]:identifier [rpar]:r_bkt colon;
+	elementid
+		= {clean} identifier
+		| {token} token_specifier dot identifier
+		| {production} production_specifier dot identifier
+		;
+	
