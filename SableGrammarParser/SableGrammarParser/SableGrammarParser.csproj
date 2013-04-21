@@ -44,22 +44,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\generated\analysis.cs">
-      <Link>analysis.cs</Link>
+      <Link>generated\analysis.cs</Link>
     </Compile>
     <Compile Include="..\..\generated\lexer.cs">
-      <Link>lexer.cs</Link>
+      <Link>generated\lexer.cs</Link>
     </Compile>
     <Compile Include="..\..\generated\nodes.cs">
-      <Link>nodes.cs</Link>
+      <Link>generated\nodes.cs</Link>
     </Compile>
     <Compile Include="..\..\generated\parser.cs">
-      <Link>parser.cs</Link>
+      <Link>generated\parser.cs</Link>
     </Compile>
     <Compile Include="..\..\generated\prods.cs">
-      <Link>prods.cs</Link>
+      <Link>generated\prods.cs</Link>
     </Compile>
     <Compile Include="..\..\generated\tokens.cs">
-      <Link>tokens.cs</Link>
+      <Link>generated\tokens.cs</Link>
     </Compile>
     <Compile Include="ASTprinter.cs" />
     <Compile Include="Program.cs" />

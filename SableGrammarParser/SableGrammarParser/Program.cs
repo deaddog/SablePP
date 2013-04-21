@@ -8,9 +8,22 @@ namespace AST
 {
     class Program
     {
-        private static string inputFile = "test";
+        private static string inputFile = "..\\..\\..\\..\\sablegrammarparser.sablecc";
 
-        private static void Main(string[] args)
+        private static void Main(string[] args) 
+        {
+            string text = ReadFile(inputFile);
+        }
+
+        private static string ReadFile(string filepath)
+        {
+            string result;
+            using (StreamReader sr = new StreamReader(File.Open(inputFile, FileMode.Open)))
+                result = sr.ReadToEnd();
+            return result;
+        }
+
+        private static void Lexer(string filepath)
         {
             using (StreamReader sr = new StreamReader(File.Open(inputFile, FileMode.Open)))
             {
@@ -23,10 +36,12 @@ namespace AST
                 }
                 catch (LexerException ex)
                 {
-                    exit(ex.ToString());
+                    Exit(ex.ToString());
                 }
             }
-
+        }
+        private static void Parser(string filepath)
+        {
             using (StreamReader sr = new StreamReader(File.Open(inputFile, FileMode.Open)))
             {
                 // Read source
@@ -42,7 +57,7 @@ namespace AST
                 }
                 catch (Exception ex)
                 {
-                    exit(ex.ToString());
+                    Exit(ex.ToString());
                 }
 
                 // Print tree
@@ -50,11 +65,8 @@ namespace AST
                 SimplePrinter printer = new SimplePrinter(false, ConsoleColor.White, ConsoleColor.Gray, ConsoleColor.Red, ConsoleColor.Blue);
                 ast.Apply(printer);
             }
-
-            exit("Done");
         }
-
-        private static void exit(string msg)
+        private static void Exit(string msg)
         {
             if (msg != null)
                 Console.WriteLine(msg);
