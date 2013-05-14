@@ -62,10 +62,14 @@
       <Link>generated\tokens.cs</Link>
     </Compile>
     <Compile Include="ASTprinter.cs" />
+    <Compile Include="Declarations\Declaration.cs" />
+    <Compile Include="Declarations\Helper.cs" />
+    <Compile Include="DeclarationVisitor.cs" />
     <Compile Include="Error\CompilerError.cs" />
     <Compile Include="Error\ErrorManager.cs" />
     <Compile Include="Error\ErrorVisitor.cs" />
     <Compile Include="Error\Position.cs" />
+    <Compile Include="Nodes\TIdentifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
