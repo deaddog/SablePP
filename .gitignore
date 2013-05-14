@@ -5,6 +5,8 @@ generated/parser.cs
 generated/prods.cs
 generated/tokens.cs
 
+grammar.sablecc
+
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Bb]in/
 [Oo]bj/

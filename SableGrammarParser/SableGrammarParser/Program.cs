@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+
 using SableGrammarParser.lexer;
 using SableGrammarParser.node;
 using SableGrammarParser.parser;
 
-namespace AST
+namespace SableGrammarParser
 {
     class Program
     {
@@ -12,7 +14,8 @@ namespace AST
 
         private static void Main(string[] args) 
         {
-            string text = ReadFile(inputFile);
+            Start ast = Parse(ReadFile(inputFile));
+            Error.CompilerError[] errors = DeclarationVisitor.StartNewVisitor(ast).GetErrors().ToArray();
         }
 
         private static string ReadFile(string filepath)
@@ -21,6 +24,18 @@ namespace AST
             using (StreamReader sr = new StreamReader(File.Open(inputFile, FileMode.Open)))
                 result = sr.ReadToEnd();
             return result;
+        }
+        private static Start Parse(string code)
+        {
+            StringReader reader = new StringReader(code);
+
+            Lexer lexer = new Lexer(reader);
+            Parser parser = new Parser(lexer);
+
+            Start ast = parser.Parse();
+
+            reader.Dispose();
+            return ast;
         }
 
         private static void Lexer(string filepath)
