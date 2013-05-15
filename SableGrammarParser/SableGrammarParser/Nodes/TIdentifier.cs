@@ -19,24 +19,24 @@ namespace SableGrammarParser.node
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="Helper"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="DHelper"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="Helper"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="DHelper"/>; otherwise, <c>false</c>.
         /// </value>
         public bool IsHelper
         {
-            get { return declaration is Helper; }
+            get { return declaration is DHelper; }
         }
         /// <summary>
-        /// Gets the declaration associated with this identifier, as a <see cref="Helper"/>.
+        /// Gets the declaration associated with this identifier, as a <see cref="DHelper"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="Helper"/> if this identifier refers to a <see cref="Helper"/>; otherwise, <c>null</c>.
+        ///   A <see cref="DHelper"/> if this identifier refers to a <see cref="DHelper"/>; otherwise, <c>null</c>.
         /// </value>
-        public Helper AsHelper
+        public DHelper AsHelper
         {
-            get { return declaration as Helper; }
+            get { return declaration as DHelper; }
         }
     }
 }

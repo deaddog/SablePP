@@ -9,15 +9,20 @@ namespace SableGrammarParser
     /// <summary>
     /// Represents the declaration of a helper identifier.
     /// </summary>
-    public class Helper : Declaration
+    public class DHelper : Declaration
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Helper"/> class.
+        /// Initializes a new instance of the <see cref="DHelper"/> class.
         /// </summary>
-        /// <param name="node">The helper node from which this <see cref="Helper"/> should be constructed.</param>
-        public Helper(AHelper node)
+        /// <param name="node">The helper node from which this <see cref="DHelper"/> should be constructed.</param>
+        public DHelper(AHelper node)
             : base(node.GetIdentifier())
         {
+        }
+
+        public override string ToString()
+        {
+            return "H:" + base.ToString();
         }
     }
 }
