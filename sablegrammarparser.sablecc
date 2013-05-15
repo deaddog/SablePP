@@ -260,7 +260,7 @@ Abstract Syntax Tree
 	helper = identifier equal regex semicolon;
 	
 	tokens = tokenstoken [tokens]:token*;
-	token = list? identifier equal regex tokenlookahead? semicolon;
+	token = [statelist]:list? identifier equal regex tokenlookahead? semicolon;
 	tokenlookahead = slash regex;
 	
 	regex
