@@ -38,5 +38,47 @@ namespace SableGrammarParser.node
         {
             get { return declaration as DHelper; }
         }
+
+        /// <summary>
+        /// Gets a value indicating whether this identifier refers to a <see cref="DState"/>.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this identifier refers to a <see cref="DState"/>; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsState
+        {
+            get { return declaration is DState; }
+        }
+        /// <summary>
+        /// Gets the declaration associated with this identifier, as a <see cref="DState"/>.
+        /// </summary>
+        /// <value>
+        ///   A <see cref="DState"/> if this identifier refers to a <see cref="DState"/>; otherwise, <c>null</c>.
+        /// </value>
+        public DState AsState
+        {
+            get { return declaration as DState; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this identifier refers to a <see cref="DToken"/>.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this identifier refers to a <see cref="DToken"/>; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsToken
+        {
+            get { return declaration is DToken; }
+        }
+        /// <summary>
+        /// Gets the declaration associated with this identifier, as a <see cref="DToken"/>.
+        /// </summary>
+        /// <value>
+        ///   A <see cref="DToken"/> if this identifier refers to a <see cref="DToken"/>; otherwise, <c>null</c>.
+        /// </value>
+        public DToken AsToken
+        {
+            get { return declaration as DToken; }
+        }
     }
 }
