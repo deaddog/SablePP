@@ -32,8 +32,8 @@ namespace SableGrammarParser.SymbolLinking
             if (node.GetTokens() != null)
                 tokens = StartVisitor(new TokenVisitor(helpers, states), node.GetTokens()).GetTokens();
 
-            //if (node.GetIgnoredtokens() != null)
-            //    node.GetIgnoredtokens().Apply(this);
+            if (node.GetIgnoredtokens() != null)
+                StartVisitor(new IgnoredTokenVisitor(tokens), node.GetIgnoredtokens());
 
             //if (node.GetProductions() != null)
             //    node.GetProductions().Apply(this);

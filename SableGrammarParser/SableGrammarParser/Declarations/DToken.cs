@@ -11,6 +11,8 @@ namespace SableGrammarParser
     /// </summary>
     public class DToken : Declaration
     {
+        private bool ignored = false;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DToken"/> class.
         /// </summary>
@@ -20,9 +22,18 @@ namespace SableGrammarParser
         {
         }
 
+        /// <summary>
+        /// Gets or sets whether this token is ignored by the parser.
+        /// </summary>
+        public bool Ignored
+        {
+            get { return ignored; }
+            set { ignored = value; }
+        }
+
         public override string ToString()
         {
-            return "T:" + base.ToString();
+            return "T:" + base.ToString() + (ignored ? " [Ignore]" : "");
         }
     }
 }
