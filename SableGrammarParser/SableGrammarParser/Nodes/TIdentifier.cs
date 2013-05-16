@@ -18,6 +18,15 @@ namespace SableGrammarParser.node
             this.declaration = declaration;
         }
 
+        public bool HasDeclaration
+        {
+            get { return declaration != null; }
+        }
+        public Declaration Declaration
+        {
+            get { return declaration; }
+        }
+
         /// <summary>
         /// Gets a value indicating whether this identifier refers to a <see cref="DHelper"/>.
         /// </summary>
@@ -79,6 +88,27 @@ namespace SableGrammarParser.node
         public DToken AsToken
         {
             get { return declaration as DToken; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this identifier refers to a <see cref="DProduction"/>.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this identifier refers to a <see cref="DProduction"/>; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsProduction
+        {
+            get { return declaration is DProduction; }
+        }
+        /// <summary>
+        /// Gets the declaration associated with this identifier, as a <see cref="DProduction"/>.
+        /// </summary>
+        /// <value>
+        ///   A <see cref="DProduction"/> if this identifier refers to a <see cref="DProduction"/>; otherwise, <c>null</c>.
+        /// </value>
+        public DProduction AsProduction
+        {
+            get { return declaration as DProduction; }
         }
     }
 }
