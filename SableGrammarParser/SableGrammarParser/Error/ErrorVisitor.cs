@@ -31,7 +31,8 @@ namespace SableGrammarParser.Error
             errorManager.Register(new CompilerError(node, errorMessage, args));
         }
 
-        protected ErrorVisitor StartVisitor(ErrorVisitor visitor, Node node)
+        protected T StartVisitor<T>(T visitor, Node node)
+            where T : ErrorVisitor
         {
             if (this.errorManager == null)
                 this.errorManager = new ErrorManager();

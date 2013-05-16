@@ -15,7 +15,7 @@ namespace SableGrammarParser
         private static void Main(string[] args) 
         {
             Start ast = Parse(ReadFile(inputFile));
-            Error.CompilerError[] errors = DeclarationVisitor.StartNewVisitor(ast).GetErrors().ToArray();
+            Error.CompilerError[] errors = SymbolLinking.DeclarationVisitor.StartNewVisitor(ast).GetErrors().ToArray();
         }
 
         private static string ReadFile(string filepath)

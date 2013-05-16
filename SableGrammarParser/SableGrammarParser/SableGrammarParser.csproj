@@ -64,8 +64,10 @@
     <Compile Include="ASTprinter.cs" />
     <Compile Include="Declarations\Declaration.cs" />
     <Compile Include="Declarations\DHelper.cs" />
+    <Compile Include="Declarations\DProduction.cs" />
     <Compile Include="Declarations\DState.cs" />
     <Compile Include="Declarations\DToken.cs" />
+    <Compile Include="Declarations\ProductionElement.cs" />
     <Compile Include="DeclarationVisitor.cs" />
     <Compile Include="Error\CompilerError.cs" />
     <Compile Include="Error\ErrorManager.cs" />
@@ -74,6 +76,9 @@
     <Compile Include="Nodes\TIdentifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SymbolLinking\HelperVisitor.cs" />
+    <Compile Include="SymbolLinking\StateVisitor.cs" />
+    <Compile Include="SymbolLinking\TokenVisitor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
