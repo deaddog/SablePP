@@ -10,7 +10,7 @@ namespace SableGrammarParser
 {
     class Program
     {
-        private static string inputFile = "..\\..\\..\\..\\sablegrammarparser.sablecc";
+        private static string inputFile = "..\\..\\..\\..\\grammar.sablecc";
 
         private static void Main(string[] args) 
         {

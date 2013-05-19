@@ -1,0 +1,45 @@
+Package Grammar;
+
+Helpers
+	allcharacters = [0 .. 65535];
+	digit = ['0' .. '9'];
+	zero = '0';
+	nonzero = ['1' .. '9'];
+	upper = ['A' .. 'Z'] | 'Æ' | 'Ø' | 'Å';
+	lower = ['a' .. 'z'] | 'æ' | 'ø' | 'å';
+	letter = upper | lower;
+	minus = '-';
+	add = '+';
+	
+	singlespace = ' ';
+	cr = 13;
+	lf = 10;
+	tabular = 9;
+    newline = cr | lf | cr lf;
+
+States
+	normal, start;
+	
+Tokens
+	whitespace = (singlespace | tabular | newline)*;
+	number = zero | (nonzero digit*);
+	assign = '=';
+	plus = '+';
+	{start->normal}
+	begin = 'begin';
+	identifier = letter;
+	
+Ignored Tokens
+	whitespace;
+	
+Productions
+	program = begin assignment+;
+	assignment = identifier assign expression;
+	expression
+		= {addition} expressionterm plus expression
+		| {term} expressionterm
+		;
+	expressionterm
+		= {identifier} identifier
+		| {value} number
+		;
