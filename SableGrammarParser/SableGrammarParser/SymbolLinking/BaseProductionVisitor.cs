@@ -88,6 +88,8 @@ namespace SableGrammarParser.SymbolLinking
             {
                 alternatives.Clear();
 
+                InAProduction(node);
+
                 if (node.GetIdentifier() != null)
                 {
                     TIdentifier ident = node.GetIdentifier();
@@ -109,9 +111,19 @@ namespace SableGrammarParser.SymbolLinking
 
                 if (node.GetSemicolon() != null)
                     node.GetSemicolon().Apply(this);
+
+                OutAProduction(node);
             }
         }
         public override void OutAProductions(AProductions node)
+        {
+            if (firstRun)
+            {
+                firstRun = false;
+                node.Apply(this);
+            }
+        }
+        public override void OutAAstproductions(AAstproductions node)
         {
             if (firstRun)
             {
@@ -126,6 +138,7 @@ namespace SableGrammarParser.SymbolLinking
         }
         public override void CaseAAlternativename(AAlternativename node)
         {
+            InAAlternativename(node);
             string text = node.GetName().Text;
             AltType alternative = Construct(node);
             if (alternatives.ContainsKey(text))
@@ -135,6 +148,7 @@ namespace SableGrammarParser.SymbolLinking
                 alternatives.Add(text, alternative);
                 node.GetName().SetDeclaration(alternative);
             }
+            OutAAlternativename(node);
         }
 
         public override void CaseAElementname(AElementname node)

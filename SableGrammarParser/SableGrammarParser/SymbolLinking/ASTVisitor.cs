@@ -8,6 +8,9 @@ namespace SableGrammarParser.SymbolLinking
 {
     public class ASTVisitor : BaseProductionVisitor<DAProduction, DAAlternative>
     {
+        private string production;
+        private DAAlternative alternative;
+
         public ASTVisitor(IEnumerable<KeyValuePair<string, DToken>> tokens)
             : base(tokens, false)
         {
@@ -22,12 +25,32 @@ namespace SableGrammarParser.SymbolLinking
             return new DAAlternative(node);
         }
 
-        public override void CaseAProduction(AProduction node)
+        public override void InAProduction(AProduction node)
         {
-            base.CaseAProduction(node);
+            production = node.GetIdentifier().Text;
+        }
+        public override void OutAProduction(AProduction node)
+        {
             if (node.GetProdtranslation() != null)
                 RegisterError(node.GetProdtranslation(), "AST nodes cannot be translated.");
+
+            production = null;
         }
+        public override void OutAAlternativename(AAlternativename node)
+        {
+            alternative = GetAlternativeName(node.GetName().Text);
+        }
+        public override void OutAAlternative(AAlternative node)
+        {
+            base.OutAAlternative(node);
+            alternative = null;
+        }
+
+        public override void InAProductions(AProductions node)
+        {
+            base.InAProductions(node);
+        }
+
         public override void CaseAFullTranslation(AFullTranslation node)
         {
             base.CaseAFullTranslation(node);
