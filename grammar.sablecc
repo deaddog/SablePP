@@ -33,13 +33,25 @@ Ignored Tokens
 	whitespace;
 	
 Productions
-	program = begin assignment+;
+	program = begin assignment+ {-> New program(begin, New assignments([assignment]))};
+	assignment = identifier assign expression;
+	expression {-> expression}
+		= {addition} [left]:expressionterm plus [right]:expression
+		  {-> New expression.addition(left.expression, plus, right.expression)}
+		| {term} P.expressionterm
+		  {-> expressionterm.expression}
+		;
+	expressionterm {-> expression}
+		= {identifier} T.identifier {-> New expression.identifier(identifier)}
+		| {value} number {-> New expression.value(number)}
+		;
+
+Abstract Syntax Tree
+	program = begin assignments;
+	assignments = assignment+;
 	assignment = identifier assign expression;
 	expression
-		= {addition} [left]:expressionterm plus [right]:expression
-		| {term} P.expressionterm
-		;
-	expressionterm
-		= {identifier} T.identifier
+		= {addition} [left]:expression plus [right]:expression
+		| {identifier} identifier
 		| {value} number
 		;
