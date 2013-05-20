@@ -9,29 +9,29 @@ namespace SableGrammarParser
     /// <summary>
     /// Represents the declaration of a production identifier.
     /// </summary>
-    public class DProduction : Declaration
+    public class DProduction : DBaseProduction<DAlternative>
     {
-        private bool concrete;
+        private DAProduction astProduction;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DProduction"/> class.
         /// </summary>
         /// <param name="node">The production node from which this <see cref="DProduction"/> should be constructed.</param>
-        public DProduction(AProduction production, bool concrete)
-            : base(production.GetIdentifier())
+        public DProduction(AProduction production)
+            : base(production.GetIdentifier(), true)
         {
-            this.concrete = concrete;
         }
 
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="DProduction"/> is a concrete rule (or an ast rule).
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if concrete; otherwise, <c>false</c>.
-        /// </value>
-        public bool Concrete
+        public DAProduction TranslatesTo
         {
-            get { return concrete; }
+            get { return astProduction; }
+            set
+            {
+                if (astProduction != null)
+                    astProduction = value;
+                else 
+                    throw new InvalidOperationException("Attempted to set TranslatesTo twice.");
+            }
         }
 
         public override string ToString()

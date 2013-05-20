@@ -6,11 +6,20 @@ using SableGrammarParser.node;
 
 namespace SableGrammarParser.SymbolLinking
 {
-    public class ASTVisitor : BaseProductionVisitor
+    public class ASTVisitor : BaseProductionVisitor<DAProduction, DAAlternative>
     {
         public ASTVisitor(IEnumerable<KeyValuePair<string, DToken>> tokens)
             : base(tokens, false)
         {
+        }
+
+        protected override DAProduction Construct(AProduction node)
+        {
+            return new DAProduction(node);
+        }
+        protected override DAAlternative Construct(AAlternativename node)
+        {
+            return new DAAlternative(node);
         }
 
         public override void CaseAProduction(AProduction node)

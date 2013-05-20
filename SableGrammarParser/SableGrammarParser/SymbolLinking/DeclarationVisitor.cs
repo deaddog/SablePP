@@ -65,7 +65,7 @@ namespace SableGrammarParser.SymbolLinking
             if (node.GetIgnoredtokens() != null)
                 StartVisitor(new IgnoredTokenVisitor(tokens), node.GetIgnoredtokens());
 
-            Dictionary<string, DProduction> astProductions = new Dictionary<string, DProduction>();
+            Dictionary<string, DAProduction> astProductions = new Dictionary<string, DAProduction>();
             if (node.GetAstproductions() != null)
                 astProductions = StartVisitor(new ASTVisitor(tokens), node.GetAstproductions()).GetProductions();
 

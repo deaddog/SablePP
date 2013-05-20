@@ -6,17 +6,19 @@ using SableGrammarParser.node;
 
 namespace SableGrammarParser.SymbolLinking
 {
-    public abstract class BaseProductionVisitor: Error.ErrorVisitor
+    public abstract class BaseProductionVisitor<ProdType, AltType> : Error.ErrorVisitor
+        where AltType : DBaseAlternative
+        where ProdType : DBaseProduction<AltType>
     {
         private Dictionary<string, DToken> tokens;
-        private Dictionary<string, DProduction> productions;
+        private Dictionary<string, ProdType> productions;
         private bool firstRun = true;
         private bool concrete;
 
-        private Dictionary<string, DAlternativeName> alternatives;
+        private Dictionary<string, AltType> alternatives;
         private Dictionary<string, DElementName> elements;
 
-        private T TryGet<T>(Dictionary<string,T> dictionary, string text) where T : Declaration
+        private DictType tryGet<DictType>(Dictionary<string, DictType> dictionary, string text) where DictType : Declaration
         {
             if (dictionary == null)
                 throw new ArgumentNullException("dictionary");
@@ -24,33 +26,35 @@ namespace SableGrammarParser.SymbolLinking
             if (text == null || text.Length == 0)
                 throw new ArgumentNullException("text");
 
-            T declaration;
+            DictType declaration;
             if (dictionary.TryGetValue(text, out declaration))
                 return declaration;
             else
                 return null;
         }
-
         protected DToken GetToken(string text)
         {
-            return TryGet(tokens, text);
+            return tryGet(tokens, text);
         }
-        protected DProduction GetProduction(string text)
+        protected ProdType GetProduction(string text)
         {
-            return TryGet(productions, text);
+            return tryGet(productions, text);
         }
-        protected DAlternativeName GetAlternativeName(string text)
+        protected AltType GetAlternativeName(string text)
         {
-            return TryGet(alternatives, text);
+            return tryGet(alternatives, text);
         }
         protected DElementName GetElementName(string text)
         {
-            return TryGet(elements, text);
+            return tryGet(elements, text);
         }
 
-        public Dictionary<string, DProduction> GetProductions()
+        protected abstract ProdType Construct(AProduction node);
+        protected abstract AltType Construct(AAlternativename node);
+
+        public Dictionary<string, ProdType> GetProductions()
         {
-            Dictionary<string, DProduction> productionDict = new Dictionary<string, DProduction>();
+            Dictionary<string, ProdType> productionDict = new Dictionary<string, ProdType>();
             foreach (var p in productions)
                 productionDict.Add(p.Key, p.Value);
             return productionDict;
@@ -64,8 +68,8 @@ namespace SableGrammarParser.SymbolLinking
             foreach (var v in tokens)
                 this.tokens.Add(v.Key, v.Value);
 
-            this.productions = new Dictionary<string, DProduction>();
-            this.alternatives = new Dictionary<string, DAlternativeName>();
+            this.productions = new Dictionary<string, ProdType>();
+            this.alternatives = new Dictionary<string, AltType>();
             this.elements = new Dictionary<string, DElementName>();
         }
 
@@ -74,7 +78,7 @@ namespace SableGrammarParser.SymbolLinking
             if (firstRun)
             {
                 string text = node.GetIdentifier().Text;
-                DProduction production = new DProduction(node, concrete);
+                ProdType production = Construct(node);
                 if (productions.ContainsKey(text))
                     RegisterError(node.GetIdentifier(), "The {2}production {0} has already been defined (line {1}).", node.GetIdentifier(), productions[text].DeclarationToken.Line, concrete ? "" : "AST ");
                 else
@@ -87,7 +91,7 @@ namespace SableGrammarParser.SymbolLinking
                 if (node.GetIdentifier() != null)
                 {
                     TIdentifier ident = node.GetIdentifier();
-                    DProduction production = null;
+                    ProdType production = null;
                     if (productions.TryGetValue(ident.Text, out production))
                         ident.SetDeclaration(production);
                     else
@@ -123,7 +127,7 @@ namespace SableGrammarParser.SymbolLinking
         public override void CaseAAlternativename(AAlternativename node)
         {
             string text = node.GetName().Text;
-            DAlternativeName alternative = new DAlternativeName(node);
+            AltType alternative = Construct(node);
             if (alternatives.ContainsKey(text))
                 RegisterError(node.GetName(), "Alternative {0} has already been defined (line {1}).", node.GetName(), alternatives[text].DeclarationToken.Line);
             else
@@ -168,7 +172,7 @@ namespace SableGrammarParser.SymbolLinking
         }
         public override void CaseAProductionElementid(AProductionElementid node)
         {
-            DProduction production = null;
+            ProdType production = null;
             if (productions.TryGetValue(node.GetIdentifier().Text, out production))
                 node.GetIdentifier().SetDeclaration(production);
             else

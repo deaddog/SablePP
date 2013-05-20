@@ -6,17 +6,26 @@ using SableGrammarParser.node;
 
 namespace SableGrammarParser.SymbolLinking
 {
-    public class ProductionVisitor : BaseProductionVisitor
+    public class ProductionVisitor : BaseProductionVisitor<DProduction, DAlternative>
     {
-        private Dictionary<string, DProduction> astProductions;
+        private Dictionary<string, DAProduction> astProductions;
 
         public ProductionVisitor(IEnumerable<KeyValuePair<string, DToken>> tokens,
-                                 IEnumerable<KeyValuePair<string,DProduction>> astProductions)
+                                 IEnumerable<KeyValuePair<string, DAProduction>> astProductions)
             : base(tokens, true)
         {
-            this.astProductions = new Dictionary<string, DProduction>();
+            this.astProductions = new Dictionary<string, DAProduction>();
             foreach (var a in astProductions)
                 this.astProductions.Add(a.Key, a.Value);
+        }
+
+        protected override DProduction Construct(AProduction node)
+        {
+            return new DProduction(node);
+        }
+        protected override DAlternative Construct(AAlternativename node)
+        {
+            return new DAlternative(node);
         }
 
         public override void CaseACleanProdtranslation(ACleanProdtranslation node)
@@ -37,7 +46,7 @@ namespace SableGrammarParser.SymbolLinking
         }
         private void CasePProdtranslation(TIdentifier identifier)
         {
-            DProduction declaration = null;
+            DAProduction declaration = null;
             if (astProductions.TryGetValue(identifier.Text, out declaration))
                 identifier.SetDeclaration(declaration);
             else
