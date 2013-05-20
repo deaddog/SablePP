@@ -13,6 +13,7 @@ namespace SableGrammarParser.SymbolLinking
         private bool firstRun = true;
 
         private Dictionary<string, DAlternativeName> alternatives;
+        private Dictionary<string, DElementName> elements;
 
         public Dictionary<string, DProduction> GetProductions()
         {
@@ -30,6 +31,7 @@ namespace SableGrammarParser.SymbolLinking
 
             this.productions = new Dictionary<string, DProduction>();
             this.alternatives = new Dictionary<string, DAlternativeName>();
+            this.elements = new Dictionary<string, DElementName>();
         }
 
         public override void CaseAProduction(AProduction node)
@@ -81,7 +83,7 @@ namespace SableGrammarParser.SymbolLinking
 
         public override void InAAlternative(AAlternative node)
         {
-            base.InAAlternative(node);
+            elements.Clear();
         }
         public override void CaseAAlternativename(AAlternativename node)
         {
@@ -90,11 +92,52 @@ namespace SableGrammarParser.SymbolLinking
             if (alternatives.ContainsKey(text))
                 RegisterError(node.GetName(), "Production {0} has already been defined (line {1}).", node.GetName(), alternatives[text].DeclarationToken.Line);
             else
+            {
                 alternatives.Add(text, alternative);
+                node.GetName().SetDeclaration(alternative);
+            }
         }
-        public override void CaseAAlternative(AAlternative node)
+
+        public override void CaseAElementname(AElementname node)
         {
-            base.CaseAAlternative(node);
+            string text = node.GetName().Text;
+            DElementName element = new DElementName(node);
+            if (elements.ContainsKey(text))
+                RegisterError(node.GetName(), "Production {0} has already been defined.", node.GetName());
+            else
+            {
+                elements.Add(text, element);
+                node.GetName().SetDeclaration(element);
+            }
+        }
+        public override void CaseACleanElementid(ACleanElementid node)
+        {
+            TIdentifier ident = node.GetIdentifier();
+
+            if (tokens.ContainsKey(ident.Text) && productions.ContainsKey(ident.Text))
+                RegisterError(node, "{0} is defined a token (line {2}) and a production (line {3}) - use T.{1} or P.{1} to specify which was meant.", ident, ident.Text, tokens[ident.Text].DeclarationToken.Line, productions[ident.Text].DeclarationToken.Line);
+            else if (tokens.ContainsKey(ident.Text))
+                ident.SetDeclaration(tokens[ident.Text]);
+            else if (productions.ContainsKey(ident.Text))
+                ident.SetDeclaration(productions[ident.Text]);
+            else
+                RegisterError(node, "{0} has not been defined as neither a production, nor a token.", ident);
+        }
+        public override void CaseATokenElementid(ATokenElementid node)
+        {
+            DToken token = null;
+            if (tokens.TryGetValue(node.GetIdentifier().Text, out token))
+                node.GetIdentifier().SetDeclaration(token);
+            else
+                RegisterError(node, "The token {0} has not been defined.", node.GetIdentifier());
+        }
+        public override void CaseAProductionElementid(AProductionElementid node)
+        {
+            DProduction production = null;
+            if (productions.TryGetValue(node.GetIdentifier().Text, out production))
+                node.GetIdentifier().SetDeclaration(production);
+            else
+                RegisterError(node, "The production {0} has not been defined.", node.GetIdentifier());
         }
     }
 }
