@@ -144,8 +144,8 @@ Productions
 		;
 
     reg_exp {-> regex}
-		= {single} concat {-> New regex.sequence([concat.regexpart])}
-		| {multiple} concat [concats]:reg_exp_tail+ {-> New regex.or([New orpart.regex(Null, [concat.regexpart]), concats.orpart])}
+		= {single} concat {-> New regex([New orpart.regex(Null, [concat.regexpart])])}
+		| {multiple} concat [concats]:reg_exp_tail+ {-> New regex([New orpart.regex(Null, [concat.regexpart]), concats.orpart])}
 		;
 
     reg_exp_tail {-> orpart}
@@ -219,8 +219,8 @@ Productions
 		;
 
     alts {-> productionrule}
-		= {simple} alt_name? [elems]:elem* alttrans? {-> New productionrule.simple(alt_name.alternativename, [elems.element], alttrans.translation)}
-		| {multiple} alt_name? [elems]:elem* alttrans? [alts]:alts_tail+ {-> New productionrule.or([New alternative(Null, alt_name.alternativename, [elems.element], alttrans.translation), alts.alternative])}
+		= {simple} alt_name? [elems]:elem* alttrans? {-> New productionrule([New alternative(Null, alt_name.alternativename, [elems.element], alttrans.translation)])}
+		| {multiple} alt_name? [elems]:elem* alttrans? [alts]:alts_tail+ {-> New productionrule([New alternative(Null, alt_name.alternativename, [elems.element], alttrans.translation), alts.alternative])}
 		;
 
     alts_tail {-> alternative}
@@ -264,8 +264,7 @@ Abstract Syntax Tree
 	tokenlookahead = slash regex;
 	
 	regex
-		= {sequence} regexpart+
-		| {or} orpart+
+		= [parts]:orpart+
 		;
 	orpart = {regex} pipe? regexpart+;
 	regexpart
@@ -321,8 +320,7 @@ Abstract Syntax Tree
 		;
 	
 	productionrule
-		= {simple} alternativename? element+ translation?
-		| {or} alternative+
+		= [alternatives]:alternative+
 		;
 	alternative = pipe? alternativename? element+ translation?;
 	
