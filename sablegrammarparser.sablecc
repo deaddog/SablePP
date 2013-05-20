@@ -219,12 +219,12 @@ Productions
 		;
 
     alts {-> productionrule}
-		= {simple} alt_name? [elems]:elem* alttrans? {-> New productionrule([New alternative(Null, alt_name.alternativename, [elems.element], alttrans.translation)])}
-		| {multiple} alt_name? [elems]:elem* alttrans? [alts]:alts_tail+ {-> New productionrule([New alternative(Null, alt_name.alternativename, [elems.element], alttrans.translation), alts.alternative])}
+		= {simple} alt_name? [elems]:elem* alttrans? {-> New productionrule([New alternative(Null, alt_name.alternativename, New elements([elems.element]), alttrans.translation)])}
+		| {multiple} alt_name? [elems]:elem* alttrans? [alts]:alts_tail+ {-> New productionrule([New alternative(Null, alt_name.alternativename, New elements([elems.element]), alttrans.translation), alts.alternative])}
 		;
 
     alts_tail {-> alternative}
-		= pipe alt_name? [elems]:elem* alttrans? {-> New alternative(pipe, alt_name.alternativename, [elems.element], alttrans.translation)}
+		= pipe alt_name? [elems]:elem* alttrans? {-> New alternative(pipe, alt_name.alternativename, New elements([elems.element]), alttrans.translation)}
 		;
         
     alt_name {-> alternativename}
@@ -322,10 +322,13 @@ Abstract Syntax Tree
 	productionrule
 		= [alternatives]:alternative+
 		;
-	alternative = pipe? alternativename? element+ translation?;
+	alternative = pipe? alternativename? elements translation?;
 	
 	alternativename = [lpar]:l_brace [name]:identifier [rpar]:r_brace;
 	
+	elements
+		= element+
+		;
 	element
 		= {simple} elementname? elementid
 		| {star} elementname? elementid star
