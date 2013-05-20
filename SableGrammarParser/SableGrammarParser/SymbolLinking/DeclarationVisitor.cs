@@ -47,8 +47,8 @@ namespace SableGrammarParser.SymbolLinking
                 return;
             }
 
-            //if (node.GetPackage() != null)
-            //    node.GetPackage().Apply(this);
+            if (node.GetPackage() != null)
+                node.GetPackage().Apply(this);
 
             Dictionary<string, DHelper> helpers = new Dictionary<string, DHelper>();
             if (node.GetHelpers() != null)

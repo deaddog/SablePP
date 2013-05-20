@@ -18,5 +18,30 @@ namespace SableGrammarParser.SymbolLinking
             foreach (var a in astProductions)
                 this.astProductions.Add(a.Key, a.Value);
         }
+
+        public override void CaseACleanProdtranslation(ACleanProdtranslation node)
+        {
+            CasePProdtranslation(node.GetIdentifier());
+        }
+        public override void CaseAStarProdtranslation(AStarProdtranslation node)
+        {
+            CasePProdtranslation(node.GetIdentifier());
+        }
+        public override void CaseAPlusProdtranslation(APlusProdtranslation node)
+        {
+            CasePProdtranslation(node.GetIdentifier());
+        }
+        public override void CaseAQuestionProdtranslation(AQuestionProdtranslation node)
+        {
+            CasePProdtranslation(node.GetIdentifier());
+        }
+        private void CasePProdtranslation(TIdentifier identifier)
+        {
+            DProduction declaration = null;
+            if (astProductions.TryGetValue(identifier.Text, out declaration))
+                identifier.SetDeclaration(declaration);
+            else
+                RegisterError(identifier, "The AST production {0} has not been defined.", identifier);
+        }
     }
 }
