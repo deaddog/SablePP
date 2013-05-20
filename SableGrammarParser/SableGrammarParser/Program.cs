@@ -12,10 +12,17 @@ namespace SableGrammarParser
     {
         private static string inputFile = "..\\..\\..\\..\\grammar.sablecc";
 
-        private static void Main(string[] args) 
+        private static void Main(string[] args)
         {
             Start ast = Parse(ReadFile(inputFile));
             Error.CompilerError[] errors = SymbolLinking.DeclarationVisitor.StartNewVisitor(ast).GetErrors().ToArray();
+
+            if (errors.Length > 0)
+            {
+                for (int i = 0; i < errors.Length; i++)
+                    Console.WriteLine(errors[i]);
+                Console.ReadKey(true);
+            }
         }
 
         private static string ReadFile(string filepath)
