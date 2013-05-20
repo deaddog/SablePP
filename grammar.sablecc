@@ -33,7 +33,7 @@ Ignored Tokens
 	whitespace;
 	
 Productions
-	program = begin assignment+ {-> New program(begin, New assignments([assignment]))};
+	program = [bt]:begin assignment+ {-> New program(bt, New assignments([assignment]))};
 	assignment = identifier assign expression;
 	expression {-> expression}
 		= {addition} [left]:expressionterm plus [right]:expression
