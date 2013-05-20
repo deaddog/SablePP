@@ -36,10 +36,10 @@ Productions
 	program = begin assignment+;
 	assignment = identifier assign expression;
 	expression
-		= {addition} expressionterm plus expression
-		| {term} expressionterm
+		= {addition} [left]:expressionterm plus [right]:expression
+		| {term} P.expressionterm
 		;
 	expressionterm
-		= {identifier} identifier
+		= {identifier} T.identifier
 		| {value} number
 		;
