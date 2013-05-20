@@ -67,11 +67,11 @@ namespace SableGrammarParser.SymbolLinking
 
             Dictionary<string, DProduction> astProductions = new Dictionary<string, DProduction>();
             if (node.GetAstproductions() != null)
-                StartVisitor(new ASTVisitor(tokens), node.GetAstproductions());
+                astProductions = StartVisitor(new ASTVisitor(tokens), node.GetAstproductions()).GetProductions();
 
             Dictionary<string, DProduction> productions = new Dictionary<string, DProduction>();
             if (node.GetProductions() != null)
-                productions = StartVisitor(new ProductionVisitor(tokens), node.GetProductions()).GetProductions();
+                productions = StartVisitor(new ProductionVisitor(tokens, astProductions), node.GetProductions()).GetProductions();
         }
 
         public override void CaseTIdentifier(TIdentifier node)
