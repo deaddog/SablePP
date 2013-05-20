@@ -74,6 +74,7 @@
     <Compile Include="Declarations\DState.cs" />
     <Compile Include="Declarations\DToken.cs" />
     <Compile Include="Declarations\ProductionElement.cs" />
+    <Compile Include="ScopedDictionary.cs" />
     <Compile Include="SymbolLinking\ASTVisitor.cs" />
     <Compile Include="SymbolLinking\BaseProductionVisitor.cs" />
     <Compile Include="SymbolLinking\DeclarationVisitor.cs" />
