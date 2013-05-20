@@ -15,7 +15,10 @@ namespace SableGrammarParser.node
         /// <param name="declaration">The declaration.</param>
         public void SetDeclaration(Declaration declaration)
         {
-            this.declaration = declaration;
+            if (this.declaration != null)
+                throw new InvalidOperationException("Attempted to set declaration twice.");
+            else
+                this.declaration = declaration;
         }
 
         public bool HasDeclaration
