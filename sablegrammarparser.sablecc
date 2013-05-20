@@ -203,7 +203,8 @@ Productions
 		;
 	translation {-> translation}
 		= {id} translationid {-> translationid.translation}
-		| {new} new translationid l_par translation_args? r_par {-> New translation.new(new, translationid.translation, l_par, New list.translation([translation_args.listitem]), r_par)}
+		| {new} new identifier l_par translation_args? r_par {-> New translation.new(new, identifier, l_par, New list.translation([translation_args.listitem]), r_par)}
+		| {newalt} new [a]:identifier dot [b]:identifier l_par translation_args? r_par {-> New translation.newalternative(new, a, dot, b, l_par, New list.translation([translation_args.listitem]), r_par)}
 		| {null} null {-> New translation.null(null)}
 		| {list} l_bkt translation_args? r_bkt {-> New translation.list(l_bkt, New list.translation([translation_args.listitem]), r_bkt)}
 		;
@@ -312,7 +313,8 @@ Abstract Syntax Tree
 	
 	translation
 		= {full} [lpar]:l_brace arrow translation [rpar]:r_brace
-		| {new} new translation [lpar]:l_par [arguments]:list [rpar]:r_par
+		| {new} new [production]:identifier [lpar]:l_par [arguments]:list [rpar]:r_par
+		| {newalternative} new [production]:identifier dot [alternative]:identifier [lpar]:l_par [arguments]:list [rpar]:r_par
 		| {list} [lpar]:l_bkt [elements]:list [rpar]:r_bkt
 		| {null} null
 		| {id} identifier
