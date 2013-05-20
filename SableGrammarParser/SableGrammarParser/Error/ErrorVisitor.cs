@@ -41,5 +41,13 @@ namespace SableGrammarParser.Error
             node.Apply(visitor);
             return visitor;
         }
+
+        public static T StartNewVisitor<T>(T visitor, Node node)
+            where T : ErrorVisitor
+        {
+            visitor.errorManager = new ErrorManager();
+            node.Apply(visitor);
+            return visitor;
+        }
     }
 }

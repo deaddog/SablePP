@@ -8,13 +8,6 @@ namespace SableGrammarParser.SymbolLinking
 {
     public class DeclarationVisitor : Error.ErrorVisitor
     {
-        public static DeclarationVisitor StartNewVisitor(Start startNode)
-        {
-            DeclarationVisitor visitor = new DeclarationVisitor();
-            visitor.StartVisitor(visitor, startNode);
-            return visitor;
-        }
-
         public override void OutStart(Start node)
         {
             base.OutStart(node);

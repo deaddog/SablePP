@@ -5,6 +5,7 @@ using System.Linq;
 using SableGrammarParser.lexer;
 using SableGrammarParser.node;
 using SableGrammarParser.parser;
+using System.Collections.Generic;
 
 namespace SableGrammarParser
 {
@@ -15,13 +16,35 @@ namespace SableGrammarParser
         private static void Main(string[] args)
         {
             Start ast = Parse(ReadFile(inputFile));
-            Error.CompilerError[] errors = SymbolLinking.DeclarationVisitor.StartNewVisitor(ast).GetErrors().ToArray();
+
+            Error.CompilerError[] errors = Visitor.StartNewVisitor(new Visitor(), ast).GetErrors().ToArray();
 
             if (errors.Length > 0)
             {
                 for (int i = 0; i < errors.Length; i++)
                     Console.WriteLine(errors[i]);
                 Console.ReadKey(true);
+            }
+        }
+
+        private class Visitor : Error.ErrorVisitor
+        {
+            public override void CaseStart(Start node)
+            {
+                foreach (var v in Visitors)
+                {
+                    StartVisitor(v, node);
+                    if (GetErrors().Any())
+                        break;
+                }
+            }
+
+            private IEnumerable<Error.ErrorVisitor> Visitors
+            {
+                get
+                {
+                    yield return new SymbolLinking.DeclarationVisitor();
+                }
             }
         }
 
