@@ -49,10 +49,14 @@ namespace SableGrammarParser.SymbolLinking
                 StartVisitor(new IgnoredTokenVisitor(tokens), node.GetIgnoredtokens());
 
             if (node.GetProductions() != null)
-                StartVisitor(new ProductionVisitor(tokens), node.GetProductions()).GetProductions();
+                StartVisitor(new ProductionVisitor(tokens), node.GetProductions());
 
+            Dictionary<string, DProduction> astProductions = new Dictionary<string, DProduction>();
             if (node.GetAstproductions() != null)
-                StartVisitor(new ProductionVisitor(tokens), node.GetAstproductions()).GetProductions();
+                astProductions = StartVisitor(new ProductionVisitor(tokens), node.GetAstproductions()).GetProductions();
+
+            if (node.GetProductions() != null)
+                StartVisitor(new TranslationVisitor(astProductions), node.GetProductions());
         }
 
         private class LINKTEST : Error.ErrorVisitor

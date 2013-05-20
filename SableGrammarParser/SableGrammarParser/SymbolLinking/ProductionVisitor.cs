@@ -156,5 +156,57 @@ namespace SableGrammarParser.SymbolLinking
                 }
             }
         }
+
+        private class AlternativesLocater : DeclarationVisitor
+        {
+            private Dictionary<string, DAlternativeName> alternatives;
+
+            private AlternativesLocater()
+            {
+                this.alternatives = new Dictionary<string, DAlternativeName>();
+            }
+
+            public static LookupDictionary<string, DAlternativeName> Alternatives(DProduction production)
+            {
+                AlternativesLocater locater = new AlternativesLocater();
+                production.Production.Apply(locater);
+                return new LookupDictionary<string, DAlternativeName>(locater.alternatives);
+            }
+
+            public override void CaseAAlternativename(AAlternativename node)
+            {
+                if (node.GetName().IsAlternativeName)
+                    alternatives.Add(node.GetName().Text, node.GetName().AsAlternativeName);
+            }
+        }
+
+        private class ElementLocater : DeclarationVisitor
+        {
+            private string lookFor;
+            private Declaration result;
+
+            private ElementLocater(TIdentifier identifier)
+                : this(identifier.Text)
+            {
+            }
+            private ElementLocater(string lookFor)
+            {
+                this.lookFor = lookFor;
+                this.result = null;
+            }
+
+            public static Declaration Declaration(AAlternative alternative, TIdentifier identifier)
+            {
+                ElementLocater locater = new ElementLocater(identifier);
+                alternative.Apply(locater);
+                return locater.result;
+            }
+
+            public override void CaseACleanElementid(ACleanElementid node)
+            {
+                if (node.GetIdentifier().Text == lookFor && result == null)
+                    result = node.GetIdentifier().Declaration;
+            }
+        }
     }
 }
