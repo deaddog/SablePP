@@ -8,6 +8,20 @@ namespace SableGrammarParser.SymbolLinking
 {
     public class DeclarationVisitor : Error.ErrorVisitor
     {
+        private bool testing;
+        private bool alllinked;
+
+        public bool AllLinked
+        {
+            get { return alllinked; }
+        }
+
+        protected DeclarationVisitor()
+        {
+            this.testing = false;
+            this.alllinked = true;
+        }
+
         public static DeclarationVisitor StartNewVisitor(Start startNode)
         {
             DeclarationVisitor visitor = new DeclarationVisitor();
@@ -15,8 +29,24 @@ namespace SableGrammarParser.SymbolLinking
             return visitor;
         }
 
+        public override void OutStart(Start node)
+        {
+            base.OutStart(node);
+            if (!testing)
+            {
+                testing = true;
+                node.Apply(this);
+            }
+        }
+
         public override void CaseAGrammar(AGrammar node)
         {
+            if (testing)
+            {
+                base.CaseAGrammar(node);
+                return;
+            }
+
             //if (node.GetPackage() != null)
             //    node.GetPackage().Apply(this);
 
@@ -35,11 +65,19 @@ namespace SableGrammarParser.SymbolLinking
             if (node.GetIgnoredtokens() != null)
                 StartVisitor(new IgnoredTokenVisitor(tokens), node.GetIgnoredtokens());
 
-            //if (node.GetProductions() != null)
-            //    node.GetProductions().Apply(this);
+            Dictionary<string, DProduction> astProductions = new Dictionary<string, DProduction>();
+            if (node.GetAstproductions() != null)
+                StartVisitor(new ASTVisitor(tokens), node.GetAstproductions());
 
-            //if (node.GetAstproductions() != null)
-            //    node.GetAstproductions().Apply(this);
+            Dictionary<string, DProduction> productions = new Dictionary<string, DProduction>();
+            if (node.GetProductions() != null)
+                productions = StartVisitor(new ProductionVisitor(tokens), node.GetProductions()).GetProductions();
+        }
+
+        public override void CaseTIdentifier(TIdentifier node)
+        {
+            if (testing && !node.HasDeclaration)
+                alllinked = false;
         }
     }
 }
