@@ -9,13 +9,13 @@ namespace SableGrammarParser
     /// <summary>
     /// Represents the declaration of a alternative name identifier.
     /// </summary>
-    public class DAlternative : Declaration
+    public class DAlternativeName : Declaration
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DAlternative"/> class.
+        /// Initializes a new instance of the <see cref="DAlternativeName"/> class.
         /// </summary>
-        /// <param name="node">The alternative name node from which this <see cref="DAlternative"/> should be constructed.</param>
-        public DAlternative(AAlternativename name)
+        /// <param name="node">The alternative name node from which this <see cref="DAlternativeName"/> should be constructed.</param>
+        public DAlternativeName(AAlternativename name)
             : base(name.GetName())
         {
         }

@@ -110,5 +110,47 @@ namespace SableGrammarParser.node
         {
             get { return declaration as DProduction; }
         }
+
+        /// <summary>
+        /// Gets a value indicating whether this identifier refers to a <see cref="DAlternativeName"/>.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this identifier refers to a <see cref="DAlternativeName"/>; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsAlternativeName
+        {
+            get { return declaration is DAlternativeName; }
+        }
+        /// <summary>
+        /// Gets the alternative name associated with this identifier, as a <see cref="DAlternativeName"/>.
+        /// </summary>
+        /// <value>
+        ///   A <see cref="DAlternativeName"/> if this identifier refers to a <see cref="DAlternativeName"/>; otherwise, <c>null</c>.
+        /// </value>
+        public DAlternativeName AsAlternativeName
+        {
+            get { return declaration as DAlternativeName; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this identifier refers to a <see cref="DElementName"/>.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this identifier refers to a <see cref="DElementName"/>; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsElementName
+        {
+            get { return declaration is DElementName; }
+        }
+        /// <summary>
+        /// Gets the element name associated with this identifier, as a <see cref="DElementName"/>.
+        /// </summary>
+        /// <value>
+        ///   A <see cref="DElementName"/> if this identifier refers to a <see cref="DElementName"/>; otherwise, <c>null</c>.
+        /// </value>
+        public DElementName AsElementName
+        {
+            get { return declaration as DElementName; }
+        }
     }
 }

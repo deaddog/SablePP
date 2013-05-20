@@ -62,7 +62,7 @@
       <Link>generated\tokens.cs</Link>
     </Compile>
     <Compile Include="ASTprinter.cs" />
-    <Compile Include="Declarations\DAlternative.cs" />
+    <Compile Include="Declarations\DAlternativeName.cs" />
     <Compile Include="Declarations\Declaration.cs" />
     <Compile Include="Declarations\DElementName.cs" />
     <Compile Include="Declarations\DHelper.cs" />
