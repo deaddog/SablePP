@@ -16,6 +16,38 @@ namespace SableGrammarParser.SymbolLinking
         private Dictionary<string, DAlternativeName> alternatives;
         private Dictionary<string, DElementName> elements;
 
+        private T TryGet<T>(Dictionary<string,T> dictionary, string text) where T : Declaration
+        {
+            if (dictionary == null)
+                throw new ArgumentNullException("dictionary");
+
+            if (text == null || text.Length == 0)
+                throw new ArgumentNullException("text");
+
+            T declaration;
+            if (dictionary.TryGetValue(text, out declaration))
+                return declaration;
+            else
+                return null;
+        }
+
+        protected DToken GetToken(string text)
+        {
+            return TryGet(tokens, text);
+        }
+        protected DProduction GetProduction(string text)
+        {
+            return TryGet(productions, text);
+        }
+        protected DAlternativeName GetAlternativeName(string text)
+        {
+            return TryGet(alternatives, text);
+        }
+        protected DElementName GetElementName(string text)
+        {
+            return TryGet(elements, text);
+        }
+
         public Dictionary<string, DProduction> GetProductions()
         {
             Dictionary<string, DProduction> productionDict = new Dictionary<string, DProduction>();
