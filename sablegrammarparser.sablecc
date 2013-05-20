@@ -318,7 +318,7 @@ Abstract Syntax Tree
 		| {list} [lpar]:l_bkt [elements]:list [rpar]:r_bkt
 		| {null} null
 		| {id} identifier
-		| {iddotid} [first]:identifier dot [last]:identifier
+		| {iddotid} identifier dot [production]:identifier
 		;
 	
 	productionrule
