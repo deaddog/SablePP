@@ -6,51 +6,155 @@ using SableGrammarParser.node;
 
 namespace SableGrammarParser.SymbolLinking
 {
-    public class ProductionVisitor : BaseProductionVisitor<DProduction, DAlternative>
+    public class ProductionVisitor : DeclarationVisitor
     {
-        private Dictionary<string, DAProduction> astProductions;
+        private Dictionary<string, DToken> tokens;
 
-        public ProductionVisitor(IEnumerable<KeyValuePair<string, DToken>> tokens,
-                                 IEnumerable<KeyValuePair<string, DAProduction>> astProductions)
-            : base(tokens, true)
-        {
-            this.astProductions = new Dictionary<string, DAProduction>();
-            foreach (var a in astProductions)
-                this.astProductions.Add(a.Key, a.Value);
-        }
+        private Dictionary<string, DProduction> productions;
+        private Dictionary<string, DAlternativeName> alternatives;
+        private Dictionary<string, DElementName> elements;
 
-        protected override DProduction Construct(AProduction node)
+        private AAlternative currentAlternative;
+
+        public Dictionary<string, DProduction> GetProductions()
         {
-            return new DProduction(node);
-        }
-        protected override DAlternative Construct(AAlternativename node)
-        {
-            return new DAlternative(node);
+            Dictionary<string, DProduction> productionDict = new Dictionary<string, DProduction>();
+            foreach (var p in productions)
+                productionDict.Add(p.Key, p.Value);
+            return productionDict;
         }
 
-        public override void CaseACleanProdtranslation(ACleanProdtranslation node)
+        public ProductionVisitor(IDictionary<string, DToken> tokens)
         {
-            CasePProdtranslation(node.GetIdentifier());
+            if (tokens == null)
+                throw new ArgumentNullException("tokens");
+
+            this.tokens = new Dictionary<string, DToken>(tokens);
+
+            this.productions = new Dictionary<string, DProduction>();
+            this.alternatives = new Dictionary<string, DAlternativeName>();
+            this.elements = new Dictionary<string, DElementName>();
         }
-        public override void CaseAStarProdtranslation(AStarProdtranslation node)
+
+        public override void InAProductions(AProductions node)
         {
-            CasePProdtranslation(node.GetIdentifier());
+            this.productions = new Dictionary<string, DProduction>(StartVisitor(new DeclarationLinker(), node).Productions);
+            base.InAProductions(node);
         }
-        public override void CaseAPlusProdtranslation(APlusProdtranslation node)
+        public override void InAAstproductions(AAstproductions node)
         {
-            CasePProdtranslation(node.GetIdentifier());
+            this.productions = new Dictionary<string, DProduction>(StartVisitor(new DeclarationLinker(), node).Productions);
+            base.InAAstproductions(node);
         }
-        public override void CaseAQuestionProdtranslation(AQuestionProdtranslation node)
+        public override void InAProduction(AProduction node)
         {
-            CasePProdtranslation(node.GetIdentifier());
+            alternatives.Clear();
+            base.InAProduction(node);
         }
-        private void CasePProdtranslation(TIdentifier identifier)
+        public override void InAAlternative(AAlternative node)
         {
-            DAProduction declaration = null;
-            if (astProductions.TryGetValue(identifier.Text, out declaration))
-                identifier.SetDeclaration(declaration);
+            elements.Clear();
+            this.currentAlternative = node;
+
+            base.InAAlternative(node);
+        }
+        public override void InAAlternativename(AAlternativename node)
+        {
+            string text = node.GetName().Text;
+            DAlternativeName alternative = new DAlternativeName(node);
+            if (productions.ContainsKey(text))
+                RegisterError(node.GetName(), "Production alternative {0} is already in use (line {1}).", node.GetName(), alternatives[text].DeclarationToken.Line);
             else
-                RegisterError(identifier, "The AST production {0} has not been defined.", identifier);
+            {
+                alternatives.Add(text, alternative);
+                node.GetName().SetDeclaration(alternative);
+            }
+
+            base.InAAlternativename(node);
+        }
+
+        public override void InAElementname(AElementname node)
+        {
+            string text = node.GetName().Text;
+            DElementName element = new DElementName(node);
+            if (elements.ContainsKey(text))
+                RegisterError(node.GetName(), "Element name {0} is already in use in this production.", node.GetName());
+            else
+            {
+                elements.Add(text, element);
+                node.GetName().SetDeclaration(element);
+            }
+
+            base.InAElementname(node);
+        }
+        public override void InACleanElementid(ACleanElementid node)
+        {
+            TIdentifier ident = node.GetIdentifier();
+            string text = ident.Text;
+
+            if (tokens.ContainsKey(text) && productions.ContainsKey(text))
+                RegisterError(ident, "Unable to determine if {0} refers to a token or a production. Use T.{1} or P.{1} to specify.", ident, text);
+            else if (tokens.ContainsKey(text))
+                ident.SetDeclaration(tokens[text]);
+            else if (productions.ContainsKey(text))
+                ident.SetDeclaration(productions[text]);
+            else
+                RegisterError(ident, "The token or production {0} has not been defined.", ident);
+
+            base.InACleanElementid(node);
+        }
+        public override void InATokenElementid(ATokenElementid node)
+        {
+            TIdentifier identifier = node.GetIdentifier();
+
+            DToken token = null;
+            if (tokens.TryGetValue(identifier.Text, out token))
+                identifier.SetDeclaration(token);
+            else
+                RegisterError(identifier, "The token {0} has not been defined.", identifier);
+
+            base.InATokenElementid(node);
+        }
+        public override void InAProductionElementid(AProductionElementid node)
+        {
+            TIdentifier identifier = node.GetIdentifier();
+
+            DProduction production = null;
+            if (productions.TryGetValue(identifier.Text, out production))
+                identifier.SetDeclaration(production);
+            else
+                RegisterError(identifier, "The production {0} has not been defined.", identifier);
+
+            base.InAProductionElementid(node);
+        }
+
+        private class DeclarationLinker : DeclarationVisitor
+        {
+            private Dictionary<string, DProduction> productions = new Dictionary<string, DProduction>();
+
+            public Dictionary<string, DProduction> Productions
+            {
+                get
+                {
+                    Dictionary<string, DProduction> productionDict = new Dictionary<string, DProduction>();
+                    foreach (var p in productions)
+                        productionDict.Add(p.Key, p.Value);
+                    return productionDict;
+                }
+            }
+
+            public override void CaseAProduction(AProduction node)
+            {
+                string text = node.GetIdentifier().Text;
+                DProduction production = new DProduction(node);
+                if (productions.ContainsKey(text))
+                    RegisterError(node.GetIdentifier(), "Production {0} has already been defined (line {1}).", node.GetIdentifier(), productions[text].DeclarationToken.Line);
+                else
+                {
+                    productions.Add(text, production);
+                    node.GetIdentifier().SetDeclaration(production);
+                }
+            }
         }
     }
 }

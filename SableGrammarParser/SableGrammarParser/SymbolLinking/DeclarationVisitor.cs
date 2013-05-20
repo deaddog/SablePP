@@ -8,20 +8,6 @@ namespace SableGrammarParser.SymbolLinking
 {
     public class DeclarationVisitor : Error.ErrorVisitor
     {
-        private bool testing;
-        private bool alllinked;
-
-        public bool AllLinked
-        {
-            get { return alllinked; }
-        }
-
-        protected DeclarationVisitor()
-        {
-            this.testing = false;
-            this.alllinked = true;
-        }
-
         public static DeclarationVisitor StartNewVisitor(Start startNode)
         {
             DeclarationVisitor visitor = new DeclarationVisitor();
@@ -32,21 +18,18 @@ namespace SableGrammarParser.SymbolLinking
         public override void OutStart(Start node)
         {
             base.OutStart(node);
-            if (!testing)
+            var unlinked = StartVisitor(new LINKTEST(), node).Unlinked;
+            if (unlinked.Length > 0)
             {
-                testing = true;
-                node.Apply(this);
+                Console.WriteLine("Unlinked identifiers:");
+                for (int i = 0; i < unlinked.Length; i++)
+                    Console.WriteLine("{0} (line {1})", unlinked[i], unlinked[i].Line);
+                Console.ReadKey(true);
             }
         }
 
         public override void CaseAGrammar(AGrammar node)
         {
-            if (testing)
-            {
-                base.CaseAGrammar(node);
-                return;
-            }
-
             if (node.GetPackage() != null)
                 node.GetPackage().Apply(this);
 
@@ -65,19 +48,31 @@ namespace SableGrammarParser.SymbolLinking
             if (node.GetIgnoredtokens() != null)
                 StartVisitor(new IgnoredTokenVisitor(tokens), node.GetIgnoredtokens());
 
-            Dictionary<string, DAProduction> astProductions = new Dictionary<string, DAProduction>();
-            if (node.GetAstproductions() != null)
-                astProductions = StartVisitor(new ASTVisitor(tokens), node.GetAstproductions()).GetProductions();
-
-            Dictionary<string, DProduction> productions = new Dictionary<string, DProduction>();
             if (node.GetProductions() != null)
-                productions = StartVisitor(new ProductionVisitor(tokens, astProductions), node.GetProductions()).GetProductions();
+                StartVisitor(new ProductionVisitor(tokens), node.GetProductions()).GetProductions();
+
+            if (node.GetAstproductions() != null)
+                StartVisitor(new ProductionVisitor(tokens), node.GetAstproductions()).GetProductions();
         }
 
-        public override void CaseTIdentifier(TIdentifier node)
+        private class LINKTEST : Error.ErrorVisitor
         {
-            if (testing && !node.HasDeclaration)
-                alllinked = false;
+            private List<TIdentifier> unlinked;
+            public TIdentifier[] Unlinked
+            {
+                get { return unlinked.ToArray(); }
+            }
+
+            public LINKTEST()
+            {
+                this.unlinked = new List<TIdentifier>();
+            }
+
+            public override void CaseTIdentifier(TIdentifier node)
+            {
+                if (!node.HasDeclaration)
+                    unlinked.Add(node);
+            }
         }
     }
 }
