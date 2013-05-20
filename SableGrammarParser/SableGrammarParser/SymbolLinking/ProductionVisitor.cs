@@ -12,6 +12,8 @@ namespace SableGrammarParser.SymbolLinking
         private Dictionary<string, DProduction> productions;
         private bool firstRun = true;
 
+        private Dictionary<string, DAlternativeName> alternatives;
+
         public Dictionary<string, DProduction> GetProductions()
         {
             Dictionary<string, DProduction> productionDict = new Dictionary<string, DProduction>();
@@ -27,6 +29,7 @@ namespace SableGrammarParser.SymbolLinking
                 this.tokens.Add(v.Key, v.Value);
 
             this.productions = new Dictionary<string, DProduction>();
+            this.alternatives = new Dictionary<string, DAlternativeName>();
         }
 
         public override void CaseAProduction(AProduction node)
@@ -42,6 +45,8 @@ namespace SableGrammarParser.SymbolLinking
             }
             else
             {
+                alternatives.Clear();
+
                 if (node.GetIdentifier() != null)
                 {
                     TIdentifier ident = node.GetIdentifier();
@@ -54,7 +59,6 @@ namespace SableGrammarParser.SymbolLinking
 
                 if (node.GetProdtranslation() != null)
                     throw new NotImplementedException();
-                    //node.GetProdtranslation().Apply(this);
 
                 if (node.GetEqual() != null)
                     node.GetEqual().Apply(this);
@@ -73,6 +77,24 @@ namespace SableGrammarParser.SymbolLinking
                 firstRun = false;
                 node.Apply(this);
             }
+        }
+
+        public override void InAAlternative(AAlternative node)
+        {
+            base.InAAlternative(node);
+        }
+        public override void CaseAAlternativename(AAlternativename node)
+        {
+            string text = node.GetName().Text;
+            DAlternativeName alternative = new DAlternativeName(node);
+            if (alternatives.ContainsKey(text))
+                RegisterError(node.GetName(), "Production {0} has already been defined (line {1}).", node.GetName(), alternatives[text].DeclarationToken.Line);
+            else
+                alternatives.Add(text, alternative);
+        }
+        public override void CaseAAlternative(AAlternative node)
+        {
+            base.CaseAAlternative(node);
         }
     }
 }
