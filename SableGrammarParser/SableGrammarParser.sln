@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SableGrammarParser", "SableGrammarParser\SableGrammarParser.csproj", "{5441C1D8-4091-4B8F-A2E6-50C65666324F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sable.Compiler", "Sable.Compiler\Sable.Compiler.csproj", "{5441C1D8-4091-4B8F-A2E6-50C65666324F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
