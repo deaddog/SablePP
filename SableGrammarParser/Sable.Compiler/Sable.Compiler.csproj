@@ -73,6 +73,11 @@
     <Compile Include="Generate\CodeElement.cs" />
     <Compile Include="Generate\CodeStreamWriter.cs" />
     <Compile Include="Generate\ComplexElement.cs" />
+    <Compile Include="Generate\CSharp\AccessModifiers.cs" />
+    <Compile Include="Generate\CSharp\ClassElement.cs" />
+    <Compile Include="Generate\CSharp\FileElement.cs" />
+    <Compile Include="Generate\CSharp\NameSpaceElement.cs" />
+    <Compile Include="Generate\CSharp\UsingElement.cs" />
     <Compile Include="Generate\IndentationElement.cs" />
     <Compile Include="Generate\NewLineElement.cs" />
     <Compile Include="Generate\PatchElement.cs" />
