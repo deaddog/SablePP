@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sable.Compiler
+namespace Sable.Tools
 {
     public class LookupDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {

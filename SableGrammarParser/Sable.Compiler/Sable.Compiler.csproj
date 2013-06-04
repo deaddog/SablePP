@@ -83,9 +83,7 @@
     <Compile Include="Generate\PatchElement.cs" />
     <Compile Include="Generate\TextElement.cs" />
     <Compile Include="Generate\UseSpace.cs" />
-    <Compile Include="LookupDictionary.cs" />
     <Compile Include="ParserModifier.cs" />
-    <Compile Include="ScopedDictionary.cs" />
     <Compile Include="SymbolLinking\DeclarationVisitor.cs" />
     <Compile Include="Error\CompilerError.cs" />
     <Compile Include="Error\ErrorManager.cs" />
@@ -100,6 +98,12 @@
     <Compile Include="SymbolLinking\StateVisitor.cs" />
     <Compile Include="SymbolLinking\TokenVisitor.cs" />
     <Compile Include="SymbolLinking\TranslationVisitor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sable.Tools\Sable.Tools.csproj">
+      <Project>{3A7BF5F0-3346-4653-A3C3-443C5311971B}</Project>
+      <Name>Sable.Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
