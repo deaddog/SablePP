@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sable.Compiler.Generate
+namespace Sable.Tools.Generate
 {
     internal sealed class IndentationElement : CodeElement
     {

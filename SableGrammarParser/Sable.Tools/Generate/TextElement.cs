@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Sable.Compiler.Generate
+﻿namespace Sable.Tools.Generate
 {
     internal sealed class TextElement : CodeElement
     {

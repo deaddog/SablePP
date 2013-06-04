@@ -1,4 +1,4 @@
-﻿namespace Sable.Compiler.Generate.CSharp
+﻿namespace Sable.Tools.Generate.CSharp
 {
     public sealed class NameSpaceElement : ComplexElement
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Sable.Compiler.Generate
+namespace Sable.Tools.Generate
 {
     internal sealed class NewLineElement : CodeElement
     {

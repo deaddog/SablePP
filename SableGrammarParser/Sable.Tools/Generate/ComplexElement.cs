@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Sable.Compiler.Generate
+namespace Sable.Tools.Generate
 {
     public abstract class ComplexElement : CodeElement
     {

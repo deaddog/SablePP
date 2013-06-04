@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sable.Compiler.Generate
+namespace Sable.Tools.Generate
 {
     public abstract class CodeElement
     {
