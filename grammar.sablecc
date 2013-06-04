@@ -18,7 +18,7 @@ Helpers
     newline = cr | lf | cr lf;
 
 States
-	normal, start;
+	start, normal;
 	
 Tokens
 	whitespace = (singlespace | tabular | newline)*;
