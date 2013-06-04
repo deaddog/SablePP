@@ -70,6 +70,14 @@
     <Compile Include="Declarations\DState.cs" />
     <Compile Include="Declarations\DToken.cs" />
     <Compile Include="Declarations\ProductionElement.cs" />
+    <Compile Include="Generate\CodeElement.cs" />
+    <Compile Include="Generate\CodeStreamWriter.cs" />
+    <Compile Include="Generate\ComplexElement.cs" />
+    <Compile Include="Generate\IndentationElement.cs" />
+    <Compile Include="Generate\NewLineElement.cs" />
+    <Compile Include="Generate\PatchElement.cs" />
+    <Compile Include="Generate\TextElement.cs" />
+    <Compile Include="Generate\UseSpace.cs" />
     <Compile Include="LookupDictionary.cs" />
     <Compile Include="ParserModifier.cs" />
     <Compile Include="ScopedDictionary.cs" />
