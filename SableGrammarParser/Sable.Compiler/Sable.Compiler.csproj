@@ -71,6 +71,7 @@
     <Compile Include="Declarations\DToken.cs" />
     <Compile Include="Declarations\ProductionElement.cs" />
     <Compile Include="LookupDictionary.cs" />
+    <Compile Include="ParserModifier.cs" />
     <Compile Include="ScopedDictionary.cs" />
     <Compile Include="SymbolLinking\DeclarationVisitor.cs" />
     <Compile Include="Error\CompilerError.cs" />

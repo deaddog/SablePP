@@ -11,13 +11,26 @@ namespace Sable.Compiler
 {
     class Program
     {
-        private static string inputFile = "..\\..\\..\\..\\grammar.sablecc";
+        private static string inputFile = @"..\..\..\..\grammar.sablecc";
 
         private static void Main(string[] args)
         {
             Start ast = Parse(ReadFile(inputFile));
 
             Error.CompilerError[] errors = Visitor.StartNewVisitor(new Visitor(), ast).GetErrors().ToArray();
+
+            ParserModifier parserMod = new ParserModifier(ast);
+
+            string file = @"..\..\..\..\output\parser.cs";
+            string code;
+
+            using (StreamReader reader = new StreamReader(file))
+                code = reader.ReadToEnd();
+
+            code = parserMod.ReplaceIn(code);
+
+            using (StreamWriter writer = new StreamWriter(@"..\..\..\..\output\parser2.cs"))
+                writer.Write(code);
 
             if (errors.Length > 0)
             {
