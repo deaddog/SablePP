@@ -17,16 +17,16 @@ namespace Sable.Tools.Generate
             set { difference = value; }
         }
 
-        public override UseSpace Append
+        internal override UseSpace Append
         {
             get { return UseSpace.NotPreferred; }
         }
-        public override UseSpace Prepend
+        internal override UseSpace Prepend
         {
             get { return UseSpace.Never; }
         }
 
-        public override void Generate(CodeStreamWriter streamwriter)
+        internal override void Generate(CodeStreamWriter streamwriter)
         {
             if (!(streamwriter.LastElement is NewLineElement))
                 throw new Exception("Can only change indentation after newline.");

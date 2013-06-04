@@ -12,11 +12,11 @@ namespace Sable.Tools.Generate
             this.elements = new LinkedList<CodeElement>();
         }
 
-        public sealed override UseSpace Append
+        internal sealed override UseSpace Append
         {
             get { return elements.Count == 0 ? UseSpace.NotPreferred : elements.Last.Value.Append; }
         }
-        public sealed override UseSpace Prepend
+        internal sealed override UseSpace Prepend
         {
             get { return elements.Count == 0 ? UseSpace.NotPreferred : elements.First.Value.Prepend; }
         }
@@ -66,7 +66,7 @@ namespace Sable.Tools.Generate
                 elements.AddLast(new IndentationElement(difference));
         }
 
-        public sealed override void Generate(CodeStreamWriter streamwriter)
+        internal sealed override void Generate(CodeStreamWriter streamwriter)
         {
             CodeElement[] elementArr = new CodeElement[elements.Count];
             elements.CopyTo(elementArr, 0);

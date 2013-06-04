@@ -12,11 +12,11 @@
             this.append = append;
         }
 
-        public override UseSpace Append
+        internal override UseSpace Append
         {
             get { return append; }
         }
-        public override UseSpace Prepend
+        internal override UseSpace Prepend
         {
             get { return prepend; }
         }
@@ -27,7 +27,7 @@
             this.append = append;
         }
 
-        public override void Generate(CodeStreamWriter streamwriter)
+        internal override void Generate(CodeStreamWriter streamwriter)
         {
             streamwriter.WriteString(text);
             streamwriter.LastElement = this;

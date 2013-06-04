@@ -8,11 +8,11 @@ namespace Sable.Tools.Generate
         {
         }
 
-        public abstract UseSpace Append
+        internal abstract UseSpace Append
         {
             get;
         }
-        public abstract UseSpace Prepend
+        internal abstract UseSpace Prepend
         {
             get;
         }
@@ -34,6 +34,6 @@ namespace Sable.Tools.Generate
             }
         }
 
-        public abstract void Generate(CodeStreamWriter streamwriter);
+        internal abstract void Generate(CodeStreamWriter streamwriter);
     }
 }

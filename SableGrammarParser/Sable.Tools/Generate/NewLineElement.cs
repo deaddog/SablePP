@@ -9,16 +9,16 @@ namespace Sable.Tools.Generate
         {
         }
 
-        public override UseSpace Append
+        internal override UseSpace Append
         {
             get { return UseSpace.Never; }
         }
-        public override UseSpace Prepend
+        internal override UseSpace Prepend
         {
             get { return UseSpace.Never; }
         }
 
-        public override void Generate(CodeStreamWriter streamwriter)
+        internal override void Generate(CodeStreamWriter streamwriter)
         {
             streamwriter.WriteString("\r\n".PadRight(2 + streamwriter.Indentation * streamwriter.IndentationSize));
             streamwriter.LastElement = this;
