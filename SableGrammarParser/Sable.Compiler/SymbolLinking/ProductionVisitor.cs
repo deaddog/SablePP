@@ -62,7 +62,7 @@ namespace Sable.Compiler.SymbolLinking
         {
             string text = node.GetName().Text;
             DAlternativeName alternative = new DAlternativeName(node);
-            if (productions.ContainsKey(text))
+            if (alternatives.ContainsKey(text))
                 RegisterError(node.GetName(), "Production alternative {0} is already in use (line {1}).", node.GetName(), alternatives[text].DeclarationToken.Line);
             else
             {
