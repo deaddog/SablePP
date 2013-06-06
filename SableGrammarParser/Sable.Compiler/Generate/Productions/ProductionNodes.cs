@@ -9,7 +9,7 @@ using Sable.Tools.Generate.CSharp;
 
 namespace Sable.Compiler.Generate.Productions
 {
-    public class ProductionNodes : GenerateVisitor
+    public class ProductionNodes : ProductionVisitor
     {
         private FileElement fileElement;
         private NameSpaceElement nameElement;

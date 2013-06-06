@@ -5,18 +5,13 @@ using Sable.Compiler.node;
 
 namespace Sable.Compiler.Generate.Productions
 {
-    public class FieldBuilder : GenerateVisitor
+    public class FieldBuilder : ProductionVisitor
     {
         private ClassElement classElement;
 
         public FieldBuilder(ClassElement classElement)
         {
             this.classElement = classElement;
-        }
-
-        private string GetFieldName(PElement element)
-        {
-            return "_" + element.LowerName + "_";
         }
 
         public override void CaseASimpleElement(ASimpleElement node)

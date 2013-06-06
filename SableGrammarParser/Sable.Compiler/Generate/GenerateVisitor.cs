@@ -5,7 +5,7 @@ using Sable.Compiler.analysis;
 
 namespace Sable.Compiler.Generate
 {
-    public class GenerateVisitor : DepthFirstAdapter
+    public abstract class GenerateVisitor : DepthFirstAdapter
     {
         protected static string ToCamelCase(string text)
         {
