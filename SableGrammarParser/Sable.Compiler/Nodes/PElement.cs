@@ -15,11 +15,11 @@
             }
         }
 
-        protected abstract PElementid Elementid
+        public abstract PElementid Elementid
         {
             get;
         }
-        protected abstract PElementname Elementname
+        public abstract PElementname Elementname
         {
             get;
         }

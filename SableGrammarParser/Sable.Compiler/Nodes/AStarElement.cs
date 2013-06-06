@@ -2,11 +2,11 @@
 {
     public partial class AStarElement
     {
-        protected override PElementid Elementid
+        public override PElementid Elementid
         {
             get { return GetElementid(); }
         }
-        protected override PElementname Elementname
+        public override PElementname Elementname
         {
             get { return GetElementname(); }
         }
