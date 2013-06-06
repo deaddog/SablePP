@@ -72,6 +72,9 @@
     <Compile Include="Declarations\ProductionElement.cs" />
     <Compile Include="Nodes\APlusElement.cs" />
     <Compile Include="Nodes\AQuestionElement.cs" />
+    <Compile Include="Generate\FieldBuilder.cs" />
+    <Compile Include="Generate\GenerateVisitor.cs" />
+    <Compile Include="Generate\ProductionNodes.cs" />
     <Compile Include="Nodes\ACleanElementid.cs" />
     <Compile Include="Nodes\AProductionElementid.cs" />
     <Compile Include="Nodes\ASimpleElement.cs" />

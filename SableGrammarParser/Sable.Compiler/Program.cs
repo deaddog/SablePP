@@ -6,6 +6,8 @@ using Sable.Compiler.lexer;
 using Sable.Compiler.node;
 using Sable.Compiler.parser;
 using System.Collections.Generic;
+using Sable.Compiler.Generate;
+using Sable.Tools.Generate;
 
 namespace Sable.Compiler
 {
@@ -31,6 +33,9 @@ namespace Sable.Compiler
 
             using (StreamWriter writer = new StreamWriter(@"..\..\..\..\output\parser2.cs"))
                 writer.Write(code);
+
+            using (FileStream fs = new FileStream(@"..\..\..\..\output\prods2.cs", FileMode.Create))
+                CodeStreamWriter.Generate(fs, ProductionNodes.BuildCode(ast));
 
             if (errors.Length > 0)
             {

@@ -13,12 +13,7 @@ namespace Sable.Tools.Generate
 
         private CodeElement lastElement;
 
-        public CodeStreamWriter(Stream stream)
-            : this(stream, Encoding.UTF8, 4)
-        {
-        }
-
-        public CodeStreamWriter(Stream stream, Encoding encoding, int indentationSize)
+        private CodeStreamWriter(Stream stream, Encoding encoding, int indentationSize)
         {
             if (stream == null)
                 throw new ArgumentNullException("stream");
@@ -35,6 +30,16 @@ namespace Sable.Tools.Generate
 
             this.indentation = 0;
             this.indentationSize = indentationSize;
+        }
+
+        public static void Generate(Stream stream, CodeElement element)
+        {
+            Generate(stream, Encoding.UTF8, 4, element);
+        }
+
+        public static void Generate(Stream stream, Encoding encoding, int indentationSize, CodeElement element)
+        {
+            element.Generate(new CodeStreamWriter(stream, encoding, indentationSize));
         }
 
         public int Indentation
