@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sable.Tools.Generate.CSharp
 {
-    public class MethodElement : ComplexElement
+    public class MethodElement : ExecutableElement
     {
         private string name;
         private string returnType;
@@ -41,8 +41,6 @@ namespace Sable.Tools.Generate.CSharp
             get { return typeParameters; }
         }
 
-        private PatchElement contents;
-
         public MethodElement(AccessModifiers modifiers, string name)
             : this(modifiers, name, null)
         {
@@ -62,7 +60,6 @@ namespace Sable.Tools.Generate.CSharp
 
             this.parameters = new ParametersElement();
             this.typeParameters = new TypeParametersElement();
-            this.contents = new PatchElement();
 
             modifiers.Emit(emit);
             if (this.returnType != null)
@@ -76,38 +73,10 @@ namespace Sable.Tools.Generate.CSharp
             emit("{", UseSpace.Never, UseSpace.Never);
             emitNewLine();
             increaseIndentation();
-            insertElement(contents);
+            InsertContents();
             decreaseIndentation();
             emit("}", UseSpace.Never, UseSpace.Never);
             emitNewLine();
-        }
-
-        public void EmitThis()
-        {
-            contents.Emit("this", UseSpace.NotPreferred, UseSpace.NotPreferred);
-        }
-        public void EmitIdentifier(string name)
-        {
-            contents.Emit(name, UseSpace.NotPreferred, UseSpace.NotPreferred);
-        }
-        public void EmitPeriod()
-        {
-            contents.Emit(".", UseSpace.NotPreferred, UseSpace.NotPreferred);
-        }
-        public void EmitAssignment()
-        {
-            contents.Emit("=", UseSpace.Preferred, UseSpace.Preferred);
-        }
-
-        public void EmitNewLine()
-        {
-            contents.EmitNewLine();
-        }
-        public void EmitSemicolon(bool newline)
-        {
-            contents.Emit(";", UseSpace.NotPreferred, UseSpace.Preferred);
-            if (newline)
-                contents.EmitNewLine();
         }
 
         public class ParametersElement : ComplexElement
