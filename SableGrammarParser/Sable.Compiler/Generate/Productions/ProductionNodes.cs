@@ -66,8 +66,8 @@ namespace Sable.Compiler.Generate.Productions
 
             classElement = nameElement.CreateClass(name, AccessModifiers.@public | AccessModifiers.partial, "P" + productionName);
 
-            FieldBuilder fields = new FieldBuilder(classElement);
-            node.Apply(fields);
+            node.Apply(new FieldBuilder(classElement));
+            node.Apply(new ConstructorBuilder(classElement));
         }
     }
 }
