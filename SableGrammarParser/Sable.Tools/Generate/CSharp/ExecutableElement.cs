@@ -11,6 +11,7 @@ namespace Sable.Tools.Generate.CSharp
 
         protected ExecutableElement()
         {
+            this.contents = new PatchElement();
         }
 
         protected void InsertContents()
@@ -34,6 +35,48 @@ namespace Sable.Tools.Generate.CSharp
         {
             contents.Emit("=", UseSpace.Preferred, UseSpace.Preferred);
         }
+        public void EmitReturn()
+        {
+            contents.Emit("return", UseSpace.NotPreferred, UseSpace.Preferred);
+        }
+
+        public void EmitEqual()
+        {
+            contents.Emit("==", UseSpace.Always, UseSpace.Always);
+        }
+        public void EmitNotEqual()
+        {
+            contents.Emit("!=", UseSpace.Always, UseSpace.Always);
+        }
+        public void EmitGreaterThan()
+        {
+            contents.Emit(">", UseSpace.Always, UseSpace.Always);
+        }
+        public void EmitGreaterThanOrEqual()
+        {
+            contents.Emit(">=", UseSpace.Always, UseSpace.Always);
+        }
+        public void EmitLessThan()
+        {
+            contents.Emit("<", UseSpace.Always, UseSpace.Always);
+        }
+        public void EmitLessThanOrEqual()
+        {
+            contents.Emit("<=", UseSpace.Always, UseSpace.Always);
+        }
+
+        public void EmitTrue()
+        {
+            EmitIdentifier("true");
+        }
+        public void EmitFalse()
+        {
+            EmitIdentifier("false");
+        }
+        public void EmitNull()
+        {
+            EmitIdentifier("null");
+        }
 
         public void EmitNewLine()
         {
@@ -41,7 +84,7 @@ namespace Sable.Tools.Generate.CSharp
         }
         public void EmitSemicolon(bool newline)
         {
-            contents.Emit(";", UseSpace.NotPreferred, UseSpace.Preferred);
+            contents.Emit(";", UseSpace.Never, UseSpace.Preferred);
             if (newline)
                 contents.EmitNewLine();
         }
