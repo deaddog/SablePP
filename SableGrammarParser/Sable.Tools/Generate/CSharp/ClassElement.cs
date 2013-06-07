@@ -49,7 +49,7 @@ namespace Sable.Tools.Generate.CSharp
             modifiers.Emit(emit);
             emit("class", UseSpace.Always, UseSpace.Always);
             emit(name, UseSpace.Always, UseSpace.NotPreferred);
-            
+
             if (implements != null)
             {
                 emit(":", UseSpace.Always, UseSpace.Always);
@@ -68,7 +68,7 @@ namespace Sable.Tools.Generate.CSharp
 
         public void EmitNewLine()
         {
-            emitNewLine();
+            contents.EmitNewLine();
         }
 
         public void EmitField(string name, string type, AccessModifiers modifiers)
@@ -86,12 +86,29 @@ namespace Sable.Tools.Generate.CSharp
             contents.InsertElement(method);
             return method;
         }
-
         public MethodElement CreateConstructor(AccessModifiers modifiers)
         {
             MethodElement method = new MethodElement(modifiers, this.name);
             contents.InsertElement(method);
             return method;
+        }
+        public PropertyElement CreateProperty(AccessModifiers modifiers, string name, string type)
+        {
+            PropertyElement element = new PropertyElement(modifiers, name, type, true, true);
+            contents.InsertElement(element);
+            return element;
+        }
+        public PropertyElement CreateSetProperty(AccessModifiers modifiers, string name, string type)
+        {
+            PropertyElement element = new PropertyElement(modifiers, name, type, false, true);
+            contents.InsertElement(element);
+            return element;
+        }
+        public PropertyElement CreateGetProperty(AccessModifiers modifiers, string name, string type)
+        {
+            PropertyElement element = new PropertyElement(modifiers, name, type, true, false);
+            contents.InsertElement(element);
+            return element;
         }
     }
 }

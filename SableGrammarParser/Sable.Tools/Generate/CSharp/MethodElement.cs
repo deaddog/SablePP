@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Sable.Tools.Generate.CSharp
 {
@@ -69,14 +67,10 @@ namespace Sable.Tools.Generate.CSharp
             emit("(", UseSpace.Never, UseSpace.Never);
             insertElement(parameters);
             emit(")", UseSpace.Never, UseSpace.Never);
-            emitNewLine();
-            emit("{", UseSpace.Never, UseSpace.Never);
-            emitNewLine();
-            increaseIndentation();
+
+            emitBlockStart();
             InsertContents();
-            decreaseIndentation();
-            emit("}", UseSpace.Never, UseSpace.Never);
-            emitNewLine();
+            emitBlockEnd();
         }
 
         public class ParametersElement : ComplexElement

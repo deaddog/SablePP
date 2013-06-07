@@ -1,16 +1,16 @@
 ﻿namespace Sable.Tools.Generate.CSharp
 {
-    public sealed class FileElement : ComplexElement
+    public sealed class FileElement : CSharpElement
     {
-        private UsingElement usings;
-        public UsingElement Using
+        private UsingsElement usings;
+        public UsingsElement Using
         {
             get { return usings; }
         }
 
         public FileElement()
         {
-            this.usings = new UsingElement();
+            this.usings = new UsingsElement();
             this.insertElement(usings);
         }
 

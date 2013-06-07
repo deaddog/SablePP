@@ -1,6 +1,6 @@
 ﻿namespace Sable.Tools.Generate.CSharp
 {
-    public sealed class NameSpaceElement : ComplexElement
+    public sealed class NameSpaceElement : CSharpElement
     {
         private string name;
         public string Name
@@ -8,8 +8,8 @@
             get { return name; }
         }
 
-        private UsingElement usings;
-        public UsingElement Using
+        private UsingsElement usings;
+        public UsingsElement Using
         {
             get { return usings; }
         }
@@ -20,20 +20,15 @@
         public NameSpaceElement(string name)
         {
             this.name = name;
-            this.usings = new UsingElement();
+            this.usings = new UsingsElement();
             this.classes = new PatchElement();
             this.hasClasses = false;
 
             emit("namespace {0}", UseSpace.Never, UseSpace.Never, name);
-            emitNewLine();
-            emit("{", UseSpace.Never, UseSpace.Never);
-            emitNewLine();
-            increaseIndentation();
+            emitBlockStart();
             insertElement(usings);
             insertElement(classes);
-            decreaseIndentation();
-            emit("}", UseSpace.Never, UseSpace.Never);
-            emitNewLine();
+            emitBlockEnd();
         }
 
         public ClassElement CreateClass(string name, AccessModifiers modifiers, string implements = null)

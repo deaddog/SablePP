@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sable.Tools.Generate.CSharp
 {
-    public class TypeParametersElement : ComplexElement
+    public class TypeParametersElement : CSharpElement
     {
         private PatchElement contents = null;
         private List<string> types;

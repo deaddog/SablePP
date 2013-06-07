@@ -2,7 +2,7 @@
 
 namespace Sable.Tools.Generate.CSharp
 {
-    public sealed class UsingElement : ComplexElement
+    public sealed class UsingsElement : CSharpElement
     {
         private PatchElement usingsElement;
 

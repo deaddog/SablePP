@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sable.Tools.Generate.CSharp
 {
-    public abstract class ExecutableElement : ComplexElement
+    public abstract class ExecutableElement : CSharpElement
     {
         private PatchElement contents;
 
@@ -17,6 +17,26 @@ namespace Sable.Tools.Generate.CSharp
         protected void InsertContents()
         {
             insertElement(contents);
+        }
+
+        /// <summary>
+        /// Emits newline, curly bracket, newline and increases indentation
+        /// </summary>
+        public void EmitBlockStart()
+        {
+            contents.EmitNewLine();
+            contents.Emit("{", UseSpace.Never, UseSpace.Never);
+            contents.EmitNewLine();
+            contents.IncreaseIndentation();
+        }
+        /// <summary>
+        /// Decreases indentation, and emits curly bracket and newline
+        /// </summary>
+        public void EmitBlockEnd()
+        {
+            contents.DecreaseIndentation();
+            contents.Emit("}", UseSpace.Never, UseSpace.Never);
+            contents.EmitNewLine();
         }
 
         public void EmitThis()
@@ -81,12 +101,17 @@ namespace Sable.Tools.Generate.CSharp
         public void EmitNewLine()
         {
             contents.EmitNewLine();
+            OnNewLineEmitted();
         }
         public void EmitSemicolon(bool newline)
         {
             contents.Emit(";", UseSpace.Never, UseSpace.Preferred);
             if (newline)
-                contents.EmitNewLine();
+                this.EmitNewLine();
+        }
+
+        protected virtual void OnNewLineEmitted()
+        {
         }
     }
 }
