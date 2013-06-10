@@ -71,7 +71,8 @@ namespace Sable.Compiler.Generate.Productions
             node.Apply(new ConstructorBuilder(classElement));
             classElement.EmitNewLine();
             node.Apply(new PropertiesBuilder(classElement));
-            //replace child
+            classElement.EmitNewLine();
+            node.Apply(new ReplaceMethodBuilder(classElement));
             //apply
             classElement.EmitNewLine();
             node.Apply(new CloneMethodBuilder(classElement));

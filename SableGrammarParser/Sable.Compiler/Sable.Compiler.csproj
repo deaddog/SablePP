@@ -72,6 +72,7 @@
     <Compile Include="Declarations\DToken.cs" />
     <Compile Include="Declarations\ProductionElement.cs" />
     <Compile Include="Generate\Productions\ConstructorBuilder.cs" />
+    <Compile Include="Generate\Productions\ReplaceMethodBuilder.cs" />
     <Compile Include="Generate\Productions\ToStringMethodBuilder.cs" />
     <Compile Include="Generate\Productions\ProductionVisitor.cs" />
     <Compile Include="Generate\Productions\PropertiesBuilder.cs" />
