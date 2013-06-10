@@ -52,7 +52,21 @@ namespace Sable.Compiler.Generate.Productions
             constructor.EmitPeriod();
             constructor.EmitIdentifier(GetPropertyName(node));
             constructor.EmitAssignment();
-            constructor.EmitIdentifier(GetFieldName(node));
+            if (list)
+            {
+                constructor.EmitNew();
+                constructor.EmitIdentifier("NodeList");
+                using (var par = constructor.EmitParenthesis(ParenthesisElement.Types.Angled))
+                    par.EmitIdentifier(type);
+                using (var par = constructor.EmitParenthesis(ParenthesisElement.Types.Round))
+                {
+                    par.EmitThis();
+                    par.EmitComma();
+                    par.EmitIdentifier(GetFieldName(node));
+                }
+            }
+            else
+                constructor.EmitIdentifier(GetFieldName(node));
             constructor.EmitSemicolon(true);
         }
     }
