@@ -62,6 +62,7 @@
       <Link>generated\tokens.cs</Link>
     </Compile>
     <Compile Include="ASTprinter.cs" />
+    <Compile Include="Generate\Productions\ApplyMethodsBuilder.cs" />
     <Compile Include="Generate\Productions\CloneMethodBuilder.cs" />
     <Compile Include="Declarations\DAlternativeName.cs" />
     <Compile Include="Declarations\Declaration.cs" />

@@ -16,6 +16,8 @@ namespace Sable.Compiler.Generate.Productions
         private ClassElement classElement;
         private string productionName;
 
+        private string packageName = null;
+
         private ProductionNodes()
         {
             fileElement = new FileElement();
@@ -35,8 +37,10 @@ namespace Sable.Compiler.Generate.Productions
             if (node.GetPackage() != null)
                 node.GetPackage().Apply(this);
 
-            if (nameElement == null)
-                nameElement = fileElement.CreateNamespace("SableCCPP.prods");
+            if (packageName == null)
+                packageName = "SableCCPP";
+            nameElement = fileElement.CreateNamespace(packageName + ".Nodes");
+            fileElement.Using.Add(packageName + ".Analysis");
 
             if (node.GetAstproductions() != null)
                 node.GetAstproductions().Apply(this);
@@ -46,7 +50,7 @@ namespace Sable.Compiler.Generate.Productions
 
         public override void CaseTPackagename(TPackagename node)
         {
-            nameElement = fileElement.CreateNamespace(node.Text + ".prods");
+            this.packageName = node.Text;
         }
 
         public override void CaseAProduction(AProduction node)
@@ -73,7 +77,7 @@ namespace Sable.Compiler.Generate.Productions
             node.Apply(new PropertiesBuilder(classElement));
             classElement.EmitNewLine();
             node.Apply(new ReplaceMethodBuilder(classElement));
-            //apply
+            node.Apply(new ApplyMethodsBuilder(classElement));
             classElement.EmitNewLine();
             node.Apply(new CloneMethodBuilder(classElement));
             node.Apply(new ToStringMethodBuilder(classElement));
