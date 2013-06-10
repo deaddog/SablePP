@@ -104,6 +104,19 @@ namespace Sable.Tools.Generate.CSharp
             return par;
         }
 
+        public void EmitLogicNot()
+        {
+            contents.Emit("!", UseSpace.NotPreferred, UseSpace.Never);
+        }
+        public void EmitLogicAnd()
+        {
+            contents.Emit("&&", UseSpace.Always, UseSpace.Always);
+        }
+        public void EmitLogicOr()
+        {
+            contents.Emit("||", UseSpace.Always, UseSpace.Always);
+        }
+
         public void EmitEqual()
         {
             contents.Emit("==", UseSpace.Always, UseSpace.Always);
@@ -129,6 +142,15 @@ namespace Sable.Tools.Generate.CSharp
             contents.Emit("<=", UseSpace.Always, UseSpace.Always);
         }
 
+        public void EmitAs()
+        {
+            contents.Emit("as", UseSpace.Always, UseSpace.Always);
+        }
+        public void EmitIs()
+        {
+            contents.Emit("is", UseSpace.Always, UseSpace.Always);
+        }
+
         public void EmitTrue()
         {
             EmitIdentifier("true");
@@ -145,6 +167,19 @@ namespace Sable.Tools.Generate.CSharp
         public void EmitStringValue(string text)
         {
             contents.Emit("\"" + text.Replace("\"", "\"\"") + "\"", UseSpace.NotPreferred, UseSpace.NotPreferred);
+        }
+
+        public void EmitInt()
+        {
+            contents.Emit("int", UseSpace.NotPreferred, UseSpace.Preferred);
+        }
+        public void EmitFloat()
+        {
+            contents.Emit("float", UseSpace.NotPreferred, UseSpace.Preferred);
+        }
+        public void EmitString()
+        {
+            contents.Emit("string", UseSpace.NotPreferred, UseSpace.Preferred);
         }
 
         public void EmitNewLine()
