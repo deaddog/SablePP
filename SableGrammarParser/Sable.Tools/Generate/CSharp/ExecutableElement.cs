@@ -43,6 +43,14 @@ namespace Sable.Tools.Generate.CSharp
         {
             contents.Emit("this", UseSpace.NotPreferred, UseSpace.NotPreferred);
         }
+        public void EmitThrow()
+        {
+            contents.Emit("throw", UseSpace.NotPreferred, UseSpace.Preferred);
+        }
+        public void EmitNew()
+        {
+            contents.Emit("new", UseSpace.NotPreferred, UseSpace.Preferred);
+        }
         public void EmitIdentifier(string name)
         {
             contents.Emit(name, UseSpace.NotPreferred, UseSpace.NotPreferred);
@@ -51,6 +59,10 @@ namespace Sable.Tools.Generate.CSharp
         {
             contents.Emit(".", UseSpace.NotPreferred, UseSpace.NotPreferred);
         }
+        public void EmitComma()
+        {
+            contents.Emit(",", UseSpace.NotPreferred, UseSpace.Preferred);
+        }
         public void EmitAssignment()
         {
             contents.Emit("=", UseSpace.Preferred, UseSpace.Preferred);
@@ -58,6 +70,38 @@ namespace Sable.Tools.Generate.CSharp
         public void EmitReturn()
         {
             contents.Emit("return", UseSpace.NotPreferred, UseSpace.Preferred);
+        }
+
+        public ParenthesisElement EmitIf()
+        {
+            contents.Emit("if", UseSpace.NotPreferred, UseSpace.Preferred);
+            return EmitParenthesis();
+        }
+        public void EmitElse()
+        {
+            contents.Emit("else", UseSpace.NotPreferred, UseSpace.Preferred);
+        }
+        public ParenthesisElement EmitWhile()
+        {
+            contents.Emit("while", UseSpace.NotPreferred, UseSpace.Preferred);
+            return EmitParenthesis();
+        }
+        public ParenthesisElement EmitFor()
+        {
+            contents.Emit("for", UseSpace.NotPreferred, UseSpace.Preferred);
+            return EmitParenthesis();
+        }
+        public ParenthesisElement EmitUsing()
+        {
+            contents.Emit("using", UseSpace.NotPreferred, UseSpace.Preferred);
+            return EmitParenthesis();
+        }
+
+        public ParenthesisElement EmitParenthesis()
+        {
+            ParenthesisElement par = new ParenthesisElement();
+            contents.InsertElement(par);
+            return par;
         }
 
         public void EmitEqual()
@@ -98,6 +142,11 @@ namespace Sable.Tools.Generate.CSharp
             EmitIdentifier("null");
         }
 
+        public void EmitStringValue(string text)
+        {
+            contents.Emit("\"" + text.Replace("\"", "\"\"") + "\"", UseSpace.NotPreferred, UseSpace.NotPreferred);
+        }
+
         public void EmitNewLine()
         {
             contents.EmitNewLine();
@@ -108,6 +157,15 @@ namespace Sable.Tools.Generate.CSharp
             contents.Emit(";", UseSpace.Never, UseSpace.Preferred);
             if (newline)
                 this.EmitNewLine();
+        }
+
+        public void IncreaseIndentation()
+        {
+            contents.IncreaseIndentation();
+        }
+        public void DecreaseIndentation()
+        {
+            contents.DecreaseIndentation();
         }
 
         protected virtual void OnNewLineEmitted()

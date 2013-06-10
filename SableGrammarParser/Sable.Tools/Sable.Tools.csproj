@@ -50,6 +50,7 @@
     <Compile Include="Generate\CSharp\FileElement.cs" />
     <Compile Include="Generate\CSharp\MethodElement.cs" />
     <Compile Include="Generate\CSharp\NameSpaceElement.cs" />
+    <Compile Include="Generate\CSharp\ParenthesisElement.cs" />
     <Compile Include="Generate\CSharp\PropertyElement.cs" />
     <Compile Include="Generate\CSharp\TypeParametersElement.cs" />
     <Compile Include="Generate\CSharp\UsingsElement.cs" />
