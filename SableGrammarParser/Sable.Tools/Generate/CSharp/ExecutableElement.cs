@@ -97,9 +97,9 @@ namespace Sable.Tools.Generate.CSharp
             return EmitParenthesis();
         }
 
-        public ParenthesisElement EmitParenthesis()
+        public ParenthesisElement EmitParenthesis(ParenthesisElement.Types type = ParenthesisElement.Types.Round)
         {
-            ParenthesisElement par = new ParenthesisElement();
+            ParenthesisElement par = new ParenthesisElement(type);
             contents.InsertElement(par);
             return par;
         }
