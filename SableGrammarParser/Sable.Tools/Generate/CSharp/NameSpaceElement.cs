@@ -42,5 +42,16 @@
             hasClasses = true;
             return element;
         }
+        public InterfaceElement CreateInterface(string name, AccessModifiers modifiers, string implements = null)
+        {
+            if (hasClasses)
+                classes.EmitNewLine();
+
+            InterfaceElement element = new InterfaceElement(name, modifiers, implements);
+            classes.InsertElement(element);
+
+            hasClasses = true;
+            return element;
+        }
     }
 }

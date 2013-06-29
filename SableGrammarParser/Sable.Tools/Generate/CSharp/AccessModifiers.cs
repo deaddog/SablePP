@@ -5,6 +5,7 @@ namespace Sable.Tools.Generate.CSharp
 {
     public enum AccessModifiers
     {
+        None = 0,
         @public = 1,
         @private = 2,
         @protected = 4,
@@ -20,6 +21,9 @@ namespace Sable.Tools.Generate.CSharp
     {
         public static void Emit(this AccessModifiers modifiers, Action<string, UseSpace, UseSpace, object[]> emitter)
         {
+            if (modifiers == AccessModifiers.None)
+                return;
+
             List<AccessModifiers> mods = new List<AccessModifiers>(SplitModifiers(modifiers));
             mods.Sort(compare);
             foreach (var a in mods)
@@ -29,7 +33,7 @@ namespace Sable.Tools.Generate.CSharp
         private static IEnumerable<AccessModifiers> SplitModifiers(AccessModifiers modifiers)
         {
             foreach (AccessModifiers am in Enum.GetValues(typeof(AccessModifiers)))
-                if (modifiers.HasFlag(am))
+                if (modifiers.HasFlag(am) && am != AccessModifiers.None)
                     yield return am;
         }
 

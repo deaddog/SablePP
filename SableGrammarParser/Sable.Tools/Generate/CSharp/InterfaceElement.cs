@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Sable.Tools.Generate.CSharp
 {
-    public class ClassElement : ComplexElement
+    public class InterfaceElement : ComplexElement
     {
         private string name;
         public string Name
@@ -31,7 +31,7 @@ namespace Sable.Tools.Generate.CSharp
 
         private PatchElement contents;
 
-        public ClassElement(string name, AccessModifiers modifiers, string implements)
+        public InterfaceElement(string name, AccessModifiers modifiers, string implements)
         {
             this.name = name;
             this.modifiers = modifiers;
@@ -49,7 +49,7 @@ namespace Sable.Tools.Generate.CSharp
             this.contents = new PatchElement();
 
             modifiers.Emit(emit);
-            emit("class", UseSpace.Always, UseSpace.Always);
+            emit("interface", UseSpace.Always, UseSpace.Always);
             emit(name, UseSpace.Always, UseSpace.NotPreferred);
             insertElement(typeParameters);
 
@@ -83,35 +83,60 @@ namespace Sable.Tools.Generate.CSharp
             contents.EmitNewLine();
         }
 
-        public MethodElement CreateMethod(AccessModifiers modifiers, string name, string returnType)
+        public NoBodyMethodElement CreateMethod(AccessModifiers modifiers, string name, string returnType)
         {
-            MethodElement method = new MethodElement(modifiers, name, returnType);
+            NoBodyMethodElement method = new NoBodyMethodElement(modifiers, name, returnType);
             contents.InsertElement(method);
             return method;
         }
-        public MethodElement CreateConstructor(AccessModifiers modifiers)
+        public void EmitProperty(AccessModifiers modifiers, string name, string type)
         {
-            MethodElement method = new MethodElement(modifiers, this.name);
-            contents.InsertElement(method);
-            return method;
+            emitProperty(modifiers, name, type, true, true);
         }
-        public PropertyElement CreateProperty(AccessModifiers modifiers, string name, string type)
+        public void EmitSetProperty(AccessModifiers modifiers, string name, string type)
         {
-            PropertyElement element = new PropertyElement(modifiers, name, type, true, true);
-            contents.InsertElement(element);
-            return element;
+            emitProperty(modifiers, name, type, false, true);
         }
-        public PropertyElement CreateSetProperty(AccessModifiers modifiers, string name, string type)
+        public void EmitGetProperty(AccessModifiers modifiers, string name, string type)
         {
-            PropertyElement element = new PropertyElement(modifiers, name, type, false, true);
-            contents.InsertElement(element);
-            return element;
+            emitProperty(modifiers, name, type, true, false);
         }
-        public PropertyElement CreateGetProperty(AccessModifiers modifiers, string name, string type)
+
+        private void emitProperty(AccessModifiers modifiers, string name, string type, bool hasGetter, bool hasSetter)
         {
-            PropertyElement element = new PropertyElement(modifiers, name, type, true, false);
-            contents.InsertElement(element);
-            return element;
+            if (name == null)
+                throw new ArgumentNullException("name");
+            if (name == string.Empty)
+                throw new ArgumentException("Property must have a name.", "name");
+
+            if (type == null)
+                throw new ArgumentNullException("type");
+            if (type == string.Empty)
+                throw new ArgumentException("Property must have a type.", "type");
+            
+            modifiers.Emit(contents.Emit);
+            contents.Emit(type.Trim(), UseSpace.NotPreferred, UseSpace.Always);
+            contents.Emit(name.Trim(), UseSpace.NotPreferred, UseSpace.Never);
+            
+            contents.EmitNewLine();
+            contents.Emit("{", UseSpace.Never, UseSpace.Never);
+            contents.EmitNewLine();
+            contents.IncreaseIndentation();
+
+            if (hasGetter)
+            {
+                contents.Emit("get;", UseSpace.Never, UseSpace.Never);
+                contents.EmitNewLine();
+            }
+            if (hasSetter)
+            {
+                contents.Emit("set;", UseSpace.Never, UseSpace.Never);
+                contents.EmitNewLine();
+            }
+
+            contents.DecreaseIndentation();
+            contents.Emit("}", UseSpace.Never, UseSpace.Never);
+            contents.EmitNewLine();
         }
     }
 }
