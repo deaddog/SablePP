@@ -8,6 +8,7 @@ using Sable.Compiler.node;
 using Sable.Compiler.parser;
 
 using Sable.Compiler.Generate;
+using Sable.Compiler.Generate.Analysis;
 using Sable.Compiler.Generate.Productions;
 using Sable.Tools.Generate;
 
@@ -38,6 +39,8 @@ namespace Sable.Compiler
 
             using (FileStream fs = new FileStream(@"..\..\..\..\output\prods2.cs", FileMode.Create))
                 CodeStreamWriter.Generate(fs, ProductionNodes.BuildCode(ast));
+            using (FileStream fs = new FileStream(@"..\..\..\..\output\analysis2.cs", FileMode.Create))
+                CodeStreamWriter.Generate(fs, AnalysisBuilder.BuildCode(ast));
 
             if (errors.Length > 0)
             {
