@@ -7,7 +7,10 @@ namespace Sable.Compiler.Generate.Tokens
     {
         protected string GetTokenName(PToken element)
         {
-            return "";
+            if(element is AToken)
+                return "T" + ToCamelCase((element as AToken).GetIdentifier().Text);
+            else
+                throw new NotImplementedException("Unknown token type.");
         }
     }
 }

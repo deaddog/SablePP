@@ -48,5 +48,13 @@ namespace Sable.Compiler.Generate.Tokens
         {
             this.packageName = node.Text;
         }
+
+        public override void CaseAToken(AToken node)
+        {
+            string name = GetTokenName(node);
+
+            ClassElement tokenClass = nameElement.CreateClass(name, AccessModifiers.@public | AccessModifiers.partial, "Token<" + name + ">");
+
+        }
     }
 }
