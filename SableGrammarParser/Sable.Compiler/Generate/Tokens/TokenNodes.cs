@@ -9,7 +9,7 @@ using Sable.Tools.Generate.CSharp;
 
 namespace Sable.Compiler.Generate.Tokens
 {
-    public class TokenNodes : TokenVisitor
+    public class TokenNodes : GenerateVisitor
     {
         private FileElement fileElement;
         private NameSpaceElement nameElement;
@@ -31,6 +31,14 @@ namespace Sable.Compiler.Generate.Tokens
             return n.fileElement;
         }
 
+        private string GetTokenName(PToken element)
+        {
+            if (element is AToken)
+                return "T" + ToCamelCase((element as AToken).GetIdentifier().Text);
+            else
+                throw new NotImplementedException("Unknown token type.");
+        }
+
         public override void CaseAGrammar(AGrammar node)
         {
             if (node.GetPackage() != null)
@@ -44,7 +52,6 @@ namespace Sable.Compiler.Generate.Tokens
             if (node.GetTokens() != null)
                 node.GetTokens().Apply(this);
         }
-
         public override void CaseTPackagename(TPackagename node)
         {
             this.packageName = node.Text;
@@ -55,11 +62,17 @@ namespace Sable.Compiler.Generate.Tokens
             string name = GetTokenName(node);
 
             classElement = nameElement.CreateClass(name, AccessModifiers.@public | AccessModifiers.partial, "Token<" + name + ">");
-            CreateConstructor1();
-            CreateConstructor2();
+            
+            EmitConstructor1();
+            EmitConstructor2();
+            classElement.EmitNewLine();
+            EmitCloneMethod();
+            classElement.EmitNewLine();
+            EmitApplyVoidMethod();
+            EmitApplyTypeMethod();
         }
 
-        private void CreateConstructor1()
+        private void EmitConstructor1()
         {
             MethodElement construct = classElement.CreateConstructor(AccessModifiers.@public, true);
 
@@ -67,8 +80,7 @@ namespace Sable.Compiler.Generate.Tokens
 
             construct.Chain.EmitIdentifier("text");
         }
-
-        private void CreateConstructor2()
+        private void EmitConstructor2()
         {
             MethodElement construct = classElement.CreateConstructor(AccessModifiers.@public, true);
 
@@ -81,6 +93,58 @@ namespace Sable.Compiler.Generate.Tokens
             construct.Chain.EmitIdentifier("line");
             construct.Chain.EmitComma();
             construct.Chain.EmitIdentifier("pos");
+        }
+
+        private void EmitCloneMethod()
+        {
+            MethodElement method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Clone", classElement.Name);
+
+            method.EmitReturn();
+            method.EmitNew();
+            method.EmitIdentifier(classElement.Name);
+            using (var par = method.EmitParenthesis())
+            {
+                par.EmitIdentifier("Text");
+                par.EmitComma();
+                par.EmitIdentifier("Line");
+                par.EmitComma();
+                par.EmitIdentifier("Position");
+            }
+            method.EmitSemicolon(true);
+        }
+
+        private void EmitApplyVoidMethod()
+        {
+            MethodElement method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Apply", "void");
+            method.Parameters.Add("a", "Analysis");
+
+            method.EmitIdentifier("a");
+            method.EmitPeriod();
+            method.EmitIdentifier("Case" + classElement.Name);
+            using (var par = method.EmitParenthesis())
+            {
+                par.EmitThis();
+            }
+            method.EmitSemicolon(true);
+        }
+        private void EmitApplyTypeMethod()
+        {
+            MethodElement method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Apply", "T");
+            method.Parameters.Add("a", "ReturnAnalysis<T>");
+            method.Parameters.Add("arg", "T");
+            method.TypeParameters.Add("T");
+
+            method.EmitReturn();
+            method.EmitIdentifier("a");
+            method.EmitPeriod();
+            method.EmitIdentifier("Case" + classElement.Name);
+            using (var par = method.EmitParenthesis())
+            {
+                par.EmitThis();
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
+            method.EmitSemicolon(true);
         }
     }
 }
