@@ -1,16 +1,3 @@
-generated/analysis.cs
-generated/lexer.cs
-generated/nodes.cs
-generated/parser.cs
-generated/prods.cs
-generated/tokens.cs
-output/analysis.cs
-output/lexer.cs
-output/nodes.cs
-output/parser.cs
-output/prods.cs
-output/tokens.cs
-
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Bb]in/
 [Oo]bj/
