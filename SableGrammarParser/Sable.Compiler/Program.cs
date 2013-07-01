@@ -10,6 +10,7 @@ using Sable.Compiler.parser;
 using Sable.Compiler.Generate;
 using Sable.Compiler.Generate.Analysis;
 using Sable.Compiler.Generate.Productions;
+using Sable.Compiler.Generate.Tokens;
 using Sable.Tools.Generate;
 
 namespace Sable.Compiler
@@ -37,6 +38,8 @@ namespace Sable.Compiler
             using (StreamWriter writer = new StreamWriter(@"..\..\..\..\output\parser2.cs"))
                 writer.Write(code);
 
+            using (FileStream fs = new FileStream(@"..\..\..\..\output\tokens2.cs", FileMode.Create))
+                CodeStreamWriter.Generate(fs, TokenNodes.BuildCode(ast));
             using (FileStream fs = new FileStream(@"..\..\..\..\output\prods2.cs", FileMode.Create))
                 CodeStreamWriter.Generate(fs, ProductionNodes.BuildCode(ast));
             using (FileStream fs = new FileStream(@"..\..\..\..\output\analysis2.cs", FileMode.Create))
