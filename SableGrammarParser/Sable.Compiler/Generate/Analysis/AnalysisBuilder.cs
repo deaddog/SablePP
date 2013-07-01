@@ -31,6 +31,14 @@ namespace Sable.Compiler.Generate.Analysis
             return n.fileElement;
         }
 
+        private string GetTokenName(PToken element)
+        {
+            if (element is AToken)
+                return "T" + ToCamelCase((element as AToken).GetIdentifier().Text);
+            else
+                throw new NotImplementedException("Unknown token type.");
+        }
+
         public override void CaseAGrammar(AGrammar node)
         {
             if (node.GetPackage() != null)
@@ -49,6 +57,22 @@ namespace Sable.Compiler.Generate.Analysis
                 node.GetAstproductions().Apply(this);
             else if (node.GetProductions() != null)
                 node.GetProductions().Apply(this);
+            EmitCase("Start");
+
+            if (node.GetTokens() != null)
+            {
+                voidAnalysis.EmitNewLine();
+                typeAnalysis.EmitNewLine();
+                node.GetTokens().Apply(this);
+                EmitCase("EOF");
+            }
+        }
+
+        public override void CaseAToken(AToken node)
+        {
+            string name = GetTokenName(node);
+
+            EmitCase(name);
         }
 
         public override void CaseTPackagename(TPackagename node)
@@ -70,6 +94,11 @@ namespace Sable.Compiler.Generate.Analysis
             if (node.GetAlternativename() != null)
                 name = "A" + ToCamelCase((node.GetAlternativename() as AAlternativename).GetName().Text) + productionName;
 
+            EmitCase(name);
+        }
+
+        private void EmitCase(string name)
+        {
             var voidMethod = voidAnalysis.CreateMethod(AccessModifiers.None, "Case" + name, "void");
             voidMethod.Parameters.Add("node", name);
 
