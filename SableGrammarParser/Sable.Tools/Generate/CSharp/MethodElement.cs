@@ -39,9 +39,25 @@ namespace Sable.Tools.Generate.CSharp
             get { return typeParameters; }
         }
 
-        public MethodElement(AccessModifiers modifiers, string name)
-            : this(modifiers, name, null)
+        private PatchElement chainInsert;
+        public bool HasChain
         {
+            get { return chainElement != null; }
+        }
+        private ChainElement chainElement;
+        public ChainElement Chain
+        {
+            get { return chainElement; }
+        }
+
+        public MethodElement(AccessModifiers modifiers, string name, bool? baseChain = null)
+            : this(modifiers, name, null as string)
+        {
+            if (baseChain.HasValue)
+            {
+                chainElement = new ChainElement(baseChain.Value);
+                chainInsert.InsertElement(chainElement);
+            }
         }
         public MethodElement(AccessModifiers modifiers, string name, string returnType)
         {
@@ -68,9 +84,42 @@ namespace Sable.Tools.Generate.CSharp
             insertElement(parameters);
             emit(")", UseSpace.Never, UseSpace.Never);
 
-            emitBlockStart();
+            emitNewLine();
+            chainInsert = new PatchElement();
+            insertElement(chainInsert);
+            emit("{", UseSpace.Never, UseSpace.Never);
+            emitNewLine();
+            increaseIndentation();
             InsertContents();
             emitBlockEnd();
+        }
+
+        public class ChainElement : ExecutableElement
+        {
+            private bool isbase;
+
+            public bool IsBase
+            {
+                get { return isbase; }
+            }
+            public bool IsThis
+            {
+                get { return !isbase; }
+            }
+
+            public ChainElement(bool isbase)
+            {
+                this.isbase = isbase;
+
+                increaseIndentation();
+                emit(":", UseSpace.Never, UseSpace.Always);
+                emit(isbase ? "base" : "this", UseSpace.Always, UseSpace.Never);
+                emit("(", UseSpace.Never, UseSpace.Never);
+                InsertContents();
+                emit(")", UseSpace.Never, UseSpace.Never);
+                emitNewLine();
+                decreaseIndentation();
+            }
         }
 
         public class ParametersElement : ComplexElement

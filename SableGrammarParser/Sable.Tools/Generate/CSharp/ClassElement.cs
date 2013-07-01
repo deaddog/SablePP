@@ -89,9 +89,9 @@ namespace Sable.Tools.Generate.CSharp
             contents.InsertElement(method);
             return method;
         }
-        public MethodElement CreateConstructor(AccessModifiers modifiers)
+        public MethodElement CreateConstructor(AccessModifiers modifiers, bool? baseChain = null)
         {
-            MethodElement method = new MethodElement(modifiers, this.name);
+            MethodElement method = new MethodElement(modifiers, this.name, baseChain);
             contents.InsertElement(method);
             return method;
         }
