@@ -13,6 +13,7 @@ namespace Sable.Compiler.Generate.Tokens
     {
         private FileElement fileElement;
         private NameSpaceElement nameElement;
+        private ClassElement classElement;
 
         private string packageName = null;
 
@@ -53,8 +54,33 @@ namespace Sable.Compiler.Generate.Tokens
         {
             string name = GetTokenName(node);
 
-            ClassElement tokenClass = nameElement.CreateClass(name, AccessModifiers.@public | AccessModifiers.partial, "Token<" + name + ">");
+            classElement = nameElement.CreateClass(name, AccessModifiers.@public | AccessModifiers.partial, "Token<" + name + ">");
+            CreateConstructor1();
+            CreateConstructor2();
+        }
 
+        private void CreateConstructor1()
+        {
+            MethodElement construct = classElement.CreateConstructor(AccessModifiers.@public, true);
+
+            construct.Parameters.Add("text", "string");
+
+            construct.Chain.EmitIdentifier("text");
+        }
+
+        private void CreateConstructor2()
+        {
+            MethodElement construct = classElement.CreateConstructor(AccessModifiers.@public, true);
+
+            construct.Parameters.Add("text", "string");
+            construct.Parameters.Add("line", "int");
+            construct.Parameters.Add("pos", "int");
+
+            construct.Chain.EmitIdentifier("text");
+            construct.Chain.EmitComma();
+            construct.Chain.EmitIdentifier("line");
+            construct.Chain.EmitComma();
+            construct.Chain.EmitIdentifier("pos");
         }
     }
 }
