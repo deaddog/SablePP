@@ -116,7 +116,7 @@ namespace Sable.Compiler.Generate.Tokens
         private void EmitApplyVoidMethod()
         {
             MethodElement method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Apply", "void");
-            method.Parameters.Add("a", "Analysis");
+            method.Parameters.Add("a", "IAnalysis");
 
             method.EmitIdentifier("a");
             method.EmitPeriod();
@@ -130,7 +130,7 @@ namespace Sable.Compiler.Generate.Tokens
         private void EmitApplyTypeMethod()
         {
             MethodElement method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Apply", "T");
-            method.Parameters.Add("a", "ReturnAnalysis<T>");
+            method.Parameters.Add("a", "IReturnAnalysis<T>");
             method.Parameters.Add("arg", "T");
             method.TypeParameters.Add("T");
 

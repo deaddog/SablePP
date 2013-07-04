@@ -49,8 +49,8 @@ namespace Sable.Compiler.Generate.Analysis
             nameElement = fileElement.CreateNamespace(packageName + ".Analysis");
             fileElement.Using.Add(packageName + ".Nodes");
 
-            this.voidAnalysis = nameElement.CreateInterface("Analysis", AccessModifiers.@public);
-            this.typeAnalysis = nameElement.CreateInterface("ReturnAnalysis", AccessModifiers.@public);
+            this.voidAnalysis = nameElement.CreateInterface("IAnalysis", AccessModifiers.@public);
+            this.typeAnalysis = nameElement.CreateInterface("IReturnAnalysis", AccessModifiers.@public);
             this.typeAnalysis.TypeParameters.Add("T");
 
             if (node.GetAstproductions() != null)

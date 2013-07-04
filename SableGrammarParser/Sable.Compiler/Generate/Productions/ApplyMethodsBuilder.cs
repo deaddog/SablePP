@@ -22,8 +22,8 @@ namespace Sable.Compiler.Generate.Productions
             typeMethod = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Apply", "T");
             typeMethod.TypeParameters.Add("T");
 
-            voidMethod.Parameters.Add("a", "Analysis");
-            typeMethod.Parameters.Add("a", "ReturnAnalysis<T>");
+            voidMethod.Parameters.Add("a", "IAnalysis");
+            typeMethod.Parameters.Add("a", "IReturnAnalysis<T>");
             typeMethod.Parameters.Add("arg", "T");
 
             voidMethod.EmitIdentifier(voidMethod.Parameters[0].Name);
@@ -33,6 +33,7 @@ namespace Sable.Compiler.Generate.Productions
                 par.EmitThis();
             voidMethod.EmitSemicolon(true);
 
+            typeMethod.EmitReturn();
             typeMethod.EmitIdentifier(typeMethod.Parameters[0].Name);
             typeMethod.EmitPeriod();
             typeMethod.EmitIdentifier("Case" + classElement.Name);

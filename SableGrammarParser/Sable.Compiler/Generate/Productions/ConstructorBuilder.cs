@@ -50,7 +50,7 @@ namespace Sable.Compiler.Generate.Productions
 
             constructor.EmitThis();
             constructor.EmitPeriod();
-            constructor.EmitIdentifier(GetPropertyName(node));
+            constructor.EmitIdentifier(list ? GetFieldName(node) : GetPropertyName(node));
             constructor.EmitAssignment();
             if (list)
             {
@@ -63,6 +63,11 @@ namespace Sable.Compiler.Generate.Productions
                     par.EmitThis();
                     par.EmitComma();
                     par.EmitIdentifier(GetFieldName(node));
+                    par.EmitComma();
+                    if (node is AStarElement)
+                        par.EmitTrue();
+                    else
+                        par.EmitFalse();
                 }
             }
             else
