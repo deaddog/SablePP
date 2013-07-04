@@ -45,6 +45,15 @@ namespace Sable.Compiler
             string code = parserCode;
 
             code = code.Replace("using System.Collections;", "using System.Collections;\r\nusing System.Collections.Generic;");
+            code = code.Replace("using Grammar.node;", "using Grammar.Nodes;");
+            code = code.Replace("using Grammar.analysis;", "using Grammar.Analysis;");
+
+            code = code.Replace(" Analysis ", " IAnalysis ");
+            code = code.Replace("IList ign = null;", "List<Token> ign = null;");
+            code = code.Replace("ign = new TypedList(NodeCast.Instance);", "ign = new List<Token>();");
+            code = code.Replace("private IAnalysis ignoredTokens = new AnalysisAdapter();", "private AnalysisAdapter ignoredTokens = new AnalysisAdapter();");
+
+            code = Regex.Replace(code, ".Pos[^a-z]", m => { return ".Position" + m.Value.Substring(4); });
             code = Regex.Replace(code, @"(?<section>ArrayList New0\(\).*?)private static int\[]\[]\[]", replaceSection, RegexOptions.Singleline);
 
             return code;
