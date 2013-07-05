@@ -51,7 +51,7 @@ namespace Sable.Compiler.Generate.Productions
             this.productionName = ToCamelCase(node.GetIdentifier().Text);
             string name = "P" + productionName;
 
-            classElement = nameElement.CreateClass(name, AccessModifiers.@public | AccessModifiers.@abstract | AccessModifiers.partial, "Node<" + name + ">");
+            classElement = nameElement.CreateClass(name, AccessModifiers.@public | AccessModifiers.@abstract | AccessModifiers.partial, "Production<" + name + ">");
             base.CaseAProduction(node);
         }
 
