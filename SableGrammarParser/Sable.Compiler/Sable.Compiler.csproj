@@ -92,6 +92,7 @@
     <Compile Include="Nodes\PElement.cs" />
     <Compile Include="Nodes\PElementid.cs" />
     <Compile Include="ParserModifier.cs" />
+    <Compile Include="PathInformation.cs" />
     <Compile Include="SymbolLinking\DeclarationVisitor.cs" />
     <Compile Include="Error\CompilerError.cs" />
     <Compile Include="Error\ErrorManager.cs" />
@@ -113,7 +114,12 @@
       <Name>Sable.Tools</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="..\..\sablecc.jar">
+      <Link>sablecc.jar</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

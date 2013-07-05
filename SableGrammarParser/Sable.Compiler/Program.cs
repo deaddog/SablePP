@@ -13,44 +13,100 @@ using Sable.Compiler.Generate.Productions;
 using Sable.Compiler.Generate.Tokens;
 using Sable.Tools.Generate;
 
+using System.Diagnostics;
+
 namespace Sable.Compiler
 {
     class Program
     {
-        private static string inputFile = @"..\..\..\..\grammar.sablecc";
+        private static ArgumentCollection arguments;
 
         private static void Main(string[] args)
         {
-            Start ast = Parse(ReadFile(inputFile));
+            arguments = new ArgumentCollection(args);
 
+            PathInformation.EnsureSableOutputDirectory();
+
+            string sableIn = arguments["grammar"][0];
+            string sableOut = "temp/sable";
+
+            Console.WriteLine("Validating grammar.");
+            Start ast = Parse(ReadFile(sableIn));
             Error.CompilerError[] errors = Visitor.StartNewVisitor(new Visitor(), ast).GetErrors().ToArray();
-
-            ParserModifier parserMod = new ParserModifier(ast);
-
-            string file = @"..\..\..\..\output\parser.cs";
-            string code;
-
-            using (StreamReader reader = new StreamReader(file))
-                code = reader.ReadToEnd();
-
-            code = parserMod.ReplaceIn(code);
-
-            using (StreamWriter writer = new StreamWriter(@"..\..\..\..\output\parser2.cs"))
-                writer.Write(code);
-
-            using (FileStream fs = new FileStream(@"..\..\..\..\output\tokens2.cs", FileMode.Create))
-                CodeStreamWriter.Generate(fs, TokenNodes.BuildCode(ast));
-            using (FileStream fs = new FileStream(@"..\..\..\..\output\prods2.cs", FileMode.Create))
-                CodeStreamWriter.Generate(fs, ProductionNodes.BuildCode(ast));
-            using (FileStream fs = new FileStream(@"..\..\..\..\output\analysis2.cs", FileMode.Create))
-                CodeStreamWriter.Generate(fs, AnalysisBuilder.BuildCode(ast));
-
             if (errors.Length > 0)
             {
                 for (int i = 0; i < errors.Length; i++)
                     Console.WriteLine(errors[i]);
-                Console.ReadKey(true);
+                Console.WriteLine("Validation failed.");
+                return;
             }
+            Console.WriteLine("Validation completed.\n");
+
+            var processInfo = new ProcessStartInfo(PathInformation.JavaExecutable, "-jar sablecc.jar -d \"" + sableOut + "\" -t csharp \"" + sableIn + "\"")
+            {
+                CreateNoWindow = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                WorkingDirectory = PathInformation.ExecutingDirectory
+            };
+
+            Console.WriteLine("Verifying Java.");
+            Process proc;
+            if ((proc = Process.Start(processInfo)) == null)
+            {
+                Console.WriteLine("Java not found - visit Java.com to install.");
+                return;
+            }
+            Console.WriteLine("Java {0} found.\n\nRunning SableCC", PathInformation.JavaVersion);
+            proc.WaitForExit();
+            int exitCode = proc.ExitCode;
+            if (exitCode != 0)
+            {
+                Console.WriteLine("SableCC failed to compile, see error-message below:");
+                string[] text = proc.StandardError.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                proc.Close();
+                int to = int.MaxValue;
+                for (int i = 0; i < text.Length; i++)
+                    if (text[i].StartsWith("\tat "))
+                    {
+                        to = i;
+                        break;
+                    }
+                Console.WriteLine("----- SABLE-ERROR-BEGIN -----");
+                for (int i = 0; i < to; i++)
+                    Console.WriteLine(text[i]);
+                Console.WriteLine("-----  SABLE-ERROR-END  -----");
+                return;
+            }
+            proc.Close();
+            Console.WriteLine("SableCC completed successfully.\n");
+
+            Console.WriteLine("Starting Post-Sable Process.");
+            Console.WriteLine("Generating token definitions.");
+            using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\tokens.cs", FileMode.Create))
+                CodeStreamWriter.Generate(fs, TokenNodes.BuildCode(ast));
+
+            Console.WriteLine("Generating production definitions.");
+            using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\prods.cs", FileMode.Create))
+                CodeStreamWriter.Generate(fs, ProductionNodes.BuildCode(ast));
+
+            Console.WriteLine("Generating analysis.");
+            using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\analysis.cs", FileMode.Create))
+                CodeStreamWriter.Generate(fs, AnalysisBuilder.BuildCode(ast));
+
+            ParserModifier parserMod = new ParserModifier(ast);
+
+            string code;
+
+            using (StreamReader reader = new StreamReader(PathInformation.SableOutputDirectory + "\\parser.cs"))
+                code = reader.ReadToEnd();
+
+            code = parserMod.ReplaceIn(code);
+
+            using (StreamWriter writer = new StreamWriter(PathInformation.SableOutputDirectory + "\\parser.cs"))
+                writer.Write(code);
+
+            Console.WriteLine("Done.");
         }
 
         private class Visitor : Error.ErrorVisitor
@@ -77,7 +133,7 @@ namespace Sable.Compiler
         private static string ReadFile(string filepath)
         {
             string result;
-            using (StreamReader sr = new StreamReader(File.Open(inputFile, FileMode.Open)))
+            using (StreamReader sr = new StreamReader(File.Open(filepath, FileMode.Open)))
                 result = sr.ReadToEnd();
             return result;
         }
@@ -93,60 +149,56 @@ namespace Sable.Compiler
             reader.Dispose();
             return ast;
         }
+    }
 
-        private static void Lexer(string filepath)
+    public class ArgumentCollection
+    {
+        private Dictionary<string, string[]> dict;
+        private static readonly string[] emptyArray = new string[0];
+
+        public ArgumentCollection(string[] args)
         {
-            using (StreamReader sr = new StreamReader(File.Open(inputFile, FileMode.Open)))
+            Dictionary<string, List<string>> builder = new Dictionary<string, List<string>>();
+            builder.Add(string.Empty, new List<string>());
+
+            string currentarg = string.Empty;
+
+            for (int i = 0; i < args.Length; i++)
             {
-                Token t;
-                Lexer lexer = new Lexer(sr);
-                try
+                string arg = args[i];
+                if (arg.StartsWith("-"))
                 {
-                    while (!((t = lexer.Next()) is EOF))
-                        Console.WriteLine("{0}: {1}", t.GetType().Name, t.Text);
+                    currentarg = arg.Substring(1);
+                    if (!builder.ContainsKey(currentarg))
+                        builder.Add(currentarg, new List<string>());
                 }
-                catch (LexerException ex)
+                else
                 {
-                    Exit(ex.ToString());
+                    builder[currentarg].Add(arg);
                 }
             }
+
+            dict = new Dictionary<string, string[]>();
+            foreach (string s in builder.Keys)
+                dict.Add(s, builder[s].ToArray());
         }
-        private static void Parser(string filepath)
+
+        public string[] this[string argument]
         {
-            using (StreamReader sr = new StreamReader(File.Open(inputFile, FileMode.Open)))
+            get
             {
-                // Read source
-                Lexer lexer = new Lexer(sr);
-
-                // Parse source
-                Parser parser = new Parser(lexer);
-                Start ast = null;
-
-                try
-                {
-                    ast = parser.Parse();
-                }
-                catch (Exception ex)
-                {
-                    Exit(ex.ToString());
-                }
-
-                // Print tree
-                Console.BufferHeight += 600;
-                SimplePrinter printer = new SimplePrinter(false, ConsoleColor.White, ConsoleColor.Gray, ConsoleColor.Red, ConsoleColor.Blue);
-                ast.Apply(printer);
+                if (argument == null)
+                    return NoArgument;
+                else if (dict.ContainsKey(argument))
+                    return dict[argument];
+                else
+                    return emptyArray;
             }
         }
-        private static void Exit(string msg)
-        {
-            if (msg != null)
-                Console.WriteLine(msg);
-            else
-                Console.WriteLine();
 
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey(true);
-            Environment.Exit(0);
+        public string[] NoArgument
+        {
+            get { return dict[string.Empty]; }
         }
     }
 }
