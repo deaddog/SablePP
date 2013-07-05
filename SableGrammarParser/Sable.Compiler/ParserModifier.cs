@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,7 +15,7 @@ namespace Sable.Compiler
         private Start astRoot;
         private ArgumentCollection arguments;
 
-        public ParserModifier(Start astRoot)
+        private ParserModifier(Start astRoot)
         {
             if (astRoot == null)
                 throw new ArgumentNullException("astRoot");
@@ -40,7 +41,7 @@ namespace Sable.Compiler
             return string.Join(" ", from s in text.Split(' ') select char.ToUpper(s[0]) + s.Substring(1));
         }
 
-        public string ReplaceIn(string parserCode)
+        private string ReplaceIn(string parserCode)
         {
             string code = parserCode;
 
@@ -49,6 +50,8 @@ namespace Sable.Compiler
             code = code.Replace("using System.Collections;", "using System.Collections;\r\nusing System.Collections.Generic;");
             code = code.Replace("using " + package + ".node;", "using " + package + ".Nodes;");
             code = code.Replace("using " + package + ".analysis;", "using " + package + ".Analysis;");
+            code = code.Replace("using " + package + ".lexer;", "using " + package + ".Lexing;");
+            code = code.Replace("namespace " + package + ".parser", "namespace " + package + ".Parsing");
 
             code = code.Replace(" Analysis ", " IAnalysis ");
             code = code.Replace("IList ign = null;", "List<Token> ign = null;");
@@ -59,6 +62,23 @@ namespace Sable.Compiler
             code = Regex.Replace(code, @"(?<section>ArrayList New0\(\).*?)private static int\[]\[]\[]", replaceSection, RegexOptions.Singleline);
 
             return code;
+        }
+        public static string ReplaceInCode(string parserCode, Start astRoot)
+        {
+            ParserModifier modifier = new ParserModifier(astRoot);
+            return modifier.ReplaceIn(parserCode);
+        }
+        public static void ApplyToFile(string filepath, Start astRoot)
+        {
+            string code;
+
+            using (StreamReader reader = new StreamReader(filepath))
+                code = reader.ReadToEnd();
+
+            code = ReplaceInCode(code, astRoot);
+
+            using (StreamWriter writer = new StreamWriter(filepath))
+                writer.Write(code);
         }
 
         private string replaceSection(Match method)

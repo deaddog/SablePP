@@ -94,17 +94,10 @@ namespace Sable.Compiler
             using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\analysis.cs", FileMode.Create))
                 CodeStreamWriter.Generate(fs, AnalysisBuilder.BuildCode(ast));
 
-            ParserModifier parserMod = new ParserModifier(ast);
-
-            string code;
-
-            using (StreamReader reader = new StreamReader(PathInformation.SableOutputDirectory + "\\parser.cs"))
-                code = reader.ReadToEnd();
-
-            code = parserMod.ReplaceIn(code);
-
-            using (StreamWriter writer = new StreamWriter(PathInformation.SableOutputDirectory + "\\parser.cs"))
-                writer.Write(code);
+            Console.WriteLine("Rewriting parser.");
+            ParserModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\parser.cs", ast);
+            Console.WriteLine("Rewriting lexer.");
+            LexerModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\lexer.cs", ast);
 
             Console.WriteLine("Done.");
         }
