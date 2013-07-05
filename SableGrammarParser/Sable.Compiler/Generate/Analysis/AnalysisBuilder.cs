@@ -15,8 +15,6 @@ namespace Sable.Compiler.Generate.Analysis
         private InterfaceElement voidAnalysis;
         private InterfaceElement typeAnalysis;
 
-        private string packageName = null;
-
         private AnalysisBuilder()
         {
             fileElement = new FileElement();
@@ -44,8 +42,8 @@ namespace Sable.Compiler.Generate.Analysis
             if (node.GetPackage() != null)
                 node.GetPackage().Apply(this);
 
-            if (packageName == null)
-                packageName = "SableCCPP";
+            string packageName = node.PackageName;
+
             nameElement = fileElement.CreateNamespace(packageName + ".Analysis");
             fileElement.Using.Add(packageName + ".Nodes");
 
@@ -73,11 +71,6 @@ namespace Sable.Compiler.Generate.Analysis
             string name = GetTokenName(node);
 
             EmitCase(name);
-        }
-
-        public override void CaseTPackagename(TPackagename node)
-        {
-            this.packageName = node.Text;
         }
 
         public override void CaseAProduction(AProduction node)

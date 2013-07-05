@@ -44,9 +44,11 @@ namespace Sable.Compiler
         {
             string code = parserCode;
 
+            string package = astRoot.GetPGrammar().PackageName;
+
             code = code.Replace("using System.Collections;", "using System.Collections;\r\nusing System.Collections.Generic;");
-            code = code.Replace("using Grammar.node;", "using Grammar.Nodes;");
-            code = code.Replace("using Grammar.analysis;", "using Grammar.Analysis;");
+            code = code.Replace("using " + package + ".node;", "using " + package + ".Nodes;");
+            code = code.Replace("using " + package + ".analysis;", "using " + package + ".Analysis;");
 
             code = code.Replace(" Analysis ", " IAnalysis ");
             code = code.Replace("IList ign = null;", "List<Token> ign = null;");
@@ -61,7 +63,7 @@ namespace Sable.Compiler
 
         private string replaceSection(Match method)
         {
-            return Regex.Replace(method.Groups["section"].Value, @"ArrayList New[0-9]+\(\)[^{]+{([^}{]+{[^}{]+})*[^}{]+}", 
+            return Regex.Replace(method.Groups["section"].Value, @"ArrayList New[0-9]+\(\)[^{]+{([^}{]+{[^}{]+})*[^}{]+}",
                 match => new MethodWorker(match.Value, arguments).Fix()) + "private static int[][][]";
         }
 

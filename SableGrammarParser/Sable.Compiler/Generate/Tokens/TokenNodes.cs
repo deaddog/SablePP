@@ -15,8 +15,6 @@ namespace Sable.Compiler.Generate.Tokens
         private NameSpaceElement nameElement;
         private ClassElement classElement;
 
-        private string packageName = null;
-
         private TokenNodes()
         {
             fileElement = new FileElement();
@@ -44,17 +42,13 @@ namespace Sable.Compiler.Generate.Tokens
             if (node.GetPackage() != null)
                 node.GetPackage().Apply(this);
 
-            if (packageName == null)
-                packageName = "SableCCPP";
+            string packageName = node.PackageName;
+
             nameElement = fileElement.CreateNamespace(packageName + ".Nodes");
             fileElement.Using.Add(packageName + ".Analysis");
 
             if (node.GetTokens() != null)
                 node.GetTokens().Apply(this);
-        }
-        public override void CaseTPackagename(TPackagename node)
-        {
-            this.packageName = node.Text;
         }
 
         public override void CaseAToken(AToken node)
@@ -62,7 +56,7 @@ namespace Sable.Compiler.Generate.Tokens
             string name = GetTokenName(node);
 
             classElement = nameElement.CreateClass(name, AccessModifiers.@public | AccessModifiers.partial, "Token<" + name + ">");
-            
+
             EmitConstructor1();
             EmitConstructor2();
             classElement.EmitNewLine();
