@@ -15,6 +15,9 @@ namespace Sable.Compiler.Generate.Analysis
         private InterfaceElement voidAnalysis;
         private InterfaceElement typeAnalysis;
 
+        private ClassElement voidAnalysisAdapter;
+        private ClassElement typeAnalysisAdapter;
+
         private AnalysisBuilder()
         {
             fileElement = new FileElement();
@@ -48,8 +51,24 @@ namespace Sable.Compiler.Generate.Analysis
             fileElement.Using.Add(packageName + ".Nodes");
 
             this.voidAnalysis = nameElement.CreateInterface("IAnalysis", AccessModifiers.@public);
-            this.typeAnalysis = nameElement.CreateInterface("IReturnAnalysis", AccessModifiers.@public);
+            this.typeAnalysis = nameElement.CreateInterface("IAnalysis", AccessModifiers.@public);
             this.typeAnalysis.TypeParameters.Add("T");
+
+            this.voidAnalysisAdapter = nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "IAnalysis");
+            this.typeAnalysisAdapter = nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "IAnalysis<T>");
+            this.typeAnalysisAdapter.TypeParameters.Add("T");
+
+            MethodElement voidmethod = this.voidAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultCase", "void");
+            voidmethod.Parameters.Add("node", "Node");
+            voidAnalysisAdapter.EmitNewLine();
+
+            MethodElement typemethod = this.typeAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultCase", "T");
+            typemethod.Parameters.Add("node", "Node");
+            typemethod.Parameters.Add("arg", "T");
+            typemethod.EmitReturn();
+            typemethod.EmitIdentifier("arg");
+            typemethod.EmitSemicolon(true);
+            typeAnalysisAdapter.EmitNewLine();
 
             if (node.GetAstproductions() != null)
                 node.GetAstproductions().Apply(this);
@@ -61,6 +80,8 @@ namespace Sable.Compiler.Generate.Analysis
             {
                 voidAnalysis.EmitNewLine();
                 typeAnalysis.EmitNewLine();
+                voidAnalysisAdapter.EmitNewLine();
+                typeAnalysisAdapter.EmitNewLine();
                 node.GetTokens().Apply(this);
                 EmitCase("EOF");
             }
@@ -92,12 +113,43 @@ namespace Sable.Compiler.Generate.Analysis
 
         private void EmitCase(string name)
         {
+            EmitInterfaceCase(name);
+            EmitAdapterCase(name);
+        }
+
+        private void EmitInterfaceCase(string name)
+        {
             var voidMethod = voidAnalysis.CreateMethod(AccessModifiers.None, "Case" + name, "void");
             voidMethod.Parameters.Add("node", name);
 
             var typeMethod = typeAnalysis.CreateMethod(AccessModifiers.None, "Case" + name, typeAnalysis.TypeParameters[0]);
             typeMethod.Parameters.Add("node", name);
             typeMethod.Parameters.Add("arg", typeAnalysis.TypeParameters[0]);
+        }
+
+        private void EmitAdapterCase(string name)
+        {
+            var voidMethod = voidAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Case" + name, "void");
+            voidMethod.Parameters.Add("node", name);
+
+            voidMethod.EmitIdentifier("DefaultCase");
+            using (var par = voidMethod.EmitParenthesis())
+                par.EmitIdentifier("node");
+            voidMethod.EmitSemicolon(true);
+
+            var typeMethod = typeAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Case" + name, typeAnalysisAdapter.TypeParameters[0]);
+            typeMethod.Parameters.Add("node", name);
+            typeMethod.Parameters.Add("arg", typeAnalysis.TypeParameters[0]);
+
+            typeMethod.EmitReturn();
+            typeMethod.EmitIdentifier("DefaultCase");
+            using (var par = typeMethod.EmitParenthesis())
+            {
+                par.EmitIdentifier("node");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
+            typeMethod.EmitSemicolon(true);
         }
     }
 }

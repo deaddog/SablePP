@@ -23,7 +23,7 @@ namespace Sable.Compiler.Generate.Productions
             typeMethod.TypeParameters.Add("T");
 
             voidMethod.Parameters.Add("a", "IAnalysis");
-            typeMethod.Parameters.Add("a", "IReturnAnalysis<T>");
+            typeMethod.Parameters.Add("a", "IAnalysis<T>");
             typeMethod.Parameters.Add("arg", "T");
 
             voidMethod.EmitIdentifier(voidMethod.Parameters[0].Name);

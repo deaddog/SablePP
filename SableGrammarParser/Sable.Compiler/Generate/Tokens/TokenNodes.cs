@@ -124,7 +124,7 @@ namespace Sable.Compiler.Generate.Tokens
         private void EmitApplyTypeMethod()
         {
             MethodElement method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Apply", "T");
-            method.Parameters.Add("a", "IReturnAnalysis<T>");
+            method.Parameters.Add("a", "IAnalysis<T>");
             method.Parameters.Add("arg", "T");
             method.TypeParameters.Add("T");
 
