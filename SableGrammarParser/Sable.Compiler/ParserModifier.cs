@@ -56,7 +56,9 @@ namespace Sable.Compiler
             code = code.Replace(" Analysis ", " IAnalysis ");
             code = code.Replace("IList ign = null;", "List<Token> ign = null;");
             code = code.Replace("ign = new TypedList(NodeCast.Instance);", "ign = new List<Token>();");
-            code = code.Replace("private IAnalysis ignoredTokens = new AnalysisAdapter();", "private AnalysisAdapter ignoredTokens = new AnalysisAdapter();");
+            code = code.Replace("private IAnalysis ignoredTokens = new AnalysisAdapter();", "private AnalysisAdapter<List<Token>> ignoredTokens = new AnalysisAdapter<List<Token>>();");
+            code = code.Replace("public IAnalysis IgnoredTokens", "public IAnalysis<List<Token>> IgnoredTokens");
+            code = code.Replace("ignoredTokens.SetIn(lexer.Peek(), ign);", "ignoredTokens.Input[lexer.Peek()] = ign;");
 
             code = Regex.Replace(code, ".Pos[^a-z]", m => { return ".Position" + m.Value.Substring(4); });
             code = Regex.Replace(code, @"(?<section>ArrayList New0\(\).*?)private static int\[]\[]\[]", replaceSection, RegexOptions.Singleline);

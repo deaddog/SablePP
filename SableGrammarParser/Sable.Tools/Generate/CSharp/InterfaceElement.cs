@@ -83,26 +83,26 @@ namespace Sable.Tools.Generate.CSharp
             contents.EmitNewLine();
         }
 
-        public NoBodyMethodElement CreateMethod(AccessModifiers modifiers, string name, string returnType)
+        public NoBodyMethodElement CreateMethod(string name, string returnType)
         {
-            NoBodyMethodElement method = new NoBodyMethodElement(modifiers, name, returnType);
+            NoBodyMethodElement method = new NoBodyMethodElement(AccessModifiers.None, name, returnType);
             contents.InsertElement(method);
             return method;
         }
-        public void EmitProperty(AccessModifiers modifiers, string name, string type)
+        public void EmitProperty(string name, string type)
         {
-            emitProperty(modifiers, name, type, true, true);
+            emitProperty(name, type, true, true);
         }
-        public void EmitSetProperty(AccessModifiers modifiers, string name, string type)
+        public void EmitSetProperty(string name, string type)
         {
-            emitProperty(modifiers, name, type, false, true);
+            emitProperty(name, type, false, true);
         }
-        public void EmitGetProperty(AccessModifiers modifiers, string name, string type)
+        public void EmitGetProperty(string name, string type)
         {
-            emitProperty(modifiers, name, type, true, false);
+            emitProperty(name, type, true, false);
         }
 
-        private void emitProperty(AccessModifiers modifiers, string name, string type, bool hasGetter, bool hasSetter)
+        private void emitProperty(string name, string type, bool hasGetter, bool hasSetter)
         {
             if (name == null)
                 throw new ArgumentNullException("name");
@@ -113,29 +113,23 @@ namespace Sable.Tools.Generate.CSharp
                 throw new ArgumentNullException("type");
             if (type == string.Empty)
                 throw new ArgumentException("Property must have a type.", "type");
-            
-            modifiers.Emit(contents.Emit);
+
+            AccessModifiers.None.Emit(contents.Emit);
             contents.Emit(type.Trim(), UseSpace.NotPreferred, UseSpace.Always);
-            contents.Emit(name.Trim(), UseSpace.NotPreferred, UseSpace.Never);
+            contents.Emit(name.Trim(), UseSpace.NotPreferred, UseSpace.Always);
             
-            contents.EmitNewLine();
-            contents.Emit("{", UseSpace.Never, UseSpace.Never);
-            contents.EmitNewLine();
-            contents.IncreaseIndentation();
+            contents.Emit("{", UseSpace.Always, UseSpace.Preferred);
 
             if (hasGetter)
             {
-                contents.Emit("get;", UseSpace.Never, UseSpace.Never);
-                contents.EmitNewLine();
+                contents.Emit("get;", UseSpace.NotPreferred, UseSpace.Preferred);
             }
             if (hasSetter)
             {
-                contents.Emit("set;", UseSpace.Never, UseSpace.Never);
-                contents.EmitNewLine();
+                contents.Emit("set;", UseSpace.NotPreferred, UseSpace.Preferred);
             }
 
-            contents.DecreaseIndentation();
-            contents.Emit("}", UseSpace.Never, UseSpace.Never);
+            contents.Emit("}", UseSpace.Preferred, UseSpace.Never);
             contents.EmitNewLine();
         }
     }

@@ -51,11 +51,16 @@ namespace Sable.Compiler.Generate.Analysis
             fileElement.Using.Add(packageName + ".Nodes");
 
             this.voidAnalysis = nameElement.CreateInterface("IAnalysis", AccessModifiers.@public);
-            this.typeAnalysis = nameElement.CreateInterface("IAnalysis", AccessModifiers.@public);
+            this.voidAnalysis.TypeParameters.Add("TValue");
+            this.typeAnalysis = nameElement.CreateInterface("IReturnAnalysis", AccessModifiers.@public);
             this.typeAnalysis.TypeParameters.Add("T");
 
-            this.voidAnalysisAdapter = nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "IAnalysis");
-            this.typeAnalysisAdapter = nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "IAnalysis<T>");
+            this.voidAnalysis.EmitGetProperty("Input", "Table<TValue>");
+            this.voidAnalysis.EmitGetProperty("Output", "Table<TValue>");
+
+            this.voidAnalysisAdapter = nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "IAnalysis<TValue>");
+            this.voidAnalysisAdapter.TypeParameters.Add("TValue");
+            this.typeAnalysisAdapter = nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, "IReturnAnalysis<T>");
             this.typeAnalysisAdapter.TypeParameters.Add("T");
 
             MethodElement voidmethod = this.voidAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultCase", "void");
@@ -119,10 +124,10 @@ namespace Sable.Compiler.Generate.Analysis
 
         private void EmitInterfaceCase(string name)
         {
-            var voidMethod = voidAnalysis.CreateMethod(AccessModifiers.None, "Case" + name, "void");
+            var voidMethod = voidAnalysis.CreateMethod("Case" + name, "void");
             voidMethod.Parameters.Add("node", name);
 
-            var typeMethod = typeAnalysis.CreateMethod(AccessModifiers.None, "Case" + name, typeAnalysis.TypeParameters[0]);
+            var typeMethod = typeAnalysis.CreateMethod("Case" + name, typeAnalysis.TypeParameters[0]);
             typeMethod.Parameters.Add("node", name);
             typeMethod.Parameters.Add("arg", typeAnalysis.TypeParameters[0]);
         }
