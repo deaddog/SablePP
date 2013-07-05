@@ -12,11 +12,11 @@ namespace Sable.Compiler.Generate.Analysis
         private NameSpaceElement nameElement;
         private string productionName;
 
-        private InterfaceElement voidAnalysis;
-        private InterfaceElement typeAnalysis;
+        private InterfaceElement iAnalysis;
+        private InterfaceElement iReturnAnalysis;
 
-        private ClassElement voidAnalysisAdapter;
-        private ClassElement typeAnalysisAdapter;
+        private ClassElement analysisAdapter;
+        private ClassElement returnAnalysisAdapter;
 
         private AnalysisBuilder()
         {
@@ -40,6 +40,86 @@ namespace Sable.Compiler.Generate.Analysis
                 throw new NotImplementedException("Unknown token type.");
         }
 
+        private void CreateIAnalysis()
+        {
+            iAnalysis = nameElement.CreateInterface("IAnalysis", AccessModifiers.@public);
+            iAnalysis.TypeParameters.Add("TValue");
+
+            iAnalysis.EmitGetProperty("Input", "Table<TValue>");
+            iAnalysis.EmitGetProperty("Output", "Table<TValue>");
+            iAnalysis.EmitNewLine();
+        }
+        private void CreateIReturnAnalysis()
+        {
+            iReturnAnalysis = nameElement.CreateInterface("IReturnAnalysis", AccessModifiers.@public);
+            iReturnAnalysis.TypeParameters.Add("T");
+        }
+        private void CreateAnalysisAdapter()
+        {
+            nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "AnalysisAdapter<object>");
+
+            analysisAdapter = nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "IAnalysis<TValue>");
+            analysisAdapter.TypeParameters.Add("TValue");
+
+            analysisAdapter.EmitField("input", "Table<TValue>", AccessModifiers.@private);
+            analysisAdapter.EmitField("output", "Table<TValue>", AccessModifiers.@private);
+            analysisAdapter.EmitNewLine();
+
+            var constructor = analysisAdapter.CreateConstructor(AccessModifiers.@public);
+            constructor.EmitThis();
+            constructor.EmitPeriod();
+            constructor.EmitIdentifier("input");
+            constructor.EmitAssignment();
+            constructor.EmitNew();
+            constructor.EmitIdentifier("Table");
+            using (var types = constructor.EmitParenthesis(ParenthesisElement.Types.Angled))
+                types.EmitIdentifier("TValue");
+            constructor.EmitParenthesis();
+            constructor.EmitSemicolon(true);
+
+            constructor.EmitThis();
+            constructor.EmitPeriod();
+            constructor.EmitIdentifier("output");
+            constructor.EmitAssignment();
+            constructor.EmitNew();
+            constructor.EmitIdentifier("Table");
+            using (var types = constructor.EmitParenthesis(ParenthesisElement.Types.Angled))
+                types.EmitIdentifier("TValue");
+            constructor.EmitParenthesis();
+            constructor.EmitSemicolon(true);
+            analysisAdapter.EmitNewLine();
+
+            var input = analysisAdapter.CreateGetProperty(AccessModifiers.@public, "Input", "Table<TValue>");
+            input.Get.EmitReturn();
+            input.Get.EmitIdentifier("input");
+            input.Get.EmitSemicolon(false);
+
+            var output = analysisAdapter.CreateGetProperty(AccessModifiers.@public, "Output", "Table<TValue>");
+            output.Get.EmitReturn();
+            output.Get.EmitIdentifier("output");
+            output.Get.EmitSemicolon(false);
+            analysisAdapter.EmitNewLine();
+
+            MethodElement voidmethod = analysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultCase", "void");
+            voidmethod.Parameters.Add("node", "Node");
+            analysisAdapter.EmitNewLine();
+        }
+        private void CreateReturnAnalysisAdapter()
+        {
+            nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, "ReturnAnalysisAdapter<object>");
+
+            returnAnalysisAdapter = nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, "IReturnAnalysis<T>");
+            returnAnalysisAdapter.TypeParameters.Add("T");
+
+            MethodElement typemethod = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultCase", "T");
+            typemethod.Parameters.Add("node", "Node");
+            typemethod.Parameters.Add("arg", "T");
+            typemethod.EmitReturn();
+            typemethod.EmitIdentifier("arg");
+            typemethod.EmitSemicolon(true);
+            returnAnalysisAdapter.EmitNewLine();
+        }
+
         public override void CaseAGrammar(AGrammar node)
         {
             if (node.GetPackage() != null)
@@ -50,30 +130,11 @@ namespace Sable.Compiler.Generate.Analysis
             nameElement = fileElement.CreateNamespace(packageName + ".Analysis");
             fileElement.Using.Add(packageName + ".Nodes");
 
-            this.voidAnalysis = nameElement.CreateInterface("IAnalysis", AccessModifiers.@public);
-            this.voidAnalysis.TypeParameters.Add("TValue");
-            this.typeAnalysis = nameElement.CreateInterface("IReturnAnalysis", AccessModifiers.@public);
-            this.typeAnalysis.TypeParameters.Add("T");
+            CreateIAnalysis();
+            CreateIReturnAnalysis();
 
-            this.voidAnalysis.EmitGetProperty("Input", "Table<TValue>");
-            this.voidAnalysis.EmitGetProperty("Output", "Table<TValue>");
-
-            this.voidAnalysisAdapter = nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "IAnalysis<TValue>");
-            this.voidAnalysisAdapter.TypeParameters.Add("TValue");
-            this.typeAnalysisAdapter = nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, "IReturnAnalysis<T>");
-            this.typeAnalysisAdapter.TypeParameters.Add("T");
-
-            MethodElement voidmethod = this.voidAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultCase", "void");
-            voidmethod.Parameters.Add("node", "Node");
-            voidAnalysisAdapter.EmitNewLine();
-
-            MethodElement typemethod = this.typeAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultCase", "T");
-            typemethod.Parameters.Add("node", "Node");
-            typemethod.Parameters.Add("arg", "T");
-            typemethod.EmitReturn();
-            typemethod.EmitIdentifier("arg");
-            typemethod.EmitSemicolon(true);
-            typeAnalysisAdapter.EmitNewLine();
+            CreateAnalysisAdapter();
+            CreateReturnAnalysisAdapter();
 
             if (node.GetAstproductions() != null)
                 node.GetAstproductions().Apply(this);
@@ -83,10 +144,10 @@ namespace Sable.Compiler.Generate.Analysis
 
             if (node.GetTokens() != null)
             {
-                voidAnalysis.EmitNewLine();
-                typeAnalysis.EmitNewLine();
-                voidAnalysisAdapter.EmitNewLine();
-                typeAnalysisAdapter.EmitNewLine();
+                iAnalysis.EmitNewLine();
+                iReturnAnalysis.EmitNewLine();
+                analysisAdapter.EmitNewLine();
+                returnAnalysisAdapter.EmitNewLine();
                 node.GetTokens().Apply(this);
                 EmitCase("EOF");
             }
@@ -124,17 +185,17 @@ namespace Sable.Compiler.Generate.Analysis
 
         private void EmitInterfaceCase(string name)
         {
-            var voidMethod = voidAnalysis.CreateMethod("Case" + name, "void");
+            var voidMethod = iAnalysis.CreateMethod("Case" + name, "void");
             voidMethod.Parameters.Add("node", name);
 
-            var typeMethod = typeAnalysis.CreateMethod("Case" + name, typeAnalysis.TypeParameters[0]);
+            var typeMethod = iReturnAnalysis.CreateMethod("Case" + name, iReturnAnalysis.TypeParameters[0]);
             typeMethod.Parameters.Add("node", name);
-            typeMethod.Parameters.Add("arg", typeAnalysis.TypeParameters[0]);
+            typeMethod.Parameters.Add("arg", iReturnAnalysis.TypeParameters[0]);
         }
 
         private void EmitAdapterCase(string name)
         {
-            var voidMethod = voidAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Case" + name, "void");
+            var voidMethod = analysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Case" + name, "void");
             voidMethod.Parameters.Add("node", name);
 
             voidMethod.EmitIdentifier("DefaultCase");
@@ -142,9 +203,9 @@ namespace Sable.Compiler.Generate.Analysis
                 par.EmitIdentifier("node");
             voidMethod.EmitSemicolon(true);
 
-            var typeMethod = typeAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Case" + name, typeAnalysisAdapter.TypeParameters[0]);
+            var typeMethod = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Case" + name, returnAnalysisAdapter.TypeParameters[0]);
             typeMethod.Parameters.Add("node", name);
-            typeMethod.Parameters.Add("arg", typeAnalysis.TypeParameters[0]);
+            typeMethod.Parameters.Add("arg", iReturnAnalysis.TypeParameters[0]);
 
             typeMethod.EmitReturn();
             typeMethod.EmitIdentifier("DefaultCase");

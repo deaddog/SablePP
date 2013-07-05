@@ -132,7 +132,7 @@ namespace Sable.Compiler.Generate.Productions
             hasProperty.Get.EmitIdentifier(GetFieldName(node));
             hasProperty.Get.EmitNotEqual();
             hasProperty.Get.EmitNull();
-            hasProperty.Get.EmitSemicolon(true);
+            hasProperty.Get.EmitSemicolon(false);
         }
 
         private PropertyElement CreateProperty(PElement node)
@@ -152,7 +152,6 @@ namespace Sable.Compiler.Generate.Productions
             property.Get.EmitReturn();
             property.Get.EmitIdentifier(GetFieldName(node));
             property.Get.EmitSemicolon(false);
-            property.Get.EmitNewLine();
         }
     }
 }

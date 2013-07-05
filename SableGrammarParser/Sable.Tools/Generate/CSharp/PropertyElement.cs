@@ -70,12 +70,31 @@ namespace Sable.Tools.Generate.CSharp
 
         public class PropertyGetter : ExecutableElement
         {
+            private PatchElement break1 = new PatchElement(), break2 = new PatchElement(), break3 = new PatchElement();
+            private bool hasbreak = false;
+
             public PropertyGetter()
             {
-                emit("get", UseSpace.Never, UseSpace.NotPreferred);
-                emitBlockStart();
+                emit("get", UseSpace.Never, UseSpace.Preferred);
+                insertElement(break1);
+                emit("{", UseSpace.NotPreferred, UseSpace.Preferred);
+                insertElement(break2);
                 InsertContents();
-                emitBlockEnd();
+                insertElement(break3);
+                emit("}", UseSpace.NotPreferred, UseSpace.NotPreferred);
+                emitNewLine();
+            }
+
+            protected override void OnNewLineEmitted()
+            {
+                if (!hasbreak)
+                {
+                    hasbreak = true;
+                    break1.EmitNewLine();
+                    break2.EmitNewLine();
+                    break2.IncreaseIndentation();
+                    break3.DecreaseIndentation();
+                }
             }
         }
 
