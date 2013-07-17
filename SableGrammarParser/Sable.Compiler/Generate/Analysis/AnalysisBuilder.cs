@@ -18,6 +18,9 @@ namespace Sable.Compiler.Generate.Analysis
         private ClassElement analysisAdapter;
         private ClassElement returnAnalysisAdapter;
 
+        private ClassElement depthFirstAdapter;
+        private ClassElement depthFirstReturnAdapter;
+
         private AnalysisBuilder()
         {
             fileElement = new FileElement();
@@ -119,6 +122,25 @@ namespace Sable.Compiler.Generate.Analysis
             typemethod.EmitSemicolon(true);
             returnAnalysisAdapter.EmitNewLine();
         }
+        private void CreateDepthFirstAdapter()
+        {
+            depthFirstAdapter = nameElement.CreateClass("DepthFirstAdapter", AccessModifiers.@public, "AnalysisAdapter<TValue>");
+            depthFirstAdapter.TypeParameters.Add("TValue");
+
+            var pIn = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultPIn", "void");
+            pIn.Parameters.Add("node", "Node");
+            var pOut = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultPOut", "void");
+            pOut.Parameters.Add("node", "Node");
+            var aIn = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultAIn", "void");
+            aIn.Parameters.Add("node", "Node");
+            var aOut = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultAOut", "void");
+            aOut.Parameters.Add("node", "Node");
+        }
+        private void CreateDepthFirstReturnAdapter()
+        {
+            depthFirstReturnAdapter = nameElement.CreateClass("DepthFirstReturnAdapter", AccessModifiers.@public, "ReturnAnalysisAdapter<T>");
+            depthFirstReturnAdapter.TypeParameters.Add("T");
+        }
 
         public override void CaseAGrammar(AGrammar node)
         {
@@ -135,6 +157,9 @@ namespace Sable.Compiler.Generate.Analysis
 
             CreateAnalysisAdapter();
             CreateReturnAnalysisAdapter();
+
+            CreateDepthFirstAdapter();
+            CreateDepthFirstReturnAdapter();
 
             if (node.GetAstproductions() != null)
                 node.GetAstproductions().Apply(this);
@@ -165,16 +190,179 @@ namespace Sable.Compiler.Generate.Analysis
             this.productionName = ToCamelCase(node.GetIdentifier().Text);
             string name = "P" + productionName;
 
+            depthFirstAdapter.EmitNewLine();
+            EmitInOut(name);
+
             base.CaseAProduction(node);
         }
 
+        MethodElement voidMethod;
         public override void CaseAAlternative(AAlternative node)
         {
             string name = "A" + productionName;
             if (node.GetAlternativename() != null)
                 name = "A" + ToCamelCase((node.GetAlternativename() as AAlternativename).GetName().Text) + productionName;
 
+            EmitInOut(name);
+
             EmitCase(name);
+
+            voidMethod = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Case" + name, "void");
+            voidMethod.Parameters.Add("node", name);
+
+            voidMethod.EmitIdentifier("InP" + productionName);
+            using (var par = voidMethod.EmitParenthesis())
+                par.EmitIdentifier("node");
+            voidMethod.EmitSemicolon(true);
+
+            voidMethod.EmitIdentifier("In" + name);
+            using (var par = voidMethod.EmitParenthesis())
+                par.EmitIdentifier("node");
+            voidMethod.EmitSemicolon(true);
+            voidMethod.EmitNewLine();
+
+            node.GetElements().Apply(this);
+
+            voidMethod.EmitNewLine();
+            voidMethod.EmitIdentifier("Out" + name);
+            using (var par = voidMethod.EmitParenthesis())
+                par.EmitIdentifier("node");
+            voidMethod.EmitSemicolon(true);
+
+            voidMethod.EmitIdentifier("OutP" + productionName);
+            using (var par = voidMethod.EmitParenthesis())
+                par.EmitIdentifier("node");
+            voidMethod.EmitSemicolon(true);
+        }
+
+        public override void CaseASimpleElement(ASimpleElement node)
+        {
+            voidMethod.EmitIdentifier("node");
+            voidMethod.EmitPeriod();
+            voidMethod.EmitIdentifier(ToCamelCase(node.LowerName));
+            voidMethod.EmitPeriod();
+            voidMethod.EmitIdentifier("Apply");
+            using (var par = voidMethod.EmitParenthesis())
+                par.EmitIdentifier("this");
+            voidMethod.EmitSemicolon(true);
+        }
+        public override void CaseAQuestionElement(AQuestionElement node)
+        {
+            using(var iff = voidMethod.EmitIf())
+            {
+                iff.EmitIdentifier("node");
+                iff.EmitPeriod();
+                iff.EmitIdentifier("Has" + ToCamelCase(node.LowerName));
+            }
+            voidMethod.EmitNewLine();
+            voidMethod.IncreaseIndentation();
+            voidMethod.EmitIdentifier("node");
+            voidMethod.EmitPeriod();
+            voidMethod.EmitIdentifier(ToCamelCase(node.LowerName));
+            voidMethod.EmitPeriod();
+            voidMethod.EmitIdentifier("Apply");
+            using (var par = voidMethod.EmitParenthesis())
+                par.EmitIdentifier("this");
+            voidMethod.EmitSemicolon(true);
+            voidMethod.DecreaseIndentation();
+        }
+        public override void CaseAStarElement(AStarElement node)
+        {
+            TIdentifier typeId = node.GetElementid().Identifier;
+            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
+            string name = ToCamelCase(node.LowerName);
+
+            EmitListWalking(type, name);
+        }
+        public override void CaseAPlusElement(APlusElement node)
+        {
+            TIdentifier typeId = node.GetElementid().Identifier;
+            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
+            string name = ToCamelCase(node.LowerName);
+
+            EmitListWalking(type, name);
+        }
+
+        private void EmitListWalking(string type, string name)
+        {
+            //PAssignment[] temp = new PAssignment[node.Assignment.Count];
+            voidMethod.EmitIdentifier(type);
+            voidMethod.EmitParenthesis(ParenthesisElement.Types.Square);
+            voidMethod.EmitIdentifier("temp");
+            voidMethod.EmitAssignment();
+            voidMethod.EmitNew();
+            voidMethod.EmitIdentifier(type);
+            using (var par = voidMethod.EmitParenthesis(ParenthesisElement.Types.Square))
+            {
+                par.EmitIdentifier("node");
+                par.EmitPeriod();
+                par.EmitIdentifier(name);
+                par.EmitPeriod();
+                par.EmitIdentifier("Count");
+            }
+            voidMethod.EmitSemicolon(true);
+
+            //node.Assignment.CopyTo(temp, 0);
+            voidMethod.EmitIdentifier("node");
+            voidMethod.EmitPeriod();
+            voidMethod.EmitIdentifier(name);
+            voidMethod.EmitPeriod();
+            voidMethod.EmitIdentifier("CopyTo");
+            using (var par = voidMethod.EmitParenthesis())
+            {
+                par.EmitIdentifier("temp");
+                par.EmitComma();
+                par.EmitIntValue(0);
+            }
+            voidMethod.EmitSemicolon(true);
+
+            //for (int i = 0; i < temp.Length; i++)
+            using (var par = voidMethod.EmitFor())
+            {
+                par.EmitInt();
+                par.EmitIdentifier("i");
+                par.EmitAssignment();
+                par.EmitIntValue(0);
+                par.EmitSemicolon(false);
+                par.EmitIdentifier("i");
+                par.EmitLessThan();
+                par.EmitIdentifier("temp");
+                par.EmitPeriod();
+                par.EmitIdentifier("Length");
+                par.EmitSemicolon(false);
+                par.EmitIdentifier("i");
+                par.EmitPlusPlus();
+            }
+            voidMethod.EmitNewLine();
+
+            //    temp[i].Apply(this);
+            voidMethod.IncreaseIndentation();
+            voidMethod.EmitIdentifier("temp");
+            using (var par = voidMethod.EmitParenthesis(ParenthesisElement.Types.Square))
+                par.EmitIdentifier("i");
+            voidMethod.EmitPeriod();
+            voidMethod.EmitIdentifier("Apply");
+            using (var par = voidMethod.EmitParenthesis())
+                par.EmitIdentifier("this");
+            voidMethod.EmitSemicolon(true);
+            voidMethod.DecreaseIndentation();
+        }
+
+        private void EmitInOut(string name)
+        {
+            var methodIn = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "In" + name, "void");
+            methodIn.Parameters.Add("node", name);
+            methodIn.EmitIdentifier("Default" + name[0] + "In");
+            using (var par = methodIn.EmitParenthesis())
+                par.EmitIdentifier("node");
+            methodIn.EmitSemicolon(true);
+
+            var methodOut = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Out" + name, "void");
+            methodOut.Parameters.Add("node", name);
+            methodOut.EmitIdentifier("Default" + name[0] + "Out");
+            using (var par = methodOut.EmitParenthesis())
+                par.EmitIdentifier("node");
+            methodOut.EmitSemicolon(true);
         }
 
         private void EmitCase(string name)
@@ -182,7 +370,6 @@ namespace Sable.Compiler.Generate.Analysis
             EmitInterfaceCase(name);
             EmitAdapterCase(name);
         }
-
         private void EmitInterfaceCase(string name)
         {
             var voidMethod = iAnalysis.CreateMethod("Case" + name, "void");
@@ -192,7 +379,6 @@ namespace Sable.Compiler.Generate.Analysis
             typeMethod.Parameters.Add("node", name);
             typeMethod.Parameters.Add("arg", iReturnAnalysis.TypeParameters[0]);
         }
-
         private void EmitAdapterCase(string name)
         {
             var voidMethod = analysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Case" + name, "void");

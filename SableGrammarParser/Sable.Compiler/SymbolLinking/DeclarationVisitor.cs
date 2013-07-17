@@ -12,13 +12,9 @@ namespace Sable.Compiler.SymbolLinking
         {
             base.OutStart(node);
             var unlinked = StartVisitor(new LINKTEST(), node).Unlinked;
-            if (unlinked.Length > 0)
-            {
-                Console.WriteLine("Unlinked identifiers:");
-                for (int i = 0; i < unlinked.Length; i++)
-                    Console.WriteLine("{0} (line {1})", unlinked[i], unlinked[i].Line);
-                Console.ReadKey(true);
-            }
+
+            for (int i = 0; i < unlinked.Length; i++)
+                RegisterError(unlinked[i], "Identifier \"" + unlinked[i].Text + "\" could not be linked to a declaration.");
         }
 
         public override void CaseAGrammar(AGrammar node)

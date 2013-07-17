@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="ASTprinter.cs" />
     <Compile Include="Generate\Analysis\AnalysisBuilder.cs" />
+    <Compile Include="CommonMethods.cs" />
     <Compile Include="Generate\Productions\ApplyMethodsBuilder.cs" />
     <Compile Include="Generate\Productions\CloneMethodBuilder.cs" />
     <Compile Include="Declarations\DAlternativeName.cs" />

@@ -35,7 +35,7 @@ namespace Sable.Compiler
 
         private static string ToCamelCase(string text)
         {
-            return string.Join(" ", from s in text.Split(' ') select char.ToUpper(s[0]) + s.Substring(1));
+            return Sable.Compiler.CommonMethods.ToCamelCase(text);
         }
 
         private string ReplaceIn(string parserCode)

@@ -36,11 +36,6 @@ namespace Sable.Compiler
 
         #endregion
 
-        private static string ToCamelCase(string text)
-        {
-            return string.Join(" ", from s in text.Split(' ') select char.ToUpper(s[0]) + s.Substring(1));
-        }
-
         private string ReplaceIn(string parserCode)
         {
             string code = parserCode;
@@ -188,10 +183,18 @@ namespace Sable.Compiler
                 }
 
                 if (untyped.Count > 0)
-                    throw new InvalidOperationException("The type of a TypedList could not be determined.");
-
-                text = newList.Replace(text, m => replaceNewTypedList(m, types));
-                text = castList.Replace(text, m => replaceCastTypedList(m, types));
+                {
+                    Console.WriteLine("Unable to handle types in {0}:", Regex.Match(text, @"New[0-9]+").Value);
+                    for (int i = 0; i < untyped.Count; i++)
+                        Console.WriteLine(" - {0}", untyped[i]);
+                    Console.WriteLine();
+                    //throw new InvalidOperationException("The type of a TypedList could not be determined.");
+                }
+                else
+                {
+                    text = newList.Replace(text, m => replaceNewTypedList(m, types));
+                    text = castList.Replace(text, m => replaceCastTypedList(m, types));
+                }
 
                 return text;
             }
@@ -272,7 +275,7 @@ namespace Sable.Compiler
                 }
             }
 
-            #region Visitor that retrieves the arguments for construction of all nodes in the ast
+             #region Visitor that retrieves the arguments for construction of all nodes in the ast
 
             private class ArgumentVisitor : DepthFirstAdapter
             {
@@ -297,7 +300,7 @@ namespace Sable.Compiler
                 public override void InAProduction(AProduction node)
                 {
                     currentPname = node.GetIdentifier().Text;
-                    currentPname = "P" + ToCamelCase(currentPname);
+                    currentPname = "P" + currentPname.ToCamelCase();
                     currentProduction = node.GetIdentifier().AsProduction;
                 }
 
@@ -314,7 +317,7 @@ namespace Sable.Compiler
                 public override void InAAlternativename(AAlternativename node)
                 {
                     currentAname = node.GetName().Text;
-                    currentAname = "A" + ToCamelCase(currentAname) + currentPname.Substring(1);
+                    currentAname = "A" + currentAname.ToCamelCase() + currentPname.Substring(1);
                     currentAlternative = node.GetName().AsAlternativeName;
                 }
                 public override void InAElements(AElements node)
@@ -324,19 +327,19 @@ namespace Sable.Compiler
                 public override void InACleanElementid(ACleanElementid node)
                 {
                     if (node.GetIdentifier().IsToken)
-                        arguments[currentAname][index] = "T" + ToCamelCase(node.GetIdentifier().Text);
+                        arguments[currentAname][index] = "T" + node.GetIdentifier().Text.ToCamelCase();
                     else if (node.GetIdentifier().IsProduction)
-                        arguments[currentAname][index] = "P" + ToCamelCase(node.GetIdentifier().Text);
+                        arguments[currentAname][index] = "P" + node.GetIdentifier().Text.ToCamelCase();
                     index++;
                 }
                 public override void InATokenElementid(ATokenElementid node)
                 {
-                    arguments[currentAname][index] = "T" + ToCamelCase(node.GetIdentifier().Text);
+                    arguments[currentAname][index] = "T" + node.GetIdentifier().Text.ToCamelCase();
                     index++;
                 }
                 public override void InAProductionElementid(AProductionElementid node)
                 {
-                    arguments[currentAname][index] = "P" + ToCamelCase(node.GetIdentifier().Text);
+                    arguments[currentAname][index] = "P" + node.GetIdentifier().Text.ToCamelCase();
                     index++;
                 }
             }
