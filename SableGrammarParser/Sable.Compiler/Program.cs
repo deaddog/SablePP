@@ -35,9 +35,13 @@ namespace Sable.Compiler
             Error.CompilerError[] errors = Visitor.StartNewVisitor(new Visitor(), ast).GetErrors().ToArray();
             if (errors.Length > 0)
             {
+                Console.WriteLine("Validation failed:");
+
                 for (int i = 0; i < errors.Length; i++)
                     Console.WriteLine(errors[i]);
-                Console.WriteLine("Validation failed.");
+#if DEBUG
+                Console.ReadKey(true);
+#endif
                 return;
             }
             Console.WriteLine("Validation completed.\n");
@@ -55,6 +59,9 @@ namespace Sable.Compiler
             if ((proc = Process.Start(processInfo)) == null)
             {
                 Console.WriteLine("Java not found - visit Java.com to install.");
+#if DEBUG
+                Console.ReadKey(true);
+#endif
                 return;
             }
             Console.WriteLine("Java {0} found.\n\nRunning SableCC", PathInformation.JavaVersion);
@@ -76,6 +83,9 @@ namespace Sable.Compiler
                 for (int i = 0; i < to; i++)
                     Console.WriteLine(text[i]);
                 Console.WriteLine("-----  SABLE-ERROR-END  -----");
+#if DEBUG
+                Console.ReadKey(true);
+#endif
                 return;
             }
             proc.Close();
@@ -100,6 +110,9 @@ namespace Sable.Compiler
             LexerModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\lexer.cs", ast);
 
             Console.WriteLine("Done.");
+#if DEBUG
+            Console.ReadKey(true);
+#endif
         }
 
         private class Visitor : Error.ErrorVisitor
