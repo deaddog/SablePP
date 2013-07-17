@@ -142,6 +142,15 @@ namespace Sable.Tools.Generate.CSharp
             contents.Emit("<=", UseSpace.Always, UseSpace.Always);
         }
 
+        public void EmitPlusPlus()
+        {
+            contents.Emit("++", UseSpace.NotPreferred, UseSpace.NotPreferred);
+        }
+        public void EmitMinusMinus()
+        {
+            contents.Emit("--", UseSpace.NotPreferred, UseSpace.NotPreferred);
+        }
+
         public void EmitAs()
         {
             contents.Emit("as", UseSpace.Always, UseSpace.Always);
@@ -164,6 +173,14 @@ namespace Sable.Tools.Generate.CSharp
             EmitIdentifier("null");
         }
 
+        public void EmitIntValue(int value)
+        {
+            contents.Emit(value.ToString(), UseSpace.NotPreferred, UseSpace.NotPreferred);
+        }
+        public void EmitFloatValue(float value)
+        {
+            contents.Emit(value.ToString("0,0") + "f", UseSpace.NotPreferred, UseSpace.NotPreferred);
+        }
         public void EmitStringValue(string text)
         {
             contents.Emit("\"" + text.Replace("\"", "\"\"") + "\"", UseSpace.NotPreferred, UseSpace.NotPreferred);
