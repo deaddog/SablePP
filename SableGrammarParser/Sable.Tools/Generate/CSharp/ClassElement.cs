@@ -95,21 +95,42 @@ namespace Sable.Tools.Generate.CSharp
             contents.InsertElement(method);
             return method;
         }
+
         public PropertyElement CreateProperty(AccessModifiers modifiers, string name, string type)
         {
-            PropertyElement element = new PropertyElement(modifiers, name, type, true, true);
-            contents.InsertElement(element);
-            return element;
+            return _createProperty(modifiers, name, type, true, true);
         }
         public PropertyElement CreateSetProperty(AccessModifiers modifiers, string name, string type)
         {
-            PropertyElement element = new PropertyElement(modifiers, name, type, false, true);
-            contents.InsertElement(element);
-            return element;
+            return _createProperty(modifiers, name, type, false, true);
         }
         public PropertyElement CreateGetProperty(AccessModifiers modifiers, string name, string type)
         {
-            PropertyElement element = new PropertyElement(modifiers, name, type, true, false);
+            return _createProperty(modifiers, name, type, true, false);
+        }
+        private PropertyElement _createProperty(AccessModifiers modifiers, string name, string type, bool hasGetter, bool hasSetter)
+        {
+            PropertyElement element = new PropertyElement(modifiers, name, type, hasGetter, hasSetter);
+            contents.InsertElement(element);
+            return element;
+        }
+
+        public IndexerElement CreateIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
+        {
+            return _createIndexer(modifiers, type, arg1name, arg1type, true, true);
+        }
+        public IndexerElement CreateSetIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
+        {
+            return _createIndexer(modifiers, type, arg1name, arg1type, false, true);
+        }
+        public IndexerElement CreateGetIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
+        {
+            return _createIndexer(modifiers, type, arg1name, arg1type, true, false);
+        }
+        private IndexerElement _createIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type, bool hasGetter, bool hasSetter)
+        {
+            IndexerElement element = new IndexerElement(modifiers, type, hasGetter, hasSetter);
+            element.Parameters.Add(arg1name, arg1type);
             contents.InsertElement(element);
             return element;
         }
