@@ -43,6 +43,81 @@ namespace Sable.Compiler.Generate.Analysis
                 throw new NotImplementedException("Unknown token type.");
         }
 
+        private void CreateTableClass()
+        {
+            ClassElement table = nameElement.CreateClass("Table", AccessModifiers.@public);
+            table.TypeParameters.Add("TValue");
+            table.EmitField("dict", "Dictionary<Node, TValue>", AccessModifiers.@private);
+            table.EmitNewLine();
+
+            MethodElement ctr = table.CreateConstructor(AccessModifiers.@public);
+            ctr.EmitIdentifier("dict");
+            ctr.EmitAssignment();
+            ctr.EmitNew();
+            ctr.EmitIdentifier("Dictionary<Node, TValue>");
+            ctr.EmitParenthesis();
+            ctr.EmitSemicolon(true);
+            table.EmitNewLine();
+
+            IndexerElement index = table.CreateIndexer(AccessModifiers.@public, "TValue", "key", "Node");
+            using (var iff = index.Get.EmitIf())
+            {
+                iff.EmitIdentifier("key");
+                iff.EmitEqual();
+                iff.EmitNull();
+                iff.EmitLogicOr();
+                iff.EmitLogicNot();
+                iff.EmitIdentifier("dict");
+                iff.EmitPeriod();
+                iff.EmitIdentifier("ContainsKey");
+                using (var par = iff.EmitParenthesis())
+                    par.EmitIdentifier("key");
+            }
+            index.Get.EmitNewLine();
+            index.Get.IncreaseIndentation();
+            index.Get.EmitReturn();
+            index.Get.EmitIdentifier("default");
+            using (var par = index.Get.EmitParenthesis())
+                par.EmitIdentifier("TValue");
+            index.Get.EmitSemicolon(true);
+            index.Get.DecreaseIndentation();
+            index.Get.EmitIdentifier("else");
+            index.Get.EmitNewLine();
+            index.Get.IncreaseIndentation();
+            index.Get.EmitReturn();
+            index.Get.EmitIdentifier("dict");
+            using (var par = index.Get.EmitParenthesis(ParenthesisElement.Types.Square))
+                par.EmitIdentifier("key");
+            index.Get.EmitSemicolon(true);
+            index.Get.DecreaseIndentation();
+
+            using (var iff = index.Set.EmitIf())
+            {
+                iff.EmitIdentifier("value");
+                iff.EmitEqual();
+                iff.EmitNull();
+            }
+            index.Set.EmitNewLine();
+            index.Set.IncreaseIndentation();
+            index.Set.EmitIdentifier("dict");
+            index.Set.EmitPeriod();
+            index.Set.EmitIdentifier("Remove");
+            using (var par = index.Set.EmitParenthesis())
+                par.EmitIdentifier("key");
+            index.Set.EmitSemicolon(true);
+            index.Set.DecreaseIndentation();
+            index.Set.EmitIdentifier("else");
+            index.Set.EmitNewLine();
+            index.Set.IncreaseIndentation();
+            index.Set.EmitIdentifier("dict");
+            using (var par = index.Set.EmitParenthesis(ParenthesisElement.Types.Square))
+                par.EmitIdentifier("key");
+            index.Set.EmitAssignment();
+            index.Set.EmitIdentifier("value");
+            index.Set.EmitSemicolon(true);
+            index.Set.DecreaseIndentation();
+        }
+
         private void CreateIAnalysis()
         {
             iAnalysis = nameElement.CreateInterface("IAnalysis", AccessModifiers.@public);
@@ -152,6 +227,8 @@ namespace Sable.Compiler.Generate.Analysis
             nameElement = fileElement.CreateNamespace(packageName + ".Analysis");
             fileElement.Using.Add(packageName + ".Nodes");
 
+            CreateTableClass();
+
             CreateIAnalysis();
             CreateIReturnAnalysis();
 
@@ -248,7 +325,7 @@ namespace Sable.Compiler.Generate.Analysis
         }
         public override void CaseAQuestionElement(AQuestionElement node)
         {
-            using(var iff = voidMethod.EmitIf())
+            using (var iff = voidMethod.EmitIf())
             {
                 iff.EmitIdentifier("node");
                 iff.EmitPeriod();
