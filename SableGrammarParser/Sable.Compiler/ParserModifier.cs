@@ -14,6 +14,7 @@ namespace Sable.Compiler
     {
         private Start astRoot;
         private ArgumentCollection arguments;
+        private ParentTable parentTable;
 
         private ParserModifier(Start astRoot)
         {
@@ -23,6 +24,7 @@ namespace Sable.Compiler
                 this.astRoot = astRoot;
 
             this.arguments = new ArgumentCollection(this);
+            this.parentTable = new ParentTable(this);
         }
 
         #region Regular expressions
@@ -81,7 +83,7 @@ namespace Sable.Compiler
         private string replaceSection(Match method)
         {
             return Regex.Replace(method.Groups["section"].Value, @"ArrayList New[0-9]+\(\)[^{]+{([^}{]+{[^}{]+})*[^}{]+}",
-                match => new MethodWorker(match.Value, arguments).Fix()) + "private static int[][][]";
+                match => new MethodWorker(match.Value, arguments, parentTable).Fix()) + "private static int[][][]";
         }
 
         private class MethodWorker
@@ -101,11 +103,13 @@ namespace Sable.Compiler
 
             private string input;
             private ArgumentCollection arguments;
+            private ParentTable parentTable;
 
-            public MethodWorker(string input, ArgumentCollection arguments)
+            public MethodWorker(string input, ArgumentCollection arguments, ParentTable parentTable)
             {
                 this.input = input;
                 this.arguments = arguments;
+                this.parentTable = parentTable;
             }
 
             private class Relation
@@ -168,7 +172,8 @@ namespace Sable.Compiler
 
                     string type = m.Groups["type"].Value;
                     string name = m.Groups["name"].Value;
-                    types[name] = type;
+
+                    types[name] = parentTable[type];
                     Clean();
 
                     string[] args = arguments[type];
@@ -275,7 +280,7 @@ namespace Sable.Compiler
                 }
             }
 
-             #region Visitor that retrieves the arguments for construction of all nodes in the ast
+            #region Visitor that retrieves the arguments for construction of all nodes in the ast
 
             private class ArgumentVisitor : DepthFirstAdapter
             {
@@ -345,6 +350,67 @@ namespace Sable.Compiler
             }
 
             #endregion
+        }
+
+        private class ParentTable
+        {
+            private Dictionary<string, string> parents;
+
+            public ParentTable(ParserModifier owner)
+            {
+                ParentVisitor par = new ParentVisitor();
+                owner.astRoot.Apply(par);
+                this.parents = par.List;
+            }
+
+            public string this[string name]
+            {
+                get
+                {
+                    if (parents.ContainsKey(name))
+                        return parents[name];
+                    else
+                        return name;
+                }
+            }
+
+            private class ParentVisitor : DepthFirstAdapter
+            {
+                public Dictionary<string, string> List = new Dictionary<string, string>();
+                private string parent = null;
+
+                public override void CaseAGrammar(AGrammar node)
+                {
+                    if (node.GetAstproductions() != null)
+                        node.GetAstproductions().Apply(this);
+                }
+
+                public override void CaseAProduction(AProduction node)
+                {
+                    string name = node.GetIdentifier().Text;
+                    this.parent = "P" + name.ToCamelCase();
+
+                    if (node.GetProductionrule() != null)
+                        node.GetProductionrule().Apply(this);
+                }
+
+                public override void CaseAAlternative(AAlternative node)
+                {
+                    if (node.GetAlternativename() != null)
+                        node.GetAlternativename().Apply(this);
+                    else
+                    {
+                        string name = "A" + parent.Substring(1);
+                        List.Add(name, parent);
+                    }
+                }
+
+                public override void CaseAAlternativename(AAlternativename node)
+                {
+                    string name = "A" + node.GetName().Text.ToCamelCase() + parent.Substring(1);
+                    List.Add(name, parent);
+                }
+            }
         }
     }
 }
