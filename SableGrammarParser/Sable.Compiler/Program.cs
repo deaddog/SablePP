@@ -30,6 +30,9 @@ namespace Sable.Compiler
             string sableIn = arguments["grammar"][0];
             string sableOut = "temp/sable";
 
+            Console.WriteLine("Loading grammar file \"{0}\".", sableIn);
+            Console.WriteLine();
+
             Console.WriteLine("Validating grammar.");
             Start ast = Parse(ReadFile(sableIn));
             Error.CompilerError[] errors = Visitor.StartNewVisitor(new Visitor(), ast).GetErrors().ToArray();

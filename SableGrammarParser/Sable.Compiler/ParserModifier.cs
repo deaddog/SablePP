@@ -189,7 +189,7 @@ namespace Sable.Compiler
 
                 if (untyped.Count > 0)
                 {
-                    Console.WriteLine("Unable to handle types in {0}:", Regex.Match(text, @"New[0-9]+").Value);
+                    Console.WriteLine("Unable to resolve types in {0}:", Regex.Match(text, @"New[0-9]+").Value);
                     for (int i = 0; i < untyped.Count; i++)
                         Console.WriteLine(" - {0}", untyped[i]);
                     Console.WriteLine();
