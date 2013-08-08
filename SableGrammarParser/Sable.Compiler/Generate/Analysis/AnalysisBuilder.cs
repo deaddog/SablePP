@@ -70,6 +70,8 @@ namespace Sable.Compiler.Generate.Analysis
         }
         private void CreateDepthFirstAdapter()
         {
+            nameElement.CreateClass("DepthFirstAdapter", AccessModifiers.@public, "DepthFirstAdapter<object>");
+
             depthFirstAdapter = nameElement.CreateClass("DepthFirstAdapter", AccessModifiers.@public, "AnalysisAdapter<TValue>");
             depthFirstAdapter.TypeParameters.Add("TValue");
 
@@ -120,6 +122,8 @@ namespace Sable.Compiler.Generate.Analysis
         }
         private void CreateDepthFirstReturnAdapter()
         {
+            nameElement.CreateClass("DepthFirstReturnAdapter", AccessModifiers.@public, "DepthFirstReturnAdapter<object>");
+
             depthFirstReturnAdapter = nameElement.CreateClass("DepthFirstReturnAdapter", AccessModifiers.@public, "ReturnAnalysisAdapter<T>");
             depthFirstReturnAdapter.TypeParameters.Add("T");
         }
