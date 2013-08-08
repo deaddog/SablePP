@@ -17,9 +17,9 @@ namespace Sable.Tools.Generate.CSharp
         {
             this.type = type;
 
-            emit(start, UseSpace.NotPreferred, UseSpace.NotPreferred);
+            emit(start, UseSpace.Never, UseSpace.Never);
             InsertContents();
-            emit(end, UseSpace.NotPreferred, UseSpace.NotPreferred);
+            emit(end, UseSpace.Never, UseSpace.Never);
         }
 
         private string start

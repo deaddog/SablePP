@@ -53,19 +53,19 @@ namespace Sable.Tools.Generate.CSharp
         }
         public void EmitIdentifier(string name)
         {
-            contents.Emit(name, UseSpace.NotPreferred, UseSpace.NotPreferred);
+            contents.Emit(name, UseSpace.NotPreferred, UseSpace.Preferred);
         }
         public void EmitPeriod()
         {
-            contents.Emit(".", UseSpace.NotPreferred, UseSpace.NotPreferred);
+            contents.Emit(".", UseSpace.Never, UseSpace.Never);
         }
         public void EmitComma()
         {
-            contents.Emit(",", UseSpace.NotPreferred, UseSpace.Preferred);
+            contents.Emit(",", UseSpace.Never, UseSpace.Preferred);
         }
         public void EmitAssignment()
         {
-            contents.Emit("=", UseSpace.Preferred, UseSpace.Preferred);
+            contents.Emit("=", UseSpace.Always, UseSpace.Always);
         }
         public void EmitReturn()
         {
