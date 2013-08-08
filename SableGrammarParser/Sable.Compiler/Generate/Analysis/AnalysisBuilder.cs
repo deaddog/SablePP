@@ -212,13 +212,15 @@ namespace Sable.Compiler.Generate.Analysis
 
         public override void CaseASimpleElement(ASimpleElement node)
         {
-            voidMethod.EmitIdentifier("node");
-            voidMethod.EmitPeriod();
-            voidMethod.EmitIdentifier(ToCamelCase(node.LowerName));
-            voidMethod.EmitPeriod();
-            voidMethod.EmitIdentifier("Apply");
+            voidMethod.EmitIdentifier("Visit");
             using (var par = voidMethod.EmitParenthesis())
-                par.EmitIdentifier("this");
+            {
+                if (node.Elementid.Identifier.IsProduction)
+                    EmitDynamic(par);
+                par.EmitIdentifier("node");
+                par.EmitPeriod();
+                par.EmitIdentifier(ToCamelCase(node.LowerName));
+            }
             voidMethod.EmitSemicolon(true);
         }
         public override void CaseAQuestionElement(AQuestionElement node)
@@ -231,13 +233,15 @@ namespace Sable.Compiler.Generate.Analysis
             }
             voidMethod.EmitNewLine();
             voidMethod.IncreaseIndentation();
-            voidMethod.EmitIdentifier("node");
-            voidMethod.EmitPeriod();
-            voidMethod.EmitIdentifier(ToCamelCase(node.LowerName));
-            voidMethod.EmitPeriod();
-            voidMethod.EmitIdentifier("Apply");
+            voidMethod.EmitIdentifier("Visit");
             using (var par = voidMethod.EmitParenthesis())
-                par.EmitIdentifier("this");
+            {
+                if (node.Elementid.Identifier.IsProduction)
+                    EmitDynamic(par);
+                par.EmitIdentifier("node");
+                par.EmitPeriod();
+                par.EmitIdentifier(ToCamelCase(node.LowerName));
+            }
             voidMethod.EmitSemicolon(true);
             voidMethod.DecreaseIndentation();
         }
@@ -247,7 +251,7 @@ namespace Sable.Compiler.Generate.Analysis
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = ToCamelCase(node.LowerName);
 
-            EmitListWalking(type, name);
+            EmitListWalking(type, name, node);
         }
         public override void CaseAPlusElement(APlusElement node)
         {
@@ -255,14 +259,21 @@ namespace Sable.Compiler.Generate.Analysis
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = ToCamelCase(node.LowerName);
 
-            EmitListWalking(type, name);
+            EmitListWalking(type, name, node);
         }
 
-        private void EmitListWalking(string type, string name)
+        private void EmitDynamic(ExecutableElement element)
         {
+            using (var par = element.EmitParenthesis())
+                par.EmitIdentifier("dynamic");
+        }
+
+        private void EmitListWalking(string type, string name, PElement node)
+        {
+            voidMethod.EmitBlockStart();
+
             //PAssignment[] temp = new PAssignment[node.Assignment.Count];
-            voidMethod.EmitIdentifier(type);
-            voidMethod.EmitParenthesis(ParenthesisElement.Types.Square);
+            voidMethod.EmitIdentifier(type + "[]");
             voidMethod.EmitIdentifier("temp");
             voidMethod.EmitAssignment();
             voidMethod.EmitNew();
@@ -310,17 +321,21 @@ namespace Sable.Compiler.Generate.Analysis
             }
             voidMethod.EmitNewLine();
 
-            //    temp[i].Apply(this);
+            //    Visit(temp[i]);
             voidMethod.IncreaseIndentation();
-            voidMethod.EmitIdentifier("temp");
-            using (var par = voidMethod.EmitParenthesis(ParenthesisElement.Types.Square))
-                par.EmitIdentifier("i");
-            voidMethod.EmitPeriod();
-            voidMethod.EmitIdentifier("Apply");
+            voidMethod.EmitIdentifier("Visit");
             using (var par = voidMethod.EmitParenthesis())
-                par.EmitIdentifier("this");
+            {
+                if (node.Elementid.Identifier.IsProduction)
+                    EmitDynamic(par);
+                par.EmitIdentifier("temp");
+                using (var square = par.EmitParenthesis(ParenthesisElement.Types.Square))
+                    square.EmitIdentifier("i");
+            }
             voidMethod.EmitSemicolon(true);
             voidMethod.DecreaseIndentation();
+
+            voidMethod.EmitBlockEnd();
         }
 
         private void EmitInOut(string name)
