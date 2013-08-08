@@ -12,9 +12,6 @@ namespace Sable.Compiler.Generate.Analysis
         private NameSpaceElement nameElement;
         private string productionName;
 
-        private InterfaceElement iAnalysis;
-        private InterfaceElement iReturnAnalysis;
-
         private ClassElement analysisAdapter;
         private ClassElement returnAnalysisAdapter;
 
@@ -43,144 +40,12 @@ namespace Sable.Compiler.Generate.Analysis
                 throw new NotImplementedException("Unknown token type.");
         }
 
-        private void CreateTableClass()
-        {
-            ClassElement table = nameElement.CreateClass("Table", AccessModifiers.@public);
-            table.TypeParameters.Add("TValue");
-            table.EmitField("dict", "Dictionary<Node, TValue>", AccessModifiers.@private);
-            table.EmitNewLine();
-
-            MethodElement ctr = table.CreateConstructor(AccessModifiers.@public);
-            ctr.EmitIdentifier("dict");
-            ctr.EmitAssignment();
-            ctr.EmitNew();
-            ctr.EmitIdentifier("Dictionary<Node, TValue>");
-            ctr.EmitParenthesis();
-            ctr.EmitSemicolon(true);
-            table.EmitNewLine();
-
-            IndexerElement index = table.CreateIndexer(AccessModifiers.@public, "TValue", "key", "Node");
-            using (var iff = index.Get.EmitIf())
-            {
-                iff.EmitIdentifier("key");
-                iff.EmitEqual();
-                iff.EmitNull();
-                iff.EmitLogicOr();
-                iff.EmitLogicNot();
-                iff.EmitIdentifier("dict");
-                iff.EmitPeriod();
-                iff.EmitIdentifier("ContainsKey");
-                using (var par = iff.EmitParenthesis())
-                    par.EmitIdentifier("key");
-            }
-            index.Get.EmitNewLine();
-            index.Get.IncreaseIndentation();
-            index.Get.EmitReturn();
-            index.Get.EmitIdentifier("default");
-            using (var par = index.Get.EmitParenthesis())
-                par.EmitIdentifier("TValue");
-            index.Get.EmitSemicolon(true);
-            index.Get.DecreaseIndentation();
-            index.Get.EmitIdentifier("else");
-            index.Get.EmitNewLine();
-            index.Get.IncreaseIndentation();
-            index.Get.EmitReturn();
-            index.Get.EmitIdentifier("dict");
-            using (var par = index.Get.EmitParenthesis(ParenthesisElement.Types.Square))
-                par.EmitIdentifier("key");
-            index.Get.EmitSemicolon(true);
-            index.Get.DecreaseIndentation();
-
-            using (var iff = index.Set.EmitIf())
-            {
-                iff.EmitIdentifier("value");
-                iff.EmitEqual();
-                iff.EmitNull();
-            }
-            index.Set.EmitNewLine();
-            index.Set.IncreaseIndentation();
-            index.Set.EmitIdentifier("dict");
-            index.Set.EmitPeriod();
-            index.Set.EmitIdentifier("Remove");
-            using (var par = index.Set.EmitParenthesis())
-                par.EmitIdentifier("key");
-            index.Set.EmitSemicolon(true);
-            index.Set.DecreaseIndentation();
-            index.Set.EmitIdentifier("else");
-            index.Set.EmitNewLine();
-            index.Set.IncreaseIndentation();
-            index.Set.EmitIdentifier("dict");
-            using (var par = index.Set.EmitParenthesis(ParenthesisElement.Types.Square))
-                par.EmitIdentifier("key");
-            index.Set.EmitAssignment();
-            index.Set.EmitIdentifier("value");
-            index.Set.EmitSemicolon(true);
-            index.Set.DecreaseIndentation();
-        }
-
-        private void CreateIAnalysis()
-        {
-            iAnalysis = nameElement.CreateInterface("IAnalysis", AccessModifiers.@public);
-            iAnalysis.TypeParameters.Add("TValue");
-
-            iAnalysis.EmitGetProperty("Input", "Table<TValue>");
-            iAnalysis.EmitGetProperty("Output", "Table<TValue>");
-            iAnalysis.EmitNewLine();
-        }
-        private void CreateIReturnAnalysis()
-        {
-            iReturnAnalysis = nameElement.CreateInterface("IReturnAnalysis", AccessModifiers.@public);
-            iReturnAnalysis.TypeParameters.Add("T");
-        }
         private void CreateAnalysisAdapter()
         {
             nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "AnalysisAdapter<object>");
 
             analysisAdapter = nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "IAnalysis<TValue>");
             analysisAdapter.TypeParameters.Add("TValue");
-
-            analysisAdapter.EmitField("input", "Table<TValue>", AccessModifiers.@private);
-            analysisAdapter.EmitField("output", "Table<TValue>", AccessModifiers.@private);
-            analysisAdapter.EmitNewLine();
-
-            var constructor = analysisAdapter.CreateConstructor(AccessModifiers.@public);
-            constructor.EmitThis();
-            constructor.EmitPeriod();
-            constructor.EmitIdentifier("input");
-            constructor.EmitAssignment();
-            constructor.EmitNew();
-            constructor.EmitIdentifier("Table");
-            using (var types = constructor.EmitParenthesis(ParenthesisElement.Types.Angled))
-                types.EmitIdentifier("TValue");
-            constructor.EmitParenthesis();
-            constructor.EmitSemicolon(true);
-
-            constructor.EmitThis();
-            constructor.EmitPeriod();
-            constructor.EmitIdentifier("output");
-            constructor.EmitAssignment();
-            constructor.EmitNew();
-            constructor.EmitIdentifier("Table");
-            using (var types = constructor.EmitParenthesis(ParenthesisElement.Types.Angled))
-                types.EmitIdentifier("TValue");
-            constructor.EmitParenthesis();
-            constructor.EmitSemicolon(true);
-            analysisAdapter.EmitNewLine();
-
-            var input = analysisAdapter.CreateGetProperty(AccessModifiers.@public, "Input", "Table<TValue>");
-            input.Get.EmitReturn();
-            input.Get.EmitIdentifier("input");
-            input.Get.EmitSemicolon(false);
-
-            var output = analysisAdapter.CreateGetProperty(AccessModifiers.@public, "Output", "Table<TValue>");
-            output.Get.EmitReturn();
-            output.Get.EmitIdentifier("output");
-            output.Get.EmitSemicolon(false);
-            analysisAdapter.EmitNewLine();
-
-            MethodElement voidmethod = analysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultCase", "void");
-            voidmethod.Parameters.Add("node", "Node");
-            analysisAdapter.EmitNewLine();
         }
         private void CreateReturnAnalysisAdapter()
         {
@@ -227,11 +92,6 @@ namespace Sable.Compiler.Generate.Analysis
             nameElement = fileElement.CreateNamespace(packageName + ".Analysis");
             fileElement.Using.Add(packageName + ".Nodes");
 
-            CreateTableClass();
-
-            CreateIAnalysis();
-            CreateIReturnAnalysis();
-
             CreateAnalysisAdapter();
             CreateReturnAnalysisAdapter();
 
@@ -246,8 +106,6 @@ namespace Sable.Compiler.Generate.Analysis
 
             if (node.GetTokens() != null)
             {
-                iAnalysis.EmitNewLine();
-                iReturnAnalysis.EmitNewLine();
                 analysisAdapter.EmitNewLine();
                 returnAnalysisAdapter.EmitNewLine();
                 node.GetTokens().Apply(this);
@@ -444,17 +302,7 @@ namespace Sable.Compiler.Generate.Analysis
 
         private void EmitCase(string name)
         {
-            EmitInterfaceCase(name);
             EmitAdapterCase(name);
-        }
-        private void EmitInterfaceCase(string name)
-        {
-            var voidMethod = iAnalysis.CreateMethod("Case" + name, "void");
-            voidMethod.Parameters.Add("node", name);
-
-            var typeMethod = iReturnAnalysis.CreateMethod("Case" + name, iReturnAnalysis.TypeParameters[0]);
-            typeMethod.Parameters.Add("node", name);
-            typeMethod.Parameters.Add("arg", iReturnAnalysis.TypeParameters[0]);
         }
         private void EmitAdapterCase(string name)
         {
@@ -468,7 +316,7 @@ namespace Sable.Compiler.Generate.Analysis
 
             var typeMethod = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Case" + name, returnAnalysisAdapter.TypeParameters[0]);
             typeMethod.Parameters.Add("node", name);
-            typeMethod.Parameters.Add("arg", iReturnAnalysis.TypeParameters[0]);
+            typeMethod.Parameters.Add("arg", returnAnalysisAdapter.TypeParameters[0]);
 
             typeMethod.EmitReturn();
             typeMethod.EmitIdentifier("DefaultCase");
