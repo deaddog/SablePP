@@ -17,5 +17,13 @@ namespace Sable.Compiler
             }
             return text;
         }
+
+    }
+    internal static class ToolsNamespace
+    {
+        public static string Nodes
+        {
+            get { return "Sable.Tools.Nodes"; }
+        }
     }
 }

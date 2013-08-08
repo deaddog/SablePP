@@ -21,6 +21,7 @@ namespace Sable.Compiler.Generate.Productions
             fileElement = new FileElement();
             fileElement.Using.Add("System");
             fileElement.Using.Add("System.Collections.Generic");
+            fileElement.Using.Add(ToolsNamespace.Nodes);
         }
 
         public static FileElement BuildCode(Start astRoot)
@@ -70,7 +71,6 @@ namespace Sable.Compiler.Generate.Productions
             node.Apply(new PropertiesBuilder(classElement));
             classElement.EmitNewLine();
             node.Apply(new ReplaceMethodBuilder(classElement));
-            node.Apply(new ApplyMethodsBuilder(classElement));
             classElement.EmitNewLine();
             node.Apply(new CloneMethodBuilder(classElement));
             node.Apply(new ToStringMethodBuilder(classElement));
