@@ -73,6 +73,42 @@ namespace Sable.Compiler.Generate.Analysis
             depthFirstAdapter = nameElement.CreateClass("DepthFirstAdapter", AccessModifiers.@public, "AnalysisAdapter<TValue>");
             depthFirstAdapter.TypeParameters.Add("TValue");
 
+            var sIn = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "StartIn", "void");
+            sIn.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
+            var sOut = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "StartOut", "void");
+            sOut.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
+
+            var sCase = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "CaseStart", "void");
+            sCase.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
+            sCase.EmitIdentifier("StartIn");
+            using (var par = sCase.EmitParenthesis())
+                par.EmitIdentifier("node");
+            sCase.EmitSemicolon(true);
+            sCase.EmitNewLine();
+            sCase.EmitIdentifier("Visit");
+            using (var par = sCase.EmitParenthesis())
+            {
+                using (var par2 = par.EmitParenthesis())
+                    par2.EmitIdentifier("dynamic");
+                par.EmitIdentifier("node");
+                par.EmitPeriod();
+                par.EmitIdentifier("Root");
+            }
+            sCase.EmitSemicolon(true);
+            sCase.EmitIdentifier("Visit");
+            using (var par = sCase.EmitParenthesis())
+            {
+                par.EmitIdentifier("node");
+                par.EmitPeriod();
+                par.EmitIdentifier("EOF");
+            }
+            sCase.EmitSemicolon(true);
+            sCase.EmitNewLine();
+            sCase.EmitIdentifier("StartOut");
+            using (var par = sCase.EmitParenthesis())
+                par.EmitIdentifier("node");
+            sCase.EmitSemicolon(true);
+
             var pIn = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultPIn", "void");
             pIn.Parameters.Add("node", "Node");
             var pOut = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultPOut", "void");
