@@ -32,5 +32,22 @@ namespace Sable.Compiler.node
                 return packagename;
             }
         }
+
+        private string rootProduction = null;
+        public string RootProduction
+        {
+            get
+            {
+                if (rootProduction == null)
+                {
+                    var ast = (this as AGrammar).GetAstproductions() as AAstproductions;
+                    var pro = (this as AGrammar).GetProductions() as AProductions;
+
+                    AProduction prod = (ast == null ? pro.GetProductions() : ast.GetProductions())[0] as AProduction;
+                    rootProduction = "P" + prod.GetIdentifier().Text.ToCamelCase();
+                }
+                return rootProduction;
+            }
+        }
     }
 }

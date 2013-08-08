@@ -21,6 +21,10 @@ namespace Sable.Compiler
     }
     internal static class ToolsNamespace
     {
+        public static string Analysis
+        {
+            get { return "Sable.Tools.Analysis"; }
+        }
         public static string Nodes
         {
             get { return "Sable.Tools.Nodes"; }

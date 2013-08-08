@@ -12,22 +12,28 @@ namespace Sable.Compiler.Generate.Analysis
         private NameSpaceElement nameElement;
         private string productionName;
 
+        private PGrammar grammar;
+
         private ClassElement analysisAdapter;
         private ClassElement returnAnalysisAdapter;
 
         private ClassElement depthFirstAdapter;
         private ClassElement depthFirstReturnAdapter;
 
-        private AnalysisBuilder()
+        private AnalysisBuilder(PGrammar grammar)
         {
+            this.grammar = grammar;
+
             fileElement = new FileElement();
             fileElement.Using.Add("System");
             fileElement.Using.Add("System.Collections.Generic");
+            fileElement.Using.Add(ToolsNamespace.Analysis);
+            fileElement.Using.Add(ToolsNamespace.Nodes);
         }
 
         public static FileElement BuildCode(Start astRoot)
         {
-            AnalysisBuilder n = new AnalysisBuilder();
+            AnalysisBuilder n = new AnalysisBuilder(astRoot.GetPGrammar());
             astRoot.Apply(n);
             return n.fileElement;
         }
@@ -44,7 +50,7 @@ namespace Sable.Compiler.Generate.Analysis
         {
             nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "AnalysisAdapter<object>");
 
-            analysisAdapter = nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "IAnalysis<TValue>");
+            analysisAdapter = nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "Adapter<TValue, " + grammar.RootProduction + ">");
             analysisAdapter.TypeParameters.Add("TValue");
         }
         private void CreateReturnAnalysisAdapter()
@@ -102,14 +108,12 @@ namespace Sable.Compiler.Generate.Analysis
                 node.GetAstproductions().Apply(this);
             else if (node.GetProductions() != null)
                 node.GetProductions().Apply(this);
-            EmitCase("Start");
 
             if (node.GetTokens() != null)
             {
                 analysisAdapter.EmitNewLine();
                 returnAnalysisAdapter.EmitNewLine();
                 node.GetTokens().Apply(this);
-                EmitCase("EOF");
             }
         }
 
@@ -302,11 +306,16 @@ namespace Sable.Compiler.Generate.Analysis
 
         private void EmitCase(string name)
         {
-            EmitAdapterCase(name);
-        }
-        private void EmitAdapterCase(string name)
-        {
-            var voidMethod = analysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Case" + name, "void");
+            string caseName = "Case" + name;
+
+            var visitVoid = analysisAdapter.CreateMethod(AccessModifiers.@public, "Visit", "void");
+            visitVoid.Parameters.Add("node", name);
+            visitVoid.EmitIdentifier(caseName);
+            using (var par = visitVoid.EmitParenthesis())
+                par.EmitIdentifier("node");
+            visitVoid.EmitSemicolon(true);
+
+            var voidMethod = analysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, caseName, "void");
             voidMethod.Parameters.Add("node", name);
 
             voidMethod.EmitIdentifier("DefaultCase");
@@ -314,7 +323,7 @@ namespace Sable.Compiler.Generate.Analysis
                 par.EmitIdentifier("node");
             voidMethod.EmitSemicolon(true);
 
-            var typeMethod = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Case" + name, returnAnalysisAdapter.TypeParameters[0]);
+            var typeMethod = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, caseName, returnAnalysisAdapter.TypeParameters[0]);
             typeMethod.Parameters.Add("node", name);
             typeMethod.Parameters.Add("arg", returnAnalysisAdapter.TypeParameters[0]);
 
