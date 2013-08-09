@@ -44,7 +44,7 @@ namespace Sable.Compiler
 
             string package = astRoot.GetPGrammar().PackageName;
 
-            code = code.Replace("using " + package + ".node;", "using " + package + ".Nodes;");
+            code = code.Replace("using " + package + ".node;", "using " + ToolsNamespace.Nodes + ";\nusing " + package + ".Nodes;");
             code = code.Replace("namespace " + package + ".lexer", "namespace " + package + ".Lexing");
 
             code = Regex.Replace(code, ".Pos[^a-z]", m => { return ".Position" + m.Value.Substring(4); });
