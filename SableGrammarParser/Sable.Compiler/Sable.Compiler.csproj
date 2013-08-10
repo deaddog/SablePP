@@ -43,24 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\generated\analysis.cs">
-      <Link>generated\analysis.cs</Link>
-    </Compile>
-    <Compile Include="..\..\generated\lexer.cs">
-      <Link>generated\lexer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\generated\nodes.cs">
-      <Link>generated\nodes.cs</Link>
-    </Compile>
-    <Compile Include="..\..\generated\parser.cs">
-      <Link>generated\parser.cs</Link>
-    </Compile>
-    <Compile Include="..\..\generated\prods.cs">
-      <Link>generated\prods.cs</Link>
-    </Compile>
-    <Compile Include="..\..\generated\tokens.cs">
-      <Link>generated\tokens.cs</Link>
-    </Compile>
+    <Compile Include="Generated\analysis.cs" />
+    <Compile Include="Generated\lexer.cs" />
+    <Compile Include="Generated\nodes.cs" />
+    <Compile Include="Generated\parser.cs" />
+    <Compile Include="Generated\prods.cs" />
+    <Compile Include="Generated\tokens.cs" />
     <Compile Include="ASTprinter.cs" />
     <Compile Include="Generate\Analysis\AnalysisBuilder.cs" />
     <Compile Include="CommonMethods.cs" />
