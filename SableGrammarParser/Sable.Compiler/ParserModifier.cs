@@ -35,6 +35,9 @@ namespace Sable.Compiler
         private static Regex add = new Regex(@"(?<list>listNode[0-9]+)\.Add\((?<arg>[^0-9]+[0-9]+)\);");
         private static Regex castNode = new Regex(@"(?<type>[TAP][A-Z][a-zA-Z]*) (?<name>[^ ]*) = \(\1\)nodeArrayList[0-9]+\[[0-9]+\];");
         private static Regex newNodes = new Regex(@"(?<type>[TAP][A-Z][a-zA-Z]*) (?<name>[^ ]+) = new \k<type>[^(]\([ \r\n]*(?<arg>[^,) \r\n]*)(,[ \r\n]*(?<arg>[^,) \r\n]*))*");
+        private static Regex indexMethod = new Regex(@"private int Index\(Switchable token\)[^}]*}");
+        private static Regex parseMethod = new Regex(@"public Start Parse\(\)");
+        private static Regex acceptCase = new Regex(@"case ACCEPT[^{]*{[^}]*}");
 
         #endregion
 
@@ -44,8 +47,8 @@ namespace Sable.Compiler
 
             string package = astRoot.GetPGrammar().PackageName;
 
-            code = code.Replace("using System.Collections;", "using System.Collections;\r\nusing System.Collections.Generic;");
-            code = code.Replace("using " + package + ".node;", "using " + package + ".Nodes;");
+            code = code.Replace("using System.Collections;", "using System.Collections;\nusing System.Collections.Generic;");
+            code = code.Replace("using " + package + ".node;", "using " + ToolsNamespace.Nodes + ";\nusing " + package + ".Nodes;");
             code = code.Replace("using " + package + ".analysis;", "using " + package + ".Analysis;");
             code = code.Replace("using " + package + ".lexer;", "using " + package + ".Lexing;");
             code = code.Replace("namespace " + package + ".parser", "namespace " + package + ".Parsing");
@@ -54,8 +57,12 @@ namespace Sable.Compiler
             code = code.Replace("IList ign = null;", "List<Token> ign = null;");
             code = code.Replace("ign = new TypedList(NodeCast.Instance);", "ign = new List<Token>();");
             code = code.Replace("private IAnalysis ignoredTokens = new AnalysisAdapter();", "private AnalysisAdapter<List<Token>> ignoredTokens = new AnalysisAdapter<List<Token>>();");
-            code = code.Replace("public IAnalysis IgnoredTokens", "public IAnalysis<List<Token>> IgnoredTokens");
+            code = code.Replace("public IAnalysis IgnoredTokens", "public AnalysisAdapter<List<Token>> IgnoredTokens");
             code = code.Replace("ignoredTokens.SetIn(lexer.Peek(), ign);", "ignoredTokens.Input[lexer.Peek()] = ign;");
+
+            code = indexMethod.Replace(code, ReplaceInIndexMethod);
+            code = parseMethod.Replace(code, "public Start<" + astRoot.GetPGrammar().RootProduction + "> Parse()");
+            code = acceptCase.Replace(code, ReplaceInAcceptCase);
 
             code = Regex.Replace(code, ".Pos[^a-z]", m => { return ".Position" + m.Value.Substring(4); });
             code = Regex.Replace(code, @"(?<section>ArrayList New0\(\).*?)private static int\[]\[]\[]", replaceSection, RegexOptions.Singleline);
@@ -78,6 +85,20 @@ namespace Sable.Compiler
 
             using (StreamWriter writer = new StreamWriter(filepath))
                 writer.Write(code);
+        }
+
+        private string ReplaceInIndexMethod(Match match)
+        {
+            string value = match.Value;
+            value = value.Replace("private int Index(Switchable token)", "private int Index(Token token)");
+            value = value.Replace("token.Apply(converter);", "converter.Visit((dynamic)token);");
+            return value;
+        }
+        private string ReplaceInAcceptCase(Match match)
+        {
+            string value = match.Value;
+            value = value.Replace("Start", "Start<" + astRoot.GetPGrammar().RootProduction + ">");
+            return value;
         }
 
         private string replaceSection(Match method)
