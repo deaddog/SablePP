@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\Adapter.cs" />
+    <Compile Include="Analysis\ReturnAdapter.cs" />
     <Compile Include="Generate\CodeElement.cs" />
     <Compile Include="Generate\CodeStreamWriter.cs" />
     <Compile Include="Generate\ComplexElement.cs" />
