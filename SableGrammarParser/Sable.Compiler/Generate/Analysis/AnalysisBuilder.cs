@@ -67,14 +67,14 @@ namespace Sable.Compiler.Generate.Analysis
             depthFirstAdapter = nameElement.CreateClass("DepthFirstAdapter", AccessModifiers.@public, "AnalysisAdapter<TValue>");
             depthFirstAdapter.TypeParameters.Add("TValue");
 
-            var sIn = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "StartIn", "void");
+            var sIn = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "InStart", "void");
             sIn.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
-            var sOut = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "StartOut", "void");
+            var sOut = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "OutStart", "void");
             sOut.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
 
             var sCase = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "CaseStart", "void");
             sCase.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
-            sCase.EmitIdentifier("StartIn");
+            sCase.EmitIdentifier("InStart");
             using (var par = sCase.EmitParenthesis())
                 par.EmitIdentifier("node");
             sCase.EmitSemicolon(true);
@@ -98,7 +98,7 @@ namespace Sable.Compiler.Generate.Analysis
             }
             sCase.EmitSemicolon(true);
             sCase.EmitNewLine();
-            sCase.EmitIdentifier("StartOut");
+            sCase.EmitIdentifier("OutStart");
             using (var par = sCase.EmitParenthesis())
                 par.EmitIdentifier("node");
             sCase.EmitSemicolon(true);
