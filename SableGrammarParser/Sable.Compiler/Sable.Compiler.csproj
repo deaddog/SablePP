@@ -77,10 +77,7 @@
     <Compile Include="ParserModifier.cs" />
     <Compile Include="PathInformation.cs" />
     <Compile Include="SymbolLinking\DeclarationVisitor.cs" />
-    <Compile Include="Error\CompilerError.cs" />
-    <Compile Include="Error\ErrorManager.cs" />
     <Compile Include="Error\ErrorVisitor.cs" />
-    <Compile Include="Error\Position.cs" />
     <Compile Include="Nodes\TIdentifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

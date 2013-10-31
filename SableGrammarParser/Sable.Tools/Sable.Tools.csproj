@@ -42,6 +42,13 @@
   <ItemGroup>
     <Compile Include="Analysis\Adapter.cs" />
     <Compile Include="Analysis\ReturnAdapter.cs" />
+    <Compile Include="Analysis\DepthFirstReversedTreeWalker.cs" />
+    <Compile Include="Analysis\DepthFirstTreeWalker.cs" />
+    <Compile Include="Error\CompilerError.cs" />
+    <Compile Include="Error\ErrorArgumentEventHandler.cs" />
+    <Compile Include="Error\ErrorManager.cs" />
+    <Compile Include="Error\ErrorArgumentEventArgs.cs" />
+    <Compile Include="Error\Position.cs" />
     <Compile Include="Generate\CodeElement.cs" />
     <Compile Include="Generate\CodeStreamWriter.cs" />
     <Compile Include="Generate\ComplexElement.cs" />
@@ -72,6 +79,7 @@
     <Compile Include="Nodes\Token.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScopedDictionary.cs" />
+    <Compile Include="Analysis\TreeWalker.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

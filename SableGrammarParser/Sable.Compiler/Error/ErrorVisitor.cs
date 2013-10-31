@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Sable.Tools.Error;
+using Sable.Tools.Nodes;
 using Sable.Compiler.Analysis;
 using Sable.Compiler.Nodes;
 
