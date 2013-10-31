@@ -45,7 +45,6 @@
   <ItemGroup>
     <Compile Include="Generated\analysis.cs" />
     <Compile Include="Generated\lexer.cs" />
-    <Compile Include="Generated\nodes.cs" />
     <Compile Include="Generated\parser.cs" />
     <Compile Include="Generated\prods.cs" />
     <Compile Include="Generated\tokens.cs" />
