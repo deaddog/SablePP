@@ -8,7 +8,7 @@ using Sable.Tools.Nodes;
 
 namespace Sable.Tools
 {
-    public class SimplePrinter : DepthFirstTreeWalker
+    public class SimplePrinter<TRoot> : DepthFirstTreeWalker where TRoot : Node
     {
         private int indent;
         private List<string> dotLines = new List<string>();
@@ -68,10 +68,9 @@ namespace Sable.Tools
         {
             dotLines[y] = dotLines[y].Substring(0, x) + c + dotLines[y].Substring(x + 1);
         }
-        public override void OutStart(Start node)
-        {
-            base.OutStart(node);
 
+        public void Done()
+        {
             dotLines[dotLines.Count - 1] = dotLines[dotLines.Count - 1].Replace('|', ' ');
             for (int i = dotLines.Count - 2; i >= 0; i--)
                 for (int j = 0; j < dotLines[i].Length; j++)
@@ -97,21 +96,26 @@ namespace Sable.Tools
             Console.ForegroundColor = color;
         }
 
-        public override void DefaultCase(Node node)
+        public void Print(Start<TRoot> node)
         {
-            if (showTokens && node is Token)
-                printNode(node);
-            base.DefaultCase(node);
-        }
-        public override void DefaultIn(Node node)
-        {
-            printNode(node);
-            indent++;
+            Visit(node);
         }
 
-        public override void DefaultOut(Node node)
+        public override void Visit(Production production)
         {
+            printNode(production);
+
+            indent++;
+            base.Visit(production);
             indent--;
+
+            if (production is Start<TRoot>)
+                Done();
+        }
+        public override void Visit(Token token)
+        {
+            if (showTokens)
+                printNode(token);
         }
     }
 }
