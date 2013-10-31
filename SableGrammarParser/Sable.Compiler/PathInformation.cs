@@ -28,7 +28,7 @@ namespace Sable.Compiler
         {
             get
             {
-                EnsureTemporaryDirectory();
+                ensureTemporaryDirectory();
                 return ExecutingDirectory + "\\temp";
             }
         }
@@ -36,20 +36,25 @@ namespace Sable.Compiler
         {
             get
             {
-                EnsureSableOutputDirectory();
+                ensureSableOutputDirectory();
                 return ExecutingDirectory + "\\temp\\sable";
             }
         }
 
-        public static void EnsureTemporaryDirectory()
+        public static string TemporaryGrammarPath
+        {
+            get { return TemporaryDirectory + "\\grammar.sablecc"; }
+        }
+
+        private static void ensureTemporaryDirectory()
         {
             DirectoryInfo dir = new DirectoryInfo(ExecutingDirectory + "\\temp");
             if (!dir.Exists)
                 dir.Create();
         }
-        public static void EnsureSableOutputDirectory()
+        private static void ensureSableOutputDirectory()
         {
-            EnsureTemporaryDirectory();
+            ensureTemporaryDirectory();
             DirectoryInfo dir = new DirectoryInfo(ExecutingDirectory + "\\temp\\sable");
             if (!dir.Exists)
                 dir.Create();

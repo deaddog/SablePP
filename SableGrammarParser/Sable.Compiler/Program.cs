@@ -25,16 +25,17 @@ namespace Sable.Compiler
         {
             arguments = new ArgumentCollection(args);
 
-            PathInformation.EnsureSableOutputDirectory();
+            string inputGrammar = arguments["grammar"][0];
+            File.Copy(inputGrammar, PathInformation.TemporaryGrammarPath, true);
 
-            string sableIn = arguments["grammar"][0];
-            string sableOut = "temp/sable";
+            string outputDirectory = arguments["out"][0];
+            outputDirectory = outputDirectory.TrimEnd('\\');
 
-            Console.WriteLine("Loading grammar file \"{0}\".", sableIn);
+            Console.WriteLine("Loading grammar file \"{0}\".", PathInformation.TemporaryGrammarPath);
             Console.WriteLine();
 
             Console.WriteLine("Validating grammar.");
-            Start ast = Parse(ReadFile(sableIn));
+            Start ast = Parse(ReadFile(PathInformation.TemporaryGrammarPath));
             Error.CompilerError[] errors = Visitor.StartNewVisitor(new Visitor(), ast).GetErrors().ToArray();
             if (errors.Length > 0)
             {
@@ -49,7 +50,7 @@ namespace Sable.Compiler
             }
             Console.WriteLine("Validation completed.\n");
 
-            var processInfo = new ProcessStartInfo(PathInformation.JavaExecutable, "-jar sablecc.jar -d \"" + sableOut + "\" -t csharp \"" + sableIn + "\"")
+            var processInfo = new ProcessStartInfo(PathInformation.JavaExecutable, "-jar sablecc.jar -d \"" + PathInformation.SableOutputDirectory + "\" -t csharp \"" + PathInformation.TemporaryGrammarPath + "\"")
             {
                 CreateNoWindow = true,
                 RedirectStandardError = true,
@@ -111,6 +112,9 @@ namespace Sable.Compiler
             ParserModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\parser.cs", ast);
             Console.WriteLine("Rewriting lexer.");
             LexerModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\lexer.cs", ast);
+
+            foreach (var file in new[] { "tokens.cs", "prods.cs", "analysis.cs", "parser.cs", "lexer.cs" })
+                File.Copy(PathInformation.SableOutputDirectory + "\\" + file, outputDirectory + "\\" + file);
 
             Console.WriteLine("Done.");
 #if DEBUG
