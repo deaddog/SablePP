@@ -57,16 +57,8 @@ namespace Sable.Compiler.Generate.Analysis
         {
             nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, "ReturnAnalysisAdapter<object>");
 
-            returnAnalysisAdapter = nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, "IReturnAnalysis<T>");
-            returnAnalysisAdapter.TypeParameters.Add("T");
-
-            MethodElement typemethod = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultCase", "T");
-            typemethod.Parameters.Add("node", "Node");
-            typemethod.Parameters.Add("arg", "T");
-            typemethod.EmitReturn();
-            typemethod.EmitIdentifier("arg");
-            typemethod.EmitSemicolon(true);
-            returnAnalysisAdapter.EmitNewLine();
+            returnAnalysisAdapter = nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, "ReturnAdapter<TValue, " + grammar.RootProduction + ">");
+            returnAnalysisAdapter.TypeParameters.Add("TValue");
         }
         private void CreateDepthFirstAdapter()
         {
@@ -377,6 +369,19 @@ namespace Sable.Compiler.Generate.Analysis
             using (var par = voidMethod.EmitParenthesis())
                 par.EmitIdentifier("node");
             voidMethod.EmitSemicolon(true);
+
+            var visitType = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public, "Visit", returnAnalysisAdapter.TypeParameters[0]);
+            visitType.Parameters.Add("node", name);
+            visitType.Parameters.Add("arg", returnAnalysisAdapter.TypeParameters[0]);
+            visitType.EmitReturn();
+            visitType.EmitIdentifier(caseName);
+            using (var par = visitType.EmitParenthesis())
+            {
+                par.EmitIdentifier("node");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
+            visitType.EmitSemicolon(true);
 
             var typeMethod = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, caseName, returnAnalysisAdapter.TypeParameters[0]);
             typeMethod.Parameters.Add("node", name);
