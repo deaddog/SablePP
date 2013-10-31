@@ -48,7 +48,6 @@
     <Compile Include="Generated\parser.cs" />
     <Compile Include="Generated\prods.cs" />
     <Compile Include="Generated\tokens.cs" />
-    <Compile Include="ASTprinter.cs" />
     <Compile Include="Generate\Analysis\AnalysisBuilder.cs" />
     <Compile Include="CommonMethods.cs" />
     <Compile Include="Generate\Productions\CloneMethodBuilder.cs" />
