@@ -1,4 +1,4 @@
-﻿namespace Sable.Compiler.node
+﻿namespace Sable.Compiler.Nodes
 {
     public partial class AStarElement
     {

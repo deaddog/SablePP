@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 using Sable.Tools;
 
 namespace Sable.Compiler.SymbolLinking

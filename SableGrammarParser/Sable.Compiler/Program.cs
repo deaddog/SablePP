@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 
 using Sable.Compiler.lexer;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 using Sable.Compiler.parser;
 
 using Sable.Compiler.Generate;

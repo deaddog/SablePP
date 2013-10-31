@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Sable.Compiler.analysis;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 using Sable.Tools.Generate.CSharp;
 
 namespace Sable.Compiler.Generate.Analysis

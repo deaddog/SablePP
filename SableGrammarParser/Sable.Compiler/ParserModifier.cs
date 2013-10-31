@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 using Sable.Compiler.analysis;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 
 namespace Sable.Compiler
 {

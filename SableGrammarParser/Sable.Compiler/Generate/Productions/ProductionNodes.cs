@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Sable.Compiler.analysis;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 using Sable.Tools.Generate.CSharp;
 
 namespace Sable.Compiler.Generate.Productions

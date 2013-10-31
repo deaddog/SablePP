@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sable.Compiler.analysis;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 using Sable.Compiler.parser;
 using Sable.Compiler.lexer;
 
