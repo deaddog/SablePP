@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Sable.Tools.Nodes
 {
@@ -68,6 +69,11 @@ namespace Sable.Tools.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 EOF = newChild as EOF;
             }
+        }
+        protected internal override IEnumerable<Node> GetChildren()
+        {
+            yield return _base_;
+            yield return _eof_;
         }
     }
 }

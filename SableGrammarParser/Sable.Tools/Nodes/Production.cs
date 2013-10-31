@@ -23,6 +23,8 @@ namespace Sable.Tools.Nodes
     {
         public abstract void ReplaceChild(Node oldChild, Node newChild);
 
+        protected internal abstract IEnumerable<Node> GetChildren();
+
         public class NodeList<T> : IList<T> where T : Node
         {
             private Production parent;
