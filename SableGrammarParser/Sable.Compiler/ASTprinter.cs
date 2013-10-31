@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Sable.Compiler.Analysis;
 using Sable.Compiler.Nodes;
 using Sable.Compiler.parser;
-using Sable.Compiler.lexer;
+using Sable.Compiler.Lexing;
 
 public class SimplePrinter : DepthFirstAdapter
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Sable.Compiler.lexer;
+using Sable.Compiler.Lexing;
 using Sable.Compiler.Nodes;
 using Sable.Compiler.parser;
 
