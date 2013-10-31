@@ -322,7 +322,7 @@ namespace Sable.Compiler.Generate.Analysis
             voidMethod.EmitIdentifier("Visit");
             using (var par = voidMethod.EmitParenthesis())
             {
-                if (node.Elementid.TIdentifier.IsProduction)
+                if (node.PElementid.TIdentifier.IsProduction)
                     EmitDynamic(par);
                 par.EmitIdentifier("temp");
                 using (var square = par.EmitParenthesis(ParenthesisElement.Types.Square))

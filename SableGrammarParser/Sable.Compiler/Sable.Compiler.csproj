@@ -68,16 +68,9 @@
     <Compile Include="Generate\Productions\PropertiesBuilder.cs" />
     <Compile Include="Generate\Tokens\TokenNodes.cs" />
     <Compile Include="LexerModifier.cs" />
-    <Compile Include="Nodes\APlusElement.cs" />
-    <Compile Include="Nodes\AQuestionElement.cs" />
     <Compile Include="Generate\Productions\FieldBuilder.cs" />
     <Compile Include="Generate\GenerateVisitor.cs" />
     <Compile Include="Generate\Productions\ProductionNodes.cs" />
-    <Compile Include="Nodes\ACleanElementid.cs" />
-    <Compile Include="Nodes\AProductionElementid.cs" />
-    <Compile Include="Nodes\ASimpleElement.cs" />
-    <Compile Include="Nodes\AStarElement.cs" />
-    <Compile Include="Nodes\ATokenElementid.cs" />
     <Compile Include="Nodes\PElement.cs" />
     <Compile Include="Nodes\PElementid.cs" />
     <Compile Include="Nodes\PGrammar.cs" />

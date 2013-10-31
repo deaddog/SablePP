@@ -162,7 +162,7 @@ namespace Sable.Compiler.Generate.Productions
 
         private void EmitListElement(PElement node)
         {
-            TIdentifier typeId = node.Elementid.TIdentifier;
+            TIdentifier typeId = node.PElementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
 
             using (var par = method.EmitIf())

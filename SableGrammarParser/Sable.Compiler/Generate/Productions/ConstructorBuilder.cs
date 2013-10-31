@@ -40,7 +40,7 @@ namespace Sable.Compiler.Generate.Productions
 
         private void Emit(PElement node, bool list)
         {
-            TIdentifier typeId = node.Elementid.TIdentifier;
+            TIdentifier typeId = node.PElementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
 
             if (list)
