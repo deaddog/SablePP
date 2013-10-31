@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Sable.Compiler.analysis;
+using Sable.Compiler.Analysis;
 using Sable.Compiler.Nodes;
 using Sable.Tools.Generate.CSharp;
 

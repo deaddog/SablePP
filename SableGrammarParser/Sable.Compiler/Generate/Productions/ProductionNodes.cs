@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Sable.Compiler.analysis;
+using Sable.Compiler.Analysis;
 using Sable.Compiler.Nodes;
 using Sable.Tools.Generate.CSharp;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sable.Compiler.analysis;
+using Sable.Compiler.Analysis;
 
 namespace Sable.Compiler.Generate
 {
