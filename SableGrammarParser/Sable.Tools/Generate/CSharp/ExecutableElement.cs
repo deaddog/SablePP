@@ -71,6 +71,10 @@ namespace Sable.Tools.Generate.CSharp
         {
             contents.Emit("return", UseSpace.NotPreferred, UseSpace.Preferred);
         }
+        public void EmitYield()
+        {
+            contents.Emit("yield", UseSpace.NotPreferred, UseSpace.Preferred);
+        }
 
         public ParenthesisElement EmitIf()
         {
