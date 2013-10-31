@@ -6,6 +6,11 @@ using System.Text;
 
 namespace Sable.Tools
 {
+    /// <summary>
+    /// A dictionary that allows the use of scoping for storing key/value pairs.
+    /// </summary>
+    /// <typeparam name="TKey">The type of the key.</typeparam>
+    /// <typeparam name="TValue">The type of the value.</typeparam>
     public class ScopedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
         private Stack<Dictionary<TKey, TValue>> stack;
@@ -44,6 +49,12 @@ namespace Sable.Tools
         {
         }
 
+        public ScopedDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection, IEqualityComparer<TKey> comparer)
+            : this(collection.ToDictionary(k => k.Key, k => k.Value), comparer)
+        {
+
+        }
+
         protected ScopedDictionary(Dictionary<TKey, TValue> rootDictionary)
         {
             if (rootDictionary == null)
@@ -56,10 +67,19 @@ namespace Sable.Tools
             this.values = new ValueCollection(this);
         }
 
+        /// <summary>
+        /// Opens a new scope, allowing all keys to be reused.
+        /// </summary>
         public void OpenScope()
         {
             stack.Push(new Dictionary<TKey, TValue>());
         }
+
+        /// <summary>
+        /// Closes the top-most scope, removing all key/value pairs defined in that scope.
+        /// Keys in lower scopes are not removed.
+        /// </summary>
+        /// <exception cref="System.InvalidOperationException">Cannot close the outermost scope in a ScopedDictionary.</exception>
         public void CloseScope()
         {
             if (stack.Count == 0)
