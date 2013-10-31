@@ -11,7 +11,7 @@
                 if (name != null && name is AElementname)
                     return (name as AElementname).GetName().Text;
                 else
-                    return id.Identifier.Text;
+                    return id.TIdentifier.Text;
             }
         }
 

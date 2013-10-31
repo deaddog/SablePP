@@ -211,7 +211,7 @@ namespace Sable.Compiler.Generate.Analysis
             voidMethod.EmitIdentifier("Visit");
             using (var par = voidMethod.EmitParenthesis())
             {
-                if (node.Elementid.Identifier.IsProduction)
+                if (node.Elementid.TIdentifier.IsProduction)
                     EmitDynamic(par);
                 par.EmitIdentifier("node");
                 par.EmitPeriod();
@@ -232,7 +232,7 @@ namespace Sable.Compiler.Generate.Analysis
             voidMethod.EmitIdentifier("Visit");
             using (var par = voidMethod.EmitParenthesis())
             {
-                if (node.Elementid.Identifier.IsProduction)
+                if (node.Elementid.TIdentifier.IsProduction)
                     EmitDynamic(par);
                 par.EmitIdentifier("node");
                 par.EmitPeriod();
@@ -322,7 +322,7 @@ namespace Sable.Compiler.Generate.Analysis
             voidMethod.EmitIdentifier("Visit");
             using (var par = voidMethod.EmitParenthesis())
             {
-                if (node.Elementid.Identifier.IsProduction)
+                if (node.Elementid.TIdentifier.IsProduction)
                     EmitDynamic(par);
                 par.EmitIdentifier("temp");
                 using (var square = par.EmitParenthesis(ParenthesisElement.Types.Square))
