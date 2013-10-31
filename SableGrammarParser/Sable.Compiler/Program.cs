@@ -5,7 +5,7 @@ using System.Linq;
 
 using Sable.Compiler.Lexing;
 using Sable.Compiler.Nodes;
-using Sable.Compiler.parser;
+using Sable.Compiler.Parsing;
 
 using Sable.Compiler.Generate;
 using Sable.Compiler.Generate.Analysis;
