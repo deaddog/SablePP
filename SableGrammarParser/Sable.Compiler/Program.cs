@@ -114,7 +114,7 @@ namespace Sable.Compiler
             LexerModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\lexer.cs", ast);
 
             foreach (var file in new[] { "tokens.cs", "prods.cs", "analysis.cs", "parser.cs", "lexer.cs" })
-                File.Copy(PathInformation.SableOutputDirectory + "\\" + file, outputDirectory + "\\" + file);
+                File.Copy(PathInformation.SableOutputDirectory + "\\" + file, outputDirectory + "\\" + file, true);
 
             Console.WriteLine("Done.");
 #if DEBUG
