@@ -16,7 +16,7 @@ namespace Sable.Compiler
         /// </summary>
         /// <param name="node">The helper node from which this <see cref="DHelper"/> should be constructed.</param>
         public DHelper(AHelper node)
-            : base(node.GetIdentifier())
+            : base(node.Identifier)
         {
         }
 

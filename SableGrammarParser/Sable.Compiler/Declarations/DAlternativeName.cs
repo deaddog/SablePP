@@ -16,7 +16,7 @@ namespace Sable.Compiler
         /// </summary>
         /// <param name="node">The alternative name node from which this <see cref="DAlternativeName"/> should be constructed.</param>
         public DAlternativeName(AAlternativename name)
-            : base(name.GetName())
+            : base(name.Name)
         {
         }
     }
