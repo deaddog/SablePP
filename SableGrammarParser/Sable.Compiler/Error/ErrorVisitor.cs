@@ -40,7 +40,7 @@ namespace Sable.Compiler.Error
                 this.errorManager = new ErrorManager();
 
             visitor.errorManager = this.errorManager;
-            node.Apply(visitor);
+            visitor.Visit(node);
             return visitor;
         }
 
@@ -48,7 +48,7 @@ namespace Sable.Compiler.Error
             where T : ErrorVisitor
         {
             visitor.errorManager = new ErrorManager();
-            node.Apply(visitor);
+            visitor.Visit(node);
             return visitor;
         }
     }
