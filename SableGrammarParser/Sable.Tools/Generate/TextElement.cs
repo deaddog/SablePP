@@ -21,6 +21,11 @@
             get { return prepend; }
         }
 
+        public string Text
+        {
+            get { return text; }
+        }
+
         public void AppendText(string text, UseSpace prepend, UseSpace append)
         {
             this.text = this.text + (useSpace(this.Append, prepend) ? " " : "") + text;

@@ -4,8 +4,11 @@ namespace Sable.Tools.Generate
 {
     public abstract class CodeElement
     {
+        internal ComplexElement parent;
+
         protected CodeElement()
         {
+            this.parent = null;
         }
 
         internal abstract UseSpace Append

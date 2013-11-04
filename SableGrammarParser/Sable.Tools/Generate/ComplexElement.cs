@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 namespace Sable.Tools.Generate
 {
-    public abstract class ComplexElement : CodeElement
+    public abstract class ComplexElement : CodeElement, IDisposable
     {
         private LinkedList<CodeElement> elements;
+        private bool disposed = false;
 
         public ComplexElement()
         {
@@ -24,13 +25,20 @@ namespace Sable.Tools.Generate
         protected void insertElement(CodeElement element)
         {
             elements.AddLast(element);
+            if (element.parent != null)
+                throw new ArgumentException("Element is already part of other " + (typeof(ComplexElement)).Name, "element");
+            else
+                element.parent = this;
+
+            if (disposed)
+                throw new InvalidOperationException("Unable to insert elements into this " + (typeof(ComplexElement)).Name + " as it has been disposed.");
         }
 
         protected void emit(string text, UseSpace prepend, UseSpace append, params object[] args)
         {
             if (args != null && args.Length > 0)
                 text = string.Format(text, args);
-            
+
             if (elements.Count > 0 && elements.Last.Value is TextElement)
                 (elements.Last.Value as TextElement).AppendText(text, prepend, append);
             else
@@ -81,6 +89,56 @@ namespace Sable.Tools.Generate
         public override string ToString()
         {
             return string.Format("{0} elements", elements.Count);
+        }
+
+        private static PatchElement FlattenElement(ComplexElement element)
+        {
+            PatchElement result = new PatchElement();
+
+            foreach(var e in Walk(element))
+            {
+                if (e is TextElement)
+                    result.emit((e as TextElement).Text, result.Prepend, result.Append);
+                else if (e is NewLineElement)
+                    result.EmitNewLine();
+                else if (e is IndentationElement)
+                    result.changeIndentation((e as IndentationElement).Difference);
+            }
+
+            return result;
+        }
+
+        private static IEnumerable<CodeElement> Walk(CodeElement element)
+        {
+            if (element is ComplexElement)
+            {
+                ComplexElement compl = element as ComplexElement;
+                CodeElement[] elementArr = new CodeElement[compl.elements.Count];
+                compl.elements.CopyTo(elementArr, 0);
+                for (int i = 0; i < elementArr.Length; i++)
+                    foreach (var e in Walk(elementArr[i]))
+                        yield return e;
+            }
+            else
+                yield return element;
+        }
+
+        protected virtual void Dispose()
+        {
+        }
+
+        void IDisposable.Dispose()
+        {
+            Dispose();
+
+            disposed = true;
+
+            if(parent!=null)
+            {
+                PatchElement replacement = FlattenElement(this);
+                LinkedListNode<CodeElement> element = this.parent.elements.Find(this);
+                element.Value = replacement;
+            }
         }
     }
 }

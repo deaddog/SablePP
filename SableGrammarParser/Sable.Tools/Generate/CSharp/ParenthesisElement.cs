@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sable.Tools.Generate.CSharp
 {
-    public class ParenthesisElement : ExecutableElement, IDisposable
+    public class ParenthesisElement : ExecutableElement
     {
         private Types type;
         public Types Type
@@ -59,11 +59,6 @@ namespace Sable.Tools.Generate.CSharp
             Angled,
             Curly,
             Square
-        }
-
-        void IDisposable.Dispose()
-        {
-            // Nothing to dispose, but implementing IDisposable allows for the use of the "using" construct.
         }
     }
 }
