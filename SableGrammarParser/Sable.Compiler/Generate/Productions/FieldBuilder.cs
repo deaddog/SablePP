@@ -16,7 +16,7 @@ namespace Sable.Compiler.Generate.Productions
 
         public override void CaseASimpleElement(ASimpleElement node)
         {
-            TIdentifier typeId = node.GetElementid().Identifier;
+            TIdentifier typeId = node.Elementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetFieldName(node);
 
@@ -24,7 +24,7 @@ namespace Sable.Compiler.Generate.Productions
         }
         public override void CaseAStarElement(AStarElement node)
         {
-            TIdentifier typeId = node.GetElementid().Identifier;
+            TIdentifier typeId = node.Elementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetFieldName(node);
 
@@ -32,7 +32,7 @@ namespace Sable.Compiler.Generate.Productions
         }
         public override void CaseAPlusElement(APlusElement node)
         {
-            TIdentifier typeId = node.GetElementid().Identifier;
+            TIdentifier typeId = node.Elementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetFieldName(node);
 
@@ -40,7 +40,7 @@ namespace Sable.Compiler.Generate.Productions
         }
         public override void CaseAQuestionElement(AQuestionElement node)
         {
-            TIdentifier typeId = node.GetElementid().Identifier;
+            TIdentifier typeId = node.Elementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetFieldName(node);
 
