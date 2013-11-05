@@ -7,14 +7,15 @@ using System.Text.RegularExpressions;
 
 using Sable.Compiler.Analysis;
 using Sable.Compiler.Nodes;
+using Sable.Tools.Nodes;
 
 namespace Sable.Compiler
 {
     public class LexerModifier
     {
-        private Start astRoot;
+        private Start<PGrammar> astRoot;
 
-        private LexerModifier(Start astRoot)
+        private LexerModifier(Start<PGrammar> astRoot)
         {
             if (astRoot == null)
                 throw new ArgumentNullException("astRoot");
@@ -42,7 +43,7 @@ namespace Sable.Compiler
         {
             string code = parserCode;
 
-            string package = astRoot.GetPGrammar().PackageName;
+            string package = astRoot.Root.PackageName;
 
             code = code.Replace("using " + package + ".node;", "using " + ToolsNamespace.Nodes + ";\nusing " + package + ".Nodes;");
             code = code.Replace("namespace " + package + ".lexer", "namespace " + package + ".Lexing");
@@ -51,12 +52,12 @@ namespace Sable.Compiler
 
             return code;
         }
-        public static string ReplaceInCode(string parserCode, Start astRoot)
+        public static string ReplaceInCode(string parserCode, Start<PGrammar> astRoot)
         {
             LexerModifier modifier = new LexerModifier(astRoot);
             return modifier.ReplaceIn(parserCode);
         }
-        public static void ApplyToFile(string filepath, Start astRoot)
+        public static void ApplyToFile(string filepath, Start<PGrammar> astRoot)
         {
             string code;
 
