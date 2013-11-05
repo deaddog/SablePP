@@ -9,7 +9,7 @@
                 PElementname name = PElementname;
                 PElementid id = PElementid;
                 if (name != null && name is AElementname)
-                    return (name as AElementname).GetName().Text;
+                    return (name as AElementname).Name.Text;
                 else
                     return id.TIdentifier.Text;
             }
@@ -19,7 +19,7 @@
         {
             get { return ((dynamic)this).Elementid; }
         }
-        public abstract PElementname PElementname
+        public PElementname PElementname
         {
             get { return ((dynamic)this).Elementname; }
         }

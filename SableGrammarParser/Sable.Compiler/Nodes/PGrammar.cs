@@ -18,10 +18,10 @@ namespace Sable.Compiler.Nodes
                     if (this is AGrammar)
                     {
                         AGrammar ag = this as AGrammar;
-                        if (ag.GetPackage() != null && ag.GetPackage() is APackage)
+                        if (ag.HasPackage && ag.Package is APackage)
                         {
-                            APackage pack = ag.GetPackage() as APackage;
-                            packagename = pack.GetPackagename().Text;
+                            APackage pack = ag.Package as APackage;
+                            packagename = pack.Packagename.Text;
                         }
                     }
 
@@ -40,11 +40,11 @@ namespace Sable.Compiler.Nodes
             {
                 if (rootProduction == null)
                 {
-                    var ast = (this as AGrammar).GetAstproductions() as AAstproductions;
-                    var pro = (this as AGrammar).GetProductions() as AProductions;
+                    var ast = (this as AGrammar).Astproductions as AAstproductions;
+                    var pro = (this as AGrammar).Productions as AProductions;
 
-                    AProduction prod = (ast == null ? pro.GetProductions() : ast.GetProductions())[0] as AProduction;
-                    rootProduction = "P" + prod.GetIdentifier().Text.ToCamelCase();
+                    AProduction prod = (ast == null ? pro.Productions : ast.Productions)[0] as AProduction;
+                    rootProduction = "P" + prod.Identifier.Text.ToCamelCase();
                 }
                 return rootProduction;
             }
