@@ -62,14 +62,14 @@ namespace Sable.Compiler.SymbolLinking
         }
         public override void InAAlternativename(AAlternativename node)
         {
-            string text = node.GetName().Text;
+            string text = node.Name.Text;
             DAlternativeName alternative = new DAlternativeName(node);
             if (alternatives.ContainsKey(text))
-                RegisterError(node.GetName(), "Production alternative {0} is already in use (line {1}).", node.GetName(), alternatives[text].DeclarationToken.Line);
+                RegisterError(node.Name, "Production alternative {0} is already in use (line {1}).", node.Name, alternatives[text].DeclarationToken.Line);
             else
             {
                 alternatives.Add(text, alternative);
-                node.GetName().SetDeclaration(alternative);
+                node.Name.SetDeclaration(alternative);
             }
 
             base.InAAlternativename(node);
@@ -77,21 +77,21 @@ namespace Sable.Compiler.SymbolLinking
 
         public override void InAElementname(AElementname node)
         {
-            string text = node.GetName().Text;
+            string text = node.Name.Text;
             DElementName element = new DElementName(node);
             if (elements.ContainsKey(text))
-                RegisterError(node.GetName(), "Element name {0} is already in use in this production.", node.GetName());
+                RegisterError(node.Name, "Element name {0} is already in use in this production.", node.Name);
             else
             {
                 elements.Add(text, element);
-                node.GetName().SetDeclaration(element);
+                node.Name.SetDeclaration(element);
             }
 
             base.InAElementname(node);
         }
         public override void InACleanElementid(ACleanElementid node)
         {
-            TIdentifier ident = node.GetIdentifier();
+            TIdentifier ident = node.Identifier;
             string text = ident.Text;
 
             if (tokens.ContainsKey(text) && productions.ContainsKey(text))
@@ -107,7 +107,7 @@ namespace Sable.Compiler.SymbolLinking
         }
         public override void InATokenElementid(ATokenElementid node)
         {
-            TIdentifier identifier = node.GetIdentifier();
+            TIdentifier identifier = node.Identifier;
 
             DToken token = null;
             if (tokens.TryGetValue(identifier.Text, out token))
@@ -119,7 +119,7 @@ namespace Sable.Compiler.SymbolLinking
         }
         public override void InAProductionElementid(AProductionElementid node)
         {
-            TIdentifier identifier = node.GetIdentifier();
+            TIdentifier identifier = node.Identifier;
 
             DProduction production = null;
             if (productions.TryGetValue(identifier.Text, out production))
@@ -147,14 +147,14 @@ namespace Sable.Compiler.SymbolLinking
 
             public override void CaseAProduction(AProduction node)
             {
-                string text = node.GetIdentifier().Text;
+                string text = node.Identifier.Text;
                 DProduction production = new DProduction(node);
                 if (productions.ContainsKey(text))
-                    RegisterError(node.GetIdentifier(), "Production {0} has already been defined (line {1}).", node.GetIdentifier(), productions[text].DeclarationToken.Line);
+                    RegisterError(node.Identifier, "Production {0} has already been defined (line {1}).", node.Identifier, productions[text].DeclarationToken.Line);
                 else
                 {
                     productions.Add(text, production);
-                    node.GetIdentifier().SetDeclaration(production);
+                    node.Identifier.SetDeclaration(production);
                 }
             }
         }
@@ -171,14 +171,14 @@ namespace Sable.Compiler.SymbolLinking
             public static LookupDictionary<string, DAlternativeName> Alternatives(DProduction production)
             {
                 AlternativesLocater locater = new AlternativesLocater();
-                production.Production.Apply(locater);
+                locater.Visit(production.Production);
                 return new LookupDictionary<string, DAlternativeName>(locater.alternatives);
             }
 
             public override void CaseAAlternativename(AAlternativename node)
             {
-                if (node.GetName().IsAlternativeName)
-                    alternatives.Add(node.GetName().Text, node.GetName().AsAlternativeName);
+                if(node.Name.IsAlternativeName)
+                    alternatives.Add(node.Name.Text, node.Name.AsAlternativeName);
             }
         }
 
@@ -200,14 +200,14 @@ namespace Sable.Compiler.SymbolLinking
             public static Declaration Declaration(AAlternative alternative, TIdentifier identifier)
             {
                 ElementLocater locater = new ElementLocater(identifier);
-                alternative.Apply(locater);
+                locater.Visit(alternative);
                 return locater.result;
             }
 
             public override void CaseACleanElementid(ACleanElementid node)
             {
-                if (node.GetIdentifier().Text == lookFor && result == null)
-                    result = node.GetIdentifier().Declaration;
+                if (node.Identifier.Text == lookFor && result == null)
+                    result = node.Identifier.Declaration;
             }
         }
     }

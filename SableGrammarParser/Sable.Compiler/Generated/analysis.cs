@@ -1534,20 +1534,20 @@ namespace Sable.Compiler.Analysis
     
     public class DepthFirstAdapter<TValue> : AnalysisAdapter<TValue>
     {
-        public virtual void StartIn(Start<PGrammar> node)
+        public virtual void InStart(Start<PGrammar> node)
         {
         }
-        public virtual void StartOut(Start<PGrammar> node)
+        public virtual void OutStart(Start<PGrammar> node)
         {
         }
         public override void CaseStart(Start<PGrammar> node)
         {
-            StartIn(node);
+            InStart(node);
             
             Visit((dynamic)node.Root);
             Visit(node.EOF);
             
-            StartOut(node);
+            OutStart(node);
         }
         public virtual void DefaultPIn(Node node)
         {

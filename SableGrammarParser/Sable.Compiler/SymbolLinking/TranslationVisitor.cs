@@ -24,25 +24,25 @@ namespace Sable.Compiler.SymbolLinking
 
         public override void InACleanProdtranslation(ACleanProdtranslation node)
         {
-            linkAst(node.GetIdentifier());
+            linkAst(node.Identifier);
 
             base.InACleanProdtranslation(node);
         }
         public override void InAStarProdtranslation(AStarProdtranslation node)
         {
-            linkAst(node.GetIdentifier());
+            linkAst(node.Identifier);
 
             base.InAStarProdtranslation(node);
         }
         public override void InAPlusProdtranslation(APlusProdtranslation node)
         {
-            linkAst(node.GetIdentifier());
+            linkAst(node.Identifier);
 
             base.InAPlusProdtranslation(node);
         }
         public override void InAQuestionProdtranslation(AQuestionProdtranslation node)
         {
-            linkAst(node.GetIdentifier());
+            linkAst(node.Identifier);
 
             base.InAQuestionProdtranslation(node);
         }
@@ -75,52 +75,52 @@ namespace Sable.Compiler.SymbolLinking
             public override void InANewTranslation(ANewTranslation node)
             {
                 DProduction production = null;
-                if (astProductions.TryGetValue(node.GetProduction().Text, out production))
-                    node.GetProduction().SetDeclaration(production);
+                if (astProductions.TryGetValue(node.Production.Text, out production))
+                    node.Production.SetDeclaration(production);
                 else
-                    RegisterError(node.GetProduction(), "The AST node {0} has not been defined.", node.GetProduction());
+                    RegisterError(node.Production, "The AST node {0} has not been defined.", node.Production);
 
                 base.InANewTranslation(node);
             }
             public override void InANewalternativeTranslation(ANewalternativeTranslation node)
             {
                 DProduction production = null;
-                if (astProductions.TryGetValue(node.GetProduction().Text, out production))
+                if (astProductions.TryGetValue(node.Production.Text, out production))
                 {
-                    node.GetProduction().SetDeclaration(production);
+                    node.Production.SetDeclaration(production);
 
                     LookupDictionary<string, DAlternativeName> alternatives = AlternativesLocater.Alternatives(production);
                     DAlternativeName alternative = null;
-                    if (alternatives.TryGetValue(node.GetAlternative().Text, out alternative))
-                        node.GetAlternative().SetDeclaration(alternative);
+                    if (alternatives.TryGetValue(node.Alternative.Text, out alternative))
+                        node.Alternative.SetDeclaration(alternative);
                     else
-                        RegisterError(node.GetAlternative(), "The AST alternative {0} has not been defined.", node.GetAlternative());
+                        RegisterError(node.Alternative, "The AST alternative {0} has not been defined.", node.Alternative);
                 }
                 else
-                    RegisterError(node.GetProduction(), "The AST node {0} has not been defined.", node.GetProduction());
+                    RegisterError(node.Production, "The AST node {0} has not been defined.", node.Production);
 
                 base.InANewalternativeTranslation(node);
             }
 
             public override void InAIdTranslation(AIdTranslation node)
             {
-                Declaration declaration = ElementLocater.Declaration(alternative, node.GetIdentifier());
+                Declaration declaration = ElementLocater.Declaration(alternative, node.Identifier);
                 if (declaration != null)
-                    node.GetIdentifier().SetDeclaration(declaration);
+                    node.Identifier.SetDeclaration(declaration);
 
                 base.InAIdTranslation(node);
             }
             public override void InAIddotidTranslation(AIddotidTranslation node)
             {
-                Declaration declaration = ElementLocater.Declaration(alternative, node.GetIdentifier());
+                Declaration declaration = ElementLocater.Declaration(alternative, node.Identifier);
                 if (declaration != null)
-                    node.GetIdentifier().SetDeclaration(declaration);
+                    node.Identifier.SetDeclaration(declaration);
 
                 DProduction production = null;
-                if (astProductions.TryGetValue(node.GetProduction().Text, out production))
-                    node.GetProduction().SetDeclaration(production);
+                if (astProductions.TryGetValue(node.Production.Text, out production))
+                    node.Production.SetDeclaration(production);
                 else
-                    RegisterError(node.GetProduction(), "The AST node {0} has not been defined.", node.GetProduction());
+                    RegisterError(node.Production, "The AST node {0} has not been defined.", node.Production);
 
                 base.InAIddotidTranslation(node);
             }
@@ -138,14 +138,14 @@ namespace Sable.Compiler.SymbolLinking
             public static LookupDictionary<string, DAlternativeName> Alternatives(DProduction production)
             {
                 AlternativesLocater locater = new AlternativesLocater();
-                production.Production.Apply(locater);
+                locater.Visit(production.Production);
                 return new LookupDictionary<string, DAlternativeName>(locater.alternatives);
             }
 
             public override void CaseAAlternativename(AAlternativename node)
             {
-                if (node.GetName().IsAlternativeName)
-                    alternatives.Add(node.GetName().Text, node.GetName().AsAlternativeName);
+                if(node.Name.IsAlternativeName)
+                    alternatives.Add(node.Name.Text, node.Name.AsAlternativeName);
             }
         }
 
@@ -169,48 +169,48 @@ namespace Sable.Compiler.SymbolLinking
             public static Declaration Declaration(AAlternative alternative, TIdentifier identifier)
             {
                 ElementLocater locater = new ElementLocater(identifier);
-                alternative.Apply(locater);
+                locater.Visit(alternative);
                 locater.lookingForName = false;
                 if (locater.looking)
-                    alternative.Apply(locater);
+                    locater.Visit(alternative);
                 return locater.result;
             }
 
             public override void CaseAElementname(AElementname node)
             {
-                if (looking && lookingForName && node.GetName().Text == lookFor)
+                if (looking && lookingForName && node.Name.Text == lookFor)
                 {
                     looking = false;
-                    result = node.GetName().Declaration;
+                    result = node.Name.Declaration;
                 }
             }
 
             public override void CaseACleanElementid(ACleanElementid node)
             {
-                if (looking && !lookingForName && node.GetIdentifier().Text == lookFor)
+                if (looking && !lookingForName && node.Identifier.Text == lookFor)
                 {
                     looking = false;
-                    result = node.GetIdentifier().Declaration;
+                    result = node.Identifier.Declaration;
                 }
                 else
                     base.CaseACleanElementid(node);
             }
             public override void CaseATokenElementid(ATokenElementid node)
             {
-                if (looking && !lookingForName && node.GetIdentifier().Text == lookFor)
+                if (looking && !lookingForName && node.Identifier.Text == lookFor)
                 {
                     looking = false;
-                    result = node.GetIdentifier().Declaration;
+                    result = node.Identifier.Declaration;
                 }
                 else
                     base.CaseATokenElementid(node);
             }
             public override void CaseAProductionElementid(AProductionElementid node)
             {
-                if (looking && !lookingForName && node.GetIdentifier().Text == lookFor)
+                if (looking && !lookingForName && node.Identifier.Text == lookFor)
                 {
                     looking = false;
-                    result = node.GetIdentifier().Declaration;
+                    result = node.Identifier.Declaration;
                 }
                 else
                     base.CaseAProductionElementid(node);

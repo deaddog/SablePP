@@ -23,10 +23,10 @@ namespace Sable.Compiler.SymbolLinking
         {
             if (firstRun)
             {
-                string text = node.GetIdentifier().Text;
+                string text = node.Identifier.Text;
                 DHelper helper = new DHelper(node);
                 if (helpers.ContainsKey(text))
-                    RegisterError(node.GetIdentifier(), "Helper {0} has already been defined (line {1}).", node.GetIdentifier(), helpers[text].DeclarationToken.Line);
+                    RegisterError(node.Identifier, "Helper {0} has already been defined (line {1}).", node.Identifier, helpers[text].DeclarationToken.Line);
                 else
                     helpers.Add(text, helper);
             }
@@ -40,7 +40,7 @@ namespace Sable.Compiler.SymbolLinking
             if (firstRun)
             {
                 firstRun = false;
-                node.Apply(this);
+                Visit(node);
             }
         }
 
