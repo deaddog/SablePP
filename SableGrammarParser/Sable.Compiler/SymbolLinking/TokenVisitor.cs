@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 
 namespace Sable.Compiler.SymbolLinking
 {
@@ -35,51 +35,46 @@ namespace Sable.Compiler.SymbolLinking
 
         public override void CaseAToken(AToken node)
         {
-            if (node.GetStatelist() != null)
-                node.GetStatelist().Apply(this);
+            if (node.HasStatelist)
+                Visit(node.Statelist);
 
-            if (node.GetIdentifier() != null)
-            {
-                string text = node.GetIdentifier().Text;
+            string text = node.Identifier.Text;
 
-                DToken token = new DToken(node);
-                if (tokens.ContainsKey(text))
-                    RegisterError(node.GetIdentifier(), "Token {0} has already been defined (line {1}).", node.GetIdentifier(), tokens[text].DeclarationToken.Line);
-                else
-                    tokens.Add(text, token);
-                node.GetIdentifier().SetDeclaration(tokens[text]);
-            }
+            DToken token = new DToken(node);
+            if (tokens.ContainsKey(text))
+                RegisterError(node.Identifier, "Token {0} has already been defined (line {1}).", node.Identifier, tokens[text].DeclarationToken.Line);
+            else
+                tokens.Add(text, token);
+            node.Identifier.SetDeclaration(tokens[text]);
 
-            if (node.GetRegex() != null)
-                node.GetRegex().Apply(this);
-
-            if (node.GetTokenlookahead() != null)
-                node.GetTokenlookahead().Apply(this);
+            Visit(node.Regex);
+            if (node.HasTokenlookahead)
+                Visit(node.Tokenlookahead);
         }
 
         public override void CaseATokenstateListitem(ATokenstateListitem node)
         {
             DState state = null;
-            if (states.TryGetValue(node.GetIdentifier().Text, out state))
-                node.GetIdentifier().SetDeclaration(state);
+            if (states.TryGetValue(node.Identifier.Text, out state))
+                node.Identifier.SetDeclaration(state);
             else
-                RegisterError(node.GetIdentifier(), "The state {0} has not been defined.", node.GetIdentifier());
+                RegisterError(node.Identifier, "The state {0} has not been defined.", node.Identifier);
         }
         public override void CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node)
         {
             {
                 DState state = null;
-                if (states.TryGetValue(node.GetFrom().Text, out state))
-                    node.GetFrom().SetDeclaration(state);
+                if (states.TryGetValue(node.From.Text, out state))
+                    node.From.SetDeclaration(state);
                 else
-                    RegisterError(node.GetFrom(), "The state {0} has not been defined.", node.GetFrom());
+                    RegisterError(node.From, "The state {0} has not been defined.", node.From);
             }
             {
                 DState state = null;
-                if (states.TryGetValue(node.GetTo().Text, out state))
-                    node.GetTo().SetDeclaration(state);
+                if (states.TryGetValue(node.To.Text, out state))
+                    node.To.SetDeclaration(state);
                 else
-                    RegisterError(node.GetTo(), "The state {0} has not been defined.", node.GetTo());
+                    RegisterError(node.To, "The state {0} has not been defined.", node.To);
             }
         }
 

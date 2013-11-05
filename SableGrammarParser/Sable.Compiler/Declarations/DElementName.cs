@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 
 namespace Sable.Compiler
 {
@@ -16,7 +16,7 @@ namespace Sable.Compiler
         /// </summary>
         /// <param name="node">The element name node from which this <see cref="DElementName"/> should be constructed.</param>
         public DElementName(AElementname name)
-            : base(name.GetName())
+            : base(name.Name)
         {
         }
 

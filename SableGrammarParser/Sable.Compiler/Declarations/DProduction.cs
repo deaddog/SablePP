@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 
 namespace Sable.Compiler
 {
@@ -18,7 +18,7 @@ namespace Sable.Compiler
         /// </summary>
         /// <param name="node">The production node from which this <see cref="DProduction"/> should be constructed.</param>
         public DProduction(AProduction production)
-            : base(production.GetIdentifier())
+            : base(production.Identifier)
         {
             this.production = production;
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Sable.Tools.Generate.CSharp;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 
 namespace Sable.Compiler.Generate.Productions
 {

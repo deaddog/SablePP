@@ -78,7 +78,7 @@ namespace Sable.Tools.Generate.CSharp
 
         public ParenthesisElement EmitIf()
         {
-            contents.Emit("if", UseSpace.NotPreferred, UseSpace.Preferred);
+            contents.Emit("if", UseSpace.NotPreferred, UseSpace.Always);
             return EmitParenthesis();
         }
         public void EmitElse()
@@ -87,17 +87,17 @@ namespace Sable.Tools.Generate.CSharp
         }
         public ParenthesisElement EmitWhile()
         {
-            contents.Emit("while", UseSpace.NotPreferred, UseSpace.Preferred);
+            contents.Emit("while", UseSpace.NotPreferred, UseSpace.Always);
             return EmitParenthesis();
         }
         public ParenthesisElement EmitFor()
         {
-            contents.Emit("for", UseSpace.NotPreferred, UseSpace.Preferred);
+            contents.Emit("for", UseSpace.NotPreferred, UseSpace.Always);
             return EmitParenthesis();
         }
         public ParenthesisElement EmitUsing()
         {
-            contents.Emit("using", UseSpace.NotPreferred, UseSpace.Preferred);
+            contents.Emit("using", UseSpace.NotPreferred, UseSpace.Always);
             return EmitParenthesis();
         }
 

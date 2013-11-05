@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Sable.Tools.Generate.CSharp;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 
 namespace Sable.Compiler.Generate.Productions
 {
@@ -40,7 +40,7 @@ namespace Sable.Compiler.Generate.Productions
 
         private void Emit(PElement node, bool list)
         {
-            TIdentifier typeId = node.Elementid.Identifier;
+            TIdentifier typeId = node.PElementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
 
             if (list)

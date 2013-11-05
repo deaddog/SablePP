@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 
 using Sable.Tools.Generate.CSharp;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 
 namespace Sable.Compiler.Generate.Productions
 {
@@ -46,7 +46,7 @@ namespace Sable.Compiler.Generate.Productions
 
         public override void CaseAStarElement(AStarElement node)
         {
-            TIdentifier typeId = node.GetElementid().Identifier;
+            TIdentifier typeId = node.Elementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetFieldName(node);
 
@@ -54,7 +54,7 @@ namespace Sable.Compiler.Generate.Productions
         }
         public override void CaseAPlusElement(APlusElement node)
         {
-            TIdentifier typeId = node.GetElementid().Identifier;
+            TIdentifier typeId = node.Elementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetFieldName(node);
 

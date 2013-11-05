@@ -1,5 +1,5 @@
 ﻿using System;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 
 namespace Sable.Compiler.Generate.Productions
 {

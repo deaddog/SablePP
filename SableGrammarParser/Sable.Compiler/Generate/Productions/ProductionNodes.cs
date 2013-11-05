@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Sable.Compiler.analysis;
-using Sable.Compiler.node;
+using Sable.Compiler.Analysis;
+using Sable.Compiler.Nodes;
 using Sable.Tools.Generate.CSharp;
+using Sable.Tools.Nodes;
 
 namespace Sable.Compiler.Generate.Productions
 {
@@ -24,32 +25,32 @@ namespace Sable.Compiler.Generate.Productions
             fileElement.Using.Add(ToolsNamespace.Nodes);
         }
 
-        public static FileElement BuildCode(Start astRoot)
+        public static FileElement BuildCode(Start<PGrammar> astRoot)
         {
             ProductionNodes n = new ProductionNodes();
-            astRoot.Apply(n);
+            n.Visit(astRoot);
             return n.fileElement;
         }
 
         public override void CaseAGrammar(AGrammar node)
         {
-            if (node.GetPackage() != null)
-                node.GetPackage().Apply(this);
+            if (node.HasPackage)
+                Visit(node.Package);
 
             string packageName = node.PackageName;
 
             nameElement = fileElement.CreateNamespace(packageName + ".Nodes");
             fileElement.Using.Add(packageName + ".Analysis");
 
-            if (node.GetAstproductions() != null)
-                node.GetAstproductions().Apply(this);
-            else if (node.GetProductions() != null)
-                node.GetProductions().Apply(this);
+            if (node.HasAstproductions)
+                Visit(node.Astproductions);
+            else if (node.HasProductions)
+                Visit(node.Productions);
         }
 
         public override void CaseAProduction(AProduction node)
         {
-            this.productionName = ToCamelCase(node.GetIdentifier().Text);
+            this.productionName = ToCamelCase(node.Identifier.Text);
             string name = "P" + productionName;
 
             classElement = nameElement.CreateClass(name, AccessModifiers.@public | AccessModifiers.@abstract | AccessModifiers.partial, "Production<" + name + ">");
@@ -59,22 +60,22 @@ namespace Sable.Compiler.Generate.Productions
         public override void CaseAAlternative(AAlternative node)
         {
             string name = "A" + productionName;
-            if (node.GetAlternativename() != null)
-                name = "A" + ToCamelCase((node.GetAlternativename() as AAlternativename).GetName().Text) + productionName;
+            if(node.HasAlternativename)
+                name = "A" + ToCamelCase((node.Alternativename as AAlternativename).Name.Text) + productionName;
 
             classElement = nameElement.CreateClass(name, AccessModifiers.@public | AccessModifiers.partial, "P" + productionName);
 
-            node.Apply(new FieldBuilder(classElement));
+            new FieldBuilder(classElement).Visit(node);
             classElement.EmitNewLine();
-            node.Apply(new ConstructorBuilder(classElement));
+            new ConstructorBuilder(classElement).Visit(node);
             classElement.EmitNewLine();
-            node.Apply(new PropertiesBuilder(classElement));
+            new PropertiesBuilder(classElement).Visit(node);
             classElement.EmitNewLine();
-            node.Apply(new ReplaceMethodBuilder(classElement));
-            node.Apply(new GetChildrenMethodBuilder(classElement));
+            new ReplaceMethodBuilder(classElement).Visit(node);
+            new GetChildrenMethodBuilder(classElement).Visit(node);
             classElement.EmitNewLine();
-            node.Apply(new CloneMethodBuilder(classElement));
-            node.Apply(new ToStringMethodBuilder(classElement));
+            new CloneMethodBuilder(classElement).Visit(node);
+            new ToStringMethodBuilder(classElement).Visit(node);
         }
     }
 }

@@ -5,18 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using Sable.Compiler.analysis;
-using Sable.Compiler.node;
+using Sable.Compiler.Analysis;
+using Sable.Compiler.Nodes;
+using Sable.Tools.Nodes;
 
 namespace Sable.Compiler
 {
     public class ParserModifier
     {
-        private Start astRoot;
+        private Start<PGrammar> astRoot;
         private ArgumentCollection arguments;
         private ParentTable parentTable;
 
-        private ParserModifier(Start astRoot)
+        private ParserModifier(Start<PGrammar> astRoot)
         {
             if (astRoot == null)
                 throw new ArgumentNullException("astRoot");
@@ -45,7 +46,7 @@ namespace Sable.Compiler
         {
             string code = parserCode;
 
-            string package = astRoot.GetPGrammar().PackageName;
+            string package = astRoot.Root.PackageName;
 
             code = code.Replace("using System.Collections;", "using System.Collections;\nusing System.Collections.Generic;");
             code = code.Replace("using " + package + ".node;", "using " + ToolsNamespace.Nodes + ";\nusing " + package + ".Nodes;");
@@ -61,7 +62,7 @@ namespace Sable.Compiler
             code = code.Replace("ignoredTokens.SetIn(lexer.Peek(), ign);", "ignoredTokens.Input[lexer.Peek()] = ign;");
 
             code = indexMethod.Replace(code, ReplaceInIndexMethod);
-            code = parseMethod.Replace(code, "public Start<" + astRoot.GetPGrammar().RootProduction + "> Parse()");
+            code = parseMethod.Replace(code, "public Start<" + astRoot.Root.RootProduction + "> Parse()");
             code = acceptCase.Replace(code, ReplaceInAcceptCase);
 
             code = Regex.Replace(code, ".Pos[^a-z]", m => { return ".Position" + m.Value.Substring(4); });
@@ -69,12 +70,12 @@ namespace Sable.Compiler
 
             return code;
         }
-        public static string ReplaceInCode(string parserCode, Start astRoot)
+        public static string ReplaceInCode(string parserCode, Start<PGrammar> astRoot)
         {
             ParserModifier modifier = new ParserModifier(astRoot);
             return modifier.ReplaceIn(parserCode);
         }
-        public static void ApplyToFile(string filepath, Start astRoot)
+        public static void ApplyToFile(string filepath, Start<PGrammar> astRoot)
         {
             string code;
 
@@ -97,7 +98,7 @@ namespace Sable.Compiler
         private string ReplaceInAcceptCase(Match match)
         {
             string value = match.Value;
-            value = value.Replace("Start", "Start<" + astRoot.GetPGrammar().RootProduction + ">");
+            value = value.Replace("Start", "Start<" + astRoot.Root.RootProduction + ">");
             return value;
         }
 
@@ -294,7 +295,7 @@ namespace Sable.Compiler
                     if (arguments == null)
                     {
                         ArgumentVisitor visitor = new ArgumentVisitor();
-                        owner.astRoot.Apply(visitor);
+                        visitor.Visit(owner.astRoot);
                         this.arguments = visitor.arguments;
                     }
                     return arguments[type];
@@ -311,10 +312,10 @@ namespace Sable.Compiler
                 public override void CaseAGrammar(AGrammar node)
                 {
                     arguments = new Dictionary<string, string[]>();
-                    if (node.GetAstproductions() != null)
-                        node.GetAstproductions().Apply(this);
-                    else if (node.GetProductions() != null)
-                        node.GetProductions().Apply(this);
+                    if (node.HasAstproductions)
+                        Visit(node.Astproductions);
+                    else if (node.HasProductions)
+                        Visit(node.Productions);
                 }
 
                 private DProduction currentProduction;
@@ -325,16 +326,16 @@ namespace Sable.Compiler
 
                 public override void InAProduction(AProduction node)
                 {
-                    currentPname = node.GetIdentifier().Text;
+                    currentPname = node.Identifier.Text;
                     currentPname = "P" + currentPname.ToCamelCase();
-                    currentProduction = node.GetIdentifier().AsProduction;
+                    currentProduction = node.Identifier.AsProduction;
                 }
 
                 public override void InAAlternative(AAlternative node)
                 {
                     index = 0;
 
-                    if (node.GetAlternativename() == null)
+                    if(!node.HasAlternativename)
                     {
                         currentAlternative = null;
                         currentAname = 'A' + currentPname.Substring(1);
@@ -342,30 +343,30 @@ namespace Sable.Compiler
                 }
                 public override void InAAlternativename(AAlternativename node)
                 {
-                    currentAname = node.GetName().Text;
+                    currentAname = node.Name.Text;
                     currentAname = "A" + currentAname.ToCamelCase() + currentPname.Substring(1);
-                    currentAlternative = node.GetName().AsAlternativeName;
+                    currentAlternative = node.Name.AsAlternativeName;
                 }
                 public override void InAElements(AElements node)
                 {
-                    arguments[currentAname] = new string[node.GetElement().Count];
+                    arguments[currentAname] = new string[node.Element.Count];
                 }
                 public override void InACleanElementid(ACleanElementid node)
                 {
-                    if (node.GetIdentifier().IsToken)
-                        arguments[currentAname][index] = "T" + node.GetIdentifier().Text.ToCamelCase();
-                    else if (node.GetIdentifier().IsProduction)
-                        arguments[currentAname][index] = "P" + node.GetIdentifier().Text.ToCamelCase();
+                    if (node.Identifier.IsToken)
+                        arguments[currentAname][index] = "T" + node.Identifier.Text.ToCamelCase();
+                    else if (node.Identifier.IsProduction)
+                        arguments[currentAname][index] = "P" + node.Identifier.Text.ToCamelCase();
                     index++;
                 }
                 public override void InATokenElementid(ATokenElementid node)
                 {
-                    arguments[currentAname][index] = "T" + node.GetIdentifier().Text.ToCamelCase();
+                    arguments[currentAname][index] = "T" + node.Identifier.Text.ToCamelCase();
                     index++;
                 }
                 public override void InAProductionElementid(AProductionElementid node)
                 {
-                    arguments[currentAname][index] = "P" + node.GetIdentifier().Text.ToCamelCase();
+                    arguments[currentAname][index] = "P" + node.Identifier.Text.ToCamelCase();
                     index++;
                 }
             }
@@ -380,7 +381,7 @@ namespace Sable.Compiler
             public ParentTable(ParserModifier owner)
             {
                 ParentVisitor par = new ParentVisitor();
-                owner.astRoot.Apply(par);
+                par.Visit(owner.astRoot);
                 this.parents = par.List;
             }
 
@@ -402,23 +403,22 @@ namespace Sable.Compiler
 
                 public override void CaseAGrammar(AGrammar node)
                 {
-                    if (node.GetAstproductions() != null)
-                        node.GetAstproductions().Apply(this);
+                    if (node.HasAstproductions)
+                        Visit(node.Astproductions);
                 }
 
                 public override void CaseAProduction(AProduction node)
                 {
-                    string name = node.GetIdentifier().Text;
+                    string name = node.Identifier.Text;
                     this.parent = "P" + name.ToCamelCase();
 
-                    if (node.GetProductionrule() != null)
-                        node.GetProductionrule().Apply(this);
+                    Visit(node.Productionrule);
                 }
 
                 public override void CaseAAlternative(AAlternative node)
                 {
-                    if (node.GetAlternativename() != null)
-                        node.GetAlternativename().Apply(this);
+                    if (node.HasAlternativename)
+                        Visit(node.Alternativename);
                     else
                     {
                         string name = "A" + parent.Substring(1);
@@ -428,7 +428,7 @@ namespace Sable.Compiler
 
                 public override void CaseAAlternativename(AAlternativename node)
                 {
-                    string name = "A" + node.GetName().Text.ToCamelCase() + parent.Substring(1);
+                    string name = "A" + node.Name.Text.ToCamelCase() + parent.Substring(1);
                     List.Add(name, parent);
                 }
             }

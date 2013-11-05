@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 
 namespace Sable.Compiler
 {
@@ -18,7 +18,7 @@ namespace Sable.Compiler
         /// </summary>
         /// <param name="node">The token node from which this <see cref="DToken"/> should be constructed.</param>
         public DToken(AToken node)
-            : base(node.GetIdentifier())
+            : base(node.Identifier)
         {
         }
 

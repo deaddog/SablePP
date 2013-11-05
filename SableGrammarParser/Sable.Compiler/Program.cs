@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Sable.Compiler.lexer;
-using Sable.Compiler.node;
-using Sable.Compiler.parser;
+using Sable.Compiler.Lexing;
+using Sable.Compiler.Nodes;
+using Sable.Compiler.Parsing;
 
 using Sable.Compiler.Generate;
 using Sable.Compiler.Generate.Analysis;
 using Sable.Compiler.Generate.Productions;
 using Sable.Compiler.Generate.Tokens;
+
+using Sable.Tools.Error;
 using Sable.Tools.Generate;
+using Sable.Tools.Nodes;
 
 using System.Diagnostics;
 
@@ -35,8 +38,8 @@ namespace Sable.Compiler
             Console.WriteLine();
 
             Console.WriteLine("Validating grammar.");
-            Start ast = Parse(ReadFile(PathInformation.TemporaryGrammarPath));
-            Error.CompilerError[] errors = Visitor.StartNewVisitor(new Visitor(), ast).GetErrors().ToArray();
+            Start<PGrammar> ast = Parse(ReadFile(PathInformation.TemporaryGrammarPath));
+            CompilerError[] errors = Visitor.StartNewVisitor(new Visitor(), ast).GetErrors().ToArray();
             if (errors.Length > 0)
             {
                 Console.WriteLine("Validation failed:");
@@ -124,7 +127,7 @@ namespace Sable.Compiler
 
         private class Visitor : Error.ErrorVisitor
         {
-            public override void CaseStart(Start node)
+            public override void CaseStart(Start<PGrammar> node)
             {
                 foreach (var v in Visitors)
                 {
@@ -150,14 +153,14 @@ namespace Sable.Compiler
                 result = sr.ReadToEnd();
             return result;
         }
-        private static Start Parse(string code)
+        private static Start<PGrammar> Parse(string code)
         {
             StringReader reader = new StringReader(code);
 
             Lexer lexer = new Lexer(reader);
             Parser parser = new Parser(lexer);
 
-            Start ast = parser.Parse();
+            Start<PGrammar> ast = parser.Parse();
 
             reader.Dispose();
             return ast;

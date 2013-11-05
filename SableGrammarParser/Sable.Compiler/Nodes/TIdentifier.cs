@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sable.Compiler.node
+namespace Sable.Compiler.Nodes
 {
     public partial class TIdentifier
     {

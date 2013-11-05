@@ -1,4 +1,4 @@
-Package SableGrammarParser;
+Package Sable.Compiler;
 
 Helpers
     all = [0 .. 0xFFFF];  

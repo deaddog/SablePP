@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sable.Compiler.Error
+namespace Sable.Tools.Error
 {
     /// <summary>
     /// Manages semantic errors throughout semantic checks of an AST.

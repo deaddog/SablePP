@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Sable.Compiler.analysis;
-using Sable.Compiler.node;
+using Sable.Tools.Error;
+using Sable.Tools.Nodes;
+using Sable.Compiler.Analysis;
+using Sable.Compiler.Nodes;
 
 namespace Sable.Compiler.Error
 {
@@ -38,7 +40,7 @@ namespace Sable.Compiler.Error
                 this.errorManager = new ErrorManager();
 
             visitor.errorManager = this.errorManager;
-            node.Apply(visitor);
+            visitor.Visit(node);
             return visitor;
         }
 
@@ -46,7 +48,7 @@ namespace Sable.Compiler.Error
             where T : ErrorVisitor
         {
             visitor.errorManager = new ErrorManager();
-            node.Apply(visitor);
+            visitor.Visit(node);
             return visitor;
         }
     }

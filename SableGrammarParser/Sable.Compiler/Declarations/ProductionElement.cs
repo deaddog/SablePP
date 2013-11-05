@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sable.Compiler.node;
+using Sable.Compiler.Nodes;
 
 namespace Sable.Compiler.Declarations
 {
@@ -12,44 +12,21 @@ namespace Sable.Compiler.Declarations
         private string name;
         private Declaration declaration;
 
-        private ProductionElement(PElement node, PElementname name, PElementid id)
+        public ProductionElement(PElement node)
         {
             if (node == null)
                 throw new ArgumentNullException("node");
 
-            AElementname aName = name as AElementname;
-            if (aName != null)
-                this.name = aName.GetName().Text;
-            else
-                this.name = null;
+            AElementname aName = node.PElementname as AElementname;
+            this.name = aName == null ? null : aName.Name.Text;
+            this.declaration = node.PElementid.TIdentifier.Declaration;
 
-            if (id is ACleanElementid)
-                this.declaration = (id as ACleanElementid).GetIdentifier().Declaration;
-            else if (id is ATokenElementid)
-                this.declaration = (id as ATokenElementid).GetIdentifier().Declaration;
-            else if (id is AProductionElementid)
-                this.declaration = (id as AProductionElementid).GetIdentifier().Declaration;
-            else throw new InvalidOperationException("Unknown element id type.");
-        }
-
-        public ProductionElement(ASimpleElement node)
-            : this(node as PElement, node.GetElementname(), node.GetElementid())
-        {
-        }
-        public ProductionElement(AStarElement node)
-            : this(node as PElement, node.GetElementname(), node.GetElementid())
-        {
-            star = true;
-        }
-        public ProductionElement(APlusElement node)
-            : this(node as PElement, node.GetElementname(), node.GetElementid())
-        {
-            plus = true;
-        }
-        public ProductionElement(AQuestionElement node)
-            : this(node as PElement, node.GetElementname(), node.GetElementid())
-        {
-            question = true;
+            if (node is AStarElement)
+                star = true;
+            else if (node is APlusElement)
+                plus = true;
+            else if (node is AQuestionElement)
+                question = true;
         }
 
         public bool Many

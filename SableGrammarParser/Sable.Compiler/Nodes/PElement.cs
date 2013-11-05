@@ -1,4 +1,4 @@
-﻿namespace Sable.Compiler.node
+﻿namespace Sable.Compiler.Nodes
 {
     public partial class PElement
     {
@@ -6,22 +6,22 @@
         {
             get
             {
-                PElementname name = Elementname;
-                PElementid id = Elementid;
+                PElementname name = PElementname;
+                PElementid id = PElementid;
                 if (name != null && name is AElementname)
-                    return (name as AElementname).GetName().Text;
+                    return (name as AElementname).Name.Text;
                 else
-                    return id.Identifier.Text;
+                    return id.TIdentifier.Text;
             }
         }
 
-        public abstract PElementid Elementid
+        public PElementid PElementid
         {
-            get;
+            get { return ((dynamic)this).Elementid; }
         }
-        public abstract PElementname Elementname
+        public PElementname PElementname
         {
-            get;
+            get { return ((dynamic)this).Elementname; }
         }
     }
 }

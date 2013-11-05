@@ -1,8 +1,9 @@
 ﻿using System;
 
-using Sable.Compiler.analysis;
-using Sable.Compiler.node;
+using Sable.Compiler.Analysis;
+using Sable.Compiler.Nodes;
 using Sable.Tools.Generate.CSharp;
+using Sable.Tools.Nodes;
 
 namespace Sable.Compiler.Generate.Analysis
 {
@@ -31,17 +32,17 @@ namespace Sable.Compiler.Generate.Analysis
             fileElement.Using.Add(ToolsNamespace.Nodes);
         }
 
-        public static FileElement BuildCode(Start astRoot)
+        public static FileElement BuildCode(Start<PGrammar> astRoot)
         {
-            AnalysisBuilder n = new AnalysisBuilder(astRoot.GetPGrammar());
-            astRoot.Apply(n);
+            AnalysisBuilder n = new AnalysisBuilder(astRoot.Root);
+            n.Visit(astRoot);
             return n.fileElement;
         }
 
         private string GetTokenName(PToken element)
         {
             if (element is AToken)
-                return "T" + ToCamelCase((element as AToken).GetIdentifier().Text);
+                return "T" + ToCamelCase((element as AToken).Identifier.Text);
             else
                 throw new NotImplementedException("Unknown token type.");
         }
@@ -122,8 +123,8 @@ namespace Sable.Compiler.Generate.Analysis
 
         public override void CaseAGrammar(AGrammar node)
         {
-            if (node.GetPackage() != null)
-                node.GetPackage().Apply(this);
+            if (node.HasPackage)
+                Visit(node.Package);
 
             string packageName = node.PackageName;
 
@@ -136,16 +137,16 @@ namespace Sable.Compiler.Generate.Analysis
             CreateDepthFirstAdapter();
             CreateDepthFirstReturnAdapter();
 
-            if (node.GetAstproductions() != null)
-                node.GetAstproductions().Apply(this);
-            else if (node.GetProductions() != null)
-                node.GetProductions().Apply(this);
+            if (node.HasAstproductions)
+                Visit(node.Astproductions);
+            else if (node.HasProductions)
+                Visit(node.Productions);
 
-            if (node.GetTokens() != null)
+            if (node.HasTokens)
             {
                 analysisAdapter.EmitNewLine();
                 returnAnalysisAdapter.EmitNewLine();
-                node.GetTokens().Apply(this);
+                Visit(node.Tokens);
             }
         }
 
@@ -158,7 +159,7 @@ namespace Sable.Compiler.Generate.Analysis
 
         public override void CaseAProduction(AProduction node)
         {
-            this.productionName = ToCamelCase(node.GetIdentifier().Text);
+            this.productionName = ToCamelCase(node.Identifier.Text);
             string name = "P" + productionName;
 
             depthFirstAdapter.EmitNewLine();
@@ -171,8 +172,8 @@ namespace Sable.Compiler.Generate.Analysis
         public override void CaseAAlternative(AAlternative node)
         {
             string name = "A" + productionName;
-            if (node.GetAlternativename() != null)
-                name = "A" + ToCamelCase((node.GetAlternativename() as AAlternativename).GetName().Text) + productionName;
+            if(node.HasAlternativename)
+                name = "A" + ToCamelCase((node.Alternativename as AAlternativename).Name.Text) + productionName;
 
             EmitInOut(name);
 
@@ -192,7 +193,7 @@ namespace Sable.Compiler.Generate.Analysis
             voidMethod.EmitSemicolon(true);
             voidMethod.EmitNewLine();
 
-            node.GetElements().Apply(this);
+            Visit(node.Elements);
 
             voidMethod.EmitNewLine();
             voidMethod.EmitIdentifier("Out" + name);
@@ -211,7 +212,7 @@ namespace Sable.Compiler.Generate.Analysis
             voidMethod.EmitIdentifier("Visit");
             using (var par = voidMethod.EmitParenthesis())
             {
-                if (node.Elementid.Identifier.IsProduction)
+                if (node.Elementid.TIdentifier.IsProduction)
                     EmitDynamic(par);
                 par.EmitIdentifier("node");
                 par.EmitPeriod();
@@ -232,7 +233,7 @@ namespace Sable.Compiler.Generate.Analysis
             voidMethod.EmitIdentifier("Visit");
             using (var par = voidMethod.EmitParenthesis())
             {
-                if (node.Elementid.Identifier.IsProduction)
+                if (node.Elementid.TIdentifier.IsProduction)
                     EmitDynamic(par);
                 par.EmitIdentifier("node");
                 par.EmitPeriod();
@@ -243,7 +244,7 @@ namespace Sable.Compiler.Generate.Analysis
         }
         public override void CaseAStarElement(AStarElement node)
         {
-            TIdentifier typeId = node.GetElementid().Identifier;
+            TIdentifier typeId = node.Elementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = ToCamelCase(node.LowerName);
 
@@ -251,7 +252,7 @@ namespace Sable.Compiler.Generate.Analysis
         }
         public override void CaseAPlusElement(APlusElement node)
         {
-            TIdentifier typeId = node.GetElementid().Identifier;
+            TIdentifier typeId = node.Elementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = ToCamelCase(node.LowerName);
 
@@ -322,7 +323,7 @@ namespace Sable.Compiler.Generate.Analysis
             voidMethod.EmitIdentifier("Visit");
             using (var par = voidMethod.EmitParenthesis())
             {
-                if (node.Elementid.Identifier.IsProduction)
+                if (node.PElementid.TIdentifier.IsProduction)
                     EmitDynamic(par);
                 par.EmitIdentifier("temp");
                 using (var square = par.EmitParenthesis(ParenthesisElement.Types.Square))

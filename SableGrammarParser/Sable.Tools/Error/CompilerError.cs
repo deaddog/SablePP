@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using Sable.Compiler.analysis;
-using Sable.Compiler.node;
+using Sable.Tools.Nodes;
 
-namespace Sable.Compiler.Error
+namespace Sable.Tools.Error
 {
     /// <summary>
     /// Describes a compiler error and the position at which it has occured.
@@ -45,8 +44,8 @@ namespace Sable.Compiler.Error
             Token last;
             FirstLastVisitor.FindTokens(node, out first, out last);
 
-            this.start = new Position(first.Line, first.Pos);
-            this.end = new Position(last.Line, last.Pos + last.Text.Length - 1);
+            this.start = new Position(first.Line, first.Position);
+            this.end = new Position(last.Line, last.Position + last.Text.Length - 1);
             if (args == null || args.Length == 0)
                 this.errorMessage = errorMessage;
             else
@@ -54,55 +53,78 @@ namespace Sable.Compiler.Error
             this.errorMessage = endWithPeriod(this.errorMessage);
         }
 
-        private static object[] translateArguments(object[] args)
+        private object[] translateArguments(object[] args)
         {
             for (int i = 0; i < args.Length; i++)
-                if (args[i] is TIdentifier)
-                    args[i] = quoteIdentifier((TIdentifier)args[i]);
+            {
+                ErrorArgumentEventArgs ea = new ErrorArgumentEventArgs(args[i]);
+                if (TranslateArgument != null)
+                    TranslateArgument(this, ea);
+                args[i] = ea.Text;
+            }
+
             return args;
         }
-        private static string quoteIdentifier(TIdentifier identifier)
-        {
-            return "\"" + identifier.Text + "\"";
-        }
+
+        public event ErrorArgumentEventHandler TranslateArgument;
 
         #region Token Locater class
 
-        private class FirstLastVisitor : DepthFirstAdapter
+        private class FirstLastVisitor
         {
-            private Token first;
-            private Token last;
-
-            private FirstLastVisitor()
-            {
-                this.first = null;
-                this.last = null;
-            }
-
             public static void FindTokens(Node node, out Token first, out Token last)
             {
                 if (node is Token)
-                {
                     first = last = node as Token;
-                    return;
-                }
+                else
+                {
+                    FirstFinder f = new FirstFinder();
+                    f.Visit(node);
+                    first = f.Token;
 
-                FirstLastVisitor visitor = new FirstLastVisitor();
-                node.Apply(visitor);
-                first = visitor.first;
-                last = visitor.last;
+                    LastFinder l = new LastFinder();
+                    l.Visit(node);
+                    last = l.Token;
+                }
             }
 
-            public override void DefaultCase(Node node)
+            private class FirstFinder : Sable.Tools.Analysis.DepthFirstTreeWalker
             {
-                if (node is Token)
+                private Token token = null;
+                public Token Token
                 {
-                    if (this.first == null)
-                        this.first = node as Token;
-                    this.last = node as Token;
+                    get { return token; }
                 }
 
-                base.DefaultCase(node);
+                public override void Visit(Production production)
+                {
+                    if (token == null)
+                        base.Visit(production);
+                }
+                public override void Visit(Token token)
+                {
+                    if (token == null)
+                        this.token = token;
+                }
+            }
+            private class LastFinder : Sable.Tools.Analysis.DepthFirstReversedTreeWalker
+            {
+                private Token token = null;
+                public Token Token
+                {
+                    get { return token; }
+                }
+
+                public override void Visit(Production production)
+                {
+                    if (token == null)
+                        base.Visit(production);
+                }
+                public override void Visit(Token token)
+                {
+                    if (token == null)
+                        this.token = token;
+                }
             }
         }
 

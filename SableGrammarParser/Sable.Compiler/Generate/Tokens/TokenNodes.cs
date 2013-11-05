@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Sable.Compiler.analysis;
-using Sable.Compiler.node;
+using Sable.Compiler.Analysis;
+using Sable.Compiler.Nodes;
 using Sable.Tools.Generate.CSharp;
+using Sable.Tools.Nodes;
 
 namespace Sable.Compiler.Generate.Tokens
 {
@@ -23,33 +24,33 @@ namespace Sable.Compiler.Generate.Tokens
             fileElement.Using.Add(ToolsNamespace.Nodes);
         }
 
-        public static FileElement BuildCode(Start astRoot)
+        public static FileElement BuildCode(Start<PGrammar> astRoot)
         {
             TokenNodes n = new TokenNodes();
-            astRoot.Apply(n);
+            n.Visit(astRoot);
             return n.fileElement;
         }
 
         private string GetTokenName(PToken element)
         {
             if (element is AToken)
-                return "T" + ToCamelCase((element as AToken).GetIdentifier().Text);
+                return "T" + ToCamelCase((element as AToken).Identifier.Text);
             else
                 throw new NotImplementedException("Unknown token type.");
         }
 
         public override void CaseAGrammar(AGrammar node)
         {
-            if (node.GetPackage() != null)
-                node.GetPackage().Apply(this);
+            if (node.HasPackage)
+                Visit(node.Package);
 
             string packageName = node.PackageName;
 
             nameElement = fileElement.CreateNamespace(packageName + ".Nodes");
             fileElement.Using.Add(packageName + ".Analysis");
 
-            if (node.GetTokens() != null)
-                node.GetTokens().Apply(this);
+            if (node.HasTokens)
+                Visit(node.Tokens);
         }
 
         public override void CaseAToken(AToken node)
