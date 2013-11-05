@@ -412,8 +412,7 @@ namespace Sable.Compiler
                     string name = node.Identifier.Text;
                     this.parent = "P" + name.ToCamelCase();
 
-                    if (node.HasProdtranslation)
-                        Visit(node.Productionrule);
+                    Visit(node.Productionrule);
                 }
 
                 public override void CaseAAlternative(AAlternative node)
