@@ -68,6 +68,18 @@ namespace Sable.Compiler.Generate.Analysis
             depthFirstAdapter = nameElement.CreateClass("DepthFirstAdapter", AccessModifiers.@public, "AnalysisAdapter<TValue>");
             depthFirstAdapter.TypeParameters.Add("TValue");
 
+            var visit = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Visit", "void");
+            visit.Parameters.Add("node", "Node");
+            visit.EmitIdentifier("Visit");
+            using(var par = visit.EmitParenthesis())
+            {
+                EmitDynamic(par);
+                par.EmitIdentifier("node");
+            }
+            visit.EmitSemicolon(true);
+
+            depthFirstAdapter.EmitNewLine();
+
             var sIn = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "InStart", "void");
             sIn.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
             var sOut = depthFirstAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "OutStart", "void");
