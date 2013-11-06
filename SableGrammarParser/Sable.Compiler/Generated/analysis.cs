@@ -1534,6 +1534,11 @@ namespace Sable.Compiler.Analysis
     
     public class DepthFirstAdapter<TValue> : AnalysisAdapter<TValue>
     {
+        public override void Visit(Node node)
+        {
+            Visit((dynamic)node);
+        }
+        
         public virtual void InStart(Start<PGrammar> node)
         {
         }
@@ -1583,19 +1588,19 @@ namespace Sable.Compiler.Analysis
             InPGrammar(node);
             InAGrammar(node);
             
-            if(node.HasPackage)
+            if (node.HasPackage)
                 Visit((dynamic)node.Package);
-            if(node.HasHelpers)
+            if (node.HasHelpers)
                 Visit((dynamic)node.Helpers);
-            if(node.HasStates)
+            if (node.HasStates)
                 Visit((dynamic)node.States);
-            if(node.HasTokens)
+            if (node.HasTokens)
                 Visit((dynamic)node.Tokens);
-            if(node.HasIgnoredtokens)
+            if (node.HasIgnoredtokens)
                 Visit((dynamic)node.Ignoredtokens);
-            if(node.HasProductions)
+            if (node.HasProductions)
                 Visit((dynamic)node.Productions);
-            if(node.HasAstproductions)
+            if (node.HasAstproductions)
                 Visit((dynamic)node.Astproductions);
             
             OutAGrammar(node);
@@ -1657,7 +1662,7 @@ namespace Sable.Compiler.Analysis
             {
                 PHelper[] temp = new PHelper[node.Helpers.Count];
                 node.Helpers.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     Visit((dynamic)temp[i]);
             }
             
@@ -1721,7 +1726,7 @@ namespace Sable.Compiler.Analysis
             {
                 PToken[] temp = new PToken[node.Tokens.Count];
                 node.Tokens.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     Visit((dynamic)temp[i]);
             }
             
@@ -1750,12 +1755,12 @@ namespace Sable.Compiler.Analysis
             InPToken(node);
             InAToken(node);
             
-            if(node.HasStatelist)
+            if (node.HasStatelist)
                 Visit((dynamic)node.Statelist);
             Visit(node.Identifier);
             Visit(node.Equal);
             Visit((dynamic)node.Regex);
-            if(node.HasTokenlookahead)
+            if (node.HasTokenlookahead)
                 Visit((dynamic)node.Tokenlookahead);
             Visit(node.Semicolon);
             
@@ -1816,7 +1821,7 @@ namespace Sable.Compiler.Analysis
             {
                 POrpart[] temp = new POrpart[node.Parts.Count];
                 node.Parts.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     Visit((dynamic)temp[i]);
             }
             
@@ -1845,13 +1850,13 @@ namespace Sable.Compiler.Analysis
             InPOrpart(node);
             InARegexOrpart(node);
             
-            if(node.HasPipe)
+            if (node.HasPipe)
                 Visit(node.Pipe);
             
             {
                 PRegexpart[] temp = new PRegexpart[node.Regexpart.Count];
                 node.Regexpart.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     Visit((dynamic)temp[i]);
             }
             
@@ -2185,7 +2190,7 @@ namespace Sable.Compiler.Analysis
             {
                 PListitem[] temp = new PListitem[node.Listitem.Count];
                 node.Listitem.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     Visit((dynamic)temp[i]);
             }
             
@@ -2210,7 +2215,7 @@ namespace Sable.Compiler.Analysis
             {
                 PListitem[] temp = new PListitem[node.Listitem.Count];
                 node.Listitem.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     Visit((dynamic)temp[i]);
             }
             Visit(node.Rpar);
@@ -2235,7 +2240,7 @@ namespace Sable.Compiler.Analysis
             {
                 PListitem[] temp = new PListitem[node.Listitem.Count];
                 node.Listitem.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     Visit((dynamic)temp[i]);
             }
             
@@ -2264,7 +2269,7 @@ namespace Sable.Compiler.Analysis
             InPListitem(node);
             InAIdentifierListitem(node);
             
-            if(node.HasComma)
+            if (node.HasComma)
                 Visit(node.Comma);
             Visit(node.Identifier);
             
@@ -2284,7 +2289,7 @@ namespace Sable.Compiler.Analysis
             InPListitem(node);
             InATokenstateListitem(node);
             
-            if(node.HasComma)
+            if (node.HasComma)
                 Visit(node.Comma);
             Visit(node.Identifier);
             
@@ -2304,7 +2309,7 @@ namespace Sable.Compiler.Analysis
             InPListitem(node);
             InATokenstatetransitionListitem(node);
             
-            if(node.HasComma)
+            if (node.HasComma)
                 Visit(node.Comma);
             Visit(node.From);
             Visit(node.Arrow);
@@ -2326,7 +2331,7 @@ namespace Sable.Compiler.Analysis
             InPListitem(node);
             InATranslationListitem(node);
             
-            if(node.HasComma)
+            if (node.HasComma)
                 Visit(node.Comma);
             Visit((dynamic)node.Translation);
             
@@ -2360,7 +2365,7 @@ namespace Sable.Compiler.Analysis
             {
                 PProduction[] temp = new PProduction[node.Productions.Count];
                 node.Productions.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     Visit((dynamic)temp[i]);
             }
             
@@ -2394,7 +2399,7 @@ namespace Sable.Compiler.Analysis
             {
                 PProduction[] temp = new PProduction[node.Productions.Count];
                 node.Productions.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     Visit((dynamic)temp[i]);
             }
             
@@ -2424,7 +2429,7 @@ namespace Sable.Compiler.Analysis
             InAProduction(node);
             
             Visit(node.Identifier);
-            if(node.HasProdtranslation)
+            if (node.HasProdtranslation)
                 Visit((dynamic)node.Prodtranslation);
             Visit(node.Equal);
             Visit((dynamic)node.Productionrule);
@@ -2707,7 +2712,7 @@ namespace Sable.Compiler.Analysis
             {
                 PAlternative[] temp = new PAlternative[node.Alternatives.Count];
                 node.Alternatives.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     Visit((dynamic)temp[i]);
             }
             
@@ -2736,12 +2741,12 @@ namespace Sable.Compiler.Analysis
             InPAlternative(node);
             InAAlternative(node);
             
-            if(node.HasPipe)
+            if (node.HasPipe)
                 Visit(node.Pipe);
-            if(node.HasAlternativename)
+            if (node.HasAlternativename)
                 Visit((dynamic)node.Alternativename);
             Visit((dynamic)node.Elements);
-            if(node.HasTranslation)
+            if (node.HasTranslation)
                 Visit((dynamic)node.Translation);
             
             OutAAlternative(node);
@@ -2802,7 +2807,7 @@ namespace Sable.Compiler.Analysis
             {
                 PElement[] temp = new PElement[node.Element.Count];
                 node.Element.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     Visit((dynamic)temp[i]);
             }
             
@@ -2831,7 +2836,7 @@ namespace Sable.Compiler.Analysis
             InPElement(node);
             InASimpleElement(node);
             
-            if(node.HasElementname)
+            if (node.HasElementname)
                 Visit((dynamic)node.Elementname);
             Visit((dynamic)node.Elementid);
             
@@ -2851,7 +2856,7 @@ namespace Sable.Compiler.Analysis
             InPElement(node);
             InAStarElement(node);
             
-            if(node.HasElementname)
+            if (node.HasElementname)
                 Visit((dynamic)node.Elementname);
             Visit((dynamic)node.Elementid);
             Visit(node.Star);
@@ -2872,7 +2877,7 @@ namespace Sable.Compiler.Analysis
             InPElement(node);
             InAQuestionElement(node);
             
-            if(node.HasElementname)
+            if (node.HasElementname)
                 Visit((dynamic)node.Elementname);
             Visit((dynamic)node.Elementid);
             Visit(node.QMark);
@@ -2893,7 +2898,7 @@ namespace Sable.Compiler.Analysis
             InPElement(node);
             InAPlusElement(node);
             
-            if(node.HasElementname)
+            if (node.HasElementname)
                 Visit((dynamic)node.Elementname);
             Visit((dynamic)node.Elementid);
             Visit(node.Plus);

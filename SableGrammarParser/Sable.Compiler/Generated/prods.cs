@@ -35,9 +35,9 @@ namespace Sable.Compiler.Nodes
             get { return _package_; }
             set
             {
-                if(_package_ != null)
+                if (_package_ != null)
                     SetParent(_package_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _package_ = value;
@@ -52,9 +52,9 @@ namespace Sable.Compiler.Nodes
             get { return _helpers_; }
             set
             {
-                if(_helpers_ != null)
+                if (_helpers_ != null)
                     SetParent(_helpers_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _helpers_ = value;
@@ -69,9 +69,9 @@ namespace Sable.Compiler.Nodes
             get { return _states_; }
             set
             {
-                if(_states_ != null)
+                if (_states_ != null)
                     SetParent(_states_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _states_ = value;
@@ -86,9 +86,9 @@ namespace Sable.Compiler.Nodes
             get { return _tokens_; }
             set
             {
-                if(_tokens_ != null)
+                if (_tokens_ != null)
                     SetParent(_tokens_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _tokens_ = value;
@@ -103,9 +103,9 @@ namespace Sable.Compiler.Nodes
             get { return _ignoredtokens_; }
             set
             {
-                if(_ignoredtokens_ != null)
+                if (_ignoredtokens_ != null)
                     SetParent(_ignoredtokens_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _ignoredtokens_ = value;
@@ -120,9 +120,9 @@ namespace Sable.Compiler.Nodes
             get { return _productions_; }
             set
             {
-                if(_productions_ != null)
+                if (_productions_ != null)
                     SetParent(_productions_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _productions_ = value;
@@ -137,9 +137,9 @@ namespace Sable.Compiler.Nodes
             get { return _astproductions_; }
             set
             {
-                if(_astproductions_ != null)
+                if (_astproductions_ != null)
                     SetParent(_astproductions_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _astproductions_ = value;
@@ -152,45 +152,45 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Package == oldChild)
+            if (Package == oldChild)
             {
-                if(!(newChild is PPackage) && newChild != null)
+                if (!(newChild is PPackage) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Package = newChild as PPackage;
             }
-            else if(Helpers == oldChild)
+            else if (Helpers == oldChild)
             {
-                if(!(newChild is PHelpers) && newChild != null)
+                if (!(newChild is PHelpers) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Helpers = newChild as PHelpers;
             }
-            else if(States == oldChild)
+            else if (States == oldChild)
             {
-                if(!(newChild is PStates) && newChild != null)
+                if (!(newChild is PStates) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 States = newChild as PStates;
             }
-            else if(Tokens == oldChild)
+            else if (Tokens == oldChild)
             {
-                if(!(newChild is PTokens) && newChild != null)
+                if (!(newChild is PTokens) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Tokens = newChild as PTokens;
             }
-            else if(Ignoredtokens == oldChild)
+            else if (Ignoredtokens == oldChild)
             {
-                if(!(newChild is PIgnoredtokens) && newChild != null)
+                if (!(newChild is PIgnoredtokens) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Ignoredtokens = newChild as PIgnoredtokens;
             }
-            else if(Productions == oldChild)
+            else if (Productions == oldChild)
             {
-                if(!(newChild is PProductions) && newChild != null)
+                if (!(newChild is PProductions) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Productions = newChild as PProductions;
             }
-            else if(Astproductions == oldChild)
+            else if (Astproductions == oldChild)
             {
-                if(!(newChild is PAstproductions) && newChild != null)
+                if (!(newChild is PAstproductions) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Astproductions = newChild as PAstproductions;
             }
@@ -198,19 +198,19 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if(HasPackage)
+            if (HasPackage)
                 yield return _package_;
-            if(HasHelpers)
+            if (HasHelpers)
                 yield return _helpers_;
-            if(HasStates)
+            if (HasStates)
                 yield return _states_;
-            if(HasTokens)
+            if (HasTokens)
                 yield return _tokens_;
-            if(HasIgnoredtokens)
+            if (HasIgnoredtokens)
                 yield return _ignoredtokens_;
-            if(HasProductions)
+            if (HasProductions)
                 yield return _productions_;
-            if(HasAstproductions)
+            if (HasAstproductions)
                 yield return _astproductions_;
         }
         
@@ -246,7 +246,7 @@ namespace Sable.Compiler.Nodes
             get { return _packagetoken_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Packagetoken in APackage cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -258,7 +258,7 @@ namespace Sable.Compiler.Nodes
             get { return _packagename_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Packagename in APackage cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -270,7 +270,7 @@ namespace Sable.Compiler.Nodes
             get { return _semicolon_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Semicolon in APackage cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -280,27 +280,27 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Packagetoken == oldChild)
+            if (Packagetoken == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Packagetoken in APackage cannot be null.", "newChild");
-                if(!(newChild is TPackagetoken) && newChild != null)
+                if (!(newChild is TPackagetoken) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Packagetoken = newChild as TPackagetoken;
             }
-            else if(Packagename == oldChild)
+            else if (Packagename == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Packagename in APackage cannot be null.", "newChild");
-                if(!(newChild is TPackagename) && newChild != null)
+                if (!(newChild is TPackagename) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Packagename = newChild as TPackagename;
             }
-            else if(Semicolon == oldChild)
+            else if (Semicolon == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Semicolon in APackage cannot be null.", "newChild");
-                if(!(newChild is TSemicolon) && newChild != null)
+                if (!(newChild is TSemicolon) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Semicolon = newChild as TSemicolon;
             }
@@ -343,7 +343,7 @@ namespace Sable.Compiler.Nodes
             get { return _helperstoken_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Helperstoken in AHelpers cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -357,21 +357,21 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Helperstoken == oldChild)
+            if (Helperstoken == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Helperstoken in AHelpers cannot be null.", "newChild");
-                if(!(newChild is THelperstoken) && newChild != null)
+                if (!(newChild is THelperstoken) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Helperstoken = newChild as THelperstoken;
             }
-            else if(oldChild is PHelper && _helpers_.Contains(oldChild as PHelper))
+            else if (oldChild is PHelper && _helpers_.Contains(oldChild as PHelper))
             {
-                if(!(newChild is PHelper) && newChild != null)
+                if (!(newChild is PHelper) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
                 int index = _helpers_.IndexOf(oldChild as PHelper);
-                if(newChild == null)
+                if (newChild == null)
                     _helpers_.RemoveAt(index);
                 else
                     _helpers_[index] = newChild as PHelper;
@@ -385,7 +385,7 @@ namespace Sable.Compiler.Nodes
             {
                 PHelper[] temp = new PHelper[_helpers_.Count];
                 _helpers_.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     yield return temp[i];
             }
         }
@@ -424,7 +424,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in AHelper cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -436,7 +436,7 @@ namespace Sable.Compiler.Nodes
             get { return _equal_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Equal in AHelper cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -448,7 +448,7 @@ namespace Sable.Compiler.Nodes
             get { return _regex_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Regex in AHelper cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -460,7 +460,7 @@ namespace Sable.Compiler.Nodes
             get { return _semicolon_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Semicolon in AHelper cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -470,35 +470,35 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Identifier == oldChild)
+            if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in AHelper cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
-            else if(Equal == oldChild)
+            else if (Equal == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Equal in AHelper cannot be null.", "newChild");
-                if(!(newChild is TEqual) && newChild != null)
+                if (!(newChild is TEqual) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Equal = newChild as TEqual;
             }
-            else if(Regex == oldChild)
+            else if (Regex == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Regex in AHelper cannot be null.", "newChild");
-                if(!(newChild is PRegex) && newChild != null)
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Regex = newChild as PRegex;
             }
-            else if(Semicolon == oldChild)
+            else if (Semicolon == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Semicolon in AHelper cannot be null.", "newChild");
-                if(!(newChild is TSemicolon) && newChild != null)
+                if (!(newChild is TSemicolon) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Semicolon = newChild as TSemicolon;
             }
@@ -542,7 +542,7 @@ namespace Sable.Compiler.Nodes
             get { return _tokenstoken_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Tokenstoken in ATokens cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -556,21 +556,21 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Tokenstoken == oldChild)
+            if (Tokenstoken == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Tokenstoken in ATokens cannot be null.", "newChild");
-                if(!(newChild is TTokenstoken) && newChild != null)
+                if (!(newChild is TTokenstoken) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Tokenstoken = newChild as TTokenstoken;
             }
-            else if(oldChild is PToken && _tokens_.Contains(oldChild as PToken))
+            else if (oldChild is PToken && _tokens_.Contains(oldChild as PToken))
             {
-                if(!(newChild is PToken) && newChild != null)
+                if (!(newChild is PToken) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
                 int index = _tokens_.IndexOf(oldChild as PToken);
-                if(newChild == null)
+                if (newChild == null)
                     _tokens_.RemoveAt(index);
                 else
                     _tokens_[index] = newChild as PToken;
@@ -584,7 +584,7 @@ namespace Sable.Compiler.Nodes
             {
                 PToken[] temp = new PToken[_tokens_.Count];
                 _tokens_.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     yield return temp[i];
             }
         }
@@ -627,9 +627,9 @@ namespace Sable.Compiler.Nodes
             get { return _statelist_; }
             set
             {
-                if(_statelist_ != null)
+                if (_statelist_ != null)
                     SetParent(_statelist_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _statelist_ = value;
@@ -644,7 +644,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in AToken cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -656,7 +656,7 @@ namespace Sable.Compiler.Nodes
             get { return _equal_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Equal in AToken cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -668,7 +668,7 @@ namespace Sable.Compiler.Nodes
             get { return _regex_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Regex in AToken cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -680,9 +680,9 @@ namespace Sable.Compiler.Nodes
             get { return _tokenlookahead_; }
             set
             {
-                if(_tokenlookahead_ != null)
+                if (_tokenlookahead_ != null)
                     SetParent(_tokenlookahead_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _tokenlookahead_ = value;
@@ -697,7 +697,7 @@ namespace Sable.Compiler.Nodes
             get { return _semicolon_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Semicolon in AToken cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -707,47 +707,47 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Statelist == oldChild)
+            if (Statelist == oldChild)
             {
-                if(!(newChild is PList) && newChild != null)
+                if (!(newChild is PList) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Statelist = newChild as PList;
             }
-            else if(Identifier == oldChild)
+            else if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in AToken cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
-            else if(Equal == oldChild)
+            else if (Equal == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Equal in AToken cannot be null.", "newChild");
-                if(!(newChild is TEqual) && newChild != null)
+                if (!(newChild is TEqual) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Equal = newChild as TEqual;
             }
-            else if(Regex == oldChild)
+            else if (Regex == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Regex in AToken cannot be null.", "newChild");
-                if(!(newChild is PRegex) && newChild != null)
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Regex = newChild as PRegex;
             }
-            else if(Tokenlookahead == oldChild)
+            else if (Tokenlookahead == oldChild)
             {
-                if(!(newChild is PTokenlookahead) && newChild != null)
+                if (!(newChild is PTokenlookahead) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Tokenlookahead = newChild as PTokenlookahead;
             }
-            else if(Semicolon == oldChild)
+            else if (Semicolon == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Semicolon in AToken cannot be null.", "newChild");
-                if(!(newChild is TSemicolon) && newChild != null)
+                if (!(newChild is TSemicolon) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Semicolon = newChild as TSemicolon;
             }
@@ -755,12 +755,12 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if(HasStatelist)
+            if (HasStatelist)
                 yield return _statelist_;
             yield return _identifier_;
             yield return _equal_;
             yield return _regex_;
-            if(HasTokenlookahead)
+            if (HasTokenlookahead)
                 yield return _tokenlookahead_;
             yield return _semicolon_;
         }
@@ -795,7 +795,7 @@ namespace Sable.Compiler.Nodes
             get { return _slash_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Slash in ATokenlookahead cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -807,7 +807,7 @@ namespace Sable.Compiler.Nodes
             get { return _regex_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Regex in ATokenlookahead cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -817,19 +817,19 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Slash == oldChild)
+            if (Slash == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Slash in ATokenlookahead cannot be null.", "newChild");
-                if(!(newChild is TSlash) && newChild != null)
+                if (!(newChild is TSlash) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Slash = newChild as TSlash;
             }
-            else if(Regex == oldChild)
+            else if (Regex == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Regex in ATokenlookahead cannot be null.", "newChild");
-                if(!(newChild is PRegex) && newChild != null)
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Regex = newChild as PRegex;
             }
@@ -871,13 +871,13 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(oldChild is POrpart && _parts_.Contains(oldChild as POrpart))
+            if (oldChild is POrpart && _parts_.Contains(oldChild as POrpart))
             {
-                if(!(newChild is POrpart) && newChild != null)
+                if (!(newChild is POrpart) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
                 int index = _parts_.IndexOf(oldChild as POrpart);
-                if(newChild == null)
+                if (newChild == null)
                     _parts_.RemoveAt(index);
                 else
                     _parts_[index] = newChild as POrpart;
@@ -890,7 +890,7 @@ namespace Sable.Compiler.Nodes
             {
                 POrpart[] temp = new POrpart[_parts_.Count];
                 _parts_.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     yield return temp[i];
             }
         }
@@ -925,9 +925,9 @@ namespace Sable.Compiler.Nodes
             get { return _pipe_; }
             set
             {
-                if(_pipe_ != null)
+                if (_pipe_ != null)
                     SetParent(_pipe_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _pipe_ = value;
@@ -944,19 +944,19 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Pipe == oldChild)
+            if (Pipe == oldChild)
             {
-                if(!(newChild is TPipe) && newChild != null)
+                if (!(newChild is TPipe) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Pipe = newChild as TPipe;
             }
-            else if(oldChild is PRegexpart && _regexpart_.Contains(oldChild as PRegexpart))
+            else if (oldChild is PRegexpart && _regexpart_.Contains(oldChild as PRegexpart))
             {
-                if(!(newChild is PRegexpart) && newChild != null)
+                if (!(newChild is PRegexpart) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
                 int index = _regexpart_.IndexOf(oldChild as PRegexpart);
-                if(newChild == null)
+                if (newChild == null)
                     _regexpart_.RemoveAt(index);
                 else
                     _regexpart_[index] = newChild as PRegexpart;
@@ -965,13 +965,13 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if(HasPipe)
+            if (HasPipe)
                 yield return _pipe_;
             
             {
                 PRegexpart[] temp = new PRegexpart[_regexpart_.Count];
                 _regexpart_.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     yield return temp[i];
             }
         }
@@ -1004,7 +1004,7 @@ namespace Sable.Compiler.Nodes
             get { return _character_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Character in ACharRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1014,11 +1014,11 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Character == oldChild)
+            if (Character == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Character in ACharRegexpart cannot be null.", "newChild");
-                if(!(newChild is TCharacter) && newChild != null)
+                if (!(newChild is TCharacter) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Character = newChild as TCharacter;
             }
@@ -1053,7 +1053,7 @@ namespace Sable.Compiler.Nodes
             get { return _dec_char_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("DecChar in ADecRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1063,11 +1063,11 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(DecChar == oldChild)
+            if (DecChar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("DecChar in ADecRegexpart cannot be null.", "newChild");
-                if(!(newChild is TDecChar) && newChild != null)
+                if (!(newChild is TDecChar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 DecChar = newChild as TDecChar;
             }
@@ -1102,7 +1102,7 @@ namespace Sable.Compiler.Nodes
             get { return _hex_char_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("HexChar in AHexRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1112,11 +1112,11 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(HexChar == oldChild)
+            if (HexChar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("HexChar in AHexRegexpart cannot be null.", "newChild");
-                if(!(newChild is THexChar) && newChild != null)
+                if (!(newChild is THexChar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 HexChar = newChild as THexChar;
             }
@@ -1153,7 +1153,7 @@ namespace Sable.Compiler.Nodes
             get { return _regexpart_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Regexpart in AUnarystarRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1165,7 +1165,7 @@ namespace Sable.Compiler.Nodes
             get { return _star_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Star in AUnarystarRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1175,19 +1175,19 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Regexpart == oldChild)
+            if (Regexpart == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Regexpart in AUnarystarRegexpart cannot be null.", "newChild");
-                if(!(newChild is PRegexpart) && newChild != null)
+                if (!(newChild is PRegexpart) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Regexpart = newChild as PRegexpart;
             }
-            else if(Star == oldChild)
+            else if (Star == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Star in AUnarystarRegexpart cannot be null.", "newChild");
-                if(!(newChild is TStar) && newChild != null)
+                if (!(newChild is TStar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Star = newChild as TStar;
             }
@@ -1225,7 +1225,7 @@ namespace Sable.Compiler.Nodes
             get { return _regexpart_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Regexpart in AUnaryquestionRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1237,7 +1237,7 @@ namespace Sable.Compiler.Nodes
             get { return _question_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Question in AUnaryquestionRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1247,19 +1247,19 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Regexpart == oldChild)
+            if (Regexpart == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Regexpart in AUnaryquestionRegexpart cannot be null.", "newChild");
-                if(!(newChild is PRegexpart) && newChild != null)
+                if (!(newChild is PRegexpart) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Regexpart = newChild as PRegexpart;
             }
-            else if(Question == oldChild)
+            else if (Question == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Question in AUnaryquestionRegexpart cannot be null.", "newChild");
-                if(!(newChild is TQMark) && newChild != null)
+                if (!(newChild is TQMark) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Question = newChild as TQMark;
             }
@@ -1297,7 +1297,7 @@ namespace Sable.Compiler.Nodes
             get { return _regexpart_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Regexpart in AUnaryplusRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1309,7 +1309,7 @@ namespace Sable.Compiler.Nodes
             get { return _plus_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Plus in AUnaryplusRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1319,19 +1319,19 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Regexpart == oldChild)
+            if (Regexpart == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Regexpart in AUnaryplusRegexpart cannot be null.", "newChild");
-                if(!(newChild is PRegexpart) && newChild != null)
+                if (!(newChild is PRegexpart) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Regexpart = newChild as PRegexpart;
             }
-            else if(Plus == oldChild)
+            else if (Plus == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Plus in AUnaryplusRegexpart cannot be null.", "newChild");
-                if(!(newChild is TPlus) && newChild != null)
+                if (!(newChild is TPlus) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Plus = newChild as TPlus;
             }
@@ -1375,7 +1375,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in ABinaryplusRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1387,7 +1387,7 @@ namespace Sable.Compiler.Nodes
             get { return _left_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Left in ABinaryplusRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1399,7 +1399,7 @@ namespace Sable.Compiler.Nodes
             get { return _plus_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Plus in ABinaryplusRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1411,7 +1411,7 @@ namespace Sable.Compiler.Nodes
             get { return _right_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Right in ABinaryplusRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1423,7 +1423,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in ABinaryplusRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1433,43 +1433,43 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Lpar == oldChild)
+            if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in ABinaryplusRegexpart cannot be null.", "newChild");
-                if(!(newChild is TLBkt) && newChild != null)
+                if (!(newChild is TLBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBkt;
             }
-            else if(Left == oldChild)
+            else if (Left == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Left in ABinaryplusRegexpart cannot be null.", "newChild");
-                if(!(newChild is PRegexpart) && newChild != null)
+                if (!(newChild is PRegexpart) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Left = newChild as PRegexpart;
             }
-            else if(Plus == oldChild)
+            else if (Plus == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Plus in ABinaryplusRegexpart cannot be null.", "newChild");
-                if(!(newChild is TPlus) && newChild != null)
+                if (!(newChild is TPlus) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Plus = newChild as TPlus;
             }
-            else if(Right == oldChild)
+            else if (Right == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Right in ABinaryplusRegexpart cannot be null.", "newChild");
-                if(!(newChild is PRegexpart) && newChild != null)
+                if (!(newChild is PRegexpart) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Right = newChild as PRegexpart;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in ABinaryplusRegexpart cannot be null.", "newChild");
-                if(!(newChild is TRBkt) && newChild != null)
+                if (!(newChild is TRBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBkt;
             }
@@ -1516,7 +1516,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in ABinaryminusRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1528,7 +1528,7 @@ namespace Sable.Compiler.Nodes
             get { return _left_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Left in ABinaryminusRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1540,7 +1540,7 @@ namespace Sable.Compiler.Nodes
             get { return _minus_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Minus in ABinaryminusRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1552,7 +1552,7 @@ namespace Sable.Compiler.Nodes
             get { return _right_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Right in ABinaryminusRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1564,7 +1564,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in ABinaryminusRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1574,43 +1574,43 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Lpar == oldChild)
+            if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in ABinaryminusRegexpart cannot be null.", "newChild");
-                if(!(newChild is TLBkt) && newChild != null)
+                if (!(newChild is TLBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBkt;
             }
-            else if(Left == oldChild)
+            else if (Left == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Left in ABinaryminusRegexpart cannot be null.", "newChild");
-                if(!(newChild is PRegexpart) && newChild != null)
+                if (!(newChild is PRegexpart) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Left = newChild as PRegexpart;
             }
-            else if(Minus == oldChild)
+            else if (Minus == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Minus in ABinaryminusRegexpart cannot be null.", "newChild");
-                if(!(newChild is TMinus) && newChild != null)
+                if (!(newChild is TMinus) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Minus = newChild as TMinus;
             }
-            else if(Right == oldChild)
+            else if (Right == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Right in ABinaryminusRegexpart cannot be null.", "newChild");
-                if(!(newChild is PRegexpart) && newChild != null)
+                if (!(newChild is PRegexpart) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Right = newChild as PRegexpart;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in ABinaryminusRegexpart cannot be null.", "newChild");
-                if(!(newChild is TRBkt) && newChild != null)
+                if (!(newChild is TRBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBkt;
             }
@@ -1657,7 +1657,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in AIntervalRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1669,7 +1669,7 @@ namespace Sable.Compiler.Nodes
             get { return _left_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Left in AIntervalRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1681,7 +1681,7 @@ namespace Sable.Compiler.Nodes
             get { return _dots_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Dots in AIntervalRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1693,7 +1693,7 @@ namespace Sable.Compiler.Nodes
             get { return _right_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Right in AIntervalRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1705,7 +1705,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in AIntervalRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1715,43 +1715,43 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Lpar == oldChild)
+            if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in AIntervalRegexpart cannot be null.", "newChild");
-                if(!(newChild is TLBkt) && newChild != null)
+                if (!(newChild is TLBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBkt;
             }
-            else if(Left == oldChild)
+            else if (Left == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Left in AIntervalRegexpart cannot be null.", "newChild");
-                if(!(newChild is PRegexpart) && newChild != null)
+                if (!(newChild is PRegexpart) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Left = newChild as PRegexpart;
             }
-            else if(Dots == oldChild)
+            else if (Dots == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Dots in AIntervalRegexpart cannot be null.", "newChild");
-                if(!(newChild is TDDot) && newChild != null)
+                if (!(newChild is TDDot) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Dots = newChild as TDDot;
             }
-            else if(Right == oldChild)
+            else if (Right == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Right in AIntervalRegexpart cannot be null.", "newChild");
-                if(!(newChild is PRegexpart) && newChild != null)
+                if (!(newChild is PRegexpart) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Right = newChild as PRegexpart;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in AIntervalRegexpart cannot be null.", "newChild");
-                if(!(newChild is TRBkt) && newChild != null)
+                if (!(newChild is TRBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBkt;
             }
@@ -1790,7 +1790,7 @@ namespace Sable.Compiler.Nodes
             get { return _string_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("String in AStringRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1800,11 +1800,11 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(String == oldChild)
+            if (String == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("String in AStringRegexpart cannot be null.", "newChild");
-                if(!(newChild is TString) && newChild != null)
+                if (!(newChild is TString) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 String = newChild as TString;
             }
@@ -1839,7 +1839,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in AIdentifierRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1849,11 +1849,11 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Identifier == oldChild)
+            if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in AIdentifierRegexpart cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
@@ -1892,7 +1892,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in AParenthesisRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1904,7 +1904,7 @@ namespace Sable.Compiler.Nodes
             get { return _regex_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Regex in AParenthesisRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1916,7 +1916,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in AParenthesisRegexpart cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -1926,27 +1926,27 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Lpar == oldChild)
+            if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in AParenthesisRegexpart cannot be null.", "newChild");
-                if(!(newChild is TLPar) && newChild != null)
+                if (!(newChild is TLPar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLPar;
             }
-            else if(Regex == oldChild)
+            else if (Regex == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Regex in AParenthesisRegexpart cannot be null.", "newChild");
-                if(!(newChild is PRegex) && newChild != null)
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Regex = newChild as PRegex;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in AParenthesisRegexpart cannot be null.", "newChild");
-                if(!(newChild is TRPar) && newChild != null)
+                if (!(newChild is TRPar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRPar;
             }
@@ -1991,7 +1991,7 @@ namespace Sable.Compiler.Nodes
             get { return _statestoken_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Statestoken in AStates cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2003,7 +2003,7 @@ namespace Sable.Compiler.Nodes
             get { return _list_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("List in AStates cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2015,7 +2015,7 @@ namespace Sable.Compiler.Nodes
             get { return _semicolon_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Semicolon in AStates cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2025,27 +2025,27 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Statestoken == oldChild)
+            if (Statestoken == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Statestoken in AStates cannot be null.", "newChild");
-                if(!(newChild is TStatestoken) && newChild != null)
+                if (!(newChild is TStatestoken) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Statestoken = newChild as TStatestoken;
             }
-            else if(List == oldChild)
+            else if (List == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("List in AStates cannot be null.", "newChild");
-                if(!(newChild is PList) && newChild != null)
+                if (!(newChild is PList) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 List = newChild as PList;
             }
-            else if(Semicolon == oldChild)
+            else if (Semicolon == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Semicolon in AStates cannot be null.", "newChild");
-                if(!(newChild is TSemicolon) && newChild != null)
+                if (!(newChild is TSemicolon) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Semicolon = newChild as TSemicolon;
             }
@@ -2092,7 +2092,7 @@ namespace Sable.Compiler.Nodes
             get { return _ignoredtoken_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Ignoredtoken in AIgnoredtokens cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2104,7 +2104,7 @@ namespace Sable.Compiler.Nodes
             get { return _tokenstoken_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Tokenstoken in AIgnoredtokens cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2116,7 +2116,7 @@ namespace Sable.Compiler.Nodes
             get { return _list_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("List in AIgnoredtokens cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2128,7 +2128,7 @@ namespace Sable.Compiler.Nodes
             get { return _semicolon_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Semicolon in AIgnoredtokens cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2138,35 +2138,35 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Ignoredtoken == oldChild)
+            if (Ignoredtoken == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Ignoredtoken in AIgnoredtokens cannot be null.", "newChild");
-                if(!(newChild is TIgnoredtoken) && newChild != null)
+                if (!(newChild is TIgnoredtoken) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Ignoredtoken = newChild as TIgnoredtoken;
             }
-            else if(Tokenstoken == oldChild)
+            else if (Tokenstoken == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Tokenstoken in AIgnoredtokens cannot be null.", "newChild");
-                if(!(newChild is TTokenstoken) && newChild != null)
+                if (!(newChild is TTokenstoken) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Tokenstoken = newChild as TTokenstoken;
             }
-            else if(List == oldChild)
+            else if (List == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("List in AIgnoredtokens cannot be null.", "newChild");
-                if(!(newChild is PList) && newChild != null)
+                if (!(newChild is PList) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 List = newChild as PList;
             }
-            else if(Semicolon == oldChild)
+            else if (Semicolon == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Semicolon in AIgnoredtokens cannot be null.", "newChild");
-                if(!(newChild is TSemicolon) && newChild != null)
+                if (!(newChild is TSemicolon) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Semicolon = newChild as TSemicolon;
             }
@@ -2210,13 +2210,13 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(oldChild is PListitem && _listitem_.Contains(oldChild as PListitem))
+            if (oldChild is PListitem && _listitem_.Contains(oldChild as PListitem))
             {
-                if(!(newChild is PListitem) && newChild != null)
+                if (!(newChild is PListitem) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
                 int index = _listitem_.IndexOf(oldChild as PListitem);
-                if(newChild == null)
+                if (newChild == null)
                     _listitem_.RemoveAt(index);
                 else
                     _listitem_[index] = newChild as PListitem;
@@ -2229,7 +2229,7 @@ namespace Sable.Compiler.Nodes
             {
                 PListitem[] temp = new PListitem[_listitem_.Count];
                 _listitem_.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     yield return temp[i];
             }
         }
@@ -2262,7 +2262,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in ATokenstateList cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2278,7 +2278,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in ATokenstateList cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2288,30 +2288,30 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Lpar == oldChild)
+            if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in ATokenstateList cannot be null.", "newChild");
-                if(!(newChild is TLBrace) && newChild != null)
+                if (!(newChild is TLBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBrace;
             }
-            else if(oldChild is PListitem && _listitem_.Contains(oldChild as PListitem))
+            else if (oldChild is PListitem && _listitem_.Contains(oldChild as PListitem))
             {
-                if(!(newChild is PListitem) && newChild != null)
+                if (!(newChild is PListitem) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
                 int index = _listitem_.IndexOf(oldChild as PListitem);
-                if(newChild == null)
+                if (newChild == null)
                     _listitem_.RemoveAt(index);
                 else
                     _listitem_[index] = newChild as PListitem;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in ATokenstateList cannot be null.", "newChild");
-                if(!(newChild is TRBrace) && newChild != null)
+                if (!(newChild is TRBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBrace;
             }
@@ -2324,7 +2324,7 @@ namespace Sable.Compiler.Nodes
             {
                 PListitem[] temp = new PListitem[_listitem_.Count];
                 _listitem_.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     yield return temp[i];
             }
             yield return _rpar_;
@@ -2356,13 +2356,13 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(oldChild is PListitem && _listitem_.Contains(oldChild as PListitem))
+            if (oldChild is PListitem && _listitem_.Contains(oldChild as PListitem))
             {
-                if(!(newChild is PListitem) && newChild != null)
+                if (!(newChild is PListitem) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
                 int index = _listitem_.IndexOf(oldChild as PListitem);
-                if(newChild == null)
+                if (newChild == null)
                     _listitem_.RemoveAt(index);
                 else
                     _listitem_[index] = newChild as PListitem;
@@ -2375,7 +2375,7 @@ namespace Sable.Compiler.Nodes
             {
                 PListitem[] temp = new PListitem[_listitem_.Count];
                 _listitem_.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     yield return temp[i];
             }
         }
@@ -2410,9 +2410,9 @@ namespace Sable.Compiler.Nodes
             get { return _comma_; }
             set
             {
-                if(_comma_ != null)
+                if (_comma_ != null)
                     SetParent(_comma_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _comma_ = value;
@@ -2427,7 +2427,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in AIdentifierListitem cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2437,17 +2437,17 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Comma == oldChild)
+            if (Comma == oldChild)
             {
-                if(!(newChild is TComma) && newChild != null)
+                if (!(newChild is TComma) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Comma = newChild as TComma;
             }
-            else if(Identifier == oldChild)
+            else if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in AIdentifierListitem cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
@@ -2455,7 +2455,7 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if(HasComma)
+            if (HasComma)
                 yield return _comma_;
             yield return _identifier_;
         }
@@ -2486,9 +2486,9 @@ namespace Sable.Compiler.Nodes
             get { return _comma_; }
             set
             {
-                if(_comma_ != null)
+                if (_comma_ != null)
                     SetParent(_comma_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _comma_ = value;
@@ -2503,7 +2503,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in ATokenstateListitem cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2513,17 +2513,17 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Comma == oldChild)
+            if (Comma == oldChild)
             {
-                if(!(newChild is TComma) && newChild != null)
+                if (!(newChild is TComma) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Comma = newChild as TComma;
             }
-            else if(Identifier == oldChild)
+            else if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in ATokenstateListitem cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
@@ -2531,7 +2531,7 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if(HasComma)
+            if (HasComma)
                 yield return _comma_;
             yield return _identifier_;
         }
@@ -2566,9 +2566,9 @@ namespace Sable.Compiler.Nodes
             get { return _comma_; }
             set
             {
-                if(_comma_ != null)
+                if (_comma_ != null)
                     SetParent(_comma_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _comma_ = value;
@@ -2583,7 +2583,7 @@ namespace Sable.Compiler.Nodes
             get { return _from_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("From in ATokenstatetransitionListitem cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2595,7 +2595,7 @@ namespace Sable.Compiler.Nodes
             get { return _arrow_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Arrow in ATokenstatetransitionListitem cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2607,7 +2607,7 @@ namespace Sable.Compiler.Nodes
             get { return _to_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("To in ATokenstatetransitionListitem cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2617,33 +2617,33 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Comma == oldChild)
+            if (Comma == oldChild)
             {
-                if(!(newChild is TComma) && newChild != null)
+                if (!(newChild is TComma) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Comma = newChild as TComma;
             }
-            else if(From == oldChild)
+            else if (From == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("From in ATokenstatetransitionListitem cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 From = newChild as TIdentifier;
             }
-            else if(Arrow == oldChild)
+            else if (Arrow == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Arrow in ATokenstatetransitionListitem cannot be null.", "newChild");
-                if(!(newChild is TArrow) && newChild != null)
+                if (!(newChild is TArrow) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Arrow = newChild as TArrow;
             }
-            else if(To == oldChild)
+            else if (To == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("To in ATokenstatetransitionListitem cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 To = newChild as TIdentifier;
             }
@@ -2651,7 +2651,7 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if(HasComma)
+            if (HasComma)
                 yield return _comma_;
             yield return _from_;
             yield return _arrow_;
@@ -2684,9 +2684,9 @@ namespace Sable.Compiler.Nodes
             get { return _comma_; }
             set
             {
-                if(_comma_ != null)
+                if (_comma_ != null)
                     SetParent(_comma_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _comma_ = value;
@@ -2701,7 +2701,7 @@ namespace Sable.Compiler.Nodes
             get { return _translation_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Translation in ATranslationListitem cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2711,17 +2711,17 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Comma == oldChild)
+            if (Comma == oldChild)
             {
-                if(!(newChild is TComma) && newChild != null)
+                if (!(newChild is TComma) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Comma = newChild as TComma;
             }
-            else if(Translation == oldChild)
+            else if (Translation == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Translation in ATranslationListitem cannot be null.", "newChild");
-                if(!(newChild is PTranslation) && newChild != null)
+                if (!(newChild is PTranslation) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Translation = newChild as PTranslation;
             }
@@ -2729,7 +2729,7 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if(HasComma)
+            if (HasComma)
                 yield return _comma_;
             yield return _translation_;
         }
@@ -2764,7 +2764,7 @@ namespace Sable.Compiler.Nodes
             get { return _productionstoken_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Productionstoken in AProductions cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2778,21 +2778,21 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Productionstoken == oldChild)
+            if (Productionstoken == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Productionstoken in AProductions cannot be null.", "newChild");
-                if(!(newChild is TProductionstoken) && newChild != null)
+                if (!(newChild is TProductionstoken) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Productionstoken = newChild as TProductionstoken;
             }
-            else if(oldChild is PProduction && _productions_.Contains(oldChild as PProduction))
+            else if (oldChild is PProduction && _productions_.Contains(oldChild as PProduction))
             {
-                if(!(newChild is PProduction) && newChild != null)
+                if (!(newChild is PProduction) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
                 int index = _productions_.IndexOf(oldChild as PProduction);
-                if(newChild == null)
+                if (newChild == null)
                     _productions_.RemoveAt(index);
                 else
                     _productions_[index] = newChild as PProduction;
@@ -2806,7 +2806,7 @@ namespace Sable.Compiler.Nodes
             {
                 PProduction[] temp = new PProduction[_productions_.Count];
                 _productions_.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     yield return temp[i];
             }
         }
@@ -2841,7 +2841,7 @@ namespace Sable.Compiler.Nodes
             get { return _asttoken_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Asttoken in AAstproductions cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2855,21 +2855,21 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Asttoken == oldChild)
+            if (Asttoken == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Asttoken in AAstproductions cannot be null.", "newChild");
-                if(!(newChild is TAsttoken) && newChild != null)
+                if (!(newChild is TAsttoken) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Asttoken = newChild as TAsttoken;
             }
-            else if(oldChild is PProduction && _productions_.Contains(oldChild as PProduction))
+            else if (oldChild is PProduction && _productions_.Contains(oldChild as PProduction))
             {
-                if(!(newChild is PProduction) && newChild != null)
+                if (!(newChild is PProduction) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
                 int index = _productions_.IndexOf(oldChild as PProduction);
-                if(newChild == null)
+                if (newChild == null)
                     _productions_.RemoveAt(index);
                 else
                     _productions_[index] = newChild as PProduction;
@@ -2883,7 +2883,7 @@ namespace Sable.Compiler.Nodes
             {
                 PProduction[] temp = new PProduction[_productions_.Count];
                 _productions_.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     yield return temp[i];
             }
         }
@@ -2924,7 +2924,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in AProduction cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2936,9 +2936,9 @@ namespace Sable.Compiler.Nodes
             get { return _prodtranslation_; }
             set
             {
-                if(_prodtranslation_ != null)
+                if (_prodtranslation_ != null)
                     SetParent(_prodtranslation_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _prodtranslation_ = value;
@@ -2953,7 +2953,7 @@ namespace Sable.Compiler.Nodes
             get { return _equal_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Equal in AProduction cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2965,7 +2965,7 @@ namespace Sable.Compiler.Nodes
             get { return _productionrule_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Productionrule in AProduction cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2977,7 +2977,7 @@ namespace Sable.Compiler.Nodes
             get { return _semicolon_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Semicolon in AProduction cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -2987,41 +2987,41 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Identifier == oldChild)
+            if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in AProduction cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
-            else if(Prodtranslation == oldChild)
+            else if (Prodtranslation == oldChild)
             {
-                if(!(newChild is PProdtranslation) && newChild != null)
+                if (!(newChild is PProdtranslation) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Prodtranslation = newChild as PProdtranslation;
             }
-            else if(Equal == oldChild)
+            else if (Equal == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Equal in AProduction cannot be null.", "newChild");
-                if(!(newChild is TEqual) && newChild != null)
+                if (!(newChild is TEqual) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Equal = newChild as TEqual;
             }
-            else if(Productionrule == oldChild)
+            else if (Productionrule == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Productionrule in AProduction cannot be null.", "newChild");
-                if(!(newChild is PProductionrule) && newChild != null)
+                if (!(newChild is PProductionrule) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Productionrule = newChild as PProductionrule;
             }
-            else if(Semicolon == oldChild)
+            else if (Semicolon == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Semicolon in AProduction cannot be null.", "newChild");
-                if(!(newChild is TSemicolon) && newChild != null)
+                if (!(newChild is TSemicolon) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Semicolon = newChild as TSemicolon;
             }
@@ -3030,7 +3030,7 @@ namespace Sable.Compiler.Nodes
         protected override IEnumerable<Node> GetChildren()
         {
             yield return _identifier_;
-            if(HasProdtranslation)
+            if (HasProdtranslation)
                 yield return _prodtranslation_;
             yield return _equal_;
             yield return _productionrule_;
@@ -3071,7 +3071,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in ACleanProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3083,7 +3083,7 @@ namespace Sable.Compiler.Nodes
             get { return _arrow_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Arrow in ACleanProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3095,7 +3095,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in ACleanProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3107,7 +3107,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in ACleanProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3117,35 +3117,35 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Lpar == oldChild)
+            if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in ACleanProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TLBrace) && newChild != null)
+                if (!(newChild is TLBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBrace;
             }
-            else if(Arrow == oldChild)
+            else if (Arrow == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Arrow in ACleanProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TArrow) && newChild != null)
+                if (!(newChild is TArrow) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Arrow = newChild as TArrow;
             }
-            else if(Identifier == oldChild)
+            else if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in ACleanProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in ACleanProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TRBrace) && newChild != null)
+                if (!(newChild is TRBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBrace;
             }
@@ -3191,7 +3191,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in AStarProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3203,7 +3203,7 @@ namespace Sable.Compiler.Nodes
             get { return _arrow_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Arrow in AStarProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3215,7 +3215,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in AStarProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3227,7 +3227,7 @@ namespace Sable.Compiler.Nodes
             get { return _star_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Star in AStarProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3239,7 +3239,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in AStarProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3249,43 +3249,43 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Lpar == oldChild)
+            if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in AStarProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TLBrace) && newChild != null)
+                if (!(newChild is TLBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBrace;
             }
-            else if(Arrow == oldChild)
+            else if (Arrow == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Arrow in AStarProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TArrow) && newChild != null)
+                if (!(newChild is TArrow) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Arrow = newChild as TArrow;
             }
-            else if(Identifier == oldChild)
+            else if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in AStarProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
-            else if(Star == oldChild)
+            else if (Star == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Star in AStarProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TStar) && newChild != null)
+                if (!(newChild is TStar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Star = newChild as TStar;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in AStarProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TRBrace) && newChild != null)
+                if (!(newChild is TRBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBrace;
             }
@@ -3332,7 +3332,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in APlusProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3344,7 +3344,7 @@ namespace Sable.Compiler.Nodes
             get { return _arrow_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Arrow in APlusProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3356,7 +3356,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in APlusProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3368,7 +3368,7 @@ namespace Sable.Compiler.Nodes
             get { return _plus_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Plus in APlusProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3380,7 +3380,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in APlusProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3390,43 +3390,43 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Lpar == oldChild)
+            if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in APlusProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TLBrace) && newChild != null)
+                if (!(newChild is TLBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBrace;
             }
-            else if(Arrow == oldChild)
+            else if (Arrow == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Arrow in APlusProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TArrow) && newChild != null)
+                if (!(newChild is TArrow) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Arrow = newChild as TArrow;
             }
-            else if(Identifier == oldChild)
+            else if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in APlusProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
-            else if(Plus == oldChild)
+            else if (Plus == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Plus in APlusProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TPlus) && newChild != null)
+                if (!(newChild is TPlus) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Plus = newChild as TPlus;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in APlusProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TRBrace) && newChild != null)
+                if (!(newChild is TRBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBrace;
             }
@@ -3473,7 +3473,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in AQuestionProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3485,7 +3485,7 @@ namespace Sable.Compiler.Nodes
             get { return _arrow_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Arrow in AQuestionProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3497,7 +3497,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in AQuestionProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3509,7 +3509,7 @@ namespace Sable.Compiler.Nodes
             get { return _q_mark_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("QMark in AQuestionProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3521,7 +3521,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in AQuestionProdtranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3531,43 +3531,43 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Lpar == oldChild)
+            if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in AQuestionProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TLBrace) && newChild != null)
+                if (!(newChild is TLBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBrace;
             }
-            else if(Arrow == oldChild)
+            else if (Arrow == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Arrow in AQuestionProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TArrow) && newChild != null)
+                if (!(newChild is TArrow) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Arrow = newChild as TArrow;
             }
-            else if(Identifier == oldChild)
+            else if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in AQuestionProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
-            else if(QMark == oldChild)
+            else if (QMark == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("QMark in AQuestionProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TQMark) && newChild != null)
+                if (!(newChild is TQMark) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 QMark = newChild as TQMark;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in AQuestionProdtranslation cannot be null.", "newChild");
-                if(!(newChild is TRBrace) && newChild != null)
+                if (!(newChild is TRBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBrace;
             }
@@ -3616,7 +3616,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in AFullTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3628,7 +3628,7 @@ namespace Sable.Compiler.Nodes
             get { return _arrow_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Arrow in AFullTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3640,7 +3640,7 @@ namespace Sable.Compiler.Nodes
             get { return _translation_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Translation in AFullTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3652,7 +3652,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in AFullTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3662,35 +3662,35 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Lpar == oldChild)
+            if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in AFullTranslation cannot be null.", "newChild");
-                if(!(newChild is TLBrace) && newChild != null)
+                if (!(newChild is TLBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBrace;
             }
-            else if(Arrow == oldChild)
+            else if (Arrow == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Arrow in AFullTranslation cannot be null.", "newChild");
-                if(!(newChild is TArrow) && newChild != null)
+                if (!(newChild is TArrow) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Arrow = newChild as TArrow;
             }
-            else if(Translation == oldChild)
+            else if (Translation == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Translation in AFullTranslation cannot be null.", "newChild");
-                if(!(newChild is PTranslation) && newChild != null)
+                if (!(newChild is PTranslation) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Translation = newChild as PTranslation;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in AFullTranslation cannot be null.", "newChild");
-                if(!(newChild is TRBrace) && newChild != null)
+                if (!(newChild is TRBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBrace;
             }
@@ -3736,7 +3736,7 @@ namespace Sable.Compiler.Nodes
             get { return _new_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("New in ANewTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3748,7 +3748,7 @@ namespace Sable.Compiler.Nodes
             get { return _production_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Production in ANewTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3760,7 +3760,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in ANewTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3772,7 +3772,7 @@ namespace Sable.Compiler.Nodes
             get { return _arguments_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Arguments in ANewTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3784,7 +3784,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in ANewTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3794,43 +3794,43 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(New == oldChild)
+            if (New == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("New in ANewTranslation cannot be null.", "newChild");
-                if(!(newChild is TNew) && newChild != null)
+                if (!(newChild is TNew) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 New = newChild as TNew;
             }
-            else if(Production == oldChild)
+            else if (Production == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Production in ANewTranslation cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Production = newChild as TIdentifier;
             }
-            else if(Lpar == oldChild)
+            else if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in ANewTranslation cannot be null.", "newChild");
-                if(!(newChild is TLPar) && newChild != null)
+                if (!(newChild is TLPar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLPar;
             }
-            else if(Arguments == oldChild)
+            else if (Arguments == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Arguments in ANewTranslation cannot be null.", "newChild");
-                if(!(newChild is PList) && newChild != null)
+                if (!(newChild is PList) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Arguments = newChild as PList;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in ANewTranslation cannot be null.", "newChild");
-                if(!(newChild is TRPar) && newChild != null)
+                if (!(newChild is TRPar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRPar;
             }
@@ -3881,7 +3881,7 @@ namespace Sable.Compiler.Nodes
             get { return _new_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("New in ANewalternativeTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3893,7 +3893,7 @@ namespace Sable.Compiler.Nodes
             get { return _production_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Production in ANewalternativeTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3905,7 +3905,7 @@ namespace Sable.Compiler.Nodes
             get { return _dot_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Dot in ANewalternativeTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3917,7 +3917,7 @@ namespace Sable.Compiler.Nodes
             get { return _alternative_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Alternative in ANewalternativeTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3929,7 +3929,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in ANewalternativeTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3941,7 +3941,7 @@ namespace Sable.Compiler.Nodes
             get { return _arguments_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Arguments in ANewalternativeTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3953,7 +3953,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in ANewalternativeTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -3963,59 +3963,59 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(New == oldChild)
+            if (New == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("New in ANewalternativeTranslation cannot be null.", "newChild");
-                if(!(newChild is TNew) && newChild != null)
+                if (!(newChild is TNew) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 New = newChild as TNew;
             }
-            else if(Production == oldChild)
+            else if (Production == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Production in ANewalternativeTranslation cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Production = newChild as TIdentifier;
             }
-            else if(Dot == oldChild)
+            else if (Dot == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Dot in ANewalternativeTranslation cannot be null.", "newChild");
-                if(!(newChild is TDot) && newChild != null)
+                if (!(newChild is TDot) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Dot = newChild as TDot;
             }
-            else if(Alternative == oldChild)
+            else if (Alternative == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Alternative in ANewalternativeTranslation cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Alternative = newChild as TIdentifier;
             }
-            else if(Lpar == oldChild)
+            else if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in ANewalternativeTranslation cannot be null.", "newChild");
-                if(!(newChild is TLPar) && newChild != null)
+                if (!(newChild is TLPar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLPar;
             }
-            else if(Arguments == oldChild)
+            else if (Arguments == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Arguments in ANewalternativeTranslation cannot be null.", "newChild");
-                if(!(newChild is PList) && newChild != null)
+                if (!(newChild is PList) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Arguments = newChild as PList;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in ANewalternativeTranslation cannot be null.", "newChild");
-                if(!(newChild is TRPar) && newChild != null)
+                if (!(newChild is TRPar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRPar;
             }
@@ -4060,7 +4060,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in AListTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4072,7 +4072,7 @@ namespace Sable.Compiler.Nodes
             get { return _elements_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Elements in AListTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4084,7 +4084,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in AListTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4094,27 +4094,27 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Lpar == oldChild)
+            if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in AListTranslation cannot be null.", "newChild");
-                if(!(newChild is TLBkt) && newChild != null)
+                if (!(newChild is TLBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBkt;
             }
-            else if(Elements == oldChild)
+            else if (Elements == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Elements in AListTranslation cannot be null.", "newChild");
-                if(!(newChild is PList) && newChild != null)
+                if (!(newChild is PList) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Elements = newChild as PList;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in AListTranslation cannot be null.", "newChild");
-                if(!(newChild is TRBkt) && newChild != null)
+                if (!(newChild is TRBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBkt;
             }
@@ -4151,7 +4151,7 @@ namespace Sable.Compiler.Nodes
             get { return _null_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Null in ANullTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4161,11 +4161,11 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Null == oldChild)
+            if (Null == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Null in ANullTranslation cannot be null.", "newChild");
-                if(!(newChild is TNull) && newChild != null)
+                if (!(newChild is TNull) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Null = newChild as TNull;
             }
@@ -4200,7 +4200,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in AIdTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4210,11 +4210,11 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Identifier == oldChild)
+            if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in AIdTranslation cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
@@ -4253,7 +4253,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in AIddotidTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4265,7 +4265,7 @@ namespace Sable.Compiler.Nodes
             get { return _dot_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Dot in AIddotidTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4277,7 +4277,7 @@ namespace Sable.Compiler.Nodes
             get { return _production_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Production in AIddotidTranslation cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4287,27 +4287,27 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Identifier == oldChild)
+            if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in AIddotidTranslation cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
-            else if(Dot == oldChild)
+            else if (Dot == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Dot in AIddotidTranslation cannot be null.", "newChild");
-                if(!(newChild is TDot) && newChild != null)
+                if (!(newChild is TDot) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Dot = newChild as TDot;
             }
-            else if(Production == oldChild)
+            else if (Production == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Production in AIddotidTranslation cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Production = newChild as TIdentifier;
             }
@@ -4350,13 +4350,13 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(oldChild is PAlternative && _alternatives_.Contains(oldChild as PAlternative))
+            if (oldChild is PAlternative && _alternatives_.Contains(oldChild as PAlternative))
             {
-                if(!(newChild is PAlternative) && newChild != null)
+                if (!(newChild is PAlternative) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
                 int index = _alternatives_.IndexOf(oldChild as PAlternative);
-                if(newChild == null)
+                if (newChild == null)
                     _alternatives_.RemoveAt(index);
                 else
                     _alternatives_[index] = newChild as PAlternative;
@@ -4369,7 +4369,7 @@ namespace Sable.Compiler.Nodes
             {
                 PAlternative[] temp = new PAlternative[_alternatives_.Count];
                 _alternatives_.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     yield return temp[i];
             }
         }
@@ -4408,9 +4408,9 @@ namespace Sable.Compiler.Nodes
             get { return _pipe_; }
             set
             {
-                if(_pipe_ != null)
+                if (_pipe_ != null)
                     SetParent(_pipe_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _pipe_ = value;
@@ -4425,9 +4425,9 @@ namespace Sable.Compiler.Nodes
             get { return _alternativename_; }
             set
             {
-                if(_alternativename_ != null)
+                if (_alternativename_ != null)
                     SetParent(_alternativename_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _alternativename_ = value;
@@ -4442,7 +4442,7 @@ namespace Sable.Compiler.Nodes
             get { return _elements_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Elements in AAlternative cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4454,9 +4454,9 @@ namespace Sable.Compiler.Nodes
             get { return _translation_; }
             set
             {
-                if(_translation_ != null)
+                if (_translation_ != null)
                     SetParent(_translation_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _translation_ = value;
@@ -4469,29 +4469,29 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Pipe == oldChild)
+            if (Pipe == oldChild)
             {
-                if(!(newChild is TPipe) && newChild != null)
+                if (!(newChild is TPipe) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Pipe = newChild as TPipe;
             }
-            else if(Alternativename == oldChild)
+            else if (Alternativename == oldChild)
             {
-                if(!(newChild is PAlternativename) && newChild != null)
+                if (!(newChild is PAlternativename) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Alternativename = newChild as PAlternativename;
             }
-            else if(Elements == oldChild)
+            else if (Elements == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Elements in AAlternative cannot be null.", "newChild");
-                if(!(newChild is PElements) && newChild != null)
+                if (!(newChild is PElements) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Elements = newChild as PElements;
             }
-            else if(Translation == oldChild)
+            else if (Translation == oldChild)
             {
-                if(!(newChild is PTranslation) && newChild != null)
+                if (!(newChild is PTranslation) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Translation = newChild as PTranslation;
             }
@@ -4499,12 +4499,12 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if(HasPipe)
+            if (HasPipe)
                 yield return _pipe_;
-            if(HasAlternativename)
+            if (HasAlternativename)
                 yield return _alternativename_;
             yield return _elements_;
-            if(HasTranslation)
+            if (HasTranslation)
                 yield return _translation_;
         }
         
@@ -4540,7 +4540,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in AAlternativename cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4552,7 +4552,7 @@ namespace Sable.Compiler.Nodes
             get { return _name_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Name in AAlternativename cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4564,7 +4564,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in AAlternativename cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4574,27 +4574,27 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Lpar == oldChild)
+            if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in AAlternativename cannot be null.", "newChild");
-                if(!(newChild is TLBrace) && newChild != null)
+                if (!(newChild is TLBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBrace;
             }
-            else if(Name == oldChild)
+            else if (Name == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Name in AAlternativename cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Name = newChild as TIdentifier;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in AAlternativename cannot be null.", "newChild");
-                if(!(newChild is TRBrace) && newChild != null)
+                if (!(newChild is TRBrace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBrace;
             }
@@ -4637,13 +4637,13 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(oldChild is PElement && _element_.Contains(oldChild as PElement))
+            if (oldChild is PElement && _element_.Contains(oldChild as PElement))
             {
-                if(!(newChild is PElement) && newChild != null)
+                if (!(newChild is PElement) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
                 int index = _element_.IndexOf(oldChild as PElement);
-                if(newChild == null)
+                if (newChild == null)
                     _element_.RemoveAt(index);
                 else
                     _element_[index] = newChild as PElement;
@@ -4656,7 +4656,7 @@ namespace Sable.Compiler.Nodes
             {
                 PElement[] temp = new PElement[_element_.Count];
                 _element_.CopyTo(temp, 0);
-                for(int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i ++)
                     yield return temp[i];
             }
         }
@@ -4691,9 +4691,9 @@ namespace Sable.Compiler.Nodes
             get { return _elementname_; }
             set
             {
-                if(_elementname_ != null)
+                if (_elementname_ != null)
                     SetParent(_elementname_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _elementname_ = value;
@@ -4708,7 +4708,7 @@ namespace Sable.Compiler.Nodes
             get { return _elementid_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Elementid in ASimpleElement cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4718,17 +4718,17 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Elementname == oldChild)
+            if (Elementname == oldChild)
             {
-                if(!(newChild is PElementname) && newChild != null)
+                if (!(newChild is PElementname) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Elementname = newChild as PElementname;
             }
-            else if(Elementid == oldChild)
+            else if (Elementid == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Elementid in ASimpleElement cannot be null.", "newChild");
-                if(!(newChild is PElementid) && newChild != null)
+                if (!(newChild is PElementid) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Elementid = newChild as PElementid;
             }
@@ -4736,7 +4736,7 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if(HasElementname)
+            if (HasElementname)
                 yield return _elementname_;
             yield return _elementid_;
         }
@@ -4769,9 +4769,9 @@ namespace Sable.Compiler.Nodes
             get { return _elementname_; }
             set
             {
-                if(_elementname_ != null)
+                if (_elementname_ != null)
                     SetParent(_elementname_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _elementname_ = value;
@@ -4786,7 +4786,7 @@ namespace Sable.Compiler.Nodes
             get { return _elementid_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Elementid in AStarElement cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4798,7 +4798,7 @@ namespace Sable.Compiler.Nodes
             get { return _star_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Star in AStarElement cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4808,25 +4808,25 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Elementname == oldChild)
+            if (Elementname == oldChild)
             {
-                if(!(newChild is PElementname) && newChild != null)
+                if (!(newChild is PElementname) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Elementname = newChild as PElementname;
             }
-            else if(Elementid == oldChild)
+            else if (Elementid == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Elementid in AStarElement cannot be null.", "newChild");
-                if(!(newChild is PElementid) && newChild != null)
+                if (!(newChild is PElementid) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Elementid = newChild as PElementid;
             }
-            else if(Star == oldChild)
+            else if (Star == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Star in AStarElement cannot be null.", "newChild");
-                if(!(newChild is TStar) && newChild != null)
+                if (!(newChild is TStar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Star = newChild as TStar;
             }
@@ -4834,7 +4834,7 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if(HasElementname)
+            if (HasElementname)
                 yield return _elementname_;
             yield return _elementid_;
             yield return _star_;
@@ -4868,9 +4868,9 @@ namespace Sable.Compiler.Nodes
             get { return _elementname_; }
             set
             {
-                if(_elementname_ != null)
+                if (_elementname_ != null)
                     SetParent(_elementname_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _elementname_ = value;
@@ -4885,7 +4885,7 @@ namespace Sable.Compiler.Nodes
             get { return _elementid_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Elementid in AQuestionElement cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4897,7 +4897,7 @@ namespace Sable.Compiler.Nodes
             get { return _q_mark_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("QMark in AQuestionElement cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4907,25 +4907,25 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Elementname == oldChild)
+            if (Elementname == oldChild)
             {
-                if(!(newChild is PElementname) && newChild != null)
+                if (!(newChild is PElementname) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Elementname = newChild as PElementname;
             }
-            else if(Elementid == oldChild)
+            else if (Elementid == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Elementid in AQuestionElement cannot be null.", "newChild");
-                if(!(newChild is PElementid) && newChild != null)
+                if (!(newChild is PElementid) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Elementid = newChild as PElementid;
             }
-            else if(QMark == oldChild)
+            else if (QMark == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("QMark in AQuestionElement cannot be null.", "newChild");
-                if(!(newChild is TQMark) && newChild != null)
+                if (!(newChild is TQMark) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 QMark = newChild as TQMark;
             }
@@ -4933,7 +4933,7 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if(HasElementname)
+            if (HasElementname)
                 yield return _elementname_;
             yield return _elementid_;
             yield return _q_mark_;
@@ -4967,9 +4967,9 @@ namespace Sable.Compiler.Nodes
             get { return _elementname_; }
             set
             {
-                if(_elementname_ != null)
+                if (_elementname_ != null)
                     SetParent(_elementname_, null);
-                if(value != null)
+                if (value != null)
                     SetParent(value, this);
                 
                 _elementname_ = value;
@@ -4984,7 +4984,7 @@ namespace Sable.Compiler.Nodes
             get { return _elementid_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Elementid in APlusElement cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -4996,7 +4996,7 @@ namespace Sable.Compiler.Nodes
             get { return _plus_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Plus in APlusElement cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -5006,25 +5006,25 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Elementname == oldChild)
+            if (Elementname == oldChild)
             {
-                if(!(newChild is PElementname) && newChild != null)
+                if (!(newChild is PElementname) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Elementname = newChild as PElementname;
             }
-            else if(Elementid == oldChild)
+            else if (Elementid == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Elementid in APlusElement cannot be null.", "newChild");
-                if(!(newChild is PElementid) && newChild != null)
+                if (!(newChild is PElementid) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Elementid = newChild as PElementid;
             }
-            else if(Plus == oldChild)
+            else if (Plus == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Plus in APlusElement cannot be null.", "newChild");
-                if(!(newChild is TPlus) && newChild != null)
+                if (!(newChild is TPlus) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Plus = newChild as TPlus;
             }
@@ -5032,7 +5032,7 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if(HasElementname)
+            if (HasElementname)
                 yield return _elementname_;
             yield return _elementid_;
             yield return _plus_;
@@ -5072,7 +5072,7 @@ namespace Sable.Compiler.Nodes
             get { return _lpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Lpar in AElementname cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -5084,7 +5084,7 @@ namespace Sable.Compiler.Nodes
             get { return _name_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Name in AElementname cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -5096,7 +5096,7 @@ namespace Sable.Compiler.Nodes
             get { return _rpar_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Rpar in AElementname cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -5108,7 +5108,7 @@ namespace Sable.Compiler.Nodes
             get { return _colon_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Colon in AElementname cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -5118,35 +5118,35 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Lpar == oldChild)
+            if (Lpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Lpar in AElementname cannot be null.", "newChild");
-                if(!(newChild is TLBkt) && newChild != null)
+                if (!(newChild is TLBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBkt;
             }
-            else if(Name == oldChild)
+            else if (Name == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Name in AElementname cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Name = newChild as TIdentifier;
             }
-            else if(Rpar == oldChild)
+            else if (Rpar == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Rpar in AElementname cannot be null.", "newChild");
-                if(!(newChild is TRBkt) && newChild != null)
+                if (!(newChild is TRBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBkt;
             }
-            else if(Colon == oldChild)
+            else if (Colon == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Colon in AElementname cannot be null.", "newChild");
-                if(!(newChild is TColon) && newChild != null)
+                if (!(newChild is TColon) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Colon = newChild as TColon;
             }
@@ -5188,7 +5188,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in ACleanElementid cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -5198,11 +5198,11 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(Identifier == oldChild)
+            if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in ACleanElementid cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
@@ -5241,7 +5241,7 @@ namespace Sable.Compiler.Nodes
             get { return _token_specifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("TokenSpecifier in ATokenElementid cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -5253,7 +5253,7 @@ namespace Sable.Compiler.Nodes
             get { return _dot_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Dot in ATokenElementid cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -5265,7 +5265,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in ATokenElementid cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -5275,27 +5275,27 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(TokenSpecifier == oldChild)
+            if (TokenSpecifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("TokenSpecifier in ATokenElementid cannot be null.", "newChild");
-                if(!(newChild is TTokenSpecifier) && newChild != null)
+                if (!(newChild is TTokenSpecifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 TokenSpecifier = newChild as TTokenSpecifier;
             }
-            else if(Dot == oldChild)
+            else if (Dot == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Dot in ATokenElementid cannot be null.", "newChild");
-                if(!(newChild is TDot) && newChild != null)
+                if (!(newChild is TDot) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Dot = newChild as TDot;
             }
-            else if(Identifier == oldChild)
+            else if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in ATokenElementid cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
@@ -5336,7 +5336,7 @@ namespace Sable.Compiler.Nodes
             get { return _production_specifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("ProductionSpecifier in AProductionElementid cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -5348,7 +5348,7 @@ namespace Sable.Compiler.Nodes
             get { return _dot_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Dot in AProductionElementid cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -5360,7 +5360,7 @@ namespace Sable.Compiler.Nodes
             get { return _identifier_; }
             set
             {
-                if(value == null)
+                if (value == null)
                     throw new ArgumentException("Identifier in AProductionElementid cannot be null.", "value");
                 SetParent(value, this);
                 
@@ -5370,27 +5370,27 @@ namespace Sable.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if(ProductionSpecifier == oldChild)
+            if (ProductionSpecifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("ProductionSpecifier in AProductionElementid cannot be null.", "newChild");
-                if(!(newChild is TProductionSpecifier) && newChild != null)
+                if (!(newChild is TProductionSpecifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 ProductionSpecifier = newChild as TProductionSpecifier;
             }
-            else if(Dot == oldChild)
+            else if (Dot == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Dot in AProductionElementid cannot be null.", "newChild");
-                if(!(newChild is TDot) && newChild != null)
+                if (!(newChild is TDot) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Dot = newChild as TDot;
             }
-            else if(Identifier == oldChild)
+            else if (Identifier == oldChild)
             {
-                if(newChild == null)
+                if (newChild == null)
                     throw new ArgumentException("Identifier in AProductionElementid cannot be null.", "newChild");
-                if(!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
