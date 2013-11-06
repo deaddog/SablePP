@@ -42,11 +42,11 @@ namespace Sable.Tools.Generate
             if (elements.Count > 0 && elements.Last.Value is TextElement)
                 (elements.Last.Value as TextElement).AppendText(text, prepend, append);
             else
-                elements.AddLast(new TextElement(text, prepend, append));
+                insertElement(new TextElement(text, prepend, append));
         }
         protected void emitNewLine()
         {
-            elements.AddLast(new NewLineElement());
+            insertElement(new NewLineElement());
         }
 
         protected void increaseIndentation()
@@ -71,7 +71,7 @@ namespace Sable.Tools.Generate
                     elements.RemoveLast();
             }
             else
-                elements.AddLast(new IndentationElement(difference));
+                insertElement(new IndentationElement(difference));
         }
 
         internal sealed override void Generate(CodeStreamWriter streamwriter)
@@ -98,7 +98,7 @@ namespace Sable.Tools.Generate
             foreach(var e in Walk(element))
             {
                 if (e is TextElement)
-                    result.emit((e as TextElement).Text, result.Prepend, result.Append);
+                    result.emit((e as TextElement).Text, e.Prepend, e.Append);
                 else if (e is NewLineElement)
                     result.EmitNewLine();
                 else if (e is IndentationElement)
@@ -136,8 +136,19 @@ namespace Sable.Tools.Generate
             if(parent!=null)
             {
                 PatchElement replacement = FlattenElement(this);
-                LinkedListNode<CodeElement> element = this.parent.elements.Find(this);
-                element.Value = replacement;
+                if (replacement.elements.Count == 1)
+                {
+                    CodeElement e = replacement.elements.First.Value;
+                    LinkedListNode<CodeElement> element = this.parent.elements.Find(this);
+                    element.Value = e;
+                    e.parent = this.parent;
+                }
+                else
+                {
+                    LinkedListNode<CodeElement> element = this.parent.elements.Find(this);
+                    element.Value = replacement;
+                    replacement.parent = this.parent;
+                }
             }
         }
     }
