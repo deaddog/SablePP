@@ -39,6 +39,8 @@ namespace Sable.Compiler
         private static Regex indexMethod = new Regex(@"private int Index\(Switchable token\)[^}]*}");
         private static Regex parseMethod = new Regex(@"public Start Parse\(\)");
         private static Regex acceptCase = new Regex(@"case ACCEPT[^{]*{[^}]*}");
+        private static Regex parserThrow = new Regex("throw new ParserException\\(.*\\\"\\] \\\" \\+[ \\n]*", RegexOptions.Singleline);
+        private static Regex parserClass = new Regex(@"{[^p{}]*public class ParserException[^}]*}[^}]*}[^}]*}[^}]*}");
 
         #endregion
 
@@ -49,7 +51,7 @@ namespace Sable.Compiler
             string package = astRoot.Root.PackageName;
 
             code = code.Replace("using System.Collections;", "using System.Collections;\nusing System.Collections.Generic;");
-            code = code.Replace("using " + package + ".node;", "using " + ToolsNamespace.Nodes + ";\nusing " + package + ".Nodes;");
+            code = code.Replace("using " + package + ".node;", "using " + ToolsNamespace.Nodes + ";\nusing " + package + ".Nodes;\nusing " + ToolsNamespace.Error + ";");
             code = code.Replace("using " + package + ".analysis;", "using " + package + ".Analysis;");
             code = code.Replace("using " + package + ".lexer;", "using " + package + ".Lexing;");
             code = code.Replace("namespace " + package + ".parser", "namespace " + package + ".Parsing");
@@ -60,6 +62,9 @@ namespace Sable.Compiler
             code = code.Replace("private IAnalysis ignoredTokens = new AnalysisAdapter();", "private AnalysisAdapter<List<Token>> ignoredTokens = new AnalysisAdapter<List<Token>>();");
             code = code.Replace("public IAnalysis IgnoredTokens", "public AnalysisAdapter<List<Token>> IgnoredTokens");
             code = code.Replace("ignoredTokens.SetIn(lexer.Peek(), ign);", "ignoredTokens.Input[lexer.Peek()] = ign;");
+
+            code = parserThrow.Replace(code, "throw new ParserException(last_token, last_line, last_pos, ");
+            code = parserClass.Replace(code, "{");
 
             code = indexMethod.Replace(code, ReplaceInIndexMethod);
             code = parseMethod.Replace(code, "public Start<" + astRoot.Root.RootProduction + "> Parse()");
