@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+
 using Sable.Tools.Nodes;
 
 namespace Sable.Tools.Analysis
@@ -74,6 +76,19 @@ namespace Sable.Tools.Analysis
         public virtual void CaseEOF(EOF node)
         {
             DefaultCase(node);
+        }
+
+        public static void VisitInParallel(Node node, params Adapter<TValue, TRoot>[] adapters)
+        {
+            Thread[] threads = new Thread[adapters.Length];
+            for (int i = 0; i < adapters.Length; i++)
+            {
+                Adapter<TValue, TRoot> walker = adapters[i];
+                Thread t = new Thread(() => walker.Visit(node));
+                t.Start();
+            }
+            for (int i = 0; i < threads.Length; i++)
+                threads[i].Join();
         }
     }
 }
