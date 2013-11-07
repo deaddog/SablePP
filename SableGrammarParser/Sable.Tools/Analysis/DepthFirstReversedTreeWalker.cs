@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+
 using Sable.Tools.Nodes;
 
 namespace Sable.Tools.Analysis
@@ -13,7 +12,7 @@ namespace Sable.Tools.Analysis
         }
         public override void Visit(Production production)
         {
-            foreach (Nodes.Node node in production.GetChildren().Reverse())
+            foreach (Node node in production.GetChildren().Reverse())
                 Visit(node);
         }
     }
