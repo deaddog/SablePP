@@ -12,7 +12,7 @@ namespace Sable.Tools.Nodes
 
         protected static void SetParent(Node node, Production parent)
         {
-            node.parent = null;
+            node.parent = parent;
         }
 
         public abstract Node CloneNode();
