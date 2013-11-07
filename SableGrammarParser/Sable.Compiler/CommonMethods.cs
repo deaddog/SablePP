@@ -29,5 +29,9 @@ namespace Sable.Compiler
         {
             get { return "Sable.Tools.Nodes"; }
         }
+        public static string Error
+        {
+            get { return "Sable.Tools.Error"; }
+        }
     }
 }

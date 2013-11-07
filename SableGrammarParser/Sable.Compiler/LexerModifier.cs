@@ -25,12 +25,8 @@ namespace Sable.Compiler
 
         #region Regular expressions
 
-        private static Regex newList = new Regex(@"TypedList (?<name>listNode[0-9]+) = new TypedList\(\);");
-        private static Regex castList = new Regex(@"TypedList (?<name>listNode[0-9]+) = \(TypedList\)(?<assign>nodeArrayList[0-9]+\[[0-9]+\]);");
-        private static Regex addAll = new Regex(@"(?<list>listNode[0-9]+)\.AddRange\((?<arg>listNode[0-9]+)\);");
-        private static Regex add = new Regex(@"(?<list>listNode[0-9]+)\.Add\((?<arg>[^0-9]+[0-9]+)\);");
-        private static Regex castNode = new Regex(@"(?<type>[TAP][A-Z][a-zA-Z]*) (?<name>[^ ]*) = \(\1\)nodeArrayList[0-9]+\[[0-9]+\];");
-        private static Regex newNodes = new Regex(@"(?<type>[TAP][A-Z][a-zA-Z]*) (?<name>[^ ]+) = new \k<type>[^(]\([ \r\n]*(?<arg>[^,) \r\n]*)(,[ \r\n]*(?<arg>[^,) \r\n]*))*");
+        private static Regex lexerThrow = new Regex(@"throw new LexerException[^;]*;");
+        private static Regex lexerClass = new Regex(@"}[^p{}]*public class LexerException[^}]*}[^}]*");
 
         #endregion
 
@@ -45,10 +41,12 @@ namespace Sable.Compiler
 
             string package = astRoot.Root.PackageName;
 
-            code = code.Replace("using " + package + ".node;", "using " + ToolsNamespace.Nodes + ";\nusing " + package + ".Nodes;");
+            code = code.Replace("using " + package + ".node;", "using " + ToolsNamespace.Nodes + ";\nusing " + package + ".Nodes;\nusing " + ToolsNamespace.Error + ";");
             code = code.Replace("namespace " + package + ".lexer", "namespace " + package + ".Lexing");
 
             code = Regex.Replace(code, ".Pos[^a-z]", m => { return ".Position" + m.Value.Substring(4); });
+            code = lexerThrow.Replace(code, "throw new LexerException(start_line + 1, start_pos + 1, text);");
+            code = lexerClass.Replace(code, "");
 
             return code;
         }
