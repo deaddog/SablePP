@@ -48,6 +48,8 @@ namespace Sable.Compiler
             code = lexerThrow.Replace(code, "throw new LexerException(start_line + 1, start_pos + 1, text);");
             code = lexerClass.Replace(code, "");
 
+            code = code.Replace("public class Lexer", "public class Lexer : " + ToolsNamespace.Lexing + ".ILexer");
+
             return code;
         }
         public static string ReplaceInCode(string parserCode, Start<PGrammar> astRoot)

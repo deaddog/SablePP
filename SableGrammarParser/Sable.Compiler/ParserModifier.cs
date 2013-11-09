@@ -9,6 +9,9 @@ using Sable.Compiler.Analysis;
 using Sable.Compiler.Nodes;
 using Sable.Tools.Nodes;
 
+using Sable.Tools.Generate;
+using Sable.Tools.Generate.CSharp;
+
 namespace Sable.Compiler
 {
     public class ParserModifier
@@ -66,8 +69,18 @@ namespace Sable.Compiler
             code = parserThrow.Replace(code, "throw new ParserException(last_token, last_line, last_pos, ");
             code = parserClass.Replace(code, "{");
 
+            MethodElement parseMethodElement = new MethodElement(AccessModifiers.None, ToolsNamespace.Parsing + ".IParser.Parse", "Node");
+            parseMethodElement.EmitReturn();
+            parseMethodElement.EmitThis();
+            parseMethodElement.EmitPeriod();
+            parseMethodElement.EmitIdentifier("Parse");
+            parseMethodElement.EmitParenthesis();
+            parseMethodElement.EmitSemicolon(true);
+            string methodCode = CodeStreamWriter.ToString(parseMethodElement);
+
             code = indexMethod.Replace(code, ReplaceInIndexMethod);
-            code = parseMethod.Replace(code, "public Start<" + astRoot.Root.RootProduction + "> Parse()");
+            code = parseMethod.Replace(code, methodCode + "public Start<" + astRoot.Root.RootProduction + "> Parse()");
+            code = code.Replace("public class Parser", "public class Parser : " + ToolsNamespace.Parsing + ".IParser");
             code = acceptCase.Replace(code, ReplaceInAcceptCase);
 
             code = Regex.Replace(code, ".Pos[^a-z]", m => { return ".Position" + m.Value.Substring(4); });
@@ -340,7 +353,7 @@ namespace Sable.Compiler
                 {
                     index = 0;
 
-                    if(!node.HasAlternativename)
+                    if (!node.HasAlternativename)
                     {
                         currentAlternative = null;
                         currentAname = 'A' + currentPname.Substring(1);
