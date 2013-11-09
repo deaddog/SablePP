@@ -42,6 +42,19 @@ namespace Sable.Tools.Generate
             element.Generate(new CodeStreamWriter(stream, encoding, indentationSize));
         }
 
+        public static string ToString(CodeElement element, int indentationSize = 4)
+        {
+            byte[] buffer;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                element.Generate(new CodeStreamWriter(ms, Encoding.Unicode, indentationSize));
+                buffer = ms.ToArray();
+            }
+
+            return Encoding.Unicode.GetString(buffer);
+        }
+
         public int Indentation
         {
             get { return indentation; }
