@@ -34,7 +34,7 @@ namespace Sable.Compiler
             string outputDirectory = arguments["out"][0];
             outputDirectory = outputDirectory.TrimEnd('\\');
 
-            Console.WriteLine("Loading grammar file \"{0}\".", PathInformation.TemporaryGrammarPath);
+            Console.WriteLine("Loading grammar file \"{0}\".", inputGrammar);
             Console.WriteLine();
 
             Console.WriteLine("Validating grammar.");
