@@ -11,5 +11,12 @@ namespace Sable.Tools.Editor
             : base()
         {
         }
+
+        public void AddError(string text)
+        {
+        }
+        public void ClearErrors()
+        {
+        }
     }
 }
