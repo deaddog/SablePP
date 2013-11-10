@@ -265,10 +265,40 @@ namespace Sable.Tools.Editor
         {
             CompilerExecuter executer = ((dynamic)e.Argument).Executer as CompilerExecuter;
             string input = ((dynamic)e.Argument).Input as string;
+
+            ErrorManager errorManager = new ErrorManager();
+            Node ast;
+
+            using (StringReader sr = new StringReader(input))
+            {
+                ILexer lexer = executer.GetLexer(sr);
+                IParser parser = executer.GetParser(lexer);
+
+                try
+                {
+                    ast = parser.Parse();
+                }
+                catch (LexerException ex)
+                {
+                    errorManager.Register(new CompilerError(ex.Line, ex.Position, 0, ex.Message));
+                    ast = null;
+                }
+                catch (ParserException ex)
+                {
+                    errorManager.Register(new CompilerError(ex.LastToken, ex.Message));
+                    ast = null;
+                }
+            }
+
+            if (ast != null)
+                executer.ValidateAST(ast, errorManager);
+
+            e.Result = new { Errors = errorManager.ToArray(), AST = ast };
         }
         private void compileWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-
+            CompilerError[] errors = ((dynamic)e.Result).Errors as CompilerError[];
+            Node ast = ((dynamic)e.Result).AST as Node;
         }
 
         private void compileTimer_Tick(object sender, EventArgs e)
