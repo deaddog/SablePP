@@ -37,10 +37,12 @@
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,17 +62,15 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.fillerLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.positionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lineLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.positionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.codeTextBox1 = new Sable.Tools.Editor.CodeTextBox();
             this.errorTextBox1 = new Sable.Tools.Editor.ErrorTextBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -151,6 +151,12 @@
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.saveAsToolStripMenuItem.Text = "Save &As";
             // 
+            // saveAsDefaultToolStripMenuItem
+            // 
+            this.saveAsDefaultToolStripMenuItem.Name = "saveAsDefaultToolStripMenuItem";
+            this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.saveAsDefaultToolStripMenuItem.Text = "Save As &Default";
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -177,6 +183,12 @@
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(152, 6);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.closeToolStripMenuItem.Text = "&Close";
             // 
             // exitToolStripMenuItem
             // 
@@ -321,18 +333,6 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             // 
-            // closeToolStripMenuItem
-            // 
-            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.closeToolStripMenuItem.Text = "&Close";
-            // 
-            // saveAsDefaultToolStripMenuItem
-            // 
-            this.saveAsDefaultToolStripMenuItem.Name = "saveAsDefaultToolStripMenuItem";
-            this.saveAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.saveAsDefaultToolStripMenuItem.Text = "Save As &Default";
-            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -351,14 +351,6 @@
             this.fillerLabel.Size = new System.Drawing.Size(458, 17);
             this.fillerLabel.Spring = true;
             // 
-            // positionLabel
-            // 
-            this.positionLabel.AutoSize = false;
-            this.positionLabel.Name = "positionLabel";
-            this.positionLabel.Size = new System.Drawing.Size(60, 17);
-            this.positionLabel.Text = "Pos: 0";
-            this.positionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // lineLabel
             // 
             this.lineLabel.AutoSize = false;
@@ -366,6 +358,14 @@
             this.lineLabel.Size = new System.Drawing.Size(60, 17);
             this.lineLabel.Text = "Line: 0";
             this.lineLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // positionLabel
+            // 
+            this.positionLabel.AutoSize = false;
+            this.positionLabel.Name = "positionLabel";
+            this.positionLabel.Size = new System.Drawing.Size(60, 17);
+            this.positionLabel.Text = "Pos: 0";
+            this.positionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // splitContainer1
             // 
@@ -387,18 +387,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(569, 356);
             this.splitContainer1.SplitterDistance = 225;
             this.splitContainer1.TabIndex = 2;
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.Filter = "All files|*.*";
-            this.openFileDialog1.InitialDirectory = "%userprofile%\\Documents";
-            this.openFileDialog1.SupportMultiDottedExtensions = true;
-            // 
-            // saveFileDialog1
-            // 
-            this.saveFileDialog1.Filter = "All files|*.*";
-            this.saveFileDialog1.InitialDirectory = "%userprofile%\\Documents";
-            this.saveFileDialog1.SupportMultiDottedExtensions = true;
             // 
             // codeTextBox1
             // 
@@ -433,10 +421,23 @@
             this.errorTextBox1.Location = new System.Drawing.Point(0, 0);
             this.errorTextBox1.Name = "errorTextBox1";
             this.errorTextBox1.Paddings = new System.Windows.Forms.Padding(0);
+            this.errorTextBox1.ReadOnly = true;
             this.errorTextBox1.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.errorTextBox1.Size = new System.Drawing.Size(569, 127);
             this.errorTextBox1.TabIndex = 0;
             this.errorTextBox1.Zoom = 100;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.Filter = "Code files|*.file";
+            this.openFileDialog1.InitialDirectory = "%userprofile%\\Documents";
+            this.openFileDialog1.SupportMultiDottedExtensions = true;
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "Code files|*.file";
+            this.saveFileDialog1.InitialDirectory = "%userprofile%\\Documents";
+            this.saveFileDialog1.SupportMultiDottedExtensions = true;
             // 
             // EditorForm
             // 
