@@ -49,11 +49,17 @@
     <Compile Include="Analysis\ReturnAdapter.cs" />
     <Compile Include="Analysis\DepthFirstReversedTreeWalker.cs" />
     <Compile Include="Analysis\DepthFirstTreeWalker.cs" />
+    <Compile Include="Editor\CodeTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Editor\EditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Editor\EditorForm.Designer.cs">
       <DependentUpon>EditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editor\ErrorTextBox.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Error\LexerException.cs" />
     <Compile Include="Error\ParserException.cs" />
