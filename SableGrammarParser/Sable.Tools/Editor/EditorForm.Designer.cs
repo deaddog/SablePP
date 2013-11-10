@@ -67,6 +67,8 @@
             this.positionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lineLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.codeTextBox1 = new Sable.Tools.Editor.CodeTextBox();
             this.errorTextBox1 = new Sable.Tools.Editor.ErrorTextBox();
             this.menuStrip1.SuspendLayout();
@@ -386,6 +388,18 @@
             this.splitContainer1.SplitterDistance = 225;
             this.splitContainer1.TabIndex = 2;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.Filter = "All files|*.*";
+            this.openFileDialog1.InitialDirectory = "%userprofile%\\Documents";
+            this.openFileDialog1.SupportMultiDottedExtensions = true;
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "All files|*.*";
+            this.saveFileDialog1.InitialDirectory = "%userprofile%\\Documents";
+            this.saveFileDialog1.SupportMultiDottedExtensions = true;
+            // 
             // codeTextBox1
             // 
             this.codeTextBox1.AutoScrollMinSize = new System.Drawing.Size(27, 14);
@@ -491,5 +505,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private CodeTextBox codeTextBox1;
         private ErrorTextBox errorTextBox1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
