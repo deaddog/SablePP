@@ -7,6 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using Sable.Tools.Error;
+using Sable.Tools.Lexing;
+using Sable.Tools.Nodes;
+using Sable.Tools.Parsing;
+
 namespace Sable.Tools.Editor
 {
     public partial class EditorForm : Form
@@ -258,7 +263,8 @@ namespace Sable.Tools.Editor
 
         private void compileWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-
+            CompilerExecuter executer = ((dynamic)e.Argument).Executer as CompilerExecuter;
+            string input = ((dynamic)e.Argument).Input as string;
         }
         private void compileWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -276,7 +282,7 @@ namespace Sable.Tools.Editor
                 }
                 else
                 {
-                    compileWorker.RunWorkerAsync(executer);
+                    compileWorker.RunWorkerAsync(new { Executer = executer, Input = codeTextBox1.Text });
                 }
             }
             else
