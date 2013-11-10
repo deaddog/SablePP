@@ -30,7 +30,7 @@ namespace Sable.Compiler.Error
             if (errorManager == null)
                 throw new InvalidOperationException("An ErrorVisitor must always be started using the StartVisitor-method.");
 
-            errorManager.Register(new CompilerError(node, errorMessage, args));
+            errorManager.Register(node, errorMessage, args);
         }
 
         protected T StartVisitor<T>(T visitor, Node node)

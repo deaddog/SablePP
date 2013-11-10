@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Sable.Tools.Nodes;
+
 namespace Sable.Tools.Error
 {
     /// <summary>
@@ -33,6 +35,29 @@ namespace Sable.Tools.Error
             if (pos < 0) pos = ~pos;
             errorList.Insert(pos, error);
         }
+
+        public void Register(Node node, string errorMessage, params object[] args)
+        {
+            if (args != null && args.Length > 0)
+                errorMessage = string.Format(errorMessage, translateArguments(args));
+
+            Register(new CompilerError(node, errorMessage));
+        }
+
+        private object[] translateArguments(object[] args)
+        {
+            for (int i = 0; i < args.Length; i++)
+            {
+                ErrorArgumentEventArgs ea = new ErrorArgumentEventArgs(args[i]);
+                if (TranslateArgument != null)
+                    TranslateArgument(this, ea);
+                args[i] = ea.Text;
+            }
+
+            return args;
+        }
+
+        public event ErrorArgumentEventHandler TranslateArgument;
 
         IEnumerator<CompilerError> IEnumerable<CompilerError>.GetEnumerator()
         {

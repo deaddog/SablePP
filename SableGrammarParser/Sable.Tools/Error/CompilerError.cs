@@ -38,7 +38,7 @@ namespace Sable.Tools.Error
         /// <param name="node">The node that should be marked as cause of the error. The full node will be marked.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <param name="args">The argument to use with <paramref name="errorMessage"/>.</param>
-        public CompilerError(Node node, string errorMessage, params object[] args)
+        public CompilerError(Node node, string errorMessage)
         {
             Token first;
             Token last;
@@ -46,27 +46,9 @@ namespace Sable.Tools.Error
 
             this.start = new Position(first.Line, first.Position);
             this.end = new Position(last.Line, last.Position + last.Text.Length - 1);
-            if (args == null || args.Length == 0)
-                this.errorMessage = errorMessage;
-            else
-                this.errorMessage = string.Format(errorMessage, translateArguments(args));
+
             this.errorMessage = endWithPeriod(this.errorMessage);
         }
-
-        private object[] translateArguments(object[] args)
-        {
-            for (int i = 0; i < args.Length; i++)
-            {
-                ErrorArgumentEventArgs ea = new ErrorArgumentEventArgs(args[i]);
-                if (TranslateArgument != null)
-                    TranslateArgument(this, ea);
-                args[i] = ea.Text;
-            }
-
-            return args;
-        }
-
-        public event ErrorArgumentEventHandler TranslateArgument;
 
         #region Token Locater class
 
