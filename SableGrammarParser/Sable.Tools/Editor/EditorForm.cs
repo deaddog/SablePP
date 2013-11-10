@@ -259,7 +259,23 @@ namespace Sable.Tools.Editor
 
         private void compileTimer_Tick(object sender, EventArgs e)
         {
-
+            if (fileOpened)
+            {
+                if (compileWorker.IsBusy)
+                {
+                    compileTimer.Stop();
+                    compileTimer.Start();
+                }
+                else
+                {
+                    compileWorker.RunWorkerAsync();
+                }
+            }
+            else
+            {
+                errorTextBox1.Text = "";
+                compileTimer.Stop();
+            }
         }
     }
 }
