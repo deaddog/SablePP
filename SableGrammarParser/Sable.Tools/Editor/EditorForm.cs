@@ -248,6 +248,14 @@ namespace Sable.Tools.Editor
 
         }
 
+        private CompilerExecuter executer;
+
+        public CompilerExecuter Executer
+        {
+            get { return executer; }
+            set { executer = value; }
+        }
+
         private void compileWorker_DoWork(object sender, DoWorkEventArgs e)
         {
 
@@ -268,7 +276,7 @@ namespace Sable.Tools.Editor
                 }
                 else
                 {
-                    compileWorker.RunWorkerAsync();
+                    compileWorker.RunWorkerAsync(executer);
                 }
             }
             else
