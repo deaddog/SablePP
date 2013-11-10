@@ -71,6 +71,8 @@
             this.errorTextBox1 = new Sable.Tools.Editor.ErrorTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.compileWorker = new System.ComponentModel.BackgroundWorker();
+            this.compileTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -439,6 +441,15 @@
             this.saveFileDialog1.InitialDirectory = "%userprofile%\\Documents";
             this.saveFileDialog1.SupportMultiDottedExtensions = true;
             // 
+            // compileWorker
+            // 
+            this.compileWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.compileWorker_DoWork);
+            this.compileWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.compileWorker_RunWorkerCompleted);
+            // 
+            // compileTimer
+            // 
+            this.compileTimer.Tick += new System.EventHandler(this.compileTimer_Tick);
+            // 
             // EditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -508,5 +519,7 @@
         private ErrorTextBox errorTextBox1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.ComponentModel.BackgroundWorker compileWorker;
+        private System.Windows.Forms.Timer compileTimer;
     }
 }

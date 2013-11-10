@@ -239,5 +239,19 @@ namespace Sable.Tools.Editor
                 openFileDialog1.Filter = string.Format(EditorResources.FileDescription, Text) + "|*." + (extension ?? EditorResources.DefaultExtension);
             }
         }
+
+        private void compileWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+        }
+        private void compileWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+
+        private void compileTimer_Tick(object sender, EventArgs e)
+        {
+
+        }
     }
 }
