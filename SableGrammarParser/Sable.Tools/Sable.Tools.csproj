@@ -69,6 +69,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>EditorSettings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Editor\SquigglyStyle.cs" />
     <Compile Include="Editor\ErrorTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
