@@ -75,6 +75,7 @@
     <Compile Include="Error\LexerException.cs" />
     <Compile Include="Error\ParserException.cs" />
     <Compile Include="Lexing\ILexer.cs" />
+    <Compile Include="Lexing\ResetableLexer.cs" />
     <Compile Include="Parsing\IParser.cs" />
     <Compile Include="SimplePrinter.cs" />
     <Compile Include="Error\CompilerError.cs" />
