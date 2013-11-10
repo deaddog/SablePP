@@ -277,5 +277,14 @@ namespace Sable.Tools.Editor
                 compileTimer.Stop();
             }
         }
+
+        private void codeTextBox1_SelectionChanged(object sender, EventArgs e)
+        {
+            string lineText = lineLabel.Text.Substring(0, lineLabel.Text.IndexOf(':') + 1) + " ";
+            lineLabel.Text = lineText + (codeTextBox1.Selection.Start.iLine + 1);
+
+            string positionText = positionLabel.Text.Substring(0, positionLabel.Text.IndexOf(':') + 1) + " ";
+            positionLabel.Text = positionText + (codeTextBox1.Selection.Start.iChar + 1);
+        }
     }
 }

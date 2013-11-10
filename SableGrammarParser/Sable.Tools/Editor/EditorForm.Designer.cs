@@ -408,6 +408,7 @@
             this.codeTextBox1.Size = new System.Drawing.Size(569, 225);
             this.codeTextBox1.TabIndex = 0;
             this.codeTextBox1.Zoom = 100;
+            this.codeTextBox1.SelectionChanged += new System.EventHandler(this.codeTextBox1_SelectionChanged);
             // 
             // errorTextBox1
             // 
