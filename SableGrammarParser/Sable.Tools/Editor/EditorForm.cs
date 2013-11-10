@@ -11,19 +11,26 @@ namespace Sable.Tools.Editor
 {
     public partial class EditorForm : Form
     {
-        private string text = "EditorForm";
+        private string text;
         new public string Text
         {
             get { return text; }
-            set { this.text = value; updateTitle(); }
+            set
+            {
+                this.text = value;
+                openFileDialog1.Filter = string.Format(EditorResources.FileDescription, Text) + "|*." + (extension ?? EditorResources.DefaultExtension);
+                updateTitle();
+            }
         }
         private void updateTitle()
         {
             string fileText = fileOpened ? string.Format("{0}{1}", file.Name, _changed ? "*" : "") : "";
             if (text == null || text.Length == 0)
                 base.Text = fileText;
-            else
+            else if (fileText.Length > 0)
                 base.Text = text + " - " + fileText;
+            else
+                base.Text = text;
         }
 
         #region FileHandle fields
@@ -77,11 +84,11 @@ namespace Sable.Tools.Editor
                 return res;
 
             splitContainer1.Enabled = true;
-            
+
             codeTextBox1.Text = EditorSettings.Default.DefaultCode;
             changed = false;
 
-            file = new FileInfo("Untitled.ss");
+            file = new FileInfo(EditorResources.Untitled + "." + (extension ?? EditorResources.DefaultExtension));
 
             codeTextBox1.Focus();
             codeTextBox1.SelectionLength = 0;
@@ -194,6 +201,8 @@ namespace Sable.Tools.Editor
         {
             InitializeComponent();
 
+            this.Text = EditorResources.DefaultTitle;
+
             #region FileHandle initialize
 
             newToolStripMenuItem.Click += (s, e) => newFile();
@@ -216,6 +225,19 @@ namespace Sable.Tools.Editor
 
             #endregion
 
+        }
+
+        private string extension = null;
+        public string FileExtension
+        {
+            get { return extension; }
+            set
+            {
+                if (value != null && value.Length == 0)
+                    value = null;
+                extension = value;
+                openFileDialog1.Filter = string.Format(EditorResources.FileDescription, Text) + "|*." + (extension ?? EditorResources.DefaultExtension);
+            }
         }
     }
 }
