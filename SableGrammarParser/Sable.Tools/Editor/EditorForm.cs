@@ -11,6 +11,8 @@ namespace Sable.Tools.Editor
 {
     public partial class EditorForm : Form
     {
+        #region Form Text/Application name
+
         private string text;
         new public string Text
         {
@@ -32,6 +34,25 @@ namespace Sable.Tools.Editor
             else
                 base.Text = text;
         }
+
+        #endregion
+
+        #region File extension
+
+        private string extension = null;
+        public string FileExtension
+        {
+            get { return extension; }
+            set
+            {
+                if (value != null && value.Length == 0)
+                    value = null;
+                extension = value;
+                openFileDialog1.Filter = string.Format(EditorResources.FileDescription, Text) + "|*." + (extension ?? EditorResources.DefaultExtension);
+            }
+        }
+
+        #endregion
 
         #region FileHandle fields
 
@@ -225,19 +246,6 @@ namespace Sable.Tools.Editor
 
             #endregion
 
-        }
-
-        private string extension = null;
-        public string FileExtension
-        {
-            get { return extension; }
-            set
-            {
-                if (value != null && value.Length == 0)
-                    value = null;
-                extension = value;
-                openFileDialog1.Filter = string.Format(EditorResources.FileDescription, Text) + "|*." + (extension ?? EditorResources.DefaultExtension);
-            }
         }
 
         private void compileWorker_DoWork(object sender, DoWorkEventArgs e)
