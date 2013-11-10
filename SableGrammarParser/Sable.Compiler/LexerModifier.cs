@@ -45,7 +45,7 @@ namespace Sable.Compiler
             code = code.Replace("namespace " + package + ".lexer", "namespace " + package + ".Lexing");
 
             code = Regex.Replace(code, ".Pos[^a-z]", m => { return ".Position" + m.Value.Substring(4); });
-            code = lexerThrow.Replace(code, "throw new LexerException(start_line + 1, start_pos + 1, text);");
+            code = lexerThrow.Replace(code, "throw new LexerException(start_line + 1, start_pos + 1, \"Unknown token: \" + text);");
             code = lexerClass.Replace(code, "");
 
             code = code.Replace("public class Lexer", "public class Lexer : " + ToolsNamespace.Lexing + ".ILexer");
