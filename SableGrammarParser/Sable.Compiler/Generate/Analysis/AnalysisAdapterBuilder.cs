@@ -9,10 +9,10 @@ namespace Sable.Compiler.Generate.Analysis
     {
         private ClassElement adapterClass;
 
-        public AnalysisAdapterBuilder(NameSpaceElement namespaceElement)
+        public AnalysisAdapterBuilder(NameSpaceElement namespaceElement, PGrammar grammar)
         {
             namespaceElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "AnalysisAdapter<object>");
-            adapterClass = namespaceElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "Adapter<TValue, object>");
+            adapterClass = namespaceElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "Adapter<TValue, " + grammar.RootProduction + ">");
             adapterClass.TypeParameters.Add("TValue");
         }
 

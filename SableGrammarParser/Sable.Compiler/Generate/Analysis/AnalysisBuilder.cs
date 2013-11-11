@@ -72,7 +72,7 @@ namespace Sable.Compiler.Generate.Analysis
             fileElement.Using.Add(packageName + ".Nodes");
 
             List<DepthFirstAdapter> adapters = new List<DepthFirstAdapter>();
-            adapters.Add(new AnalysisAdapterBuilder(nameElement));
+            adapters.Add(new AnalysisAdapterBuilder(nameElement, node));
             adapters.Add(new DepthFirstAdapterBuilder(nameElement));
             VisitInParallel(node, adapters.ToArray());
             CreateReturnAnalysisAdapter();
