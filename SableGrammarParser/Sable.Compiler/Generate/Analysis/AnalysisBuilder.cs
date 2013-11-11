@@ -40,9 +40,26 @@ namespace Sable.Compiler.Generate.Analysis
             fileElement.Using.Add(packageName + ".Nodes");
 
             List<DepthFirstAdapter> adapters = new List<DepthFirstAdapter>();
+
+            nameElement.EmitRegionStart("Analysis adapters");
+            nameElement.EmitNewLine();
+
             adapters.Add(new AnalysisAdapterBuilder(nameElement, node));
+            nameElement.EmitNewLine();
+
             adapters.Add(new DepthFirstAdapterBuilder(nameElement));
+
+            nameElement.EmitNewLine();
+            nameElement.EmitRegionEnd();
+            nameElement.EmitNewLine();
+            nameElement.EmitRegionStart("Return analysis adapters");
+            nameElement.EmitNewLine();
+
             adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, node));
+
+            nameElement.EmitNewLine();
+            nameElement.EmitRegionEnd();
+
             VisitInParallel(node, adapters.ToArray());
         }
     }
