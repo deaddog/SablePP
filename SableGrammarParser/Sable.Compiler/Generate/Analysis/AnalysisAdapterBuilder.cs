@@ -3,7 +3,6 @@
 using Sable.Compiler.Nodes;
 using Sable.Tools.Generate.CSharp;
 
-
 namespace Sable.Compiler.Generate.Analysis
 {
     public class AnalysisAdapterBuilder : GenerateVisitor

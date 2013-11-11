@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Sable.Compiler.Analysis;
 using Sable.Compiler.Nodes;
@@ -143,7 +144,9 @@ namespace Sable.Compiler.Generate.Analysis
             nameElement = fileElement.CreateNamespace(packageName + ".Analysis");
             fileElement.Using.Add(packageName + ".Nodes");
 
-            CreateAnalysisAdapter();
+            List<DepthFirstAdapter> adapters = new List<DepthFirstAdapter>();
+            adapters.Add(new AnalysisAdapterBuilder(nameElement));
+            VisitInParallel(node, adapters.ToArray());
             CreateReturnAnalysisAdapter();
 
             CreateDepthFirstAdapter();
