@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 
 using FastColoredTextBoxNS;
@@ -25,7 +26,7 @@ namespace Sable.Tools.Editor
 
         public void AddError(Range range, string message)
         {
-            if (range.Start == range.End)
+            if (!range.Chars.Any())
                 directDrawErrors.Add(range);
             else
                 range.SetStyle(errorStyle);
