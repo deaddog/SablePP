@@ -80,12 +80,12 @@ namespace Sable.Tools.Error
 
                 public override void Visit(Production production)
                 {
-                    if (token == null)
+                    if (this.token == null)
                         base.Visit(production);
                 }
                 public override void Visit(Token token)
                 {
-                    if (token == null)
+                    if (this.token == null)
                         this.token = token;
                 }
             }
@@ -99,12 +99,12 @@ namespace Sable.Tools.Error
 
                 public override void Visit(Production production)
                 {
-                    if (token == null)
+                    if (this.token == null)
                         base.Visit(production);
                 }
                 public override void Visit(Token token)
                 {
-                    if (token == null)
+                    if (this.token == null)
                         this.token = token;
                 }
             }
