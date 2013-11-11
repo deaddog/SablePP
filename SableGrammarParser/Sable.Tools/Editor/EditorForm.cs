@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using FastColoredTextBoxNS;
+
 using Sable.Tools.Error;
 using Sable.Tools.Lexing;
 using Sable.Tools.Nodes;
@@ -280,12 +282,12 @@ namespace Sable.Tools.Editor
                 }
                 catch (LexerException ex)
                 {
-                    errorManager.Register(new CompilerError(ex.Line, ex.Position, 0, ex.Message));
+                    errorManager.Register(new CompilerError(ex.Line, ex.Position, 1, ex.Message));
                     ast = null;
                 }
                 catch (ParserException ex)
                 {
-                    errorManager.Register(new CompilerError(ex.LastToken, ex.Message));
+                    errorManager.Register(new CompilerError(ex.LastLine, ex.LastPosition, 1, ex.Message));
                     ast = null;
                 }
             }
