@@ -33,9 +33,6 @@
 
         public ClassElement CreateClass(string name, AccessModifiers modifiers, string implements = null)
         {
-            if (hasClasses)
-                classes.EmitNewLine();
-
             ClassElement element = new ClassElement(name, modifiers, implements);
             classes.InsertElement(element);
 
@@ -44,9 +41,6 @@
         }
         public InterfaceElement CreateInterface(string name, AccessModifiers modifiers, string implements = null)
         {
-            if (hasClasses)
-                classes.EmitNewLine();
-
             InterfaceElement element = new InterfaceElement(name, modifiers, implements);
             classes.InsertElement(element);
 
