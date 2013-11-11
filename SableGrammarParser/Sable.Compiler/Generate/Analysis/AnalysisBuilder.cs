@@ -16,7 +16,6 @@ namespace Sable.Compiler.Generate.Analysis
 
         private PGrammar grammar;
 
-        private ClassElement analysisAdapter;
         private ClassElement returnAnalysisAdapter;
 
         private ClassElement depthFirstAdapter;
@@ -48,13 +47,6 @@ namespace Sable.Compiler.Generate.Analysis
                 throw new NotImplementedException("Unknown token type.");
         }
 
-        private void CreateAnalysisAdapter()
-        {
-            nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "AnalysisAdapter<object>");
-
-            analysisAdapter = nameElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "Adapter<TValue, " + grammar.RootProduction + ">");
-            analysisAdapter.TypeParameters.Add("TValue");
-        }
         private void CreateReturnAnalysisAdapter()
         {
             nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, "ReturnAnalysisAdapter<object>");
@@ -159,7 +151,6 @@ namespace Sable.Compiler.Generate.Analysis
 
             if (node.HasTokens)
             {
-                analysisAdapter.EmitNewLine();
                 returnAnalysisAdapter.EmitNewLine();
                 Visit(node.Tokens);
             }
@@ -370,21 +361,6 @@ namespace Sable.Compiler.Generate.Analysis
         private void EmitCase(string name)
         {
             string caseName = "Case" + name;
-
-            var visitVoid = analysisAdapter.CreateMethod(AccessModifiers.@public, "Visit", "void");
-            visitVoid.Parameters.Add("node", name);
-            visitVoid.EmitIdentifier(caseName);
-            using (var par = visitVoid.EmitParenthesis())
-                par.EmitIdentifier("node");
-            visitVoid.EmitSemicolon(true);
-
-            var voidMethod = analysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, caseName, "void");
-            voidMethod.Parameters.Add("node", name);
-
-            voidMethod.EmitIdentifier("DefaultCase");
-            using (var par = voidMethod.EmitParenthesis())
-                par.EmitIdentifier("node");
-            voidMethod.EmitSemicolon(true);
 
             var visitType = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public, "Visit", returnAnalysisAdapter.TypeParameters[0]);
             visitType.Parameters.Add("node", name);
