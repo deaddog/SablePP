@@ -84,8 +84,8 @@ namespace Sable.Tools.Analysis
             for (int i = 0; i < adapters.Length; i++)
             {
                 Adapter<TValue, TRoot> walker = adapters[i];
-                Thread t = new Thread(() => walker.Visit(node));
-                t.Start();
+                threads[i] = new Thread(() => walker.Visit(node));
+                threads[i].Start();
             }
             for (int i = 0; i < threads.Length; i++)
                 threads[i].Join();
