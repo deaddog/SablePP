@@ -301,6 +301,17 @@ namespace Sable.Tools.Editor
         {
             CompilerError[] errors = ((dynamic)e.Result).Errors as CompilerError[];
             Node ast = ((dynamic)e.Result).AST as Node;
+
+            errorTextBox1.ClearErrors();
+            codeTextBox1.ClearErrors();
+
+            foreach (var err in errors)
+            {
+                Range r = new Range(codeTextBox1, err.Start.LinePosition - 1, err.Start.LineNumber - 1, err.End.LinePosition, err.End.LineNumber - 1);
+
+                errorTextBox1.AddError(r, err.ErrorMessage);
+                codeTextBox1.AddError(r, err.ErrorMessage);
+            }
         }
 
         private void compileTimer_Tick(object sender, EventArgs e)
