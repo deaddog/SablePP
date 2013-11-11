@@ -47,7 +47,7 @@ namespace Sable.Tools.Error
             this.start = new Position(first.Line, first.Position);
             this.end = new Position(last.Line, last.Position + last.Text.Length - 1);
 
-            this.errorMessage = endWithPeriod(this.errorMessage);
+            this.errorMessage = endWithPeriod(errorMessage);
         }
 
         #region Token Locater class
