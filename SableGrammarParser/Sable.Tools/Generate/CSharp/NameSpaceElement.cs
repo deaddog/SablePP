@@ -47,5 +47,20 @@
             hasClasses = true;
             return element;
         }
+
+        public void EmitNewLine()
+        {
+            classes.EmitNewLine();
+        }
+        public void EmitRegionStart(string text)
+        {
+            classes.Emit("#region " + text, UseSpace.Never, UseSpace.Never);
+            classes.EmitNewLine();
+        }
+        public void EmitRegionEnd()
+        {
+            classes.Emit("#endregion", UseSpace.Never, UseSpace.Never);
+            classes.EmitNewLine();
+        }
     }
 }
