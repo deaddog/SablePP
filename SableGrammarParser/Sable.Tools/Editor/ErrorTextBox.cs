@@ -12,12 +12,12 @@ namespace Sable.Tools.Editor
         {
         }
 
-        public void AddError(string text)
+        public void AddError(Range range, string message)
         {
             if (this.Text.Length == 0)
-                this.Text = text;
+                this.Text = message;
             else
-                this.Text += "\r\n" + text;
+                this.Text += "\r\n" + message;
         }
         public void ClearErrors()
         {
