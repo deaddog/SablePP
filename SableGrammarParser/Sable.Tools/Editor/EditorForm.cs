@@ -325,7 +325,9 @@ namespace Sable.Tools.Editor
                 }
                 else
                 {
-                    compileWorker.RunWorkerAsync(new { Executer = executer, Input = codeTextBox1.Text });
+                    if (executer != null)
+                        compileWorker.RunWorkerAsync(new { Executer = executer, Input = codeTextBox1.Text });
+                    compileTimer.Stop();
                 }
             }
             else
