@@ -75,6 +75,13 @@ namespace Sable.Tools.Generate.CSharp
         {
             contents.Emit("yield", UseSpace.NotPreferred, UseSpace.Preferred);
         }
+        public void EmitDynamic(bool inparenthesis = false)
+        {
+            if (inparenthesis)
+                contents.Emit("(dynamic)", UseSpace.Never, UseSpace.Never);
+            else
+                contents.Emit("dynamic", UseSpace.NotPreferred, UseSpace.Preferred);
+        }
 
         public ParenthesisElement EmitIf()
         {
