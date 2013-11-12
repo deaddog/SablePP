@@ -7,14 +7,21 @@ namespace Sable.Compiler.Generate.Analysis
 {
     public class DepthFirstReturnAdapterBuilder : GenerateVisitor
     {
-        private ClassElement returnAnalysisAdapter;
+        private ClassElement adapterClass;
+        private AGrammar grammar;
 
-        public DepthFirstReturnAdapterBuilder(NameSpaceElement nameElement, bool reverse)
+        private bool reversed;
+        private MethodElement method;
+
+        public DepthFirstReturnAdapterBuilder(NameSpaceElement namespaceElement, bool reversed)
         {
-            nameElement.CreateClass("DepthFirstReturnAnalysisAdapter", AccessModifiers.@public, "DepthFirstReturnAnalysisAdapter<object>");
+            this.reversed = reversed;
 
-            returnAnalysisAdapter = nameElement.CreateClass("DepthFirstReturnAnalysisAdapter", AccessModifiers.@public, "ReturnAnalysisAdapter<TValue>");
-            returnAnalysisAdapter.TypeParameters.Add("TValue");
+            string className = (reversed ? "Reverse" : "") + "DepthFirstReturnAdapter";
+
+            namespaceElement.CreateClass(className, AccessModifiers.@public, className + "<object>");
+            adapterClass = namespaceElement.CreateClass(className, AccessModifiers.@public, "AnalysisAdapter<TValue>");
+            adapterClass.TypeParameters.Add("TValue");
         }
 
         public override void CaseAGrammar(AGrammar node)
