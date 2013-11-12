@@ -47,7 +47,8 @@ namespace Sable.Compiler.Generate.Analysis
             adapters.Add(new AnalysisAdapterBuilder(nameElement, node));
             nameElement.EmitNewLine();
 
-            adapters.Add(new DepthFirstAdapterBuilder(nameElement));
+            adapters.Add(new DepthFirstAdapterBuilder(nameElement, false));
+            adapters.Add(new DepthFirstAdapterBuilder(nameElement, true));
 
             nameElement.EmitNewLine();
             nameElement.EmitRegionEnd();

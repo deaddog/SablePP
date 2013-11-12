@@ -10,12 +10,17 @@ namespace Sable.Compiler.Generate.Analysis
         private ClassElement adapterClass;
         private AGrammar grammar;
 
+        private bool reversed;
         private MethodElement method;
 
-        public DepthFirstAdapterBuilder(NameSpaceElement namespaceElement)
+        public DepthFirstAdapterBuilder(NameSpaceElement namespaceElement, bool reversed)
         {
-            namespaceElement.CreateClass("DepthFirstAdapter", AccessModifiers.@public, "DepthFirstAdapter<object>");
-            adapterClass = namespaceElement.CreateClass("DepthFirstAdapter", AccessModifiers.@public, "AnalysisAdapter<TValue>");
+            this.reversed = reversed;
+
+            string className = (reversed ? "Reverse" : "") + "DepthFirstAdapter";
+
+            namespaceElement.CreateClass(className, AccessModifiers.@public, className + "<object>");
+            adapterClass = namespaceElement.CreateClass(className, AccessModifiers.@public, "AnalysisAdapter<TValue>");
             adapterClass.TypeParameters.Add("TValue");
         }
 
@@ -41,7 +46,7 @@ namespace Sable.Compiler.Generate.Analysis
             if (node.HasTokens)
                 Visit(node.Tokens);
         }
-        
+
         #region Default methods
 
         public void CreateVisitNodeMethod()
@@ -69,11 +74,32 @@ namespace Sable.Compiler.Generate.Analysis
         {
             var method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "CaseStart", "void");
             method.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
+
             method.EmitIdentifier("InStart");
             using (var par = method.EmitParenthesis())
                 par.EmitIdentifier("node");
             method.EmitSemicolon(true);
             method.EmitNewLine();
+
+            if (!reversed)
+            {
+                EmitVisitStartMethodCall(method);
+                EmitVisitEOFMethodCall(method);
+            }
+            else
+            {
+                EmitVisitEOFMethodCall(method);
+                EmitVisitStartMethodCall(method);
+            }
+            method.EmitNewLine();
+
+            method.EmitIdentifier("OutStart");
+            using (var par = method.EmitParenthesis())
+                par.EmitIdentifier("node");
+            method.EmitSemicolon(true);
+        }
+        public void EmitVisitStartMethodCall(MethodElement method)
+        {
             method.EmitIdentifier("Visit");
             using (var par = method.EmitParenthesis())
             {
@@ -84,6 +110,9 @@ namespace Sable.Compiler.Generate.Analysis
                 par.EmitIdentifier("Root");
             }
             method.EmitSemicolon(true);
+        }
+        public void EmitVisitEOFMethodCall(MethodElement method)
+        {
             method.EmitIdentifier("Visit");
             using (var par = method.EmitParenthesis())
             {
@@ -91,11 +120,6 @@ namespace Sable.Compiler.Generate.Analysis
                 par.EmitPeriod();
                 par.EmitIdentifier("EOF");
             }
-            method.EmitSemicolon(true);
-            method.EmitNewLine();
-            method.EmitIdentifier("OutStart");
-            using (var par = method.EmitParenthesis())
-                par.EmitIdentifier("node");
             method.EmitSemicolon(true);
         }
 
@@ -152,6 +176,28 @@ namespace Sable.Compiler.Generate.Analysis
             using (var par = method.EmitParenthesis())
                 par.EmitIdentifier("node");
             method.EmitSemicolon(true);
+        }
+
+        public override void CaseAElements(AElements node)
+        {
+            if (!reversed)
+                base.CaseAElements(node);
+            else
+            {
+                InPElements(node);
+                InAElements(node);
+
+
+                {
+                    PElement[] temp = new PElement[node.Element.Count];
+                    node.Element.CopyTo(temp, 0);
+                    for (int i = temp.Length - 1; i >= 0; i--)
+                        Visit((dynamic)temp[i]);
+                }
+
+                OutAElements(node);
+                OutPElements(node);
+            }
         }
 
         private void EmitInOut(string name)
