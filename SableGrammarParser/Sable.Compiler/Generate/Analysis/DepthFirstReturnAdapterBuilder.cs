@@ -306,5 +306,48 @@ namespace Sable.Compiler.Generate.Analysis
             }
             method.EmitSemicolon(true);
         }
+
+        public override void CaseASimpleElement(ASimpleElement node)
+        {
+            EmitArgAssign();
+            method.EmitIdentifier("Visit");
+            using (var par = method.EmitParenthesis())
+            {
+                if (node.Elementid.TIdentifier.IsProduction)
+                    par.EmitDynamic(true);
+                par.EmitIdentifier("node");
+                par.EmitPeriod();
+                par.EmitIdentifier(ToCamelCase(node.LowerName));
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
+            method.EmitSemicolon(true);
+        }
+        public override void CaseAQuestionElement(AQuestionElement node)
+        {
+            using (var @if = method.EmitIf())
+            {
+                @if.EmitIdentifier("node");
+                @if.EmitPeriod();
+                @if.EmitIdentifier("Has" + ToCamelCase(node.LowerName));
+            }
+            method.EmitNewLine();
+
+            method.IncreaseIndentation();
+            EmitArgAssign();
+            method.EmitIdentifier("Visit");
+            using (var par = method.EmitParenthesis())
+            {
+                if (node.Elementid.TIdentifier.IsProduction)
+                    par.EmitDynamic(true);
+                par.EmitIdentifier("node");
+                par.EmitPeriod();
+                par.EmitIdentifier(ToCamelCase(node.LowerName));
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
+            method.EmitSemicolon(true);
+            method.DecreaseIndentation();
+        }
     }
 }
