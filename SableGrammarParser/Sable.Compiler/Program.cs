@@ -53,7 +53,13 @@ namespace Sable.Compiler
             }
             Console.WriteLine("Validation completed.\n");
 
-            var processInfo = new ProcessStartInfo(PathInformation.JavaExecutable, "-jar sablecc.jar -d \"" + PathInformation.SableOutputDirectory + "\" -t csharp \"" + PathInformation.TemporaryGrammarPath + "\"")
+            using (FileStream fss = new FileStream(PathInformation.TemporarySableGrammarPath, FileMode.Create))
+            {
+                SableGrammarEmitter emitter = new SableGrammarEmitter(fss);
+                emitter.Visit(ast);
+            }
+
+            var processInfo = new ProcessStartInfo(PathInformation.JavaExecutable, "-jar sablecc.jar -d \"" + PathInformation.SableOutputDirectory + "\" -t csharp \"" + PathInformation.TemporarySableGrammarPath + "\"")
             {
                 CreateNoWindow = true,
                 RedirectStandardError = true,
