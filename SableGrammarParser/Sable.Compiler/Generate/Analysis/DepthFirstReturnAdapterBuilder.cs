@@ -7,6 +7,8 @@ namespace Sable.Compiler.Generate.Analysis
 {
     public class DepthFirstReturnAdapterBuilder : GenerateVisitor
     {
+        private const string VALUE_TYPE = "TValue";
+
         private ClassElement adapterClass;
         private AGrammar grammar;
 
@@ -20,8 +22,8 @@ namespace Sable.Compiler.Generate.Analysis
             string className = (reversed ? "Reverse" : "") + "DepthFirstReturnAdapter";
 
             namespaceElement.CreateClass(className, AccessModifiers.@public, className + "<object>");
-            adapterClass = namespaceElement.CreateClass(className, AccessModifiers.@public, "AnalysisAdapter<TValue>");
-            adapterClass.TypeParameters.Add("TValue");
+            adapterClass = namespaceElement.CreateClass(className, AccessModifiers.@public, "ReturnAnalysisAdapter<" + VALUE_TYPE + ">");
+            adapterClass.TypeParameters.Add(VALUE_TYPE);
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -47,59 +49,94 @@ namespace Sable.Compiler.Generate.Analysis
                 Visit(node.Tokens);
         }
 
+        private void EmitArgAssign()
+        {
+            method.EmitIdentifier("arg");
+            method.EmitAssignment();
+        }
+        private void EmitReturnArg()
+        {
+            method.EmitReturn();
+            method.EmitIdentifier("arg");
+            method.EmitSemicolon(true);
+        }
+
         #region Default methods
 
         public void CreateVisitNodeMethod()
         {
-            var method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Visit", "void");
+            var method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Visit", VALUE_TYPE);
             method.Parameters.Add("node", "Node");
+            method.Parameters.Add("arg", VALUE_TYPE);
+            method.EmitReturn();
             method.EmitIdentifier("Visit");
             using (var par = method.EmitParenthesis())
             {
                 par.EmitDynamic(true);
                 par.EmitIdentifier("node");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
             }
             method.EmitSemicolon(true);
         }
 
         public void CreateStartInOutMethods()
         {
-            var inMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "InStart", "void");
-            inMethod.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
+            method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "InStart", VALUE_TYPE);
+            method.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
+            method.Parameters.Add("arg", VALUE_TYPE);
+            EmitReturnArg();
 
-            var outMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "OutStart", "void");
-            outMethod.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
+            method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "OutStart", VALUE_TYPE);
+            method.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
+            method.Parameters.Add("arg", VALUE_TYPE);
+            EmitReturnArg();
         }
         public void CreateStartCaseMethod()
         {
-            var method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "CaseStart", "void");
+            method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "CaseStart", VALUE_TYPE);
             method.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
+            method.Parameters.Add("arg", VALUE_TYPE);
 
+            EmitArgAssign();
             method.EmitIdentifier("InStart");
             using (var par = method.EmitParenthesis())
+            {
                 par.EmitIdentifier("node");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
             method.EmitSemicolon(true);
             method.EmitNewLine();
 
             if (!reversed)
             {
-                EmitVisitStartMethodCall(method);
-                EmitVisitEOFMethodCall(method);
+                EmitVisitStartMethodCall();
+                EmitVisitEOFMethodCall();
             }
             else
             {
-                EmitVisitEOFMethodCall(method);
-                EmitVisitStartMethodCall(method);
+                EmitVisitEOFMethodCall();
+                EmitVisitStartMethodCall();
             }
             method.EmitNewLine();
 
+            EmitArgAssign();
             method.EmitIdentifier("OutStart");
             using (var par = method.EmitParenthesis())
+            {
                 par.EmitIdentifier("node");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
             method.EmitSemicolon(true);
+            method.EmitNewLine();
+
+            EmitReturnArg();
         }
-        public void EmitVisitStartMethodCall(MethodElement method)
+        public void EmitVisitStartMethodCall()
         {
+            EmitArgAssign();
             method.EmitIdentifier("Visit");
             using (var par = method.EmitParenthesis())
             {
@@ -108,34 +145,49 @@ namespace Sable.Compiler.Generate.Analysis
                 par.EmitIdentifier("node");
                 par.EmitPeriod();
                 par.EmitIdentifier("Root");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
             }
             method.EmitSemicolon(true);
         }
-        public void EmitVisitEOFMethodCall(MethodElement method)
+        public void EmitVisitEOFMethodCall()
         {
+            EmitArgAssign();
             method.EmitIdentifier("Visit");
             using (var par = method.EmitParenthesis())
             {
                 par.EmitIdentifier("node");
                 par.EmitPeriod();
                 par.EmitIdentifier("EOF");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
             }
             method.EmitSemicolon(true);
         }
 
         public void CreateDefaultProductionMethods()
         {
-            var inMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultPIn", "void");
-            inMethod.Parameters.Add("node", "Node");
-            var outMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultPOut", "void");
-            outMethod.Parameters.Add("node", "Node");
+            method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultPIn", VALUE_TYPE);
+            method.Parameters.Add("node", "Node");
+            method.Parameters.Add("arg", VALUE_TYPE);
+            EmitReturnArg();
+
+            method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultPOut", VALUE_TYPE);
+            method.Parameters.Add("node", "Node");
+            method.Parameters.Add("arg", VALUE_TYPE);
+            EmitReturnArg();
         }
         public void CreateDefaultAlternativeMethods()
         {
-            var inMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultAIn", "void");
-            inMethod.Parameters.Add("node", "Node");
-            var outMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultAOut", "void");
-            outMethod.Parameters.Add("node", "Node");
+            method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultAIn", VALUE_TYPE);
+            method.Parameters.Add("node", "Node");
+            method.Parameters.Add("arg", VALUE_TYPE);
+            EmitReturnArg();
+
+            method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultAOut", VALUE_TYPE);
+            method.Parameters.Add("node", "Node");
+            method.Parameters.Add("arg", VALUE_TYPE);
+            EmitReturnArg();
         }
 
         #endregion
