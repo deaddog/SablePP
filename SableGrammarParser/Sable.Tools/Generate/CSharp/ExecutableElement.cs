@@ -153,13 +153,22 @@ namespace Sable.Tools.Generate.CSharp
             contents.Emit("<=", UseSpace.Always, UseSpace.Always);
         }
 
+        public void EmitPlus()
+        {
+            contents.Emit("+", UseSpace.Always, UseSpace.Always);
+        }
+        public void EmitMinus()
+        {
+            contents.Emit("-", UseSpace.Always, UseSpace.Always);
+        }
+
         public void EmitPlusPlus()
         {
-            contents.Emit("++", UseSpace.NotPreferred, UseSpace.NotPreferred);
+            contents.Emit("++", UseSpace.Never, UseSpace.NotPreferred);
         }
         public void EmitMinusMinus()
         {
-            contents.Emit("--", UseSpace.NotPreferred, UseSpace.NotPreferred);
+            contents.Emit("--", UseSpace.Never, UseSpace.NotPreferred);
         }
 
         public void EmitAs()
