@@ -254,6 +254,28 @@ namespace Sable.Compiler.Generate.Analysis
             EmitReturnArg();
         }
 
+        public override void CaseAElements(AElements node)
+        {
+            if (!reversed)
+                base.CaseAElements(node);
+            else
+            {
+                InPElements(node);
+                InAElements(node);
+
+
+                {
+                    PElement[] temp = new PElement[node.Element.Count];
+                    node.Element.CopyTo(temp, 0);
+                    for (int i = temp.Length - 1; i >= 0; i--)
+                        Visit((dynamic)temp[i]);
+                }
+
+                OutAElements(node);
+                OutPElements(node);
+            }
+        }
+
         private void EmitInOut(string name)
         {
             method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "In" + name, VALUE_TYPE);
