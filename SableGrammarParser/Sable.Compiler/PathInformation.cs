@@ -45,6 +45,10 @@ namespace Sable.Compiler
         {
             get { return TemporaryDirectory + "\\grammar.sablecc"; }
         }
+        public static string TemporarySableGrammarPath
+        {
+            get { return SableOutputDirectory + "\\grammar.sablecc"; }
+        }
 
         private static void ensureTemporaryDirectory()
         {
