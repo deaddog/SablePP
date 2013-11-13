@@ -303,23 +303,44 @@ namespace Sable.Compiler.Generate.Analysis
             }
             method.EmitSemicolon(true);
 
-            //for (int i = 0; i < temp.Length; i++)
-            using (var par = method.EmitFor())
-            {
-                par.EmitInt();
-                par.EmitIdentifier("i");
-                par.EmitAssignment();
-                par.EmitIntValue(0);
-                par.EmitSemicolon(false);
-                par.EmitIdentifier("i");
-                par.EmitLessThan();
-                par.EmitIdentifier("temp");
-                par.EmitPeriod();
-                par.EmitIdentifier("Length");
-                par.EmitSemicolon(false);
-                par.EmitIdentifier("i");
-                par.EmitPlusPlus();
-            }
+            if (!reversed)
+                //for (int i = 0; i < temp.Length; i++)
+                using (var par = method.EmitFor())
+                {
+                    par.EmitInt();
+                    par.EmitIdentifier("i");
+                    par.EmitAssignment();
+                    par.EmitIntValue(0);
+                    par.EmitSemicolon(false);
+                    par.EmitIdentifier("i");
+                    par.EmitLessThan();
+                    par.EmitIdentifier("temp");
+                    par.EmitPeriod();
+                    par.EmitIdentifier("Length");
+                    par.EmitSemicolon(false);
+                    par.EmitIdentifier("i");
+                    par.EmitPlusPlus();
+                }
+            else
+                //for (int i = temp.Length - 1; i >= 0; i--)
+                using (var par = method.EmitFor())
+                {
+                    par.EmitInt();
+                    par.EmitIdentifier("i");
+                    par.EmitAssignment();
+                    par.EmitIdentifier("temp");
+                    par.EmitPeriod();
+                    par.EmitIdentifier("Length");
+                    par.EmitMinus();
+                    par.EmitIntValue(1);
+                    par.EmitSemicolon(false);
+                    par.EmitIdentifier("i");
+                    par.EmitGreaterThanOrEqual();
+                    par.EmitIntValue(0);
+                    par.EmitSemicolon(false);
+                    par.EmitIdentifier("i");
+                    par.EmitMinusMinus();
+                }
             method.EmitNewLine();
 
             //    Visit(temp[i]);
