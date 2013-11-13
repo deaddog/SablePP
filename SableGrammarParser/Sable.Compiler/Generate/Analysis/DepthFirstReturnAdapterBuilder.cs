@@ -198,6 +198,62 @@ namespace Sable.Compiler.Generate.Analysis
             EmitInOut("P" + node.Identifier.Text.ToCamelCase());
         }
 
+        public override void CaseAAlternative(AAlternative node)
+        {
+            EmitInOut(node.ClassName);
+
+            method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Case" + node.ClassName, VALUE_TYPE);
+            method.Parameters.Add("node", node.ClassName);
+            method.Parameters.Add("arg", VALUE_TYPE);
+
+            EmitArgAssign();
+            method.EmitIdentifier("In" + node.ProductionName);
+            using (var par = method.EmitParenthesis())
+            {
+                par.EmitIdentifier("node");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
+            method.EmitSemicolon(true);
+
+            EmitArgAssign();
+            method.EmitIdentifier("In" + node.ClassName);
+            using (var par = method.EmitParenthesis())
+            {
+                par.EmitIdentifier("node");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
+            method.EmitSemicolon(true);
+            method.EmitNewLine();
+
+            Visit(node.Elements);
+
+            method.EmitNewLine();
+            EmitArgAssign();
+            method.EmitIdentifier("Out" + node.ClassName);
+            using (var par = method.EmitParenthesis())
+            {
+                par.EmitIdentifier("node");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
+            method.EmitSemicolon(true);
+
+            EmitArgAssign();
+            method.EmitIdentifier("Out" + node.ProductionName);
+            using (var par = method.EmitParenthesis())
+            {
+                par.EmitIdentifier("node");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
+            method.EmitSemicolon(true);
+            method.EmitNewLine();
+
+            EmitReturnArg();
+        }
+
         private void EmitInOut(string name)
         {
             method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "In" + name, VALUE_TYPE);
