@@ -192,6 +192,12 @@ namespace Sable.Compiler.Generate.Analysis
 
         #endregion
 
+        public override void InAProduction(AProduction node)
+        {
+            adapterClass.EmitNewLine();
+            EmitInOut("P" + node.Identifier.Text.ToCamelCase());
+        }
+
         private void EmitInOut(string name)
         {
             method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "In" + name, VALUE_TYPE);
