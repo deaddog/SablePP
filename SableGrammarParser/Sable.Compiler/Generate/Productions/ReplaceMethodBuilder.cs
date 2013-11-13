@@ -48,6 +48,7 @@ namespace Sable.Compiler.Generate.Productions
                 par.EmitEqual();
                 par.EmitIdentifier(oldChild);
             }
+            method.EmitNewLine();
             method.EmitBlockStart();
             /*
                 if (newChild == null)
@@ -116,6 +117,7 @@ namespace Sable.Compiler.Generate.Productions
                 par.EmitEqual();
                 par.EmitIdentifier(oldChild);
             }
+            method.EmitNewLine();
             method.EmitBlockStart();
             using (var ifPar = method.EmitIf())
             {
@@ -181,6 +183,7 @@ namespace Sable.Compiler.Generate.Productions
                     argpar.EmitIdentifier(type);
                 }
             }
+            method.EmitNewLine();
             method.EmitBlockStart();
 
             using (var ifPar = method.EmitIf())

@@ -20,11 +20,10 @@ namespace Sable.Tools.Generate.CSharp
         }
 
         /// <summary>
-        /// Emits newline, curly bracket, newline and increases indentation
+        /// Curly bracket, newline and increases indentation
         /// </summary>
         public void EmitBlockStart()
         {
-            contents.EmitNewLine();
             contents.Emit("{", UseSpace.Never, UseSpace.Never);
             contents.EmitNewLine();
             contents.IncreaseIndentation();
