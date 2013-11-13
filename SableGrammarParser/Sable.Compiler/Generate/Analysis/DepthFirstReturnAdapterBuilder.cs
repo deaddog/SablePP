@@ -349,5 +349,99 @@ namespace Sable.Compiler.Generate.Analysis
             method.EmitSemicolon(true);
             method.DecreaseIndentation();
         }
+
+        private void EmitListWalking(string type, string name, PElement node)
+        {
+            method.EmitBlockStart();
+
+            //PAssignment[] temp = new PAssignment[node.Assignment.Count];
+            method.EmitIdentifier(type + "[]");
+            method.EmitIdentifier("temp");
+            method.EmitAssignment();
+            method.EmitNew();
+            method.EmitIdentifier(type);
+            using (var par = method.EmitParenthesis(ParenthesisElement.Types.Square))
+            {
+                par.EmitIdentifier("node");
+                par.EmitPeriod();
+                par.EmitIdentifier(name);
+                par.EmitPeriod();
+                par.EmitIdentifier("Count");
+            }
+            method.EmitSemicolon(true);
+
+            //node.Assignment.CopyTo(temp, 0);
+            method.EmitIdentifier("node");
+            method.EmitPeriod();
+            method.EmitIdentifier(name);
+            method.EmitPeriod();
+            method.EmitIdentifier("CopyTo");
+            using (var par = method.EmitParenthesis())
+            {
+                par.EmitIdentifier("temp");
+                par.EmitComma();
+                par.EmitIntValue(0);
+            }
+            method.EmitSemicolon(true);
+
+            if (!reversed)
+                //for (int i = 0; i < temp.Length; i++)
+                using (var par = method.EmitFor())
+                {
+                    par.EmitInt();
+                    par.EmitIdentifier("i");
+                    par.EmitAssignment();
+                    par.EmitIntValue(0);
+                    par.EmitSemicolon(false);
+                    par.EmitIdentifier("i");
+                    par.EmitLessThan();
+                    par.EmitIdentifier("temp");
+                    par.EmitPeriod();
+                    par.EmitIdentifier("Length");
+                    par.EmitSemicolon(false);
+                    par.EmitIdentifier("i");
+                    par.EmitPlusPlus();
+                }
+            else
+                //for (int i = temp.Length - 1; i >= 0; i--)
+                using (var par = method.EmitFor())
+                {
+                    par.EmitInt();
+                    par.EmitIdentifier("i");
+                    par.EmitAssignment();
+                    par.EmitIdentifier("temp");
+                    par.EmitPeriod();
+                    par.EmitIdentifier("Length");
+                    par.EmitMinus();
+                    par.EmitIntValue(1);
+                    par.EmitSemicolon(false);
+                    par.EmitIdentifier("i");
+                    par.EmitGreaterThanOrEqual();
+                    par.EmitIntValue(0);
+                    par.EmitSemicolon(false);
+                    par.EmitIdentifier("i");
+                    par.EmitMinusMinus();
+                }
+            method.EmitNewLine();
+
+            //    arg = Visit(temp[i], arg);
+            method.IncreaseIndentation();
+            EmitArgAssign();
+            method.EmitIdentifier("Visit");
+            using (var par = method.EmitParenthesis())
+            {
+                if (node.PElementid.TIdentifier.IsProduction)
+                    par.EmitDynamic(true);
+                par.EmitIdentifier("temp");
+                using (var square = par.EmitParenthesis(ParenthesisElement.Types.Square))
+                    square.EmitIdentifier("i");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
+            method.EmitSemicolon(true);
+            method.DecreaseIndentation();
+
+            method.EmitBlockEnd();
+        }
     }
 }
