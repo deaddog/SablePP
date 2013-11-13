@@ -349,6 +349,22 @@ namespace Sable.Compiler.Generate.Analysis
             method.EmitSemicolon(true);
             method.DecreaseIndentation();
         }
+        public override void CaseAPlusElement(APlusElement node)
+        {
+            TIdentifier typeId = node.Elementid.TIdentifier;
+            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
+            string name = ToCamelCase(node.LowerName);
+
+            EmitListWalking(type, name, node);
+        }
+        public override void CaseAStarElement(AStarElement node)
+        {
+            TIdentifier typeId = node.Elementid.TIdentifier;
+            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
+            string name = ToCamelCase(node.LowerName);
+
+            EmitListWalking(type, name, node);
+        }
 
         private void EmitListWalking(string type, string name, PElement node)
         {
