@@ -14,7 +14,7 @@ namespace Sable.Tools.Editor
 
         public void AddError(Range range, string message)
         {
-            string text = string.Format("[{0}, {1}] ", range.Start.iLine, range.Start.iChar) + message;
+            string text = string.Format("[{0}, {1}] ", range.Start.iLine + 1, range.Start.iChar + 1) + message;
 
             if (this.Text.Length == 0)
                 this.Text = text;
