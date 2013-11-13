@@ -191,5 +191,36 @@ namespace Sable.Compiler.Generate.Analysis
         }
 
         #endregion
+
+        private void EmitInOut(string name)
+        {
+            method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "In" + name, VALUE_TYPE);
+            method.Parameters.Add("node", name);
+            method.Parameters.Add("arg", VALUE_TYPE);
+
+            method.EmitReturn();
+            method.EmitIdentifier("Default" + name[0] + "In");
+            using (var par = method.EmitParenthesis())
+            {
+                par.EmitIdentifier("node");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
+            method.EmitSemicolon(true);
+
+            method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Out" + name, VALUE_TYPE);
+            method.Parameters.Add("node", name);
+            method.Parameters.Add("arg", VALUE_TYPE);
+
+            method.EmitReturn();
+            method.EmitIdentifier("Default" + name[0] + "Out");
+            using (var par = method.EmitParenthesis())
+            {
+                par.EmitIdentifier("node");
+                par.EmitComma();
+                par.EmitIdentifier("arg");
+            }
+            method.EmitSemicolon(true);
+        }
     }
 }
