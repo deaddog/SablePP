@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 
 using Sable.Compiler.Analysis;
+using Sable.Tools.Nodes;
 
 namespace Sable.Compiler
 {
@@ -33,6 +34,25 @@ namespace Sable.Compiler
                 Visit((dynamic)node.Productions);
             if (node.HasAstproductions)
                 Visit((dynamic)node.Astproductions);
+        }
+        private void write(string text)
+        {
+            byte[] buffer = encoding.GetBytes(text);
+            stream.Write(buffer, 0, buffer.Length);
+        }
+
+        public override void DefaultCase(Node node)
+        {
+            if (node is Token)
+            {
+                write((node as Token).Text);
+                write(" ");
+            }
+            else
+            {
+                string s = node.ToString();
+                base.DefaultCase(node);
+            }
         }
     }
 }
