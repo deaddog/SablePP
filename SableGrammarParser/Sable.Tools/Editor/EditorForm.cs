@@ -255,9 +255,9 @@ namespace Sable.Tools.Editor
 
         }
 
-        private CompilerExecuter executer;
+        private ICompilerExecuter executer;
 
-        public CompilerExecuter Executer
+        public ICompilerExecuter Executer
         {
             get { return executer; }
             set { executer = value; }
@@ -265,7 +265,7 @@ namespace Sable.Tools.Editor
 
         private void compileWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            CompilerExecuter executer = ((dynamic)e.Argument).Executer as CompilerExecuter;
+            ICompilerExecuter executer = ((dynamic)e.Argument).Executer as ICompilerExecuter;
             string input = ((dynamic)e.Argument).Input as string;
 
             ErrorManager errorManager = new ErrorManager();
@@ -293,7 +293,7 @@ namespace Sable.Tools.Editor
             }
 
             if (ast != null)
-                executer.ValidateAST(ast, errorManager);
+                executer.Validate(ast, errorManager);
 
             e.Result = new { Errors = errorManager.ToArray(), AST = ast };
         }
