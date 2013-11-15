@@ -73,7 +73,11 @@ namespace Sable.Compiler
             Console.WriteLine("Rewriting lexer.");
             LexerModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\lexer.cs", ast);
 
-            foreach (var file in new[] { "tokens.cs", "prods.cs", "analysis.cs", "parser.cs", "lexer.cs" })
+            Console.WriteLine("Generating CompilerExecuter.");
+            using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\CompilerExecuter.cs", FileMode.Create))
+                CodeStreamWriter.Generate(fs, CompilerExecuterBuilder.Build(ast));
+
+            foreach (var file in new[] { "tokens.cs", "prods.cs", "analysis.cs", "parser.cs", "lexer.cs", "CompilerExecuter.cs" })
                 File.Copy(PathInformation.SableOutputDirectory + "\\" + file, outputDirectory + "\\" + file, true);
 
             Console.WriteLine("Done.");
