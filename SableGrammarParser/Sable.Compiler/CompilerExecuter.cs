@@ -76,7 +76,7 @@ namespace Sable.Compiler
                 string eText = m.Groups["text"].Value;
 
                 return new CompilerError(-1, -1, 1,
-                    string.Format("SableCC: {2} at \\{{0},{1}\\}", eLine, eChar, eText));
+                    string.Format("SableCC: {2} at {{{0},{1}}}", eLine, eChar, eText));
             }
             else
                 return new CompilerError(-1, -1, 0, text);
