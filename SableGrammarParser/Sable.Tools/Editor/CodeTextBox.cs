@@ -26,6 +26,9 @@ namespace Sable.Tools.Editor
 
         public void AddError(Range range, string message)
         {
+            if (range.Start.iChar < 0 || range.Start.iLine < 0 || range.End.iChar < 0 || range.End.iLine < 0)
+                return;
+
             if (!range.Chars.Any())
                 directDrawErrors.Add(range);
             else
