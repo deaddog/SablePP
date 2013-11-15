@@ -6,6 +6,7 @@ using System.Text;
 using System.IO;
 using Sable.Tools.Nodes;
 using Sable.Compiler.Nodes;
+using Sable.Tools.Error;
 
 namespace Sable.Compiler.Lexing
 {
@@ -39,15 +40,7 @@ namespace Sable.Compiler.Lexing
         }
     }
 
-    public class LexerException : ApplicationException
-    {
-        public LexerException(String message)
-            : base(message)
-        {
-        }
-    }
-
-    public class Lexer
+    public class Lexer : Sable.Tools.Lexing.ILexer
     {
         protected Token token;
         protected State currentState = State.NORMAL;
@@ -625,9 +618,7 @@ namespace Sable.Compiler.Lexing
                     {
                         if (text.Length > 0)
                         {
-                            throw new LexerException(
-                                "[" + (start_line + 1) + "," + (start_pos + 1) + "]" +
-                                " Unknown token: " + text);
+                            throw new LexerException(start_line + 1, start_pos + 1, "Unknown token: " + text);
                         }
                         else
                         {

@@ -21,7 +21,6 @@ namespace Sable.Compiler.Nodes
             return new TPackagename(Text, Line, Position);
         }
     }
-    
     public partial class TPackagetoken : Token<TPackagetoken>
     {
         public TPackagetoken(string text)
@@ -38,7 +37,6 @@ namespace Sable.Compiler.Nodes
             return new TPackagetoken(Text, Line, Position);
         }
     }
-    
     public partial class TStatestoken : Token<TStatestoken>
     {
         public TStatestoken(string text)
@@ -55,7 +53,6 @@ namespace Sable.Compiler.Nodes
             return new TStatestoken(Text, Line, Position);
         }
     }
-    
     public partial class THelperstoken : Token<THelperstoken>
     {
         public THelperstoken(string text)
@@ -72,7 +69,6 @@ namespace Sable.Compiler.Nodes
             return new THelperstoken(Text, Line, Position);
         }
     }
-    
     public partial class TTokenstoken : Token<TTokenstoken>
     {
         public TTokenstoken(string text)
@@ -89,7 +85,6 @@ namespace Sable.Compiler.Nodes
             return new TTokenstoken(Text, Line, Position);
         }
     }
-    
     public partial class TIgnoredtoken : Token<TIgnoredtoken>
     {
         public TIgnoredtoken(string text)
@@ -106,7 +101,6 @@ namespace Sable.Compiler.Nodes
             return new TIgnoredtoken(Text, Line, Position);
         }
     }
-    
     public partial class TProductionstoken : Token<TProductionstoken>
     {
         public TProductionstoken(string text)
@@ -123,7 +117,6 @@ namespace Sable.Compiler.Nodes
             return new TProductionstoken(Text, Line, Position);
         }
     }
-    
     public partial class TAsttoken : Token<TAsttoken>
     {
         public TAsttoken(string text)
@@ -140,7 +133,6 @@ namespace Sable.Compiler.Nodes
             return new TAsttoken(Text, Line, Position);
         }
     }
-    
     public partial class TNew : Token<TNew>
     {
         public TNew(string text)
@@ -157,7 +149,6 @@ namespace Sable.Compiler.Nodes
             return new TNew(Text, Line, Position);
         }
     }
-    
     public partial class TNull : Token<TNull>
     {
         public TNull(string text)
@@ -174,7 +165,6 @@ namespace Sable.Compiler.Nodes
             return new TNull(Text, Line, Position);
         }
     }
-    
     public partial class TTokenSpecifier : Token<TTokenSpecifier>
     {
         public TTokenSpecifier(string text)
@@ -191,7 +181,6 @@ namespace Sable.Compiler.Nodes
             return new TTokenSpecifier(Text, Line, Position);
         }
     }
-    
     public partial class TProductionSpecifier : Token<TProductionSpecifier>
     {
         public TProductionSpecifier(string text)
@@ -208,7 +197,6 @@ namespace Sable.Compiler.Nodes
             return new TProductionSpecifier(Text, Line, Position);
         }
     }
-    
     public partial class TDot : Token<TDot>
     {
         public TDot(string text)
@@ -225,7 +213,6 @@ namespace Sable.Compiler.Nodes
             return new TDot(Text, Line, Position);
         }
     }
-    
     public partial class TDDot : Token<TDDot>
     {
         public TDDot(string text)
@@ -242,7 +229,6 @@ namespace Sable.Compiler.Nodes
             return new TDDot(Text, Line, Position);
         }
     }
-    
     public partial class TSemicolon : Token<TSemicolon>
     {
         public TSemicolon(string text)
@@ -259,7 +245,6 @@ namespace Sable.Compiler.Nodes
             return new TSemicolon(Text, Line, Position);
         }
     }
-    
     public partial class TEqual : Token<TEqual>
     {
         public TEqual(string text)
@@ -276,7 +261,6 @@ namespace Sable.Compiler.Nodes
             return new TEqual(Text, Line, Position);
         }
     }
-    
     public partial class TLBkt : Token<TLBkt>
     {
         public TLBkt(string text)
@@ -293,7 +277,6 @@ namespace Sable.Compiler.Nodes
             return new TLBkt(Text, Line, Position);
         }
     }
-    
     public partial class TRBkt : Token<TRBkt>
     {
         public TRBkt(string text)
@@ -310,7 +293,6 @@ namespace Sable.Compiler.Nodes
             return new TRBkt(Text, Line, Position);
         }
     }
-    
     public partial class TLPar : Token<TLPar>
     {
         public TLPar(string text)
@@ -327,7 +309,6 @@ namespace Sable.Compiler.Nodes
             return new TLPar(Text, Line, Position);
         }
     }
-    
     public partial class TRPar : Token<TRPar>
     {
         public TRPar(string text)
@@ -344,7 +325,6 @@ namespace Sable.Compiler.Nodes
             return new TRPar(Text, Line, Position);
         }
     }
-    
     public partial class TLBrace : Token<TLBrace>
     {
         public TLBrace(string text)
@@ -361,7 +341,6 @@ namespace Sable.Compiler.Nodes
             return new TLBrace(Text, Line, Position);
         }
     }
-    
     public partial class TRBrace : Token<TRBrace>
     {
         public TRBrace(string text)
@@ -378,7 +357,6 @@ namespace Sable.Compiler.Nodes
             return new TRBrace(Text, Line, Position);
         }
     }
-    
     public partial class TPlus : Token<TPlus>
     {
         public TPlus(string text)
@@ -395,7 +373,6 @@ namespace Sable.Compiler.Nodes
             return new TPlus(Text, Line, Position);
         }
     }
-    
     public partial class TMinus : Token<TMinus>
     {
         public TMinus(string text)
@@ -412,7 +389,6 @@ namespace Sable.Compiler.Nodes
             return new TMinus(Text, Line, Position);
         }
     }
-    
     public partial class TQMark : Token<TQMark>
     {
         public TQMark(string text)
@@ -429,7 +405,6 @@ namespace Sable.Compiler.Nodes
             return new TQMark(Text, Line, Position);
         }
     }
-    
     public partial class TStar : Token<TStar>
     {
         public TStar(string text)
@@ -446,7 +421,6 @@ namespace Sable.Compiler.Nodes
             return new TStar(Text, Line, Position);
         }
     }
-    
     public partial class TPipe : Token<TPipe>
     {
         public TPipe(string text)
@@ -463,7 +437,6 @@ namespace Sable.Compiler.Nodes
             return new TPipe(Text, Line, Position);
         }
     }
-    
     public partial class TComma : Token<TComma>
     {
         public TComma(string text)
@@ -480,7 +453,6 @@ namespace Sable.Compiler.Nodes
             return new TComma(Text, Line, Position);
         }
     }
-    
     public partial class TSlash : Token<TSlash>
     {
         public TSlash(string text)
@@ -497,7 +469,6 @@ namespace Sable.Compiler.Nodes
             return new TSlash(Text, Line, Position);
         }
     }
-    
     public partial class TArrow : Token<TArrow>
     {
         public TArrow(string text)
@@ -514,7 +485,6 @@ namespace Sable.Compiler.Nodes
             return new TArrow(Text, Line, Position);
         }
     }
-    
     public partial class TColon : Token<TColon>
     {
         public TColon(string text)
@@ -531,7 +501,6 @@ namespace Sable.Compiler.Nodes
             return new TColon(Text, Line, Position);
         }
     }
-    
     public partial class TIdentifier : Token<TIdentifier>
     {
         public TIdentifier(string text)
@@ -548,7 +517,6 @@ namespace Sable.Compiler.Nodes
             return new TIdentifier(Text, Line, Position);
         }
     }
-    
     public partial class TCharacter : Token<TCharacter>
     {
         public TCharacter(string text)
@@ -565,7 +533,6 @@ namespace Sable.Compiler.Nodes
             return new TCharacter(Text, Line, Position);
         }
     }
-    
     public partial class TDecChar : Token<TDecChar>
     {
         public TDecChar(string text)
@@ -582,7 +549,6 @@ namespace Sable.Compiler.Nodes
             return new TDecChar(Text, Line, Position);
         }
     }
-    
     public partial class THexChar : Token<THexChar>
     {
         public THexChar(string text)
@@ -599,7 +565,6 @@ namespace Sable.Compiler.Nodes
             return new THexChar(Text, Line, Position);
         }
     }
-    
     public partial class TString : Token<TString>
     {
         public TString(string text)
@@ -616,7 +581,6 @@ namespace Sable.Compiler.Nodes
             return new TString(Text, Line, Position);
         }
     }
-    
     public partial class TBlank : Token<TBlank>
     {
         public TBlank(string text)
@@ -633,7 +597,6 @@ namespace Sable.Compiler.Nodes
             return new TBlank(Text, Line, Position);
         }
     }
-    
     public partial class TComment : Token<TComment>
     {
         public TComment(string text)

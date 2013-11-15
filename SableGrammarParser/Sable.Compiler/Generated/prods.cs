@@ -8,7 +8,6 @@ namespace Sable.Compiler.Nodes
     public abstract partial class PGrammar : Production<PGrammar>
     {
     }
-    
     public partial class AGrammar : PGrammar
     {
         private PPackage _package_;
@@ -223,11 +222,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4} {5} {6}", _package_, _helpers_, _states_, _tokens_, _ignoredtokens_, _productions_, _astproductions_);
         }
     }
-    
     public abstract partial class PPackage : Production<PPackage>
     {
     }
-    
     public partial class APackage : PPackage
     {
         private TPackagetoken _packagetoken_;
@@ -322,11 +319,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2}", _packagetoken_, _packagename_, _semicolon_);
         }
     }
-    
     public abstract partial class PHelpers : Production<PHelpers>
     {
     }
-    
     public partial class AHelpers : PHelpers
     {
         private THelperstoken _helperstoken_;
@@ -381,11 +376,10 @@ namespace Sable.Compiler.Nodes
         protected override IEnumerable<Node> GetChildren()
         {
             yield return _helperstoken_;
-            
             {
                 PHelper[] temp = new PHelper[_helpers_.Count];
                 _helpers_.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
         }
@@ -399,11 +393,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1}", _helperstoken_, _helpers_);
         }
     }
-    
     public abstract partial class PHelper : Production<PHelper>
     {
     }
-    
     public partial class AHelper : PHelper
     {
         private TIdentifier _identifier_;
@@ -521,11 +513,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3}", _identifier_, _equal_, _regex_, _semicolon_);
         }
     }
-    
     public abstract partial class PTokens : Production<PTokens>
     {
     }
-    
     public partial class ATokens : PTokens
     {
         private TTokenstoken _tokenstoken_;
@@ -580,11 +570,10 @@ namespace Sable.Compiler.Nodes
         protected override IEnumerable<Node> GetChildren()
         {
             yield return _tokenstoken_;
-            
             {
                 PToken[] temp = new PToken[_tokens_.Count];
                 _tokens_.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
         }
@@ -598,11 +587,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1}", _tokenstoken_, _tokens_);
         }
     }
-    
     public abstract partial class PToken : Production<PToken>
     {
     }
-    
     public partial class AToken : PToken
     {
         private PList _statelist_;
@@ -774,11 +761,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4} {5}", _statelist_, _identifier_, _equal_, _regex_, _tokenlookahead_, _semicolon_);
         }
     }
-    
     public abstract partial class PTokenlookahead : Production<PTokenlookahead>
     {
     }
-    
     public partial class ATokenlookahead : PTokenlookahead
     {
         private TSlash _slash_;
@@ -850,11 +835,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1}", _slash_, _regex_);
         }
     }
-    
     public abstract partial class PRegex : Production<PRegex>
     {
     }
-    
     public partial class ARegex : PRegex
     {
         private NodeList<POrpart> _parts_;
@@ -886,11 +869,10 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            
             {
                 POrpart[] temp = new POrpart[_parts_.Count];
                 _parts_.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
         }
@@ -904,11 +886,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0}", _parts_);
         }
     }
-    
     public abstract partial class POrpart : Production<POrpart>
     {
     }
-    
     public partial class ARegexOrpart : POrpart
     {
         private TPipe _pipe_;
@@ -967,11 +947,10 @@ namespace Sable.Compiler.Nodes
         {
             if (HasPipe)
                 yield return _pipe_;
-            
             {
                 PRegexpart[] temp = new PRegexpart[_regexpart_.Count];
                 _regexpart_.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
         }
@@ -985,11 +964,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1}", _pipe_, _regexpart_);
         }
     }
-    
     public abstract partial class PRegexpart : Production<PRegexpart>
     {
     }
-    
     public partial class ACharRegexpart : PRegexpart
     {
         private TCharacter _character_;
@@ -1038,7 +1015,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0}", _character_);
         }
     }
-    
     public partial class ADecRegexpart : PRegexpart
     {
         private TDecChar _dec_char_;
@@ -1087,7 +1063,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0}", _dec_char_);
         }
     }
-    
     public partial class AHexRegexpart : PRegexpart
     {
         private THexChar _hex_char_;
@@ -1136,7 +1111,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0}", _hex_char_);
         }
     }
-    
     public partial class AUnarystarRegexpart : PRegexpart
     {
         private PRegexpart _regexpart_;
@@ -1208,7 +1182,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1}", _regexpart_, _star_);
         }
     }
-    
     public partial class AUnaryquestionRegexpart : PRegexpart
     {
         private PRegexpart _regexpart_;
@@ -1280,7 +1253,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1}", _regexpart_, _question_);
         }
     }
-    
     public partial class AUnaryplusRegexpart : PRegexpart
     {
         private PRegexpart _regexpart_;
@@ -1352,7 +1324,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1}", _regexpart_, _plus_);
         }
     }
-    
     public partial class ABinaryplusRegexpart : PRegexpart
     {
         private TLBkt _lpar_;
@@ -1493,7 +1464,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", _lpar_, _left_, _plus_, _right_, _rpar_);
         }
     }
-    
     public partial class ABinaryminusRegexpart : PRegexpart
     {
         private TLBkt _lpar_;
@@ -1634,7 +1604,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", _lpar_, _left_, _minus_, _right_, _rpar_);
         }
     }
-    
     public partial class AIntervalRegexpart : PRegexpart
     {
         private TLBkt _lpar_;
@@ -1775,7 +1744,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", _lpar_, _left_, _dots_, _right_, _rpar_);
         }
     }
-    
     public partial class AStringRegexpart : PRegexpart
     {
         private TString _string_;
@@ -1824,7 +1792,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0}", _string_);
         }
     }
-    
     public partial class AIdentifierRegexpart : PRegexpart
     {
         private TIdentifier _identifier_;
@@ -1873,7 +1840,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0}", _identifier_);
         }
     }
-    
     public partial class AParenthesisRegexpart : PRegexpart
     {
         private TLPar _lpar_;
@@ -1968,11 +1934,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2}", _lpar_, _regex_, _rpar_);
         }
     }
-    
     public abstract partial class PStates : Production<PStates>
     {
     }
-    
     public partial class AStates : PStates
     {
         private TStatestoken _statestoken_;
@@ -2067,11 +2031,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2}", _statestoken_, _list_, _semicolon_);
         }
     }
-    
     public abstract partial class PIgnoredtokens : Production<PIgnoredtokens>
     {
     }
-    
     public partial class AIgnoredtokens : PIgnoredtokens
     {
         private TIgnoredtoken _ignoredtoken_;
@@ -2189,11 +2151,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3}", _ignoredtoken_, _tokenstoken_, _list_, _semicolon_);
         }
     }
-    
     public abstract partial class PList : Production<PList>
     {
     }
-    
     public partial class AIdentifierList : PList
     {
         private NodeList<PListitem> _listitem_;
@@ -2225,11 +2185,10 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            
             {
                 PListitem[] temp = new PListitem[_listitem_.Count];
                 _listitem_.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
         }
@@ -2243,7 +2202,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0}", _listitem_);
         }
     }
-    
     public partial class ATokenstateList : PList
     {
         private TLBrace _lpar_;
@@ -2320,11 +2278,10 @@ namespace Sable.Compiler.Nodes
         protected override IEnumerable<Node> GetChildren()
         {
             yield return _lpar_;
-            
             {
                 PListitem[] temp = new PListitem[_listitem_.Count];
                 _listitem_.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
             yield return _rpar_;
@@ -2339,7 +2296,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2}", _lpar_, _listitem_, _rpar_);
         }
     }
-    
     public partial class ATranslationList : PList
     {
         private NodeList<PListitem> _listitem_;
@@ -2371,11 +2327,10 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            
             {
                 PListitem[] temp = new PListitem[_listitem_.Count];
                 _listitem_.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
         }
@@ -2389,11 +2344,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0}", _listitem_);
         }
     }
-    
     public abstract partial class PListitem : Production<PListitem>
     {
     }
-    
     public partial class AIdentifierListitem : PListitem
     {
         private TComma _comma_;
@@ -2469,7 +2422,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1}", _comma_, _identifier_);
         }
     }
-    
     public partial class ATokenstateListitem : PListitem
     {
         private TComma _comma_;
@@ -2545,7 +2497,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1}", _comma_, _identifier_);
         }
     }
-    
     public partial class ATokenstatetransitionListitem : PListitem
     {
         private TComma _comma_;
@@ -2667,7 +2618,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3}", _comma_, _from_, _arrow_, _to_);
         }
     }
-    
     public partial class ATranslationListitem : PListitem
     {
         private TComma _comma_;
@@ -2743,11 +2693,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1}", _comma_, _translation_);
         }
     }
-    
     public abstract partial class PProductions : Production<PProductions>
     {
     }
-    
     public partial class AProductions : PProductions
     {
         private TProductionstoken _productionstoken_;
@@ -2802,11 +2750,10 @@ namespace Sable.Compiler.Nodes
         protected override IEnumerable<Node> GetChildren()
         {
             yield return _productionstoken_;
-            
             {
                 PProduction[] temp = new PProduction[_productions_.Count];
                 _productions_.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
         }
@@ -2820,11 +2767,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1}", _productionstoken_, _productions_);
         }
     }
-    
     public abstract partial class PAstproductions : Production<PAstproductions>
     {
     }
-    
     public partial class AAstproductions : PAstproductions
     {
         private TAsttoken _asttoken_;
@@ -2879,11 +2824,10 @@ namespace Sable.Compiler.Nodes
         protected override IEnumerable<Node> GetChildren()
         {
             yield return _asttoken_;
-            
             {
                 PProduction[] temp = new PProduction[_productions_.Count];
                 _productions_.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
         }
@@ -2897,11 +2841,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1}", _asttoken_, _productions_);
         }
     }
-    
     public abstract partial class PProduction : Production<PProduction>
     {
     }
-    
     public partial class AProduction : PProduction
     {
         private TIdentifier _identifier_;
@@ -3046,11 +2988,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", _identifier_, _prodtranslation_, _equal_, _productionrule_, _semicolon_);
         }
     }
-    
     public abstract partial class PProdtranslation : Production<PProdtranslation>
     {
     }
-    
     public partial class ACleanProdtranslation : PProdtranslation
     {
         private TLBrace _lpar_;
@@ -3168,7 +3108,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3}", _lpar_, _arrow_, _identifier_, _rpar_);
         }
     }
-    
     public partial class AStarProdtranslation : PProdtranslation
     {
         private TLBrace _lpar_;
@@ -3309,7 +3248,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", _lpar_, _arrow_, _identifier_, _star_, _rpar_);
         }
     }
-    
     public partial class APlusProdtranslation : PProdtranslation
     {
         private TLBrace _lpar_;
@@ -3450,7 +3388,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", _lpar_, _arrow_, _identifier_, _plus_, _rpar_);
         }
     }
-    
     public partial class AQuestionProdtranslation : PProdtranslation
     {
         private TLBrace _lpar_;
@@ -3591,11 +3528,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", _lpar_, _arrow_, _identifier_, _q_mark_, _rpar_);
         }
     }
-    
     public abstract partial class PTranslation : Production<PTranslation>
     {
     }
-    
     public partial class AFullTranslation : PTranslation
     {
         private TLBrace _lpar_;
@@ -3713,7 +3648,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3}", _lpar_, _arrow_, _translation_, _rpar_);
         }
     }
-    
     public partial class ANewTranslation : PTranslation
     {
         private TNew _new_;
@@ -3854,7 +3788,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", _new_, _production_, _lpar_, _arguments_, _rpar_);
         }
     }
-    
     public partial class ANewalternativeTranslation : PTranslation
     {
         private TNew _new_;
@@ -4041,7 +3974,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4} {5} {6}", _new_, _production_, _dot_, _alternative_, _lpar_, _arguments_, _rpar_);
         }
     }
-    
     public partial class AListTranslation : PTranslation
     {
         private TLBkt _lpar_;
@@ -4136,7 +4068,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2}", _lpar_, _elements_, _rpar_);
         }
     }
-    
     public partial class ANullTranslation : PTranslation
     {
         private TNull _null_;
@@ -4185,7 +4116,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0}", _null_);
         }
     }
-    
     public partial class AIdTranslation : PTranslation
     {
         private TIdentifier _identifier_;
@@ -4234,7 +4164,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0}", _identifier_);
         }
     }
-    
     public partial class AIddotidTranslation : PTranslation
     {
         private TIdentifier _identifier_;
@@ -4329,11 +4258,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2}", _identifier_, _dot_, _production_);
         }
     }
-    
     public abstract partial class PProductionrule : Production<PProductionrule>
     {
     }
-    
     public partial class AProductionrule : PProductionrule
     {
         private NodeList<PAlternative> _alternatives_;
@@ -4365,11 +4292,10 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            
             {
                 PAlternative[] temp = new PAlternative[_alternatives_.Count];
                 _alternatives_.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
         }
@@ -4383,11 +4309,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0}", _alternatives_);
         }
     }
-    
     public abstract partial class PAlternative : Production<PAlternative>
     {
     }
-    
     public partial class AAlternative : PAlternative
     {
         private TPipe _pipe_;
@@ -4517,11 +4441,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3}", _pipe_, _alternativename_, _elements_, _translation_);
         }
     }
-    
     public abstract partial class PAlternativename : Production<PAlternativename>
     {
     }
-    
     public partial class AAlternativename : PAlternativename
     {
         private TLBrace _lpar_;
@@ -4616,11 +4538,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2}", _lpar_, _name_, _rpar_);
         }
     }
-    
     public abstract partial class PElements : Production<PElements>
     {
     }
-    
     public partial class AElements : PElements
     {
         private NodeList<PElement> _element_;
@@ -4652,11 +4572,10 @@ namespace Sable.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            
             {
                 PElement[] temp = new PElement[_element_.Count];
                 _element_.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i ++)
+                for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
         }
@@ -4670,11 +4589,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0}", _element_);
         }
     }
-    
     public abstract partial class PElement : Production<PElement>
     {
     }
-    
     public partial class ASimpleElement : PElement
     {
         private PElementname _elementname_;
@@ -4750,7 +4667,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1}", _elementname_, _elementid_);
         }
     }
-    
     public partial class AStarElement : PElement
     {
         private PElementname _elementname_;
@@ -4849,7 +4765,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2}", _elementname_, _elementid_, _star_);
         }
     }
-    
     public partial class AQuestionElement : PElement
     {
         private PElementname _elementname_;
@@ -4948,7 +4863,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2}", _elementname_, _elementid_, _q_mark_);
         }
     }
-    
     public partial class APlusElement : PElement
     {
         private PElementname _elementname_;
@@ -5047,11 +4961,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2}", _elementname_, _elementid_, _plus_);
         }
     }
-    
     public abstract partial class PElementname : Production<PElementname>
     {
     }
-    
     public partial class AElementname : PElementname
     {
         private TLBkt _lpar_;
@@ -5169,11 +5081,9 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2} {3}", _lpar_, _name_, _rpar_, _colon_);
         }
     }
-    
     public abstract partial class PElementid : Production<PElementid>
     {
     }
-    
     public partial class ACleanElementid : PElementid
     {
         private TIdentifier _identifier_;
@@ -5222,7 +5132,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0}", _identifier_);
         }
     }
-    
     public partial class ATokenElementid : PElementid
     {
         private TTokenSpecifier _token_specifier_;
@@ -5317,7 +5226,6 @@ namespace Sable.Compiler.Nodes
             return string.Format("{0} {1} {2}", _token_specifier_, _dot_, _identifier_);
         }
     }
-    
     public partial class AProductionElementid : PElementid
     {
         private TProductionSpecifier _production_specifier_;

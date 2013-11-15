@@ -7,27 +7,12 @@ using System.Text;
 using System.IO;
 using Sable.Tools.Nodes;
 using Sable.Compiler.Nodes;
+using Sable.Tools.Error;
 using Sable.Compiler.Lexing;
 using Sable.Compiler.Analysis;
 
 namespace Sable.Compiler.Parsing
 {
-
-    public class ParserException : ApplicationException
-    {
-        Token token;
-
-        public ParserException(Token token, String message)
-            : base(message)
-        {
-            this.token = token;
-        }
-
-        public Token Token
-        {
-            get { return token; }
-        }
-    }
 
     internal class State
     {
@@ -231,7 +216,7 @@ namespace Sable.Compiler.Parsing
         }
     }
 
-    public class Parser
+    public class Parser : Sable.Tools.Parsing.IParser
     {
         private AnalysisAdapter<List<Token>> ignoredTokens = new AnalysisAdapter<List<Token>>();
         public AnalysisAdapter<List<Token>> IgnoredTokens
@@ -314,6 +299,10 @@ namespace Sable.Compiler.Parsing
             return converter.index;
         }
 
+        Node Sable.Tools.Parsing.IParser.Parse()
+        {
+            return this.Parse();
+        }
         public Start<PGrammar> Parse()
         {
             Push(0, null);
@@ -1867,9 +1856,7 @@ namespace Sable.Compiler.Parsing
                             return node;
                         }
                     case ERROR:
-                        throw new ParserException(last_token,
-                            "[" + last_line + "," + last_pos + "] " +
-                            errorMessages[errors[action[1]]]);
+                        throw new ParserException(last_token, last_line, last_pos, errorMessages[errors[action[1]]]);
                 }
             }
         }
