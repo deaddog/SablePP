@@ -89,6 +89,12 @@ namespace Sable.Tools.Generate.CSharp
             contents.InsertElement(method);
             return method;
         }
+        public PartialMethodElement CreatePartialMethod(string name, string returnType)
+        {
+            PartialMethodElement method = new PartialMethodElement(name, returnType);
+            contents.InsertElement(method);
+            return method;
+        }
         public MethodElement CreateConstructor(AccessModifiers modifiers, bool? baseChain = null)
         {
             MethodElement method = new MethodElement(modifiers, this.name, baseChain);
