@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompilerExecuter.cs" />
     <Compile Include="Generated\analysis.cs" />
     <Compile Include="Generated\CompilerExecuter.cs" />
     <Compile Include="Generated\lexer.cs" />
