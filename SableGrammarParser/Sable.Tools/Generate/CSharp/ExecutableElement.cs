@@ -81,6 +81,11 @@ namespace Sable.Tools.Generate.CSharp
             else
                 contents.Emit("dynamic", UseSpace.NotPreferred, UseSpace.Preferred);
         }
+        public ParenthesisElement EmitTypeOf()
+        {
+            EmitIdentifier("typeof");
+            return EmitParenthesis();
+        }
 
         public ParenthesisElement EmitIf()
         {
