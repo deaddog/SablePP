@@ -19,30 +19,28 @@ namespace Sable.Compiler.SymbolLinking
             if (node.HasPackage)
                 Visit(node.Package);
 
-            Dictionary<string, DHelper> helpers = new Dictionary<string, DHelper>();
+            DeclarationTables declarations = new DeclarationTables();
+
             if (node.HasHelpers)
-                helpers = StartVisitor(new HelperVisitor(), node.Helpers).GetHelpers();
+                HelperVisitor.LoadHelperDeclarations(node.Helpers, declarations, this.ErrorManager);
 
-            Dictionary<string, DState> states = new Dictionary<string, DState>();
             if (node.HasStates)
-                states = StartVisitor(new StateVisitor(), node.States).GetStates();
+                StateVisitor.LoadStateDeclarations(node.States, declarations, this.ErrorManager);
 
-            Dictionary<string, DToken> tokens = new Dictionary<string, DToken>();
             if (node.HasTokens)
-                tokens = StartVisitor(new TokenVisitor(helpers, states), node.Tokens).GetTokens();
+                TokenVisitor.LoadTokenDeclarations(node.Tokens, declarations, this.ErrorManager);
 
             if (node.HasIgnoredtokens)
-                StartVisitor(new IgnoredTokenVisitor(tokens), node.Ignoredtokens);
+                IgnoredTokenVisitor.SetIgnoredTokens(node.Ignoredtokens, declarations, this.ErrorManager);
 
             if (node.HasProductions)
-                StartVisitor(new ProductionVisitor(tokens), node.Productions);
+                ProductionVisitor.LoadProductionDeclarations(node.Productions, declarations, this.ErrorManager);
 
-            Dictionary<string, DProduction> astProductions = new Dictionary<string, DProduction>();
             if (node.HasAstproductions)
-                astProductions = StartVisitor(new ProductionVisitor(tokens), node.Astproductions).GetProductions();
+                ProductionVisitor.LoadProductionDeclarations(node.Astproductions, declarations, this.ErrorManager);
 
             if (node.HasProductions)
-                StartVisitor(new TranslationVisitor(astProductions), node.Productions);
+                TranslationVisitor.SetIdentifiersInTranslations(node.Productions, declarations, this.ErrorManager);
         }
     }
 }

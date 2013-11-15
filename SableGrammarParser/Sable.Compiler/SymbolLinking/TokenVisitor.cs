@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using Sable.Compiler.Nodes;
+using Sable.Tools.Error;
 
 namespace Sable.Compiler.SymbolLinking
 {
@@ -11,26 +11,18 @@ namespace Sable.Compiler.SymbolLinking
         private Dictionary<string, DHelper> helpers;
         private Dictionary<string, DState> states;
         private Dictionary<string, DToken> tokens;
-
-        public Dictionary<string, DToken> GetTokens()
+        
+        private TokenVisitor(DeclarationTables declarations, ErrorManager errorManager)
+            : base(errorManager)
         {
-            Dictionary<string, DToken> tokenDict = new Dictionary<string, DToken>();
-            foreach (var s in tokens)
-                tokenDict.Add(s.Key, s.Value);
-            return tokenDict;
+            this.helpers = declarations.Helpers;
+            this.states = declarations.States;
+            this.tokens = declarations.Tokens;
         }
 
-        public TokenVisitor(IEnumerable<KeyValuePair<string, DHelper>> helpers, IEnumerable<KeyValuePair<string, DState>> states)
+        public static void LoadTokenDeclarations(PTokens node, DeclarationTables declarations, ErrorManager errorManager)
         {
-            this.helpers = new Dictionary<string, DHelper>();
-            foreach (var v in helpers)
-                this.helpers.Add(v.Key, v.Value);
-
-            this.states = new Dictionary<string, DState>();
-            foreach (var v in states)
-                this.states.Add(v.Key, v.Value);
-
-            this.tokens = new Dictionary<string, DToken>();
+            new TokenVisitor(declarations, errorManager).Visit(node);
         }
 
         public override void CaseAToken(AToken node)

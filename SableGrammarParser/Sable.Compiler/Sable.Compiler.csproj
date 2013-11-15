@@ -86,6 +86,7 @@
     <Compile Include="ParserModifier.cs" />
     <Compile Include="PathInformation.cs" />
     <Compile Include="SableGrammarEmitter.cs" />
+    <Compile Include="SymbolLinking\DeclarationTables.cs" />
     <Compile Include="SymbolLinking\DeclarationVisitor.cs" />
     <Compile Include="Error\ErrorVisitor.cs" />
     <Compile Include="Nodes\TIdentifier.cs" />

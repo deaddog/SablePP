@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using Sable.Compiler.Nodes;
+using Sable.Tools.Error;
 
 namespace Sable.Compiler.SymbolLinking
 {
@@ -10,11 +10,15 @@ namespace Sable.Compiler.SymbolLinking
     {
         private Dictionary<string, DToken> tokens;
 
-        public IgnoredTokenVisitor(IEnumerable<KeyValuePair<string, DToken>> tokens)
+        private IgnoredTokenVisitor(DeclarationTables declarations, ErrorManager errorManager)
+            : base(errorManager)
         {
-            this.tokens = new Dictionary<string, DToken>();
-            foreach (var v in tokens)
-                this.tokens.Add(v.Key, v.Value);
+            this.tokens = declarations.Tokens;
+        }
+
+        public static void SetIgnoredTokens(PIgnoredtokens node, DeclarationTables declarations, ErrorManager errorManager)
+        {
+            new IgnoredTokenVisitor(declarations, errorManager).Visit(node);
         }
 
         public override void CaseTIdentifier(TIdentifier node)

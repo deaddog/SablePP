@@ -1,51 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Sable.Compiler.Nodes;
-using Sable.Tools;
+using Sable.Tools.Error;
 
 namespace Sable.Compiler.SymbolLinking
 {
     public class ProductionVisitor : DeclarationVisitor
     {
         private Dictionary<string, DToken> tokens;
-
         private Dictionary<string, DProduction> productions;
         private Dictionary<string, DAlternativeName> alternatives;
         private Dictionary<string, DElementName> elements;
 
         private AAlternative currentAlternative;
 
-        public Dictionary<string, DProduction> GetProductions()
+        private ProductionVisitor(DeclarationTables declarations, ErrorManager errorManager, bool ast)
+            : base(errorManager)
         {
-            Dictionary<string, DProduction> productionDict = new Dictionary<string, DProduction>();
-            foreach (var p in productions)
-                productionDict.Add(p.Key, p.Value);
-            return productionDict;
-        }
+            this.tokens = declarations.Tokens;
+            this.productions = ast ? declarations.AstProductions : declarations.Productions;
 
-        public ProductionVisitor(IDictionary<string, DToken> tokens)
-        {
-            if (tokens == null)
-                throw new ArgumentNullException("tokens");
-
-            this.tokens = new Dictionary<string, DToken>(tokens);
-
-            this.productions = new Dictionary<string, DProduction>();
             this.alternatives = new Dictionary<string, DAlternativeName>();
             this.elements = new Dictionary<string, DElementName>();
         }
 
+        public static void LoadProductionDeclarations(PProductions node, DeclarationTables declarations, ErrorManager errorManager)
+        {
+            new ProductionVisitor(declarations, errorManager, false).Visit(node);
+        }
+        public static void LoadProductionDeclarations(PAstproductions node, DeclarationTables declarations, ErrorManager errorManager)
+        {
+            new ProductionVisitor(declarations, errorManager, true).Visit(node);
+        }
+
         public override void InAProductions(AProductions node)
         {
-            this.productions = new Dictionary<string, DProduction>(StartVisitor(new DeclarationLinker(), node).Productions);
+            DeclarationLinker linker = new DeclarationLinker(this.ErrorManager);
+            linker.Visit(node);
+            this.productions = new Dictionary<string, DProduction>(linker.Productions);
             base.InAProductions(node);
         }
         public override void InAAstproductions(AAstproductions node)
         {
-            this.productions = new Dictionary<string, DProduction>(StartVisitor(new DeclarationLinker(), node).Productions);
+            DeclarationLinker linker = new DeclarationLinker(this.ErrorManager);
+            linker.Visit(node);
+            this.productions = new Dictionary<string, DProduction>(linker.Productions);
             base.InAAstproductions(node);
         }
         public override void InAProduction(AProduction node)
@@ -133,7 +133,6 @@ namespace Sable.Compiler.SymbolLinking
         private class DeclarationLinker : DeclarationVisitor
         {
             private Dictionary<string, DProduction> productions = new Dictionary<string, DProduction>();
-
             public Dictionary<string, DProduction> Productions
             {
                 get
@@ -143,6 +142,11 @@ namespace Sable.Compiler.SymbolLinking
                         productionDict.Add(p.Key, p.Value);
                     return productionDict;
                 }
+            }
+
+            public DeclarationLinker(ErrorManager errorManager)
+                : base(errorManager)
+            {
             }
 
             public override void CaseAProduction(AProduction node)
@@ -156,58 +160,6 @@ namespace Sable.Compiler.SymbolLinking
                     productions.Add(text, production);
                     node.Identifier.SetDeclaration(production);
                 }
-            }
-        }
-
-        private class AlternativesLocater : DeclarationVisitor
-        {
-            private Dictionary<string, DAlternativeName> alternatives;
-
-            private AlternativesLocater()
-            {
-                this.alternatives = new Dictionary<string, DAlternativeName>();
-            }
-
-            public static LookupDictionary<string, DAlternativeName> Alternatives(DProduction production)
-            {
-                AlternativesLocater locater = new AlternativesLocater();
-                locater.Visit(production.Production);
-                return new LookupDictionary<string, DAlternativeName>(locater.alternatives);
-            }
-
-            public override void CaseAAlternativename(AAlternativename node)
-            {
-                if(node.Name.IsAlternativeName)
-                    alternatives.Add(node.Name.Text, node.Name.AsAlternativeName);
-            }
-        }
-
-        private class ElementLocater : DeclarationVisitor
-        {
-            private string lookFor;
-            private Declaration result;
-
-            private ElementLocater(TIdentifier identifier)
-                : this(identifier.Text)
-            {
-            }
-            private ElementLocater(string lookFor)
-            {
-                this.lookFor = lookFor;
-                this.result = null;
-            }
-
-            public static Declaration Declaration(AAlternative alternative, TIdentifier identifier)
-            {
-                ElementLocater locater = new ElementLocater(identifier);
-                locater.Visit(alternative);
-                return locater.result;
-            }
-
-            public override void CaseACleanElementid(ACleanElementid node)
-            {
-                if (node.Identifier.Text == lookFor && result == null)
-                    result = node.Identifier.Declaration;
             }
         }
     }

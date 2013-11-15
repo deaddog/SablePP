@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using Sable.Compiler.Nodes;
+using Sable.Tools.Error;
 
 namespace Sable.Compiler.SymbolLinking
 {
     public class StateVisitor : DeclarationVisitor
     {
-        private Dictionary<string, DState> states = new Dictionary<string,DState>();
+        private Dictionary<string, DState> states;
 
-        public Dictionary<string, DState> GetStates()
+        private StateVisitor(DeclarationTables declarations, ErrorManager errorManager)
+            : base(errorManager)
         {
-            Dictionary<string, DState> stateDict = new Dictionary<string, DState>();
-            foreach (var s in states)
-                stateDict.Add(s.Key, s.Value);
-            return stateDict;
+            this.states = declarations.States;
+        }
+
+        public static void LoadStateDeclarations(PStates node, DeclarationTables declarations, ErrorManager errorManager)
+        {
+            new StateVisitor(declarations, errorManager).Visit(node);
         }
 
         public override void CaseTIdentifier(TIdentifier node)

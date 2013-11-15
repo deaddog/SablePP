@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using Sable.Compiler.Nodes;
+using Sable.Tools.Error;
 
 namespace Sable.Compiler.SymbolLinking
 {
     public class HelperVisitor : DeclarationVisitor
     {
-        private Dictionary<string, DHelper> helpers = new Dictionary<string, DHelper>();
+        private Dictionary<string, DHelper> helpers;
         private bool firstRun = true;
 
-        public Dictionary<string, DHelper> GetHelpers()
+        private HelperVisitor(DeclarationTables declarations, ErrorManager errorManager)
+            :base(errorManager)
         {
-            Dictionary<string, DHelper> helperDict = new Dictionary<string, DHelper>();
-            foreach (var h in helpers)
-                helperDict.Add(h.Key, h.Value);
-            return helperDict;
+            this.helpers = declarations.Helpers;
+        }
+
+        public static void LoadHelperDeclarations(PHelpers node, DeclarationTables declarations, ErrorManager errorManager)
+        {
+            new HelperVisitor(declarations, errorManager).Visit(node);
         }
 
         public override void CaseAHelper(AHelper node)

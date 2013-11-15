@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Sable.Compiler.Nodes;
 using Sable.Tools;
+using Sable.Tools.Error;
 
 namespace Sable.Compiler.SymbolLinking
 {
@@ -12,14 +11,20 @@ namespace Sable.Compiler.SymbolLinking
     {
         private LookupDictionary<string, DProduction> astProductions;
 
-        public TranslationVisitor(IDictionary<string, DProduction> astProductions)
+        private TranslationVisitor(DeclarationTables declarations, ErrorManager errorManager)
+            : base(errorManager)
         {
-            this.astProductions = new LookupDictionary<string, DProduction>(astProductions);
+            this.astProductions = new LookupDictionary<string, DProduction>(declarations.AstProductions);
+        }
+
+        public static void SetIdentifiersInTranslations(PProductions node, DeclarationTables declarations, ErrorManager errorManager)
+        {
+            new TranslationVisitor(declarations, errorManager).Visit(node);
         }
 
         public override void CaseAAlternative(AAlternative node)
         {
-            StartVisitor(new AlternativeVisitor(astProductions), node);
+            AlternativeVisitor.SetIdentifiers(node, this.astProductions, this.ErrorManager);
         }
 
         public override void InACleanProdtranslation(ACleanProdtranslation node)
@@ -60,9 +65,15 @@ namespace Sable.Compiler.SymbolLinking
             private LookupDictionary<string, DProduction> astProductions;
             private AAlternative alternative = null;
 
-            public AlternativeVisitor(LookupDictionary<string, DProduction> astProductions)
+            private AlternativeVisitor(LookupDictionary<string, DProduction> astProductions, ErrorManager errorManager)
+                : base(errorManager)
             {
                 this.astProductions = astProductions;
+            }
+
+            public static void SetIdentifiers(AAlternative node, LookupDictionary<string, DProduction> astProductions, ErrorManager errorManager)
+            {
+                new AlternativeVisitor(astProductions, errorManager).Visit(node);
             }
 
             public override void InAAlternative(AAlternative node)
@@ -89,7 +100,7 @@ namespace Sable.Compiler.SymbolLinking
                 {
                     node.Production.SetDeclaration(production);
 
-                    LookupDictionary<string, DAlternativeName> alternatives = AlternativesLocater.Alternatives(production);
+                    LookupDictionary<string, DAlternativeName> alternatives = AlternativesLocater.Alternatives(production, this.ErrorManager);
                     DAlternativeName alternative = null;
                     if (alternatives.TryGetValue(node.Alternative.Text, out alternative))
                         node.Alternative.SetDeclaration(alternative);
@@ -104,7 +115,7 @@ namespace Sable.Compiler.SymbolLinking
 
             public override void InAIdTranslation(AIdTranslation node)
             {
-                Declaration declaration = ElementLocater.Declaration(alternative, node.Identifier);
+                Declaration declaration = ElementLocater.Declaration(alternative, node.Identifier, this.ErrorManager);
                 if (declaration != null)
                     node.Identifier.SetDeclaration(declaration);
 
@@ -112,7 +123,7 @@ namespace Sable.Compiler.SymbolLinking
             }
             public override void InAIddotidTranslation(AIddotidTranslation node)
             {
-                Declaration declaration = ElementLocater.Declaration(alternative, node.Identifier);
+                Declaration declaration = ElementLocater.Declaration(alternative, node.Identifier, this.ErrorManager);
                 if (declaration != null)
                     node.Identifier.SetDeclaration(declaration);
 
@@ -130,21 +141,22 @@ namespace Sable.Compiler.SymbolLinking
         {
             private Dictionary<string, DAlternativeName> alternatives;
 
-            private AlternativesLocater()
+            private AlternativesLocater(ErrorManager errorManager)
+                : base(errorManager)
             {
                 this.alternatives = new Dictionary<string, DAlternativeName>();
             }
 
-            public static LookupDictionary<string, DAlternativeName> Alternatives(DProduction production)
+            public static LookupDictionary<string, DAlternativeName> Alternatives(DProduction production, ErrorManager errorManager)
             {
-                AlternativesLocater locater = new AlternativesLocater();
+                AlternativesLocater locater = new AlternativesLocater(errorManager);
                 locater.Visit(production.Production);
                 return new LookupDictionary<string, DAlternativeName>(locater.alternatives);
             }
 
             public override void CaseAAlternativename(AAlternativename node)
             {
-                if(node.Name.IsAlternativeName)
+                if (node.Name.IsAlternativeName)
                     alternatives.Add(node.Name.Text, node.Name.AsAlternativeName);
             }
         }
@@ -156,19 +168,20 @@ namespace Sable.Compiler.SymbolLinking
             private string lookFor;
             private Declaration result;
 
-            private ElementLocater(TIdentifier identifier)
-                : this(identifier.Text)
+            private ElementLocater(TIdentifier identifier, ErrorManager errorManager)
+                : this(identifier.Text, errorManager)
             {
             }
-            private ElementLocater(string lookFor)
+            private ElementLocater(string lookFor, ErrorManager errorManager)
+                :base(errorManager)
             {
                 this.lookFor = lookFor;
                 this.result = null;
             }
 
-            public static Declaration Declaration(AAlternative alternative, TIdentifier identifier)
+            public static Declaration Declaration(AAlternative alternative, TIdentifier identifier, ErrorManager errorManager)
             {
-                ElementLocater locater = new ElementLocater(identifier);
+                ElementLocater locater = new ElementLocater(identifier, errorManager);
                 locater.Visit(alternative);
                 locater.lookingForName = false;
                 if (locater.looking)
