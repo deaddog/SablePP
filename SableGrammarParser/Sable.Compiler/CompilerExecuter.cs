@@ -71,11 +71,12 @@ namespace Sable.Compiler
             Match m = Regex.Match(text, "java.lang.RuntimeException: \\[(?<line>[0-9]+),(?<char>[0-9]+)\\] (?<text>.*)");
             if (m.Success)
             {
-                return new CompilerError(
-                    int.Parse(m.Groups["line"].Value),
-                    int.Parse(m.Groups["char"].Value),
-                    1,
-                    "Sable: " + m.Groups["text"].Value);
+                int eLine = int.Parse(m.Groups["line"].Value);
+                int eChar = int.Parse(m.Groups["char"].Value);
+                string eText = m.Groups["text"].Value;
+
+                return new CompilerError(-1, -1, 1,
+                    string.Format("SableCC: {2} at \\{{0},{1}\\}", eLine, eChar, eText));
             }
             else
                 return new CompilerError(-1, -1, 0, text);
