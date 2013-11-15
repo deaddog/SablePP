@@ -34,75 +34,26 @@ namespace Sable.Compiler
             string outputDirectory = arguments["out"][0];
             outputDirectory = outputDirectory.TrimEnd('\\');
 
-            Console.WriteLine("Loading grammar file \"{0}\".", inputGrammar);
-            Console.WriteLine();
+            CompilerExecuter executer = new CompilerExecuter();
 
-            Console.WriteLine("Validating grammar.");
-            Start<PGrammar> ast = Parse(ReadFile(PathInformation.TemporaryGrammarPath));
-            CompilerError[] errors = Visitor.StartNewVisitor(new Visitor(), ast).GetErrors().ToArray();
-            if (errors.Length > 0)
+            Console.WriteLine("Input:\n" + inputGrammar + "\n\nValidating grammar.");
+            Start<PGrammar> ast = Parse(ReadFile(PathInformation.TemporaryGrammarPath), executer);
+
+            ErrorManager errorManager = new ErrorManager();
+            executer.Validate(ast, errorManager);
+
+            if (errorManager.Count > 0)
             {
                 Console.WriteLine("Validation failed:");
-
-                for (int i = 0; i < errors.Length; i++)
-                    Console.WriteLine(errors[i]);
+                foreach(var err in errorManager)
+                    Console.WriteLine(err);
 #if DEBUG
                 Console.ReadKey(true);
 #endif
                 return;
             }
-            Console.WriteLine("Validation completed.\n");
-
-            using (FileStream fss = new FileStream(PathInformation.TemporarySableGrammarPath, FileMode.Create))
-            {
-                SableGrammarEmitter emitter = new SableGrammarEmitter(fss);
-                emitter.Visit(ast);
-            }
-
-            var processInfo = new ProcessStartInfo(PathInformation.JavaExecutable, "-jar sablecc.jar -d \"" + PathInformation.SableOutputDirectory + "\" -t csharp \"" + PathInformation.TemporarySableGrammarPath + "\"")
-            {
-                CreateNoWindow = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                WorkingDirectory = PathInformation.ExecutingDirectory
-            };
-
-            Console.WriteLine("Verifying Java.");
-            Process proc;
-            if ((proc = Process.Start(processInfo)) == null)
-            {
-                Console.WriteLine("Java not found - visit Java.com to install.");
-#if DEBUG
-                Console.ReadKey(true);
-#endif
-                return;
-            }
-            Console.WriteLine("Java {0} found.\n\nRunning SableCC", PathInformation.JavaVersion);
-            proc.WaitForExit();
-            int exitCode = proc.ExitCode;
-            if (exitCode != 0)
-            {
-                Console.WriteLine("SableCC failed to compile, see error-message below:");
-                string[] text = proc.StandardError.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.None);
-                proc.Close();
-                int to = int.MaxValue;
-                for (int i = 0; i < text.Length; i++)
-                    if (text[i].StartsWith("\tat "))
-                    {
-                        to = i;
-                        break;
-                    }
-                Console.WriteLine("----- SABLE-ERROR-BEGIN -----");
-                for (int i = 0; i < to; i++)
-                    Console.WriteLine(text[i]);
-                Console.WriteLine("-----  SABLE-ERROR-END  -----");
-#if DEBUG
-                Console.ReadKey(true);
-#endif
-                return;
-            }
-            proc.Close();
-            Console.WriteLine("SableCC completed successfully.\n");
+            else
+                Console.WriteLine("Validated.\n");
 
             Console.WriteLine("Starting Post-Sable Process.");
             Console.WriteLine("Generating token definitions.");
@@ -159,12 +110,12 @@ namespace Sable.Compiler
                 result = sr.ReadToEnd();
             return result;
         }
-        private static Start<PGrammar> Parse(string code)
+        private static Start<PGrammar> Parse(string code, CompilerExecuter executer)
         {
             StringReader reader = new StringReader(code);
 
-            Lexer lexer = new Lexer(reader);
-            Parser parser = new Parser(lexer);
+            Lexer lexer = executer.GetLexer(reader);
+            Parser parser = executer.GetParser(lexer);
 
             Start<PGrammar> ast = parser.Parse();
 
