@@ -21,31 +21,31 @@ namespace Sable.Compiler
     }
     internal static class ToolsNamespace
     {
-        private static string root
+        public static string Root
         {
             get { return "Sable.Tools"; }
         }
 
         public static string Analysis
         {
-            get { return root + ".Analysis"; }
+            get { return Root + ".Analysis"; }
         }
         public static string Nodes
         {
-            get { return root + ".Nodes"; }
+            get { return Root + ".Nodes"; }
         }
         public static string Error
         {
-            get { return root + ".Error"; }
+            get { return Root + ".Error"; }
         }
 
         public static string Parsing
         {
-            get { return root + ".Parsing"; }
+            get { return Root + ".Parsing"; }
         }
         public static string Lexing
         {
-            get { return root + ".Lexing"; }
+            get { return Root + ".Lexing"; }
         }
     }
 }
