@@ -24,6 +24,20 @@ namespace Sable.Compiler
     {
         private static ArgumentCollection arguments;
 
+#if WINFORMS
+        [STAThread]
+        private static void Main(string[] args)
+        {
+            System.Windows.Forms.Application.EnableVisualStyles();
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+            System.Windows.Forms.Application.Run(new Sable.Tools.Editor.EditorForm()
+            {
+                Executer = new Sable.Compiler.CompilerExecuter(), 
+                Text = "SPP Editor", 
+                FileExtension = "sablecc" 
+            });
+        }
+#else
         private static void Main(string[] args)
         {
             arguments = new ArgumentCollection(args);
@@ -105,6 +119,7 @@ namespace Sable.Compiler
             reader.Dispose();
             return ast;
         }
+#endif
     }
 
     public class ArgumentCollection
