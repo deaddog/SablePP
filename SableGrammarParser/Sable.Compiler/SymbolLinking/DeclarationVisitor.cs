@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using Sable.Compiler.Nodes;
-using Sable.Tools.Nodes;
+
+using Sable.Tools.Error;
 
 namespace Sable.Compiler.SymbolLinking
 {
     public class DeclarationVisitor : Error.ErrorVisitor
     {
-        public override void OutStart(Start<PGrammar> node)
+        public DeclarationVisitor(ErrorManager errorManager)
+            : base(errorManager)
         {
-            base.OutStart(node);
-            var unlinked = StartVisitor(new LINKTEST(), node).Unlinked;
-
-            for (int i = 0; i < unlinked.Length; i++)
-                RegisterError(unlinked[i], "Identifier \"" + unlinked[i].Text + "\" could not be linked to a declaration.");
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -24,7 +20,7 @@ namespace Sable.Compiler.SymbolLinking
                 Visit(node.Package);
 
             Dictionary<string, DHelper> helpers = new Dictionary<string, DHelper>();
-            if(node.HasHelpers)
+            if (node.HasHelpers)
                 helpers = StartVisitor(new HelperVisitor(), node.Helpers).GetHelpers();
 
             Dictionary<string, DState> states = new Dictionary<string, DState>();
@@ -47,26 +43,6 @@ namespace Sable.Compiler.SymbolLinking
 
             if (node.HasProductions)
                 StartVisitor(new TranslationVisitor(astProductions), node.Productions);
-        }
-
-        private class LINKTEST : Error.ErrorVisitor
-        {
-            private List<TIdentifier> unlinked;
-            public TIdentifier[] Unlinked
-            {
-                get { return unlinked.ToArray(); }
-            }
-
-            public LINKTEST()
-            {
-                this.unlinked = new List<TIdentifier>();
-            }
-
-            public override void CaseTIdentifier(TIdentifier node)
-            {
-                if (!node.HasDeclaration)
-                    unlinked.Add(node);
-            }
         }
     }
 }

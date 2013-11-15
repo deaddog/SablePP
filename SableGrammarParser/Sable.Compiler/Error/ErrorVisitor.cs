@@ -1,28 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Sable.Tools.Error;
 using Sable.Tools.Nodes;
 using Sable.Compiler.Analysis;
-using Sable.Compiler.Nodes;
 
 namespace Sable.Compiler.Error
 {
     public abstract class ErrorVisitor : DepthFirstAdapter
     {
         private ErrorManager errorManager;
-
-        protected ErrorVisitor()
+        protected ErrorManager ErrorManager
         {
-            this.errorManager = null;
+            get { return errorManager; }
         }
 
-        public IEnumerable<CompilerError> GetErrors()
+        public ErrorVisitor(ErrorManager errorManager)
         {
-            foreach (CompilerError error in errorManager)
-                yield return error;
+            this.errorManager = errorManager;
         }
 
         protected void RegisterError(Node node, string errorMessage, params object[] args)
@@ -31,25 +25,6 @@ namespace Sable.Compiler.Error
                 throw new InvalidOperationException("An ErrorVisitor must always be started using the StartVisitor-method.");
 
             errorManager.Register(node, errorMessage, args);
-        }
-
-        protected T StartVisitor<T>(T visitor, Node node)
-            where T : ErrorVisitor
-        {
-            if (this.errorManager == null)
-                this.errorManager = new ErrorManager();
-
-            visitor.errorManager = this.errorManager;
-            visitor.Visit(node);
-            return visitor;
-        }
-
-        public static T StartNewVisitor<T>(T visitor, Node node)
-            where T : ErrorVisitor
-        {
-            visitor.errorManager = new ErrorManager();
-            visitor.Visit(node);
-            return visitor;
         }
     }
 }
