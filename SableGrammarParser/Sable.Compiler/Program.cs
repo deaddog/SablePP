@@ -86,27 +86,6 @@ namespace Sable.Compiler
 #endif
         }
 
-        private class Visitor : Error.ErrorVisitor
-        {
-            public override void CaseStart(Start<PGrammar> node)
-            {
-                foreach (var v in Visitors)
-                {
-                    StartVisitor(v, node);
-                    if (GetErrors().Any())
-                        break;
-                }
-            }
-
-            private IEnumerable<Error.ErrorVisitor> Visitors
-            {
-                get
-                {
-                    yield return new SymbolLinking.DeclarationVisitor();
-                }
-            }
-        }
-
         private static string ReadFile(string filepath)
         {
             string result;
