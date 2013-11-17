@@ -38,14 +38,16 @@ namespace Sable.Compiler.SymbolLinking
         {
             DeclarationLinker linker = new DeclarationLinker(this.ErrorManager);
             linker.Visit(node);
-            this.productions = new Dictionary<string, DProduction>(linker.Productions);
+            foreach (var p in linker.Productions)
+                this.productions.Add(p.Key, p.Value);
             base.InAProductions(node);
         }
         public override void InAAstproductions(AAstproductions node)
         {
             DeclarationLinker linker = new DeclarationLinker(this.ErrorManager);
             linker.Visit(node);
-            this.productions = new Dictionary<string, DProduction>(linker.Productions);
+            foreach (var p in linker.Productions)
+                this.productions.Add(p.Key, p.Value);
             base.InAAstproductions(node);
         }
         public override void InAProduction(AProduction node)
