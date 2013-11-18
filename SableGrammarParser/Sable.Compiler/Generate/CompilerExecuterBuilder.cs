@@ -75,6 +75,7 @@ namespace Sable.Compiler.Generate
             var exMethod = classElement.CreateMethod(AccessModifiers.None, "Sable.Tools.ICompilerExecuter.GetParser", "IParser");
             exMethod.Parameters.Add("lexer", "ILexer");
 
+            string resetName = typeof(Sable.Tools.Lexing.ResetableLexer).Name;
             using (var iff = exMethod.EmitIf())
             {
                 iff.EmitLogicNot();
@@ -83,6 +84,24 @@ namespace Sable.Compiler.Generate
                     par.EmitIdentifier("lexer");
                     par.EmitIs();
                     par.EmitIdentifier("Lexer");
+                    par.EmitLogicOr();
+                    using (var reset = par.EmitParenthesis())
+                    {
+                        reset.EmitIdentifier("lexer");
+                        reset.EmitIs();
+                        reset.EmitIdentifier(resetName);
+                        reset.EmitLogicAnd();
+                        using (var par2 = reset.EmitParenthesis())
+                        {
+                            par2.EmitIdentifier("lexer");
+                            par2.EmitAs();
+                            par2.EmitIdentifier(resetName);
+                        }
+                        reset.EmitPeriod();
+                        reset.EmitIdentifier("InnerLexer");
+                        reset.EmitIs();
+                        reset.EmitIdentifier("Lexer");
+                    }
                 }
             }
             exMethod.EmitNewLine();
@@ -115,13 +134,11 @@ namespace Sable.Compiler.Generate
             using (var par = exMethod.EmitParenthesis())
             {
                 par.EmitIdentifier("lexer");
-                par.EmitAs();
-                par.EmitIdentifier("Lexer");
             }
             exMethod.EmitSemicolon(true);
 
             var imMethod = classElement.CreateMethod(AccessModifiers.@public, "GetParser", "Parser");
-            imMethod.Parameters.Add("lexer", "Lexer");
+            imMethod.Parameters.Add("lexer", "ILexer");
 
             imMethod.EmitReturn();
             imMethod.EmitNew();

@@ -25,12 +25,12 @@ namespace Sable.Compiler
         
         IParser Sable.Tools.ICompilerExecuter.GetParser(ILexer lexer)
         {
-            if (!(lexer is Lexer))
+            if (!(lexer is Lexer || (lexer is ResetableLexer && (lexer as ResetableLexer).InnerLexer is Lexer)))
                 throw new ArgumentException("Lexer must be of type " + typeof(Lexer).FullName, "lexer");
             
-            return this.GetParser(lexer as Lexer);
+            return this.GetParser(lexer);
         }
-        public Parser GetParser(Lexer lexer)
+        public Parser GetParser(ILexer lexer)
         {
             return new Parser(lexer);
         }
