@@ -53,11 +53,29 @@ namespace Sable.Compiler
 
             string package = astRoot.Root.PackageName;
 
-            code = code.Replace("using System.Collections;", "using System.Collections;\nusing System.Collections.Generic;");
-            code = code.Replace("using " + package + ".node;", "using " + ToolsNamespace.Nodes + ";\nusing " + package + ".Nodes;\nusing " + ToolsNamespace.Error + ";");
-            code = code.Replace("using " + package + ".analysis;", "using " + package + ".Analysis;");
-            code = code.Replace("using " + package + ".lexer;", "using " + package + ".Lexing;");
-            code = code.Replace("namespace " + package + ".parser", "namespace " + package + ".Parsing");
+            string[] namespaces = new string[]
+            {
+                "System",
+                "System.Collections",
+                "System.Collections.Generic",
+                "System.Text",
+                "System.IO",
+                
+                ToolsNamespace.Lexing,
+                ToolsNamespace.Error,
+                ToolsNamespace.Nodes,
+
+                package + ".Analysis",
+                package + ".Lexing",
+                package + ".Nodes"
+            };
+            string usingstring = "\r\nnamespace " + package + ".Parsing";
+            for (int i = namespaces.Length - 1; i >= 0; i--)
+                usingstring = "using " + namespaces[i] + ";\r\n" + usingstring;
+
+            code = Regex.Replace(code, "using .*namespace " + package + ".parser", usingstring, RegexOptions.Singleline);
+            code = code.Replace("private Lexer lexer;", "private ILexer lexer;");
+            code = code.Replace("public Parser(Lexer lexer)", "public Parser(ILexer lexer)");
 
             code = code.Replace(" Analysis ", " IAnalysis ");
             code = code.Replace("IList ign = null;", "List<Token> ign = null;");
@@ -85,6 +103,8 @@ namespace Sable.Compiler
 
             code = Regex.Replace(code, ".Pos[^a-z]", m => { return ".Position" + m.Value.Substring(4); });
             code = Regex.Replace(code, @"(?<section>ArrayList New0\(\).*?)private static int\[]\[]\[]", replaceSection, RegexOptions.Singleline);
+
+            code = code.Replace("\r\n", "\n").Replace('\r', '\n').Replace("\n", "\r\n");
 
             return code;
         }

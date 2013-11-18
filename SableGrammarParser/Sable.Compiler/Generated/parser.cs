@@ -5,11 +5,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using Sable.Tools.Nodes;
-using Sable.Compiler.Nodes;
+using Sable.Tools.Lexing;
 using Sable.Tools.Error;
-using Sable.Compiler.Lexing;
+using Sable.Tools.Nodes;
 using Sable.Compiler.Analysis;
+using Sable.Compiler.Lexing;
+using Sable.Compiler.Nodes;
 
 namespace Sable.Compiler.Parsing
 {
@@ -226,7 +227,7 @@ namespace Sable.Compiler.Parsing
 
         protected ArrayList nodeList;
 
-        private Lexer lexer;
+        private ILexer lexer;
         private Stack stack = new Stack();
         private int last_shift;
         private int last_pos;
@@ -240,7 +241,7 @@ namespace Sable.Compiler.Parsing
         private const int ACCEPT = 2;
         private const int ERROR = 3;
 
-        public Parser(Lexer lexer)
+        public Parser(ILexer lexer)
         {
             this.lexer = lexer;
         }
