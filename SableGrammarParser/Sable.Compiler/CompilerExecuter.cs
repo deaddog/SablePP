@@ -13,12 +13,24 @@ namespace Sable.Compiler
 {
     public partial class CompilerExecuter
     {
+        private bool runSable;
+        public bool RunSable
+        {
+            get { return runSable; }
+            set { runSable = value; }
+        }
+
+        public CompilerExecuter(bool runSable = false)
+        {
+            this.runSable = runSable;
+        }
+
         partial void PerformValidation(Start<PGrammar> root, ErrorManager errorManager)
         {
             var linktest = new SymbolLinking.DeclarationVisitor(errorManager);
             linktest.Visit(root);
 
-            if (errorManager.Count == 0)
+            if (errorManager.Count == 0 && runSable)
                 ValidateWithSableCC(root, errorManager);
         }
 
