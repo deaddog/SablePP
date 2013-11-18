@@ -10,12 +10,28 @@ namespace Sable.Tools.Lexing
         private LinkedList<Token> tokens;
 
         private LinkedListNode<Token> current;
+        private bool eofFound;
 
         public ResetableLexer(ILexer lexer)
         {
             this.lexer = lexer;
             this.tokens = new LinkedList<Token>();
-            this.current = null;
+            this.current = tokens.AddFirst((Token)null);
+            this.eofFound = false;
+        }
+
+        public ILexer InnerLexer
+        {
+            get { return lexer; }
+        }
+
+        private LinkedListNode<Token> addNext()
+        {
+            Token next = lexer.Next();
+            LinkedListNode<Token> node = tokens.AddAfter(current, next);
+            if (next is EOF)
+                eofFound = true;
+            return node;
         }
 
         public Nodes.Token Peek()
@@ -23,26 +39,39 @@ namespace Sable.Tools.Lexing
             if (current.Next != null)
                 return current.Next.Value;
             else
-                return lexer.Peek();
+            {
+                if (eofFound)
+                    return tokens.Last.Value;
+                else
+                {
+                    addNext();
+                    return current.Next.Value;
+                }
+            }
         }
 
         public Nodes.Token Next()
         {
             if (current.Next == null)
             {
-                Token t = lexer.Next();
-                if (t == null)
+                if (eofFound)
                     return null;
-                current.List.AddAfter(current, t);
+                else
+                {
+                    addNext();
+                    return Next();
+                }
             }
-
-            current = current.Next;
-            return current.Value;
+            else
+            {
+                current = current.Next;
+                return current.Value;
+            }
         }
 
         public void Reset()
         {
-            if (current != null)
+            if (current.Value != null)
                 current = current.List.First;
         }
     }
