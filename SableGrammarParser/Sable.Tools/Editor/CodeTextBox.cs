@@ -177,10 +177,18 @@ namespace Sable.Tools.Editor
                     return;
 
                 IParser parser = executer.GetParser(lexer);
-                Node root = parser.Parse();
-
                 ErrorManager errorManager = new ErrorManager();
-                executer.Validate(root, errorManager);
+
+                Node root;
+                try { root = parser.Parse(); }
+                catch (ParserException ex)
+                {
+                    errorManager.Register(new CompilerError(ex.LastLine, ex.LastPosition, 1, ex.Message));
+                    root = null;
+                }
+
+                if (root != null)
+                    executer.Validate(root, errorManager);
 
                 e.Result = storeRootAndErrors(root, errorManager);
             }
