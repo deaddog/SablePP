@@ -61,13 +61,22 @@ namespace Sable.Tools.Editor
             else
                 range.SetStyle(errorStyle);
             tooltipMessages.Add(range, message);
+
+            if (ErrorAdded != null)
+                ErrorAdded(this, new ErrorEventArgs(range.Start, range.End, message));
         }
         private void clearErrors()
         {
             directDrawErrors.Clear();
             this.Range.ClearStyle(errorStyle);
             this.tooltipMessages.Clear();
+
+            if (ErrorsCleared != null)
+                ErrorsCleared(this, EventArgs.Empty);
         }
+
+        public event EventHandler ErrorsCleared;
+        public event ErrorEventHandler ErrorAdded;
 
         protected override void OnTextChanged(TextChangedEventArgs args)
         {
