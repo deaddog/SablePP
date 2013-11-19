@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 
 using FastColoredTextBoxNS;
+using Sable.Tools.Error;
 using Sable.Tools.Lexing;
+using Sable.Tools.Nodes;
 
 namespace Sable.Tools.Editor
 {
@@ -19,6 +21,9 @@ namespace Sable.Tools.Editor
         private ICompilerExecuter executer;
         private ResetableLexer lexer;
 
+        private object lexerLock = new object();
+        private bool lexerError;
+
         public CodeTextBox()
             : base()
         {
@@ -28,6 +33,7 @@ namespace Sable.Tools.Editor
 
             this.executer = null;
             this.lexer = null;
+            this.lexerError = true;
 
             this.ToolTipNeeded += CodeTextBox_ToolTipNeeded;
         }
@@ -58,6 +64,31 @@ namespace Sable.Tools.Editor
             directDrawErrors.Clear();
             this.Range.ClearStyle(errorStyle);
             this.tooltipMessages.Clear();
+        }
+
+        public override void OnTextChanged(Range r)
+        {
+            StringReader reader = new StringReader(this.Text);
+
+            lock (lexerLock)
+            {
+                lexer = new ResetableLexer(executer.GetLexer(reader));
+
+                lexerError = false;
+                try
+                {
+                    while (!(lexer.Next() is EOF)) { }
+                }
+                catch (LexerException ex)
+                {
+                    lexerError = true;
+                    Range range = this.GetRange(new Place(ex.Position, ex.Line), new Place(ex.Position + 1, ex.Line));
+                    AddError(range, ex.Message);
+                }
+                lexer.Reset();
+            }
+
+            base.OnTextChanged(r);
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
