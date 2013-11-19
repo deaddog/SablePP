@@ -52,7 +52,7 @@ namespace Sable.Tools.Editor
             }
         }
 
-        public void AddError(Range range, string message)
+        private void addError(Range range, string message)
         {
             if (range.Start.iChar < 0 || range.Start.iLine < 0 || range.End.iChar < 0 || range.End.iLine < 0)
                 return;
@@ -62,7 +62,7 @@ namespace Sable.Tools.Editor
                 range.SetStyle(errorStyle);
             tooltipMessages.Add(range, message);
         }
-        public void ClearErrors()
+        private void clearErrors()
         {
             directDrawErrors.Clear();
             this.Range.ClearStyle(errorStyle);
@@ -76,7 +76,7 @@ namespace Sable.Tools.Editor
                 {
                     StringReader reader = new StringReader(this.Text);
                     lexer = new ResetableLexer(executer.GetLexer(reader));
-                    ClearErrors();
+                    clearErrors();
 
                     lexerError = false;
                     try
@@ -87,7 +87,7 @@ namespace Sable.Tools.Editor
                     {
                         lexerError = true;
                         Range range = this.GetRange(new Place(ex.Position - 1, ex.Line - 1), new Place(ex.Position, ex.Line - 1));
-                        AddError(range, ex.Message);
+                        addError(range, ex.Message);
                     }
                     lexer.Reset();
                     reader.Dispose();
