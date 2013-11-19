@@ -1,14 +1,18 @@
 using System;
-using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+
 using Sable.Tools;
 using Sable.Tools.Error;
 using Sable.Tools.Lexing;
 using Sable.Tools.Nodes;
 using Sable.Tools.Parsing;
+
 using Sable.Compiler.Lexing;
 using Sable.Compiler.Nodes;
 using Sable.Compiler.Parsing;
+
+using FastColoredTextBoxNS;
 
 namespace Sable.Compiler
 {
@@ -46,6 +50,11 @@ namespace Sable.Compiler
         public void Validate(Start<PGrammar> root, ErrorManager errorManager)
         {
             PerformValidation(root, errorManager);
+        }
+        
+        public Style GetSimpleStyle(Token token)
+        {
+            return null;
         }
     }
 }

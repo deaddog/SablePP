@@ -6,6 +6,8 @@ using Sable.Tools.Lexing;
 using Sable.Tools.Nodes;
 using Sable.Tools.Parsing;
 
+using FastColoredTextBoxNS;
+
 namespace Sable.Tools
 {
     public interface ICompilerExecuter
@@ -13,5 +15,6 @@ namespace Sable.Tools
         ILexer GetLexer(TextReader reader);
         IParser GetParser(ILexer lexer);
         void Validate(Node astRoot, ErrorManager errorManager);
+        Style GetSimpleStyle(Token token);
     }
 }

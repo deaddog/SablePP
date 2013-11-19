@@ -17,16 +17,26 @@ namespace Sable.Compiler.Generate
 
             FileElement fileElement = new FileElement();
             fileElement.Using.Add("System");
-            fileElement.Using.Add("System.Diagnostics");
+            fileElement.Using.Add("System.Drawing");
             fileElement.Using.Add("System.IO");
+
+            fileElement.Using.EmitNewline();
+
             fileElement.Using.Add(ToolsNamespace.Root);
             fileElement.Using.Add(ToolsNamespace.Error);
             fileElement.Using.Add(ToolsNamespace.Lexing);
             fileElement.Using.Add(ToolsNamespace.Nodes);
             fileElement.Using.Add(ToolsNamespace.Parsing);
+
+            fileElement.Using.EmitNewline();
+
             fileElement.Using.Add(packageName + ".Lexing");
             fileElement.Using.Add(packageName + ".Nodes");
             fileElement.Using.Add(packageName + ".Parsing");
+
+            fileElement.Using.EmitNewline();
+
+            fileElement.Using.Add("FastColoredTextBoxNS");
 
             ClassElement classElement = CreateClass(fileElement, packageName);
             CreateLexerMethods(classElement);
@@ -36,6 +46,9 @@ namespace Sable.Compiler.Generate
 
             classElement.EmitNewLine();
             CreateValidateMethods(classElement, rootProduction);
+
+            classElement.EmitNewLine();
+            CreateSimpleSyntaxMethod(classElement);
 
             return fileElement;
         }
@@ -235,6 +248,14 @@ namespace Sable.Compiler.Generate
             imMethod.EmitSemicolon(true);
 
             #endregion
+        }
+        private static void CreateSimpleSyntaxMethod(ClassElement classElement)
+        {
+            var method = classElement.CreateMethod(AccessModifiers.@public, "GetSimpleStyle", "Style");
+            method.Parameters.Add("token", "Token");
+            method.EmitReturn();
+            method.EmitNull();
+            method.EmitSemicolon(true);
         }
     }
 }
