@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 using FastColoredTextBoxNS;
+using Sable.Tools.Lexing;
 
 namespace Sable.Tools.Editor
 {
@@ -14,6 +16,9 @@ namespace Sable.Tools.Editor
         private Dictionary<Range, string> tooltipMessages;
         private List<Range> directDrawErrors;
 
+        private ICompilerExecuter executer;
+        private ResetableLexer lexer;
+
         public CodeTextBox()
             : base()
         {
@@ -21,7 +26,20 @@ namespace Sable.Tools.Editor
             tooltipMessages = new Dictionary<Range, string>();
             directDrawErrors = new List<Range>();
 
+            this.executer = null;
+            this.lexer = null;
+
             this.ToolTipNeeded += CodeTextBox_ToolTipNeeded;
+        }
+
+        public ICompilerExecuter Executer
+        {
+            get { return executer; }
+            set
+            {
+                executer = value;
+                this.OnTextChanged(this.Range);
+            }
         }
 
         public void AddError(Range range, string message)
