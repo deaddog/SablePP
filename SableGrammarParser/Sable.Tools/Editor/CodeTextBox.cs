@@ -21,6 +21,8 @@ namespace Sable.Tools.Editor
         private ICompilerExecuter executer;
         private ResetableLexer lexer;
 
+        private List<Style> simpleStyles;
+
         private object lexerLock = new object();
         private bool lexerError;
 
@@ -34,6 +36,8 @@ namespace Sable.Tools.Editor
             this.executer = null;
             this.lexer = null;
             this.lexerError = true;
+
+            this.simpleStyles = new List<Style>();
 
             this.ToolTipNeeded += CodeTextBox_ToolTipNeeded;
         }
@@ -87,6 +91,24 @@ namespace Sable.Tools.Editor
                     }
                     lexer.Reset();
                     reader.Dispose();
+
+                    if (lexerError)
+                        args.ChangedRange.ClearStyle(simpleStyles.ToArray());
+                    else
+                    {
+                        this.Range.ClearStyle(simpleStyles.ToArray());
+                        while (!(lexer.Peek() is EOF))
+                        {
+                            Token token = lexer.Next();
+                            Style style = executer.GetSimpleStyle(token);
+                            if (style != null)
+                            {
+                                if (!simpleStyles.Contains(style))
+                                    simpleStyles.Add(style);
+                                this.SetStyle(token, style);
+                            }
+                        }
+                    }
                 }
 
             base.OnTextChanged(args);
