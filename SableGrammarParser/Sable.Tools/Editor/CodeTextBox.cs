@@ -82,6 +82,7 @@ namespace Sable.Tools.Editor
 
         protected override void OnTextChanged(TextChangedEventArgs args)
         {
+            compileWorker.Start();
             if (executer != null)
                 lock (lexerLock)
                 {
@@ -145,10 +146,48 @@ namespace Sable.Tools.Editor
         private class CompileWorker : BackgroundWorker
         {
             private CodeTextBox parent;
+            private ICompilerExecuter executer;
+            private ILexer lexer;
+
+            private bool shouldStart;
 
             public CompileWorker(CodeTextBox parent)
             {
                 this.parent = parent;
+                this.executer = null;
+                this.lexer = null;
+                this.shouldStart = false;
+            }
+
+            public void Start()
+            {
+                if (!this.IsBusy)
+                {
+                    shouldStart = false;
+                    RunWorkerAsync();
+                }
+            }
+
+            protected override void OnDoWork(DoWorkEventArgs e)
+            {
+                if (!SetExecuterAndLexer())
+                    return;
+            }
+            protected override void OnRunWorkerCompleted(RunWorkerCompletedEventArgs e)
+            {
+                if (shouldStart)
+                    Start();
+            }
+
+            private bool SetExecuterAndLexer()
+            {
+                lock (parent.lexerLock)
+                {
+                    this.executer = parent.executer;
+                    this.lexer = parent.lexer;
+                }
+
+                return this.executer != null && this.lexer != null;
             }
         }
     }
