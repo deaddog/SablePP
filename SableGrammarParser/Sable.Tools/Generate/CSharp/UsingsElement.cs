@@ -29,5 +29,16 @@ namespace Sable.Tools.Generate.CSharp
 
             usingsElement.EmitNewLine();
         }
+
+        public void EmitNewline()
+        {
+            if (usingsElement == null)
+            {
+                usingsElement = new PatchElement();
+                insertElement(usingsElement);
+                emitNewLine();
+            }
+            usingsElement.EmitNewLine();
+        }
     }
 }
