@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 using FastColoredTextBoxNS;
 using Sable.Tools.Error;
 using Sable.Tools.Lexing;
 using Sable.Tools.Nodes;
+using Sable.Tools.Parsing;
 
 namespace Sable.Tools.Editor
 {
@@ -121,6 +123,7 @@ namespace Sable.Tools.Editor
                             }
                         }
                     }
+                    lexer.Reset();
                 }
 
             base.OnTextChanged(args);
@@ -172,9 +175,21 @@ namespace Sable.Tools.Editor
             {
                 if (!SetExecuterAndLexer())
                     return;
+
+                IParser parser = executer.GetParser(lexer);
+                Node root = parser.Parse();
+
+                ErrorManager errorManager = new ErrorManager();
+                executer.Validate(root, errorManager);
+
+                e.Result = storeRootAndErrors(root, errorManager);
             }
             protected override void OnRunWorkerCompleted(RunWorkerCompletedEventArgs e)
             {
+                Node node;
+                CompilerError[] errors;
+                loadRootAndErrors(e.Result, out node, out errors);
+
                 if (shouldStart)
                     Start();
             }
@@ -188,6 +203,17 @@ namespace Sable.Tools.Editor
                 }
 
                 return this.executer != null && this.lexer != null;
+            }
+
+            private object storeRootAndErrors(Node root, IEnumerable<CompilerError> errors)
+            {
+                return new { Root = root, Errors = errors.ToArray() };
+            }
+            private void loadRootAndErrors(object arg, out Node root, out CompilerError[] errors)
+            {
+                dynamic loaded = arg;
+                root = loaded.Root;
+                errors = loaded.Errors;
             }
         }
     }
