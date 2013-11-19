@@ -188,7 +188,15 @@ namespace Sable.Tools.Editor
             {
                 Node node;
                 CompilerError[] errors;
-                loadRootAndErrors(e.Result, out node, out errors);
+
+                if (loadRootAndErrors(e.Result, out node, out errors))
+                {
+                    foreach (var err in errors)
+                    {
+                        Range r = new Range(parent, err.Start.LinePosition - 1, err.Start.LineNumber - 1, err.End.LinePosition, err.End.LineNumber - 1);
+                        parent.addError(r, err.ErrorMessage);
+                    }
+                }
 
                 if (shouldStart)
                     Start();
@@ -209,11 +217,20 @@ namespace Sable.Tools.Editor
             {
                 return new { Root = root, Errors = errors.ToArray() };
             }
-            private void loadRootAndErrors(object arg, out Node root, out CompilerError[] errors)
+            private bool loadRootAndErrors(object arg, out Node root, out CompilerError[] errors)
             {
+                if (arg == null)
+                {
+                    root = null;
+                    errors = null;
+                    return false;
+                }
+
                 dynamic loaded = arg;
                 root = loaded.Root;
                 errors = loaded.Errors;
+
+                return true;
             }
         }
     }
