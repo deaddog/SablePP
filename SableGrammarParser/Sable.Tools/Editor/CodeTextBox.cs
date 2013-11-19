@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 using FastColoredTextBoxNS;
 using Sable.Tools.Error;
@@ -20,11 +19,12 @@ namespace Sable.Tools.Editor
 
         private ICompilerExecuter executer;
         private ResetableLexer lexer;
-
-        private List<Style> simpleStyles;
-
         private object lexerLock = new object();
         private bool lexerError;
+
+        private CompileWorker compileWorker;
+
+        private List<Style> simpleStyles;
 
         public CodeTextBox()
             : base()
@@ -36,6 +36,8 @@ namespace Sable.Tools.Editor
             this.executer = null;
             this.lexer = null;
             this.lexerError = true;
+
+            this.compileWorker = new CompileWorker(this);
 
             this.simpleStyles = new List<Style>();
 
@@ -138,6 +140,16 @@ namespace Sable.Tools.Editor
                     e.ToolTipText = tooltipMessages[r];
                     break;
                 }
+        }
+
+        private class CompileWorker : BackgroundWorker
+        {
+            private CodeTextBox parent;
+
+            public CompileWorker(CodeTextBox parent)
+            {
+                this.parent = parent;
+            }
         }
     }
 }
