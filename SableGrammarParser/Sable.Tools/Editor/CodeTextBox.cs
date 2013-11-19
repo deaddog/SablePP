@@ -44,7 +44,7 @@ namespace Sable.Tools.Editor
             set
             {
                 executer = value;
-                this.OnTextChanged(this.Range);
+                this.OnTextChanged(new TextChangedEventArgs(this.Range));
             }
         }
 
@@ -66,29 +66,30 @@ namespace Sable.Tools.Editor
             this.tooltipMessages.Clear();
         }
 
-        public override void OnTextChanged(Range r)
+        protected override void OnTextChanged(TextChangedEventArgs args)
         {
-            StringReader reader = new StringReader(this.Text);
-
-            lock (lexerLock)
-            {
-                lexer = new ResetableLexer(executer.GetLexer(reader));
-
-                lexerError = false;
-                try
+            if (executer != null)
+                lock (lexerLock)
                 {
-                    while (!(lexer.Next() is EOF)) { }
-                }
-                catch (LexerException ex)
-                {
-                    lexerError = true;
-                    Range range = this.GetRange(new Place(ex.Position, ex.Line), new Place(ex.Position + 1, ex.Line));
-                    AddError(range, ex.Message);
-                }
-                lexer.Reset();
-            }
+                    StringReader reader = new StringReader(this.Text);
+                    lexer = new ResetableLexer(executer.GetLexer(reader));
 
-            base.OnTextChanged(r);
+                    lexerError = false;
+                    try
+                    {
+                        while (!(lexer.Next() is EOF)) { }
+                    }
+                    catch (LexerException ex)
+                    {
+                        lexerError = true;
+                        Range range = this.GetRange(new Place(ex.Position, ex.Line), new Place(ex.Position + 1, ex.Line));
+                        AddError(range, ex.Message);
+                    }
+                    lexer.Reset();
+                    reader.Dispose();
+                }
+
+            base.OnTextChanged(args);
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
