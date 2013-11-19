@@ -52,8 +52,7 @@ namespace Sable.Tools.Editor
         {
             if (range.Start.iChar < 0 || range.Start.iLine < 0 || range.End.iChar < 0 || range.End.iLine < 0)
                 return;
-
-            if (!range.Chars.Any())
+            if (range.GetIntersectionWith(this.Range).IsEmpty)
                 directDrawErrors.Add(range);
             else
                 range.SetStyle(errorStyle);
@@ -73,6 +72,7 @@ namespace Sable.Tools.Editor
                 {
                     StringReader reader = new StringReader(this.Text);
                     lexer = new ResetableLexer(executer.GetLexer(reader));
+                    ClearErrors();
 
                     lexerError = false;
                     try
@@ -82,7 +82,7 @@ namespace Sable.Tools.Editor
                     catch (LexerException ex)
                     {
                         lexerError = true;
-                        Range range = this.GetRange(new Place(ex.Position, ex.Line), new Place(ex.Position + 1, ex.Line));
+                        Range range = this.GetRange(new Place(ex.Position - 1, ex.Line - 1), new Place(ex.Position, ex.Line - 1));
                         AddError(range, ex.Message);
                     }
                     lexer.Reset();
