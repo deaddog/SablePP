@@ -80,18 +80,23 @@ namespace Sable.Tools.Editor
             return new Range(this, p1, p2);
         }
 
-        private void addError(Range range, string message)
+        private void addError(CompilerError error)
         {
-            if (range.Start.iChar < 0 || range.Start.iLine < 0 || range.End.iChar < 0 || range.End.iLine < 0)
-                return;
-            if (range.GetIntersectionWith(this.Range).IsEmpty)
-                directDrawErrors.Add(range);
-            else
-                range.SetStyle(errorStyle);
-            tooltipMessages.Add(range, message);
+            Range range = new Range(this,
+                error.Start.LinePosition - 1, error.Start.LineNumber - 1,
+                error.End.LinePosition, error.End.LineNumber - 1);
+
+            if (!(range.Start.iChar < 1 && range.Start.iLine < 1 && range.End.iChar < 1 && range.End.iLine < 1))
+            {
+                if (range.GetIntersectionWith(this.Range).IsEmpty)
+                    directDrawErrors.Add(range);
+                else
+                    range.SetStyle(errorStyle);
+                tooltipMessages.Add(range, error.ErrorMessage);
+            }
 
             if (ErrorAdded != null)
-                ErrorAdded(this, new ErrorEventArgs(range.Start, range.End, message));
+                ErrorAdded(this, new ErrorEventArgs(error));
         }
         private void clearErrors()
         {
@@ -239,10 +244,7 @@ namespace Sable.Tools.Editor
                 {
                     parent.clearErrors();
                     foreach (var err in errors)
-                    {
-                        Range r = new Range(parent, err.Start.LinePosition - 1, err.Start.LineNumber - 1, err.End.LinePosition, err.End.LineNumber - 1);
-                        parent.addError(r, err.ErrorMessage);
-                    }
+                        parent.addError(err);
                 }
 
                 if (shouldStart)

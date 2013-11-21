@@ -2,6 +2,7 @@
 using System.Text;
 
 using FastColoredTextBoxNS;
+using Sable.Tools.Error;
 
 namespace Sable.Tools.Editor
 {
@@ -12,14 +13,14 @@ namespace Sable.Tools.Editor
         {
         }
 
-        public void AddError(Range range, string message)
+        public void AddError(CompilerError error)
         {
             string text;
 
-            if (range.Start.iChar < 0 || range.Start.iLine < 0 || range.End.iChar < 0 || range.End.iLine < 0)
-                text = "[N/A] " + message;
+            if (error.Start.LinePosition < 0 || error.Start.LineNumber < 0)
+                text = "[N/A] " + error.ErrorMessage;
             else
-                text = string.Format("[{0}, {1}] ", range.Start.iLine + 1, range.Start.iChar + 1) + message;
+                text = string.Format("[{0}, {1}] {2}", error.Start.LineNumber + 1, error.Start.LinePosition + 1, error.ErrorMessage);
 
             if (this.Text.Length == 0)
                 this.Text = text;

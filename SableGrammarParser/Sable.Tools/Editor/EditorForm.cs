@@ -230,6 +230,9 @@ namespace Sable.Tools.Editor
         {
             InitializeComponent();
 
+            this.codeTextBox1.ErrorAdded += (s, e) => this.errorTextBox1.AddError(e.Error);
+            this.codeTextBox1.ErrorsCleared += (s, e) => this.errorTextBox1.ClearErrors();
+
             this.Text = EditorResources.DefaultTitle;
 
             #region FileHandle initialize
@@ -282,11 +285,6 @@ namespace Sable.Tools.Editor
 
             string positionText = positionLabel.Text.Substring(0, positionLabel.Text.IndexOf(':') + 1) + " ";
             positionLabel.Text = positionText + (codeTextBox1.Selection.Start.iChar + 1);
-        }
-
-        private void codeTextBox1_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
     }
 }

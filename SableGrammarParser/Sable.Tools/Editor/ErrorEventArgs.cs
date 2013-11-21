@@ -1,31 +1,20 @@
 ﻿using System;
-using FastColoredTextBoxNS;
+using Sable.Tools.Error;
 
 namespace Sable.Tools.Editor
 {
     public class ErrorEventArgs : EventArgs
     {
-        private Place start, end;
-        private string message;
+        private CompilerError error;
 
-        public ErrorEventArgs(Place start, Place end, string message)
+        public ErrorEventArgs(CompilerError error)
         {
-            this.start = start;
-            this.end = end;
-            this.message = message;
+            this.error = error;
         }
 
-        public Place Start
+        public CompilerError Error
         {
-            get { return start; }
-        }
-        public Place End
-        {
-            get { return end; }
-        }
-        public string Message
-        {
-            get { return message; }
+            get { return error; }
         }
     }
 }
