@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Sable.Tools.Analysis;
-using Sable.Tools.Nodes;
-using Sable.Compiler.Nodes;
+using SablePP.Tools.Analysis;
+using SablePP.Tools.Nodes;
+using SablePP.Compiler.Nodes;
 
-namespace Sable.Compiler.Analysis
+namespace SablePP.Compiler.Analysis
 {
     #region Analysis adapters
     

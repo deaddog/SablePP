@@ -5,14 +5,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using Sable.Tools.Lexing;
-using Sable.Tools.Error;
-using Sable.Tools.Nodes;
-using Sable.Compiler.Analysis;
-using Sable.Compiler.Lexing;
-using Sable.Compiler.Nodes;
+using SablePP.Tools.Lexing;
+using SablePP.Tools.Error;
+using SablePP.Tools.Nodes;
+using SablePP.Compiler.Analysis;
+using SablePP.Compiler.Lexing;
+using SablePP.Compiler.Nodes;
 
-namespace Sable.Compiler.Parsing
+namespace SablePP.Compiler.Parsing
 {
 
     internal class State
@@ -217,7 +217,7 @@ namespace Sable.Compiler.Parsing
         }
     }
 
-    public class Parser : Sable.Tools.Parsing.IParser
+    public class Parser : SablePP.Tools.Parsing.IParser
     {
         private AnalysisAdapter<List<Token>> ignoredTokens = new AnalysisAdapter<List<Token>>();
         public AnalysisAdapter<List<Token>> IgnoredTokens
@@ -300,7 +300,7 @@ namespace Sable.Compiler.Parsing
             return converter.index;
         }
 
-        Node Sable.Tools.Parsing.IParser.Parse()
+        Node SablePP.Tools.Parsing.IParser.Parse()
         {
             return this.Parse();
         }

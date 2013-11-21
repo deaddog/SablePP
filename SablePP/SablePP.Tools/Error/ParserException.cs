@@ -1,7 +1,7 @@
-﻿using Sable.Tools.Nodes;
+﻿using SablePP.Tools.Nodes;
 using System;
 
-namespace Sable.Tools.Error
+namespace SablePP.Tools.Error
 {
    public class ParserException : ApplicationException
     {

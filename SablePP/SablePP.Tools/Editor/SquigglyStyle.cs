@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using FastColoredTextBoxNS;
 
-namespace Sable.Tools.Editor
+namespace SablePP.Tools.Editor
 {
     public class SquigglyStyle : Style
     {

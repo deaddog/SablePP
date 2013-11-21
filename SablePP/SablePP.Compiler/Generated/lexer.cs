@@ -4,11 +4,11 @@ using System;
 using System.Collections;
 using System.Text;
 using System.IO;
-using Sable.Tools.Nodes;
-using Sable.Compiler.Nodes;
-using Sable.Tools.Error;
+using SablePP.Tools.Nodes;
+using SablePP.Compiler.Nodes;
+using SablePP.Tools.Error;
 
-namespace Sable.Compiler.Lexing
+namespace SablePP.Compiler.Lexing
 {
 
     internal class PushbackReader
@@ -40,7 +40,7 @@ namespace Sable.Compiler.Lexing
         }
     }
 
-    public class Lexer : Sable.Tools.Lexing.ILexer
+    public class Lexer : SablePP.Tools.Lexing.ILexer
     {
         protected Token token;
         protected State currentState = State.NORMAL;

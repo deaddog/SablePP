@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sable.Tools.Nodes;
+using SablePP.Tools.Nodes;
 
-namespace Sable.Tools.Lexing
+namespace SablePP.Tools.Lexing
 {
     public class ResetableLexer : ILexer
     {
@@ -11,7 +11,7 @@ namespace Sable.Tools.Lexing
 
         private LinkedListNode<Token> current;
         private bool eofFound;
-        private Sable.Tools.Error.LexerException exception;
+        private SablePP.Tools.Error.LexerException exception;
 
         public ResetableLexer(ILexer lexer)
         {
@@ -35,7 +35,7 @@ namespace Sable.Tools.Lexing
             Token next;
             
             try { next = lexer.Next(); }
-            catch (Sable.Tools.Error.LexerException ex)
+            catch (SablePP.Tools.Error.LexerException ex)
             {
                 next = null;
                 exception = ex;

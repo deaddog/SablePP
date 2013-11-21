@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sable.Tools.Generate.CSharp
+namespace SablePP.Tools.Generate.CSharp
 {
     public abstract class CSharpElement : ComplexElement
     {

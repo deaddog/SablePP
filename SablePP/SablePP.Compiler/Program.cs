@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Sable.Compiler.Lexing;
-using Sable.Compiler.Nodes;
-using Sable.Compiler.Parsing;
+using SablePP.Compiler.Lexing;
+using SablePP.Compiler.Nodes;
+using SablePP.Compiler.Parsing;
 
-using Sable.Compiler.Generate;
-using Sable.Compiler.Generate.Analysis;
-using Sable.Compiler.Generate.Productions;
-using Sable.Compiler.Generate.Tokens;
+using SablePP.Compiler.Generate;
+using SablePP.Compiler.Generate.Analysis;
+using SablePP.Compiler.Generate.Productions;
+using SablePP.Compiler.Generate.Tokens;
 
-using Sable.Tools.Editor;
-using Sable.Tools.Error;
-using Sable.Tools.Generate;
-using Sable.Tools.Nodes;
+using SablePP.Tools.Editor;
+using SablePP.Tools.Error;
+using SablePP.Tools.Generate;
+using SablePP.Tools.Nodes;
 
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace Sable.Compiler
+namespace SablePP.Compiler
 {
     class Program
     {

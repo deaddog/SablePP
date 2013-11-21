@@ -1,9 +1,9 @@
 ﻿using System;
 
-using Sable.Tools.Generate.CSharp;
-using Sable.Compiler.Nodes;
+using SablePP.Tools.Generate.CSharp;
+using SablePP.Compiler.Nodes;
 
-namespace Sable.Compiler.Generate.Productions
+namespace SablePP.Compiler.Generate.Productions
 {
     public class PropertiesBuilder : ProductionVisitor
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using Sable.Tools.Nodes;
+using SablePP.Tools.Nodes;
 
-namespace Sable.Tools.Error
+namespace SablePP.Tools.Error
 {
     /// <summary>
     /// Describes a compiler error and the position at which it has occured.
@@ -70,7 +70,7 @@ namespace Sable.Tools.Error
                 }
             }
 
-            private class FirstFinder : Sable.Tools.Analysis.DepthFirstTreeWalker
+            private class FirstFinder : SablePP.Tools.Analysis.DepthFirstTreeWalker
             {
                 private Token token = null;
                 public Token Token
@@ -89,7 +89,7 @@ namespace Sable.Tools.Error
                         this.token = token;
                 }
             }
-            private class LastFinder : Sable.Tools.Analysis.DepthFirstReversedTreeWalker
+            private class LastFinder : SablePP.Tools.Analysis.DepthFirstReversedTreeWalker
             {
                 private Token token = null;
                 public Token Token

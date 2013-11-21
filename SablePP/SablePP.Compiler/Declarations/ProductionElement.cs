@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sable.Compiler.Nodes;
+using SablePP.Compiler.Nodes;
 
-namespace Sable.Compiler.Declarations
+namespace SablePP.Compiler.Declarations
 {
     public class ProductionElement
     {

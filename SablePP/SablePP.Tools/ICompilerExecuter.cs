@@ -1,14 +1,14 @@
 ﻿using System;
 using System.IO;
 
-using Sable.Tools.Error;
-using Sable.Tools.Lexing;
-using Sable.Tools.Nodes;
-using Sable.Tools.Parsing;
+using SablePP.Tools.Error;
+using SablePP.Tools.Lexing;
+using SablePP.Tools.Nodes;
+using SablePP.Tools.Parsing;
 
 using FastColoredTextBoxNS;
 
-namespace Sable.Tools
+namespace SablePP.Tools
 {
     public interface ICompilerExecuter
     {

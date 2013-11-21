@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sable.Compiler.Nodes
+namespace SablePP.Compiler.Nodes
 {
     public partial class PGrammar
     {

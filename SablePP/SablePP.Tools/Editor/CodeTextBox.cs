@@ -6,12 +6,12 @@ using System.IO;
 using System.Linq;
 
 using FastColoredTextBoxNS;
-using Sable.Tools.Error;
-using Sable.Tools.Lexing;
-using Sable.Tools.Nodes;
-using Sable.Tools.Parsing;
+using SablePP.Tools.Error;
+using SablePP.Tools.Lexing;
+using SablePP.Tools.Nodes;
+using SablePP.Tools.Parsing;
 
-namespace Sable.Tools.Editor
+namespace SablePP.Tools.Editor
 {
     public class CodeTextBox : FastColoredTextBox
     {

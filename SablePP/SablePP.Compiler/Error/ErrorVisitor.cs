@@ -1,10 +1,10 @@
 ﻿using System;
 
-using Sable.Tools.Error;
-using Sable.Tools.Nodes;
-using Sable.Compiler.Analysis;
+using SablePP.Tools.Error;
+using SablePP.Tools.Nodes;
+using SablePP.Compiler.Analysis;
 
-namespace Sable.Compiler.Error
+namespace SablePP.Compiler.Error
 {
     public abstract class ErrorVisitor : DepthFirstAdapter
     {

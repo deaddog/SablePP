@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Sable.Tools.Nodes;
+using SablePP.Tools.Nodes;
 
-namespace Sable.Tools.Error
+namespace SablePP.Tools.Error
 {
     /// <summary>
     /// Manages semantic errors throughout semantic checks of an AST.

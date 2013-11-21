@@ -1,7 +1,7 @@
 ﻿using System;
-using Sable.Tools.Error;
+using SablePP.Tools.Error;
 
-namespace Sable.Tools.Editor
+namespace SablePP.Tools.Editor
 {
     public class ErrorEventArgs : EventArgs
     {

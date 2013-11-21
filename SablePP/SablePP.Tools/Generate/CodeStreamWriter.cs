@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace Sable.Tools.Generate
+namespace SablePP.Tools.Generate
 {
     public class CodeStreamWriter : IDisposable
     {

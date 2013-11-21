@@ -1,6 +1,6 @@
-﻿using Sable.Tools.Nodes;
+﻿using SablePP.Tools.Nodes;
 
-namespace Sable.Tools.Lexing
+namespace SablePP.Tools.Lexing
 {
     public interface ILexer
     {

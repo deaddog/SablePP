@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Sable.Tools.Generate.CSharp
+namespace SablePP.Tools.Generate.CSharp
 {
     public enum AccessModifiers
     {

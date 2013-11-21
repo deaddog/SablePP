@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Sable.Tools.Nodes;
-using Sable.Compiler.Analysis;
+using SablePP.Tools.Nodes;
+using SablePP.Compiler.Analysis;
 
-namespace Sable.Compiler.Nodes
+namespace SablePP.Compiler.Nodes
 {
     public abstract partial class PGrammar : Production<PGrammar>
     {

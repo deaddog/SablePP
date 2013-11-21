@@ -1,8 +1,8 @@
 ﻿using System;
 
-using Sable.Tools.Nodes;
+using SablePP.Tools.Nodes;
 
-namespace Sable.Tools.Analysis
+namespace SablePP.Tools.Analysis
 {
     public class DepthFirstTreeWalker : TreeWalker
     {

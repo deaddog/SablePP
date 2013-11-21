@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using Sable.Compiler.Analysis;
-using Sable.Compiler.Nodes;
-using Sable.Tools.Nodes;
+using SablePP.Compiler.Analysis;
+using SablePP.Compiler.Nodes;
+using SablePP.Tools.Nodes;
 
-using Sable.Tools.Generate;
-using Sable.Tools.Generate.CSharp;
+using SablePP.Tools.Generate;
+using SablePP.Tools.Generate.CSharp;
 
-namespace Sable.Compiler
+namespace SablePP.Compiler
 {
     public class ParserModifier
     {

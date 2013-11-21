@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Text;
 
-using Sable.Compiler.Nodes;
+using SablePP.Compiler.Nodes;
 
-using Sable.Tools.Generate.CSharp;
-using Sable.Tools.Nodes;
+using SablePP.Tools.Generate.CSharp;
+using SablePP.Tools.Nodes;
 
-namespace Sable.Compiler.Generate
+namespace SablePP.Compiler.Generate
 {
     public static class CompilerExecuterBuilder
     {
@@ -61,7 +61,7 @@ namespace Sable.Compiler.Generate
 
         private static void CreateLexerMethods(ClassElement classElement)
         {
-            var exMethod = classElement.CreateMethod(AccessModifiers.None, "Sable.Tools.ICompilerExecuter.GetLexer", "ILexer");
+            var exMethod = classElement.CreateMethod(AccessModifiers.None, "SablePP.Tools.ICompilerExecuter.GetLexer", "ILexer");
             exMethod.Parameters.Add("reader", "TextReader");
 
             exMethod.EmitReturn();
@@ -85,10 +85,10 @@ namespace Sable.Compiler.Generate
         }
         private static void CreateParserMethods(ClassElement classElement)
         {
-            var exMethod = classElement.CreateMethod(AccessModifiers.None, "Sable.Tools.ICompilerExecuter.GetParser", "IParser");
+            var exMethod = classElement.CreateMethod(AccessModifiers.None, "SablePP.Tools.ICompilerExecuter.GetParser", "IParser");
             exMethod.Parameters.Add("lexer", "ILexer");
 
-            string resetName = typeof(Sable.Tools.Lexing.ResetableLexer).Name;
+            string resetName = typeof(SablePP.Tools.Lexing.ResetableLexer).Name;
             using (var iff = exMethod.EmitIf())
             {
                 iff.EmitLogicNot();
@@ -164,7 +164,7 @@ namespace Sable.Compiler.Generate
         {
             #region Explicit method
 
-            var exMethod = classElement.CreateMethod(AccessModifiers.None, "Sable.Tools.ICompilerExecuter.Validate", "void");
+            var exMethod = classElement.CreateMethod(AccessModifiers.None, "SablePP.Tools.ICompilerExecuter.Validate", "void");
             exMethod.Parameters.Add("astRoot", "Node");
             exMethod.Parameters.Add("errorManager", "ErrorManager");
 

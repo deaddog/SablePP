@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Sable.Tools.Error
+namespace SablePP.Tools.Error
 {
     public class LexerException : ApplicationException
     {

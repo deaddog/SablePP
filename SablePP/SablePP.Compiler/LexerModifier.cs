@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using Sable.Compiler.Analysis;
-using Sable.Compiler.Nodes;
-using Sable.Tools.Nodes;
+using SablePP.Compiler.Analysis;
+using SablePP.Compiler.Nodes;
+using SablePP.Tools.Nodes;
 
-namespace Sable.Compiler
+namespace SablePP.Compiler
 {
     public class LexerModifier
     {
@@ -32,7 +32,7 @@ namespace Sable.Compiler
 
         private static string ToCamelCase(string text)
         {
-            return Sable.Compiler.CommonMethods.ToCamelCase(text);
+            return SablePP.Compiler.CommonMethods.ToCamelCase(text);
         }
 
         private string ReplaceIn(string parserCode)

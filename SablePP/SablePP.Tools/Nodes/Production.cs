@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sable.Tools.Nodes
+namespace SablePP.Tools.Nodes
 {
     public abstract class Production<T> : Production where T : Production
     {

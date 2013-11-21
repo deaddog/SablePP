@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sable.Compiler
+namespace SablePP.Compiler
 {
     internal static class CommonMethods
     {
@@ -23,7 +23,7 @@ namespace Sable.Compiler
     {
         public static string Root
         {
-            get { return "Sable.Tools"; }
+            get { return "SablePP.Tools"; }
         }
 
         public static string Analysis

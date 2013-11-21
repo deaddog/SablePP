@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sable.Tools
+namespace SablePP.Tools
 {
     /// <summary>
     /// A dictionary that allows the use of scoping for storing key/value pairs.

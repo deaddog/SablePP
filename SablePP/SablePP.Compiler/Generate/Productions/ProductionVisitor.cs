@@ -1,7 +1,7 @@
 ﻿using System;
-using Sable.Compiler.Nodes;
+using SablePP.Compiler.Nodes;
 
-namespace Sable.Compiler.Generate.Productions
+namespace SablePP.Compiler.Generate.Productions
 {
     public abstract class ProductionVisitor : GenerateVisitor
     {

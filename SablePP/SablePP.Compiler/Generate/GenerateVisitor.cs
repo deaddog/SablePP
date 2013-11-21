@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sable.Compiler.Analysis;
+using SablePP.Compiler.Analysis;
 
-namespace Sable.Compiler.Generate
+namespace SablePP.Compiler.Generate
 {
     public abstract class GenerateVisitor : DepthFirstAdapter
     {
         protected static string ToCamelCase(string text)
         {
-            return Sable.Compiler.CommonMethods.ToCamelCase(text);
+            return SablePP.Compiler.CommonMethods.ToCamelCase(text);
         }
     }
 }

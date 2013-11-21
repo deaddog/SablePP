@@ -8,8 +8,8 @@
     <ProjectGuid>{3A7BF5F0-3346-4653-A3C3-443C5311971B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sable.Tools</RootNamespace>
-    <AssemblyName>Sable.Tools</AssemblyName>
+    <RootNamespace>SablePP.Tools</RootNamespace>
+    <AssemblyName>SablePP.Tools</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

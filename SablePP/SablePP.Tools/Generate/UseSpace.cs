@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sable.Tools.Generate
+namespace SablePP.Tools.Generate
 {
     /// <summary>
     /// Space setting for code elements

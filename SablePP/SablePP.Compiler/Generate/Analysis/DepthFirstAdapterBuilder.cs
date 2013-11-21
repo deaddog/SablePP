@@ -1,9 +1,9 @@
 ﻿using System;
 
-using Sable.Compiler.Nodes;
-using Sable.Tools.Generate.CSharp;
+using SablePP.Compiler.Nodes;
+using SablePP.Tools.Generate.CSharp;
 
-namespace Sable.Compiler.Generate.Analysis
+namespace SablePP.Compiler.Generate.Analysis
 {
     public class DepthFirstAdapterBuilder : GenerateVisitor
     {

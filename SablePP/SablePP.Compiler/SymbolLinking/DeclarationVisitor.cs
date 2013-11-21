@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Sable.Compiler.Nodes;
+using SablePP.Compiler.Nodes;
 
-using Sable.Tools.Error;
+using SablePP.Tools.Error;
 
-namespace Sable.Compiler.SymbolLinking
+namespace SablePP.Compiler.SymbolLinking
 {
     public class DeclarationVisitor : Error.ErrorVisitor
     {

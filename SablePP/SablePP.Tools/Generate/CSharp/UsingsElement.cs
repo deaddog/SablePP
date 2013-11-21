@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sable.Tools.Generate.CSharp
+namespace SablePP.Tools.Generate.CSharp
 {
     public sealed class UsingsElement : CSharpElement
     {

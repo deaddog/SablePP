@@ -1,4 +1,4 @@
-﻿namespace Sable.Tools.Generate
+﻿namespace SablePP.Tools.Generate
 {
     internal sealed class TextElement : CodeElement
     {

@@ -8,8 +8,8 @@
     <ProjectGuid>{5441C1D8-4091-4B8F-A2E6-50C65666324F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sable.Compiler</RootNamespace>
-    <AssemblyName>Sable.Compiler</AssemblyName>
+    <RootNamespace>SablePP.Compiler</RootNamespace>
+    <AssemblyName>SablePP.Compiler</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

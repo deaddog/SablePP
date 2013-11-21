@@ -1,4 +1,4 @@
-﻿namespace Sable.Tools.Editor
+﻿namespace SablePP.Tools.Editor
 {
     partial class EditorForm
     {
@@ -65,8 +65,8 @@
             this.lineLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.positionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.codeTextBox1 = new Sable.Tools.Editor.CodeTextBox();
-            this.errorTextBox1 = new Sable.Tools.Editor.ErrorTextBox();
+            this.codeTextBox1 = new SablePP.Tools.Editor.CodeTextBox();
+            this.errorTextBox1 = new SablePP.Tools.Editor.ErrorTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();

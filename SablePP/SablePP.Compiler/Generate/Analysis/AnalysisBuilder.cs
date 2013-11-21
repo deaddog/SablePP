@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Sable.Compiler.Analysis;
-using Sable.Compiler.Nodes;
-using Sable.Tools.Generate.CSharp;
-using Sable.Tools.Nodes;
+using SablePP.Compiler.Analysis;
+using SablePP.Compiler.Nodes;
+using SablePP.Tools.Generate.CSharp;
+using SablePP.Tools.Nodes;
 
-namespace Sable.Compiler.Generate.Analysis
+namespace SablePP.Compiler.Generate.Analysis
 {
     public class AnalysisBuilder : GenerateVisitor
     {

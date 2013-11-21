@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 
-using Sable.Tools.Nodes;
+using SablePP.Tools.Nodes;
 
-namespace Sable.Tools.Analysis
+namespace SablePP.Tools.Analysis
 {
     public abstract class Adapter<TValue, TRoot> where TRoot : Node
     {

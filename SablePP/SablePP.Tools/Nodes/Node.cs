@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sable.Tools.Nodes
+namespace SablePP.Tools.Nodes
 {
     public abstract class Node : ICloneable
     {

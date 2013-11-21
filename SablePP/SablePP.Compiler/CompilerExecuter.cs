@@ -5,11 +5,11 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using Sable.Compiler.Nodes;
-using Sable.Tools.Error;
-using Sable.Tools.Nodes;
+using SablePP.Compiler.Nodes;
+using SablePP.Tools.Error;
+using SablePP.Tools.Nodes;
 
-namespace Sable.Compiler
+namespace SablePP.Compiler
 {
     public partial class CompilerExecuter
     {

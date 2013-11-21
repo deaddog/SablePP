@@ -9,12 +9,12 @@ using System.Windows.Forms;
 
 using FastColoredTextBoxNS;
 
-using Sable.Tools.Error;
-using Sable.Tools.Lexing;
-using Sable.Tools.Nodes;
-using Sable.Tools.Parsing;
+using SablePP.Tools.Error;
+using SablePP.Tools.Lexing;
+using SablePP.Tools.Nodes;
+using SablePP.Tools.Parsing;
 
-namespace Sable.Tools.Editor
+namespace SablePP.Tools.Editor
 {
     public partial class EditorForm : Form
     {

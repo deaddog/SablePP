@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sable.Compiler.Nodes
+namespace SablePP.Compiler.Nodes
 {
     public partial class AToken
     {

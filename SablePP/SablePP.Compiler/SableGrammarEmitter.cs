@@ -2,10 +2,10 @@
 using System.IO;
 using System.Text;
 
-using Sable.Compiler.Analysis;
-using Sable.Tools.Nodes;
+using SablePP.Compiler.Analysis;
+using SablePP.Tools.Nodes;
 
-namespace Sable.Compiler
+namespace SablePP.Compiler
 {
     public class SableGrammarEmitter : DepthFirstAdapter
     {

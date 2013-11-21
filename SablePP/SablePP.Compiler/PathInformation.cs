@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using Microsoft.Win32;
 
-namespace Sable.Compiler
+namespace SablePP.Compiler
 {
     public static class PathInformation
     {

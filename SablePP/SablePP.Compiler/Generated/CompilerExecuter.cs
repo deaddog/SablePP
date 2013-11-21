@@ -2,23 +2,23 @@ using System;
 using System.Drawing;
 using System.IO;
 
-using Sable.Tools;
-using Sable.Tools.Error;
-using Sable.Tools.Lexing;
-using Sable.Tools.Nodes;
-using Sable.Tools.Parsing;
+using SablePP.Tools;
+using SablePP.Tools.Error;
+using SablePP.Tools.Lexing;
+using SablePP.Tools.Nodes;
+using SablePP.Tools.Parsing;
 
-using Sable.Compiler.Lexing;
-using Sable.Compiler.Nodes;
-using Sable.Compiler.Parsing;
+using SablePP.Compiler.Lexing;
+using SablePP.Compiler.Nodes;
+using SablePP.Compiler.Parsing;
 
 using FastColoredTextBoxNS;
 
-namespace Sable.Compiler
+namespace SablePP.Compiler
 {
     public partial class CompilerExecuter : ICompilerExecuter
     {
-        ILexer Sable.Tools.ICompilerExecuter.GetLexer(TextReader reader)
+        ILexer SablePP.Tools.ICompilerExecuter.GetLexer(TextReader reader)
         {
             return this.GetLexer(reader);
         }
@@ -27,7 +27,7 @@ namespace Sable.Compiler
             return new Lexer(reader);
         }
         
-        IParser Sable.Tools.ICompilerExecuter.GetParser(ILexer lexer)
+        IParser SablePP.Tools.ICompilerExecuter.GetParser(ILexer lexer)
         {
             if (!(lexer is Lexer || (lexer is ResetableLexer && (lexer as ResetableLexer).InnerLexer is Lexer)))
                 throw new ArgumentException("Lexer must be of type " + typeof(Lexer).FullName, "lexer");
@@ -39,7 +39,7 @@ namespace Sable.Compiler
             return new Parser(lexer);
         }
         
-        void Sable.Tools.ICompilerExecuter.Validate(Node astRoot, ErrorManager errorManager)
+        void SablePP.Tools.ICompilerExecuter.Validate(Node astRoot, ErrorManager errorManager)
         {
             if (!(astRoot is Start<PGrammar>))
                 throw new ArgumentException("Root must be of type " + typeof(Start<PGrammar>).FullName, "astRoot");

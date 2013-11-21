@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Sable.Tools.Analysis;
-using Sable.Tools.Nodes;
+using SablePP.Tools.Analysis;
+using SablePP.Tools.Nodes;
 
-namespace Sable.Tools
+namespace SablePP.Tools
 {
     public class SimplePrinter<TRoot> : DepthFirstTreeWalker where TRoot : Node
     {

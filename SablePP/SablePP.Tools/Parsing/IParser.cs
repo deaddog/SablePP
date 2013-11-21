@@ -1,6 +1,6 @@
-﻿using Sable.Tools.Nodes;
+﻿using SablePP.Tools.Nodes;
 
-namespace Sable.Tools.Parsing
+namespace SablePP.Tools.Parsing
 {
     public interface IParser
     {

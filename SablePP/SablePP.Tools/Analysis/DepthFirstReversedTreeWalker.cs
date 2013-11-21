@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-using Sable.Tools.Nodes;
+using SablePP.Tools.Nodes;
 
-namespace Sable.Tools.Analysis
+namespace SablePP.Tools.Analysis
 {
     public class DepthFirstReversedTreeWalker : TreeWalker
     {
