@@ -1,4 +1,4 @@
-Package Sable.Compiler;
+Package SablePP.Compiler;
 
 Helpers
     all = [0 .. 0xFFFF];  
