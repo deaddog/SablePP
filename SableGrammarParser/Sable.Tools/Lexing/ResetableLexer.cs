@@ -11,6 +11,7 @@ namespace Sable.Tools.Lexing
 
         private LinkedListNode<Token> current;
         private bool eofFound;
+        private Sable.Tools.Error.LexerException exception;
 
         public ResetableLexer(ILexer lexer)
         {
@@ -18,6 +19,7 @@ namespace Sable.Tools.Lexing
             this.tokens = new LinkedList<Token>();
             this.current = tokens.AddFirst((Token)null);
             this.eofFound = false;
+            this.exception = null;
         }
 
         public ILexer InnerLexer
@@ -27,7 +29,19 @@ namespace Sable.Tools.Lexing
 
         private LinkedListNode<Token> addNext()
         {
-            Token next = lexer.Next();
+            if (exception != null)
+                throw exception;
+
+            Token next;
+            
+            try { next = lexer.Next(); }
+            catch (Sable.Tools.Error.LexerException ex)
+            {
+                next = null;
+                exception = ex;
+                throw ex;
+            }
+            
             LinkedListNode<Token> node = tokens.AddAfter(current, next);
             if (next is EOF)
                 eofFound = true;
