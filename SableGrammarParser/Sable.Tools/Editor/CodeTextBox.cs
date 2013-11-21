@@ -106,7 +106,7 @@ namespace Sable.Tools.Editor
         public event EventHandler ErrorsCleared;
         public event ErrorEventHandler ErrorAdded;
 
-        protected override void OnTextChanged(TextChangedEventArgs args)
+        public override void OnTextChangedDelayed(Range changedRange)
         {
             if (executer != null)
                 lock (lexerLock)
@@ -121,7 +121,7 @@ namespace Sable.Tools.Editor
                     reader.Dispose();
 
                     if (lexerError)
-                        args.ChangedRange.ClearStyle(simpleStyles.ToArray());
+                        changedRange.ClearStyle(simpleStyles.ToArray());
                     else
                     {
                         this.Range.ClearStyle(simpleStyles.ToArray());
@@ -141,7 +141,7 @@ namespace Sable.Tools.Editor
                     compileWorker.Start(executer, lexer);
                 }
 
-            base.OnTextChanged(args);
+            base.OnTextChangedDelayed(changedRange);
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
