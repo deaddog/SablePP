@@ -79,6 +79,7 @@ namespace Sable.Tools.Editor
                     = saveAsToolStripMenuItem.Enabled
                     = saveAsDefaultToolStripMenuItem.Enabled
                     = closeToolStripMenuItem.Enabled
+                    = editToolStripMenuItem.Enabled
                     = (_file != null);
             }
         }
@@ -249,92 +250,29 @@ namespace Sable.Tools.Editor
                 EditorSettings.Default.Save();
             };
 
-            newFile();
+            #endregion
+
+            #region Edit menu events setup
+
+            copyToolStripMenuItem.Click += (s, e) => codeTextBox1.Copy();
+            cutToolStripMenuItem.Click += (s, e) => codeTextBox1.Cut();
+            pasteToolStripMenuItem.Click += (s, e) => codeTextBox1.Paste();
+
+            undoToolStripMenuItem.Click += (s, e) => codeTextBox1.Undo();
+            redoToolStripMenuItem.Click += (s, e) => codeTextBox1.Redo();
+
+            selectAllToolStripMenuItem.Click += (s, e) => codeTextBox1.SelectAll();
 
             #endregion
 
-        }
+            newFile();
 
-        private ICompilerExecuter executer;
+        }
 
         public ICompilerExecuter Executer
         {
-            get { return executer; }
-            set { executer = value; }
-        }
-
-        private void compileWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            ICompilerExecuter executer = ((dynamic)e.Argument).Executer as ICompilerExecuter;
-            string input = ((dynamic)e.Argument).Input as string;
-
-            ErrorManager errorManager = new ErrorManager();
-            Node ast;
-
-            using (StringReader sr = new StringReader(input))
-            {
-                ILexer lexer = executer.GetLexer(sr);
-                IParser parser = executer.GetParser(lexer);
-
-                try
-                {
-                    ast = parser.Parse();
-                }
-                catch (LexerException ex)
-                {
-                    errorManager.Register(new CompilerError(ex.Line, ex.Position, 1, ex.Message));
-                    ast = null;
-                }
-                catch (ParserException ex)
-                {
-                    errorManager.Register(new CompilerError(ex.LastLine, ex.LastPosition, 1, ex.Message));
-                    ast = null;
-                }
-            }
-
-            if (ast != null)
-                executer.Validate(ast, errorManager);
-
-            e.Result = new { Errors = errorManager.ToArray(), AST = ast };
-        }
-        private void compileWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            CompilerError[] errors = ((dynamic)e.Result).Errors as CompilerError[];
-            Node ast = ((dynamic)e.Result).AST as Node;
-
-            errorTextBox1.ClearErrors();
-            codeTextBox1.ClearErrors();
-
-            foreach (var err in errors)
-            {
-                Range r = new Range(codeTextBox1, err.Start.LinePosition - 1, err.Start.LineNumber - 1, err.End.LinePosition, err.End.LineNumber - 1);
-
-                errorTextBox1.AddError(r, err.ErrorMessage);
-                codeTextBox1.AddError(r, err.ErrorMessage);
-            }
-        }
-
-        private void compileTimer_Tick(object sender, EventArgs e)
-        {
-            if (fileOpened)
-            {
-                if (compileWorker.IsBusy)
-                {
-                    compileTimer.Stop();
-                    compileTimer.Start();
-                }
-                else
-                {
-                    if (executer != null)
-                        compileWorker.RunWorkerAsync(new { Executer = executer, Input = codeTextBox1.Text });
-                    compileTimer.Stop();
-                }
-            }
-            else
-            {
-                errorTextBox1.Text = "";
-                compileTimer.Stop();
-            }
+            get { return codeTextBox1.Executer; }
+            set { codeTextBox1.Executer = value; }
         }
 
         private void codeTextBox1_SelectionChanged(object sender, EventArgs e)
@@ -345,11 +283,10 @@ namespace Sable.Tools.Editor
             string positionText = positionLabel.Text.Substring(0, positionLabel.Text.IndexOf(':') + 1) + " ";
             positionLabel.Text = positionText + (codeTextBox1.Selection.Start.iChar + 1);
         }
-        private void codeTextBox1_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+
+        private void codeTextBox1_TextChanged(object sender, TextChangedEventArgs e)
         {
-            changed = true;
-            compileTimer.Stop();
-            compileTimer.Start();
+
         }
     }
 }
