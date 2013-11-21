@@ -111,7 +111,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\BasicSableSetup\sablecc.jar">
+    <Content Include="..\..\sablecc.jar">
       <Link>sablecc.jar</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
