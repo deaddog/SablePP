@@ -56,6 +56,29 @@ namespace Sable.Tools.Editor
             }
         }
 
+        public void SetStyle(Token token, Style style)
+        {
+            GetRangeFromToken(token).SetStyle(style);
+        }
+        public Range GetRangeFromToken(Token token)
+        {
+            string text = token.Text;
+
+            Place p1 = new Place(token.Position - 1, token.Line - 1);
+            Place p2 = new Place(token.Position - 1, token.Line - 1);
+
+            int len = text.Length;
+            while (text.Contains('\r'))
+            {
+                len -= (text.IndexOf('\r') + 2);
+                text = text.Substring(text.IndexOf('\r')).Trim('\r', '\n');
+                p2.iLine++;
+                p2.iChar = 0;
+            }
+            p2.iChar += len;
+            return new Range(this, p1, p2);
+        }
+
         private void addError(Range range, string message)
         {
             if (range.Start.iChar < 0 || range.Start.iLine < 0 || range.End.iChar < 0 || range.End.iLine < 0)
