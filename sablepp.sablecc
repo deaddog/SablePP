@@ -64,7 +64,7 @@ Tokens
     l_par = '(';
     r_par = ')';
     l_brace =  '{';
-{highlight->highlightstyles}
+{normal, highlight->highlightstyles}
     r_brace =  '}';
     plus = '+';
     minus = '-';
