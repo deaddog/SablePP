@@ -20,7 +20,7 @@ namespace Sable.Compiler
             set { runSable = value; }
         }
 
-        public CompilerExecuter(bool runSable = false)
+        public CompilerExecuter(bool runSable)
         {
             this.runSable = runSable;
         }
@@ -77,7 +77,6 @@ namespace Sable.Compiler
 
             return proc;
         }
-
         private CompilerError handleSableException(string text)
         {
             Match m = Regex.Match(text, "java.lang.RuntimeException: \\[(?<line>[0-9]+),(?<char>[0-9]+)\\] (?<text>.*)");

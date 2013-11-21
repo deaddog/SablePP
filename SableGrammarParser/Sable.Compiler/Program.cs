@@ -1,5 +1,4 @@
-﻿#define WINFORMS
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,11 +12,13 @@ using Sable.Compiler.Generate.Analysis;
 using Sable.Compiler.Generate.Productions;
 using Sable.Compiler.Generate.Tokens;
 
+using Sable.Tools.Editor;
 using Sable.Tools.Error;
 using Sable.Tools.Generate;
 using Sable.Tools.Nodes;
 
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace Sable.Compiler
 {
@@ -29,14 +30,19 @@ namespace Sable.Compiler
         [STAThread]
         private static void Main(string[] args)
         {
-            System.Windows.Forms.Application.EnableVisualStyles();
-            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
-            System.Windows.Forms.Application.Run(new Sable.Tools.Editor.EditorForm()
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            CompilerExecuter executer = new CompilerExecuter(false);
+
+            EditorForm edit = new EditorForm()
             {
-                Executer = new Sable.Compiler.CompilerExecuter(), 
-                Text = "SPP Editor", 
-                FileExtension = "sablecc" 
-            });
+                Executer = executer,
+                Text = "SPP Editor",
+                FileExtension = "sablecc"
+            };
+
+            Application.Run(edit);
         }
 #else
         private static void Main(string[] args)
@@ -49,7 +55,7 @@ namespace Sable.Compiler
             string outputDirectory = arguments["out"][0];
             outputDirectory = outputDirectory.TrimEnd('\\');
 
-            CompilerExecuter executer = new CompilerExecuter();
+            CompilerExecuter executer = new CompilerExecuter(true);
 
             Console.WriteLine("Input:\n" + inputGrammar + "\n\nValidating grammar.");
             Start<PGrammar> ast = Parse(ReadFile(PathInformation.TemporaryGrammarPath), executer);
