@@ -46,6 +46,7 @@ namespace Sable.Tools.Editor
             this.ToolTipNeeded += CodeTextBox_ToolTipNeeded;
         }
 
+        [Browsable(false), DefaultValue(null)]
         public ICompilerExecuter Executer
         {
             get { return executer; }
