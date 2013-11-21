@@ -105,9 +105,9 @@
     <Compile Include="SymbolLinking\TranslationVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sable.Tools\Sable.Tools.csproj">
+    <ProjectReference Include="..\SablePP.Tools\SablePP.Tools.csproj">
       <Project>{3A7BF5F0-3346-4653-A3C3-443C5311971B}</Project>
-      <Name>Sable.Tools</Name>
+      <Name>SablePP.Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
