@@ -84,25 +84,15 @@ namespace Sable.Tools.Editor
 
         protected override void OnTextChanged(TextChangedEventArgs args)
         {
-            compileWorker.Start();
             if (executer != null)
                 lock (lexerLock)
                 {
                     StringReader reader = new StringReader(this.Text);
                     lexer = new ResetableLexer(executer.GetLexer(reader));
-                    clearErrors();
 
                     lexerError = false;
-                    try
-                    {
-                        while (!(lexer.Next() is EOF)) { }
-                    }
-                    catch (LexerException ex)
-                    {
-                        lexerError = true;
-                        Range range = this.GetRange(new Place(ex.Position - 1, ex.Line - 1), new Place(ex.Position, ex.Line - 1));
-                        addError(range, ex.Message);
-                    }
+                    try { while (!(lexer.Next() is EOF)) { } }
+                    catch (LexerException ex) { lexerError = true; }
                     lexer.Reset();
                     reader.Dispose();
 
@@ -124,6 +114,7 @@ namespace Sable.Tools.Editor
                         }
                     }
                     lexer.Reset();
+                    compileWorker.Start(executer, lexer);
                 }
 
             base.OnTextChanged(args);
@@ -151,6 +142,8 @@ namespace Sable.Tools.Editor
             private CodeTextBox parent;
             private ICompilerExecuter executer;
             private ILexer lexer;
+            private ICompilerExecuter nextExecuter;
+            private ILexer nextLexer;
 
             private bool shouldStart;
 
@@ -162,10 +155,29 @@ namespace Sable.Tools.Editor
                 this.shouldStart = false;
             }
 
-            public void Start()
+            public void Start(ICompilerExecuter executer, ILexer lexer)
+            {
+                this.nextExecuter = executer;
+                this.nextLexer = lexer;
+
+                this.shouldStart = true;
+
+                if (!this.IsBusy)
+                {
+                    this.lexer = nextLexer;
+                    this.executer = nextExecuter;
+
+                    shouldStart = false;
+                    RunWorkerAsync();
+                }
+            }
+            private void restart()
             {
                 if (!this.IsBusy)
                 {
+                    this.lexer = nextLexer;
+                    this.executer = nextExecuter;
+
                     shouldStart = false;
                     RunWorkerAsync();
                 }
@@ -173,14 +185,16 @@ namespace Sable.Tools.Editor
 
             protected override void OnDoWork(DoWorkEventArgs e)
             {
-                if (!SetExecuterAndLexer())
-                    return;
-
                 IParser parser = executer.GetParser(lexer);
                 ErrorManager errorManager = new ErrorManager();
 
                 Node root;
                 try { root = parser.Parse(); }
+                catch (LexerException ex)
+                {
+                    errorManager.Register(new CompilerError(ex.Line, ex.Position, 1, ex.Message));
+                    root = null;
+                }
                 catch (ParserException ex)
                 {
                     errorManager.Register(new CompilerError(ex.LastLine, ex.LastPosition, 1, ex.Message));
@@ -199,6 +213,7 @@ namespace Sable.Tools.Editor
 
                 if (loadRootAndErrors(e.Result, out node, out errors))
                 {
+                    parent.clearErrors();
                     foreach (var err in errors)
                     {
                         Range r = new Range(parent, err.Start.LinePosition - 1, err.Start.LineNumber - 1, err.End.LinePosition, err.End.LineNumber - 1);
@@ -207,18 +222,7 @@ namespace Sable.Tools.Editor
                 }
 
                 if (shouldStart)
-                    Start();
-            }
-
-            private bool SetExecuterAndLexer()
-            {
-                lock (parent.lexerLock)
-                {
-                    this.executer = parent.executer;
-                    this.lexer = parent.lexer;
-                }
-
-                return this.executer != null && this.lexer != null;
+                    restart();
             }
 
             private object storeRootAndErrors(Node root, IEnumerable<CompilerError> errors)
