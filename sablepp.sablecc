@@ -27,7 +27,9 @@ Helpers
 
 States
     normal,
-    package;
+    package,
+	highlight,
+	highlightstyles;
 
 Tokens
 {package}
@@ -41,6 +43,8 @@ Tokens
     ignoredtoken = 'Ignored';
     productionstoken = 'Productions';
 	asttoken = 'Abstract' (' ' | tab)+ 'Syntax' (' ' | tab)+ 'Tree';
+{normal->highlight}
+	highlighttoken = 'Token Syntax Highlight';
 	
 	new = 'New';
 	null = 'Null';
@@ -51,7 +55,7 @@ Tokens
     dot = '.';
     d_dot = '..';
 
-{normal, package->normal}
+{normal, package->normal, highlightstyles->highlight}
     semicolon = ';';
 
     equal = '=';
@@ -60,6 +64,7 @@ Tokens
     l_par = '(';
     r_par = ')';
     l_brace =  '{';
+{highlight->highlightstyles}
     r_brace =  '}';
     plus = '+';
     minus = '-';
@@ -71,9 +76,11 @@ Tokens
     arrow = '->';
     colon = ':';
 
+{normal, highlight}
     identifier = id_part ('_' id_part)*;
 
     character = ''' not_cr_lf ''';
+{normal, highlightstyles}
     dec_char = digit+;
     hex_char = '0' ('x' | 'X') hex_digit+;
 
@@ -81,6 +88,21 @@ Tokens
 
     blank = blank;
     comment = comment;
+	
+{highlightstyles}
+	italic = 'italic';
+{highlightstyles}
+	bold = 'bold';
+{highlightstyles}
+	text = 'text';
+{highlightstyles}
+	background = 'background';
+{highlightstyles}
+	rgb = 'rgb';
+{highlightstyles}
+	hsv = 'hsv'|'hsb';
+{highlightstyles}
+	hex_color = '#' hex_digit hex_digit hex_digit hex_digit hex_digit hex_digit;
 
 Ignored Tokens
     blank,
@@ -88,7 +110,7 @@ Ignored Tokens
 
 Productions
     grammar
-		= package? helpers? states? tokens? ign_tokens? productions? astproductions?
+		= package? helpers? states? tokens? ign_tokens? productions? astproductions? highlightrules?
 		{-> New grammar(package.package, helpers.helpers, states.states, tokens.tokens, ign_tokens.ignoredtokens, productions.productions, astproductions.astproductions)}
 		;
 
@@ -252,6 +274,34 @@ Productions
 	astproductions {-> astproductions}
 		= asttoken [prods]:prod+ {-> New astproductions(asttoken, [prods.production])}
 		;
+	
+	highlightrules
+		= highlighttoken highlightrule+
+		;
+	
+	highlightrule {-> highlightrule }
+		= identifier l_brace id_list r_brace hlstyle_list semicolon {-> New highlightrule(identifier, l_brace, New list.identifier([id_list.listitem]), r_brace, New list.style([hlstyle_list.listitem]), semicolon)}
+		;
+	
+	hlstyle_list {-> listitem+ }
+		= hlstyle hlstyle_tail* {-> [New listitem.style(Null, hlstyle.highlight_style), hlstyle_tail.listitem]}
+		;
+	
+	hlstyle_tail {-> listitem }
+		= comma hlstyle {-> New listitem.style(comma, hlstyle.highlight_style)}
+		;
+		
+	hlstyle {-> highlight_style}
+		= {italic} italic {-> New highlight_style.italic(italic)}
+		| {text} text colon color {-> New highlight_style.text(text, colon, color) }
+		| {background} background colon color {-> New highlight_style.background(background, colon, color) }
+		;
+	
+	color
+		= {rgb} rgb l_par [red]:dec_char [comma1]:comma [green]:dec_char [comma2]:comma [blue]:dec_char r_par
+		| {hsv} hsv l_par [hue]:dec_char [comma1]:comma [sat]:dec_char [comma2]:comma [bri]:dec_char r_par
+		| {hex} hex_color
+		;
 
 Abstract Syntax Tree
 	grammar = package? helpers? states? tokens? ignoredtokens? productions? astproductions?;
@@ -292,12 +342,14 @@ Abstract Syntax Tree
 		= {identifier} listitem+
 		| {tokenstate} [lpar]:l_brace listitem+ [rpar]:r_brace
 		| {translation} listitem+
+		| {style} listitem+
 		;
 	listitem
 		= {identifier} comma? identifier
 		| {tokenstate} comma? identifier
 		| {tokenstatetransition} comma? [from]:identifier arrow [to]:identifier
 		| {translation} comma? translation
+		| {style} comma? highlight_style
 		;
 
 	productions = productionstoken [productions]:production+;
@@ -342,4 +394,23 @@ Abstract Syntax Tree
 		= {clean} identifier
 		| {token} token_specifier dot identifier
 		| {production} production_specifier dot identifier
+		;
+	
+	highlightrules
+		= highlighttoken highlightrule+
+		;
+	highlightrule
+		= [name]:identifier [lpar]:l_brace [tokens]:list [rpar]:r_brace list semicolon
+		;
+	highlight_style
+		= {italic} italic
+		| {bold} bold
+		| {text} text colon color
+		| {background} background colon color
+		;
+	
+	color
+		= {rgb} rgb l_par [red]:dec_char [comma1]:comma [green]:dec_char [comma2]:comma [blue]:dec_char r_par
+		| {hsv} hsv l_par [hue]:dec_char [comma1]:comma [saturation]:dec_char [comma2]:comma [brightness]:dec_char r_par
+		| {hex} [color]:hex_color
 		;
