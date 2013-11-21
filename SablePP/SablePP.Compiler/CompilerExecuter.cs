@@ -27,6 +27,32 @@ namespace SablePP.Compiler
 
         partial void PerformValidation(Start<PGrammar> root, ErrorManager errorManager)
         {
+            if (root.Root is AGrammar)
+            {
+                AGrammar grammar = root.Root as AGrammar;
+                if (!grammar.HasTokens)
+                {
+                    string message = "A SablePP grammar must contain a Tokens definition.";
+                    if (grammar.HasIgnoredtokens)
+                        errorManager.Register((grammar.Ignoredtokens as AIgnoredtokens).Ignoredtoken, message);
+                    else if (grammar.HasProductions)
+                        errorManager.Register((grammar.Productions as AProductions).Productionstoken, message);
+                    else if (grammar.HasAstproductions)
+                        errorManager.Register((grammar.Astproductions as AAstproductions).Asttoken, message);
+                    else
+                        errorManager.Register(new CompilerError(-1, -1, 0, message));
+                }
+
+                if (!grammar.HasProductions)
+                {
+                    string message = "A SablePP grammar must contain a Productions definition.";
+                    if (grammar.HasAstproductions)
+                        errorManager.Register((grammar.Astproductions as AAstproductions).Asttoken, message);
+                    else
+                        errorManager.Register(new CompilerError(-1, -1, 0, message));
+                }
+            }
+
             var linktest = new SymbolLinking.DeclarationVisitor(errorManager);
             linktest.Visit(root);
 
