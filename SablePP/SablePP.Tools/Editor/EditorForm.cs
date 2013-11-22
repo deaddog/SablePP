@@ -77,12 +77,7 @@ namespace SablePP.Tools.Editor
 
                 updateTitle();
 
-                saveToolStripMenuItem.Enabled
-                    = saveAsToolStripMenuItem.Enabled
-                    = saveAsDefaultToolStripMenuItem.Enabled
-                    = closeToolStripMenuItem.Enabled
-                    = editToolStripMenuItem.Enabled
-                    = (_file != null);
+                FiletoolsEnabled = _file != null;
             }
         }
         private bool fileOpened
@@ -278,6 +273,35 @@ namespace SablePP.Tools.Editor
 
             newFile();
 
+        }
+
+        private bool filetoolsenabled = false;
+        public bool FiletoolsEnabled
+        {
+            get { return filetoolsenabled; }
+            private set
+            {
+                if (filetoolsenabled == value)
+                    return;
+
+                filetoolsenabled = value;
+
+                saveToolStripMenuItem.Enabled
+                    = saveAsToolStripMenuItem.Enabled
+                    = saveAsDefaultToolStripMenuItem.Enabled
+                    = closeToolStripMenuItem.Enabled
+                    = editToolStripMenuItem.Enabled
+                    = filetoolsenabled;
+
+                OnFiletoolsEnabledChanged(EventArgs.Empty);
+            }
+        }
+
+        public event EventHandler FiletoolsEnabledChanged;
+        protected void OnFiletoolsEnabledChanged(EventArgs e)
+        {
+            if (FiletoolsEnabledChanged != null)
+                FiletoolsEnabledChanged(this, e);
         }
 
         public ICompilerExecuter Executer
