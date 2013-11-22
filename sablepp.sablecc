@@ -293,6 +293,7 @@ Productions
         
     hlstyle {-> highlight_style}
         = {italic} italic {-> New highlight_style.italic(italic)}
+        | {bold} bold {-> New highlight_style.bold(bold)}
         | {text} text colon color {-> New highlight_style.text(text, colon, color) }
         | {background} background colon color {-> New highlight_style.background(background, colon, color) }
         ;
