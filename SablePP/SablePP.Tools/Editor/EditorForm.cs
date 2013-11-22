@@ -63,6 +63,8 @@ namespace SablePP.Tools.Editor
 
         #region FileHandle fields
 
+        private Encoding encoding;
+
         private FileInfo _file = null;
         private FileInfo file
         {
@@ -112,6 +114,8 @@ namespace SablePP.Tools.Editor
             if (res != System.Windows.Forms.DialogResult.OK)
                 return res;
 
+            encoding = Encoding.UTF8;
+
             splitContainer1.Enabled = true;
 
             codeTextBox1.Text = EditorSettings.Default.DefaultCode;
@@ -155,7 +159,10 @@ namespace SablePP.Tools.Editor
             splitContainer1.Enabled = true;
             file = new FileInfo(filepath);
             using (StreamReader reader = new StreamReader(file.FullName, true))
+            {
                 codeTextBox1.Text = reader.ReadToEnd();
+                this.encoding = reader.CurrentEncoding;
+            }
             changed = false;
 
             codeTextBox1.Focus();
@@ -171,7 +178,7 @@ namespace SablePP.Tools.Editor
                 return saveFileAs();
 
             using (FileStream fs = new FileStream(file.FullName, FileMode.Create))
-            using (StreamWriter writer = new StreamWriter(fs, Encoding.Unicode))
+            using (StreamWriter writer = new StreamWriter(fs, encoding))
                 writer.Write(codeTextBox1.Text);
             changed = false;
 
@@ -189,7 +196,7 @@ namespace SablePP.Tools.Editor
             FileInfo f = new FileInfo(saveFileDialog1.FileName);
 
             using (FileStream fs = new FileStream(f.FullName, FileMode.Create))
-            using (StreamWriter writer = new StreamWriter(fs, Encoding.Unicode))
+            using (StreamWriter writer = new StreamWriter(fs, encoding))
                 writer.Write(codeTextBox1.Text);
 
             file = f;
@@ -216,6 +223,7 @@ namespace SablePP.Tools.Editor
                     return res;
             }
 
+            encoding = null;
             file = null;
 
             splitContainer1.Enabled = false;
