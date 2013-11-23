@@ -16,6 +16,10 @@
 
         private bool hasClasses;
         private PatchElement classes;
+        public bool HasClasses
+        {
+            get { return hasClasses; }
+        }
 
         public NameSpaceElement(string name)
         {
