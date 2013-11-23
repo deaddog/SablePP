@@ -113,7 +113,7 @@ namespace SablePP.Tools.Editor
 
         public override void OnTextChangedDelayed(Range changedRange)
         {
-            if (executer != null)
+            if (executer != null && this.Enabled)
                 lock (lexerLock)
                 {
                     StringReader reader = new StringReader(this.Text);
