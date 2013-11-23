@@ -122,6 +122,9 @@ namespace SablePP.Tools.Editor
             codeTextBox1.SelectionLength = 0;
             codeTextBox1.SelectionStart = EditorSettings.Default.DefaultStart;
 
+            if (codeTextBox1.Text == string.Empty)
+                codeTextBox1.OnTextChangedDelayed(codeTextBox1.Range);
+
             return DialogResult.OK;
 
         }
@@ -161,6 +164,9 @@ namespace SablePP.Tools.Editor
             changed = false;
 
             codeTextBox1.Focus();
+
+            if (codeTextBox1.Text == string.Empty)
+                codeTextBox1.OnTextChangedDelayed(codeTextBox1.Range);
 
             return DialogResult.OK;
         }
@@ -223,7 +229,7 @@ namespace SablePP.Tools.Editor
 
             splitContainer1.Enabled = false;
             codeTextBox1.Text = "";
-            errorTextBox1.Text = "";
+            errorTextBox1.ClearErrors();
             return DialogResult.OK;
         }
 
