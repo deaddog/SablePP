@@ -69,6 +69,7 @@
             this.errorTextBox1 = new SablePP.Tools.Editor.ErrorTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.messageTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -335,7 +336,7 @@
             this.fillerLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.fillerLabel.Margin = new System.Windows.Forms.Padding(5, 3, 0, 2);
             this.fillerLabel.Name = "fillerLabel";
-            this.fillerLabel.Size = new System.Drawing.Size(422, 17);
+            this.fillerLabel.Size = new System.Drawing.Size(453, 17);
             this.fillerLabel.Spring = true;
             this.fillerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -428,6 +429,11 @@
             this.saveFileDialog1.InitialDirectory = "%userprofile%\\Documents";
             this.saveFileDialog1.SupportMultiDottedExtensions = true;
             // 
+            // messageTimer
+            // 
+            this.messageTimer.Interval = 3000;
+            this.messageTimer.Tick += new System.EventHandler(this.messageTimer_Tick);
+            // 
             // EditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -495,5 +501,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.Timer messageTimer;
     }
 }

@@ -275,6 +275,21 @@ namespace SablePP.Tools.Editor
 
         }
 
+        public void ShowMessage(Image image, string text)
+        {
+            messageTimer.Start();
+
+            fillerLabel.Image = image;
+            fillerLabel.Text = text;
+        }
+        private void messageTimer_Tick(object sender, EventArgs e)
+        {
+            messageTimer.Stop();
+
+            fillerLabel.Image = null;
+            fillerLabel.Text = "";
+        }
+
         private bool filetoolsenabled = false;
         public bool FiletoolsEnabled
         {
