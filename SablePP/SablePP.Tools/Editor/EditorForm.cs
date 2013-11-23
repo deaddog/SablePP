@@ -290,6 +290,17 @@ namespace SablePP.Tools.Editor
             fillerLabel.Text = "";
         }
 
+        public ToolStripMenuItem AddMenuItem(string text)
+        {
+            ToolStripMenuItem item = new ToolStripMenuItem(text);
+            AddMenuItem(item);
+            return item;
+        }
+        public void AddMenuItem(ToolStripItem item)
+        {
+            this.menuStrip1.Items.Add(item);
+        }
+
         private bool filetoolsenabled = false;
         public bool FiletoolsEnabled
         {
