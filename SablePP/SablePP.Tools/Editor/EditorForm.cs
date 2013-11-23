@@ -350,5 +350,9 @@ namespace SablePP.Tools.Editor
             string positionText = positionLabel.Text.Substring(0, positionLabel.Text.IndexOf(':') + 1) + " ";
             positionLabel.Text = positionText + (codeTextBox1.Selection.Start.iChar + 1);
         }
+        private void codeTextBox1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.changed = true;
+        }
     }
 }
