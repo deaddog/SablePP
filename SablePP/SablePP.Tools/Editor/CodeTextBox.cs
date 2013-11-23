@@ -53,7 +53,7 @@ namespace SablePP.Tools.Editor
             set
             {
                 executer = value;
-                this.OnTextChanged(new TextChangedEventArgs(this.Range));
+                this.OnTextChangedDelayed(this.Range);
             }
         }
 
