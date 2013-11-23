@@ -332,9 +332,12 @@
             // 
             // fillerLabel
             // 
+            this.fillerLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.fillerLabel.Margin = new System.Windows.Forms.Padding(5, 3, 0, 2);
             this.fillerLabel.Name = "fillerLabel";
-            this.fillerLabel.Size = new System.Drawing.Size(458, 17);
+            this.fillerLabel.Size = new System.Drawing.Size(422, 17);
             this.fillerLabel.Spring = true;
+            this.fillerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lineLabel
             // 
