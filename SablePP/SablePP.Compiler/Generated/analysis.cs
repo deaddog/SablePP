@@ -993,6 +993,8 @@ namespace SablePP.Compiler.Analysis
                 Visit((dynamic)node.Productions);
             if (node.HasAstproductions)
                 Visit((dynamic)node.Astproductions);
+            if (node.HasHighlightrules)
+                Visit((dynamic)node.Highlightrules);
             
             OutAGrammar(node);
             OutPGrammar(node);
@@ -2715,6 +2717,8 @@ namespace SablePP.Compiler.Analysis
             InPGrammar(node);
             InAGrammar(node);
             
+            if (node.HasHighlightrules)
+                Visit((dynamic)node.Highlightrules);
             if (node.HasAstproductions)
                 Visit((dynamic)node.Astproductions);
             if (node.HasProductions)
@@ -5388,6 +5392,8 @@ namespace SablePP.Compiler.Analysis
                 arg = Visit((dynamic)node.Productions, arg);
             if (node.HasAstproductions)
                 arg = Visit((dynamic)node.Astproductions, arg);
+            if (node.HasHighlightrules)
+                arg = Visit((dynamic)node.Highlightrules, arg);
             
             arg = OutAGrammar(node, arg);
             arg = OutPGrammar(node, arg);
@@ -7252,6 +7258,8 @@ namespace SablePP.Compiler.Analysis
             arg = InPGrammar(node, arg);
             arg = InAGrammar(node, arg);
             
+            if (node.HasHighlightrules)
+                arg = Visit((dynamic)node.Highlightrules, arg);
             if (node.HasAstproductions)
                 arg = Visit((dynamic)node.Astproductions, arg);
             if (node.HasProductions)

@@ -111,7 +111,7 @@ Ignored Tokens
 Productions
     grammar
         = package? helpers? states? tokens? ign_tokens? productions? astproductions? highlightrules?
-        {-> New grammar(package.package, helpers.helpers, states.states, tokens.tokens, ign_tokens.ignoredtokens, productions.productions, astproductions.astproductions)}
+        {-> New grammar(package.package, helpers.helpers, states.states, tokens.tokens, ign_tokens.ignoredtokens, productions.productions, astproductions.astproductions, highlightrules.highlightrules)}
         ;
 
     package = 
@@ -305,7 +305,7 @@ Productions
         ;
 
 Abstract Syntax Tree
-    grammar = package? helpers? states? tokens? ignoredtokens? productions? astproductions?;
+    grammar = package? helpers? states? tokens? ignoredtokens? productions? astproductions? highlightrules?;
     package = packagetoken packagename semicolon;
     
     helpers = helperstoken [helpers]:helper*;
@@ -415,3 +415,4 @@ Abstract Syntax Tree
         | {hsv} hsv l_par [hue]:dec_char [comma1]:comma [saturation]:dec_char [comma2]:comma [brightness]:dec_char r_par
         | {hex} [color]:hex_color
         ;
+		

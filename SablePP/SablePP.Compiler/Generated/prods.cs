@@ -17,8 +17,9 @@ namespace SablePP.Compiler.Nodes
         private PIgnoredtokens _ignoredtokens_;
         private PProductions _productions_;
         private PAstproductions _astproductions_;
+        private PHighlightrules _highlightrules_;
         
-        public AGrammar(PPackage _package_, PHelpers _helpers_, PStates _states_, PTokens _tokens_, PIgnoredtokens _ignoredtokens_, PProductions _productions_, PAstproductions _astproductions_)
+        public AGrammar(PPackage _package_, PHelpers _helpers_, PStates _states_, PTokens _tokens_, PIgnoredtokens _ignoredtokens_, PProductions _productions_, PAstproductions _astproductions_, PHighlightrules _highlightrules_)
         {
             this.Package = _package_;
             this.Helpers = _helpers_;
@@ -27,6 +28,7 @@ namespace SablePP.Compiler.Nodes
             this.Ignoredtokens = _ignoredtokens_;
             this.Productions = _productions_;
             this.Astproductions = _astproductions_;
+            this.Highlightrules = _highlightrules_;
         }
         
         public PPackage Package
@@ -148,6 +150,23 @@ namespace SablePP.Compiler.Nodes
         {
             get { return _astproductions_ != null; }
         }
+        public PHighlightrules Highlightrules
+        {
+            get { return _highlightrules_; }
+            set
+            {
+                if (_highlightrules_ != null)
+                    SetParent(_highlightrules_, null);
+                if (value != null)
+                    SetParent(value, this);
+                
+                _highlightrules_ = value;
+            }
+        }
+        public bool HasHighlightrules
+        {
+            get { return _highlightrules_ != null; }
+        }
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
@@ -193,6 +212,12 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Astproductions = newChild as PAstproductions;
             }
+            else if (Highlightrules == oldChild)
+            {
+                if (!(newChild is PHighlightrules) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Highlightrules = newChild as PHighlightrules;
+            }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
         protected override IEnumerable<Node> GetChildren()
@@ -211,15 +236,17 @@ namespace SablePP.Compiler.Nodes
                 yield return _productions_;
             if (HasAstproductions)
                 yield return _astproductions_;
+            if (HasHighlightrules)
+                yield return _highlightrules_;
         }
         
         public override PGrammar Clone()
         {
-            return new AGrammar(_package_.Clone(), _helpers_.Clone(), _states_.Clone(), _tokens_.Clone(), _ignoredtokens_.Clone(), _productions_.Clone(), _astproductions_.Clone());
+            return new AGrammar(_package_.Clone(), _helpers_.Clone(), _states_.Clone(), _tokens_.Clone(), _ignoredtokens_.Clone(), _productions_.Clone(), _astproductions_.Clone(), _highlightrules_.Clone());
         }
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3} {4} {5} {6}", _package_, _helpers_, _states_, _tokens_, _ignoredtokens_, _productions_, _astproductions_);
+            return string.Format("{0} {1} {2} {3} {4} {5} {6} {7}", _package_, _helpers_, _states_, _tokens_, _ignoredtokens_, _productions_, _astproductions_, _highlightrules_);
         }
     }
     public abstract partial class PPackage : Production<PPackage>

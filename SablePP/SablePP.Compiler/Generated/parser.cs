@@ -2776,6 +2776,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -2788,6 +2789,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
+                  null,
                   null,
                   null,
                   null,
@@ -2806,6 +2808,7 @@ namespace SablePP.Compiler.Parsing
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
+                  null,
                   null,
                   null,
                   null,
@@ -2829,6 +2832,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -2843,6 +2847,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pstatesNode4,
+                  null,
                   null,
                   null,
                   null,
@@ -2865,6 +2870,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -2881,6 +2887,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   phelpersNode3,
                   pstatesNode4,
+                  null,
                   null,
                   null,
                   null,
@@ -2905,6 +2912,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -2920,6 +2928,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   ptokensNode5,
+                  null,
                   null,
                   null,
                   null
@@ -2941,6 +2950,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -2958,6 +2968,7 @@ namespace SablePP.Compiler.Parsing
                   phelpersNode3,
                   null,
                   ptokensNode5,
+                  null,
                   null,
                   null,
                   null
@@ -2981,6 +2992,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -2998,6 +3010,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pstatesNode4,
                   ptokensNode5,
+                  null,
                   null,
                   null,
                   null
@@ -3021,6 +3034,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3040,6 +3054,7 @@ namespace SablePP.Compiler.Parsing
                   phelpersNode3,
                   pstatesNode4,
                   ptokensNode5,
+                  null,
                   null,
                   null,
                   null
@@ -3065,6 +3080,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3081,6 +3097,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pignoredtokensNode6,
+                  null,
                   null,
                   null
             );
@@ -3101,6 +3118,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3119,6 +3137,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pignoredtokensNode6,
+                  null,
                   null,
                   null
             );
@@ -3141,6 +3160,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3159,6 +3179,7 @@ namespace SablePP.Compiler.Parsing
                   pstatesNode4,
                   null,
                   pignoredtokensNode6,
+                  null,
                   null,
                   null
             );
@@ -3181,6 +3202,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3201,6 +3223,7 @@ namespace SablePP.Compiler.Parsing
                   pstatesNode4,
                   null,
                   pignoredtokensNode6,
+                  null,
                   null,
                   null
             );
@@ -3225,6 +3248,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3243,6 +3267,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   ptokensNode5,
                   pignoredtokensNode6,
+                  null,
                   null,
                   null
             );
@@ -3265,6 +3290,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3285,6 +3311,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   ptokensNode5,
                   pignoredtokensNode6,
+                  null,
                   null,
                   null
             );
@@ -3309,6 +3336,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3329,6 +3357,7 @@ namespace SablePP.Compiler.Parsing
                   pstatesNode4,
                   ptokensNode5,
                   pignoredtokensNode6,
+                  null,
                   null,
                   null
             );
@@ -3353,6 +3382,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3375,6 +3405,7 @@ namespace SablePP.Compiler.Parsing
                   pstatesNode4,
                   ptokensNode5,
                   pignoredtokensNode6,
+                  null,
                   null,
                   null
             );
@@ -3401,6 +3432,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3418,6 +3450,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3437,6 +3470,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3456,6 +3490,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3477,6 +3512,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3496,6 +3532,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3517,6 +3554,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3538,6 +3576,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3561,6 +3600,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3580,6 +3620,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3601,6 +3642,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3622,6 +3664,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3645,6 +3688,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3666,6 +3710,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3689,6 +3734,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3712,6 +3758,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3737,6 +3784,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3756,6 +3804,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3777,6 +3826,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3798,6 +3848,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3821,6 +3872,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3842,6 +3894,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3865,6 +3918,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3888,6 +3942,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3913,6 +3968,7 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3934,6 +3990,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3957,6 +4014,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -3980,6 +4038,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -4005,6 +4064,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -4028,6 +4088,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -4053,6 +4114,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -4078,6 +4140,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -4105,6 +4168,7 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
+                  null,
                   null
             );
             nodeList.Add(pgrammarNode1);
@@ -4122,7 +4186,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4141,7 +4206,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4160,7 +4226,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4181,7 +4248,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4200,7 +4268,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4221,7 +4290,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4242,7 +4312,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4265,7 +4336,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4284,7 +4356,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4305,7 +4378,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4326,7 +4400,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4349,7 +4424,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4370,7 +4446,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4393,7 +4470,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4416,7 +4494,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4441,7 +4520,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4460,7 +4540,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4481,7 +4562,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4502,7 +4584,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4525,7 +4608,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4546,7 +4630,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4569,7 +4654,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4592,7 +4678,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4617,7 +4704,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4638,7 +4726,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4661,7 +4750,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4684,7 +4774,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4709,7 +4800,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4732,7 +4824,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4757,7 +4850,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4782,7 +4876,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4809,7 +4904,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4828,7 +4924,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4849,7 +4946,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4870,7 +4968,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4893,7 +4992,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4914,7 +5014,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4937,7 +5038,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4960,7 +5062,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -4985,7 +5088,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5006,7 +5110,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5029,7 +5134,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5052,7 +5158,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5077,7 +5184,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5100,7 +5208,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5125,7 +5234,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5150,7 +5260,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5177,7 +5288,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5198,7 +5310,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5221,7 +5334,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5244,7 +5358,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5269,7 +5384,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5292,7 +5408,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5317,7 +5434,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5342,7 +5460,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5369,7 +5488,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5392,7 +5512,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5417,7 +5538,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5442,7 +5564,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5469,7 +5592,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5494,7 +5618,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5521,7 +5646,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5548,7 +5674,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5577,7 +5704,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  null
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5586,6 +5714,7 @@ namespace SablePP.Compiler.Parsing
         {
             ArrayList nodeList = new ArrayList();
             ArrayList nodeArrayList1 = (ArrayList)Pop();
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList1[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -5593,7 +5722,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5604,6 +5734,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList2 = (ArrayList)Pop();
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList2[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -5611,7 +5742,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5622,6 +5754,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList2 = (ArrayList)Pop();
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList2[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -5629,7 +5762,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5642,6 +5776,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -5649,7 +5784,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5660,6 +5796,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList2 = (ArrayList)Pop();
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PStates pstatesNode4 = (PStates)nodeArrayList1[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList2[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -5667,7 +5804,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5680,6 +5818,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -5687,7 +5826,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5700,6 +5840,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -5707,7 +5848,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5722,6 +5864,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PStates pstatesNode4 = (PStates)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -5729,7 +5872,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5740,6 +5884,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList2 = (ArrayList)Pop();
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PTokens ptokensNode5 = (PTokens)nodeArrayList1[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList2[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -5747,7 +5892,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5760,6 +5906,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -5767,7 +5914,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5780,6 +5928,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -5787,7 +5936,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5802,6 +5952,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -5809,7 +5960,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5822,6 +5974,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PStates pstatesNode4 = (PStates)nodeArrayList1[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -5829,7 +5982,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5844,6 +5998,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -5851,7 +6006,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5866,6 +6022,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -5873,7 +6030,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5890,6 +6048,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PStates pstatesNode4 = (PStates)nodeArrayList3[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -5897,7 +6056,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5908,6 +6068,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList2 = (ArrayList)Pop();
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList1[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList2[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -5915,7 +6076,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5928,6 +6090,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -5935,7 +6098,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5948,6 +6112,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -5955,7 +6120,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5970,6 +6136,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -5977,7 +6144,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -5990,6 +6158,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PStates pstatesNode4 = (PStates)nodeArrayList1[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -5997,7 +6166,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6012,6 +6182,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -6019,7 +6190,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6034,6 +6206,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -6041,7 +6214,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6058,6 +6232,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PStates pstatesNode4 = (PStates)nodeArrayList3[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -6065,7 +6240,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6078,6 +6254,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PTokens ptokensNode5 = (PTokens)nodeArrayList1[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -6085,7 +6262,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6100,6 +6278,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -6107,7 +6286,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6122,6 +6302,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -6129,7 +6310,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6146,6 +6328,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -6153,7 +6336,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6168,6 +6352,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList1[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -6175,7 +6360,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6192,6 +6378,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -6199,7 +6386,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6216,6 +6404,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -6223,7 +6412,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6242,6 +6432,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList3[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList4[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -6249,7 +6440,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6260,6 +6452,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList2 = (ArrayList)Pop();
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PProductions pproductionsNode7 = (PProductions)nodeArrayList1[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList2[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -6267,7 +6460,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6280,6 +6474,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -6287,7 +6482,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6300,6 +6496,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -6307,7 +6504,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6322,6 +6520,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -6329,7 +6528,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6342,6 +6542,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PStates pstatesNode4 = (PStates)nodeArrayList1[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -6349,7 +6550,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6364,6 +6566,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -6371,7 +6574,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6386,6 +6590,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -6393,7 +6598,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6410,6 +6616,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PStates pstatesNode4 = (PStates)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -6417,7 +6624,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6430,6 +6638,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PTokens ptokensNode5 = (PTokens)nodeArrayList1[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -6437,7 +6646,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6452,6 +6662,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -6459,7 +6670,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6474,6 +6686,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -6481,7 +6694,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6498,6 +6712,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -6505,7 +6720,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6520,6 +6736,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList1[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -6527,7 +6744,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6544,6 +6762,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -6551,7 +6770,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6568,6 +6788,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -6575,7 +6796,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6594,6 +6816,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList3[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList4[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -6601,7 +6824,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6614,6 +6838,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList1[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -6621,7 +6846,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6636,6 +6862,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -6643,7 +6870,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6658,6 +6886,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -6665,7 +6894,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6682,6 +6912,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -6689,7 +6920,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6704,6 +6936,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList1[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -6711,7 +6944,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6728,6 +6962,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -6735,7 +6970,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6752,6 +6988,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -6759,7 +6996,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6778,6 +7016,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList3[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -6785,7 +7024,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6800,6 +7040,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList1[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -6807,7 +7048,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6824,6 +7066,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -6831,7 +7074,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6848,6 +7092,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -6855,7 +7100,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6874,6 +7120,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -6881,7 +7128,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6898,6 +7146,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -6905,7 +7154,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6924,6 +7174,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -6931,7 +7182,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6950,6 +7202,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -6957,7 +7210,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6978,6 +7232,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList4[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList5[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList6[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList7[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -6985,7 +7240,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  null
+                  null,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -6996,6 +7252,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList2 = (ArrayList)Pop();
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList1[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList2[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -7003,7 +7260,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7016,6 +7274,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -7023,7 +7282,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7036,6 +7296,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -7043,7 +7304,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7058,6 +7320,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -7065,7 +7328,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7078,6 +7342,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PStates pstatesNode4 = (PStates)nodeArrayList1[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -7085,7 +7350,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7100,6 +7366,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -7107,7 +7374,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7122,6 +7390,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -7129,7 +7398,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7146,6 +7416,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PStates pstatesNode4 = (PStates)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -7153,7 +7424,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7166,6 +7438,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PTokens ptokensNode5 = (PTokens)nodeArrayList1[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -7173,7 +7446,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7188,6 +7462,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -7195,7 +7470,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7210,6 +7486,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -7217,7 +7494,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7234,6 +7512,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -7241,7 +7520,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7256,6 +7536,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList1[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -7263,7 +7544,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7280,6 +7562,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -7287,7 +7570,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7304,6 +7588,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -7311,7 +7596,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7330,6 +7616,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList3[0];
             PTokens ptokensNode5 = (PTokens)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -7337,7 +7624,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7350,6 +7638,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList1[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -7357,7 +7646,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7372,6 +7662,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -7379,7 +7670,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7394,6 +7686,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -7401,7 +7694,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7418,6 +7712,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -7425,7 +7720,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7440,6 +7736,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList1[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -7447,7 +7744,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7464,6 +7762,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -7471,7 +7770,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7488,6 +7788,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -7495,7 +7796,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7514,6 +7816,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList3[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -7521,7 +7824,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7536,6 +7840,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList1[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -7543,7 +7848,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7560,6 +7866,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -7567,7 +7874,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7584,6 +7892,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -7591,7 +7900,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7610,6 +7920,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -7617,7 +7928,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7634,6 +7946,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -7641,7 +7954,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7660,6 +7974,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -7667,7 +7982,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7686,6 +8002,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -7693,7 +8010,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7714,6 +8032,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList4[0];
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList5[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList6[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList7[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -7721,7 +8040,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   null,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7734,6 +8054,7 @@ namespace SablePP.Compiler.Parsing
             ArrayList nodeArrayList1 = (ArrayList)Pop();
             PProductions pproductionsNode7 = (PProductions)nodeArrayList1[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList2[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList3[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -7741,7 +8062,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7756,6 +8078,7 @@ namespace SablePP.Compiler.Parsing
             PPackage ppackageNode2 = (PPackage)nodeArrayList1[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -7763,7 +8086,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7778,6 +8102,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList1[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -7785,7 +8110,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7802,6 +8128,7 @@ namespace SablePP.Compiler.Parsing
             PHelpers phelpersNode3 = (PHelpers)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -7809,7 +8136,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7824,6 +8152,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList1[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -7831,7 +8160,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7848,6 +8178,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -7855,7 +8186,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7872,6 +8204,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -7879,7 +8212,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7898,6 +8232,7 @@ namespace SablePP.Compiler.Parsing
             PStates pstatesNode4 = (PStates)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -7905,7 +8240,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7920,6 +8256,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList1[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -7927,7 +8264,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7944,6 +8282,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -7951,7 +8290,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7968,6 +8308,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -7975,7 +8316,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -7994,6 +8336,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -8001,7 +8344,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8018,6 +8362,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -8025,7 +8370,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8044,6 +8390,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -8051,7 +8398,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8070,6 +8418,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -8077,7 +8426,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8098,6 +8448,7 @@ namespace SablePP.Compiler.Parsing
             PTokens ptokensNode5 = (PTokens)nodeArrayList4[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList5[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList6[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList7[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -8105,7 +8456,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   null,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8120,6 +8472,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList1[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList2[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList3[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList4[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -8127,7 +8480,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8144,6 +8498,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -8151,7 +8506,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8168,6 +8524,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -8175,7 +8532,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8194,6 +8552,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -8201,7 +8560,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8218,6 +8578,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -8225,7 +8586,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8244,6 +8606,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -8251,7 +8614,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8270,6 +8634,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -8277,7 +8642,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8298,6 +8664,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList5[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList6[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList7[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -8305,7 +8672,8 @@ namespace SablePP.Compiler.Parsing
                   null,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8322,6 +8690,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList2[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList3[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList4[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList5[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -8329,7 +8698,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8348,6 +8718,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -8355,7 +8726,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8374,6 +8746,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -8381,7 +8754,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8402,6 +8776,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList5[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList6[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList7[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -8409,7 +8784,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8428,6 +8804,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList3[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList4[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList5[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList6[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   null,
@@ -8435,7 +8812,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8456,6 +8834,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList5[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList6[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList7[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   null,
@@ -8463,7 +8842,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8484,6 +8864,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList4[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList5[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList6[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList7[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   null,
                   phelpersNode3,
@@ -8491,7 +8872,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
@@ -8514,6 +8896,7 @@ namespace SablePP.Compiler.Parsing
             PIgnoredtokens pignoredtokensNode6 = (PIgnoredtokens)nodeArrayList5[0];
             PProductions pproductionsNode7 = (PProductions)nodeArrayList6[0];
             PAstproductions pastproductionsNode8 = (PAstproductions)nodeArrayList7[0];
+            PHighlightrules phighlightrulesNode9 = (PHighlightrules)nodeArrayList8[0];
             AGrammar pgrammarNode1 = new AGrammar(
                   ppackageNode2,
                   phelpersNode3,
@@ -8521,7 +8904,8 @@ namespace SablePP.Compiler.Parsing
                   ptokensNode5,
                   pignoredtokensNode6,
                   pproductionsNode7,
-                  pastproductionsNode8
+                  pastproductionsNode8,
+                  phighlightrulesNode9
             );
             nodeList.Add(pgrammarNode1);
             return nodeList;
