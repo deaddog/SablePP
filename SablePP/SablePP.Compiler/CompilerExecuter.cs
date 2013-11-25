@@ -27,6 +27,14 @@ namespace SablePP.Compiler
 
         partial void PerformValidation(Start<PGrammar> root, ErrorManager errorManager)
         {
+            ValidatePreSable(root, errorManager);
+
+            if (errorManager.Count == 0 && runSable)
+                ValidateWithSableCC(root, errorManager);
+        }
+
+        private void ValidatePreSable(Start<PGrammar> root, ErrorManager errorManager)
+        {
             if (root.Root is AGrammar)
             {
                 AGrammar grammar = root.Root as AGrammar;
@@ -55,11 +63,7 @@ namespace SablePP.Compiler
 
             var linktest = new SymbolLinking.DeclarationVisitor(errorManager);
             linktest.Visit(root);
-
-            if (errorManager.Count == 0 && runSable)
-                ValidateWithSableCC(root, errorManager);
         }
-
         private void ValidateWithSableCC(Start<PGrammar> root, ErrorManager errorManager)
         {
             using (FileStream fss = new FileStream(PathInformation.TemporarySableGrammarPath, FileMode.Create))
