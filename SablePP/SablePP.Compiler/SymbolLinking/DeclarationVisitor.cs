@@ -41,6 +41,9 @@ namespace SablePP.Compiler.SymbolLinking
 
             if (node.HasProductions)
                 TranslationVisitor.SetIdentifiersInTranslations(node.Productions, declarations, this.ErrorManager);
+
+            if(node.HasHighlightrules)
+                TokenHighlightVisitor.LoadTokenDeclarations(node.Highlightrules, declarations, this.ErrorManager);
         }
     }
 }
