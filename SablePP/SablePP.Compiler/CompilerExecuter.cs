@@ -139,14 +139,14 @@ namespace SablePP.Compiler
 
                 try { node = parser.Parse(); }
                 catch (LexerException e) { node = null; }
-                catch (ParserException e) { node = true; }
+                catch (ParserException e) { node = null; }
             }
             if (node != null)
-                return Generate(node);
+                return Generate(node, directory);
             else
                 return false;
         }
-        public bool Generate(Start<PGrammar> root)
+        public bool Generate(Start<PGrammar> root, string directory)
         {
             ErrorManager manager = new ErrorManager();
 
