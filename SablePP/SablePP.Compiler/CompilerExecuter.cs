@@ -158,7 +158,28 @@ namespace SablePP.Compiler
             if (manager.Count > 0)
                 return false;
 
-            throw new NotImplementedException();
+
+            using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\tokens.cs", FileMode.Create))
+                CodeStreamWriter.Generate(fs, TokenNodes.BuildCode(root));
+
+            using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\prods.cs", FileMode.Create))
+                CodeStreamWriter.Generate(fs, ProductionNodes.BuildCode(root));
+
+            using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\analysis.cs", FileMode.Create))
+                CodeStreamWriter.Generate(fs, AnalysisBuilder.BuildCode(root));
+
+            ParserModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\parser.cs", root);
+            LexerModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\lexer.cs", root);
+
+            using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\CompilerExecuter.cs", FileMode.Create))
+                CodeStreamWriter.Generate(fs, CompilerExecuterBuilder.Build(root));
+
+            directory = directory.TrimEnd('\\');
+
+            foreach (var file in new[] { "tokens.cs", "prods.cs", "analysis.cs", "parser.cs", "lexer.cs", "CompilerExecuter.cs" })
+                File.Copy(PathInformation.SableOutputDirectory + "\\" + file, directory + "\\" + file, true);
+
+            return true;
         }
     }
 }
