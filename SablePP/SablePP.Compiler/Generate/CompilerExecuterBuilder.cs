@@ -8,8 +8,10 @@ using SablePP.Tools.Nodes;
 
 namespace SablePP.Compiler.Generate
 {
-    public static class CompilerExecuterBuilder
+    public class CompilerExecuterBuilder : GenerateVisitor
     {
+        #region Class setup
+
         public static FileElement Build(Start<PGrammar> root)
         {
             string packageName = root.Root.PackageName;
@@ -257,5 +259,7 @@ namespace SablePP.Compiler.Generate
             method.EmitNull();
             method.EmitSemicolon(true);
         }
+
+        #endregion
     }
 }
