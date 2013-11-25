@@ -20,7 +20,7 @@ namespace SablePP.Tools.Editor
             if (error.Start.LinePosition < 0 || error.Start.LineNumber < 0)
                 text = "[N/A] " + error.ErrorMessage;
             else
-                text = string.Format("[{0}, {1}] {2}", error.Start.LineNumber + 1, error.Start.LinePosition + 1, error.ErrorMessage);
+                text = string.Format("[{0}, {1}] {2}", error.Start.LineNumber, error.Start.LinePosition, error.ErrorMessage);
 
             if (this.Text.Length == 0)
                 this.Text = text;
