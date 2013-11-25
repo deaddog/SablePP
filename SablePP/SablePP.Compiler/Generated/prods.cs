@@ -2344,6 +2344,54 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0}", _listitem_);
         }
     }
+    public partial class AStyleList : PList
+    {
+        private NodeList<PListitem> _listitem_;
+        
+        public AStyleList(IEnumerable<PListitem> _listitem_)
+        {
+            this._listitem_ = new NodeList<PListitem>(this, _listitem_, false);
+        }
+        
+        public NodeList<PListitem> Listitem
+        {
+            get { return _listitem_; }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (oldChild is PListitem && _listitem_.Contains(oldChild as PListitem))
+            {
+                if (!(newChild is PListitem) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                
+                int index = _listitem_.IndexOf(oldChild as PListitem);
+                if (newChild == null)
+                    _listitem_.RemoveAt(index);
+                else
+                    _listitem_[index] = newChild as PListitem;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            {
+                PListitem[] temp = new PListitem[_listitem_.Count];
+                _listitem_.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
+        }
+        
+        public override PList Clone()
+        {
+            return new AStyleList(_listitem_);
+        }
+        public override string ToString()
+        {
+            return string.Format("{0}", _listitem_);
+        }
+    }
     public abstract partial class PListitem : Production<PListitem>
     {
     }
@@ -2691,6 +2739,81 @@ namespace SablePP.Compiler.Nodes
         public override string ToString()
         {
             return string.Format("{0} {1}", _comma_, _translation_);
+        }
+    }
+    public partial class AStyleListitem : PListitem
+    {
+        private TComma _comma_;
+        private PHighlightStyle _highlight_style_;
+        
+        public AStyleListitem(TComma _comma_, PHighlightStyle _highlight_style_)
+        {
+            this.Comma = _comma_;
+            this.HighlightStyle = _highlight_style_;
+        }
+        
+        public TComma Comma
+        {
+            get { return _comma_; }
+            set
+            {
+                if (_comma_ != null)
+                    SetParent(_comma_, null);
+                if (value != null)
+                    SetParent(value, this);
+                
+                _comma_ = value;
+            }
+        }
+        public bool HasComma
+        {
+            get { return _comma_ != null; }
+        }
+        public PHighlightStyle HighlightStyle
+        {
+            get { return _highlight_style_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("HighlightStyle in AStyleListitem cannot be null.", "value");
+                SetParent(value, this);
+                
+                _highlight_style_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Comma == oldChild)
+            {
+                if (!(newChild is TComma) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Comma = newChild as TComma;
+            }
+            else if (HighlightStyle == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("HighlightStyle in AStyleListitem cannot be null.", "newChild");
+                if (!(newChild is PHighlightStyle) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                HighlightStyle = newChild as PHighlightStyle;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            if (HasComma)
+                yield return _comma_;
+            yield return _highlight_style_;
+        }
+        
+        public override PListitem Clone()
+        {
+            return new AStyleListitem(_comma_.Clone(), _highlight_style_.Clone());
+        }
+        public override string ToString()
+        {
+            return string.Format("{0} {1}", _comma_, _highlight_style_);
         }
     }
     public abstract partial class PProductions : Production<PProductions>
@@ -5318,6 +5441,1002 @@ namespace SablePP.Compiler.Nodes
         public override string ToString()
         {
             return string.Format("{0} {1} {2}", _production_specifier_, _dot_, _identifier_);
+        }
+    }
+    public abstract partial class PHighlightrules : Production<PHighlightrules>
+    {
+    }
+    public partial class AHighlightrules : PHighlightrules
+    {
+        private THighlighttoken _highlighttoken_;
+        private NodeList<PHighlightrule> _highlightrule_;
+        
+        public AHighlightrules(THighlighttoken _highlighttoken_, IEnumerable<PHighlightrule> _highlightrule_)
+        {
+            this.Highlighttoken = _highlighttoken_;
+            this._highlightrule_ = new NodeList<PHighlightrule>(this, _highlightrule_, false);
+        }
+        
+        public THighlighttoken Highlighttoken
+        {
+            get { return _highlighttoken_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Highlighttoken in AHighlightrules cannot be null.", "value");
+                SetParent(value, this);
+                
+                _highlighttoken_ = value;
+            }
+        }
+        public NodeList<PHighlightrule> Highlightrule
+        {
+            get { return _highlightrule_; }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Highlighttoken == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Highlighttoken in AHighlightrules cannot be null.", "newChild");
+                if (!(newChild is THighlighttoken) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Highlighttoken = newChild as THighlighttoken;
+            }
+            else if (oldChild is PHighlightrule && _highlightrule_.Contains(oldChild as PHighlightrule))
+            {
+                if (!(newChild is PHighlightrule) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                
+                int index = _highlightrule_.IndexOf(oldChild as PHighlightrule);
+                if (newChild == null)
+                    _highlightrule_.RemoveAt(index);
+                else
+                    _highlightrule_[index] = newChild as PHighlightrule;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return _highlighttoken_;
+            {
+                PHighlightrule[] temp = new PHighlightrule[_highlightrule_.Count];
+                _highlightrule_.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
+        }
+        
+        public override PHighlightrules Clone()
+        {
+            return new AHighlightrules(_highlighttoken_.Clone(), _highlightrule_);
+        }
+        public override string ToString()
+        {
+            return string.Format("{0} {1}", _highlighttoken_, _highlightrule_);
+        }
+    }
+    public abstract partial class PHighlightrule : Production<PHighlightrule>
+    {
+    }
+    public partial class AHighlightrule : PHighlightrule
+    {
+        private TIdentifier _name_;
+        private TLBrace _lpar_;
+        private PList _tokens_;
+        private TRBrace _rpar_;
+        private PList _list_;
+        private TSemicolon _semicolon_;
+        
+        public AHighlightrule(TIdentifier _name_, TLBrace _lpar_, PList _tokens_, TRBrace _rpar_, PList _list_, TSemicolon _semicolon_)
+        {
+            this.Name = _name_;
+            this.Lpar = _lpar_;
+            this.Tokens = _tokens_;
+            this.Rpar = _rpar_;
+            this.List = _list_;
+            this.Semicolon = _semicolon_;
+        }
+        
+        public TIdentifier Name
+        {
+            get { return _name_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Name in AHighlightrule cannot be null.", "value");
+                SetParent(value, this);
+                
+                _name_ = value;
+            }
+        }
+        public TLBrace Lpar
+        {
+            get { return _lpar_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Lpar in AHighlightrule cannot be null.", "value");
+                SetParent(value, this);
+                
+                _lpar_ = value;
+            }
+        }
+        public PList Tokens
+        {
+            get { return _tokens_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Tokens in AHighlightrule cannot be null.", "value");
+                SetParent(value, this);
+                
+                _tokens_ = value;
+            }
+        }
+        public TRBrace Rpar
+        {
+            get { return _rpar_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Rpar in AHighlightrule cannot be null.", "value");
+                SetParent(value, this);
+                
+                _rpar_ = value;
+            }
+        }
+        public PList List
+        {
+            get { return _list_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("List in AHighlightrule cannot be null.", "value");
+                SetParent(value, this);
+                
+                _list_ = value;
+            }
+        }
+        public TSemicolon Semicolon
+        {
+            get { return _semicolon_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Semicolon in AHighlightrule cannot be null.", "value");
+                SetParent(value, this);
+                
+                _semicolon_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Name == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Name in AHighlightrule cannot be null.", "newChild");
+                if (!(newChild is TIdentifier) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Name = newChild as TIdentifier;
+            }
+            else if (Lpar == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Lpar in AHighlightrule cannot be null.", "newChild");
+                if (!(newChild is TLBrace) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Lpar = newChild as TLBrace;
+            }
+            else if (Tokens == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Tokens in AHighlightrule cannot be null.", "newChild");
+                if (!(newChild is PList) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Tokens = newChild as PList;
+            }
+            else if (Rpar == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Rpar in AHighlightrule cannot be null.", "newChild");
+                if (!(newChild is TRBrace) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Rpar = newChild as TRBrace;
+            }
+            else if (List == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("List in AHighlightrule cannot be null.", "newChild");
+                if (!(newChild is PList) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                List = newChild as PList;
+            }
+            else if (Semicolon == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Semicolon in AHighlightrule cannot be null.", "newChild");
+                if (!(newChild is TSemicolon) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Semicolon = newChild as TSemicolon;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return _name_;
+            yield return _lpar_;
+            yield return _tokens_;
+            yield return _rpar_;
+            yield return _list_;
+            yield return _semicolon_;
+        }
+        
+        public override PHighlightrule Clone()
+        {
+            return new AHighlightrule(_name_.Clone(), _lpar_.Clone(), _tokens_.Clone(), _rpar_.Clone(), _list_.Clone(), _semicolon_.Clone());
+        }
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2} {3} {4} {5}", _name_, _lpar_, _tokens_, _rpar_, _list_, _semicolon_);
+        }
+    }
+    public abstract partial class PHighlightStyle : Production<PHighlightStyle>
+    {
+    }
+    public partial class AItalicHighlightStyle : PHighlightStyle
+    {
+        private TItalic _italic_;
+        
+        public AItalicHighlightStyle(TItalic _italic_)
+        {
+            this.Italic = _italic_;
+        }
+        
+        public TItalic Italic
+        {
+            get { return _italic_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Italic in AItalicHighlightStyle cannot be null.", "value");
+                SetParent(value, this);
+                
+                _italic_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Italic == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Italic in AItalicHighlightStyle cannot be null.", "newChild");
+                if (!(newChild is TItalic) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Italic = newChild as TItalic;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return _italic_;
+        }
+        
+        public override PHighlightStyle Clone()
+        {
+            return new AItalicHighlightStyle(_italic_.Clone());
+        }
+        public override string ToString()
+        {
+            return string.Format("{0}", _italic_);
+        }
+    }
+    public partial class ABoldHighlightStyle : PHighlightStyle
+    {
+        private TBold _bold_;
+        
+        public ABoldHighlightStyle(TBold _bold_)
+        {
+            this.Bold = _bold_;
+        }
+        
+        public TBold Bold
+        {
+            get { return _bold_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Bold in ABoldHighlightStyle cannot be null.", "value");
+                SetParent(value, this);
+                
+                _bold_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Bold == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Bold in ABoldHighlightStyle cannot be null.", "newChild");
+                if (!(newChild is TBold) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Bold = newChild as TBold;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return _bold_;
+        }
+        
+        public override PHighlightStyle Clone()
+        {
+            return new ABoldHighlightStyle(_bold_.Clone());
+        }
+        public override string ToString()
+        {
+            return string.Format("{0}", _bold_);
+        }
+    }
+    public partial class ATextHighlightStyle : PHighlightStyle
+    {
+        private TText _text_;
+        private TColon _colon_;
+        private PColor _color_;
+        
+        public ATextHighlightStyle(TText _text_, TColon _colon_, PColor _color_)
+        {
+            this.Text = _text_;
+            this.Colon = _colon_;
+            this.Color = _color_;
+        }
+        
+        public TText Text
+        {
+            get { return _text_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Text in ATextHighlightStyle cannot be null.", "value");
+                SetParent(value, this);
+                
+                _text_ = value;
+            }
+        }
+        public TColon Colon
+        {
+            get { return _colon_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Colon in ATextHighlightStyle cannot be null.", "value");
+                SetParent(value, this);
+                
+                _colon_ = value;
+            }
+        }
+        public PColor Color
+        {
+            get { return _color_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Color in ATextHighlightStyle cannot be null.", "value");
+                SetParent(value, this);
+                
+                _color_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Text == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Text in ATextHighlightStyle cannot be null.", "newChild");
+                if (!(newChild is TText) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Text = newChild as TText;
+            }
+            else if (Colon == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Colon in ATextHighlightStyle cannot be null.", "newChild");
+                if (!(newChild is TColon) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Colon = newChild as TColon;
+            }
+            else if (Color == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Color in ATextHighlightStyle cannot be null.", "newChild");
+                if (!(newChild is PColor) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Color = newChild as PColor;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return _text_;
+            yield return _colon_;
+            yield return _color_;
+        }
+        
+        public override PHighlightStyle Clone()
+        {
+            return new ATextHighlightStyle(_text_.Clone(), _colon_.Clone(), _color_.Clone());
+        }
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2}", _text_, _colon_, _color_);
+        }
+    }
+    public partial class ABackgroundHighlightStyle : PHighlightStyle
+    {
+        private TBackground _background_;
+        private TColon _colon_;
+        private PColor _color_;
+        
+        public ABackgroundHighlightStyle(TBackground _background_, TColon _colon_, PColor _color_)
+        {
+            this.Background = _background_;
+            this.Colon = _colon_;
+            this.Color = _color_;
+        }
+        
+        public TBackground Background
+        {
+            get { return _background_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Background in ABackgroundHighlightStyle cannot be null.", "value");
+                SetParent(value, this);
+                
+                _background_ = value;
+            }
+        }
+        public TColon Colon
+        {
+            get { return _colon_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Colon in ABackgroundHighlightStyle cannot be null.", "value");
+                SetParent(value, this);
+                
+                _colon_ = value;
+            }
+        }
+        public PColor Color
+        {
+            get { return _color_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Color in ABackgroundHighlightStyle cannot be null.", "value");
+                SetParent(value, this);
+                
+                _color_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Background == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Background in ABackgroundHighlightStyle cannot be null.", "newChild");
+                if (!(newChild is TBackground) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Background = newChild as TBackground;
+            }
+            else if (Colon == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Colon in ABackgroundHighlightStyle cannot be null.", "newChild");
+                if (!(newChild is TColon) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Colon = newChild as TColon;
+            }
+            else if (Color == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Color in ABackgroundHighlightStyle cannot be null.", "newChild");
+                if (!(newChild is PColor) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Color = newChild as PColor;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return _background_;
+            yield return _colon_;
+            yield return _color_;
+        }
+        
+        public override PHighlightStyle Clone()
+        {
+            return new ABackgroundHighlightStyle(_background_.Clone(), _colon_.Clone(), _color_.Clone());
+        }
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2}", _background_, _colon_, _color_);
+        }
+    }
+    public abstract partial class PColor : Production<PColor>
+    {
+    }
+    public partial class ARgbColor : PColor
+    {
+        private TRgb _rgb_;
+        private TLPar _l_par_;
+        private TDecChar _red_;
+        private TComma _comma1_;
+        private TDecChar _green_;
+        private TComma _comma2_;
+        private TDecChar _blue_;
+        private TRPar _r_par_;
+        
+        public ARgbColor(TRgb _rgb_, TLPar _l_par_, TDecChar _red_, TComma _comma1_, TDecChar _green_, TComma _comma2_, TDecChar _blue_, TRPar _r_par_)
+        {
+            this.Rgb = _rgb_;
+            this.LPar = _l_par_;
+            this.Red = _red_;
+            this.Comma1 = _comma1_;
+            this.Green = _green_;
+            this.Comma2 = _comma2_;
+            this.Blue = _blue_;
+            this.RPar = _r_par_;
+        }
+        
+        public TRgb Rgb
+        {
+            get { return _rgb_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Rgb in ARgbColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _rgb_ = value;
+            }
+        }
+        public TLPar LPar
+        {
+            get { return _l_par_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("LPar in ARgbColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _l_par_ = value;
+            }
+        }
+        public TDecChar Red
+        {
+            get { return _red_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Red in ARgbColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _red_ = value;
+            }
+        }
+        public TComma Comma1
+        {
+            get { return _comma1_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Comma1 in ARgbColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _comma1_ = value;
+            }
+        }
+        public TDecChar Green
+        {
+            get { return _green_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Green in ARgbColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _green_ = value;
+            }
+        }
+        public TComma Comma2
+        {
+            get { return _comma2_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Comma2 in ARgbColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _comma2_ = value;
+            }
+        }
+        public TDecChar Blue
+        {
+            get { return _blue_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Blue in ARgbColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _blue_ = value;
+            }
+        }
+        public TRPar RPar
+        {
+            get { return _r_par_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("RPar in ARgbColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _r_par_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Rgb == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Rgb in ARgbColor cannot be null.", "newChild");
+                if (!(newChild is TRgb) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Rgb = newChild as TRgb;
+            }
+            else if (LPar == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("LPar in ARgbColor cannot be null.", "newChild");
+                if (!(newChild is TLPar) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                LPar = newChild as TLPar;
+            }
+            else if (Red == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Red in ARgbColor cannot be null.", "newChild");
+                if (!(newChild is TDecChar) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Red = newChild as TDecChar;
+            }
+            else if (Comma1 == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Comma1 in ARgbColor cannot be null.", "newChild");
+                if (!(newChild is TComma) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Comma1 = newChild as TComma;
+            }
+            else if (Green == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Green in ARgbColor cannot be null.", "newChild");
+                if (!(newChild is TDecChar) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Green = newChild as TDecChar;
+            }
+            else if (Comma2 == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Comma2 in ARgbColor cannot be null.", "newChild");
+                if (!(newChild is TComma) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Comma2 = newChild as TComma;
+            }
+            else if (Blue == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Blue in ARgbColor cannot be null.", "newChild");
+                if (!(newChild is TDecChar) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Blue = newChild as TDecChar;
+            }
+            else if (RPar == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("RPar in ARgbColor cannot be null.", "newChild");
+                if (!(newChild is TRPar) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                RPar = newChild as TRPar;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return _rgb_;
+            yield return _l_par_;
+            yield return _red_;
+            yield return _comma1_;
+            yield return _green_;
+            yield return _comma2_;
+            yield return _blue_;
+            yield return _r_par_;
+        }
+        
+        public override PColor Clone()
+        {
+            return new ARgbColor(_rgb_.Clone(), _l_par_.Clone(), _red_.Clone(), _comma1_.Clone(), _green_.Clone(), _comma2_.Clone(), _blue_.Clone(), _r_par_.Clone());
+        }
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2} {3} {4} {5} {6} {7}", _rgb_, _l_par_, _red_, _comma1_, _green_, _comma2_, _blue_, _r_par_);
+        }
+    }
+    public partial class AHsvColor : PColor
+    {
+        private THsv _hsv_;
+        private TLPar _l_par_;
+        private TDecChar _hue_;
+        private TComma _comma1_;
+        private TDecChar _saturation_;
+        private TComma _comma2_;
+        private TDecChar _brightness_;
+        private TRPar _r_par_;
+        
+        public AHsvColor(THsv _hsv_, TLPar _l_par_, TDecChar _hue_, TComma _comma1_, TDecChar _saturation_, TComma _comma2_, TDecChar _brightness_, TRPar _r_par_)
+        {
+            this.Hsv = _hsv_;
+            this.LPar = _l_par_;
+            this.Hue = _hue_;
+            this.Comma1 = _comma1_;
+            this.Saturation = _saturation_;
+            this.Comma2 = _comma2_;
+            this.Brightness = _brightness_;
+            this.RPar = _r_par_;
+        }
+        
+        public THsv Hsv
+        {
+            get { return _hsv_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Hsv in AHsvColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _hsv_ = value;
+            }
+        }
+        public TLPar LPar
+        {
+            get { return _l_par_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("LPar in AHsvColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _l_par_ = value;
+            }
+        }
+        public TDecChar Hue
+        {
+            get { return _hue_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Hue in AHsvColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _hue_ = value;
+            }
+        }
+        public TComma Comma1
+        {
+            get { return _comma1_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Comma1 in AHsvColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _comma1_ = value;
+            }
+        }
+        public TDecChar Saturation
+        {
+            get { return _saturation_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Saturation in AHsvColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _saturation_ = value;
+            }
+        }
+        public TComma Comma2
+        {
+            get { return _comma2_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Comma2 in AHsvColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _comma2_ = value;
+            }
+        }
+        public TDecChar Brightness
+        {
+            get { return _brightness_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Brightness in AHsvColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _brightness_ = value;
+            }
+        }
+        public TRPar RPar
+        {
+            get { return _r_par_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("RPar in AHsvColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _r_par_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Hsv == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Hsv in AHsvColor cannot be null.", "newChild");
+                if (!(newChild is THsv) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Hsv = newChild as THsv;
+            }
+            else if (LPar == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("LPar in AHsvColor cannot be null.", "newChild");
+                if (!(newChild is TLPar) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                LPar = newChild as TLPar;
+            }
+            else if (Hue == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Hue in AHsvColor cannot be null.", "newChild");
+                if (!(newChild is TDecChar) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Hue = newChild as TDecChar;
+            }
+            else if (Comma1 == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Comma1 in AHsvColor cannot be null.", "newChild");
+                if (!(newChild is TComma) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Comma1 = newChild as TComma;
+            }
+            else if (Saturation == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Saturation in AHsvColor cannot be null.", "newChild");
+                if (!(newChild is TDecChar) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Saturation = newChild as TDecChar;
+            }
+            else if (Comma2 == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Comma2 in AHsvColor cannot be null.", "newChild");
+                if (!(newChild is TComma) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Comma2 = newChild as TComma;
+            }
+            else if (Brightness == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Brightness in AHsvColor cannot be null.", "newChild");
+                if (!(newChild is TDecChar) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Brightness = newChild as TDecChar;
+            }
+            else if (RPar == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("RPar in AHsvColor cannot be null.", "newChild");
+                if (!(newChild is TRPar) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                RPar = newChild as TRPar;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return _hsv_;
+            yield return _l_par_;
+            yield return _hue_;
+            yield return _comma1_;
+            yield return _saturation_;
+            yield return _comma2_;
+            yield return _brightness_;
+            yield return _r_par_;
+        }
+        
+        public override PColor Clone()
+        {
+            return new AHsvColor(_hsv_.Clone(), _l_par_.Clone(), _hue_.Clone(), _comma1_.Clone(), _saturation_.Clone(), _comma2_.Clone(), _brightness_.Clone(), _r_par_.Clone());
+        }
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2} {3} {4} {5} {6} {7}", _hsv_, _l_par_, _hue_, _comma1_, _saturation_, _comma2_, _brightness_, _r_par_);
+        }
+    }
+    public partial class AHexColor : PColor
+    {
+        private THexColor _color_;
+        
+        public AHexColor(THexColor _color_)
+        {
+            this.Color = _color_;
+        }
+        
+        public THexColor Color
+        {
+            get { return _color_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Color in AHexColor cannot be null.", "value");
+                SetParent(value, this);
+                
+                _color_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Color == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Color in AHexColor cannot be null.", "newChild");
+                if (!(newChild is THexColor) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Color = newChild as THexColor;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return _color_;
+        }
+        
+        public override PColor Clone()
+        {
+            return new AHexColor(_color_.Clone());
+        }
+        public override string ToString()
+        {
+            return string.Format("{0}", _color_);
         }
     }
 }

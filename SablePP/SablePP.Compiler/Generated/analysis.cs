@@ -221,6 +221,14 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
+        public void Visit(AStyleList node)
+        {
+            CaseAStyleList(node);
+        }
+        public virtual void CaseAStyleList(AStyleList node)
+        {
+            DefaultCase(node);
+        }
         public void Visit(AIdentifierListitem node)
         {
             CaseAIdentifierListitem(node);
@@ -250,6 +258,14 @@ namespace SablePP.Compiler.Analysis
             CaseATranslationListitem(node);
         }
         public virtual void CaseATranslationListitem(ATranslationListitem node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AStyleListitem node)
+        {
+            CaseAStyleListitem(node);
+        }
+        public virtual void CaseAStyleListitem(AStyleListitem node)
         {
             DefaultCase(node);
         }
@@ -461,6 +477,78 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
+        public void Visit(AHighlightrules node)
+        {
+            CaseAHighlightrules(node);
+        }
+        public virtual void CaseAHighlightrules(AHighlightrules node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AHighlightrule node)
+        {
+            CaseAHighlightrule(node);
+        }
+        public virtual void CaseAHighlightrule(AHighlightrule node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AItalicHighlightStyle node)
+        {
+            CaseAItalicHighlightStyle(node);
+        }
+        public virtual void CaseAItalicHighlightStyle(AItalicHighlightStyle node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(ABoldHighlightStyle node)
+        {
+            CaseABoldHighlightStyle(node);
+        }
+        public virtual void CaseABoldHighlightStyle(ABoldHighlightStyle node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(ATextHighlightStyle node)
+        {
+            CaseATextHighlightStyle(node);
+        }
+        public virtual void CaseATextHighlightStyle(ATextHighlightStyle node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(ABackgroundHighlightStyle node)
+        {
+            CaseABackgroundHighlightStyle(node);
+        }
+        public virtual void CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(ARgbColor node)
+        {
+            CaseARgbColor(node);
+        }
+        public virtual void CaseARgbColor(ARgbColor node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AHsvColor node)
+        {
+            CaseAHsvColor(node);
+        }
+        public virtual void CaseAHsvColor(AHsvColor node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AHexColor node)
+        {
+            CaseAHexColor(node);
+        }
+        public virtual void CaseAHexColor(AHexColor node)
+        {
+            DefaultCase(node);
+        }
         public void Visit(TPackagename node)
         {
             CaseTPackagename(node);
@@ -522,6 +610,14 @@ namespace SablePP.Compiler.Analysis
             CaseTAsttoken(node);
         }
         public virtual void CaseTAsttoken(TAsttoken node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(THighlighttoken node)
+        {
+            CaseTHighlighttoken(node);
+        }
+        public virtual void CaseTHighlighttoken(THighlighttoken node)
         {
             DefaultCase(node);
         }
@@ -762,6 +858,62 @@ namespace SablePP.Compiler.Analysis
             CaseTComment(node);
         }
         public virtual void CaseTComment(TComment node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(TItalic node)
+        {
+            CaseTItalic(node);
+        }
+        public virtual void CaseTItalic(TItalic node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(TBold node)
+        {
+            CaseTBold(node);
+        }
+        public virtual void CaseTBold(TBold node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(TText node)
+        {
+            CaseTText(node);
+        }
+        public virtual void CaseTText(TText node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(TBackground node)
+        {
+            CaseTBackground(node);
+        }
+        public virtual void CaseTBackground(TBackground node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(TRgb node)
+        {
+            CaseTRgb(node);
+        }
+        public virtual void CaseTRgb(TRgb node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(THsv node)
+        {
+            CaseTHsv(node);
+        }
+        public virtual void CaseTHsv(THsv node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(THexColor node)
+        {
+            CaseTHexColor(node);
+        }
+        public virtual void CaseTHexColor(THexColor node)
         {
             DefaultCase(node);
         }
@@ -1479,6 +1631,29 @@ namespace SablePP.Compiler.Analysis
             OutATranslationList(node);
             OutPList(node);
         }
+        public virtual void InAStyleList(AStyleList node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAStyleList(AStyleList node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAStyleList(AStyleList node)
+        {
+            InPList(node);
+            InAStyleList(node);
+            
+            {
+                PListitem[] temp = new PListitem[node.Listitem.Count];
+                node.Listitem.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    Visit((dynamic)temp[i]);
+            }
+            
+            OutAStyleList(node);
+            OutPList(node);
+        }
         
         public virtual void InPListitem(PListitem node)
         {
@@ -1568,6 +1743,26 @@ namespace SablePP.Compiler.Analysis
             Visit((dynamic)node.Translation);
             
             OutATranslationListitem(node);
+            OutPListitem(node);
+        }
+        public virtual void InAStyleListitem(AStyleListitem node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAStyleListitem(AStyleListitem node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAStyleListitem(AStyleListitem node)
+        {
+            InPListitem(node);
+            InAStyleListitem(node);
+            
+            if (node.HasComma)
+                Visit(node.Comma);
+            Visit((dynamic)node.HighlightStyle);
+            
+            OutAStyleListitem(node);
             OutPListitem(node);
         }
         
@@ -2230,6 +2425,233 @@ namespace SablePP.Compiler.Analysis
             
             OutAProductionElementid(node);
             OutPElementid(node);
+        }
+        
+        public virtual void InPHighlightrules(PHighlightrules node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPHighlightrules(PHighlightrules node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAHighlightrules(AHighlightrules node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAHighlightrules(AHighlightrules node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAHighlightrules(AHighlightrules node)
+        {
+            InPHighlightrules(node);
+            InAHighlightrules(node);
+            
+            Visit(node.Highlighttoken);
+            {
+                PHighlightrule[] temp = new PHighlightrule[node.Highlightrule.Count];
+                node.Highlightrule.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    Visit((dynamic)temp[i]);
+            }
+            
+            OutAHighlightrules(node);
+            OutPHighlightrules(node);
+        }
+        
+        public virtual void InPHighlightrule(PHighlightrule node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPHighlightrule(PHighlightrule node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAHighlightrule(AHighlightrule node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAHighlightrule(AHighlightrule node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAHighlightrule(AHighlightrule node)
+        {
+            InPHighlightrule(node);
+            InAHighlightrule(node);
+            
+            Visit(node.Name);
+            Visit(node.Lpar);
+            Visit((dynamic)node.Tokens);
+            Visit(node.Rpar);
+            Visit((dynamic)node.List);
+            Visit(node.Semicolon);
+            
+            OutAHighlightrule(node);
+            OutPHighlightrule(node);
+        }
+        
+        public virtual void InPHighlightStyle(PHighlightStyle node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPHighlightStyle(PHighlightStyle node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAItalicHighlightStyle(AItalicHighlightStyle node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAItalicHighlightStyle(AItalicHighlightStyle node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAItalicHighlightStyle(AItalicHighlightStyle node)
+        {
+            InPHighlightStyle(node);
+            InAItalicHighlightStyle(node);
+            
+            Visit(node.Italic);
+            
+            OutAItalicHighlightStyle(node);
+            OutPHighlightStyle(node);
+        }
+        public virtual void InABoldHighlightStyle(ABoldHighlightStyle node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutABoldHighlightStyle(ABoldHighlightStyle node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseABoldHighlightStyle(ABoldHighlightStyle node)
+        {
+            InPHighlightStyle(node);
+            InABoldHighlightStyle(node);
+            
+            Visit(node.Bold);
+            
+            OutABoldHighlightStyle(node);
+            OutPHighlightStyle(node);
+        }
+        public virtual void InATextHighlightStyle(ATextHighlightStyle node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutATextHighlightStyle(ATextHighlightStyle node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseATextHighlightStyle(ATextHighlightStyle node)
+        {
+            InPHighlightStyle(node);
+            InATextHighlightStyle(node);
+            
+            Visit(node.Text);
+            Visit(node.Colon);
+            Visit((dynamic)node.Color);
+            
+            OutATextHighlightStyle(node);
+            OutPHighlightStyle(node);
+        }
+        public virtual void InABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        {
+            InPHighlightStyle(node);
+            InABackgroundHighlightStyle(node);
+            
+            Visit(node.Background);
+            Visit(node.Colon);
+            Visit((dynamic)node.Color);
+            
+            OutABackgroundHighlightStyle(node);
+            OutPHighlightStyle(node);
+        }
+        
+        public virtual void InPColor(PColor node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPColor(PColor node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InARgbColor(ARgbColor node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutARgbColor(ARgbColor node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseARgbColor(ARgbColor node)
+        {
+            InPColor(node);
+            InARgbColor(node);
+            
+            Visit(node.Rgb);
+            Visit(node.LPar);
+            Visit(node.Red);
+            Visit(node.Comma1);
+            Visit(node.Green);
+            Visit(node.Comma2);
+            Visit(node.Blue);
+            Visit(node.RPar);
+            
+            OutARgbColor(node);
+            OutPColor(node);
+        }
+        public virtual void InAHsvColor(AHsvColor node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAHsvColor(AHsvColor node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAHsvColor(AHsvColor node)
+        {
+            InPColor(node);
+            InAHsvColor(node);
+            
+            Visit(node.Hsv);
+            Visit(node.LPar);
+            Visit(node.Hue);
+            Visit(node.Comma1);
+            Visit(node.Saturation);
+            Visit(node.Comma2);
+            Visit(node.Brightness);
+            Visit(node.RPar);
+            
+            OutAHsvColor(node);
+            OutPColor(node);
+        }
+        public virtual void InAHexColor(AHexColor node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAHexColor(AHexColor node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAHexColor(AHexColor node)
+        {
+            InPColor(node);
+            InAHexColor(node);
+            
+            Visit(node.Color);
+            
+            OutAHexColor(node);
+            OutPColor(node);
         }
     }
     
@@ -2945,6 +3367,29 @@ namespace SablePP.Compiler.Analysis
             OutATranslationList(node);
             OutPList(node);
         }
+        public virtual void InAStyleList(AStyleList node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAStyleList(AStyleList node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAStyleList(AStyleList node)
+        {
+            InPList(node);
+            InAStyleList(node);
+            
+            {
+                PListitem[] temp = new PListitem[node.Listitem.Count];
+                node.Listitem.CopyTo(temp, 0);
+                for (int i = temp.Length - 1; i >= 0; i--)
+                    Visit((dynamic)temp[i]);
+            }
+            
+            OutAStyleList(node);
+            OutPList(node);
+        }
         
         public virtual void InPListitem(PListitem node)
         {
@@ -3034,6 +3479,26 @@ namespace SablePP.Compiler.Analysis
                 Visit(node.Comma);
             
             OutATranslationListitem(node);
+            OutPListitem(node);
+        }
+        public virtual void InAStyleListitem(AStyleListitem node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAStyleListitem(AStyleListitem node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAStyleListitem(AStyleListitem node)
+        {
+            InPListitem(node);
+            InAStyleListitem(node);
+            
+            Visit((dynamic)node.HighlightStyle);
+            if (node.HasComma)
+                Visit(node.Comma);
+            
+            OutAStyleListitem(node);
             OutPListitem(node);
         }
         
@@ -3697,6 +4162,233 @@ namespace SablePP.Compiler.Analysis
             OutAProductionElementid(node);
             OutPElementid(node);
         }
+        
+        public virtual void InPHighlightrules(PHighlightrules node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPHighlightrules(PHighlightrules node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAHighlightrules(AHighlightrules node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAHighlightrules(AHighlightrules node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAHighlightrules(AHighlightrules node)
+        {
+            InPHighlightrules(node);
+            InAHighlightrules(node);
+            
+            {
+                PHighlightrule[] temp = new PHighlightrule[node.Highlightrule.Count];
+                node.Highlightrule.CopyTo(temp, 0);
+                for (int i = temp.Length - 1; i >= 0; i--)
+                    Visit((dynamic)temp[i]);
+            }
+            Visit(node.Highlighttoken);
+            
+            OutAHighlightrules(node);
+            OutPHighlightrules(node);
+        }
+        
+        public virtual void InPHighlightrule(PHighlightrule node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPHighlightrule(PHighlightrule node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAHighlightrule(AHighlightrule node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAHighlightrule(AHighlightrule node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAHighlightrule(AHighlightrule node)
+        {
+            InPHighlightrule(node);
+            InAHighlightrule(node);
+            
+            Visit(node.Semicolon);
+            Visit((dynamic)node.List);
+            Visit(node.Rpar);
+            Visit((dynamic)node.Tokens);
+            Visit(node.Lpar);
+            Visit(node.Name);
+            
+            OutAHighlightrule(node);
+            OutPHighlightrule(node);
+        }
+        
+        public virtual void InPHighlightStyle(PHighlightStyle node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPHighlightStyle(PHighlightStyle node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAItalicHighlightStyle(AItalicHighlightStyle node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAItalicHighlightStyle(AItalicHighlightStyle node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAItalicHighlightStyle(AItalicHighlightStyle node)
+        {
+            InPHighlightStyle(node);
+            InAItalicHighlightStyle(node);
+            
+            Visit(node.Italic);
+            
+            OutAItalicHighlightStyle(node);
+            OutPHighlightStyle(node);
+        }
+        public virtual void InABoldHighlightStyle(ABoldHighlightStyle node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutABoldHighlightStyle(ABoldHighlightStyle node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseABoldHighlightStyle(ABoldHighlightStyle node)
+        {
+            InPHighlightStyle(node);
+            InABoldHighlightStyle(node);
+            
+            Visit(node.Bold);
+            
+            OutABoldHighlightStyle(node);
+            OutPHighlightStyle(node);
+        }
+        public virtual void InATextHighlightStyle(ATextHighlightStyle node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutATextHighlightStyle(ATextHighlightStyle node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseATextHighlightStyle(ATextHighlightStyle node)
+        {
+            InPHighlightStyle(node);
+            InATextHighlightStyle(node);
+            
+            Visit((dynamic)node.Color);
+            Visit(node.Colon);
+            Visit(node.Text);
+            
+            OutATextHighlightStyle(node);
+            OutPHighlightStyle(node);
+        }
+        public virtual void InABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        {
+            InPHighlightStyle(node);
+            InABackgroundHighlightStyle(node);
+            
+            Visit((dynamic)node.Color);
+            Visit(node.Colon);
+            Visit(node.Background);
+            
+            OutABackgroundHighlightStyle(node);
+            OutPHighlightStyle(node);
+        }
+        
+        public virtual void InPColor(PColor node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPColor(PColor node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InARgbColor(ARgbColor node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutARgbColor(ARgbColor node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseARgbColor(ARgbColor node)
+        {
+            InPColor(node);
+            InARgbColor(node);
+            
+            Visit(node.RPar);
+            Visit(node.Blue);
+            Visit(node.Comma2);
+            Visit(node.Green);
+            Visit(node.Comma1);
+            Visit(node.Red);
+            Visit(node.LPar);
+            Visit(node.Rgb);
+            
+            OutARgbColor(node);
+            OutPColor(node);
+        }
+        public virtual void InAHsvColor(AHsvColor node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAHsvColor(AHsvColor node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAHsvColor(AHsvColor node)
+        {
+            InPColor(node);
+            InAHsvColor(node);
+            
+            Visit(node.RPar);
+            Visit(node.Brightness);
+            Visit(node.Comma2);
+            Visit(node.Saturation);
+            Visit(node.Comma1);
+            Visit(node.Hue);
+            Visit(node.LPar);
+            Visit(node.Hsv);
+            
+            OutAHsvColor(node);
+            OutPColor(node);
+        }
+        public virtual void InAHexColor(AHexColor node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAHexColor(AHexColor node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAHexColor(AHexColor node)
+        {
+            InPColor(node);
+            InAHexColor(node);
+            
+            Visit(node.Color);
+            
+            OutAHexColor(node);
+            OutPColor(node);
+        }
     }
     
     #endregion
@@ -3916,6 +4608,14 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg);
         }
+        public TValue Visit(AStyleList node, TValue arg)
+        {
+            return CaseAStyleList(node, arg);
+        }
+        public virtual TValue CaseAStyleList(AStyleList node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
         public TValue Visit(AIdentifierListitem node, TValue arg)
         {
             return CaseAIdentifierListitem(node, arg);
@@ -3945,6 +4645,14 @@ namespace SablePP.Compiler.Analysis
             return CaseATranslationListitem(node, arg);
         }
         public virtual TValue CaseATranslationListitem(ATranslationListitem node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(AStyleListitem node, TValue arg)
+        {
+            return CaseAStyleListitem(node, arg);
+        }
+        public virtual TValue CaseAStyleListitem(AStyleListitem node, TValue arg)
         {
             return DefaultCase(node, arg);
         }
@@ -4156,6 +4864,78 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg);
         }
+        public TValue Visit(AHighlightrules node, TValue arg)
+        {
+            return CaseAHighlightrules(node, arg);
+        }
+        public virtual TValue CaseAHighlightrules(AHighlightrules node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(AHighlightrule node, TValue arg)
+        {
+            return CaseAHighlightrule(node, arg);
+        }
+        public virtual TValue CaseAHighlightrule(AHighlightrule node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(AItalicHighlightStyle node, TValue arg)
+        {
+            return CaseAItalicHighlightStyle(node, arg);
+        }
+        public virtual TValue CaseAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(ABoldHighlightStyle node, TValue arg)
+        {
+            return CaseABoldHighlightStyle(node, arg);
+        }
+        public virtual TValue CaseABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(ATextHighlightStyle node, TValue arg)
+        {
+            return CaseATextHighlightStyle(node, arg);
+        }
+        public virtual TValue CaseATextHighlightStyle(ATextHighlightStyle node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(ABackgroundHighlightStyle node, TValue arg)
+        {
+            return CaseABackgroundHighlightStyle(node, arg);
+        }
+        public virtual TValue CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(ARgbColor node, TValue arg)
+        {
+            return CaseARgbColor(node, arg);
+        }
+        public virtual TValue CaseARgbColor(ARgbColor node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(AHsvColor node, TValue arg)
+        {
+            return CaseAHsvColor(node, arg);
+        }
+        public virtual TValue CaseAHsvColor(AHsvColor node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(AHexColor node, TValue arg)
+        {
+            return CaseAHexColor(node, arg);
+        }
+        public virtual TValue CaseAHexColor(AHexColor node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
         public TValue Visit(TPackagename node, TValue arg)
         {
             return CaseTPackagename(node, arg);
@@ -4217,6 +4997,14 @@ namespace SablePP.Compiler.Analysis
             return CaseTAsttoken(node, arg);
         }
         public virtual TValue CaseTAsttoken(TAsttoken node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(THighlighttoken node, TValue arg)
+        {
+            return CaseTHighlighttoken(node, arg);
+        }
+        public virtual TValue CaseTHighlighttoken(THighlighttoken node, TValue arg)
         {
             return DefaultCase(node, arg);
         }
@@ -4457,6 +5245,62 @@ namespace SablePP.Compiler.Analysis
             return CaseTComment(node, arg);
         }
         public virtual TValue CaseTComment(TComment node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(TItalic node, TValue arg)
+        {
+            return CaseTItalic(node, arg);
+        }
+        public virtual TValue CaseTItalic(TItalic node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(TBold node, TValue arg)
+        {
+            return CaseTBold(node, arg);
+        }
+        public virtual TValue CaseTBold(TBold node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(TText node, TValue arg)
+        {
+            return CaseTText(node, arg);
+        }
+        public virtual TValue CaseTText(TText node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(TBackground node, TValue arg)
+        {
+            return CaseTBackground(node, arg);
+        }
+        public virtual TValue CaseTBackground(TBackground node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(TRgb node, TValue arg)
+        {
+            return CaseTRgb(node, arg);
+        }
+        public virtual TValue CaseTRgb(TRgb node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(THsv node, TValue arg)
+        {
+            return CaseTHsv(node, arg);
+        }
+        public virtual TValue CaseTHsv(THsv node, TValue arg)
+        {
+            return DefaultCase(node, arg);
+        }
+        public TValue Visit(THexColor node, TValue arg)
+        {
+            return CaseTHexColor(node, arg);
+        }
+        public virtual TValue CaseTHexColor(THexColor node, TValue arg)
         {
             return DefaultCase(node, arg);
         }
@@ -5234,6 +6078,31 @@ namespace SablePP.Compiler.Analysis
             
             return arg;
         }
+        public virtual TValue InAStyleList(AStyleList node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAStyleList(AStyleList node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAStyleList(AStyleList node, TValue arg)
+        {
+            arg = InPList(node, arg);
+            arg = InAStyleList(node, arg);
+            
+            {
+                PListitem[] temp = new PListitem[node.Listitem.Count];
+                node.Listitem.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    arg = Visit((dynamic)temp[i], arg);
+            }
+            
+            arg = OutAStyleList(node, arg);
+            arg = OutPList(node, arg);
+            
+            return arg;
+        }
         
         public virtual TValue InPListitem(PListitem node, TValue arg)
         {
@@ -5329,6 +6198,28 @@ namespace SablePP.Compiler.Analysis
             arg = Visit((dynamic)node.Translation, arg);
             
             arg = OutATranslationListitem(node, arg);
+            arg = OutPListitem(node, arg);
+            
+            return arg;
+        }
+        public virtual TValue InAStyleListitem(AStyleListitem node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAStyleListitem(AStyleListitem node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAStyleListitem(AStyleListitem node, TValue arg)
+        {
+            arg = InPListitem(node, arg);
+            arg = InAStyleListitem(node, arg);
+            
+            if (node.HasComma)
+                arg = Visit(node.Comma, arg);
+            arg = Visit((dynamic)node.HighlightStyle, arg);
+            
+            arg = OutAStyleListitem(node, arg);
             arg = OutPListitem(node, arg);
             
             return arg;
@@ -6043,6 +6934,251 @@ namespace SablePP.Compiler.Analysis
             
             arg = OutAProductionElementid(node, arg);
             arg = OutPElementid(node, arg);
+            
+            return arg;
+        }
+        
+        public virtual TValue InPHighlightrules(PHighlightrules node, TValue arg)
+        {
+            return DefaultPIn(node, arg);
+        }
+        public virtual TValue OutPHighlightrules(PHighlightrules node, TValue arg)
+        {
+            return DefaultPOut(node, arg);
+        }
+        public virtual TValue InAHighlightrules(AHighlightrules node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAHighlightrules(AHighlightrules node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAHighlightrules(AHighlightrules node, TValue arg)
+        {
+            arg = InPHighlightrules(node, arg);
+            arg = InAHighlightrules(node, arg);
+            
+            arg = Visit(node.Highlighttoken, arg);
+            {
+                PHighlightrule[] temp = new PHighlightrule[node.Highlightrule.Count];
+                node.Highlightrule.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    arg = Visit((dynamic)temp[i], arg);
+            }
+            
+            arg = OutAHighlightrules(node, arg);
+            arg = OutPHighlightrules(node, arg);
+            
+            return arg;
+        }
+        
+        public virtual TValue InPHighlightrule(PHighlightrule node, TValue arg)
+        {
+            return DefaultPIn(node, arg);
+        }
+        public virtual TValue OutPHighlightrule(PHighlightrule node, TValue arg)
+        {
+            return DefaultPOut(node, arg);
+        }
+        public virtual TValue InAHighlightrule(AHighlightrule node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAHighlightrule(AHighlightrule node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAHighlightrule(AHighlightrule node, TValue arg)
+        {
+            arg = InPHighlightrule(node, arg);
+            arg = InAHighlightrule(node, arg);
+            
+            arg = Visit(node.Name, arg);
+            arg = Visit(node.Lpar, arg);
+            arg = Visit((dynamic)node.Tokens, arg);
+            arg = Visit(node.Rpar, arg);
+            arg = Visit((dynamic)node.List, arg);
+            arg = Visit(node.Semicolon, arg);
+            
+            arg = OutAHighlightrule(node, arg);
+            arg = OutPHighlightrule(node, arg);
+            
+            return arg;
+        }
+        
+        public virtual TValue InPHighlightStyle(PHighlightStyle node, TValue arg)
+        {
+            return DefaultPIn(node, arg);
+        }
+        public virtual TValue OutPHighlightStyle(PHighlightStyle node, TValue arg)
+        {
+            return DefaultPOut(node, arg);
+        }
+        public virtual TValue InAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
+        {
+            arg = InPHighlightStyle(node, arg);
+            arg = InAItalicHighlightStyle(node, arg);
+            
+            arg = Visit(node.Italic, arg);
+            
+            arg = OutAItalicHighlightStyle(node, arg);
+            arg = OutPHighlightStyle(node, arg);
+            
+            return arg;
+        }
+        public virtual TValue InABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
+        {
+            arg = InPHighlightStyle(node, arg);
+            arg = InABoldHighlightStyle(node, arg);
+            
+            arg = Visit(node.Bold, arg);
+            
+            arg = OutABoldHighlightStyle(node, arg);
+            arg = OutPHighlightStyle(node, arg);
+            
+            return arg;
+        }
+        public virtual TValue InATextHighlightStyle(ATextHighlightStyle node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutATextHighlightStyle(ATextHighlightStyle node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseATextHighlightStyle(ATextHighlightStyle node, TValue arg)
+        {
+            arg = InPHighlightStyle(node, arg);
+            arg = InATextHighlightStyle(node, arg);
+            
+            arg = Visit(node.Text, arg);
+            arg = Visit(node.Colon, arg);
+            arg = Visit((dynamic)node.Color, arg);
+            
+            arg = OutATextHighlightStyle(node, arg);
+            arg = OutPHighlightStyle(node, arg);
+            
+            return arg;
+        }
+        public virtual TValue InABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
+        {
+            arg = InPHighlightStyle(node, arg);
+            arg = InABackgroundHighlightStyle(node, arg);
+            
+            arg = Visit(node.Background, arg);
+            arg = Visit(node.Colon, arg);
+            arg = Visit((dynamic)node.Color, arg);
+            
+            arg = OutABackgroundHighlightStyle(node, arg);
+            arg = OutPHighlightStyle(node, arg);
+            
+            return arg;
+        }
+        
+        public virtual TValue InPColor(PColor node, TValue arg)
+        {
+            return DefaultPIn(node, arg);
+        }
+        public virtual TValue OutPColor(PColor node, TValue arg)
+        {
+            return DefaultPOut(node, arg);
+        }
+        public virtual TValue InARgbColor(ARgbColor node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutARgbColor(ARgbColor node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseARgbColor(ARgbColor node, TValue arg)
+        {
+            arg = InPColor(node, arg);
+            arg = InARgbColor(node, arg);
+            
+            arg = Visit(node.Rgb, arg);
+            arg = Visit(node.LPar, arg);
+            arg = Visit(node.Red, arg);
+            arg = Visit(node.Comma1, arg);
+            arg = Visit(node.Green, arg);
+            arg = Visit(node.Comma2, arg);
+            arg = Visit(node.Blue, arg);
+            arg = Visit(node.RPar, arg);
+            
+            arg = OutARgbColor(node, arg);
+            arg = OutPColor(node, arg);
+            
+            return arg;
+        }
+        public virtual TValue InAHsvColor(AHsvColor node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAHsvColor(AHsvColor node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAHsvColor(AHsvColor node, TValue arg)
+        {
+            arg = InPColor(node, arg);
+            arg = InAHsvColor(node, arg);
+            
+            arg = Visit(node.Hsv, arg);
+            arg = Visit(node.LPar, arg);
+            arg = Visit(node.Hue, arg);
+            arg = Visit(node.Comma1, arg);
+            arg = Visit(node.Saturation, arg);
+            arg = Visit(node.Comma2, arg);
+            arg = Visit(node.Brightness, arg);
+            arg = Visit(node.RPar, arg);
+            
+            arg = OutAHsvColor(node, arg);
+            arg = OutPColor(node, arg);
+            
+            return arg;
+        }
+        public virtual TValue InAHexColor(AHexColor node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAHexColor(AHexColor node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAHexColor(AHexColor node, TValue arg)
+        {
+            arg = InPColor(node, arg);
+            arg = InAHexColor(node, arg);
+            
+            arg = Visit(node.Color, arg);
+            
+            arg = OutAHexColor(node, arg);
+            arg = OutPColor(node, arg);
             
             return arg;
         }
@@ -6820,6 +7956,31 @@ namespace SablePP.Compiler.Analysis
             
             return arg;
         }
+        public virtual TValue InAStyleList(AStyleList node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAStyleList(AStyleList node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAStyleList(AStyleList node, TValue arg)
+        {
+            arg = InPList(node, arg);
+            arg = InAStyleList(node, arg);
+            
+            {
+                PListitem[] temp = new PListitem[node.Listitem.Count];
+                node.Listitem.CopyTo(temp, 0);
+                for (int i = temp.Length - 1; i >= 0; i--)
+                    arg = Visit((dynamic)temp[i], arg);
+            }
+            
+            arg = OutAStyleList(node, arg);
+            arg = OutPList(node, arg);
+            
+            return arg;
+        }
         
         public virtual TValue InPListitem(PListitem node, TValue arg)
         {
@@ -6915,6 +8076,28 @@ namespace SablePP.Compiler.Analysis
                 arg = Visit(node.Comma, arg);
             
             arg = OutATranslationListitem(node, arg);
+            arg = OutPListitem(node, arg);
+            
+            return arg;
+        }
+        public virtual TValue InAStyleListitem(AStyleListitem node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAStyleListitem(AStyleListitem node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAStyleListitem(AStyleListitem node, TValue arg)
+        {
+            arg = InPListitem(node, arg);
+            arg = InAStyleListitem(node, arg);
+            
+            arg = Visit((dynamic)node.HighlightStyle, arg);
+            if (node.HasComma)
+                arg = Visit(node.Comma, arg);
+            
+            arg = OutAStyleListitem(node, arg);
             arg = OutPListitem(node, arg);
             
             return arg;
@@ -7629,6 +8812,251 @@ namespace SablePP.Compiler.Analysis
             
             arg = OutAProductionElementid(node, arg);
             arg = OutPElementid(node, arg);
+            
+            return arg;
+        }
+        
+        public virtual TValue InPHighlightrules(PHighlightrules node, TValue arg)
+        {
+            return DefaultPIn(node, arg);
+        }
+        public virtual TValue OutPHighlightrules(PHighlightrules node, TValue arg)
+        {
+            return DefaultPOut(node, arg);
+        }
+        public virtual TValue InAHighlightrules(AHighlightrules node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAHighlightrules(AHighlightrules node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAHighlightrules(AHighlightrules node, TValue arg)
+        {
+            arg = InPHighlightrules(node, arg);
+            arg = InAHighlightrules(node, arg);
+            
+            {
+                PHighlightrule[] temp = new PHighlightrule[node.Highlightrule.Count];
+                node.Highlightrule.CopyTo(temp, 0);
+                for (int i = temp.Length - 1; i >= 0; i--)
+                    arg = Visit((dynamic)temp[i], arg);
+            }
+            arg = Visit(node.Highlighttoken, arg);
+            
+            arg = OutAHighlightrules(node, arg);
+            arg = OutPHighlightrules(node, arg);
+            
+            return arg;
+        }
+        
+        public virtual TValue InPHighlightrule(PHighlightrule node, TValue arg)
+        {
+            return DefaultPIn(node, arg);
+        }
+        public virtual TValue OutPHighlightrule(PHighlightrule node, TValue arg)
+        {
+            return DefaultPOut(node, arg);
+        }
+        public virtual TValue InAHighlightrule(AHighlightrule node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAHighlightrule(AHighlightrule node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAHighlightrule(AHighlightrule node, TValue arg)
+        {
+            arg = InPHighlightrule(node, arg);
+            arg = InAHighlightrule(node, arg);
+            
+            arg = Visit(node.Semicolon, arg);
+            arg = Visit((dynamic)node.List, arg);
+            arg = Visit(node.Rpar, arg);
+            arg = Visit((dynamic)node.Tokens, arg);
+            arg = Visit(node.Lpar, arg);
+            arg = Visit(node.Name, arg);
+            
+            arg = OutAHighlightrule(node, arg);
+            arg = OutPHighlightrule(node, arg);
+            
+            return arg;
+        }
+        
+        public virtual TValue InPHighlightStyle(PHighlightStyle node, TValue arg)
+        {
+            return DefaultPIn(node, arg);
+        }
+        public virtual TValue OutPHighlightStyle(PHighlightStyle node, TValue arg)
+        {
+            return DefaultPOut(node, arg);
+        }
+        public virtual TValue InAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
+        {
+            arg = InPHighlightStyle(node, arg);
+            arg = InAItalicHighlightStyle(node, arg);
+            
+            arg = Visit(node.Italic, arg);
+            
+            arg = OutAItalicHighlightStyle(node, arg);
+            arg = OutPHighlightStyle(node, arg);
+            
+            return arg;
+        }
+        public virtual TValue InABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
+        {
+            arg = InPHighlightStyle(node, arg);
+            arg = InABoldHighlightStyle(node, arg);
+            
+            arg = Visit(node.Bold, arg);
+            
+            arg = OutABoldHighlightStyle(node, arg);
+            arg = OutPHighlightStyle(node, arg);
+            
+            return arg;
+        }
+        public virtual TValue InATextHighlightStyle(ATextHighlightStyle node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutATextHighlightStyle(ATextHighlightStyle node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseATextHighlightStyle(ATextHighlightStyle node, TValue arg)
+        {
+            arg = InPHighlightStyle(node, arg);
+            arg = InATextHighlightStyle(node, arg);
+            
+            arg = Visit((dynamic)node.Color, arg);
+            arg = Visit(node.Colon, arg);
+            arg = Visit(node.Text, arg);
+            
+            arg = OutATextHighlightStyle(node, arg);
+            arg = OutPHighlightStyle(node, arg);
+            
+            return arg;
+        }
+        public virtual TValue InABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
+        {
+            arg = InPHighlightStyle(node, arg);
+            arg = InABackgroundHighlightStyle(node, arg);
+            
+            arg = Visit((dynamic)node.Color, arg);
+            arg = Visit(node.Colon, arg);
+            arg = Visit(node.Background, arg);
+            
+            arg = OutABackgroundHighlightStyle(node, arg);
+            arg = OutPHighlightStyle(node, arg);
+            
+            return arg;
+        }
+        
+        public virtual TValue InPColor(PColor node, TValue arg)
+        {
+            return DefaultPIn(node, arg);
+        }
+        public virtual TValue OutPColor(PColor node, TValue arg)
+        {
+            return DefaultPOut(node, arg);
+        }
+        public virtual TValue InARgbColor(ARgbColor node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutARgbColor(ARgbColor node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseARgbColor(ARgbColor node, TValue arg)
+        {
+            arg = InPColor(node, arg);
+            arg = InARgbColor(node, arg);
+            
+            arg = Visit(node.RPar, arg);
+            arg = Visit(node.Blue, arg);
+            arg = Visit(node.Comma2, arg);
+            arg = Visit(node.Green, arg);
+            arg = Visit(node.Comma1, arg);
+            arg = Visit(node.Red, arg);
+            arg = Visit(node.LPar, arg);
+            arg = Visit(node.Rgb, arg);
+            
+            arg = OutARgbColor(node, arg);
+            arg = OutPColor(node, arg);
+            
+            return arg;
+        }
+        public virtual TValue InAHsvColor(AHsvColor node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAHsvColor(AHsvColor node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAHsvColor(AHsvColor node, TValue arg)
+        {
+            arg = InPColor(node, arg);
+            arg = InAHsvColor(node, arg);
+            
+            arg = Visit(node.RPar, arg);
+            arg = Visit(node.Brightness, arg);
+            arg = Visit(node.Comma2, arg);
+            arg = Visit(node.Saturation, arg);
+            arg = Visit(node.Comma1, arg);
+            arg = Visit(node.Hue, arg);
+            arg = Visit(node.LPar, arg);
+            arg = Visit(node.Hsv, arg);
+            
+            arg = OutAHsvColor(node, arg);
+            arg = OutPColor(node, arg);
+            
+            return arg;
+        }
+        public virtual TValue InAHexColor(AHexColor node, TValue arg)
+        {
+            return DefaultAIn(node, arg);
+        }
+        public virtual TValue OutAHexColor(AHexColor node, TValue arg)
+        {
+            return DefaultAOut(node, arg);
+        }
+        public override TValue CaseAHexColor(AHexColor node, TValue arg)
+        {
+            arg = InPColor(node, arg);
+            arg = InAHexColor(node, arg);
+            
+            arg = Visit(node.Color, arg);
+            
+            arg = OutAHexColor(node, arg);
+            arg = OutPColor(node, arg);
             
             return arg;
         }

@@ -133,6 +133,22 @@ namespace SablePP.Compiler.Nodes
             return new TAsttoken(Text, Line, Position);
         }
     }
+    public partial class THighlighttoken : Token<THighlighttoken>
+    {
+        public THighlighttoken(string text)
+            : base(text)
+        {
+        }
+        public THighlighttoken(string text, int line, int pos)
+            : base(text, line, pos)
+        {
+        }
+        
+        public override THighlighttoken Clone()
+        {
+            return new THighlighttoken(Text, Line, Position);
+        }
+    }
     public partial class TNew : Token<TNew>
     {
         public TNew(string text)
@@ -611,6 +627,118 @@ namespace SablePP.Compiler.Nodes
         public override TComment Clone()
         {
             return new TComment(Text, Line, Position);
+        }
+    }
+    public partial class TItalic : Token<TItalic>
+    {
+        public TItalic(string text)
+            : base(text)
+        {
+        }
+        public TItalic(string text, int line, int pos)
+            : base(text, line, pos)
+        {
+        }
+        
+        public override TItalic Clone()
+        {
+            return new TItalic(Text, Line, Position);
+        }
+    }
+    public partial class TBold : Token<TBold>
+    {
+        public TBold(string text)
+            : base(text)
+        {
+        }
+        public TBold(string text, int line, int pos)
+            : base(text, line, pos)
+        {
+        }
+        
+        public override TBold Clone()
+        {
+            return new TBold(Text, Line, Position);
+        }
+    }
+    public partial class TText : Token<TText>
+    {
+        public TText(string text)
+            : base(text)
+        {
+        }
+        public TText(string text, int line, int pos)
+            : base(text, line, pos)
+        {
+        }
+        
+        public override TText Clone()
+        {
+            return new TText(Text, Line, Position);
+        }
+    }
+    public partial class TBackground : Token<TBackground>
+    {
+        public TBackground(string text)
+            : base(text)
+        {
+        }
+        public TBackground(string text, int line, int pos)
+            : base(text, line, pos)
+        {
+        }
+        
+        public override TBackground Clone()
+        {
+            return new TBackground(Text, Line, Position);
+        }
+    }
+    public partial class TRgb : Token<TRgb>
+    {
+        public TRgb(string text)
+            : base(text)
+        {
+        }
+        public TRgb(string text, int line, int pos)
+            : base(text, line, pos)
+        {
+        }
+        
+        public override TRgb Clone()
+        {
+            return new TRgb(Text, Line, Position);
+        }
+    }
+    public partial class THsv : Token<THsv>
+    {
+        public THsv(string text)
+            : base(text)
+        {
+        }
+        public THsv(string text, int line, int pos)
+            : base(text, line, pos)
+        {
+        }
+        
+        public override THsv Clone()
+        {
+            return new THsv(Text, Line, Position);
+        }
+    }
+    public partial class THexColor : Token<THexColor>
+    {
+        public THexColor(string text)
+            : base(text)
+        {
+        }
+        public THexColor(string text, int line, int pos)
+            : base(text, line, pos)
+        {
+        }
+        
+        public override THexColor Clone()
+        {
+            return new THexColor(Text, Line, Position);
         }
     }
 }
