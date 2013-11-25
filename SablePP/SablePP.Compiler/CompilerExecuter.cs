@@ -118,5 +118,27 @@ namespace SablePP.Compiler
             else
                 return new CompilerError(-1, -1, 0, text);
         }
+
+        public bool Generate(string input, string directory)
+        {
+            Start<PGrammar> node;
+            using (StringReader reader = new StringReader(input))
+            {
+                var lexer = GetLexer(reader);
+                var parser = GetParser(lexer);
+
+                try { node = parser.Parse(); }
+                catch (LexerException e) { node = null; }
+                catch (ParserException e) { node = true; }
+            }
+            if (node != null)
+                return Generate(node);
+            else
+                return false;
+        }
+        public bool Generate(Start<PGrammar> root)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
