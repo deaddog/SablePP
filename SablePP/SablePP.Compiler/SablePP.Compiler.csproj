@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompilerExecuter.cs" />
+    <Compile Include="Declarations\DHighlightRule.cs" />
     <Compile Include="Generated\analysis.cs" />
     <Compile Include="Generated\CompilerExecuter.cs" />
     <Compile Include="Generated\lexer.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="SymbolLinking\IgnoredTokenVisitor.cs" />
     <Compile Include="SymbolLinking\ProductionVisitor.cs" />
     <Compile Include="SymbolLinking\StateVisitor.cs" />
+    <Compile Include="SymbolLinking\TokenHighlightVisitor.cs" />
     <Compile Include="SymbolLinking\TokenVisitor.cs" />
     <Compile Include="SymbolLinking\TranslationVisitor.cs" />
   </ItemGroup>
