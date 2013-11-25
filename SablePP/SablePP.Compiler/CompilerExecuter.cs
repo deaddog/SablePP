@@ -5,8 +5,14 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
+using SablePP.Compiler.Generate;
+using SablePP.Compiler.Generate.Analysis;
+using SablePP.Compiler.Generate.Productions;
+using SablePP.Compiler.Generate.Tokens;
 using SablePP.Compiler.Nodes;
+
 using SablePP.Tools.Error;
+using SablePP.Tools.Generate;
 using SablePP.Tools.Nodes;
 
 namespace SablePP.Compiler
@@ -142,6 +148,16 @@ namespace SablePP.Compiler
         }
         public bool Generate(Start<PGrammar> root)
         {
+            ErrorManager manager = new ErrorManager();
+
+            ValidatePreSable(root, manager);
+            if (manager.Count > 0)
+                return false;
+
+            ValidateWithSableCC(root, manager);
+            if (manager.Count > 0)
+                return false;
+
             throw new NotImplementedException();
         }
     }
