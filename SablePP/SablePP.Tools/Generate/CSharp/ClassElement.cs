@@ -83,6 +83,19 @@ namespace SablePP.Tools.Generate.CSharp
             contents.EmitNewLine();
         }
 
+        public void EmitField(string name, string type, AccessModifiers modifiers, out FieldElement valueElement)
+        {
+            valueElement = new FieldElement();
+
+            modifiers.Emit(contents.Emit);
+            contents.Emit(type, UseSpace.NotPreferred, UseSpace.Preferred);
+            contents.Emit(name, UseSpace.NotPreferred, UseSpace.Preferred);
+            contents.Emit("=", UseSpace.Always, UseSpace.Always);
+            contents.InsertElement(valueElement);
+            contents.Emit(";", UseSpace.Never, UseSpace.Never);
+            contents.EmitNewLine();
+        }
+
         public MethodElement CreateMethod(AccessModifiers modifiers, string name, string returnType)
         {
             MethodElement method = new MethodElement(modifiers, name, returnType);
@@ -139,6 +152,10 @@ namespace SablePP.Tools.Generate.CSharp
             element.Parameters.Add(arg1name, arg1type);
             contents.InsertElement(element);
             return element;
+        }
+
+        public class FieldElement : ExecutableElement
+        {
         }
     }
 }
