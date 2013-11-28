@@ -10,6 +10,7 @@ using SablePP.Compiler.Generate.Analysis;
 using SablePP.Compiler.Generate.Productions;
 using SablePP.Compiler.Generate.Tokens;
 using SablePP.Compiler.Nodes;
+using SablePP.Compiler.Validation;
 
 using SablePP.Tools.Error;
 using SablePP.Tools.Generate;
@@ -69,6 +70,9 @@ namespace SablePP.Compiler
 
             var linktest = new SymbolLinking.DeclarationVisitor(errorManager);
             linktest.Visit(root);
+
+            var syntaxtest = new SyntaxHighlightValidator(errorManager);
+            syntaxtest.Visit(root);
         }
         private void ValidateWithSableCC(Start<PGrammar> root, ErrorManager errorManager)
         {
