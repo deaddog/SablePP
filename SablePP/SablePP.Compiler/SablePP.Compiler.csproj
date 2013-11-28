@@ -89,6 +89,7 @@
     <Compile Include="Nodes\PElement.cs" />
     <Compile Include="Nodes\PElementid.cs" />
     <Compile Include="Nodes\PGrammar.cs" />
+    <Compile Include="Nodes\TDecChar.cs" />
     <Compile Include="ParserModifier.cs" />
     <Compile Include="PathInformation.cs" />
     <Compile Include="SableGrammarEmitter.cs" />
