@@ -83,9 +83,9 @@ namespace SablePP.Tools.Generate.CSharp
             contents.EmitNewLine();
         }
 
-        public void EmitField(string name, string type, AccessModifiers modifiers, out FieldElement valueElement)
+        public void EmitField(string name, string type, AccessModifiers modifiers, out InlineElement valueElement)
         {
-            valueElement = new FieldElement();
+            valueElement = new InlineElement();
 
             modifiers.Emit(contents.Emit);
             contents.Emit(type, UseSpace.NotPreferred, UseSpace.Preferred);
@@ -152,10 +152,6 @@ namespace SablePP.Tools.Generate.CSharp
             element.Parameters.Add(arg1name, arg1type);
             contents.InsertElement(element);
             return element;
-        }
-
-        public class FieldElement : ExecutableElement
-        {
         }
     }
 }

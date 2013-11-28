@@ -19,6 +19,11 @@ namespace SablePP.Tools.Generate.CSharp
             insertElement(contents);
         }
 
+        public void InsertInline(InlineElement element)
+        {
+            contents.InsertElement(element);
+        }
+
         /// <summary>
         /// Curly bracket, newline and increases indentation
         /// </summary>

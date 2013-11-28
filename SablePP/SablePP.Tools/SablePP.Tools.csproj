@@ -51,6 +51,7 @@
     <Compile Include="Analysis\DepthFirstTreeWalker.cs" />
     <Compile Include="Editor\ErrorEventArgs.cs" />
     <Compile Include="Editor\ErrorEventHandler.cs" />
+    <Compile Include="Generate\CSharp\InlineElement.cs" />
     <Compile Include="Generate\CSharp\PartialMethodElement.cs" />
     <Compile Include="ICompilerExecuter.cs" />
     <Compile Include="Editor\CodeTextBox.cs">
