@@ -132,6 +132,19 @@ namespace SablePP.Tools.Generate.CSharp
             contents.Emit("||", UseSpace.Always, UseSpace.Always);
         }
 
+        public void EmitBinaryAnd()
+        {
+            contents.Emit("&", UseSpace.Always, UseSpace.Always);
+        }
+        public void EmitBinaryOr()
+        {
+            contents.Emit("|", UseSpace.Always, UseSpace.Always);
+        }
+        public void EmitBinaryXor()
+        {
+            contents.Emit("^", UseSpace.Always, UseSpace.Always);
+        }
+
         public void EmitEqual()
         {
             contents.Emit("==", UseSpace.Always, UseSpace.Always);
