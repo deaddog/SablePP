@@ -31,6 +31,11 @@ namespace SablePP.Compiler
             set { ignored = value; }
         }
 
+        public string GeneratedName
+        {
+            get { return "T" + char.ToUpper(base.DeclarationToken.Text[0]) + base.DeclarationToken.Text.Substring(1); }
+        }
+
         public override string ToString()
         {
             return "T:" + base.ToString() + (ignored ? " [Ignore]" : "");
