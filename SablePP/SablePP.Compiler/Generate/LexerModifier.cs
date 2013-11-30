@@ -9,7 +9,7 @@ using SablePP.Compiler.Analysis;
 using SablePP.Compiler.Nodes;
 using SablePP.Tools.Nodes;
 
-namespace SablePP.Compiler
+namespace SablePP.Compiler.Generate
 {
     public class LexerModifier
     {

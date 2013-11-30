@@ -80,7 +80,7 @@
     <Compile Include="Generate\Productions\ProductionVisitor.cs" />
     <Compile Include="Generate\Productions\PropertiesBuilder.cs" />
     <Compile Include="Generate\Tokens\TokenNodes.cs" />
-    <Compile Include="LexerModifier.cs" />
+    <Compile Include="Generate\LexerModifier.cs" />
     <Compile Include="Generate\Productions\FieldBuilder.cs" />
     <Compile Include="Generate\GenerateVisitor.cs" />
     <Compile Include="Generate\Productions\ProductionNodes.cs" />
@@ -90,7 +90,7 @@
     <Compile Include="Nodes\PElementid.cs" />
     <Compile Include="Nodes\PGrammar.cs" />
     <Compile Include="Nodes\TDecChar.cs" />
-    <Compile Include="ParserModifier.cs" />
+    <Compile Include="Generate\ParserModifier.cs" />
     <Compile Include="PathInformation.cs" />
     <Compile Include="SableGrammarEmitter.cs" />
     <Compile Include="SymbolLinking\DeclarationTables.cs" />

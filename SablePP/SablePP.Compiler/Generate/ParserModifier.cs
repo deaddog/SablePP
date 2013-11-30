@@ -12,7 +12,7 @@ using SablePP.Tools.Nodes;
 using SablePP.Tools.Generate;
 using SablePP.Tools.Generate.CSharp;
 
-namespace SablePP.Compiler
+namespace SablePP.Compiler.Generate
 {
     public class ParserModifier
     {
