@@ -288,5 +288,175 @@ namespace SablePP.Compiler.Generate
             this.builderClass = builderClass;
             this.styleRulesElement = styleRulesElement;
         }
+
+        public override void CaseAHighlightrule(AHighlightrule node)
+        {
+            currentStyle = node.Name.Text + "Style";
+
+            InlineElement field;
+            builderClass.EmitField(currentStyle, "TextStyle", AccessModifiers.@private, out field);
+
+            field.EmitNew();
+            field.EmitIdentifier("TextStyle");
+            styleField = field.EmitParenthesis();
+
+            textColor = null;
+            backgroundColor = null;
+            fontStyle = FontStyle.Regular;
+
+            InlineElement temp = styleRulesElement as InlineElement;
+            styleRulesElement = temp.EmitIf();
+            Visit((dynamic)node.Tokens);
+            temp.EmitNewLine();
+            temp.IncreaseIndentation();
+            temp.EmitReturn();
+            temp.EmitIdentifier(currentStyle);
+            temp.EmitSemicolon(true);
+            temp.DecreaseIndentation();
+            styleRulesElement = temp;
+
+            Visit((dynamic)node.List);
+
+            EmitNewBrush(textColor);
+            styleField.EmitComma();
+            EmitNewBrush(backgroundColor);
+            styleField.EmitComma();
+
+            if (fontStyle == FontStyle.Regular)
+            {
+                styleField.EmitIdentifier("FontStyle");
+                styleField.EmitPeriod();
+                styleField.EmitIdentifier("Regular");
+            }
+            else
+            {
+                bool first = true;
+                foreach (FontStyle s in Enum.GetValues(typeof(FontStyle)))
+                    if (fontStyle.HasFlag(s) && s != FontStyle.Regular)
+                    {
+                        if (!first) styleField.EmitBinaryOr();
+                        styleField.EmitIdentifier("FontStyle");
+                        styleField.EmitPeriod();
+                        styleField.EmitIdentifier(s.ToString());
+
+                        first = false;
+                    }
+            }
+        }
+
+        public override void CaseTIdentifier(TIdentifier node)
+        {
+            styleRulesElement.EmitIdentifier("token");
+            styleRulesElement.EmitIs();
+            styleRulesElement.EmitIdentifier(node.AsToken.GeneratedName);
+        }
+
+        private void EmitNewBrush(Color? color)
+        {
+            if (color.HasValue)
+            {
+                styleField.EmitNew();
+                styleField.EmitIdentifier("SolidBrush");
+                using (var brushPar = styleField.EmitParenthesis())
+                {
+                    brushPar.EmitIdentifier("Color");
+                    brushPar.EmitPeriod();
+                    brushPar.EmitIdentifier("FromArgb");
+                    using (var par = brushPar.EmitParenthesis())
+                    {
+                        par.EmitIntValue(color.Value.R);
+                        par.EmitComma();
+                        par.EmitIntValue(color.Value.G);
+                        par.EmitComma();
+                        par.EmitIntValue(color.Value.B);
+                    }
+                }
+            }
+            else
+                styleField.EmitNull();
+        }
+
+        private Color GetColor(ARgbColor node)
+        {
+            int red = int.Parse(node.Red.Text);
+            int green = int.Parse(node.Green.Text);
+            int blue = int.Parse(node.Blue.Text);
+
+            return Color.FromArgb(red, green, blue);
+        }
+        private Color GetColor(AHsvColor node)
+        {
+            Func<float, byte> calcValue = ff =>
+            {
+                ff *= 255;
+                if (ff > 255) ff = 255;
+                if (ff < 0) ff = 0;
+                return (byte)ff;
+            };
+
+            int hue = int.Parse(node.Hue.Text);
+            int saturation = int.Parse(node.Saturation.Text);
+            int brightness = int.Parse(node.Brightness.Text);
+
+            int h = (int)(hue / 60f);
+            float f = (hue / 60f) - h; h %= 6;
+            byte v = calcValue(brightness);
+            byte p = calcValue(brightness * (1 - saturation));
+            byte q = calcValue(brightness * (1 - f * saturation));
+            byte t = calcValue(brightness * (1 - (1 - f) * saturation));
+
+            switch (h)
+            {
+                case 0: return Color.FromArgb(v, t, p);
+                case 1: return Color.FromArgb(q, v, p);
+                case 2: return Color.FromArgb(p, v, t);
+                case 3: return Color.FromArgb(p, q, v);
+                case 4: return Color.FromArgb(t, p, v);
+                case 5: return Color.FromArgb(v, p, q);
+                default: throw new ApplicationException("Unknown hue value: " + hue);
+            }
+        }
+        private Color GetColor(AHexColor node)
+        {
+            //Remove the # from the start of the color token
+            string color = node.Color.Text.Substring(1);
+
+            int red, green, blue;
+
+            if (color.Length == 3)
+            {
+                red = int.Parse("" + color[0] + color[0], System.Globalization.NumberStyles.HexNumber);
+                green = int.Parse("" + color[1] + color[1], System.Globalization.NumberStyles.HexNumber);
+                blue = int.Parse("" + color[2] + color[2], System.Globalization.NumberStyles.HexNumber);
+            }
+            else if (color.Length == 6)
+            {
+                red = int.Parse("" + color.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+                green = int.Parse("" + color.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+                blue = int.Parse("" + color.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+            }
+            else
+                throw new ApplicationException("Invalid length of hex-color token: " + color.Length + ".");
+
+            return Color.FromArgb(red, green, blue);
+        }
+
+        public override void CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        {
+            backgroundColor = GetColor((dynamic)node.Color);
+        }
+        public override void CaseATextHighlightStyle(ATextHighlightStyle node)
+        {
+            textColor = GetColor((dynamic)node.Color);
+        }
+
+        public override void CaseAItalicHighlightStyle(AItalicHighlightStyle node)
+        {
+            fontStyle |= FontStyle.Italic;
+        }
+        public override void CaseABoldHighlightStyle(ABoldHighlightStyle node)
+        {
+            fontStyle |= FontStyle.Bold;
+        }
     }
 }
