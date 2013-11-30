@@ -6,7 +6,7 @@ using SablePP.Compiler.Nodes;
 
 namespace SablePP.Compiler.Validation
 {
-    public class SyntaxHighlightValidator : Error.ErrorVisitor
+    public class SyntaxHighlightValidator : ErrorVisitor
     {
         public SyntaxHighlightValidator(ErrorManager manager)
             : base(manager)

@@ -95,7 +95,7 @@
     <Compile Include="SableGrammarEmitter.cs" />
     <Compile Include="Validation\SymbolLinking\DeclarationTables.cs" />
     <Compile Include="Validation\SymbolLinking\DeclarationVisitor.cs" />
-    <Compile Include="Error\ErrorVisitor.cs" />
+    <Compile Include="Validation\ErrorVisitor.cs" />
     <Compile Include="Nodes\TIdentifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,7 +6,7 @@ using SablePP.Tools.Error;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
-    public class IgnoredTokenVisitor : Error.ErrorVisitor
+    public class IgnoredTokenVisitor : ErrorVisitor
     {
         private Dictionary<string, DToken> tokens;
 

@@ -4,7 +4,7 @@ using SablePP.Tools.Error;
 using SablePP.Tools.Nodes;
 using SablePP.Compiler.Analysis;
 
-namespace SablePP.Compiler.Error
+namespace SablePP.Compiler.Validation
 {
     public abstract class ErrorVisitor : DepthFirstAdapter
     {

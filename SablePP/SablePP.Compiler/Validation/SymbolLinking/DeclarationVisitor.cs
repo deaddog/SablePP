@@ -7,7 +7,7 @@ using SablePP.Tools.Error;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
-    public class DeclarationVisitor : Error.ErrorVisitor
+    public class DeclarationVisitor : ErrorVisitor
     {
         public DeclarationVisitor(ErrorManager errorManager)
             : base(errorManager)
