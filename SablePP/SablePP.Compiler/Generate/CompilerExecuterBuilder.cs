@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Text;
 
 using SablePP.Compiler.Nodes;
@@ -10,8 +11,6 @@ namespace SablePP.Compiler.Generate
 {
     public class CompilerExecuterBuilder : GenerateVisitor
     {
-        #region Class setup
-
         public static FileElement Build(Start<PGrammar> root)
         {
             string packageName = root.Root.PackageName;
@@ -49,11 +48,21 @@ namespace SablePP.Compiler.Generate
             classElement.EmitNewLine();
             CreateValidateMethods(classElement, rootProduction);
 
+            InlineElement styleRules;
+
             classElement.EmitNewLine();
-            CreateSimpleSyntaxMethod(classElement);
+            CreateSimpleSyntaxMethod(classElement, out styleRules);
+
+            if (root.Root is AGrammar && (root.Root as AGrammar).HasHighlightrules)
+            {
+                CompilerExecuterBuilder builder = new CompilerExecuterBuilder(classElement, styleRules);
+                builder.Visit((root.Root as AGrammar).Highlightrules);
+            }
 
             return fileElement;
         }
+
+        #region Class setup
 
         private static ClassElement CreateClass(FileElement fileElement, string packageName)
         {
@@ -251,15 +260,33 @@ namespace SablePP.Compiler.Generate
 
             #endregion
         }
-        private static void CreateSimpleSyntaxMethod(ClassElement classElement)
+        private static void CreateSimpleSyntaxMethod(ClassElement classElement, out InlineElement rulesElement)
         {
             var method = classElement.CreateMethod(AccessModifiers.@public, "GetSimpleStyle", "Style");
             method.Parameters.Add("token", "Token");
+            rulesElement = new InlineElement();
+            method.InsertInline(rulesElement);
             method.EmitReturn();
             method.EmitNull();
             method.EmitSemicolon(true);
         }
 
         #endregion
+
+        private ClassElement builderClass;
+        private ExecutableElement styleRulesElement;
+        private ExecutableElement styleField;
+
+        private Color? textColor;
+        private Color? backgroundColor;
+        private FontStyle fontStyle;
+
+        private string currentStyle;
+
+        private CompilerExecuterBuilder(ClassElement builderClass, InlineElement styleRulesElement)
+        {
+            this.builderClass = builderClass;
+            this.styleRulesElement = styleRulesElement;
+        }
     }
 }
