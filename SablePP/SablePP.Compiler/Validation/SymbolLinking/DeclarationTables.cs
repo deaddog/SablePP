@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SablePP.Compiler.SymbolLinking
+namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class DeclarationTables
     {

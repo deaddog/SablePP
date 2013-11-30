@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using SablePP.Compiler.Nodes;
 using SablePP.Tools.Error;
 
-namespace SablePP.Compiler.SymbolLinking
+namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class StateVisitor : DeclarationVisitor
     {

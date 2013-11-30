@@ -68,7 +68,7 @@ namespace SablePP.Compiler
                 }
             }
 
-            var linktest = new SymbolLinking.DeclarationVisitor(errorManager);
+            var linktest = new Validation.SymbolLinking.DeclarationVisitor(errorManager);
             linktest.Visit(root);
 
             var syntaxtest = new SyntaxHighlightValidator(errorManager);
