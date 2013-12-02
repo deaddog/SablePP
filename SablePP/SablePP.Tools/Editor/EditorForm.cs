@@ -33,7 +33,7 @@ namespace SablePP.Tools.Editor
         }
         private void updateTitle()
         {
-            string fileText = fileOpened ? string.Format("{0}{1}", file.Name, _changed ? "*" : "") : "";
+            string fileText = FileOpened ? string.Format("{0}{1}", File.Name, _changed ? "*" : "") : "";
             if (text == null || text.Length == 0)
                 base.Text = fileText;
             else if (fileText.Length > 0)
@@ -66,10 +66,10 @@ namespace SablePP.Tools.Editor
         private Encoding encoding;
 
         private FileInfo _file = null;
-        private FileInfo file
+        public FileInfo File
         {
             get { return _file; }
-            set
+            private set
             {
                 _file = value;
                 if (_file == null)
@@ -80,9 +80,9 @@ namespace SablePP.Tools.Editor
                 FiletoolsEnabled = _file != null;
             }
         }
-        private bool fileOpened
+        public bool FileOpened
         {
-            get { return file != null; }
+            get { return File != null; }
         }
         private bool _changed = false;
         private bool changed
@@ -116,7 +116,7 @@ namespace SablePP.Tools.Editor
             codeTextBox1.Text = EditorSettings.Default.DefaultCode;
             changed = false;
 
-            file = new FileInfo(EditorResources.Untitled + "." + (extension ?? EditorResources.DefaultExtension));
+            File = new FileInfo(EditorResources.Untitled + "." + (extension ?? EditorResources.DefaultExtension));
 
             codeTextBox1.Focus();
             codeTextBox1.SelectionLength = 0;
@@ -131,7 +131,7 @@ namespace SablePP.Tools.Editor
         private DialogResult openFile()
         {
             DialogResult res;
-            if (fileOpened)
+            if (FileOpened)
             {
                 res = closeFile();
                 if (res != System.Windows.Forms.DialogResult.OK)
@@ -147,7 +147,7 @@ namespace SablePP.Tools.Editor
         }
         private DialogResult openFile(string filepath)
         {
-            if (fileOpened)
+            if (FileOpened)
             {
                 DialogResult res = closeFile();
                 if (res != System.Windows.Forms.DialogResult.OK)
@@ -155,8 +155,8 @@ namespace SablePP.Tools.Editor
             }
 
             splitContainer1.Enabled = true;
-            file = new FileInfo(filepath);
-            using (StreamReader reader = new StreamReader(file.FullName, true))
+            File = new FileInfo(filepath);
+            using (StreamReader reader = new StreamReader(File.FullName, true))
             {
                 codeTextBox1.Text = reader.ReadToEnd();
                 this.encoding = reader.CurrentEncoding;
@@ -172,13 +172,13 @@ namespace SablePP.Tools.Editor
         }
         private DialogResult saveFile()
         {
-            if (!fileOpened)
+            if (!FileOpened)
                 return System.Windows.Forms.DialogResult.Cancel;
 
-            if (!file.Exists)
+            if (!File.Exists)
                 return saveFileAs();
 
-            using (FileStream fs = new FileStream(file.FullName, FileMode.Create))
+            using (FileStream fs = new FileStream(File.FullName, FileMode.Create))
             using (StreamWriter writer = new StreamWriter(fs, encoding))
                 writer.Write(codeTextBox1.Text);
             changed = false;
@@ -187,7 +187,7 @@ namespace SablePP.Tools.Editor
         }
         private DialogResult saveFileAs()
         {
-            if (!fileOpened)
+            if (!FileOpened)
                 return System.Windows.Forms.DialogResult.Cancel;
 
             DialogResult res = saveFileDialog1.ShowDialog();
@@ -200,7 +200,7 @@ namespace SablePP.Tools.Editor
             using (StreamWriter writer = new StreamWriter(fs, encoding))
                 writer.Write(codeTextBox1.Text);
 
-            file = f;
+            File = f;
             changed = false;
 
 
@@ -208,13 +208,13 @@ namespace SablePP.Tools.Editor
         }
         private DialogResult closeFile()
         {
-            if (!fileOpened)
+            if (!FileOpened)
                 return System.Windows.Forms.DialogResult.OK;
 
             if (changed)
             {
                 DialogResult res = MessageBox.Show(
-                    "It seems you have made changes to your file \"" + file.Name + "\", would you like to save it before closing?",
+                    "It seems you have made changes to your file \"" + File.Name + "\", would you like to save it before closing?",
                     "File changed",
                     MessageBoxButtons.YesNoCancel);
                 if (res == System.Windows.Forms.DialogResult.Yes)
@@ -225,7 +225,7 @@ namespace SablePP.Tools.Editor
             }
 
             encoding = null;
-            file = null;
+            File = null;
 
             splitContainer1.Enabled = false;
             codeTextBox1.Text = "";
