@@ -8,831 +8,829 @@ using SablePP.Tools.Nodes;
 using SablePP.Compiler.Nodes;
 using SablePP.Tools.Error;
 
-namespace SablePP.Compiler.Lexing
+namespace SablePP.Compiler.Lexing {
+
+internal class PushbackReader {
+  private TextReader reader;
+  private Stack stack = new Stack ();
+
+
+  internal PushbackReader (TextReader reader)
+  {
+    this.reader = reader;
+  }
+
+  internal int Peek ()
+  {
+    if ( stack.Count > 0 ) return (int)stack.Peek();
+    return reader.Peek();
+  }
+
+  internal int Read ()
+  {
+    if ( stack.Count > 0 ) return (int)stack.Pop();
+    return reader.Read();
+  }
+
+  internal void Unread (int v)
+  {
+    stack.Push (v);
+  }
+}
+
+public class Lexer : SablePP.Tools.Lexing.ILexer
 {
+    protected Token token;
+    protected State currentState = State.NORMAL;
 
-    internal class PushbackReader
+    private PushbackReader input;
+    private int line;
+    private int pos;
+    private bool cr;
+    private bool eof;
+    private StringBuilder text = new StringBuilder();
+
+    protected virtual void Filter()
     {
-        private TextReader reader;
-        private Stack stack = new Stack();
-
-
-        internal PushbackReader(TextReader reader)
-        {
-            this.reader = reader;
-        }
-
-        internal int Peek()
-        {
-            if (stack.Count > 0) return (int)stack.Peek();
-            return reader.Peek();
-        }
-
-        internal int Read()
-        {
-            if (stack.Count > 0) return (int)stack.Pop();
-            return reader.Read();
-        }
-
-        internal void Unread(int v)
-        {
-            stack.Push(v);
-        }
     }
 
-    public class Lexer : SablePP.Tools.Lexing.ILexer
+    public Lexer(TextReader input)
     {
-        protected Token token;
-        protected State currentState = State.NORMAL;
+        this.input = new PushbackReader(input);
+    }
 
-        private PushbackReader input;
-        private int line;
-        private int pos;
-        private bool cr;
-        private bool eof;
-        private StringBuilder text = new StringBuilder();
-
-        protected virtual void Filter()
+    public virtual Token Peek()
+    {
+        while(token == null)
         {
+            token = GetToken();
+            Filter();
         }
 
-        public Lexer(TextReader input)
+        return token;
+    }
+
+    public virtual Token Next()
+    {
+        while(token == null)
         {
-            this.input = new PushbackReader(input);
+            token = GetToken();
+            Filter();
         }
 
-        public virtual Token Peek()
+        Token result = token;
+        token = null;
+        return result;
+    }
+
+    protected virtual Token GetToken()
+    {
+        int dfa_state = 0;
+
+        int start_pos = pos;
+        int start_line = line;
+
+        int accept_state = -1;
+        int accept_token = -1;
+        int accept_length = -1;
+        int accept_pos = -1;
+        int accept_line = -1;
+
+        int[][][] gotoTable = Lexer.gotoTable[currentState.id()];
+        int[] accept = Lexer.accept[currentState.id()];
+        text.Length = 0;
+
+        while(true)
         {
-            while (token == null)
+            int c = GetChar();
+
+            if(c != -1)
             {
-                token = GetToken();
-                Filter();
-            }
-
-            return token;
-        }
-
-        public virtual Token Next()
-        {
-            while (token == null)
-            {
-                token = GetToken();
-                Filter();
-            }
-
-            Token result = token;
-            token = null;
-            return result;
-        }
-
-        protected virtual Token GetToken()
-        {
-            int dfa_state = 0;
-
-            int start_pos = pos;
-            int start_line = line;
-
-            int accept_state = -1;
-            int accept_token = -1;
-            int accept_length = -1;
-            int accept_pos = -1;
-            int accept_line = -1;
-
-            int[][][] gotoTable = Lexer.gotoTable[currentState.id()];
-            int[] accept = Lexer.accept[currentState.id()];
-            text.Length = 0;
-
-            while (true)
-            {
-                int c = GetChar();
-
-                if (c != -1)
+                switch(c)
                 {
-                    switch (c)
+                case 10:
+                    if(cr)
                     {
-                        case 10:
-                            if (cr)
-                            {
-                                cr = false;
-                            }
-                            else
-                            {
-                                line++;
-                                pos = 0;
-                            }
-                            break;
-                        case 13:
-                            line++;
-                            pos = 0;
-                            cr = true;
-                            break;
-                        default:
-                            pos++;
-                            cr = false;
-                            break;
-                    };
-
-                    text.Append((char)c);
-                    do
-                    {
-                        int oldState = (dfa_state < -1) ? (-2 - dfa_state) : dfa_state;
-
-                        dfa_state = -1;
-
-                        int[][] tmp1 = gotoTable[oldState];
-                        int low = 0;
-                        int high = tmp1.Length - 1;
-
-                        while (low <= high)
-                        {
-                            int middle = (low + high) / 2;
-                            int[] tmp2 = tmp1[middle];
-
-                            if (c < tmp2[0])
-                            {
-                                high = middle - 1;
-                            }
-                            else if (c > tmp2[1])
-                            {
-                                low = middle + 1;
-                            }
-                            else
-                            {
-                                dfa_state = tmp2[2];
-                                break;
-                            }
-                        }
-                    } while (dfa_state < -1);
-                }
-                else
-                {
-                    dfa_state = -1;
-                }
-
-                if (dfa_state >= 0)
-                {
-                    if (accept[dfa_state] != -1)
-                    {
-                        accept_state = dfa_state;
-                        accept_token = accept[dfa_state];
-                        accept_length = text.Length;
-                        accept_pos = pos;
-                        accept_line = line;
-                    }
-                }
-                else
-                {
-                    if (accept_state != -1)
-                    {
-                        switch (accept_token)
-                        {
-                            case 0:
-                                {
-                                    Token token = New0(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 1:
-                                {
-                                    Token token = New1(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    switch (currentState.id())
-                                    {
-                                        case 0: currentState = State.PACKAGE; break;
-                                    }
-                                    return token;
-                                }
-                            case 2:
-                                {
-                                    Token token = New2(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 3:
-                                {
-                                    Token token = New3(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 4:
-                                {
-                                    Token token = New4(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 5:
-                                {
-                                    Token token = New5(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 6:
-                                {
-                                    Token token = New6(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 7:
-                                {
-                                    Token token = New7(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 8:
-                                {
-                                    Token token = New8(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    switch (currentState.id())
-                                    {
-                                        case 0: currentState = State.HIGHLIGHT; break;
-                                    }
-                                    return token;
-                                }
-                            case 9:
-                                {
-                                    Token token = New9(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 10:
-                                {
-                                    Token token = New10(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 11:
-                                {
-                                    Token token = New11(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 12:
-                                {
-                                    Token token = New12(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 13:
-                                {
-                                    Token token = New13(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 14:
-                                {
-                                    Token token = New14(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 15:
-                                {
-                                    Token token = New15(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    switch (currentState.id())
-                                    {
-                                        case 1: currentState = State.NORMAL; break;
-                                        case 3: currentState = State.HIGHLIGHT; break;
-                                    }
-                                    return token;
-                                }
-                            case 16:
-                                {
-                                    Token token = New16(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 17:
-                                {
-                                    Token token = New17(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 18:
-                                {
-                                    Token token = New18(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 19:
-                                {
-                                    Token token = New19(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 20:
-                                {
-                                    Token token = New20(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 21:
-                                {
-                                    Token token = New21(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 22:
-                                {
-                                    Token token = New22(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    switch (currentState.id())
-                                    {
-                                        case 2: currentState = State.HIGHLIGHTSTYLES; break;
-                                    }
-                                    return token;
-                                }
-                            case 23:
-                                {
-                                    Token token = New23(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 24:
-                                {
-                                    Token token = New24(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 25:
-                                {
-                                    Token token = New25(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 26:
-                                {
-                                    Token token = New26(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 27:
-                                {
-                                    Token token = New27(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 28:
-                                {
-                                    Token token = New28(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 29:
-                                {
-                                    Token token = New29(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 30:
-                                {
-                                    Token token = New30(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 31:
-                                {
-                                    Token token = New31(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 32:
-                                {
-                                    Token token = New32(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 33:
-                                {
-                                    Token token = New33(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 34:
-                                {
-                                    Token token = New34(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 35:
-                                {
-                                    Token token = New35(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 36:
-                                {
-                                    Token token = New36(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 37:
-                                {
-                                    Token token = New37(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 38:
-                                {
-                                    Token token = New38(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 39:
-                                {
-                                    Token token = New39(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 40:
-                                {
-                                    Token token = New40(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 41:
-                                {
-                                    Token token = New41(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 42:
-                                {
-                                    Token token = New42(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 43:
-                                {
-                                    Token token = New43(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 44:
-                                {
-                                    Token token = New44(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                            case 45:
-                                {
-                                    Token token = New45(
-                                        GetText(accept_length),
-                                        start_line + 1,
-                                        start_pos + 1);
-                                    PushBack(accept_length);
-                                    pos = accept_pos;
-                                    line = accept_line;
-                                    return token;
-                                }
-                        }
+                        cr = false;
                     }
                     else
                     {
-                        if (text.Length > 0)
+                        line++;
+                        pos = 0;
+                    }
+                    break;
+                case 13:
+                    line++;
+                    pos = 0;
+                    cr = true;
+                    break;
+                default:
+                    pos++;
+                    cr = false;
+                    break;
+                };
+
+                text.Append((char) c);
+                do
+                {
+                    int oldState = (dfa_state < -1) ? (-2 -dfa_state) : dfa_state;
+
+                    dfa_state = -1;
+
+                    int[][] tmp1 =  gotoTable[oldState];
+                    int low = 0;
+                    int high = tmp1.Length - 1;
+
+                    while(low <= high)
+                    {
+                        int middle = (low + high) / 2;
+                        int[] tmp2 = tmp1[middle];
+
+                        if(c < tmp2[0])
                         {
-                            throw new LexerException(start_line + 1, start_pos + 1, "Unknown token: " + text);
+                            high = middle - 1;
+                        }
+                        else if(c > tmp2[1])
+                        {
+                            low = middle + 1;
                         }
                         else
                         {
-                            EOF token = new EOF(
+                            dfa_state = tmp2[2];
+                            break;
+                        }
+                    }
+                }while(dfa_state < -1);
+            }
+            else
+            {
+                dfa_state = -1;
+            }
+
+            if(dfa_state >= 0)
+            {
+                if(accept[dfa_state] != -1)
+                {
+                    accept_state = dfa_state;
+                    accept_token = accept[dfa_state];
+                    accept_length = text.Length;
+                    accept_pos = pos;
+                    accept_line = line;
+                }
+            }
+            else
+            {
+                if(accept_state != -1)
+                {
+                    switch(accept_token)
+                    {
+                    case 0:
+                        {
+                            Token token = New0(
+                                GetText(accept_length),
                                 start_line + 1,
                                 start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 1:
+                        {
+                            Token token = New1(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            switch (currentState.id())
+                            {
+                              case 0: currentState = State.PACKAGE; break;
+                            }
+                            return token;
+                        }
+                    case 2:
+                        {
+                            Token token = New2(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 3:
+                        {
+                            Token token = New3(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 4:
+                        {
+                            Token token = New4(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 5:
+                        {
+                            Token token = New5(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 6:
+                        {
+                            Token token = New6(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 7:
+                        {
+                            Token token = New7(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 8:
+                        {
+                            Token token = New8(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            switch (currentState.id())
+                            {
+                              case 0: currentState = State.HIGHLIGHT; break;
+                            }
+                            return token;
+                        }
+                    case 9:
+                        {
+                            Token token = New9(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 10:
+                        {
+                            Token token = New10(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 11:
+                        {
+                            Token token = New11(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 12:
+                        {
+                            Token token = New12(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 13:
+                        {
+                            Token token = New13(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 14:
+                        {
+                            Token token = New14(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 15:
+                        {
+                            Token token = New15(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            switch (currentState.id())
+                            {
+                              case 1: currentState = State.NORMAL; break;
+                              case 3: currentState = State.HIGHLIGHT; break;
+                            }
+                            return token;
+                        }
+                    case 16:
+                        {
+                            Token token = New16(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 17:
+                        {
+                            Token token = New17(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 18:
+                        {
+                            Token token = New18(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 19:
+                        {
+                            Token token = New19(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 20:
+                        {
+                            Token token = New20(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 21:
+                        {
+                            Token token = New21(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 22:
+                        {
+                            Token token = New22(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            switch (currentState.id())
+                            {
+                              case 2: currentState = State.HIGHLIGHTSTYLES; break;
+                            }
+                            return token;
+                        }
+                    case 23:
+                        {
+                            Token token = New23(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 24:
+                        {
+                            Token token = New24(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 25:
+                        {
+                            Token token = New25(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 26:
+                        {
+                            Token token = New26(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 27:
+                        {
+                            Token token = New27(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 28:
+                        {
+                            Token token = New28(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 29:
+                        {
+                            Token token = New29(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 30:
+                        {
+                            Token token = New30(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 31:
+                        {
+                            Token token = New31(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 32:
+                        {
+                            Token token = New32(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 33:
+                        {
+                            Token token = New33(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 34:
+                        {
+                            Token token = New34(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 35:
+                        {
+                            Token token = New35(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 36:
+                        {
+                            Token token = New36(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 37:
+                        {
+                            Token token = New37(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 38:
+                        {
+                            Token token = New38(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 39:
+                        {
+                            Token token = New39(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 40:
+                        {
+                            Token token = New40(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 41:
+                        {
+                            Token token = New41(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 42:
+                        {
+                            Token token = New42(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 43:
+                        {
+                            Token token = New43(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 44:
+                        {
+                            Token token = New44(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
+                            return token;
+                        }
+                    case 45:
+                        {
+                            Token token = New45(
+                                GetText(accept_length),
+                                start_line + 1,
+                                start_pos + 1);
+                            PushBack(accept_length);
+                            pos = accept_pos;
+                            line = accept_line;
                             return token;
                         }
                     }
                 }
+                else
+                {
+                    if(text.Length > 0)
+                    {
+                        throw new LexerException(start_line + 1, start_pos + 1, "Unknown token: " + text);
+                    }
+                    else
+                    {
+                        EOF token = new EOF(
+                            start_line + 1,
+                            start_pos + 1);
+                        return token;
+                    }
+                }
             }
         }
+    }
 
-        private Token New0(String text, int line, int pos) { return new TPackagename(text, line, pos); }
-        private Token New1(String text, int line, int pos) { return new TPackagetoken(text, line, pos); }
-        private Token New2(String text, int line, int pos) { return new TStatestoken(text, line, pos); }
-        private Token New3(String text, int line, int pos) { return new THelperstoken(text, line, pos); }
-        private Token New4(String text, int line, int pos) { return new TTokenstoken(text, line, pos); }
-        private Token New5(String text, int line, int pos) { return new TIgnoredtoken(text, line, pos); }
-        private Token New6(String text, int line, int pos) { return new TProductionstoken(text, line, pos); }
-        private Token New7(String text, int line, int pos) { return new TAsttoken(text, line, pos); }
-        private Token New8(String text, int line, int pos) { return new THighlighttoken(text, line, pos); }
-        private Token New9(String text, int line, int pos) { return new TNew(text, line, pos); }
-        private Token New10(String text, int line, int pos) { return new TNull(text, line, pos); }
-        private Token New11(String text, int line, int pos) { return new TTokenSpecifier(text, line, pos); }
-        private Token New12(String text, int line, int pos) { return new TProductionSpecifier(text, line, pos); }
-        private Token New13(String text, int line, int pos) { return new TDot(text, line, pos); }
-        private Token New14(String text, int line, int pos) { return new TDDot(text, line, pos); }
-        private Token New15(String text, int line, int pos) { return new TSemicolon(text, line, pos); }
-        private Token New16(String text, int line, int pos) { return new TEqual(text, line, pos); }
-        private Token New17(String text, int line, int pos) { return new TLBkt(text, line, pos); }
-        private Token New18(String text, int line, int pos) { return new TRBkt(text, line, pos); }
-        private Token New19(String text, int line, int pos) { return new TLPar(text, line, pos); }
-        private Token New20(String text, int line, int pos) { return new TRPar(text, line, pos); }
-        private Token New21(String text, int line, int pos) { return new TLBrace(text, line, pos); }
-        private Token New22(String text, int line, int pos) { return new TRBrace(text, line, pos); }
-        private Token New23(String text, int line, int pos) { return new TPlus(text, line, pos); }
-        private Token New24(String text, int line, int pos) { return new TMinus(text, line, pos); }
-        private Token New25(String text, int line, int pos) { return new TQMark(text, line, pos); }
-        private Token New26(String text, int line, int pos) { return new TStar(text, line, pos); }
-        private Token New27(String text, int line, int pos) { return new TPipe(text, line, pos); }
-        private Token New28(String text, int line, int pos) { return new TComma(text, line, pos); }
-        private Token New29(String text, int line, int pos) { return new TSlash(text, line, pos); }
-        private Token New30(String text, int line, int pos) { return new TArrow(text, line, pos); }
-        private Token New31(String text, int line, int pos) { return new TColon(text, line, pos); }
-        private Token New32(String text, int line, int pos) { return new TIdentifier(text, line, pos); }
-        private Token New33(String text, int line, int pos) { return new TCharacter(text, line, pos); }
-        private Token New34(String text, int line, int pos) { return new TDecChar(text, line, pos); }
-        private Token New35(String text, int line, int pos) { return new THexChar(text, line, pos); }
-        private Token New36(String text, int line, int pos) { return new TString(text, line, pos); }
-        private Token New37(String text, int line, int pos) { return new TBlank(text, line, pos); }
-        private Token New38(String text, int line, int pos) { return new TComment(text, line, pos); }
-        private Token New39(String text, int line, int pos) { return new TItalic(text, line, pos); }
-        private Token New40(String text, int line, int pos) { return new TBold(text, line, pos); }
-        private Token New41(String text, int line, int pos) { return new TText(text, line, pos); }
-        private Token New42(String text, int line, int pos) { return new TBackground(text, line, pos); }
-        private Token New43(String text, int line, int pos) { return new TRgb(text, line, pos); }
-        private Token New44(String text, int line, int pos) { return new THsv(text, line, pos); }
-        private Token New45(String text, int line, int pos) { return new THexColor(text, line, pos); }
+    private Token New0(String text, int line, int pos) { return new TPackagename(text, line, pos); }
+    private Token New1(String text, int line, int pos) { return new TPackagetoken(text, line, pos); }
+    private Token New2(String text, int line, int pos) { return new TStatestoken(text, line, pos); }
+    private Token New3(String text, int line, int pos) { return new THelperstoken(text, line, pos); }
+    private Token New4(String text, int line, int pos) { return new TTokenstoken(text, line, pos); }
+    private Token New5(String text, int line, int pos) { return new TIgnoredtoken(text, line, pos); }
+    private Token New6(String text, int line, int pos) { return new TProductionstoken(text, line, pos); }
+    private Token New7(String text, int line, int pos) { return new TAsttoken(text, line, pos); }
+    private Token New8(String text, int line, int pos) { return new THighlighttoken(text, line, pos); }
+    private Token New9(String text, int line, int pos) { return new TNew(text, line, pos); }
+    private Token New10(String text, int line, int pos) { return new TNull(text, line, pos); }
+    private Token New11(String text, int line, int pos) { return new TTokenSpecifier(text, line, pos); }
+    private Token New12(String text, int line, int pos) { return new TProductionSpecifier(text, line, pos); }
+    private Token New13(String text, int line, int pos) { return new TDot(text, line, pos); }
+    private Token New14(String text, int line, int pos) { return new TDDot(text, line, pos); }
+    private Token New15(String text, int line, int pos) { return new TSemicolon(text, line, pos); }
+    private Token New16(String text, int line, int pos) { return new TEqual(text, line, pos); }
+    private Token New17(String text, int line, int pos) { return new TLBkt(text, line, pos); }
+    private Token New18(String text, int line, int pos) { return new TRBkt(text, line, pos); }
+    private Token New19(String text, int line, int pos) { return new TLPar(text, line, pos); }
+    private Token New20(String text, int line, int pos) { return new TRPar(text, line, pos); }
+    private Token New21(String text, int line, int pos) { return new TLBrace(text, line, pos); }
+    private Token New22(String text, int line, int pos) { return new TRBrace(text, line, pos); }
+    private Token New23(String text, int line, int pos) { return new TPlus(text, line, pos); }
+    private Token New24(String text, int line, int pos) { return new TMinus(text, line, pos); }
+    private Token New25(String text, int line, int pos) { return new TQMark(text, line, pos); }
+    private Token New26(String text, int line, int pos) { return new TStar(text, line, pos); }
+    private Token New27(String text, int line, int pos) { return new TPipe(text, line, pos); }
+    private Token New28(String text, int line, int pos) { return new TComma(text, line, pos); }
+    private Token New29(String text, int line, int pos) { return new TSlash(text, line, pos); }
+    private Token New30(String text, int line, int pos) { return new TArrow(text, line, pos); }
+    private Token New31(String text, int line, int pos) { return new TColon(text, line, pos); }
+    private Token New32(String text, int line, int pos) { return new TIdentifier(text, line, pos); }
+    private Token New33(String text, int line, int pos) { return new TCharacter(text, line, pos); }
+    private Token New34(String text, int line, int pos) { return new TDecChar(text, line, pos); }
+    private Token New35(String text, int line, int pos) { return new THexChar(text, line, pos); }
+    private Token New36(String text, int line, int pos) { return new TString(text, line, pos); }
+    private Token New37(String text, int line, int pos) { return new TBlank(text, line, pos); }
+    private Token New38(String text, int line, int pos) { return new TComment(text, line, pos); }
+    private Token New39(String text, int line, int pos) { return new TItalic(text, line, pos); }
+    private Token New40(String text, int line, int pos) { return new TBold(text, line, pos); }
+    private Token New41(String text, int line, int pos) { return new TText(text, line, pos); }
+    private Token New42(String text, int line, int pos) { return new TBackground(text, line, pos); }
+    private Token New43(String text, int line, int pos) { return new TRgb(text, line, pos); }
+    private Token New44(String text, int line, int pos) { return new THsv(text, line, pos); }
+    private Token New45(String text, int line, int pos) { return new THexColor(text, line, pos); }
 
-        private int GetChar()
+    private int GetChar()
+    {
+        if(eof)
         {
-            if (eof)
-            {
-                return -1;
-            }
-
-            int result = input.Read();
-
-            if (result == -1)
-            {
-                eof = true;
-            }
-
-            return result;
+            return -1;
         }
 
-        private void PushBack(int acceptLength)
+        int result = input.Read();
+
+        if(result == -1)
         {
-            int length = text.Length;
-            for (int i = length - 1; i >= acceptLength; i--)
-            {
-                eof = false;
-
-                input.Unread(text[i]);
-            }
+            eof = true;
         }
 
+        return result;
+    }
 
-        protected virtual void Unread(Token token)
+    private void PushBack(int acceptLength)
+    {
+        int length = text.Length;
+        for(int i = length - 1; i >= acceptLength; i--)
         {
-            String text = token.Text;
-            int length = text.Length;
+            eof = false;
 
-            for (int i = length - 1; i >= 0; i--)
-            {
-                eof = false;
-
-                input.Unread(text[i]);
-            }
-
-            pos = token.Position - 1;
-            line = token.Line - 1;
+            input.Unread(text[i]);
         }
+    }
 
-        private string GetText(int acceptLength)
+
+    protected virtual void Unread(Token token)
+    {
+        String text = token.Text;
+        int length = text.Length;
+
+        for(int i = length - 1; i >= 0; i--)
         {
-            StringBuilder s = new StringBuilder(acceptLength);
-            for (int i = 0; i < acceptLength; i++)
-            {
-                s.Append(text[i]);
-            }
+            eof = false;
 
-            return s.ToString();
+            input.Unread(text[i]);
         }
 
-        private static int[][][][] gotoTable = {
+        pos = token.Position - 1;
+        line = token.Line - 1;
+    }
+
+    private string GetText(int acceptLength)
+    {
+        StringBuilder s = new StringBuilder(acceptLength);
+        for(int i = 0; i < acceptLength; i++)
+        {
+            s.Append(text[i]);
+        }
+
+        return s.ToString();
+    }
+
+    private static int[][][][] gotoTable = {
       new int[][][] {
         new int[][] {
           new int[] {9, 9, 1},
@@ -2745,7 +2743,7 @@ namespace SablePP.Compiler.Lexing
       },
     };
 
-        private static int[][] accept = {
+    private static int[][] accept = {
       new int[] {
         -1, 37, 37, 37, 37, -1, 19, 20, 26, 23, 28, 24, 13, 29, 34, 34, 
         31, 15, 16, 25, -1, -1, -1, -1, 12, -1, 11, 17, 18, 32, 21, 27, 
@@ -2793,24 +2791,24 @@ namespace SablePP.Compiler.Lexing
       },
     };
 
-        public class State
+    public class State
+    {
+        public static State NORMAL = new State(0);
+        public static State PACKAGE = new State(1);
+        public static State HIGHLIGHT = new State(2);
+        public static State HIGHLIGHTSTYLES = new State(3);
+
+        private int _id;
+
+        private State(int _id)
         {
-            public static State NORMAL = new State(0);
-            public static State PACKAGE = new State(1);
-            public static State HIGHLIGHT = new State(2);
-            public static State HIGHLIGHTSTYLES = new State(3);
+            this._id = _id;
+        }
 
-            private int _id;
-
-            private State(int _id)
-            {
-                this._id = _id;
-            }
-
-            public int id()
-            {
-                return _id;
-            }
+        public int id()
+        {
+            return _id;
         }
     }
+}
 }
