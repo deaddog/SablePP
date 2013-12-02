@@ -6,11 +6,15 @@ namespace SablePP.Compiler.Execution
 {
     public class SablePPEditor : EditorForm
     {
+        ToolStripMenuItem tools;
+
         public SablePPEditor()
         {
-            base.Executer = new CompilerExecuter(false);
-            base.Text = "SPP Editor";
-            base.FileExtension = "sablecc";
+            this.Executer = new CompilerExecuter(false);
+            this.Text = "SPP Editor";
+            this.FileExtension = "sablecc";
+
+            tools = this.AddMenuItem("&Tools");
         }
     }
 }
