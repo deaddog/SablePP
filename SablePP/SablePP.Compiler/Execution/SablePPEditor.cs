@@ -23,7 +23,7 @@ namespace SablePP.Compiler.Execution
 
             tools = this.AddMenuItem("&Tools");
 
-            outputButton.Click += outputButton_Click;
+            outputButton.Click += (s, e) => updateOutputDirectory();
 
             generateButton.Click += generateButton_Click;
             generateButton.ShortcutKeys = Keys.F5;
@@ -34,11 +34,14 @@ namespace SablePP.Compiler.Execution
 
         protected override void OnFiletoolsEnabledChanged(EventArgs e)
         {
+            outputButton.Enabled = FiletoolsEnabled;
             generateButton.Enabled = FiletoolsEnabled;
         }
 
-        private void outputButton_Click(object sender, EventArgs e)
+        private DialogResult updateOutputDirectory()
         {
+            DialogResult result;
+
             using (FolderBrowserDialog fbd = new FolderBrowserDialog()
             {
                 Description = "Select output folder...",
@@ -47,12 +50,20 @@ namespace SablePP.Compiler.Execution
             {
                 fbd.SelectedPath = settings.OutputPaths[this.File.FullName];
 
-                if (fbd.ShowDialog() == DialogResult.OK)
+                result = fbd.ShowDialog();
+                if (result == DialogResult.OK)
                     settings.OutputPaths[this.File.FullName] = fbd.SelectedPath;
             }
+
+            return result;
         }
+
         private void generateButton_Click(object sender, EventArgs e)
         {
+            if (settings.OutputPaths[this.File.FullName] == null && updateOutputDirectory() != DialogResult.OK)
+                return;
+
+            throw new NotImplementedException("Code generation not implemented.");
         }
     }
 }
