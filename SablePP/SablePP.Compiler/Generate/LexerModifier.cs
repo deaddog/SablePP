@@ -50,6 +50,8 @@ namespace SablePP.Compiler.Generate
 
             code = code.Replace("public class Lexer", "public class Lexer : " + ToolsNamespace.Lexing + ".ILexer");
 
+            code = code.Replace("\r\n", "\n").Replace('\r', '\n').Replace("\n", "\r\n");
+
             return code;
         }
         public static string ReplaceInCode(string parserCode, Start<PGrammar> astRoot)
