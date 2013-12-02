@@ -58,7 +58,7 @@ namespace SablePP.Tools
             if (!(lexer is TLexer || (lexer is ResetableLexer && (lexer as ResetableLexer).InnerLexer is TLexer)))
                 throw new ArgumentException("Lexer must be of type " + typeof(TLexer).FullName, "lexer");
 
-            return this.GetParser(lexer as TLexer);
+            return this.GetParser(lexer);
         }
         protected sealed internal override void validate(Node astRoot, ErrorManager errorManager)
         {
@@ -73,7 +73,7 @@ namespace SablePP.Tools
         }
 
         public abstract TLexer GetLexer(TextReader reader);
-        public abstract TParser GetParser(TLexer lexer);
+        public abstract TParser GetParser(ILexer lexer);
         public virtual void Validate(Start<TRoot> root, ErrorManager errorManager)
         {
         }
