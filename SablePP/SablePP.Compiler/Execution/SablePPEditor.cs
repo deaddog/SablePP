@@ -9,7 +9,8 @@ namespace SablePP.Compiler.Execution
         private CompilerExecuter executer;
 
         private ToolStripMenuItem tools;
-        private ToolStripMenuItem generateButton;
+        private ToolStripMenuItem outputButton = new ToolStripMenuItem("&Output directory...");
+        private ToolStripMenuItem generateButton = new ToolStripMenuItem("&Build");
 
         public SablePPEditor()
         {
@@ -19,8 +20,12 @@ namespace SablePP.Compiler.Execution
 
             tools = this.AddMenuItem("&Tools");
 
-            generateButton = new ToolStripMenuItem("&Build", null, generateButton_Click, Keys.F5);
+            outputButton.Click += outputButton_Click;
 
+            generateButton.Click += generateButton_Click;
+            generateButton.ShortcutKeys = Keys.F5;
+
+            tools.DropDownItems.Add(outputButton);
             tools.DropDownItems.Add(generateButton);
         }
 
@@ -29,6 +34,9 @@ namespace SablePP.Compiler.Execution
             generateButton.Enabled = FiletoolsEnabled;
         }
 
+        private void outputButton_Click(object sender, EventArgs e)
+        {
+        }
         private void generateButton_Click(object sender, EventArgs e)
         {
         }
