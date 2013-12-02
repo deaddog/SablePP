@@ -330,7 +330,7 @@ namespace SablePP.Tools.Editor
         }
 
         public event EventHandler FiletoolsEnabledChanged;
-        protected void OnFiletoolsEnabledChanged(EventArgs e)
+        protected virtual void OnFiletoolsEnabledChanged(EventArgs e)
         {
             if (FiletoolsEnabledChanged != null)
                 FiletoolsEnabledChanged(this, e);
