@@ -175,6 +175,18 @@ namespace SablePP.Compiler.Generate
             }
         }
 
+        public override void CaseAIdentifierList(AIdentifierList node)
+        {
+            PListitem[] temp = new PListitem[node.Listitem.Count];
+            node.Listitem.CopyTo(temp, 0);
+            for (int i = 0; i < temp.Length; i++)
+            {
+                if (i > 0)
+                    styleRulesElement.EmitLogicOr();
+                Visit((dynamic)temp[i]);
+            }
+        }
+
         public override void CaseTIdentifier(TIdentifier node)
         {
             styleRulesElement.EmitIdentifier("token");
