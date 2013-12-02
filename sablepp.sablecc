@@ -102,7 +102,7 @@ Tokens
 {highlightstyles}
     hsv = 'hsv'|'hsb';
 {highlightstyles}
-    hex_color = '#' hex_digit hex_digit hex_digit hex_digit hex_digit hex_digit;
+    hex_color = '#' hex_digit+;
 
 Ignored Tokens
     blank,
@@ -415,4 +415,4 @@ Abstract Syntax Tree
         | {hsv} hsv l_par [hue]:dec_char [comma1]:comma [saturation]:dec_char [comma2]:comma [brightness]:dec_char r_par
         | {hex} [color]:hex_color
         ;
-		
+        
