@@ -9,7 +9,7 @@ namespace SablePP.Compiler.Execution
     {
         private CompilerExecuter executer;
 
-        private Dictionary<string, string> outputDirectory;
+        private EditorSettings settings = EditorSettings.Default;
 
         private ToolStripMenuItem tools;
         private ToolStripMenuItem outputButton = new ToolStripMenuItem("&Output directory...");
@@ -20,8 +20,6 @@ namespace SablePP.Compiler.Execution
             this.Executer = executer = new CompilerExecuter(false);
             this.Text = "SPP Editor";
             this.FileExtension = "sablecc";
-
-            this.outputDirectory = new Dictionary<string, string>();
 
             tools = this.AddMenuItem("&Tools");
 
@@ -47,11 +45,10 @@ namespace SablePP.Compiler.Execution
                 ShowNewFolderButton = true
             })
             {
-                if (outputDirectory.ContainsKey(this.File.FullName))
-                    fbd.SelectedPath = outputDirectory[this.File.FullName];
+                fbd.SelectedPath = settings.OutputPaths[this.File.FullName];
 
                 if (fbd.ShowDialog() == DialogResult.OK)
-                    outputDirectory[this.File.FullName] = fbd.SelectedPath;
+                    settings.OutputPaths[this.File.FullName] = fbd.SelectedPath;
             }
         }
         private void generateButton_Click(object sender, EventArgs e)
