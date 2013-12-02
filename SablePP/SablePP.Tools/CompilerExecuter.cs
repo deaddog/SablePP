@@ -10,7 +10,7 @@ using FastColoredTextBoxNS;
 
 namespace SablePP.Tools
 {
-    public abstract class CompilerExecuter
+    public abstract class CompilerExecuter : ICompilerExecuter
     {
         internal CompilerExecuter()
         {
@@ -20,6 +20,23 @@ namespace SablePP.Tools
         internal protected abstract IParser getParser(ILexer lexer);
         internal protected abstract void validate(Node astRoot, ErrorManager errorManager);
         internal protected abstract Style getSimpleStyle(Token token);
+
+        ILexer ICompilerExecuter.GetLexer(TextReader reader)
+        {
+            return getLexer(reader);
+        }
+        IParser ICompilerExecuter.GetParser(ILexer lexer)
+        {
+            return getParser(lexer);
+        }
+        void ICompilerExecuter.Validate(Node astRoot, ErrorManager errorManager)
+        {
+            validate(astRoot, errorManager);
+        }
+        Style ICompilerExecuter.GetSimpleStyle(Token token)
+        {
+            return getSimpleStyle(token);
+        }
     }
 
     public abstract class CompilerExecuter<TRoot, TLexer, TParser> : CompilerExecuter
