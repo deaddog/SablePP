@@ -30,7 +30,16 @@ namespace SablePP.Compiler
         
         public override Style GetSimpleStyle(Token token)
         {
+            if (token is TComment)
+                return commentStyle;
+            if (token is TCharacter || token is TString)
+                return stringStyle;
+            if (token is TPackagename || token is TPackagetoken || token is THelperstoken || token is TTokenstoken || token is TStatestoken || token is TProductionstoken || token is TAsttoken || token is THighlighttoken)
+                return headingStyle;
             return null;
         }
+        private TextStyle commentStyle = new TextStyle(new SolidBrush(Color.FromArgb(0, 0, 200)), null, FontStyle.Regular);
+        private TextStyle stringStyle = new TextStyle(new SolidBrush(Color.FromArgb(200, 0, 0)), null, FontStyle.Regular);
+        private TextStyle headingStyle = new TextStyle(new SolidBrush(Color.FromArgb(100, 100, 100)), null, FontStyle.Bold);
     }
 }
