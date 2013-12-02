@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace SablePP.Compiler.Execution
 {
@@ -6,7 +7,9 @@ namespace SablePP.Compiler.Execution
     {
         protected override void Main()
         {
-            throw new NotImplementedException();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new SablePPEditor());
         }
     }
 }

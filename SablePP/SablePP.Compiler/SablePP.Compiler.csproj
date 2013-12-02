@@ -54,6 +54,9 @@
     <Compile Include="Execution\CompilerBase.cs" />
     <Compile Include="Execution\ConsoleCompiler.cs" />
     <Compile Include="Execution\EditorCompiler.cs" />
+    <Compile Include="Execution\SablePPEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Generated\analysis.cs" />
     <Compile Include="Generated\CompilerExecuter.cs" />
     <Compile Include="Generated\lexer.cs" />
