@@ -16,43 +16,19 @@ using FastColoredTextBoxNS;
 
 namespace SablePP.Compiler
 {
-    public partial class CompilerExecuter : ICompilerExecuter
+    public partial class CompilerExecuter : CompilerExecuter<PGrammar, Lexer, Parser>
     {
-        ILexer SablePP.Tools.ICompilerExecuter.GetLexer(TextReader reader)
-        {
-            return this.GetLexer(reader);
-        }
-        public Lexer GetLexer(TextReader reader)
+        public override Lexer GetLexer(TextReader reader)
         {
             return new Lexer(reader);
         }
         
-        IParser SablePP.Tools.ICompilerExecuter.GetParser(ILexer lexer)
-        {
-            if (!(lexer is Lexer || (lexer is ResetableLexer && (lexer as ResetableLexer).InnerLexer is Lexer)))
-                throw new ArgumentException("Lexer must be of type " + typeof(Lexer).FullName, "lexer");
-            
-            return this.GetParser(lexer);
-        }
-        public Parser GetParser(ILexer lexer)
+        public override Parser GetParser(ILexer lexer)
         {
             return new Parser(lexer);
         }
         
-        void SablePP.Tools.ICompilerExecuter.Validate(Node astRoot, ErrorManager errorManager)
-        {
-            if (!(astRoot is Start<PGrammar>))
-                throw new ArgumentException("Root must be of type " + typeof(Start<PGrammar>).FullName, "astRoot");
-            
-            this.Validate(astRoot as Start<PGrammar>, errorManager);
-        }
-        partial void PerformValidation(Start<PGrammar> root, ErrorManager errorManager);
-        public void Validate(Start<PGrammar> root, ErrorManager errorManager)
-        {
-            PerformValidation(root, errorManager);
-        }
-        
-        public Style GetSimpleStyle(Token token)
+        public override Style GetSimpleStyle(Token token)
         {
             return null;
         }

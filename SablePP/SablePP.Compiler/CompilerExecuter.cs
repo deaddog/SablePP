@@ -32,7 +32,7 @@ namespace SablePP.Compiler
             this.runSable = runSable;
         }
 
-        partial void PerformValidation(Start<PGrammar> root, ErrorManager errorManager)
+        public override void Validate(Start<PGrammar> root, ErrorManager errorManager)
         {
             ValidatePreSable(root, errorManager);
 
