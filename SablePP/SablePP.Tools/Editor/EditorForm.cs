@@ -56,6 +56,7 @@ namespace SablePP.Tools.Editor
                     value = null;
                 extension = value;
                 openFileDialog1.Filter = string.Format(EditorResources.FileDescription, Text) + "|*." + (extension ?? EditorResources.DefaultExtension);
+                saveFileDialog1.Filter = string.Format(EditorResources.FileDescription, Text) + "|*." + (extension ?? EditorResources.DefaultExtension);
             }
         }
 
@@ -281,6 +282,10 @@ namespace SablePP.Tools.Editor
 
         }
 
+        public void ShowMessage(string text)
+        {
+            ShowMessage(null, text);
+        }
         public void ShowMessage(Image image, string text)
         {
             messageTimer.Start();
