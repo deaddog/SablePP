@@ -282,6 +282,11 @@ namespace SablePP.Tools.Editor
 
         }
 
+        public CodeTextBox.Result LastResult
+        {
+            get { return codeTextBox1.LastResult; }
+        }
+
         public void ShowMessage(string text)
         {
             ShowMessage(null, text);

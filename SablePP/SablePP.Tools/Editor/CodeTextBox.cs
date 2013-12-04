@@ -25,7 +25,7 @@ namespace SablePP.Tools.Editor
         private bool lexerError;
 
         private CompileWorker compileWorker;
-
+        private Result lastResult;
         private List<Style> simpleStyles;
 
         public CodeTextBox()
@@ -40,7 +40,7 @@ namespace SablePP.Tools.Editor
             this.lexerError = true;
 
             this.compileWorker = new CompileWorker(this);
-
+            this.lastResult = new Result(null, new CompilerError[] { new CompilerError(-1, -1, 0, "No code has been parsed.") });
             this.simpleStyles = new List<Style>();
 
             this.ToolTipNeeded += CodeTextBox_ToolTipNeeded;
@@ -55,6 +55,12 @@ namespace SablePP.Tools.Editor
                 executer = value;
                 this.OnTextChangedDelayed(this.Range);
             }
+        }
+
+        [Browsable(false)]
+        public Result LastResult
+        {
+            get { return lastResult; }
         }
 
         public void SetStyle(Token token, Style style)
@@ -247,6 +253,8 @@ namespace SablePP.Tools.Editor
                         parent.addError(err);
                 }
 
+                parent.lastResult = new Result(node, errors);
+
                 if (shouldStart)
                     restart();
             }
@@ -269,6 +277,21 @@ namespace SablePP.Tools.Editor
                 errors = loaded.Errors;
 
                 return true;
+            }
+        }
+
+        public class Result
+        {
+            public DateTime CompileTime { get; private set; }
+            public Node Tree { get; private set; }
+            public CompilerError[] Errors { get; private set; }
+
+            public Result(Node tree, IEnumerable<CompilerError> errors)
+            {
+                this.CompileTime = DateTime.Now;
+
+                this.Tree = tree;
+                this.Errors = errors.ToArray();
             }
         }
     }
