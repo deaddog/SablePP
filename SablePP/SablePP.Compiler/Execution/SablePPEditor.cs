@@ -63,7 +63,14 @@ namespace SablePP.Compiler.Execution
             if (settings.OutputPaths[this.File.FullName] == null && updateOutputDirectory() != DialogResult.OK)
                 return;
 
-            throw new NotImplementedException("Code generation not implemented.");
+            var res = this.LastResult;
+            if (res.Errors.Length > 0)
+                ShowMessage("Unable to generate compiler; error in validation.");
+            else
+            {
+                executer.Generate(res.Tree as SablePP.Tools.Nodes.Start<Nodes.PGrammar>, settings.OutputPaths[this.File.FullName]);
+                ShowMessage("Code generation completed!");
+            }
         }
     }
 }
