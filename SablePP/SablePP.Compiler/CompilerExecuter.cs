@@ -133,35 +133,14 @@ namespace SablePP.Compiler
                 return new CompilerError(-1, -1, 0, text);
         }
 
-        public bool Generate(string input, string directory)
-        {
-            Start<PGrammar> node;
-            using (StringReader reader = new StringReader(input))
-            {
-                var lexer = GetLexer(reader);
-                var parser = GetParser(lexer);
-
-                try { node = parser.Parse(); }
-                catch (LexerException e) { node = null; }
-                catch (ParserException e) { node = null; }
-            }
-            if (node != null)
-                return Generate(node, directory);
-            else
-                return false;
-        }
         public bool Generate(Start<PGrammar> root, string directory)
         {
             ErrorManager manager = new ErrorManager();
+            if (!runSable)
+                ValidateWithSableCC(root, manager);
 
-            ValidatePreSable(root, manager);
             if (manager.Count > 0)
                 return false;
-
-            ValidateWithSableCC(root, manager);
-            if (manager.Count > 0)
-                return false;
-
 
             using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\tokens.cs", FileMode.Create))
                 CodeStreamWriter.Generate(fs, TokenNodes.BuildCode(root));
