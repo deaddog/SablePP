@@ -34,12 +34,18 @@ namespace SablePP.Compiler
                 return commentStyle;
             if (token is TCharacter || token is TString)
                 return stringStyle;
-            if (token is TPackagename || token is TPackagetoken || token is THelperstoken || token is TTokenstoken || token is TStatestoken || token is TProductionstoken || token is TAsttoken || token is THighlighttoken)
+            if (token is TPackagename || token is TPackagetoken || token is THelperstoken || token is TTokenstoken || token is TIgnoredtoken || token is TStatestoken || token is TProductionstoken || token is TAsttoken || token is THighlighttoken)
                 return headingStyle;
+            if (token is TBold)
+                return boldStyle;
+            if (token is TItalic)
+                return italicStyle;
             return null;
         }
-        private TextStyle commentStyle = new TextStyle(new SolidBrush(Color.FromArgb(0, 0, 200)), null, FontStyle.Regular);
+        private TextStyle commentStyle = new TextStyle(new SolidBrush(Color.FromArgb(0, 102, 0)), null, FontStyle.Regular);
         private TextStyle stringStyle = new TextStyle(new SolidBrush(Color.FromArgb(200, 0, 0)), null, FontStyle.Regular);
-        private TextStyle headingStyle = new TextStyle(new SolidBrush(Color.FromArgb(100, 100, 100)), null, FontStyle.Bold);
+        private TextStyle headingStyle = new TextStyle(new SolidBrush(Color.FromArgb(76, 76, 76)), null, FontStyle.Bold);
+        private TextStyle boldStyle = new TextStyle(null, null, FontStyle.Bold);
+        private TextStyle italicStyle = new TextStyle(null, null, FontStyle.Italic);
     }
 }

@@ -417,7 +417,9 @@ Abstract Syntax Tree
         ;
         
 Token Syntax Highlight
-    comment {comment} text:rgb(0,0,200);
-    string {character, string} text:rgb(200,0,0);
-    heading {packagename, packagetoken, helperstoken, tokenstoken, statestoken, productionstoken, asttoken, highlighttoken} text:rgb(100,100,100), bold;
+    comment {comment} text:#006600;
+    string {character, string} text:rgb(200, 0, 0);
+    heading {packagename, packagetoken, helperstoken, tokenstoken, ignoredtoken, statestoken, productionstoken, asttoken, highlighttoken} text:hsv(0, 0, 30), bold;
+    bold {bold} bold;
+    italic {italic} italic;
     
