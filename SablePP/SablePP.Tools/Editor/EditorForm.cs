@@ -290,6 +290,11 @@ namespace SablePP.Tools.Editor
             get { return codeTextBox1.LastResult; }
         }
 
+        public CodeTextBox.Result WaitForResult()
+        {
+            return codeTextBox1.WaitForResult();
+        }
+
         public void ShowMessage(string text)
         {
             ShowMessage(null, text);

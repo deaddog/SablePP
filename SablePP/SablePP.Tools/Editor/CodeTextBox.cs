@@ -40,7 +40,7 @@ namespace SablePP.Tools.Editor
             this.lexerError = true;
 
             this.compileWorker = new CompileWorker(this);
-            this.lastResult = new Result(null, new CompilerError[] { new CompilerError(-1, -1, 0, "No code has been parsed.") });
+            this.lastResult = null;
             this.simpleStyles = new List<Style>();
 
             this.ToolTipNeeded += CodeTextBox_ToolTipNeeded;
@@ -61,6 +61,17 @@ namespace SablePP.Tools.Editor
         public Result LastResult
         {
             get { return lastResult; }
+        }
+
+        public Result WaitForResult()
+        {
+            Result result = null;
+
+            compileWorker.WaitForCompletion();
+
+            result = this.lastResult;
+
+            return result;
         }
 
         public void SetStyle(Token token, Style style)
@@ -181,6 +192,7 @@ namespace SablePP.Tools.Editor
             private ILexer nextLexer;
 
             private bool shouldStart;
+            private bool waitFlag = false;
 
             public CompileWorker(CodeTextBox parent)
             {
@@ -220,6 +232,7 @@ namespace SablePP.Tools.Editor
 
             protected override void OnDoWork(DoWorkEventArgs e)
             {
+                waitFlag = true;
                 IParser parser = executer.GetParser(lexer);
                 ErrorManager errorManager = new ErrorManager();
 
@@ -254,9 +267,26 @@ namespace SablePP.Tools.Editor
                 }
 
                 parent.lastResult = new Result(node, errors);
+                waitFlag = false;
 
                 if (shouldStart)
                     restart();
+            }
+
+            public void WaitForCompletion()
+            {
+                bool waitAgain = false;
+                while (waitFlag) { }
+                while (shouldStart) { waitAgain = true; }
+
+                if (waitAgain)
+                    while (waitFlag) { }
+
+                if (parent.lastResult == null)
+                {
+                    while (!IsBusy) { }
+                    WaitForCompletion();
+                }
             }
 
             private object storeRootAndErrors(Node root, IEnumerable<CompilerError> errors)
