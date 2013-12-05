@@ -1,12 +1,14 @@
 ﻿using SablePP.Tools.Editor;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace SablePP.Compiler.Execution
 {
     public class SablePPEditor : EditorForm
     {
+        private BackgroundWorker generateWorker;
         private CompilerExecuter executer;
 
         private EditorSettings settings = EditorSettings.Default;
@@ -20,6 +22,10 @@ namespace SablePP.Compiler.Execution
             this.Executer = executer = new CompilerExecuter(true);
             this.Text = "SPP Editor";
             this.FileExtension = "sablecc";
+
+            this.generateWorker = new BackgroundWorker();
+            this.generateWorker.DoWork += generateWorker_DoWork;
+            this.generateWorker.RunWorkerCompleted += generateWorker_RunWorkerCompleted;
 
             tools = this.AddMenuItem("&Tools");
 
@@ -65,14 +71,29 @@ namespace SablePP.Compiler.Execution
             if (settings.OutputPaths[this.File.FullName] == null && updateOutputDirectory() != DialogResult.OK)
                 return;
 
-            var res = this.LastResult;
+            generateWorker.RunWorkerAsync(settings.OutputPaths[this.File.FullName]);
+        }
+
+        private void generateWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            string path = e.Argument as string;
+
+            var res = this.WaitForResult();
+
+            if (res.Errors.Length == 0)
+                executer.Generate(res.Tree as SablePP.Tools.Nodes.Start<Nodes.PGrammar>, path);
+
+            e.Result = res;
+        }
+
+        private void generateWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            var res = e.Result as CodeTextBox.Result;
+
             if (res.Errors.Length > 0)
                 ShowMessage("Unable to generate compiler; error in validation.");
             else
-            {
-                executer.Generate(res.Tree as SablePP.Tools.Nodes.Start<Nodes.PGrammar>, settings.OutputPaths[this.File.FullName]);
                 ShowMessage("Code generation completed!");
-            }
         }
     }
 }
