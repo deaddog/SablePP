@@ -221,11 +221,7 @@ namespace SablePP.Compiler.Generate
 
         private Color GetColor(ARgbColor node)
         {
-            int red = int.Parse(node.Red.Text);
-            int green = int.Parse(node.Green.Text);
-            int blue = int.Parse(node.Blue.Text);
-
-            return Color.FromArgb(red, green, blue);
+            return Color.FromArgb(node.Red.Value, node.Green.Value, node.Blue.Value);
         }
         private Color GetColor(AHsvColor node)
         {
@@ -237,9 +233,9 @@ namespace SablePP.Compiler.Generate
                 return (byte)ff;
             };
 
-            int hue = int.Parse(node.Hue.Text);
-            int saturation = int.Parse(node.Saturation.Text);
-            int brightness = int.Parse(node.Brightness.Text);
+            int hue = node.Hue.Value;
+            float saturation = node.Saturation.Value / 100f;
+            float brightness = node.Brightness.Value / 100f;
 
             int h = (int)(hue / 60f);
             float f = (hue / 60f) - h; h %= 6;
