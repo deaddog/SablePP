@@ -277,6 +277,12 @@ namespace SablePP.Tools.Editor
             selectAllToolStripMenuItem.Click += (s, e) => codeTextBox1.SelectAll();
 
             #endregion
+
+            Font consolas = new Font("Consolas", 10);
+            if (consolas.Name == "Consolas")
+                codeTextBox1.Font = consolas;
+            else
+                consolas.Dispose();
         }
 
         public CodeTextBox.Result LastResult
