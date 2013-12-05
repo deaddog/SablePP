@@ -32,7 +32,13 @@ namespace SablePP.Tools.Error
         public void Register(CompilerError error)
         {
             int pos = errorList.BinarySearch(error, comparer);
-            if (pos < 0) pos = ~pos;
+            if (pos < 0) 
+                pos = ~pos;
+            else
+            {
+                do { pos++; }
+                while (pos < errorList.Count && comparer.Compare(errorList[pos], error) == 0);
+            }
             errorList.Insert(pos, error);
         }
 
