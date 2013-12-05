@@ -17,7 +17,7 @@ namespace SablePP.Compiler.Execution
 
         public SablePPEditor()
         {
-            this.Executer = executer = new CompilerExecuter(false);
+            this.Executer = executer = new CompilerExecuter(true);
             this.Text = "SPP Editor";
             this.FileExtension = "sablecc";
 
