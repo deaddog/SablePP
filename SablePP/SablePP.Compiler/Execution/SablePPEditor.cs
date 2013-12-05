@@ -24,8 +24,10 @@ namespace SablePP.Compiler.Execution
             tools = this.AddMenuItem("&Tools");
 
             outputButton.Click += (s, e) => updateOutputDirectory();
+            outputButton.Enabled = false;
 
             generateButton.Click += generateButton_Click;
+            generateButton.Enabled = false;
             generateButton.ShortcutKeys = Keys.F5;
 
             tools.DropDownItems.Add(outputButton);

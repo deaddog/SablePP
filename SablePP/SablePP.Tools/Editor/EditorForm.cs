@@ -277,9 +277,6 @@ namespace SablePP.Tools.Editor
             selectAllToolStripMenuItem.Click += (s, e) => codeTextBox1.SelectAll();
 
             #endregion
-
-            newFile();
-
         }
 
         public CodeTextBox.Result LastResult
