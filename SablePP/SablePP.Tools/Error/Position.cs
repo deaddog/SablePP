@@ -12,6 +12,11 @@ namespace SablePP.Tools.Error
 
         public Position(int lineNumber, int linePosition)
         {
+            if (lineNumber < 0)
+                lineNumber = 0;
+            if (linePosition < 0)
+                linePosition = 0;
+
             this.lineNumber = lineNumber;
             this.linePosition = linePosition;
         }

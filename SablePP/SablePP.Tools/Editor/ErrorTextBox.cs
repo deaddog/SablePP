@@ -17,7 +17,7 @@ namespace SablePP.Tools.Editor
         {
             string text;
 
-            if (error.Start.LinePosition < 0 || error.Start.LineNumber < 0)
+            if (error.Start.LinePosition <= 0 || error.Start.LineNumber <= 0)
                 text = "[N/A] " + error.ErrorMessage;
             else
                 text = string.Format("[{0}, {1}] {2}", error.Start.LineNumber, error.Start.LinePosition, error.ErrorMessage);
