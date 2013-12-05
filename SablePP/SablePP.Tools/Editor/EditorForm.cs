@@ -98,15 +98,15 @@ namespace SablePP.Tools.Editor
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (closeFile() != System.Windows.Forms.DialogResult.OK)
+            if (CloseFile() != System.Windows.Forms.DialogResult.OK)
                 e.Cancel = true;
             else
                 e.Cancel = false;
         }
 
-        private DialogResult newFile()
+        public DialogResult NewFile()
         {
-            DialogResult res = closeFile();
+            DialogResult res = CloseFile();
             if (res != System.Windows.Forms.DialogResult.OK)
                 return res;
 
@@ -129,12 +129,12 @@ namespace SablePP.Tools.Editor
             return DialogResult.OK;
 
         }
-        private DialogResult openFile()
+        public DialogResult OpenFile()
         {
             DialogResult res;
             if (FileOpened)
             {
-                res = closeFile();
+                res = CloseFile();
                 if (res != System.Windows.Forms.DialogResult.OK)
                     return res;
             }
@@ -144,13 +144,13 @@ namespace SablePP.Tools.Editor
             if (res != System.Windows.Forms.DialogResult.OK)
                 return res;
 
-            return openFile(openFileDialog1.FileName);
+            return OpenFile(openFileDialog1.FileName);
         }
-        private DialogResult openFile(string filepath)
+        public DialogResult OpenFile(string filepath)
         {
             if (FileOpened)
             {
-                DialogResult res = closeFile();
+                DialogResult res = CloseFile();
                 if (res != System.Windows.Forms.DialogResult.OK)
                     return res;
             }
@@ -171,13 +171,13 @@ namespace SablePP.Tools.Editor
 
             return DialogResult.OK;
         }
-        private DialogResult saveFile()
+        public DialogResult SaveFile()
         {
             if (!FileOpened)
                 return System.Windows.Forms.DialogResult.Cancel;
 
             if (!File.Exists)
-                return saveFileAs();
+                return SaveFileAs();
 
             using (FileStream fs = new FileStream(File.FullName, FileMode.Create))
             using (StreamWriter writer = new StreamWriter(fs, encoding))
@@ -186,7 +186,7 @@ namespace SablePP.Tools.Editor
 
             return DialogResult.OK;
         }
-        private DialogResult saveFileAs()
+        public DialogResult SaveFileAs()
         {
             if (!FileOpened)
                 return System.Windows.Forms.DialogResult.Cancel;
@@ -207,7 +207,7 @@ namespace SablePP.Tools.Editor
 
             return DialogResult.OK;
         }
-        private DialogResult closeFile()
+        public DialogResult CloseFile()
         {
             if (!FileOpened)
                 return System.Windows.Forms.DialogResult.OK;
@@ -219,7 +219,7 @@ namespace SablePP.Tools.Editor
                     "File changed",
                     MessageBoxButtons.YesNoCancel);
                 if (res == System.Windows.Forms.DialogResult.Yes)
-                    res = saveFile();
+                    res = SaveFile();
 
                 if (res == System.Windows.Forms.DialogResult.Cancel)
                     return res;
@@ -247,13 +247,13 @@ namespace SablePP.Tools.Editor
 
             #region FileHandle initialize
 
-            newToolStripMenuItem.Click += (s, e) => newFile();
-            openToolStripMenuItem.Click += (s, e) => openFile();
+            newToolStripMenuItem.Click += (s, e) => NewFile();
+            openToolStripMenuItem.Click += (s, e) => OpenFile();
 
-            saveToolStripMenuItem.Click += (s, e) => saveFile();
-            saveAsToolStripMenuItem.Click += (s, e) => saveFileAs();
+            saveToolStripMenuItem.Click += (s, e) => SaveFile();
+            saveAsToolStripMenuItem.Click += (s, e) => SaveFileAs();
 
-            closeToolStripMenuItem.Click += (s, e) => closeFile();
+            closeToolStripMenuItem.Click += (s, e) => CloseFile();
             exitToolStripMenuItem.Click += (s, e) => this.Close();
 
             saveAsDefaultToolStripMenuItem.Click += (s, e) =>
