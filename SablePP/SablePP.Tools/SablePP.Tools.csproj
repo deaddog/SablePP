@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Error\LexerException.cs" />
     <Compile Include="Error\ParserException.cs" />
+    <Compile Include="IHighlighter.cs" />
     <Compile Include="Lexing\ILexer.cs" />
     <Compile Include="Lexing\ResetableLexer.cs" />
     <Compile Include="Parsing\IParser.cs" />
