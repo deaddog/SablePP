@@ -27,6 +27,7 @@ namespace SablePP.Tools.Editor
         private CompileWorker compileWorker;
         private Result lastResult;
         private List<Style> simpleStyles;
+        private List<Style> moreStyles;
 
         public CodeTextBox()
             : base()
@@ -42,6 +43,7 @@ namespace SablePP.Tools.Editor
             this.compileWorker = new CompileWorker(this);
             this.lastResult = null;
             this.simpleStyles = new List<Style>();
+            this.moreStyles = new List<Style>();
 
             this.ToolTipNeeded += CodeTextBox_ToolTipNeeded;
         }
@@ -182,7 +184,7 @@ namespace SablePP.Tools.Editor
                     break;
                 }
         }
-
+        
         private class CompileWorker : BackgroundWorker
         {
             private CodeTextBox parent;
@@ -307,6 +309,28 @@ namespace SablePP.Tools.Editor
                 errors = loaded.Errors;
 
                 return true;
+            }
+
+            private class HighlightWalker : SablePP.Tools.Analysis.DepthFirstTreeWalker
+            {
+                private CodeTextBox parent;
+                private IHighlighter highlighter;
+                public HighlightWalker(CodeTextBox parent, IHighlighter highlighter)
+                {
+                    this.parent = parent;
+                    this.highlighter = highlighter;
+                }
+
+                public override void Visit(Token token)
+                {
+                    var s = highlighter.GetStyle(token);
+                    if (s != null)
+                    {
+                        if (!parent.moreStyles.Contains(s))
+                            parent.moreStyles.Add(s);
+                        parent.SetStyle(token, s);
+                    }
+                }
             }
         }
 
