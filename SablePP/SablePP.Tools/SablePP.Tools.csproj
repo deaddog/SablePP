@@ -49,6 +49,7 @@
     <Compile Include="Analysis\ReturnAdapter.cs" />
     <Compile Include="Analysis\DepthFirstReversedTreeWalker.cs" />
     <Compile Include="Analysis\DepthFirstTreeWalker.cs" />
+    <Compile Include="CompilationOptions.cs" />
     <Compile Include="CompilerExecuter.cs" />
     <Compile Include="Editor\ErrorEventArgs.cs" />
     <Compile Include="Editor\ErrorEventHandler.cs" />
