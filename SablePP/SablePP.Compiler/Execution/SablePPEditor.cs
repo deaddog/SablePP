@@ -93,7 +93,7 @@ namespace SablePP.Compiler.Execution
             if (res.Errors.Length > 0)
                 ShowMessage("Unable to generate compiler; error in validation.");
             else
-                ShowMessage("Code generation completed!");
+                ShowMessage(MessageIcons.Accept, "Code generation completed!");
         }
     }
 }

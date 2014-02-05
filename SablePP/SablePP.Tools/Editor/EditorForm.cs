@@ -306,6 +306,21 @@ namespace SablePP.Tools.Editor
             fillerLabel.Image = image;
             fillerLabel.Text = text;
         }
+        public void ShowMessage(MessageIcons icon, string text)
+        {
+            Image iconImage;
+
+            switch (icon)
+            {
+                case MessageIcons.Accept:
+                    iconImage = EditorResources.accept; break;
+                default:
+                    throw new ArgumentException("Unknown message icon.");
+            }
+
+            ShowMessage(iconImage, text);
+        }
+
         private void messageTimer_Tick(object sender, EventArgs e)
         {
             messageTimer.Stop();
