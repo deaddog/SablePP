@@ -42,8 +42,8 @@ namespace SablePP.Compiler
                 return italicStyle;
             return null;
         }
-        private TextStyle commentStyle = new TextStyle(new SolidBrush(Color.FromArgb(0, 102, 0)), null, FontStyle.Regular);
-        private TextStyle stringStyle = new TextStyle(new SolidBrush(Color.FromArgb(200, 0, 0)), null, FontStyle.Regular);
+        private TextStyle commentStyle = new TextStyle(new SolidBrush(Color.FromArgb(0, 128, 0)), null, FontStyle.Regular);
+        private TextStyle stringStyle = new TextStyle(new SolidBrush(Color.FromArgb(163, 21, 21)), null, FontStyle.Regular);
         private TextStyle headingStyle = new TextStyle(new SolidBrush(Color.FromArgb(76, 76, 76)), null, FontStyle.Bold);
         private TextStyle boldStyle = new TextStyle(null, null, FontStyle.Bold);
         private TextStyle italicStyle = new TextStyle(null, null, FontStyle.Italic);
