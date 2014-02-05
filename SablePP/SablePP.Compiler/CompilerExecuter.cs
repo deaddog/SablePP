@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
+using SablePP.Compiler.Execution;
 using SablePP.Compiler.Generate;
 using SablePP.Compiler.Generate.Analysis;
 using SablePP.Compiler.Generate.Productions;
@@ -12,10 +13,10 @@ using SablePP.Compiler.Generate.Tokens;
 using SablePP.Compiler.Nodes;
 using SablePP.Compiler.Validation;
 
+using SablePP.Tools;
 using SablePP.Tools.Error;
 using SablePP.Tools.Generate;
 using SablePP.Tools.Nodes;
-using SablePP.Tools;
 
 namespace SablePP.Compiler
 {
@@ -23,6 +24,8 @@ namespace SablePP.Compiler
     {
         private const int SABLE_MAX_WAIT = 500;
         private bool runSable;
+        private IdentifierHighlighter identifierHighlighter;
+
         public bool RunSable
         {
             get { return runSable; }
@@ -32,11 +35,14 @@ namespace SablePP.Compiler
         public CompilerExecuter(bool runSable)
         {
             this.runSable = runSable;
+            this.identifierHighlighter = new IdentifierHighlighter();
         }
 
         public override void Validate(Start<PGrammar> root, CompilationOptions compilationOptions)
         {
             ValidatePreSable(root, compilationOptions.ErrorManager);
+
+            compilationOptions.Highlight(identifierHighlighter);
 
             if (compilationOptions.ErrorManager.Count == 0 && runSable)
                 ValidateWithSableCC(root, compilationOptions.ErrorManager);
@@ -116,7 +122,7 @@ namespace SablePP.Compiler
             Process proc;
             if ((proc = Process.Start(processInfo)) == null)
                 throw new ApplicationException("Java not found - visit Java.com to install.");
-            
+
             while (!proc.WaitForExit(100))
             {
                 wait += 100;

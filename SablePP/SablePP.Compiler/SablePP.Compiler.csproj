@@ -55,6 +55,7 @@
     <Compile Include="Execution\ConsoleCompiler.cs" />
     <Compile Include="Execution\EditorCompiler.cs" />
     <Compile Include="Execution\EditorSettings.cs" />
+    <Compile Include="Execution\IdentifierHighlighter.cs" />
     <Compile Include="Execution\SablePPEditor.cs">
       <SubType>Form</SubType>
     </Compile>
