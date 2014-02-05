@@ -24,12 +24,12 @@ namespace SablePP.Compiler.Execution
             Start<PGrammar> ast = Parse(ReadFile(PathInformation.TemporaryGrammarPath), executer);
 
             ErrorManager errorManager = new ErrorManager();
-            executer.Validate(ast, errorManager);
+            executer.Validate(ast, new SablePP.Tools.CompilationOptions(errorManager, (h) => { }));
 
             if (errorManager.Count > 0)
             {
                 Console.WriteLine("Validation failed:");
-                foreach(var err in errorManager)
+                foreach (var err in errorManager)
                     Console.WriteLine(err);
 #if DEBUG
                 Console.ReadKey(true);
