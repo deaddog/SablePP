@@ -9,11 +9,15 @@ namespace SablePP.Tools
     {
         private Start<T> root;
         private ErrorManager errorManager;
+        private Action<IHighlighter> highlight;
+        internal bool active;
 
-        public CompilationOptions(Start<T> root, ErrorManager errorManager)
+        public CompilationOptions(Start<T> root, ErrorManager errorManager, Action<IHighlighter> highlight)
         {
             this.root = root;
             this.errorManager = errorManager;
+            this.highlight = highlight;
+            this.active = false;
         }
 
         public Start<T> Root
@@ -23,6 +27,12 @@ namespace SablePP.Tools
         public ErrorManager ErrorManager
         {
             get { return errorManager; }
+        }
+
+        public void Highlight(IHighlighter highlighter)
+        {
+            if (active)
+                highlight(highlighter);
         }
     }
 }
