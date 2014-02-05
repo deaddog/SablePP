@@ -249,8 +249,10 @@ namespace SablePP.Tools.Editor
                     root = null;
                 }
 
+                CompilationOptions compilationOptions = new CompilationOptions(errorManager);
+
                 if (root != null)
-                    executer.Validate(root, errorManager);
+                    executer.Validate(root, compilationOptions);
 
                 e.Result = storeRootAndErrors(root, errorManager);
             }

@@ -14,7 +14,7 @@ namespace SablePP.Tools
     {
         ILexer GetLexer(TextReader reader);
         IParser GetParser(ILexer lexer);
-        void Validate(Node astRoot, ErrorManager errorManager);
+        void Validate(Node astRoot, CompilationOptions compilationOptions);
         Style GetSimpleStyle(Token token);
     }
 }

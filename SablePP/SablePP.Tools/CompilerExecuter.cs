@@ -21,7 +21,7 @@ namespace SablePP.Tools
 
         public abstract TLexer GetLexer(TextReader reader);
         public abstract TParser GetParser(ILexer lexer);
-        public virtual void Validate(Start<TRoot> root, ErrorManager errorManager)
+        public virtual void Validate(Start<TRoot> root, CompilationOptions compilationOptions)
         {
         }
         public abstract Style GetSimpleStyle(Token token);
@@ -37,12 +37,12 @@ namespace SablePP.Tools
 
             return this.GetParser(lexer);
         }
-        void ICompilerExecuter.Validate(Node astRoot, ErrorManager errorManager)
+        void ICompilerExecuter.Validate(Node astRoot, CompilationOptions compilationOptions)
         {
             if (!(astRoot is Start<TRoot>))
                 throw new ArgumentException("Root must be of type " + typeof(Start<TRoot>).FullName, "astRoot");
 
-            this.Validate(astRoot as Start<TRoot>, errorManager);
+            this.Validate(astRoot as Start<TRoot>, compilationOptions);
         }
         Style ICompilerExecuter.GetSimpleStyle(Token token)
         {
