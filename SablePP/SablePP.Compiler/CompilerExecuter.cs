@@ -20,6 +20,7 @@ namespace SablePP.Compiler
 {
     public partial class CompilerExecuter
     {
+        private const int SABLE_MAX_WAIT = 500;
         private bool runSable;
         public bool RunSable
         {
@@ -110,10 +111,18 @@ namespace SablePP.Compiler
                 WorkingDirectory = PathInformation.ExecutingDirectory
             };
 
+            int wait = 0;
             Process proc;
             if ((proc = Process.Start(processInfo)) == null)
                 throw new ApplicationException("Java not found - visit Java.com to install.");
-            proc.WaitForExit();
+            
+            while (!proc.WaitForExit(100))
+            {
+                wait += 100;
+                int err = proc.StandardError.Peek();
+                if (err > 0 && wait >= SABLE_MAX_WAIT)
+                    proc.Kill();
+            }
 
             return proc;
         }
