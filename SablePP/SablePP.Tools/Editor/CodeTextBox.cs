@@ -251,10 +251,27 @@ namespace SablePP.Tools.Editor
                     root = null;
                 }
 
-                CompilationOptions compilationOptions = new CompilationOptions(errorManager);
+                CompilationOptions compilationOptions = new CompilationOptions(errorManager, (highlight) =>
+                    {
+                        if(ReferenceEquals(highlight, null))
+                            throw new ArgumentNullException("highlight");
+
+                        if (parent != null)
+                        {
+                            HighlightWalker walker = new HighlightWalker(parent, highlight);
+                            walker.Visit(root);
+                        }
+                    });
 
                 if (root != null)
+                {
+                    parent.Range.ClearStyle(parent.moreStyles.ToArray());
+                    parent.moreStyles.Clear();
+
+                    compilationOptions.active = true;
                     executer.Validate(root, compilationOptions);
+                    compilationOptions.active = false;
+                }
 
                 e.Result = storeRootAndErrors(root, errorManager);
             }
