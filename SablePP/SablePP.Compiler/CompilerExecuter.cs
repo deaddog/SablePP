@@ -15,6 +15,7 @@ using SablePP.Compiler.Validation;
 using SablePP.Tools.Error;
 using SablePP.Tools.Generate;
 using SablePP.Tools.Nodes;
+using SablePP.Tools;
 
 namespace SablePP.Compiler
 {
@@ -33,12 +34,12 @@ namespace SablePP.Compiler
             this.runSable = runSable;
         }
 
-        public override void Validate(Start<PGrammar> root, ErrorManager errorManager)
+        public override void Validate(Start<PGrammar> root, CompilationOptions compilationOptions)
         {
-            ValidatePreSable(root, errorManager);
+            ValidatePreSable(root, compilationOptions.ErrorManager);
 
-            if (errorManager.Count == 0 && runSable)
-                ValidateWithSableCC(root, errorManager);
+            if (compilationOptions.ErrorManager.Count == 0 && runSable)
+                ValidateWithSableCC(root, compilationOptions.ErrorManager);
         }
 
         private void ValidatePreSable(Start<PGrammar> root, ErrorManager errorManager)
