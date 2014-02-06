@@ -71,18 +71,18 @@ namespace SablePP.Tools
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScopedDictionary{TKey, TValue}"/> class that contains elements copied from the specified <see cref="IEnumerable{KeyValuePair{TKey,TValue}}"/> and uses the specified <see cref="IEqualityComparer{TKey}"/>.
+        /// Initializes a new instance of the <see cref="ScopedDictionary{TKey, TValue}"/> class that contains elements copied from the specified <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey,TValue}"/> and uses the specified <see cref="IEqualityComparer{TKey}"/>.
         /// </summary>
-        /// <param name="collection">The <see cref="IEnumerable{KeyValuePair{TKey,TValue}}"/> whose elements are copied to the new <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
+        /// <param name="collection">The <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey,TValue}"/> whose elements are copied to the new <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
         public ScopedDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection)
             : this(collection.ToDictionary(k => k.Key, k => k.Value), null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ScopedDictionary{TKey, TValue}"/> class that contains elements copied from the specified <see cref="IEnumerable{KeyValuePair{TKey,TValue}}"/> and uses the specified <see cref="IEqualityComparer{TKey}"/>.
+        /// Initializes a new instance of the <see cref="ScopedDictionary{TKey, TValue}"/> class that contains elements copied from the specified <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey,TValue}"/> and uses the specified <see cref="IEqualityComparer{TKey}"/>.
         /// </summary>
-        /// <param name="collection">The <see cref="IEnumerable{KeyValuePair{TKey,TValue}}"/> whose elements are copied to the new <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
+        /// <param name="collection">The <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey,TValue}"/> whose elements are copied to the new <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{TKey}"/> implementation to use when comparing keys, or null to use the default <see cref="IEqualityComparer{TKey}"/> for the type of the key.</param>
         public ScopedDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection, IEqualityComparer<TKey> comparer)
             : this(collection.ToDictionary(k => k.Key, k => k.Value), comparer)
