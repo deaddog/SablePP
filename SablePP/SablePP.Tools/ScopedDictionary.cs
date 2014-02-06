@@ -148,7 +148,7 @@ namespace SablePP.Tools
         /// </summary>
         /// <param name="key">The key to locate in the <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
         /// <param name="currentScopeOnly">if set to <c>true</c> only the current scope is checked; otherwise all scopes are checked.</param>
-        /// <returns></returns>
+        /// <returns>true, if the  <see cref="ScopedDictionary{TKey, TValue}"/> contains the specified key; otherwise, false.</returns>
         public bool ContainsKey(TKey key, bool currentScopeOnly)
         {
             if (currentScopeOnly)
@@ -336,10 +336,17 @@ namespace SablePP.Tools
 
         #endregion
 
+        /// <summary>
+        /// Represents the collection of keys in a <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
         public sealed class KeyCollection : ICollection<TKey>
         {
             private ScopedDictionary<TKey, TValue> dictionary;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="KeyCollection"/> class that reflects the keys in the specified <see cref="ScopedDictionary{TKey, TValue}"/>.
+            /// </summary>
+            /// <param name="dictionary">The <see cref="ScopedDictionary{TKey, TValue}"/> whose keys are reflected in the new <see cref="KeyCollection"/>.</param>
             public KeyCollection(ScopedDictionary<TKey, TValue> dictionary)
             {
                 this.dictionary = dictionary;
@@ -361,6 +368,12 @@ namespace SablePP.Tools
             {
                 return Contains(item, false);
             }
+            /// <summary>
+            /// Determines whether the <see cref="KeyCollection" /> contains a specific value.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <param name="currentScopeOnly">if set to <c>true</c> only the current scope is checked; otherwise all scopes are checked.</param>
+            /// <returns>true, if the  <see cref="KeyCollection"/> contains the specified key; otherwise, false.</returns>
             public bool Contains(TKey key, bool currentScopeOnly)
             {
                 return dictionary.ContainsKey(key, currentScopeOnly);
@@ -370,6 +383,12 @@ namespace SablePP.Tools
             {
                 CopyTo(array, arrayIndex, false);
             }
+            /// <summary>
+            /// Copies the elements of the <see cref="KeyCollection" /> to a <see cref="System.Array"/>, starting at a particular index.
+            /// </summary>
+            /// <param name="array">The one-dimensional System.Array that is the destination of the elements <see cref="KeyCollection" />. The System.Array must have zero-based indexing.</param>
+            /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
+            /// <param name="currentScopeOnly">if set to <c>true</c> only keys from the current scope are copied; otherwise all keys are copied.</param>
             public void CopyTo(TKey[] array, int arrayIndex, bool currentScopeOnly)
             {
                 if (currentScopeOnly)
@@ -382,12 +401,15 @@ namespace SablePP.Tools
                 }
             }
 
+            /// <summary>
+            /// Gets the number of keys contained in the <see cref="KeyCollection" />.
+            /// </summary>
             public int Count
             {
                 get { return dictionary.count; }
             }
 
-            public bool IsReadOnly
+            bool ICollection<TKey>.IsReadOnly
             {
                 get { return true; }
             }
