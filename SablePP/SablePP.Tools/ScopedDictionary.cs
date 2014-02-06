@@ -446,10 +446,17 @@ namespace SablePP.Tools
 
             #endregion
         }
+        /// <summary>
+        /// Represents the collection of values in a <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
         public sealed class ValueCollection : ICollection<TValue>
         {
             private ScopedDictionary<TKey, TValue> dictionary;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ValueCollection"/> class that reflects the values in the specified <see cref="ScopedDictionary{TKey, TValue}"/>.
+            /// </summary>
+            /// <param name="dictionary">The <see cref="ScopedDictionary{TKey, TValue}"/> whose values are reflected in the new <see cref="ValueCollection"/>.</param>
             public ValueCollection(ScopedDictionary<TKey, TValue> dictionary)
             {
                 this.dictionary = dictionary;
@@ -476,6 +483,12 @@ namespace SablePP.Tools
             {
                 CopyTo(array, arrayIndex, false);
             }
+            /// <summary>
+            /// Copies the elements of the <see cref="ValueCollection" /> to a <see cref="System.Array"/>, starting at a particular index.
+            /// </summary>
+            /// <param name="array">The one-dimensional System.Array that is the destination of the elements <see cref="ValueCollection" />. The System.Array must have zero-based indexing.</param>
+            /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
+            /// <param name="currentScopeOnly">if set to <c>true</c> only values from the current scope are copied; otherwise all values are copied.</param>
             public void CopyTo(TValue[] array, int arrayIndex, bool currentScopeOnly)
             {
                 if (currentScopeOnly)
@@ -488,12 +501,15 @@ namespace SablePP.Tools
                 }
             }
 
+            /// <summary>
+            /// Gets the number of values contained in the <see cref="KeyCollection" />.
+            /// </summary>
             public int Count
             {
                 get { return dictionary.count; }
             }
 
-            public bool IsReadOnly
+            bool ICollection<TValue>.IsReadOnly
             {
                 get { return true; }
             }
