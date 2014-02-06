@@ -260,6 +260,9 @@ namespace SablePP.Tools
             Add(item.Key, item.Value);
         }
 
+        /// <summary>
+        /// Removes all items from all scopes of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
         public void Clear()
         {
             count = 0;
@@ -283,6 +286,10 @@ namespace SablePP.Tools
                 array[(i++) + arrayIndex] = new KeyValuePair<TKey, TValue>(key, this[key]);
         }
 
+        /// <summary>
+        /// Gets the number distinct of elements contained in all scopes of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
+        /// <returns>The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.</returns>
         public int Count
         {
             get { return count; }
