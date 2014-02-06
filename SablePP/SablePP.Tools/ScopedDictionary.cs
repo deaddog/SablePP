@@ -13,6 +13,7 @@ namespace SablePP.Tools
     /// <typeparam name="TValue">The type of the value.</typeparam>
     public class ScopedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
+        private IEqualityComparer<TKey> comparer;
         private Stack<Dictionary<TKey, TValue>> stack;
         private KeyCollection keys;
         private ValueCollection values;
@@ -23,7 +24,7 @@ namespace SablePP.Tools
         /// Initializes a new instance of the <see cref="ScopedDictionary{TKey, TValue}"/> class that is empty, has the default initial capacity, and uses the default equality comparer for the key type.
         /// </summary>
         public ScopedDictionary()
-            : this(new Dictionary<TKey, TValue>())
+            : this(new Dictionary<TKey, TValue>(), null)
         {
         }
         /// <summary>
@@ -31,7 +32,7 @@ namespace SablePP.Tools
         /// </summary>
         /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> whose elements are copied to the new <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
         public ScopedDictionary(IDictionary<TKey, TValue> dictionary)
-            : this(new Dictionary<TKey, TValue>(dictionary))
+            : this(new Dictionary<TKey, TValue>(dictionary), null)
         {
         }
         /// <summary>
@@ -39,7 +40,7 @@ namespace SablePP.Tools
         /// </summary>
         /// <param name="comparer">The <see cref="IEqualityComparer{TKey}"/> implementation to use when comparing keys, or null to use the default <see cref="IEqualityComparer{TKey}"/> for the type of the key.</param>
         public ScopedDictionary(IEqualityComparer<TKey> comparer)
-            : this(new Dictionary<TKey, TValue>(comparer))
+            : this(new Dictionary<TKey, TValue>(comparer), comparer)
         {
         }
         /// <summary>
@@ -47,7 +48,7 @@ namespace SablePP.Tools
         /// </summary>
         /// <param name="capacity">The initial number of elements that the <see cref="ScopedDictionary{TKey, TValue}"/> can contain.</param>
         public ScopedDictionary(int capacity)
-            : this(new Dictionary<TKey, TValue>(capacity))
+            : this(new Dictionary<TKey, TValue>(capacity), null)
         {
         }
         /// <summary>
@@ -56,7 +57,7 @@ namespace SablePP.Tools
         /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> whose elements are copied to the new <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{TKey}"/> implementation to use when comparing keys, or null to use the default <see cref="IEqualityComparer{TKey}"/> for the type of the key.</param>
         public ScopedDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
-            : this(new Dictionary<TKey, TValue>(dictionary, comparer))
+            : this(new Dictionary<TKey, TValue>(dictionary, comparer), comparer)
         {
         }
         /// <summary>
@@ -65,7 +66,7 @@ namespace SablePP.Tools
         /// <param name="capacity">The initial number of elements that the <see cref="ScopedDictionary{TKey, TValue}"/> can contain.</param>
         /// <param name="comparer">The <see cref="IEqualityComparer{TKey}"/> implementation to use when comparing keys, or null to use the default <see cref="IEqualityComparer{TKey}"/> for the type of the key.</param>
         public ScopedDictionary(int capacity, IEqualityComparer<TKey> comparer)
-            : this(new Dictionary<TKey, TValue>(comparer))
+            : this(new Dictionary<TKey, TValue>(comparer), comparer)
         {
         }
 
@@ -74,7 +75,7 @@ namespace SablePP.Tools
         /// </summary>
         /// <param name="collection">The <see cref="IEnumerable{KeyValuePair{TKey,TValue}}"/> whose elements are copied to the new <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
         public ScopedDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection)
-            : this(collection.ToDictionary(k => k.Key, k => k.Value))
+            : this(collection.ToDictionary(k => k.Key, k => k.Value), null)
         {
         }
 
@@ -89,10 +90,11 @@ namespace SablePP.Tools
 
         }
 
-        protected ScopedDictionary(Dictionary<TKey, TValue> rootDictionary)
+        protected ScopedDictionary(Dictionary<TKey, TValue> rootDictionary, IEqualityComparer<TKey> comparer)
         {
             if (rootDictionary == null)
                 throw new ArgumentNullException("rootDictionary");
+            this.comparer = comparer;
 
             this.stack = new Stack<Dictionary<TKey, TValue>>();
             this.stack.Push(rootDictionary);
@@ -106,7 +108,7 @@ namespace SablePP.Tools
         /// </summary>
         public void OpenScope()
         {
-            stack.Push(new Dictionary<TKey, TValue>());
+            stack.Push(new Dictionary<TKey, TValue>(this.comparer));
         }
 
         /// <summary>
