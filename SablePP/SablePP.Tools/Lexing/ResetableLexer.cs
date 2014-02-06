@@ -22,7 +22,7 @@ namespace SablePP.Tools.Lexing
             this.exception = null;
         }
 
-        public ILexer InnerLexer
+        internal ILexer InnerLexer
         {
             get { return lexer; }
         }
