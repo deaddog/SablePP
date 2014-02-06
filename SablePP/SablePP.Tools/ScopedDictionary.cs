@@ -126,6 +126,11 @@ namespace SablePP.Tools
 
         #region IDictionary<TKey,TValue> Members
 
+        /// <summary>
+        /// Adds an element with the provided key and value to the current scope of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
+        /// <param name="key">The key of the element to add.</param>
+        /// <param name="value">The value of the element to add.</param>
         public void Add(TKey key, TValue value)
         {
             if (!ContainsKey(key, false))
@@ -138,6 +143,12 @@ namespace SablePP.Tools
         {
             return ContainsKey(key, false);
         }
+        /// <summary>
+        /// Determines whether the <see cref="ScopedDictionary{TKey, TValue}"/> contains a specific key in either the current or all scopes.
+        /// </summary>
+        /// <param name="key">The key to locate in the <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
+        /// <param name="currentScopeOnly">if set to <c>true</c> only the current scope is checked; otherwise all scopes are checked.</param>
+        /// <returns></returns>
         public bool ContainsKey(TKey key, bool currentScopeOnly)
         {
             if (currentScopeOnly)
@@ -150,6 +161,9 @@ namespace SablePP.Tools
             return false;
         }
 
+        /// <summary>
+        /// Gets a <see cref="ScopedDictionary{TKey, TValue}.KeyCollection"/> containing the keys of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
         public KeyCollection Keys
         {
             get { return keys; }
@@ -159,6 +173,13 @@ namespace SablePP.Tools
             get { return keys; }
         }
 
+        /// <summary>
+        /// Removes the element with the specified key from all scopes of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
+        /// <param name="key">The key of the element to remove.</param>
+        /// <returns>
+        /// true if the element is successfully removed; otherwise, false.
+        /// </returns>
         public bool Remove(TKey key)
         {
             bool removed = false;
@@ -177,6 +198,14 @@ namespace SablePP.Tools
         {
             return TryGetValue(key, out value, false);
         }
+        /// <summary>
+        /// Gets the value associated with the specified key.
+        /// </summary>
+        /// <param name="key">The key whose value to get.</param>
+        /// <param name="value">When this method returns, the value associated with the specified key, if the key is found; otherwise, the default value for the type of the <paramref name="value" /> parameter. This parameter is passed uninitialized.</param>
+        /// <param name="currentScopeOnly">if set to <c>true</c> only the current scope is checked; otherwise all scopes are checked.</param>
+        /// <returns>
+        /// true, if the <see cref="ScopedDictionary{TKey, TValue}"/> contains an element with the specified key; otherwise, false.</returns>
         public bool TryGetValue(TKey key, out TValue value, bool currentScopeOnly)
         {
             if (currentScopeOnly)
@@ -189,7 +218,9 @@ namespace SablePP.Tools
             value = default(TValue);
             return false;
         }
-
+        /// <summary>
+        /// Gets a <see cref="ScopedDictionary{TKey, TValue}.ValueCollection"/> containing the values of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
         public ValueCollection Values
         {
             get { return values; }
@@ -199,6 +230,11 @@ namespace SablePP.Tools
             get { return values; }
         }
 
+        /// <summary>
+        /// Gets or sets the element with the specified key in the current scope of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns>The value associated with <paramref name="key"/>.</returns>
         public TValue this[TKey key]
         {
             get
