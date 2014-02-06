@@ -90,7 +90,7 @@ namespace SablePP.Tools
 
         }
 
-        protected ScopedDictionary(Dictionary<TKey, TValue> rootDictionary, IEqualityComparer<TKey> comparer)
+        private ScopedDictionary(Dictionary<TKey, TValue> rootDictionary, IEqualityComparer<TKey> comparer)
         {
             if (rootDictionary == null)
                 throw new ArgumentNullException("rootDictionary");
