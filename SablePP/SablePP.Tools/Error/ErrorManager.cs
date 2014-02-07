@@ -47,7 +47,14 @@ namespace SablePP.Tools.Error
             if (args != null && args.Length > 0)
                 errorMessage = string.Format(errorMessage, translateArguments(args));
 
-            Register(new CompilerError(node, errorMessage));
+            Token first;
+            Token last;
+            FirstLastVisitor.FindTokens(node, out first, out last);
+
+            Register(new CompilerError(
+                new Position(first.Line, first.Position),
+                new Position(last.Line, last.Position + last.Text.Length - 1),
+                errorMessage));
         }
 
         private object[] translateArguments(object[] args)
@@ -83,5 +90,67 @@ namespace SablePP.Tools.Error
                 return x.Start.CompareTo(y.Start);
             }
         }
+
+        #region Token Locater class
+
+        private class FirstLastVisitor
+        {
+            public static void FindTokens(Node node, out Token first, out Token last)
+            {
+                if (node is Token)
+                    first = last = node as Token;
+                else
+                {
+                    FirstFinder f = new FirstFinder();
+                    f.Visit(node);
+                    first = f.Token;
+
+                    LastFinder l = new LastFinder();
+                    l.Visit(node);
+                    last = l.Token;
+                }
+            }
+
+            private class FirstFinder : SablePP.Tools.Analysis.DepthFirstTreeWalker
+            {
+                private Token token = null;
+                public Token Token
+                {
+                    get { return token; }
+                }
+
+                public override void Visit(Production production)
+                {
+                    if (this.token == null)
+                        base.Visit(production);
+                }
+                public override void Visit(Token token)
+                {
+                    if (this.token == null)
+                        this.token = token;
+                }
+            }
+            private class LastFinder : SablePP.Tools.Analysis.DepthFirstReversedTreeWalker
+            {
+                private Token token = null;
+                public Token Token
+                {
+                    get { return token; }
+                }
+
+                public override void Visit(Production production)
+                {
+                    if (this.token == null)
+                        base.Visit(production);
+                }
+                public override void Visit(Token token)
+                {
+                    if (this.token == null)
+                        this.token = token;
+                }
+            }
+        }
+
+        #endregion
     }
 }
