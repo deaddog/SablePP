@@ -11,7 +11,7 @@ namespace SablePP.Tools.Nodes
     public abstract class Production<T> : Production where T : Production
     {
         /// <summary>
-        /// Clones this instance and returns an element of type <typeparamref name="T"/>.
+        /// Clones this instance (and recursively all children) and returns an element of type <typeparamref name="T"/>.
         /// </summary>
         /// <returns>A new <typeparamref name="T"/> production element that is a copy of this instance.</returns>
         public abstract T Clone();
