@@ -70,9 +70,18 @@ namespace SablePP.Tools.Error
             get { return errorMessage; }
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents the location and message of this <see cref="CompilerError"/>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents the location and message of this <see cref="CompilerError"/>.
+        /// </returns>
         public override string ToString()
         {
-            return string.Format("[{0}, {1}] {2}", start.LineNumber, start.LinePosition, errorMessage);
+            if (start.LineNumber == 0 || start.LinePosition == 0)
+                return string.Format("[N/A] {0}", errorMessage);
+            else
+                return string.Format("[{0}, {1}] {2}", start.LineNumber, start.LinePosition, errorMessage);
         }
     }
 }
