@@ -242,12 +242,12 @@ namespace SablePP.Tools.Editor
                 try { root = parser.Parse(); }
                 catch (LexerException ex)
                 {
-                    errorManager.Register(CompilerError.ParseException(ex));
+                    errorManager.Register(ex);
                     root = null;
                 }
                 catch (ParserException ex)
                 {
-                    errorManager.Register(CompilerError.ParseException(ex));
+                    errorManager.Register(ex);
                     root = null;
                 }
 

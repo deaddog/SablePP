@@ -42,6 +42,12 @@ namespace SablePP.Tools.Error
             errorList.Insert(pos, error);
         }
 
+        /// <summary>
+        /// Registers an error at the location of a specified <see cref="Node"/>.
+        /// </summary>
+        /// <param name="node">The node that should be marked as cause of the error. The full node will be marked.</param>
+        /// <param name="errorMessage">The error message associated with the <see cref="CompilerError"/>.</param>
+        /// <param name="args">Arguments for the error message.</param>
         public void Register(Node node, string errorMessage, params object[] args)
         {
             if (args != null && args.Length > 0)
@@ -55,6 +61,30 @@ namespace SablePP.Tools.Error
                 new Position(first.Line, first.Position),
                 new Position(last.Line, last.Position + last.Text.Length - 1),
                 errorMessage));
+        }
+
+        /// <summary>
+        /// Translates a <see cref="LexerException"/> into a <see cref="CompilerError"/> and registers that error.
+        /// </summary>
+        /// <param name="exception">The <see cref="LexerException"/> that should be translated.</param>
+        public void Register(LexerException exception)
+        {
+            Register(new CompilerError(
+                new Position(exception.Line, exception.Position),
+                new Position(exception.Line, exception.Position),
+                exception.Message));
+        }
+        /// <summary>
+        /// Translates a <see cref="ParserException"/> into a <see cref="CompilerError"/> and registers that error.
+        /// </summary>
+        /// <param name="exception">The <see cref="ParserException"/> that should be translated.</param>
+        /// <returns>A <see cref="CompilerError"/> that represents <paramref name="exception"/>.</returns>
+        public void Register(ParserException exception)
+        {
+            Register(new CompilerError(
+                new Position(exception.LastLine, exception.LastPosition),
+                new Position(exception.LastLine, exception.LastPosition),
+                exception.Message));
         }
 
         private object[] translateArguments(object[] args)

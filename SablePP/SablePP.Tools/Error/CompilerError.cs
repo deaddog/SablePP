@@ -39,33 +39,6 @@ namespace SablePP.Tools.Error
         }
 
         /// <summary>
-        /// Translates a <see cref="LexerException"/> into a <see cref="CompilerError"/>.
-        /// </summary>
-        /// <param name="exception">The <see cref="LexerException"/> that should be translated.</param>
-        /// <returns>A <see cref="CompilerError"/> that represents <paramref name="exception"/>.</returns>
-        public static CompilerError ParseException(LexerException exception)
-        {
-            return new CompilerError(endWithPeriod(exception.Message))
-                {
-                    start = new Position(exception.Line, exception.Position),
-                    end = new Position(exception.Line, exception.Position)
-                };
-        }
-        /// <summary>
-        /// Translates a <see cref="ParserException"/> into a <see cref="CompilerError"/>.
-        /// </summary>
-        /// <param name="exception">The <see cref="ParserException"/> that should be translated.</param>
-        /// <returns>A <see cref="CompilerError"/> that represents <paramref name="exception"/>.</returns>
-        public static CompilerError ParseException(ParserException exception)
-        {
-            return new CompilerError(endWithPeriod(exception.Message))
-            {
-                start = new Position(exception.LastLine, exception.LastPosition),
-                end = new Position(exception.LastLine, exception.LastPosition)
-            };
-        }
-
-        /// <summary>
         /// Gets the start <see cref="Position"/> of the error.
         /// </summary>
         /// <value>
