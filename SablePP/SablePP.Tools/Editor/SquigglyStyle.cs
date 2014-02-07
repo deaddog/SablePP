@@ -6,17 +6,25 @@ using FastColoredTextBoxNS;
 
 namespace SablePP.Tools.Editor
 {
+    /// <summary>
+    /// Defines a <see cref="Style"/> for marking errors in the <see cref="CodeTextBox"/> using a squiggly/zig-zag line.
+    /// </summary>
     public class SquigglyStyle : Style
     {
         private const float step = 2;
 
         private Pen pen;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SquigglyStyle"/> class.
+        /// </summary>
+        /// <param name="underline">The <see cref="Pen"/> used to draw squiggly lines.</param>
         public SquigglyStyle(Pen underline)
         {
             this.pen = underline;
         }
 
+#pragma warning disable 1591
         public override void Draw(System.Drawing.Graphics gr, System.Drawing.Point position, Range range)
         {
             RectangleF rect = new RectangleF(
@@ -39,5 +47,6 @@ namespace SablePP.Tools.Editor
             }
             gr.DrawLines(pen, points.ToArray());
         }
+#pragma warning restore
     }
 }
