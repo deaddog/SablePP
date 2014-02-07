@@ -8,7 +8,7 @@ using SablePP.Tools.Nodes;
 
 namespace SablePP.Tools
 {
-    public class SimplePrinter<TRoot> : DepthFirstTreeWalker where TRoot : Node
+    public class SimplePrinter<TRoot> : DepthFirstTreeWalker where TRoot : Production
     {
         private int indent;
         private List<string> dotLines = new List<string>();

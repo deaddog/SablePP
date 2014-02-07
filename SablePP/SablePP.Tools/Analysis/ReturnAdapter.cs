@@ -3,7 +3,7 @@ using SablePP.Tools.Nodes;
 
 namespace SablePP.Tools.Analysis
 {
-    public abstract class ReturnAdapter<T, TRoot> where TRoot : Node
+    public abstract class ReturnAdapter<T, TRoot> where TRoot : Production
     {
         public ReturnAdapter()
         {

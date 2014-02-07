@@ -11,7 +11,7 @@ using FastColoredTextBoxNS;
 namespace SablePP.Tools
 {
     public abstract class CompilerExecuter<TRoot, TLexer, TParser> : ICompilerExecuter
-        where TRoot : Node
+        where TRoot : Production
         where TLexer : class, ILexer
         where TParser : class, IParser
     {

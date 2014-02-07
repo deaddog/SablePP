@@ -6,7 +6,7 @@ using SablePP.Tools.Nodes;
 
 namespace SablePP.Tools.Analysis
 {
-    public abstract class Adapter<TValue, TRoot> where TRoot : Node
+    public abstract class Adapter<TValue, TRoot> where TRoot : Production
     {
         public class Table
         {

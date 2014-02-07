@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools.Nodes
 {
-    public class Start<TRoot> : Production<Start<TRoot>> where TRoot : Node
+    public class Start<TRoot> : Production<Start<TRoot>> where TRoot : Production
     {
         private TRoot _base_;
         private EOF _eof_;
