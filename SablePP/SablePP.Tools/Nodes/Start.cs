@@ -48,7 +48,7 @@ namespace SablePP.Tools.Nodes
 
         public override Start<TRoot> Clone()
         {
-            throw new NotImplementedException();
+            return new Start<TRoot>(_base_.CloneNode() as TRoot, _eof_.Clone());
         }
 
         public override void ReplaceChild(Node oldChild, Node newChild)
