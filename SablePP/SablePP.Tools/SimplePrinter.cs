@@ -8,21 +8,41 @@ using SablePP.Tools.Nodes;
 
 namespace SablePP.Tools
 {
-    public class SimplePrinter<TRoot> : DepthFirstTreeWalker where TRoot : Production
+    /// <summary>
+    /// Provides a method for printing an AST to <see cref="Console"/>.
+    /// </summary>
+    public class SimplePrinter : DepthFirstTreeWalker
     {
         private int indent;
         private List<string> dotLines = new List<string>();
         private bool showTokens;
 
+        private Node root;
+
         private ConsoleColor astnodescolor, tokencolor, textcolor, treecolor;
 
-        public SimplePrinter(bool showTokens, ConsoleColor astnodes, ConsoleColor tokens, ConsoleColor text, ConsoleColor tree)
+        private SimplePrinter(bool showTokens, ConsoleColor astnodes, ConsoleColor tokens, ConsoleColor text, ConsoleColor tree)
         {
             this.showTokens = showTokens;
             this.astnodescolor = astnodes;
             this.tokencolor = tokens;
             this.textcolor = text;
             this.treecolor = tree;
+        }
+
+        /// <summary>
+        /// Prints the tree specified by node.
+        /// </summary>
+        /// <param name="node">The node that is the root in the printed tree.</param>
+        /// <param name="showTokens">if set to <c>true</c> tokens are printed, otherwise they are skipped.</param>
+        /// <param name="astnodes">The <see cref="ConsoleColor"/> used to draw production names.</param>
+        /// <param name="tokens">The <see cref="ConsoleColor"/> used to draw token names.</param>
+        /// <param name="text">The <see cref="ConsoleColor"/> used to draw node text values.</param>
+        /// <param name="tree">The <see cref="ConsoleColor"/> used to draw the tree structure itself.</param>
+        public static void Print(Node node, bool showTokens, ConsoleColor astnodes, ConsoleColor tokens, ConsoleColor text, ConsoleColor tree)
+        {
+            SimplePrinter printer = new SimplePrinter(showTokens, astnodes, tokens, text, tree);
+            printer.print(node);
         }
 
         private void printIndent()
@@ -69,7 +89,7 @@ namespace SablePP.Tools
             dotLines[y] = dotLines[y].Substring(0, x) + c + dotLines[y].Substring(x + 1);
         }
 
-        public void Done()
+        public void done()
         {
             dotLines[dotLines.Count - 1] = dotLines[dotLines.Count - 1].Replace('|', ' ');
             for (int i = dotLines.Count - 2; i >= 0; i--)
@@ -96,9 +116,11 @@ namespace SablePP.Tools
             Console.ForegroundColor = color;
         }
 
-        public void Print(Start<TRoot> node)
+        private void print(Node node)
         {
+            this.root = node;
             Visit(node);
+            done();
         }
 
         public override void Visit(Production production)
@@ -108,9 +130,6 @@ namespace SablePP.Tools
             indent++;
             base.Visit(production);
             indent--;
-
-            if (production is Start<TRoot>)
-                Done();
         }
         public override void Visit(Token token)
         {
