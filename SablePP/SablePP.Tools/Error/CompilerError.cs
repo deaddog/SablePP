@@ -54,6 +54,19 @@ namespace SablePP.Tools.Error
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="CompilerError"/> class.
+        /// </summary>
+        /// <param name="start">The start <see cref="Position"/> of the error.</param>
+        /// <param name="end">The end <see cref="Position"/> of the error.</param>
+        /// <param name="errorMessage">The error message associated with the <see cref="CompilerError"/>.</param>
+        public CompilerError(Position start, Position end, string errorMessage)
+        {
+            this.start = start;
+            this.end = end;
+            this.errorMessage = endWithPeriod(errorMessage);
+        }
+
+        /// <summary>
         /// Translates a <see cref="LexerException"/> into a <see cref="CompilerError"/>.
         /// </summary>
         /// <param name="exception">The <see cref="LexerException"/> that should be translated.</param>
