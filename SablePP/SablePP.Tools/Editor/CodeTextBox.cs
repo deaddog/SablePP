@@ -396,14 +396,23 @@ namespace SablePP.Tools.Editor
                 this.errors = errors.ToArray();
             }
 
+            /// <summary>
+            /// Gets the <see cref="DateTime"/> the compilation was completed.
+            /// </summary>
             public DateTime CompileTime
             {
                 get { return time; }
             }
+            /// <summary>
+            /// Gets the root of the generated AST. If the lexer or parser failed this value is <c>null</c>.
+            /// </summary>
             public Node Tree
             {
                 get { return root; }
             }
+            /// <summary>
+            /// Gets the errors registered in validation of the code.
+            /// </summary>
             public CompilerError[] Errors
             {
                 get { return errors; }
