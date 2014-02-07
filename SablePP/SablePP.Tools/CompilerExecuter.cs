@@ -26,6 +26,18 @@ namespace SablePP.Tools
         }
         public abstract Style GetSimpleStyle(Token token);
 
+        private void handleErrorArgument(object sender, ErrorArgumentEventArgs e)
+        {
+            HandleErrorArgument(e);
+        }
+        /// <summary>
+        /// When overridden in a derived class, handles the proper translation of arguments into strings.
+        /// </summary>
+        /// <param name="e">The <see cref="ErrorArgumentEventArgs"/> instance containing the event data.</param>
+        public virtual void HandleErrorArgument(ErrorArgumentEventArgs e)
+        {
+        }
+
         ILexer ICompilerExecuter.GetLexer(TextReader reader)
         {
             return this.GetLexer(reader);
@@ -42,7 +54,9 @@ namespace SablePP.Tools
             if (!(astRoot is Start<TRoot>))
                 throw new ArgumentException("Root must be of type " + typeof(Start<TRoot>).FullName, "astRoot");
 
+            compilationOptions.ErrorManager.TranslateArgument += handleErrorArgument;
             this.Validate(astRoot as Start<TRoot>, compilationOptions);
+            compilationOptions.ErrorManager.TranslateArgument -= handleErrorArgument;
         }
         Style ICompilerExecuter.GetSimpleStyle(Token token)
         {
