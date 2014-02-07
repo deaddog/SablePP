@@ -50,7 +50,34 @@ namespace SablePP.Tools.Error
         {
             this.start = new Position(0, 0);
             this.end = new Position(0, 0);
-            this.errorMessage = errorMessage;
+            this.errorMessage = endWithPeriod(errorMessage);
+        }
+
+        /// <summary>
+        /// Translates a <see cref="LexerException"/> into a <see cref="CompilerError"/>.
+        /// </summary>
+        /// <param name="exception">The <see cref="LexerException"/> that should be translated.</param>
+        /// <returns>A <see cref="CompilerError"/> that represents <paramref name="exception"/>.</returns>
+        public static CompilerError ParseException(LexerException exception)
+        {
+            return new CompilerError(endWithPeriod(exception.Message))
+                {
+                    start = new Position(exception.Line, exception.Position),
+                    end = new Position(exception.Line, exception.Position)
+                };
+        }
+        /// <summary>
+        /// Translates a <see cref="ParserException"/> into a <see cref="CompilerError"/>.
+        /// </summary>
+        /// <param name="exception">The <see cref="ParserException"/> that should be translated.</param>
+        /// <returns>A <see cref="CompilerError"/> that represents <paramref name="exception"/>.</returns>
+        public static CompilerError ParseException(ParserException exception)
+        {
+            return new CompilerError(endWithPeriod(exception.Message))
+            {
+                start = new Position(exception.LastLine, exception.LastPosition),
+                end = new Position(exception.LastLine, exception.LastPosition)
+            };
         }
 
         #region Token Locater class
