@@ -4,14 +4,31 @@ using System.Text;
 
 namespace SablePP.Tools.Nodes
 {
+    /// <summary>
+    /// Represents a production (an inner node) in an AST.
+    /// </summary>
+    /// <typeparam name="T">The type of the base production.</typeparam>
     public abstract class Production<T> : Production where T : Production
     {
+        /// <summary>
+        /// Clones this instance and returns an element of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <returns>A new <typeparamref name="T"/> production element that is a copy of this instance.</returns>
         public abstract T Clone();
+        /// <summary>
+        /// Creates a new <see cref="Node"/> object that is a copy of this instance.
+        /// </summary>
+        /// <returns>
+        /// A new <see cref="Node"/> object that is a copy of this instance.
+        /// </returns>
         public override Node CloneNode()
         {
             return Clone();
         }
-
+        /// <summary>
+        /// Replaces this <see cref="Production{T}"/> element by another node in its parent <see cref="Production"/> if one exists.
+        /// </summary>
+        /// <param name="node">The node to replace this node with.</param>
         public void ReplaceBy(T node)
         {
             if (this.GetParent() != null)
@@ -19,10 +36,22 @@ namespace SablePP.Tools.Nodes
         }
     }
 
+    /// <summary>
+    /// Represents a production (an inner node) in an AST.
+    /// </summary>
     public abstract class Production : Node
     {
+        /// <summary>
+        /// Replaces a child node in this <see cref="Production"/> by another child node.
+        /// </summary>
+        /// <param name="oldChild">The old child node.</param>
+        /// <param name="newChild">The new child node.</param>
         public abstract void ReplaceChild(Node oldChild, Node newChild);
 
+        /// <summary>
+        /// Gets all children associated with this node in order.
+        /// </summary>
+        /// <returns></returns>
         protected internal abstract IEnumerable<Node> GetChildren();
 
         public class NodeList<T> : IList<T> where T : Node
