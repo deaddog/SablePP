@@ -16,13 +16,6 @@ namespace SablePP.Tools.Error
         private Position start, end;
         private string errorMessage;
 
-        public CompilerError(int startLine, int startCharacter, int length, string errorMessage)
-        {
-            this.start = new Position(startLine, startCharacter);
-            this.end = new Position(startLine, startCharacter + length - 1);
-            this.errorMessage = endWithPeriod(errorMessage);
-        }
-
         private static string endWithPeriod(string input)
         {
             Match m = Regex.Match(input, @"[\.\!\?]$");
@@ -36,8 +29,7 @@ namespace SablePP.Tools.Error
         /// Initializes a new instance of the <see cref="CompilerError"/> class.
         /// </summary>
         /// <param name="node">The node that should be marked as cause of the error. The full node will be marked.</param>
-        /// <param name="errorMessage">The error message.</param>
-        /// <param name="args">The argument to use with <paramref name="errorMessage"/>.</param>
+        /// <param name="errorMessage">The error message associated with the <see cref="CompilerError"/>.</param>
         public CompilerError(Node node, string errorMessage)
         {
             Token first;
@@ -48,6 +40,17 @@ namespace SablePP.Tools.Error
             this.end = new Position(last.Line, last.Position + last.Text.Length - 1);
 
             this.errorMessage = endWithPeriod(errorMessage);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CompilerError"/> class that has no known location.
+        /// </summary>
+        /// <param name="errorMessage">The error message associated with the <see cref="CompilerError"/>.</param>
+        public CompilerError(string errorMessage)
+        {
+            this.start = new Position(0, 0);
+            this.end = new Position(0, 0);
+            this.errorMessage = errorMessage;
         }
 
         #region Token Locater class
