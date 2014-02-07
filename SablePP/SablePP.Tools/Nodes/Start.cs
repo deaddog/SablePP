@@ -15,7 +15,7 @@ namespace SablePP.Tools.Nodes
         /// <summary>
         /// Initializes a new instance of the <see cref="Start{TRoot}"/> class.
         /// </summary>
-        /// <param name="_base_">A <typeparamref name="T"/> production representing an AST. This value cannot be <c>null</c>.</param>
+        /// <param name="_base_">A <typeparamref name="TRoot"/> production representing an AST. This value cannot be <c>null</c>.</param>
         /// <param name="_eof_">An <see cref="EOF"/> token that should be associated with the AST. This value cannot be <c>null</c>.</param>
         public Start(TRoot _base_, EOF _eof_)
         {

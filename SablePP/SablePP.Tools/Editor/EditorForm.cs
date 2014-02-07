@@ -340,7 +340,7 @@ namespace SablePP.Tools.Editor
         /// <summary>
         /// Waits for the current compilation process to finish and returns its <see cref="CodeTextBox.Result"/>.
         /// </summary>
-        /// <returns>A <see cref="Result"/> detailing the result of the currently executing compilation process.</returns>
+        /// <returns>A <see cref="CodeTextBox.Result"/> detailing the result of the currently executing compilation process.</returns>
         public CodeTextBox.Result WaitForResult()
         {
             return codeTextBox1.WaitForResult();

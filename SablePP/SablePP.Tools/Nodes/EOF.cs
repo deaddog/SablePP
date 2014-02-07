@@ -28,7 +28,7 @@ namespace SablePP.Tools.Nodes
         /// <summary>
         /// Clones this <see cref="EOF"/> instace and returns the new element.
         /// </summary>
-        /// <returns>A new <typeparamref name="EOF"/> token element that is a copy of this instance.</returns>
+        /// <returns>A new <see cref="EOF"/> token element that is a copy of this instance.</returns>
         public override EOF Clone()
         {
             return new EOF(Line, Position);

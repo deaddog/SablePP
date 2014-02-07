@@ -29,25 +29,25 @@ namespace SablePP.Tools
         }
 
         /// <summary>
-        /// Gets a <see cref="TLexer"/> that can be used to perform lexical analyses on a given input.
+        /// Gets a <typeparamref name="TLexer"/> that can be used to perform lexical analyses on a given input.
         /// </summary>
         /// <param name="reader">The <see cref="TextReader" /> from which input is read.</param>
         /// <returns>
-        /// A <see cref="TLexer"/> capable of performing lexical analysis.
+        /// A <typeparamref name="TLexer"/> capable of performing lexical analysis.
         /// </returns>
         public abstract TLexer GetLexer(TextReader reader);
         /// <summary>
-        /// Gets a <see cref="TParser"/> that can be used to generate an AST from the tokenstream supplied by the <see cref="TLexer" />.
+        /// Gets a <typeparamref name="TParser"/> that can be used to generate an AST from the tokenstream supplied by the <typeparamref name="TLexer"/>.
         /// </summary>
         /// <param name="lexer">The lexer that supplies the stream of tokens for the parser.</param>
         /// <returns>
-        /// A <see cref="TParser"/> capable of generating an AST.
+        /// A <typeparamref name="TParser"/> capable of generating an AST.
         /// </returns>
         public abstract TParser GetParser(ILexer lexer);
         /// <summary>
         /// Validates an AST given its root and a set of <see cref="CompilationOptions" />.
         /// </summary>
-        /// <param name="astRoot">The <see cref="Start{TRoot}"/> element which is the root of an AST with first child of type <see cref="TRoot"/>.</param>
+        /// <param name="root">The <see cref="Start{TRoot}"/> element which is the root of an AST with first child of type <typeparamref name="TRoot"/>.</param>
         /// <param name="compilationOptions">Compilation options for the validation. This includes an <see cref="ErrorManager" /> for registering errors.</param>
         public virtual void Validate(Start<TRoot> root, CompilationOptions compilationOptions)
         {
