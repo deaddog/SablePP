@@ -64,6 +64,19 @@ namespace SablePP.Tools.Error
         }
 
         /// <summary>
+        /// Registers an error with an unknown location.
+        /// </summary>
+        /// <param name="errorMessage">The error message associated with the <see cref="CompilerError"/>.</param>
+        /// <param name="args">Arguments for the error message.</param>
+        public void Register(string errorMessage, params object[] args)
+        {
+            if (args != null && args.Length > 0)
+                errorMessage = string.Format(errorMessage, translateArguments(args));
+
+            Register(new CompilerError(new Position(0, 0), new Position(0, 0), errorMessage));
+        }
+
+        /// <summary>
         /// Translates a <see cref="LexerException"/> into a <see cref="CompilerError"/> and registers that error.
         /// </summary>
         /// <param name="exception">The <see cref="LexerException"/> that should be translated.</param>

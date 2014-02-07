@@ -63,7 +63,7 @@ namespace SablePP.Compiler
                     else if (grammar.HasAstproductions)
                         errorManager.Register((grammar.Astproductions as AAstproductions).Asttoken, message);
                     else
-                        errorManager.Register(new CompilerError(-1, -1, 0, message));
+                        errorManager.Register(message);
                 }
 
                 if (!grammar.HasProductions)
@@ -72,7 +72,7 @@ namespace SablePP.Compiler
                     if (grammar.HasAstproductions)
                         errorManager.Register((grammar.Astproductions as AAstproductions).Asttoken, message);
                     else
-                        errorManager.Register(new CompilerError(-1, -1, 0, message));
+                        errorManager.Register(message);
                 }
             }
 
@@ -100,7 +100,7 @@ namespace SablePP.Compiler
                     {
                         if (text[i].StartsWith("\tat "))
                             break;
-                        errorManager.Register(handleSableException(text[i]));
+                        handleSableException(errorManager, text[i]);
                     }
                 }
                 proc.Close();
@@ -133,7 +133,7 @@ namespace SablePP.Compiler
 
             return proc;
         }
-        private CompilerError handleSableException(string text)
+        private void handleSableException(ErrorManager errorManager, string text)
         {
             Match m = Regex.Match(text, "java.lang.RuntimeException: \\[(?<line>[0-9]+),(?<char>[0-9]+)\\] (?<text>.*)");
             if (m.Success)
@@ -142,11 +142,10 @@ namespace SablePP.Compiler
                 int eChar = int.Parse(m.Groups["char"].Value);
                 string eText = m.Groups["text"].Value;
 
-                return new CompilerError(-1, -1, 1,
-                    string.Format("SableCC: {2} at {{{0},{1}}}", eLine, eChar, eText));
+                errorManager.Register("SableCC: {2} at {{{0},{1}}}", eLine, eChar, eText);
             }
             else
-                return new CompilerError(-1, -1, 0, text);
+                errorManager.Register(text);
         }
 
         public bool Generate(Start<PGrammar> root, string directory)
