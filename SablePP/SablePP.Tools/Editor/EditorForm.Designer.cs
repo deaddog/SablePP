@@ -365,12 +365,16 @@
             // 
             // errorView1
             // 
+            this.errorView1.CodeTextBox = this.codeTextBox1;
             this.errorView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.errorView1.FullRowSelect = true;
             this.errorView1.Location = new System.Drawing.Point(0, 0);
+            this.errorView1.MultiSelect = false;
             this.errorView1.Name = "errorView1";
             this.errorView1.Size = new System.Drawing.Size(569, 127);
             this.errorView1.TabIndex = 0;
             this.errorView1.UseCompatibleStateImageBehavior = false;
+            this.errorView1.View = System.Windows.Forms.View.Details;
             // 
             // EditorForm
             // 

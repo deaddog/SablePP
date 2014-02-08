@@ -1,5 +1,6 @@
 ﻿using SablePP.Tools.Error;
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace SablePP.Tools.Editor
@@ -10,6 +11,7 @@ namespace SablePP.Tools.Editor
     public class ErrorView : ListView
     {
         private ColumnHeader iconHeader, descriptionHeader, lineHeader, columnHeader;
+        private CodeTextBox codeTextBox;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorView"/> control.
@@ -90,6 +92,16 @@ namespace SablePP.Tools.Editor
             this.Items.Clear();
         }
 
+        [DefaultValue(null)]
+        /// <summary>
+        /// Gets or sets the <see cref="CodeTextBox"/> associated where errors should be located.
+        /// </summary>
+        public CodeTextBox CodeTextBox
+        {
+            get { return this.codeTextBox; }
+            set { this.codeTextBox = value; }
+        }
+
 #pragma warning disable 1591
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
@@ -100,9 +112,10 @@ namespace SablePP.Tools.Editor
                 int line, column;
                 if (int.TryParse(selected.SubItems[lineHeader.Index].Text, out line) &&
                     int.TryParse(selected.SubItems[columnHeader.Index].Text, out column) &&
-                    line > 0 && column > 0)
+                    line > 0 && column > 0 && codeTextBox!=null)
                 {
-
+                    codeTextBox.Selection.Start = new FastColoredTextBoxNS.Place(column, line);
+                    codeTextBox.DoSelectionVisible();
                 }
             }
 
