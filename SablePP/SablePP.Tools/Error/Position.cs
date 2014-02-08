@@ -7,27 +7,27 @@ namespace SablePP.Tools.Error
 {
     public struct Position : IComparable<Position>, IEquatable<Position>
     {
-        private int lineNumber;
-        private int linePosition;
+        private int line;
+        private int position;
 
-        public Position(int lineNumber, int linePosition)
+        public Position(int line, int position)
         {
-            if (lineNumber < 0)
-                lineNumber = 0;
-            if (linePosition < 0)
-                linePosition = 0;
+            if (line < 0)
+                line = 0;
+            if (position < 0)
+                position = 0;
 
-            this.lineNumber = lineNumber;
-            this.linePosition = linePosition;
+            this.line = line;
+            this.position = position;
         }
 
-        public int LineNumber
+        public int Line
         {
-            get { return lineNumber; }
+            get { return line; }
         }
-        public int LinePosition
+        public int Character
         {
-            get { return linePosition; }
+            get { return position; }
         }
 
         public static bool operator ==(Position p1, Position p2)
@@ -41,7 +41,7 @@ namespace SablePP.Tools.Error
 
         public int CompareTo(Position other)
         {
-            return other.lineNumber != this.lineNumber ? this.lineNumber.CompareTo(other.lineNumber) : this.linePosition.CompareTo(other.linePosition);
+            return other.line != this.line ? this.line.CompareTo(other.line) : this.position.CompareTo(other.position);
         }
 
         public override bool Equals(object obj)
@@ -52,12 +52,12 @@ namespace SablePP.Tools.Error
         }
         public bool Equals(Position other)
         {
-            return this.lineNumber == other.lineNumber && this.linePosition == other.linePosition;
+            return this.line == other.line && this.position == other.position;
         }
 
         public override int GetHashCode()
         {
-            return lineNumber ^ linePosition;
+            return line ^ position;
         }
     }
 }

@@ -120,8 +120,8 @@ namespace SablePP.Tools.Editor
         private void addError(CompilerError error)
         {
             Range range = new Range(this,
-                error.Start.LinePosition - 1, error.Start.LineNumber - 1,
-                error.End.LinePosition, error.End.LineNumber - 1);
+                error.Start.Character - 1, error.Start.Line - 1,
+                error.End.Character, error.End.Line - 1);
 
             if (!(range.Start.iChar < 1 && range.Start.iLine < 1 && range.End.iChar < 1 && range.End.iLine < 1))
             {
