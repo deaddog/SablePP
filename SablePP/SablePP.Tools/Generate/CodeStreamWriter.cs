@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SablePP.Tools.Generate
 {
-    public class CodeStreamWriter : IDisposable
+    internal class CodeStreamWriter : IDisposable
     {
         private Stream stream;
         private Encoding encoding;
@@ -13,7 +13,7 @@ namespace SablePP.Tools.Generate
 
         private CodeElement lastElement;
 
-        private CodeStreamWriter(Stream stream, Encoding encoding, int indentationSize)
+        public CodeStreamWriter(Stream stream, Encoding encoding, int indentationSize)
         {
             if (stream == null)
                 throw new ArgumentNullException("stream");
@@ -65,7 +65,7 @@ namespace SablePP.Tools.Generate
             get { return indentationSize; }
         }
 
-        internal CodeElement LastElement
+        public CodeElement LastElement
         {
             get { return lastElement; }
             set
