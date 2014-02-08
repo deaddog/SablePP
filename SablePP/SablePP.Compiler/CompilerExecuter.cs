@@ -142,7 +142,14 @@ namespace SablePP.Compiler
                 int eChar = int.Parse(m.Groups["char"].Value);
                 string eText = m.Groups["text"].Value;
 
-                errorManager.Register("SableCC: {2} at {{{0},{1}}}", eLine, eChar, eText);
+                if (eLine == 0 || eChar == 0)
+                    errorManager.Register("SableCC: {2} at {{{0},{1}}}", eLine, eChar, eText);
+                else
+                {
+                    Position start = new Position(eLine, eChar);
+                    Position end = new Position(eLine, eChar);
+                    errorManager.Register(new CompilerError(start, end, "SableCC: " + eText));
+                }
             }
             else
                 errorManager.Register(text);
