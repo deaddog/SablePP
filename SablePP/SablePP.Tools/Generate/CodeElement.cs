@@ -60,5 +60,25 @@ namespace SablePP.Tools.Generate
 
             return Encoding.Unicode.GetString(buffer);
         }
+
+        /// <summary>
+        /// Writes the code of this <see cref="CodeElement"/> and all its children (if any) to a stream.
+        /// </summary>
+        /// <param name="stream">The stream to which the code should be written.</param>
+        public void ToStream(Stream stream)
+        {
+            ToStream(stream, Encoding.UTF8, 4);
+        }
+
+        /// <summary>
+        /// Writes the code of this <see cref="CodeElement"/> and all its children (if any) to a stream using a specific encoding.
+        /// </summary>
+        /// <param name="stream">The stream to which the code should be written.</param>
+        /// <param name="encoding">The encoding used for writing.</param>
+        /// <param name="indentationSize">Size of indentation (in spaces) when emitting a new line.</param>
+        public void ToStream(Stream stream, Encoding encoding, int indentationSize)
+        {
+            this.Generate(new CodeStreamWriter(stream, encoding, indentationSize));
+        }
     }
 }

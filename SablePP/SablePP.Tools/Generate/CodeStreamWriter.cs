@@ -32,16 +32,6 @@ namespace SablePP.Tools.Generate
             this.indentationSize = indentationSize;
         }
 
-        public static void Generate(Stream stream, CodeElement element)
-        {
-            Generate(stream, Encoding.UTF8, 4, element);
-        }
-
-        public static void Generate(Stream stream, Encoding encoding, int indentationSize, CodeElement element)
-        {
-            element.Generate(new CodeStreamWriter(stream, encoding, indentationSize));
-        }
-
         public int Indentation
         {
             get { return indentation; }
