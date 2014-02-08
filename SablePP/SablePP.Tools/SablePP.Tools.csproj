@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\SablePP.Tools.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -114,7 +115,6 @@
     <Compile Include="Generate\PatchElement.cs" />
     <Compile Include="Generate\TextElement.cs" />
     <Compile Include="Generate\UseSpace.cs" />
-    <Compile Include="LookupDictionary.cs" />
     <Compile Include="Nodes\EOF.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Nodes\Production.cs" />

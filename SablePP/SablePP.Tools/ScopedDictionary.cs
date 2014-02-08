@@ -13,52 +13,88 @@ namespace SablePP.Tools
     /// <typeparam name="TValue">The type of the value.</typeparam>
     public class ScopedDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
+        private IEqualityComparer<TKey> comparer;
         private Stack<Dictionary<TKey, TValue>> stack;
         private KeyCollection keys;
         private ValueCollection values;
 
         private int count = 0;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScopedDictionary{TKey, TValue}"/> class that is empty, has the default initial capacity, and uses the default equality comparer for the key type.
+        /// </summary>
         public ScopedDictionary()
-            : this(new Dictionary<TKey, TValue>())
+            : this(new Dictionary<TKey, TValue>(), null)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScopedDictionary{TKey, TValue}"/> class that contains elements copied from the specified <see cref="IDictionary{TKey,TValue}"/> and uses the default equality comparer for the key type.
+        /// </summary>
+        /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> whose elements are copied to the new <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
         public ScopedDictionary(IDictionary<TKey, TValue> dictionary)
-            : this(new Dictionary<TKey, TValue>(dictionary))
+            : this(new Dictionary<TKey, TValue>(dictionary), null)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScopedDictionary{TKey, TValue}"/> class that is empty, has the default initial capacity, and uses the specified <see cref="IEqualityComparer{TKey}"/>.
+        /// </summary>
+        /// <param name="comparer">The <see cref="IEqualityComparer{TKey}"/> implementation to use when comparing keys, or null to use the default <see cref="IEqualityComparer{TKey}"/> for the type of the key.</param>
         public ScopedDictionary(IEqualityComparer<TKey> comparer)
-            : this(new Dictionary<TKey, TValue>(comparer))
+            : this(new Dictionary<TKey, TValue>(comparer), comparer)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScopedDictionary{TKey, TValue}"/> class that is empty, has the specified initial capacity, and uses the default equality comparer for the key type.
+        /// </summary>
+        /// <param name="capacity">The initial number of elements that the <see cref="ScopedDictionary{TKey, TValue}"/> can contain.</param>
         public ScopedDictionary(int capacity)
-            : this(new Dictionary<TKey, TValue>(capacity))
+            : this(new Dictionary<TKey, TValue>(capacity), null)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScopedDictionary{TKey, TValue}"/> class that contains elements copied from the specified <see cref="IDictionary{TKey,TValue}"/> and uses the specified <see cref="IEqualityComparer{TKey}"/>.
+        /// </summary>
+        /// <param name="dictionary">The <see cref="IDictionary{TKey,TValue}"/> whose elements are copied to the new <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{TKey}"/> implementation to use when comparing keys, or null to use the default <see cref="IEqualityComparer{TKey}"/> for the type of the key.</param>
         public ScopedDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
-            : this(new Dictionary<TKey, TValue>(dictionary, comparer))
+            : this(new Dictionary<TKey, TValue>(dictionary, comparer), comparer)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScopedDictionary{TKey, TValue}"/> class that is empty, has the specified initial capacity, and uses the specified <see cref="IEqualityComparer{TKey}"/>.
+        /// </summary>
+        /// <param name="capacity">The initial number of elements that the <see cref="ScopedDictionary{TKey, TValue}"/> can contain.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{TKey}"/> implementation to use when comparing keys, or null to use the default <see cref="IEqualityComparer{TKey}"/> for the type of the key.</param>
         public ScopedDictionary(int capacity, IEqualityComparer<TKey> comparer)
-            : this(new Dictionary<TKey, TValue>(comparer))
+            : this(new Dictionary<TKey, TValue>(comparer), comparer)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScopedDictionary{TKey, TValue}"/> class that contains elements copied from the specified <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey,TValue}"/> and uses the specified <see cref="IEqualityComparer{TKey}"/>.
+        /// </summary>
+        /// <param name="collection">The <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey,TValue}"/> whose elements are copied to the new <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
         public ScopedDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection)
-            : this(collection.ToDictionary(k => k.Key, k => k.Value))
+            : this(collection.ToDictionary(k => k.Key, k => k.Value), null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScopedDictionary{TKey, TValue}"/> class that contains elements copied from the specified <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey,TValue}"/> and uses the specified <see cref="IEqualityComparer{TKey}"/>.
+        /// </summary>
+        /// <param name="collection">The <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey,TValue}"/> whose elements are copied to the new <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{TKey}"/> implementation to use when comparing keys, or null to use the default <see cref="IEqualityComparer{TKey}"/> for the type of the key.</param>
         public ScopedDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection, IEqualityComparer<TKey> comparer)
             : this(collection.ToDictionary(k => k.Key, k => k.Value), comparer)
         {
 
         }
 
-        protected ScopedDictionary(Dictionary<TKey, TValue> rootDictionary)
+        private ScopedDictionary(Dictionary<TKey, TValue> rootDictionary, IEqualityComparer<TKey> comparer)
         {
             if (rootDictionary == null)
                 throw new ArgumentNullException("rootDictionary");
+            this.comparer = comparer;
 
             this.stack = new Stack<Dictionary<TKey, TValue>>();
             this.stack.Push(rootDictionary);
@@ -72,7 +108,7 @@ namespace SablePP.Tools
         /// </summary>
         public void OpenScope()
         {
-            stack.Push(new Dictionary<TKey, TValue>());
+            stack.Push(new Dictionary<TKey, TValue>(this.comparer));
         }
 
         /// <summary>
@@ -90,6 +126,11 @@ namespace SablePP.Tools
 
         #region IDictionary<TKey,TValue> Members
 
+        /// <summary>
+        /// Adds an element with the provided key and value to the current scope of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
+        /// <param name="key">The key of the element to add.</param>
+        /// <param name="value">The value of the element to add.</param>
         public void Add(TKey key, TValue value)
         {
             if (!ContainsKey(key, false))
@@ -102,6 +143,12 @@ namespace SablePP.Tools
         {
             return ContainsKey(key, false);
         }
+        /// <summary>
+        /// Determines whether the <see cref="ScopedDictionary{TKey, TValue}"/> contains a specific key in either the current or all scopes.
+        /// </summary>
+        /// <param name="key">The key to locate in the <see cref="ScopedDictionary{TKey, TValue}"/>.</param>
+        /// <param name="currentScopeOnly">if set to <c>true</c> only the current scope is checked; otherwise all scopes are checked.</param>
+        /// <returns>true, if the  <see cref="ScopedDictionary{TKey, TValue}"/> contains the specified key; otherwise, false.</returns>
         public bool ContainsKey(TKey key, bool currentScopeOnly)
         {
             if (currentScopeOnly)
@@ -114,6 +161,9 @@ namespace SablePP.Tools
             return false;
         }
 
+        /// <summary>
+        /// Gets a <see cref="ScopedDictionary{TKey, TValue}.KeyCollection"/> containing the keys of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
         public KeyCollection Keys
         {
             get { return keys; }
@@ -123,6 +173,13 @@ namespace SablePP.Tools
             get { return keys; }
         }
 
+        /// <summary>
+        /// Removes the element with the specified key from all scopes of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
+        /// <param name="key">The key of the element to remove.</param>
+        /// <returns>
+        /// true if the element is successfully removed; otherwise, false.
+        /// </returns>
         public bool Remove(TKey key)
         {
             bool removed = false;
@@ -141,6 +198,14 @@ namespace SablePP.Tools
         {
             return TryGetValue(key, out value, false);
         }
+        /// <summary>
+        /// Gets the value associated with the specified key.
+        /// </summary>
+        /// <param name="key">The key whose value to get.</param>
+        /// <param name="value">When this method returns, the value associated with the specified key, if the key is found; otherwise, the default value for the type of the <paramref name="value" /> parameter. This parameter is passed uninitialized.</param>
+        /// <param name="currentScopeOnly">if set to <c>true</c> only the current scope is checked; otherwise all scopes are checked.</param>
+        /// <returns>
+        /// true, if the <see cref="ScopedDictionary{TKey, TValue}"/> contains an element with the specified key; otherwise, false.</returns>
         public bool TryGetValue(TKey key, out TValue value, bool currentScopeOnly)
         {
             if (currentScopeOnly)
@@ -153,7 +218,9 @@ namespace SablePP.Tools
             value = default(TValue);
             return false;
         }
-
+        /// <summary>
+        /// Gets a <see cref="ScopedDictionary{TKey, TValue}.ValueCollection"/> containing the values of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
         public ValueCollection Values
         {
             get { return values; }
@@ -163,6 +230,11 @@ namespace SablePP.Tools
             get { return values; }
         }
 
+        /// <summary>
+        /// Gets or sets the element with the specified key in the current scope of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns>The value associated with <paramref name="key"/>.</returns>
         public TValue this[TKey key]
         {
             get
@@ -188,6 +260,9 @@ namespace SablePP.Tools
             Add(item.Key, item.Value);
         }
 
+        /// <summary>
+        /// Removes all items from all scopes of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
         public void Clear()
         {
             count = 0;
@@ -211,6 +286,10 @@ namespace SablePP.Tools
                 array[(i++) + arrayIndex] = new KeyValuePair<TKey, TValue>(key, this[key]);
         }
 
+        /// <summary>
+        /// Gets the number distinct of elements contained in all scopes of the <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
+        /// <returns>The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.</returns>
         public int Count
         {
             get { return count; }
@@ -257,10 +336,17 @@ namespace SablePP.Tools
 
         #endregion
 
+        /// <summary>
+        /// Represents the collection of keys in a <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
         public sealed class KeyCollection : ICollection<TKey>
         {
             private ScopedDictionary<TKey, TValue> dictionary;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="KeyCollection"/> class that reflects the keys in the specified <see cref="ScopedDictionary{TKey, TValue}"/>.
+            /// </summary>
+            /// <param name="dictionary">The <see cref="ScopedDictionary{TKey, TValue}"/> whose keys are reflected in the new <see cref="KeyCollection"/>.</param>
             public KeyCollection(ScopedDictionary<TKey, TValue> dictionary)
             {
                 this.dictionary = dictionary;
@@ -282,6 +368,12 @@ namespace SablePP.Tools
             {
                 return Contains(item, false);
             }
+            /// <summary>
+            /// Determines whether the <see cref="KeyCollection" /> contains a specific value.
+            /// </summary>
+            /// <param name="key">The key.</param>
+            /// <param name="currentScopeOnly">if set to <c>true</c> only the current scope is checked; otherwise all scopes are checked.</param>
+            /// <returns>true, if the  <see cref="KeyCollection"/> contains the specified key; otherwise, false.</returns>
             public bool Contains(TKey key, bool currentScopeOnly)
             {
                 return dictionary.ContainsKey(key, currentScopeOnly);
@@ -291,6 +383,12 @@ namespace SablePP.Tools
             {
                 CopyTo(array, arrayIndex, false);
             }
+            /// <summary>
+            /// Copies the elements of the <see cref="KeyCollection" /> to a <see cref="System.Array"/>, starting at a particular index.
+            /// </summary>
+            /// <param name="array">The one-dimensional System.Array that is the destination of the elements <see cref="KeyCollection" />. The System.Array must have zero-based indexing.</param>
+            /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
+            /// <param name="currentScopeOnly">if set to <c>true</c> only keys from the current scope are copied; otherwise all keys are copied.</param>
             public void CopyTo(TKey[] array, int arrayIndex, bool currentScopeOnly)
             {
                 if (currentScopeOnly)
@@ -303,12 +401,15 @@ namespace SablePP.Tools
                 }
             }
 
+            /// <summary>
+            /// Gets the number of keys contained in the <see cref="KeyCollection" />.
+            /// </summary>
             public int Count
             {
                 get { return dictionary.count; }
             }
 
-            public bool IsReadOnly
+            bool ICollection<TKey>.IsReadOnly
             {
                 get { return true; }
             }
@@ -345,10 +446,17 @@ namespace SablePP.Tools
 
             #endregion
         }
+        /// <summary>
+        /// Represents the collection of values in a <see cref="ScopedDictionary{TKey, TValue}"/>.
+        /// </summary>
         public sealed class ValueCollection : ICollection<TValue>
         {
             private ScopedDictionary<TKey, TValue> dictionary;
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ValueCollection"/> class that reflects the values in the specified <see cref="ScopedDictionary{TKey, TValue}"/>.
+            /// </summary>
+            /// <param name="dictionary">The <see cref="ScopedDictionary{TKey, TValue}"/> whose values are reflected in the new <see cref="ValueCollection"/>.</param>
             public ValueCollection(ScopedDictionary<TKey, TValue> dictionary)
             {
                 this.dictionary = dictionary;
@@ -375,6 +483,12 @@ namespace SablePP.Tools
             {
                 CopyTo(array, arrayIndex, false);
             }
+            /// <summary>
+            /// Copies the elements of the <see cref="ValueCollection" /> to a <see cref="System.Array"/>, starting at a particular index.
+            /// </summary>
+            /// <param name="array">The one-dimensional System.Array that is the destination of the elements <see cref="ValueCollection" />. The System.Array must have zero-based indexing.</param>
+            /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
+            /// <param name="currentScopeOnly">if set to <c>true</c> only values from the current scope are copied; otherwise all values are copied.</param>
             public void CopyTo(TValue[] array, int arrayIndex, bool currentScopeOnly)
             {
                 if (currentScopeOnly)
@@ -387,12 +501,15 @@ namespace SablePP.Tools
                 }
             }
 
+            /// <summary>
+            /// Gets the number of values contained in the <see cref="KeyCollection" />.
+            /// </summary>
             public int Count
             {
                 get { return dictionary.count; }
             }
 
-            public bool IsReadOnly
+            bool ICollection<TValue>.IsReadOnly
             {
                 get { return true; }
             }

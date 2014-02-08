@@ -1,26 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
 using FastColoredTextBoxNS;
 
-using SablePP.Tools.Error;
-using SablePP.Tools.Lexing;
-using SablePP.Tools.Nodes;
-using SablePP.Tools.Parsing;
-
 namespace SablePP.Tools.Editor
 {
+    /// <summary>
+    /// A form that handles opening, closing, save etc. of files and uses a <see cref="CodeTextBox"/> and a <see cref="ErrorTextBox"/> for displaying code, running compilation and displaying errors.
+    /// This form is not required to implement a compiler. It merely implements standard open/close functionality.
+    /// </summary>
     public partial class EditorForm : Form
     {
         #region Form Text/Application name
 
         private string text;
+        /// <summary>
+        /// Gets or sets the title of the form. This is automatically appended with the current filename.
+        /// </summary>
+        /// <returns>The title of the form (not including the current filename).</returns>
         new public string Text
         {
             get { return text; }
@@ -47,14 +48,17 @@ namespace SablePP.Tools.Editor
         #region File extension
 
         private string extension = null;
+        /// <summary>
+        /// Gets or sets the file extension used by the editor.
+        /// </summary>
         public string FileExtension
         {
             get { return extension; }
             set
             {
-                if (value != null && value.Length == 0)
+                if (value != null && value.TrimStart('.').Length == 0)
                     value = null;
-                extension = value;
+                extension = value.TrimStart('.');
                 openFileDialog1.Filter = string.Format(EditorResources.FileDescription, Text) + "|*." + (extension ?? EditorResources.DefaultExtension);
                 saveFileDialog1.Filter = string.Format(EditorResources.FileDescription, Text) + "|*." + (extension ?? EditorResources.DefaultExtension);
             }
@@ -67,6 +71,9 @@ namespace SablePP.Tools.Editor
         private Encoding encoding;
 
         private FileInfo _file = null;
+        /// <summary>
+        /// Gets a <see cref="FileInfo"/> object representing the currently opened file.
+        /// </summary>
         public FileInfo File
         {
             get { return _file; }
@@ -81,6 +88,12 @@ namespace SablePP.Tools.Editor
                 FiletoolsEnabled = _file != null;
             }
         }
+        /// <summary>
+        /// Gets a value indicating whether a file is currently open.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if a file is currently open; otherwise, <c>false</c>.
+        /// </value>
         public bool FileOpened
         {
             get { return File != null; }
@@ -96,14 +109,20 @@ namespace SablePP.Tools.Editor
 
         #region FileHandle events and methods
 
-        protected override void OnClosing(CancelEventArgs e)
+#pragma warning disable 1591
+        protected sealed override void OnClosing(CancelEventArgs e)
         {
             if (CloseFile() != System.Windows.Forms.DialogResult.OK)
                 e.Cancel = true;
             else
                 e.Cancel = false;
         }
+#pragma warning restore
 
+        /// <summary>
+        /// Creates a new (unsaved) file in the editor.
+        /// </summary>
+        /// <returns>A <see cref="DialogResult"/> describing the succes of the operation. <see cref="DialogResult.OK"/> implies that the operation was successful.</returns>
         public DialogResult NewFile()
         {
             DialogResult res = CloseFile();
@@ -129,6 +148,10 @@ namespace SablePP.Tools.Editor
             return DialogResult.OK;
 
         }
+        /// <summary>
+        /// Opens a file from disc using a dialog to select the file.
+        /// </summary>
+        /// <returns>A <see cref="DialogResult"/> describing the succes of the operation. <see cref="DialogResult.OK"/> implies that the operation was successful.</returns>
         public DialogResult OpenFile()
         {
             DialogResult res;
@@ -146,6 +169,11 @@ namespace SablePP.Tools.Editor
 
             return OpenFile(openFileDialog1.FileName);
         }
+        /// <summary>
+        /// Opens a file from disc by specifying its path.
+        /// </summary>
+        /// <param name="filepath">The file path of the file to open.</param>
+        /// <returns>A <see cref="DialogResult"/> describing the succes of the operation. <see cref="DialogResult.OK"/> implies that the operation was successful.</returns>
         public DialogResult OpenFile(string filepath)
         {
             if (FileOpened)
@@ -171,6 +199,10 @@ namespace SablePP.Tools.Editor
 
             return DialogResult.OK;
         }
+        /// <summary>
+        /// Saves the currently open file on disc. If the file does not exist on disc, this is equivalent of calling the <see cref="SaveFileAs"/> method.
+        /// </summary>
+        /// <returns>A <see cref="DialogResult"/> describing the succes of the operation. <see cref="DialogResult.OK"/> implies that the operation was successful.</returns>
         public DialogResult SaveFile()
         {
             if (!FileOpened)
@@ -186,6 +218,10 @@ namespace SablePP.Tools.Editor
 
             return DialogResult.OK;
         }
+        /// <summary>
+        /// Saves the currently open file on disc by selecting a destination path using a dialog.
+        /// </summary>
+        /// <returns>A <see cref="DialogResult"/> describing the succes of the operation. <see cref="DialogResult.OK"/> implies that the operation was successful.</returns>
         public DialogResult SaveFileAs()
         {
             if (!FileOpened)
@@ -207,6 +243,10 @@ namespace SablePP.Tools.Editor
 
             return DialogResult.OK;
         }
+        /// <summary>
+        /// Closes the file after prompting to save changes to the file.
+        /// </summary>
+        /// <returns>A <see cref="DialogResult"/> describing the succes of the operation. <see cref="DialogResult.OK"/> implies that the operation was successful.</returns>
         public DialogResult CloseFile()
         {
             if (!FileOpened)
@@ -236,6 +276,9 @@ namespace SablePP.Tools.Editor
 
         #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EditorForm"/> class.
+        /// </summary>
         public EditorForm()
         {
             InitializeComponent();
@@ -285,20 +328,37 @@ namespace SablePP.Tools.Editor
                 consolas.Dispose();
         }
 
+        /// <summary>
+        /// Gets the last compilation <see cref="CodeTextBox.Result"/> generated by the <see cref="ICompilerExecuter"/> in the <see cref="CodeTextBox"/> of this <see cref="EditorForm"/>.
+        /// Consider using the <see cref="WaitForResult"/> method if the most resent result is required.
+        /// </summary>
         public CodeTextBox.Result LastResult
         {
             get { return codeTextBox1.LastResult; }
         }
 
+        /// <summary>
+        /// Waits for the current compilation process to finish and returns its <see cref="CodeTextBox.Result"/>.
+        /// </summary>
+        /// <returns>A <see cref="CodeTextBox.Result"/> detailing the result of the currently executing compilation process.</returns>
         public CodeTextBox.Result WaitForResult()
         {
             return codeTextBox1.WaitForResult();
         }
 
+        /// <summary>
+        /// Shows a message in the status strip in the bottom of the <see cref="EditorForm"/>.
+        /// </summary>
+        /// <param name="text">The text message to display.</param>
         public void ShowMessage(string text)
         {
             ShowMessage(null, text);
         }
+        /// <summary>
+        /// Shows a message and an image in the status strip in the bottom of the <see cref="EditorForm"/>.
+        /// </summary>
+        /// <param name="image">The image to display.</param>
+        /// <param name="text">The text message to display.</param>
         public void ShowMessage(Image image, string text)
         {
             messageTimer.Start();
@@ -306,6 +366,11 @@ namespace SablePP.Tools.Editor
             fillerLabel.Image = image;
             fillerLabel.Text = text;
         }
+        /// <summary>
+        /// Shows a message and an icon in the status strip in the bottom of the <see cref="EditorForm"/>.
+        /// </summary>
+        /// <param name="icon">The icon to display.</param>
+        /// <param name="text">The text message to display.</param>
         public void ShowMessage(MessageIcons icon, string text)
         {
             Image iconImage;
@@ -329,18 +394,34 @@ namespace SablePP.Tools.Editor
             fillerLabel.Text = "";
         }
 
+        /// <summary>
+        /// Adds a menu item to the top menu bar in the <see cref="EditorForm"/>.
+        /// </summary>
+        /// <param name="text">The text displayed on the menu item.</param>
+        /// <returns>The <see cref="ToolStripMenuItem"/> that was added to the menu bar.</returns>
         public ToolStripMenuItem AddMenuItem(string text)
         {
             ToolStripMenuItem item = new ToolStripMenuItem(text);
             AddMenuItem(item);
             return item;
         }
+        /// <summary>
+        /// Adds a <see cref="ToolStripItem"/> to the top menu bar in the <see cref="EditorForm"/>.
+        /// </summary>
+        /// <param name="item">The <see cref="ToolStripItem"/> that is added to the menu bar.</param>
         public void AddMenuItem(ToolStripItem item)
         {
             this.menuStrip1.Items.Add(item);
         }
 
         private bool filetoolsenabled = false;
+        /// <summary>
+        /// Gets a value indicating whether tool menu items, that are only available when a file is open, should be enabled.
+        /// For instance; the Save functionality will only be enabled when this value is <c>true</c>.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if file-related tools should be enabled; otherwise, <c>false</c>.
+        /// </value>
         public bool FiletoolsEnabled
         {
             get { return filetoolsenabled; }
@@ -362,13 +443,23 @@ namespace SablePP.Tools.Editor
             }
         }
 
+        /// <summary>
+        /// Occurs when the <see cref="FiletoolsEnabled"/> property changes.
+        /// </summary>
         public event EventHandler FiletoolsEnabledChanged;
+        /// <summary>
+        /// Raises the <see cref="E:FiletoolsEnabledChanged" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected virtual void OnFiletoolsEnabledChanged(EventArgs e)
         {
             if (FiletoolsEnabledChanged != null)
                 FiletoolsEnabledChanged(this, e);
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="ICompilerExecuter"/> used by the <see cref="CodeTextBox"/> contained by this <see cref="EditorForm"/>.
+        /// </summary>
         public ICompilerExecuter Executer
         {
             get { return codeTextBox1.Executer; }

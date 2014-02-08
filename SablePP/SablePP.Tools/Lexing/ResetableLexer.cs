@@ -4,6 +4,9 @@ using SablePP.Tools.Nodes;
 
 namespace SablePP.Tools.Lexing
 {
+    /// <summary>
+    /// Implements a lexer using the decorator pattern, allowing any lexer to use a buffer and thus to be reused.
+    /// </summary>
     public class ResetableLexer : ILexer
     {
         private ILexer lexer;
@@ -13,6 +16,10 @@ namespace SablePP.Tools.Lexing
         private bool eofFound;
         private SablePP.Tools.Error.LexerException exception;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResetableLexer"/> class.
+        /// </summary>
+        /// <param name="lexer">The inner lexer that is to be read multiple times.</param>
         public ResetableLexer(ILexer lexer)
         {
             this.lexer = lexer;
@@ -22,7 +29,7 @@ namespace SablePP.Tools.Lexing
             this.exception = null;
         }
 
-        public ILexer InnerLexer
+        internal ILexer InnerLexer
         {
             get { return lexer; }
         }
@@ -48,6 +55,12 @@ namespace SablePP.Tools.Lexing
             return node;
         }
 
+        /// <summary>
+        /// Gets the next <see cref="Token" /> in the token stream, but does not remove it from the stream.
+        /// </summary>
+        /// <returns>
+        /// The next <see cref="Token" /> in the token stream.
+        /// </returns>
         public Nodes.Token Peek()
         {
             if (current.Next != null)
@@ -64,6 +77,12 @@ namespace SablePP.Tools.Lexing
             }
         }
 
+        /// <summary>
+        /// Gets the next <see cref="Token" /> in the token stream, and removes it from the stream.
+        /// </summary>
+        /// <returns>
+        /// The next <see cref="Token" /> in the token stream.
+        /// </returns>
         public Nodes.Token Next()
         {
             if (current.Next == null)
@@ -83,6 +102,9 @@ namespace SablePP.Tools.Lexing
             }
         }
 
+        /// <summary>
+        /// Resets this <see cref="ResetableLexer"/> allowing the inner lexer to be re-read.
+        /// </summary>
         public void Reset()
         {
             if (current.Value != null)
