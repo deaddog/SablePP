@@ -73,6 +73,13 @@ namespace SablePP.Tools.Editor
         /// <param name="error">The error that should be added to the <see cref="ErrorView"/>.</param>
         public void AddError(CompilerError error)
         {
+            ListViewItem item = new ListViewItem(new string[] {
+                "",
+                error.ErrorMessage,
+                error.Start.LineNumber.ToString(),
+                error.Start.LinePosition.ToString()
+            });
+            this.Items.Add(item);
         }
         /// <summary>
         /// Clears all errors from the <see cref="ErrorView"/>.
