@@ -11,6 +11,9 @@ namespace SablePP.Tools.Editor
     {
         private ColumnHeader iconHeader, descriptionHeader, lineHeader, columnHeader;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ErrorView"/> control.
+        /// </summary>
         public ErrorView()
             : base()
         {
@@ -40,6 +43,29 @@ namespace SablePP.Tools.Editor
             this.Columns.Add(lineHeader);
             this.Columns.Add(columnHeader);
         }
+        private bool resizing = false;
+
+#pragma warning disable 1591
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            if (!resizing)
+            {
+                resizing = true;
+                int width = this.ClientRectangle.Width;
+
+                for (int i = 0; i < this.Columns.Count; i++)
+                {
+                    if (this.Columns[i] != descriptionHeader)
+                        width -= this.Columns[i].Width;
+                }
+                descriptionHeader.Width = width;
+            }
+
+            resizing = false;
+
+            base.OnSizeChanged(e);
+        }
+#pragma warning restore
 
         /// <summary>
         /// Adds a <see cref="CompilerError"/> error to the <see cref="ErrorView"/>.
