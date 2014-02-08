@@ -9,9 +9,36 @@ namespace SablePP.Tools.Editor
     /// </summary>
     public class ErrorView : ListView
     {
+        private ColumnHeader iconHeader, descriptionHeader, lineHeader, columnHeader;
+
         public ErrorView()
             : base()
         {
+            this.FullRowSelect = true;
+            this.View = System.Windows.Forms.View.Details;
+
+            iconHeader = new ColumnHeader()
+            {
+                Text = "",
+                Width = 24
+            };
+            descriptionHeader = new ColumnHeader()
+            {
+                Text = "Description"
+            };
+            lineHeader = new ColumnHeader()
+            {
+                Text = "Line"
+            };
+            columnHeader = new ColumnHeader()
+            {
+                Text = "Column"
+            };
+
+            this.Columns.Add(iconHeader);
+            this.Columns.Add(descriptionHeader);
+            this.Columns.Add(lineHeader);
+            this.Columns.Add(columnHeader);
         }
 
         /// <summary>
