@@ -114,7 +114,13 @@ namespace SablePP.Tools.Editor
                     int.TryParse(selected.SubItems[columnHeader.Index].Text, out column) &&
                     line > 0 && column > 0 && codeTextBox!=null)
                 {
-                    codeTextBox.Selection.Start = new FastColoredTextBoxNS.Place(column, line);
+                    var place = new FastColoredTextBoxNS.Place(column, line);
+
+                    if (codeTextBox.Range.Contains(place))
+                        codeTextBox.Selection.Start = place;
+                    else
+                        codeTextBox.GoEnd();
+                    
                     codeTextBox.DoSelectionVisible();
                 }
             }
