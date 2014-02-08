@@ -89,7 +89,7 @@ namespace SablePP.Tools
             dotLines[y] = dotLines[y].Substring(0, x) + c + dotLines[y].Substring(x + 1);
         }
 
-        public void done()
+        private void done()
         {
             dotLines[dotLines.Count - 1] = dotLines[dotLines.Count - 1].Replace('|', ' ');
             for (int i = dotLines.Count - 2; i >= 0; i--)
@@ -123,6 +123,7 @@ namespace SablePP.Tools
             done();
         }
 
+#pragma warning disable 1591
         public override void Visit(Production production)
         {
             printNode(production);
@@ -136,5 +137,6 @@ namespace SablePP.Tools
             if (showTokens)
                 printNode(token);
         }
+#pragma warning restore
     }
 }
