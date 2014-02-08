@@ -368,6 +368,8 @@
             this.errorView1.CodeTextBox = this.codeTextBox1;
             this.errorView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.errorView1.FullRowSelect = true;
+            this.errorView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.errorView1.HideSelection = false;
             this.errorView1.Location = new System.Drawing.Point(0, 0);
             this.errorView1.MultiSelect = false;
             this.errorView1.Name = "errorView1";
