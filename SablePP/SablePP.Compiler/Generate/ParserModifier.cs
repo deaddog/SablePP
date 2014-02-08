@@ -94,7 +94,7 @@ namespace SablePP.Compiler.Generate
             parseMethodElement.EmitIdentifier("Parse");
             parseMethodElement.EmitParenthesis();
             parseMethodElement.EmitSemicolon(true);
-            string methodCode = CodeStreamWriter.ToString(parseMethodElement);
+            string methodCode = parseMethodElement.ToString(4);
 
             code = indexMethod.Replace(code, ReplaceInIndexMethod);
             code = parseMethod.Replace(code, methodCode + "public Start<" + astRoot.Root.RootProduction + "> Parse()");

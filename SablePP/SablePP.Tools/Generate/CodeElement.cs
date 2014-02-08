@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 
 namespace SablePP.Tools.Generate
 {
@@ -38,5 +40,25 @@ namespace SablePP.Tools.Generate
         }
 
         internal abstract void Generate(CodeStreamWriter streamwriter);
+
+        /// <summary>
+        /// Builds a string with the code contained by this <see cref="CodeElement"/> and all its children (if any).
+        /// </summary>
+        /// <param name="indentationSize">Size of indentation (in spaces) when emitting a new line.</param>
+        /// <returns>
+        /// A string that contains all the code contained by this <see cref="CodeElement"/>.
+        /// </returns>
+        public string ToString(int indentationSize)
+        {
+            byte[] buffer;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                this.Generate(new CodeStreamWriter(ms, Encoding.Unicode, indentationSize));
+                buffer = ms.ToArray();
+            }
+
+            return Encoding.Unicode.GetString(buffer);
+        }
     }
 }
