@@ -113,6 +113,10 @@ namespace SablePP.Tools.Error
             return args;
         }
 
+        /// <summary>
+        /// Occurs when an argument is passed to either of the error registration methods.
+        /// Allows for translation of each argument into a more appropriate string.
+        /// </summary>
         public event ErrorArgumentEventHandler TranslateArgument;
 
         IEnumerator<CompilerError> IEnumerable<CompilerError>.GetEnumerator()
