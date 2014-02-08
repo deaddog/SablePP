@@ -157,20 +157,14 @@ namespace SablePP.Compiler
             if (manager.Count > 0)
                 return false;
 
-            using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\tokens.cs", FileMode.Create))
-                TokenNodes.BuildCode(root).ToStream(fs);
-
-            using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\prods.cs", FileMode.Create))
-                ProductionNodes.BuildCode(root).ToStream(fs);
-
-            using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\analysis.cs", FileMode.Create))
-                AnalysisBuilder.BuildCode(root).ToStream(fs);
+            TokenNodes.BuildCode(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "tokens.cs"));
+            ProductionNodes.BuildCode(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "prods.cs"));
+            AnalysisBuilder.BuildCode(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "analysis.cs"));
 
             ParserModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\parser.cs", root);
             LexerModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\lexer.cs", root);
 
-            using (FileStream fs = new FileStream(PathInformation.SableOutputDirectory + "\\CompilerExecuter.cs", FileMode.Create))
-                CompilerExecuterBuilder.Build(root).ToStream(fs);
+            CompilerExecuterBuilder.Build(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "CompilerExecuter.cs"));
 
             directory = directory.TrimEnd('\\');
 

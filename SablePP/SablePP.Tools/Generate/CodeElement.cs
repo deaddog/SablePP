@@ -69,6 +69,16 @@ namespace SablePP.Tools.Generate
         {
             ToStream(stream, Encoding.UTF8, 4);
         }
+        /// <summary>
+        /// Writes the code of this <see cref="CodeElement"/> and all its children (if any) to a file.
+        /// If the file already exists, it is replaced; if not, it is created.
+        /// </summary>
+        /// <param name="filename">The path of the file to which code should be written.</param>
+        public void ToFile(string filename)
+        {
+            using (FileStream fs = new FileStream(filename, FileMode.Create))
+                ToStream(fs);
+        }
 
         /// <summary>
         /// Writes the code of this <see cref="CodeElement"/> and all its children (if any) to a stream using a specific encoding.
@@ -79,6 +89,18 @@ namespace SablePP.Tools.Generate
         public void ToStream(Stream stream, Encoding encoding, int indentationSize)
         {
             this.Generate(new CodeStreamWriter(stream, encoding, indentationSize));
+        }
+        /// <summary>
+        /// Writes the code of this <see cref="CodeElement"/> and all its children (if any) to a file using a specific encoding.
+        /// If the file already exists, it is replaced; if not, it is created.
+        /// </summary>
+        /// <param name="filename">The path of the file to which code should be written.</param>
+        /// <param name="encoding">The encoding used for writing.</param>
+        /// <param name="indentationSize">Size of indentation (in spaces) when emitting a new line.</param>
+        public void ToFile(string filename, Encoding encoding, int indentationSize)
+        {
+            using (FileStream fs = new FileStream(filename, FileMode.Create))
+                ToStream(fs, encoding, indentationSize);
         }
     }
 }
