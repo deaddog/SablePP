@@ -54,6 +54,9 @@
     <Compile Include="CompilerExecuter.cs" />
     <Compile Include="Editor\ErrorEventArgs.cs" />
     <Compile Include="Editor\ErrorEventHandler.cs" />
+    <Compile Include="Editor\ErrorView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Editor\MessageIcons.cs" />
     <Compile Include="Generate\CSharp\InlineElement.cs" />
     <Compile Include="Generate\CSharp\PartialMethodElement.cs" />
