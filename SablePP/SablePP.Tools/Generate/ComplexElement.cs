@@ -3,11 +3,18 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools.Generate
 {
+    /// <summary>
+    /// A <see cref="CodeElement"/> that allows for insertion of child-elements through a selection of protected methods.
+    /// Custom elements should inherit this element.
+    /// </summary>
     public abstract class ComplexElement : CodeElement, IDisposable
     {
         private LinkedList<CodeElement> elements;
         private bool disposed = false;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ComplexElement"/> class.
+        /// </summary>
         public ComplexElement()
         {
             this.elements = new LinkedList<CodeElement>();
@@ -22,6 +29,10 @@ namespace SablePP.Tools.Generate
             get { return elements.Count == 0 ? UseSpace.NotPreferred : elements.First.Value.Prepend; }
         }
 
+        /// <summary>
+        /// Inserts a <see cref="CodeElement"/> as the last child of this <see cref="ComplexElement"/>.
+        /// </summary>
+        /// <param name="element">The element to insert.</param>
         protected void insertElement(CodeElement element)
         {
             elements.AddLast(element);
@@ -34,6 +45,13 @@ namespace SablePP.Tools.Generate
                 throw new InvalidOperationException("Unable to insert elements into this " + (typeof(ComplexElement)).Name + " as it has been disposed.");
         }
 
+        /// <summary>
+        /// Emits text to the end of this <see cref="ComplexElement"/>.
+        /// </summary>
+        /// <param name="text">The text to emit.</param>
+        /// <param name="prepend">A <see cref="UseSpace"/> determining if this text should be prepended with a space.</param>
+        /// <param name="append">A <see cref="UseSpace"/> determining if this text should be appended with a space.</param>
+        /// <param name="args">Optional array of arguments to insert into the string. See <see cref="String.Format(String, Object[])"/>.</param>
         protected void emit(string text, UseSpace prepend, UseSpace append, params object[] args)
         {
             if (args != null && args.Length > 0)
@@ -44,20 +62,33 @@ namespace SablePP.Tools.Generate
             else
                 insertElement(new TextElement(text, prepend, append));
         }
+        /// <summary>
+        /// Emits a new line at the end of this <see cref="ComplexElement"/>.
+        /// </summary>
         protected void emitNewLine()
         {
             insertElement(new NewLineElement());
         }
 
+        /// <summary>
+        /// Increases the indentation for the coming elements in this <see cref="ComplexElement"/>.
+        /// </summary>
         protected void increaseIndentation()
         {
             changeIndentation(1);
         }
+        /// <summary>
+        /// Decreases the indentation for the coming elements in this <see cref="ComplexElement"/>.
+        /// </summary>
         protected void decreaseIndentation()
         {
             changeIndentation(-1);
         }
 
+        /// <summary>
+        /// Changes the indentation for the coming elements in this <see cref="ComplexElement"/>.
+        /// </summary>
+        /// <param name="difference">The change in indentation. Use negative values to decrease indentation and positive to increase. 0 (zero) will have no effect.</param>
         protected void changeIndentation(int difference)
         {
             if (difference == 0)
@@ -86,6 +117,12 @@ namespace SablePP.Tools.Generate
             }
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents the number of elements contained in this <see cref="ComplexElement"/>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             return string.Format("{0} elements", elements.Count);
@@ -123,6 +160,10 @@ namespace SablePP.Tools.Generate
                 yield return element;
         }
 
+        /// <summary>
+        /// When overridden in a derived class, performs actions that are required before disposing this <see cref="ComplexElement"/>.
+        /// Disposing a <see cref="ComplexElement"/> will flatten its substructure.
+        /// </summary>
         protected virtual void Dispose()
         {
         }
