@@ -165,7 +165,7 @@ namespace SablePP.Tools.Editor
 
                     lexerError = false;
                     try { while (!(lexer.Next() is EOF)) { } }
-                    catch (LexerException ex) { lexerError = true; }
+                    catch (LexerException) { lexerError = true; }
                     lexer.Reset();
                     reader.Dispose();
 
