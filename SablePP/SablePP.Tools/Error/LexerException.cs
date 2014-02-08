@@ -16,7 +16,7 @@ namespace SablePP.Tools.Error
         /// </summary>
         /// <param name="line">The line where the error occured.</param>
         /// <param name="position">The position, in the line, where the error occured.</param>
-        /// <param name="message">A message that describes what the lexer has read and could not parse as a <see cref="Token"/>.</param>
+        /// <param name="message">A message that describes what the lexer has read and could not parse as a <see cref="Nodes.Token"/>.</param>
         public LexerException(int line, int position, string message)
             : base(message)
         {
@@ -29,7 +29,7 @@ namespace SablePP.Tools.Error
         /// </summary>
         /// <param name="line">The line where the error occured.</param>
         /// <param name="position">The position, in the line, where the error occured.</param>
-        /// <param name="message">A message that describes what the lexer has read and could not parse as a <see cref="Token"/>.</param>
+        /// <param name="message">A message that describes what the lexer has read and could not parse as a <see cref="Nodes.Token"/>.</param>
         public LexerException(int line, int position, StringBuilder message)
             : this(line, position, message.ToString())
         {
