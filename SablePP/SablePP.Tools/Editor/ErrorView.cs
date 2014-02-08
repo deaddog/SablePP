@@ -18,6 +18,7 @@ namespace SablePP.Tools.Editor
             : base()
         {
             this.FullRowSelect = true;
+            this.MultiSelect = false;
             this.View = System.Windows.Forms.View.Details;
 
             iconHeader = new ColumnHeader()
@@ -88,5 +89,25 @@ namespace SablePP.Tools.Editor
         {
             this.Items.Clear();
         }
+
+#pragma warning disable 1591
+        protected override void OnSelectedIndexChanged(EventArgs e)
+        {
+            var selected = this.SelectedItems.Count == 0 ? null : this.SelectedItems[0];
+
+            if (selected != null)
+            {
+                int line, column;
+                if (int.TryParse(selected.SubItems[lineHeader.Index].Text, out line) &&
+                    int.TryParse(selected.SubItems[columnHeader.Index].Text, out column) &&
+                    line > 0 && column > 0)
+                {
+
+                }
+            }
+
+            base.OnSelectedIndexChanged(e);
+        }
+#pragma warning restore
     }
 }
