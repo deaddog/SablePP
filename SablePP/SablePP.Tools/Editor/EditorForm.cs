@@ -270,7 +270,7 @@ namespace SablePP.Tools.Editor
 
             splitContainer1.Enabled = false;
             codeTextBox1.Text = "";
-            errorTextBox1.ClearErrors();
+            errorView1.ClearErrors();
             return DialogResult.OK;
         }
 
@@ -283,8 +283,8 @@ namespace SablePP.Tools.Editor
         {
             InitializeComponent();
 
-            this.codeTextBox1.ErrorAdded += (s, e) => this.errorTextBox1.AddError(e.Error);
-            this.codeTextBox1.ErrorsCleared += (s, e) => this.errorTextBox1.ClearErrors();
+            this.codeTextBox1.ErrorAdded += (s, e) => this.errorView1.AddError(e.Error);
+            this.codeTextBox1.ErrorsCleared += (s, e) => this.errorView1.ClearErrors();
 
             this.Text = EditorResources.DefaultTitle;
 
