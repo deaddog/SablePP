@@ -78,10 +78,10 @@ namespace SablePP.Tools.Error
         /// </returns>
         public override string ToString()
         {
-            if (start.LineNumber == 0 || start.LinePosition == 0)
+            if (start.Line == 0 || start.Character == 0)
                 return string.Format("[N/A] {0}", errorMessage);
             else
-                return string.Format("[{0}, {1}] {2}", start.LineNumber, start.LinePosition, errorMessage);
+                return string.Format("[{0}, {1}] {2}", start.Line, start.Character, errorMessage);
         }
     }
 }

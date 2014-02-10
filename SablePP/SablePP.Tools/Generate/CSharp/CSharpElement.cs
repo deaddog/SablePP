@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SablePP.Tools.Generate.CSharp
+﻿namespace SablePP.Tools.Generate.CSharp
 {
+    /// <summary>
+    /// The base element for C# code generation.
+    /// </summary>
     public abstract class CSharpElement : ComplexElement
     {
         /// <summary>

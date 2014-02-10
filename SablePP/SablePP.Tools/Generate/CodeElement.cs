@@ -4,10 +4,16 @@ using System.Text;
 
 namespace SablePP.Tools.Generate
 {
+    /// <summary>
+    /// Represents an element in a composite structure of generated code.
+    /// </summary>
     public abstract class CodeElement
     {
         internal ComplexElement parent;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CodeElement"/> class.
+        /// </summary>
         protected CodeElement()
         {
             this.parent = null;
@@ -22,6 +28,12 @@ namespace SablePP.Tools.Generate
             get;
         }
 
+        /// <summary>
+        /// Defines a ruleset that determines if two <see cref="CodeElement"/>s should be separated by a space.
+        /// </summary>
+        /// <param name="append">A <see cref="UseSpace"/> enum that determines the need for a space after the first element.</param>
+        /// <param name="prepend">A <see cref="UseSpace"/> enum that determines the need for a space before the second element.</param>
+        /// <returns><c>true</c>, if the two elements should be separated by a space; otherwise, <c>false</c>.</returns>
         protected static bool useSpace(UseSpace append, UseSpace prepend)
         {
             switch (append)

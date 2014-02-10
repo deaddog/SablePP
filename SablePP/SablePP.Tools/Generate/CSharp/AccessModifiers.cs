@@ -3,17 +3,51 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools.Generate.CSharp
 {
+    [Flags]
+    /// <summary>
+    /// An enumeration of the various C# access modifiers
+    /// </summary>
     public enum AccessModifiers
     {
+        /// <summary>
+        /// No access modifiers.
+        /// </summary>
         None = 0,
+        /// <summary>
+        /// The public access modifiers.
+        /// </summary>
         @public = 1,
+        /// <summary>
+        /// The private access modifiers.
+        /// </summary>
         @private = 2,
+        /// <summary>
+        /// The protected access modifiers.
+        /// </summary>
         @protected = 4,
+        /// <summary>
+        /// The partial access modifiers.
+        /// </summary>
         @partial = 8,
+        /// <summary>
+        /// The new access modifiers.
+        /// </summary>
         @new = 16,
+        /// <summary>
+        /// The internal access modifiers.
+        /// </summary>
         @internal = 32,
+        /// <summary>
+        /// The abstract access modifiers.
+        /// </summary>
         @abstract = 64,
+        /// <summary>
+        /// The virtual access modifiers.
+        /// </summary>
         @virtual = 128,
+        /// <summary>
+        /// The override access modifiers.
+        /// </summary>
         @override = 256
     }
 
