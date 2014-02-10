@@ -12,10 +12,23 @@ namespace SablePP.Compiler.Generate.Analysis
 
         public ReturnAnalysisAdapterBuilder(NameSpaceElement nameElement, byte arguments, PGrammar grammar)
         {
-            nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, "ReturnAnalysisAdapter<object>");
+            this.argumentCount = arguments;
 
-            returnAnalysisAdapter = nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, "ReturnAdapter<TValue, " + grammar.RootProduction + ">");
-            returnAnalysisAdapter.TypeParameters.Add("TValue");
+            string simpleBaseClass = "ReturnAnalysisAdapter<";
+            for (int i = 1; i <= argumentCount; i++)
+                simpleBaseClass += "object, ";
+            simpleBaseClass += "object>";
+            nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, simpleBaseClass);
+
+            string baseClass = "ReturnAdapter<";
+            for (int i = 1; i <= argumentCount; i++)
+                baseClass += "T" + i + ", ";
+
+            baseClass += "TResult, " + grammar.RootProduction + ">";
+            returnAnalysisAdapter = nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, baseClass);
+            for (int i = 1; i <= argumentCount; i++)
+                returnAnalysisAdapter.TypeParameters.Add("T" + i);
+            returnAnalysisAdapter.TypeParameters.Add("TResult");
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -42,30 +55,38 @@ namespace SablePP.Compiler.Generate.Analysis
         {
             string caseName = "Case" + name;
 
-            var visitType = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public, "Visit", returnAnalysisAdapter.TypeParameters[0]);
+            var visitType = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public, "Visit", returnAnalysisAdapter.TypeParameters[argumentCount]);
             visitType.Parameters.Add("node", name);
-            visitType.Parameters.Add("arg", returnAnalysisAdapter.TypeParameters[0]);
+            for (int i = 1; i <= argumentCount; i++)
+                visitType.Parameters.Add("arg" + 1, returnAnalysisAdapter.TypeParameters[i - 1]);
             visitType.EmitReturn();
             visitType.EmitIdentifier(caseName);
             using (var par = visitType.EmitParenthesis())
             {
                 par.EmitIdentifier("node");
-                par.EmitComma();
-                par.EmitIdentifier("arg");
+                for (int i = 1; i <= argumentCount; i++)
+                {
+                    par.EmitComma();
+                    par.EmitIdentifier("arg" + i);
+                }
             }
             visitType.EmitSemicolon(true);
 
-            var typeMethod = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, caseName, returnAnalysisAdapter.TypeParameters[0]);
+            var typeMethod = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, caseName, returnAnalysisAdapter.TypeParameters[argumentCount]);
             typeMethod.Parameters.Add("node", name);
-            typeMethod.Parameters.Add("arg", returnAnalysisAdapter.TypeParameters[0]);
+            for (int i = 1; i <= argumentCount; i++)
+                typeMethod.Parameters.Add("arg" + i, returnAnalysisAdapter.TypeParameters[i - 1]);
 
             typeMethod.EmitReturn();
             typeMethod.EmitIdentifier("DefaultCase");
             using (var par = typeMethod.EmitParenthesis())
             {
                 par.EmitIdentifier("node");
-                par.EmitComma();
-                par.EmitIdentifier("arg");
+                for (int i = 1; i <= argumentCount; i++)
+                {
+                    par.EmitComma();
+                    par.EmitIdentifier("arg" + i);
+                }
             }
             typeMethod.EmitSemicolon(true);
         }
