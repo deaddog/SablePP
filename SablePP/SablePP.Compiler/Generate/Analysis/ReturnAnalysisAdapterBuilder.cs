@@ -8,8 +8,9 @@ namespace SablePP.Compiler.Generate.Analysis
     public class ReturnAnalysisAdapterBuilder : GenerateVisitor
     {
         private ClassElement returnAnalysisAdapter;
+        private int argumentCount;
 
-        public ReturnAnalysisAdapterBuilder(NameSpaceElement nameElement, PGrammar grammar)
+        public ReturnAnalysisAdapterBuilder(NameSpaceElement nameElement, byte arguments, PGrammar grammar)
         {
             nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, "ReturnAnalysisAdapter<object>");
 

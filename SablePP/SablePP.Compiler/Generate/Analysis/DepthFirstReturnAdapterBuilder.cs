@@ -12,11 +12,13 @@ namespace SablePP.Compiler.Generate.Analysis
         private ClassElement adapterClass;
         private AGrammar grammar;
 
+        private int argumentCount;
         private bool reversed;
         private MethodElement method;
 
-        public DepthFirstReturnAdapterBuilder(NameSpaceElement namespaceElement, bool reversed)
+        public DepthFirstReturnAdapterBuilder(NameSpaceElement namespaceElement, byte arguments, bool reversed)
         {
+            this.argumentCount = arguments;
             this.reversed = reversed;
 
             string className = (reversed ? "Reverse" : "") + "DepthFirstReturnAdapter";

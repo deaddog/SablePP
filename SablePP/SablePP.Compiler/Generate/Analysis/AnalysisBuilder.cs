@@ -56,11 +56,14 @@ namespace SablePP.Compiler.Generate.Analysis
             nameElement.EmitRegionStart("Return analysis adapters");
             nameElement.EmitNewLine();
 
-            adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, node));
+            adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 0, node));
+            adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 1, node));
             nameElement.EmitNewLine();
-            adapters.Add(new DepthFirstReturnAdapterBuilder(nameElement, false));
+            adapters.Add(new DepthFirstReturnAdapterBuilder(nameElement, 0, false));
+            adapters.Add(new DepthFirstReturnAdapterBuilder(nameElement, 1, false));
             nameElement.EmitNewLine();
-            adapters.Add(new DepthFirstReturnAdapterBuilder(nameElement, true));
+            adapters.Add(new DepthFirstReturnAdapterBuilder(nameElement, 0, true));
+            adapters.Add(new DepthFirstReturnAdapterBuilder(nameElement, 1, true));
 
             nameElement.EmitNewLine();
             nameElement.EmitRegionEnd();
