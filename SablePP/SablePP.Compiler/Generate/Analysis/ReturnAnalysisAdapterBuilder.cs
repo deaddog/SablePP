@@ -52,7 +52,7 @@ namespace SablePP.Compiler.Generate.Analysis
             var visitType = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public, "Visit", returnAnalysisAdapter.TypeParameters[argumentCount]);
             visitType.Parameters.Add("node", name);
             for (int i = 1; i <= argumentCount; i++)
-                visitType.Parameters.Add("arg" + 1, returnAnalysisAdapter.TypeParameters[i - 1]);
+                visitType.Parameters.Add("arg" + i, returnAnalysisAdapter.TypeParameters[i - 1]);
             visitType.EmitReturn();
             visitType.EmitIdentifier(caseName);
             using (var par = visitType.EmitParenthesis())
