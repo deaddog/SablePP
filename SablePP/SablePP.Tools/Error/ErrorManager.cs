@@ -50,6 +50,17 @@ namespace SablePP.Tools.Error
         /// <param name="args">Arguments for the error message.</param>
         public void Register(Node node, string errorMessage, params object[] args)
         {
+            Register(node, ErrorType.Error, errorMessage, args);
+        }
+        /// <summary>
+        /// Registers an error at the location of a specified <see cref="Node"/>, specifying the <see cref="ErrorType"/>.
+        /// </summary>
+        /// <param name="node">The node that should be marked as cause of the error. The full node will be marked.</param>
+        /// <param name="errorType">Type of the error.</param>
+        /// <param name="errorMessage">The error message associated with the <see cref="CompilerError"/>.</param>
+        /// <param name="args">Arguments for the error message.</param>
+        public void Register(Node node, ErrorType errorType, string errorMessage, params object[] args)
+        {
             if (args != null && args.Length > 0)
                 errorMessage = string.Format(errorMessage, translateArguments(args));
 
@@ -58,6 +69,7 @@ namespace SablePP.Tools.Error
             FirstLastVisitor.FindTokens(node, out first, out last);
 
             Register(new CompilerError(
+                errorType,
                 new Position(first.Line, first.Position),
                 new Position(last.Line, last.Position + last.Text.Length - 1),
                 errorMessage));
@@ -70,10 +82,20 @@ namespace SablePP.Tools.Error
         /// <param name="args">Arguments for the error message.</param>
         public void Register(string errorMessage, params object[] args)
         {
+            Register(ErrorType.Error, errorMessage, args);
+        }
+        /// <summary>
+        /// Registers an error with an unknown location, specifying the <see cref="ErrorType"/>.
+        /// </summary>
+        /// <param name="errorType">Type of the error.</param>
+        /// <param name="errorMessage">The error message associated with the <see cref="CompilerError"/>.</param>
+        /// <param name="args">Arguments for the error message.</param>
+        public void Register(ErrorType errorType, string errorMessage, params object[] args)
+        {
             if (args != null && args.Length > 0)
                 errorMessage = string.Format(errorMessage, translateArguments(args));
 
-            Register(new CompilerError(new Position(0, 0), new Position(0, 0), errorMessage));
+            Register(new CompilerError(errorType, new Position(0, 0), new Position(0, 0), errorMessage));
         }
 
         /// <summary>
@@ -83,6 +105,7 @@ namespace SablePP.Tools.Error
         public void Register(LexerException exception)
         {
             Register(new CompilerError(
+                ErrorType.Error,
                 new Position(exception.Line, exception.Position),
                 new Position(exception.Line, exception.Position),
                 exception.Message));
@@ -95,6 +118,7 @@ namespace SablePP.Tools.Error
         public void Register(ParserException exception)
         {
             Register(new CompilerError(
+                ErrorType.Error,
                 new Position(exception.LastLine, exception.LastPosition),
                 new Position(exception.LastLine, exception.LastPosition),
                 exception.Message));
