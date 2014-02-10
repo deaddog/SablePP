@@ -13,6 +13,8 @@ namespace SablePP.Tools.Editor
         private ColumnHeader iconHeader, descriptionHeader, lineHeader, columnHeader;
         private CodeTextBox codeTextBox;
 
+        private ImageList imageList;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorView"/> control.
         /// </summary>
@@ -45,6 +47,13 @@ namespace SablePP.Tools.Editor
             this.Columns.Add(descriptionHeader);
             this.Columns.Add(lineHeader);
             this.Columns.Add(columnHeader);
+
+            imageList = new ImageList();
+            imageList.Images.Add("error", EditorResources.error);
+            imageList.Images.Add("warning", EditorResources.warning);
+            imageList.Images.Add("message", EditorResources.info);
+
+            this.SmallImageList = imageList;
         }
         private bool resizing = false;
 
@@ -76,12 +85,15 @@ namespace SablePP.Tools.Editor
         /// <param name="error">The error that should be added to the <see cref="ErrorView"/>.</param>
         public void AddError(CompilerError error)
         {
-            ListViewItem item = new ListViewItem(new string[] {
-                "",
-                error.ErrorMessage,
-                error.Start.Line.ToString(),
-                error.Start.Character.ToString()
-            });
+            ListViewItem item = new ListViewItem(
+                new string[] {
+                    "",
+                    error.ErrorMessage,
+                    error.Start.Line.ToString(),
+                    error.Start.Character.ToString()
+                },
+                getImageKey(error.ErrorType)
+            );
             this.Items.Add(item);
         }
         /// <summary>
@@ -90,6 +102,17 @@ namespace SablePP.Tools.Editor
         public void ClearErrors()
         {
             this.Items.Clear();
+        }
+
+        private string getImageKey(ErrorType type)
+        {
+            switch (type)
+            {
+                case ErrorType.Error: return "error";
+                case ErrorType.Warning: return "warning";
+                case ErrorType.Message: return "message";
+                default: return null;
+            }
         }
 
         [DefaultValue(null)]
@@ -112,7 +135,7 @@ namespace SablePP.Tools.Editor
                 int line, column;
                 if (int.TryParse(selected.SubItems[lineHeader.Index].Text, out line) &&
                     int.TryParse(selected.SubItems[columnHeader.Index].Text, out column) &&
-                    line > 0 && column > 0 && codeTextBox!=null)
+                    line > 0 && column > 0 && codeTextBox != null)
                 {
                     var place = new FastColoredTextBoxNS.Place(column, line);
 
@@ -120,7 +143,7 @@ namespace SablePP.Tools.Editor
                         codeTextBox.Selection.Start = place;
                     else
                         codeTextBox.GoEnd();
-                    
+
                     codeTextBox.DoSelectionVisible();
                 }
             }
