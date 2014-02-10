@@ -71,6 +71,7 @@ namespace SablePP.Compiler.Execution
             if (settings.OutputPaths[this.File.FullName] == null && updateOutputDirectory() != DialogResult.OK)
                 return;
 
+            generateButton.Enabled = false;
             generateWorker.RunWorkerAsync(settings.OutputPaths[this.File.FullName]);
         }
 
@@ -94,6 +95,8 @@ namespace SablePP.Compiler.Execution
                 ShowMessage("Unable to generate compiler; error in validation.");
             else
                 ShowMessage(MessageIcons.Accept, "Code generation completed!");
+
+            generateButton.Enabled = true;
         }
     }
 }
