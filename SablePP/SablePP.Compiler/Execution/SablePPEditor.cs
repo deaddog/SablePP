@@ -71,6 +71,7 @@ namespace SablePP.Compiler.Execution
             if (settings.OutputPaths[this.File.FullName] == null && updateOutputDirectory() != DialogResult.OK)
                 return;
 
+            ShowMessage(MessageIcons.Working, "Building compiler...", 1000 * 60 * 10);
             generateButton.Enabled = false;
             generateWorker.RunWorkerAsync(settings.OutputPaths[this.File.FullName]);
         }
@@ -92,7 +93,7 @@ namespace SablePP.Compiler.Execution
             var res = e.Result as CodeTextBox.Result;
 
             if (res.Errors.Length > 0)
-                ShowMessage("Unable to generate compiler; error in validation.");
+                ShowMessage(MessageIcons.Error, "Unable to generate compiler; error in validation.");
             else
                 ShowMessage(MessageIcons.Accept, "Code generation completed!");
 
