@@ -4399,4674 +4399,3632 @@ namespace SablePP.Compiler.Analysis
     
     #region Return analysis adapters
     
-    public class ReturnAnalysisAdapter : ReturnAnalysisAdapter<object>
+    public class ReturnAnalysisAdapter<TResult> : ReturnAdapter<TResult, PGrammar>
     {
-    }
-    public class ReturnAnalysisAdapter<TValue> : ReturnAdapter<TValue, PGrammar>
-    {
-        public TValue Visit(AGrammar node, TValue arg)
+        public TResult Visit(AGrammar node)
         {
-            return CaseAGrammar(node, arg);
+            return CaseAGrammar(node);
         }
-        public virtual TValue CaseAGrammar(AGrammar node, TValue arg)
+        public virtual TResult CaseAGrammar(AGrammar node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(APackage node, TValue arg)
+        public TResult Visit(APackage node)
         {
-            return CaseAPackage(node, arg);
+            return CaseAPackage(node);
         }
-        public virtual TValue CaseAPackage(APackage node, TValue arg)
+        public virtual TResult CaseAPackage(APackage node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AHelpers node, TValue arg)
+        public TResult Visit(AHelpers node)
         {
-            return CaseAHelpers(node, arg);
+            return CaseAHelpers(node);
         }
-        public virtual TValue CaseAHelpers(AHelpers node, TValue arg)
+        public virtual TResult CaseAHelpers(AHelpers node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AHelper node, TValue arg)
+        public TResult Visit(AHelper node)
         {
-            return CaseAHelper(node, arg);
+            return CaseAHelper(node);
         }
-        public virtual TValue CaseAHelper(AHelper node, TValue arg)
+        public virtual TResult CaseAHelper(AHelper node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ATokens node, TValue arg)
+        public TResult Visit(ATokens node)
         {
-            return CaseATokens(node, arg);
+            return CaseATokens(node);
         }
-        public virtual TValue CaseATokens(ATokens node, TValue arg)
+        public virtual TResult CaseATokens(ATokens node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AToken node, TValue arg)
+        public TResult Visit(AToken node)
         {
-            return CaseAToken(node, arg);
+            return CaseAToken(node);
         }
-        public virtual TValue CaseAToken(AToken node, TValue arg)
+        public virtual TResult CaseAToken(AToken node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ATokenlookahead node, TValue arg)
+        public TResult Visit(ATokenlookahead node)
         {
-            return CaseATokenlookahead(node, arg);
+            return CaseATokenlookahead(node);
         }
-        public virtual TValue CaseATokenlookahead(ATokenlookahead node, TValue arg)
+        public virtual TResult CaseATokenlookahead(ATokenlookahead node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ARegex node, TValue arg)
+        public TResult Visit(ARegex node)
         {
-            return CaseARegex(node, arg);
+            return CaseARegex(node);
         }
-        public virtual TValue CaseARegex(ARegex node, TValue arg)
+        public virtual TResult CaseARegex(ARegex node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ARegexOrpart node, TValue arg)
+        public TResult Visit(ARegexOrpart node)
         {
-            return CaseARegexOrpart(node, arg);
+            return CaseARegexOrpart(node);
         }
-        public virtual TValue CaseARegexOrpart(ARegexOrpart node, TValue arg)
+        public virtual TResult CaseARegexOrpart(ARegexOrpart node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ACharRegexpart node, TValue arg)
+        public TResult Visit(ACharRegexpart node)
         {
-            return CaseACharRegexpart(node, arg);
+            return CaseACharRegexpart(node);
         }
-        public virtual TValue CaseACharRegexpart(ACharRegexpart node, TValue arg)
+        public virtual TResult CaseACharRegexpart(ACharRegexpart node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ADecRegexpart node, TValue arg)
+        public TResult Visit(ADecRegexpart node)
         {
-            return CaseADecRegexpart(node, arg);
+            return CaseADecRegexpart(node);
         }
-        public virtual TValue CaseADecRegexpart(ADecRegexpart node, TValue arg)
+        public virtual TResult CaseADecRegexpart(ADecRegexpart node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AHexRegexpart node, TValue arg)
+        public TResult Visit(AHexRegexpart node)
         {
-            return CaseAHexRegexpart(node, arg);
+            return CaseAHexRegexpart(node);
         }
-        public virtual TValue CaseAHexRegexpart(AHexRegexpart node, TValue arg)
+        public virtual TResult CaseAHexRegexpart(AHexRegexpart node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AUnarystarRegexpart node, TValue arg)
+        public TResult Visit(AUnarystarRegexpart node)
         {
-            return CaseAUnarystarRegexpart(node, arg);
+            return CaseAUnarystarRegexpart(node);
         }
-        public virtual TValue CaseAUnarystarRegexpart(AUnarystarRegexpart node, TValue arg)
+        public virtual TResult CaseAUnarystarRegexpart(AUnarystarRegexpart node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AUnaryquestionRegexpart node, TValue arg)
+        public TResult Visit(AUnaryquestionRegexpart node)
         {
-            return CaseAUnaryquestionRegexpart(node, arg);
+            return CaseAUnaryquestionRegexpart(node);
         }
-        public virtual TValue CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node, TValue arg)
+        public virtual TResult CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AUnaryplusRegexpart node, TValue arg)
+        public TResult Visit(AUnaryplusRegexpart node)
         {
-            return CaseAUnaryplusRegexpart(node, arg);
+            return CaseAUnaryplusRegexpart(node);
         }
-        public virtual TValue CaseAUnaryplusRegexpart(AUnaryplusRegexpart node, TValue arg)
+        public virtual TResult CaseAUnaryplusRegexpart(AUnaryplusRegexpart node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ABinaryplusRegexpart node, TValue arg)
+        public TResult Visit(ABinaryplusRegexpart node)
         {
-            return CaseABinaryplusRegexpart(node, arg);
+            return CaseABinaryplusRegexpart(node);
         }
-        public virtual TValue CaseABinaryplusRegexpart(ABinaryplusRegexpart node, TValue arg)
+        public virtual TResult CaseABinaryplusRegexpart(ABinaryplusRegexpart node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ABinaryminusRegexpart node, TValue arg)
+        public TResult Visit(ABinaryminusRegexpart node)
         {
-            return CaseABinaryminusRegexpart(node, arg);
+            return CaseABinaryminusRegexpart(node);
         }
-        public virtual TValue CaseABinaryminusRegexpart(ABinaryminusRegexpart node, TValue arg)
+        public virtual TResult CaseABinaryminusRegexpart(ABinaryminusRegexpart node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AIntervalRegexpart node, TValue arg)
+        public TResult Visit(AIntervalRegexpart node)
         {
-            return CaseAIntervalRegexpart(node, arg);
+            return CaseAIntervalRegexpart(node);
         }
-        public virtual TValue CaseAIntervalRegexpart(AIntervalRegexpart node, TValue arg)
+        public virtual TResult CaseAIntervalRegexpart(AIntervalRegexpart node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AStringRegexpart node, TValue arg)
+        public TResult Visit(AStringRegexpart node)
         {
-            return CaseAStringRegexpart(node, arg);
+            return CaseAStringRegexpart(node);
         }
-        public virtual TValue CaseAStringRegexpart(AStringRegexpart node, TValue arg)
+        public virtual TResult CaseAStringRegexpart(AStringRegexpart node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AIdentifierRegexpart node, TValue arg)
+        public TResult Visit(AIdentifierRegexpart node)
         {
-            return CaseAIdentifierRegexpart(node, arg);
+            return CaseAIdentifierRegexpart(node);
         }
-        public virtual TValue CaseAIdentifierRegexpart(AIdentifierRegexpart node, TValue arg)
+        public virtual TResult CaseAIdentifierRegexpart(AIdentifierRegexpart node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AParenthesisRegexpart node, TValue arg)
+        public TResult Visit(AParenthesisRegexpart node)
         {
-            return CaseAParenthesisRegexpart(node, arg);
+            return CaseAParenthesisRegexpart(node);
         }
-        public virtual TValue CaseAParenthesisRegexpart(AParenthesisRegexpart node, TValue arg)
+        public virtual TResult CaseAParenthesisRegexpart(AParenthesisRegexpart node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AStates node, TValue arg)
+        public TResult Visit(AStates node)
         {
-            return CaseAStates(node, arg);
+            return CaseAStates(node);
         }
-        public virtual TValue CaseAStates(AStates node, TValue arg)
+        public virtual TResult CaseAStates(AStates node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AIgnoredtokens node, TValue arg)
+        public TResult Visit(AIgnoredtokens node)
         {
-            return CaseAIgnoredtokens(node, arg);
+            return CaseAIgnoredtokens(node);
         }
-        public virtual TValue CaseAIgnoredtokens(AIgnoredtokens node, TValue arg)
+        public virtual TResult CaseAIgnoredtokens(AIgnoredtokens node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AIdentifierList node, TValue arg)
+        public TResult Visit(AIdentifierList node)
         {
-            return CaseAIdentifierList(node, arg);
+            return CaseAIdentifierList(node);
         }
-        public virtual TValue CaseAIdentifierList(AIdentifierList node, TValue arg)
+        public virtual TResult CaseAIdentifierList(AIdentifierList node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ATokenstateList node, TValue arg)
+        public TResult Visit(ATokenstateList node)
         {
-            return CaseATokenstateList(node, arg);
+            return CaseATokenstateList(node);
         }
-        public virtual TValue CaseATokenstateList(ATokenstateList node, TValue arg)
+        public virtual TResult CaseATokenstateList(ATokenstateList node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ATranslationList node, TValue arg)
+        public TResult Visit(ATranslationList node)
         {
-            return CaseATranslationList(node, arg);
+            return CaseATranslationList(node);
         }
-        public virtual TValue CaseATranslationList(ATranslationList node, TValue arg)
+        public virtual TResult CaseATranslationList(ATranslationList node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AStyleList node, TValue arg)
+        public TResult Visit(AStyleList node)
         {
-            return CaseAStyleList(node, arg);
+            return CaseAStyleList(node);
         }
-        public virtual TValue CaseAStyleList(AStyleList node, TValue arg)
+        public virtual TResult CaseAStyleList(AStyleList node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AIdentifierListitem node, TValue arg)
+        public TResult Visit(AIdentifierListitem node)
         {
-            return CaseAIdentifierListitem(node, arg);
+            return CaseAIdentifierListitem(node);
         }
-        public virtual TValue CaseAIdentifierListitem(AIdentifierListitem node, TValue arg)
+        public virtual TResult CaseAIdentifierListitem(AIdentifierListitem node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ATokenstateListitem node, TValue arg)
+        public TResult Visit(ATokenstateListitem node)
         {
-            return CaseATokenstateListitem(node, arg);
+            return CaseATokenstateListitem(node);
         }
-        public virtual TValue CaseATokenstateListitem(ATokenstateListitem node, TValue arg)
+        public virtual TResult CaseATokenstateListitem(ATokenstateListitem node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ATokenstatetransitionListitem node, TValue arg)
+        public TResult Visit(ATokenstatetransitionListitem node)
         {
-            return CaseATokenstatetransitionListitem(node, arg);
+            return CaseATokenstatetransitionListitem(node);
         }
-        public virtual TValue CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node, TValue arg)
+        public virtual TResult CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ATranslationListitem node, TValue arg)
+        public TResult Visit(ATranslationListitem node)
         {
-            return CaseATranslationListitem(node, arg);
+            return CaseATranslationListitem(node);
         }
-        public virtual TValue CaseATranslationListitem(ATranslationListitem node, TValue arg)
+        public virtual TResult CaseATranslationListitem(ATranslationListitem node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AStyleListitem node, TValue arg)
+        public TResult Visit(AStyleListitem node)
         {
-            return CaseAStyleListitem(node, arg);
+            return CaseAStyleListitem(node);
         }
-        public virtual TValue CaseAStyleListitem(AStyleListitem node, TValue arg)
+        public virtual TResult CaseAStyleListitem(AStyleListitem node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AProductions node, TValue arg)
+        public TResult Visit(AProductions node)
         {
-            return CaseAProductions(node, arg);
+            return CaseAProductions(node);
         }
-        public virtual TValue CaseAProductions(AProductions node, TValue arg)
+        public virtual TResult CaseAProductions(AProductions node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AAstproductions node, TValue arg)
+        public TResult Visit(AAstproductions node)
         {
-            return CaseAAstproductions(node, arg);
+            return CaseAAstproductions(node);
         }
-        public virtual TValue CaseAAstproductions(AAstproductions node, TValue arg)
+        public virtual TResult CaseAAstproductions(AAstproductions node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AProduction node, TValue arg)
+        public TResult Visit(AProduction node)
         {
-            return CaseAProduction(node, arg);
+            return CaseAProduction(node);
         }
-        public virtual TValue CaseAProduction(AProduction node, TValue arg)
+        public virtual TResult CaseAProduction(AProduction node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ACleanProdtranslation node, TValue arg)
+        public TResult Visit(ACleanProdtranslation node)
         {
-            return CaseACleanProdtranslation(node, arg);
+            return CaseACleanProdtranslation(node);
         }
-        public virtual TValue CaseACleanProdtranslation(ACleanProdtranslation node, TValue arg)
+        public virtual TResult CaseACleanProdtranslation(ACleanProdtranslation node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AStarProdtranslation node, TValue arg)
+        public TResult Visit(AStarProdtranslation node)
         {
-            return CaseAStarProdtranslation(node, arg);
+            return CaseAStarProdtranslation(node);
         }
-        public virtual TValue CaseAStarProdtranslation(AStarProdtranslation node, TValue arg)
+        public virtual TResult CaseAStarProdtranslation(AStarProdtranslation node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(APlusProdtranslation node, TValue arg)
+        public TResult Visit(APlusProdtranslation node)
         {
-            return CaseAPlusProdtranslation(node, arg);
+            return CaseAPlusProdtranslation(node);
         }
-        public virtual TValue CaseAPlusProdtranslation(APlusProdtranslation node, TValue arg)
+        public virtual TResult CaseAPlusProdtranslation(APlusProdtranslation node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AQuestionProdtranslation node, TValue arg)
+        public TResult Visit(AQuestionProdtranslation node)
         {
-            return CaseAQuestionProdtranslation(node, arg);
+            return CaseAQuestionProdtranslation(node);
         }
-        public virtual TValue CaseAQuestionProdtranslation(AQuestionProdtranslation node, TValue arg)
+        public virtual TResult CaseAQuestionProdtranslation(AQuestionProdtranslation node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AFullTranslation node, TValue arg)
+        public TResult Visit(AFullTranslation node)
         {
-            return CaseAFullTranslation(node, arg);
+            return CaseAFullTranslation(node);
         }
-        public virtual TValue CaseAFullTranslation(AFullTranslation node, TValue arg)
+        public virtual TResult CaseAFullTranslation(AFullTranslation node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ANewTranslation node, TValue arg)
+        public TResult Visit(ANewTranslation node)
         {
-            return CaseANewTranslation(node, arg);
+            return CaseANewTranslation(node);
         }
-        public virtual TValue CaseANewTranslation(ANewTranslation node, TValue arg)
+        public virtual TResult CaseANewTranslation(ANewTranslation node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ANewalternativeTranslation node, TValue arg)
+        public TResult Visit(ANewalternativeTranslation node)
         {
-            return CaseANewalternativeTranslation(node, arg);
+            return CaseANewalternativeTranslation(node);
         }
-        public virtual TValue CaseANewalternativeTranslation(ANewalternativeTranslation node, TValue arg)
+        public virtual TResult CaseANewalternativeTranslation(ANewalternativeTranslation node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AListTranslation node, TValue arg)
+        public TResult Visit(AListTranslation node)
         {
-            return CaseAListTranslation(node, arg);
+            return CaseAListTranslation(node);
         }
-        public virtual TValue CaseAListTranslation(AListTranslation node, TValue arg)
+        public virtual TResult CaseAListTranslation(AListTranslation node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ANullTranslation node, TValue arg)
+        public TResult Visit(ANullTranslation node)
         {
-            return CaseANullTranslation(node, arg);
+            return CaseANullTranslation(node);
         }
-        public virtual TValue CaseANullTranslation(ANullTranslation node, TValue arg)
+        public virtual TResult CaseANullTranslation(ANullTranslation node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AIdTranslation node, TValue arg)
+        public TResult Visit(AIdTranslation node)
         {
-            return CaseAIdTranslation(node, arg);
+            return CaseAIdTranslation(node);
         }
-        public virtual TValue CaseAIdTranslation(AIdTranslation node, TValue arg)
+        public virtual TResult CaseAIdTranslation(AIdTranslation node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AIddotidTranslation node, TValue arg)
+        public TResult Visit(AIddotidTranslation node)
         {
-            return CaseAIddotidTranslation(node, arg);
+            return CaseAIddotidTranslation(node);
         }
-        public virtual TValue CaseAIddotidTranslation(AIddotidTranslation node, TValue arg)
+        public virtual TResult CaseAIddotidTranslation(AIddotidTranslation node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AProductionrule node, TValue arg)
+        public TResult Visit(AProductionrule node)
         {
-            return CaseAProductionrule(node, arg);
+            return CaseAProductionrule(node);
         }
-        public virtual TValue CaseAProductionrule(AProductionrule node, TValue arg)
+        public virtual TResult CaseAProductionrule(AProductionrule node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AAlternative node, TValue arg)
+        public TResult Visit(AAlternative node)
         {
-            return CaseAAlternative(node, arg);
+            return CaseAAlternative(node);
         }
-        public virtual TValue CaseAAlternative(AAlternative node, TValue arg)
+        public virtual TResult CaseAAlternative(AAlternative node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AAlternativename node, TValue arg)
+        public TResult Visit(AAlternativename node)
         {
-            return CaseAAlternativename(node, arg);
+            return CaseAAlternativename(node);
         }
-        public virtual TValue CaseAAlternativename(AAlternativename node, TValue arg)
+        public virtual TResult CaseAAlternativename(AAlternativename node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AElements node, TValue arg)
+        public TResult Visit(AElements node)
         {
-            return CaseAElements(node, arg);
+            return CaseAElements(node);
         }
-        public virtual TValue CaseAElements(AElements node, TValue arg)
+        public virtual TResult CaseAElements(AElements node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ASimpleElement node, TValue arg)
+        public TResult Visit(ASimpleElement node)
         {
-            return CaseASimpleElement(node, arg);
+            return CaseASimpleElement(node);
         }
-        public virtual TValue CaseASimpleElement(ASimpleElement node, TValue arg)
+        public virtual TResult CaseASimpleElement(ASimpleElement node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AStarElement node, TValue arg)
+        public TResult Visit(AStarElement node)
         {
-            return CaseAStarElement(node, arg);
+            return CaseAStarElement(node);
         }
-        public virtual TValue CaseAStarElement(AStarElement node, TValue arg)
+        public virtual TResult CaseAStarElement(AStarElement node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AQuestionElement node, TValue arg)
+        public TResult Visit(AQuestionElement node)
         {
-            return CaseAQuestionElement(node, arg);
+            return CaseAQuestionElement(node);
         }
-        public virtual TValue CaseAQuestionElement(AQuestionElement node, TValue arg)
+        public virtual TResult CaseAQuestionElement(AQuestionElement node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(APlusElement node, TValue arg)
+        public TResult Visit(APlusElement node)
         {
-            return CaseAPlusElement(node, arg);
+            return CaseAPlusElement(node);
         }
-        public virtual TValue CaseAPlusElement(APlusElement node, TValue arg)
+        public virtual TResult CaseAPlusElement(APlusElement node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AElementname node, TValue arg)
+        public TResult Visit(AElementname node)
         {
-            return CaseAElementname(node, arg);
+            return CaseAElementname(node);
         }
-        public virtual TValue CaseAElementname(AElementname node, TValue arg)
+        public virtual TResult CaseAElementname(AElementname node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ACleanElementid node, TValue arg)
+        public TResult Visit(ACleanElementid node)
         {
-            return CaseACleanElementid(node, arg);
+            return CaseACleanElementid(node);
         }
-        public virtual TValue CaseACleanElementid(ACleanElementid node, TValue arg)
+        public virtual TResult CaseACleanElementid(ACleanElementid node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ATokenElementid node, TValue arg)
+        public TResult Visit(ATokenElementid node)
         {
-            return CaseATokenElementid(node, arg);
+            return CaseATokenElementid(node);
         }
-        public virtual TValue CaseATokenElementid(ATokenElementid node, TValue arg)
+        public virtual TResult CaseATokenElementid(ATokenElementid node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AProductionElementid node, TValue arg)
+        public TResult Visit(AProductionElementid node)
         {
-            return CaseAProductionElementid(node, arg);
+            return CaseAProductionElementid(node);
         }
-        public virtual TValue CaseAProductionElementid(AProductionElementid node, TValue arg)
+        public virtual TResult CaseAProductionElementid(AProductionElementid node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AHighlightrules node, TValue arg)
+        public TResult Visit(AHighlightrules node)
         {
-            return CaseAHighlightrules(node, arg);
+            return CaseAHighlightrules(node);
         }
-        public virtual TValue CaseAHighlightrules(AHighlightrules node, TValue arg)
+        public virtual TResult CaseAHighlightrules(AHighlightrules node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AHighlightrule node, TValue arg)
+        public TResult Visit(AHighlightrule node)
         {
-            return CaseAHighlightrule(node, arg);
+            return CaseAHighlightrule(node);
         }
-        public virtual TValue CaseAHighlightrule(AHighlightrule node, TValue arg)
+        public virtual TResult CaseAHighlightrule(AHighlightrule node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AItalicHighlightStyle node, TValue arg)
+        public TResult Visit(AItalicHighlightStyle node)
         {
-            return CaseAItalicHighlightStyle(node, arg);
+            return CaseAItalicHighlightStyle(node);
         }
-        public virtual TValue CaseAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
+        public virtual TResult CaseAItalicHighlightStyle(AItalicHighlightStyle node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ABoldHighlightStyle node, TValue arg)
+        public TResult Visit(ABoldHighlightStyle node)
         {
-            return CaseABoldHighlightStyle(node, arg);
+            return CaseABoldHighlightStyle(node);
         }
-        public virtual TValue CaseABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
+        public virtual TResult CaseABoldHighlightStyle(ABoldHighlightStyle node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ATextHighlightStyle node, TValue arg)
+        public TResult Visit(ATextHighlightStyle node)
         {
-            return CaseATextHighlightStyle(node, arg);
+            return CaseATextHighlightStyle(node);
         }
-        public virtual TValue CaseATextHighlightStyle(ATextHighlightStyle node, TValue arg)
+        public virtual TResult CaseATextHighlightStyle(ATextHighlightStyle node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ABackgroundHighlightStyle node, TValue arg)
+        public TResult Visit(ABackgroundHighlightStyle node)
         {
-            return CaseABackgroundHighlightStyle(node, arg);
+            return CaseABackgroundHighlightStyle(node);
         }
-        public virtual TValue CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
+        public virtual TResult CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(ARgbColor node, TValue arg)
+        public TResult Visit(ARgbColor node)
         {
-            return CaseARgbColor(node, arg);
+            return CaseARgbColor(node);
         }
-        public virtual TValue CaseARgbColor(ARgbColor node, TValue arg)
+        public virtual TResult CaseARgbColor(ARgbColor node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AHsvColor node, TValue arg)
+        public TResult Visit(AHsvColor node)
         {
-            return CaseAHsvColor(node, arg);
+            return CaseAHsvColor(node);
         }
-        public virtual TValue CaseAHsvColor(AHsvColor node, TValue arg)
+        public virtual TResult CaseAHsvColor(AHsvColor node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(AHexColor node, TValue arg)
+        public TResult Visit(AHexColor node)
         {
-            return CaseAHexColor(node, arg);
+            return CaseAHexColor(node);
         }
-        public virtual TValue CaseAHexColor(AHexColor node, TValue arg)
+        public virtual TResult CaseAHexColor(AHexColor node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TPackagename node, TValue arg)
+        public TResult Visit(TPackagename node)
         {
-            return CaseTPackagename(node, arg);
+            return CaseTPackagename(node);
         }
-        public virtual TValue CaseTPackagename(TPackagename node, TValue arg)
+        public virtual TResult CaseTPackagename(TPackagename node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TPackagetoken node, TValue arg)
+        public TResult Visit(TPackagetoken node)
         {
-            return CaseTPackagetoken(node, arg);
+            return CaseTPackagetoken(node);
         }
-        public virtual TValue CaseTPackagetoken(TPackagetoken node, TValue arg)
+        public virtual TResult CaseTPackagetoken(TPackagetoken node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TStatestoken node, TValue arg)
+        public TResult Visit(TStatestoken node)
         {
-            return CaseTStatestoken(node, arg);
+            return CaseTStatestoken(node);
         }
-        public virtual TValue CaseTStatestoken(TStatestoken node, TValue arg)
+        public virtual TResult CaseTStatestoken(TStatestoken node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(THelperstoken node, TValue arg)
+        public TResult Visit(THelperstoken node)
         {
-            return CaseTHelperstoken(node, arg);
+            return CaseTHelperstoken(node);
         }
-        public virtual TValue CaseTHelperstoken(THelperstoken node, TValue arg)
+        public virtual TResult CaseTHelperstoken(THelperstoken node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TTokenstoken node, TValue arg)
+        public TResult Visit(TTokenstoken node)
         {
-            return CaseTTokenstoken(node, arg);
+            return CaseTTokenstoken(node);
         }
-        public virtual TValue CaseTTokenstoken(TTokenstoken node, TValue arg)
+        public virtual TResult CaseTTokenstoken(TTokenstoken node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TIgnoredtoken node, TValue arg)
+        public TResult Visit(TIgnoredtoken node)
         {
-            return CaseTIgnoredtoken(node, arg);
+            return CaseTIgnoredtoken(node);
         }
-        public virtual TValue CaseTIgnoredtoken(TIgnoredtoken node, TValue arg)
+        public virtual TResult CaseTIgnoredtoken(TIgnoredtoken node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TProductionstoken node, TValue arg)
+        public TResult Visit(TProductionstoken node)
         {
-            return CaseTProductionstoken(node, arg);
+            return CaseTProductionstoken(node);
         }
-        public virtual TValue CaseTProductionstoken(TProductionstoken node, TValue arg)
+        public virtual TResult CaseTProductionstoken(TProductionstoken node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TAsttoken node, TValue arg)
+        public TResult Visit(TAsttoken node)
         {
-            return CaseTAsttoken(node, arg);
+            return CaseTAsttoken(node);
         }
-        public virtual TValue CaseTAsttoken(TAsttoken node, TValue arg)
+        public virtual TResult CaseTAsttoken(TAsttoken node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(THighlighttoken node, TValue arg)
+        public TResult Visit(THighlighttoken node)
         {
-            return CaseTHighlighttoken(node, arg);
+            return CaseTHighlighttoken(node);
         }
-        public virtual TValue CaseTHighlighttoken(THighlighttoken node, TValue arg)
+        public virtual TResult CaseTHighlighttoken(THighlighttoken node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TNew node, TValue arg)
+        public TResult Visit(TNew node)
         {
-            return CaseTNew(node, arg);
+            return CaseTNew(node);
         }
-        public virtual TValue CaseTNew(TNew node, TValue arg)
+        public virtual TResult CaseTNew(TNew node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TNull node, TValue arg)
+        public TResult Visit(TNull node)
         {
-            return CaseTNull(node, arg);
+            return CaseTNull(node);
         }
-        public virtual TValue CaseTNull(TNull node, TValue arg)
+        public virtual TResult CaseTNull(TNull node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TTokenSpecifier node, TValue arg)
+        public TResult Visit(TTokenSpecifier node)
         {
-            return CaseTTokenSpecifier(node, arg);
+            return CaseTTokenSpecifier(node);
         }
-        public virtual TValue CaseTTokenSpecifier(TTokenSpecifier node, TValue arg)
+        public virtual TResult CaseTTokenSpecifier(TTokenSpecifier node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TProductionSpecifier node, TValue arg)
+        public TResult Visit(TProductionSpecifier node)
         {
-            return CaseTProductionSpecifier(node, arg);
+            return CaseTProductionSpecifier(node);
         }
-        public virtual TValue CaseTProductionSpecifier(TProductionSpecifier node, TValue arg)
+        public virtual TResult CaseTProductionSpecifier(TProductionSpecifier node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TDot node, TValue arg)
+        public TResult Visit(TDot node)
         {
-            return CaseTDot(node, arg);
+            return CaseTDot(node);
         }
-        public virtual TValue CaseTDot(TDot node, TValue arg)
+        public virtual TResult CaseTDot(TDot node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TDDot node, TValue arg)
+        public TResult Visit(TDDot node)
         {
-            return CaseTDDot(node, arg);
+            return CaseTDDot(node);
         }
-        public virtual TValue CaseTDDot(TDDot node, TValue arg)
+        public virtual TResult CaseTDDot(TDDot node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TSemicolon node, TValue arg)
+        public TResult Visit(TSemicolon node)
         {
-            return CaseTSemicolon(node, arg);
+            return CaseTSemicolon(node);
         }
-        public virtual TValue CaseTSemicolon(TSemicolon node, TValue arg)
+        public virtual TResult CaseTSemicolon(TSemicolon node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TEqual node, TValue arg)
+        public TResult Visit(TEqual node)
         {
-            return CaseTEqual(node, arg);
+            return CaseTEqual(node);
         }
-        public virtual TValue CaseTEqual(TEqual node, TValue arg)
+        public virtual TResult CaseTEqual(TEqual node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TLBkt node, TValue arg)
+        public TResult Visit(TLBkt node)
         {
-            return CaseTLBkt(node, arg);
+            return CaseTLBkt(node);
         }
-        public virtual TValue CaseTLBkt(TLBkt node, TValue arg)
+        public virtual TResult CaseTLBkt(TLBkt node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TRBkt node, TValue arg)
+        public TResult Visit(TRBkt node)
         {
-            return CaseTRBkt(node, arg);
+            return CaseTRBkt(node);
         }
-        public virtual TValue CaseTRBkt(TRBkt node, TValue arg)
+        public virtual TResult CaseTRBkt(TRBkt node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TLPar node, TValue arg)
+        public TResult Visit(TLPar node)
         {
-            return CaseTLPar(node, arg);
+            return CaseTLPar(node);
         }
-        public virtual TValue CaseTLPar(TLPar node, TValue arg)
+        public virtual TResult CaseTLPar(TLPar node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TRPar node, TValue arg)
+        public TResult Visit(TRPar node)
         {
-            return CaseTRPar(node, arg);
+            return CaseTRPar(node);
         }
-        public virtual TValue CaseTRPar(TRPar node, TValue arg)
+        public virtual TResult CaseTRPar(TRPar node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TLBrace node, TValue arg)
+        public TResult Visit(TLBrace node)
         {
-            return CaseTLBrace(node, arg);
+            return CaseTLBrace(node);
         }
-        public virtual TValue CaseTLBrace(TLBrace node, TValue arg)
+        public virtual TResult CaseTLBrace(TLBrace node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TRBrace node, TValue arg)
+        public TResult Visit(TRBrace node)
         {
-            return CaseTRBrace(node, arg);
+            return CaseTRBrace(node);
         }
-        public virtual TValue CaseTRBrace(TRBrace node, TValue arg)
+        public virtual TResult CaseTRBrace(TRBrace node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TPlus node, TValue arg)
+        public TResult Visit(TPlus node)
         {
-            return CaseTPlus(node, arg);
+            return CaseTPlus(node);
         }
-        public virtual TValue CaseTPlus(TPlus node, TValue arg)
+        public virtual TResult CaseTPlus(TPlus node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TMinus node, TValue arg)
+        public TResult Visit(TMinus node)
         {
-            return CaseTMinus(node, arg);
+            return CaseTMinus(node);
         }
-        public virtual TValue CaseTMinus(TMinus node, TValue arg)
+        public virtual TResult CaseTMinus(TMinus node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TQMark node, TValue arg)
+        public TResult Visit(TQMark node)
         {
-            return CaseTQMark(node, arg);
+            return CaseTQMark(node);
         }
-        public virtual TValue CaseTQMark(TQMark node, TValue arg)
+        public virtual TResult CaseTQMark(TQMark node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TStar node, TValue arg)
+        public TResult Visit(TStar node)
         {
-            return CaseTStar(node, arg);
+            return CaseTStar(node);
         }
-        public virtual TValue CaseTStar(TStar node, TValue arg)
+        public virtual TResult CaseTStar(TStar node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TPipe node, TValue arg)
+        public TResult Visit(TPipe node)
         {
-            return CaseTPipe(node, arg);
+            return CaseTPipe(node);
         }
-        public virtual TValue CaseTPipe(TPipe node, TValue arg)
+        public virtual TResult CaseTPipe(TPipe node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TComma node, TValue arg)
+        public TResult Visit(TComma node)
         {
-            return CaseTComma(node, arg);
+            return CaseTComma(node);
         }
-        public virtual TValue CaseTComma(TComma node, TValue arg)
+        public virtual TResult CaseTComma(TComma node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TSlash node, TValue arg)
+        public TResult Visit(TSlash node)
         {
-            return CaseTSlash(node, arg);
+            return CaseTSlash(node);
         }
-        public virtual TValue CaseTSlash(TSlash node, TValue arg)
+        public virtual TResult CaseTSlash(TSlash node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TArrow node, TValue arg)
+        public TResult Visit(TArrow node)
         {
-            return CaseTArrow(node, arg);
+            return CaseTArrow(node);
         }
-        public virtual TValue CaseTArrow(TArrow node, TValue arg)
+        public virtual TResult CaseTArrow(TArrow node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TColon node, TValue arg)
+        public TResult Visit(TColon node)
         {
-            return CaseTColon(node, arg);
+            return CaseTColon(node);
         }
-        public virtual TValue CaseTColon(TColon node, TValue arg)
+        public virtual TResult CaseTColon(TColon node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TIdentifier node, TValue arg)
+        public TResult Visit(TIdentifier node)
         {
-            return CaseTIdentifier(node, arg);
+            return CaseTIdentifier(node);
         }
-        public virtual TValue CaseTIdentifier(TIdentifier node, TValue arg)
+        public virtual TResult CaseTIdentifier(TIdentifier node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TCharacter node, TValue arg)
+        public TResult Visit(TCharacter node)
         {
-            return CaseTCharacter(node, arg);
+            return CaseTCharacter(node);
         }
-        public virtual TValue CaseTCharacter(TCharacter node, TValue arg)
+        public virtual TResult CaseTCharacter(TCharacter node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TDecChar node, TValue arg)
+        public TResult Visit(TDecChar node)
         {
-            return CaseTDecChar(node, arg);
+            return CaseTDecChar(node);
         }
-        public virtual TValue CaseTDecChar(TDecChar node, TValue arg)
+        public virtual TResult CaseTDecChar(TDecChar node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(THexChar node, TValue arg)
+        public TResult Visit(THexChar node)
         {
-            return CaseTHexChar(node, arg);
+            return CaseTHexChar(node);
         }
-        public virtual TValue CaseTHexChar(THexChar node, TValue arg)
+        public virtual TResult CaseTHexChar(THexChar node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TString node, TValue arg)
+        public TResult Visit(TString node)
         {
-            return CaseTString(node, arg);
+            return CaseTString(node);
         }
-        public virtual TValue CaseTString(TString node, TValue arg)
+        public virtual TResult CaseTString(TString node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TBlank node, TValue arg)
+        public TResult Visit(TBlank node)
         {
-            return CaseTBlank(node, arg);
+            return CaseTBlank(node);
         }
-        public virtual TValue CaseTBlank(TBlank node, TValue arg)
+        public virtual TResult CaseTBlank(TBlank node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TComment node, TValue arg)
+        public TResult Visit(TComment node)
         {
-            return CaseTComment(node, arg);
+            return CaseTComment(node);
         }
-        public virtual TValue CaseTComment(TComment node, TValue arg)
+        public virtual TResult CaseTComment(TComment node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TItalic node, TValue arg)
+        public TResult Visit(TItalic node)
         {
-            return CaseTItalic(node, arg);
+            return CaseTItalic(node);
         }
-        public virtual TValue CaseTItalic(TItalic node, TValue arg)
+        public virtual TResult CaseTItalic(TItalic node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TBold node, TValue arg)
+        public TResult Visit(TBold node)
         {
-            return CaseTBold(node, arg);
+            return CaseTBold(node);
         }
-        public virtual TValue CaseTBold(TBold node, TValue arg)
+        public virtual TResult CaseTBold(TBold node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TText node, TValue arg)
+        public TResult Visit(TText node)
         {
-            return CaseTText(node, arg);
+            return CaseTText(node);
         }
-        public virtual TValue CaseTText(TText node, TValue arg)
+        public virtual TResult CaseTText(TText node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TBackground node, TValue arg)
+        public TResult Visit(TBackground node)
         {
-            return CaseTBackground(node, arg);
+            return CaseTBackground(node);
         }
-        public virtual TValue CaseTBackground(TBackground node, TValue arg)
+        public virtual TResult CaseTBackground(TBackground node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(TRgb node, TValue arg)
+        public TResult Visit(TRgb node)
         {
-            return CaseTRgb(node, arg);
+            return CaseTRgb(node);
         }
-        public virtual TValue CaseTRgb(TRgb node, TValue arg)
+        public virtual TResult CaseTRgb(TRgb node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(THsv node, TValue arg)
+        public TResult Visit(THsv node)
         {
-            return CaseTHsv(node, arg);
+            return CaseTHsv(node);
         }
-        public virtual TValue CaseTHsv(THsv node, TValue arg)
+        public virtual TResult CaseTHsv(THsv node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
-        public TValue Visit(THexColor node, TValue arg)
+        public TResult Visit(THexColor node)
         {
-            return CaseTHexColor(node, arg);
+            return CaseTHexColor(node);
         }
-        public virtual TValue CaseTHexColor(THexColor node, TValue arg)
+        public virtual TResult CaseTHexColor(THexColor node)
         {
-            return DefaultCase(node, arg);
+            return DefaultCase(node);
         }
     }
-    
-    public class DepthFirstReturnAdapter : DepthFirstReturnAdapter<object>
+    public class ReturnAnalysisAdapter<T1, TResult> : ReturnAdapter<T1, TResult, PGrammar>
     {
-    }
-    public class DepthFirstReturnAdapter<TValue> : ReturnAnalysisAdapter<TValue>
-    {
-        public override TValue Visit(Node node, TValue arg)
+        public TResult Visit(AGrammar node, T1 arg1)
         {
-            return Visit((dynamic)node, arg);
+            return CaseAGrammar(node, arg1);
         }
-        
-        public virtual TValue InStart(Start<PGrammar> node, TValue arg)
+        public virtual TResult CaseAGrammar(AGrammar node, T1 arg1)
         {
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutStart(Start<PGrammar> node, TValue arg)
+        public TResult Visit(APackage node, T1 arg1)
         {
-            return arg;
+            return CaseAPackage(node, arg1);
         }
-        public override TValue CaseStart(Start<PGrammar> node, TValue arg)
+        public virtual TResult CaseAPackage(APackage node, T1 arg1)
         {
-            arg = InStart(node, arg);
-            
-            arg = Visit((dynamic)node.Root, arg);
-            arg = Visit(node.EOF, arg);
-            
-            arg = OutStart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        
-        public virtual TValue DefaultPIn(Node node, TValue arg)
+        public TResult Visit(AHelpers node, T1 arg1)
         {
-            return arg;
+            return CaseAHelpers(node, arg1);
         }
-        public virtual TValue DefaultPOut(Node node, TValue arg)
+        public virtual TResult CaseAHelpers(AHelpers node, T1 arg1)
         {
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue DefaultAIn(Node node, TValue arg)
+        public TResult Visit(AHelper node, T1 arg1)
         {
-            return arg;
+            return CaseAHelper(node, arg1);
         }
-        public virtual TValue DefaultAOut(Node node, TValue arg)
+        public virtual TResult CaseAHelper(AHelper node, T1 arg1)
         {
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        
-        public virtual TValue InPGrammar(PGrammar node, TValue arg)
+        public TResult Visit(ATokens node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return CaseATokens(node, arg1);
         }
-        public virtual TValue OutPGrammar(PGrammar node, TValue arg)
+        public virtual TResult CaseATokens(ATokens node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAGrammar(AGrammar node, TValue arg)
+        public TResult Visit(AToken node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseAToken(node, arg1);
         }
-        public virtual TValue OutAGrammar(AGrammar node, TValue arg)
+        public virtual TResult CaseAToken(AToken node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAGrammar(AGrammar node, TValue arg)
+        public TResult Visit(ATokenlookahead node, T1 arg1)
         {
-            arg = InPGrammar(node, arg);
-            arg = InAGrammar(node, arg);
-            
-            if (node.HasPackage)
-                arg = Visit((dynamic)node.Package, arg);
-            if (node.HasHelpers)
-                arg = Visit((dynamic)node.Helpers, arg);
-            if (node.HasStates)
-                arg = Visit((dynamic)node.States, arg);
-            if (node.HasTokens)
-                arg = Visit((dynamic)node.Tokens, arg);
-            if (node.HasIgnoredtokens)
-                arg = Visit((dynamic)node.Ignoredtokens, arg);
-            if (node.HasProductions)
-                arg = Visit((dynamic)node.Productions, arg);
-            if (node.HasAstproductions)
-                arg = Visit((dynamic)node.Astproductions, arg);
-            if (node.HasHighlightrules)
-                arg = Visit((dynamic)node.Highlightrules, arg);
-            
-            arg = OutAGrammar(node, arg);
-            arg = OutPGrammar(node, arg);
-            
-            return arg;
+            return CaseATokenlookahead(node, arg1);
         }
-        
-        public virtual TValue InPPackage(PPackage node, TValue arg)
+        public virtual TResult CaseATokenlookahead(ATokenlookahead node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPPackage(PPackage node, TValue arg)
+        public TResult Visit(ARegex node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseARegex(node, arg1);
         }
-        public virtual TValue InAPackage(APackage node, TValue arg)
+        public virtual TResult CaseARegex(ARegex node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAPackage(APackage node, TValue arg)
+        public TResult Visit(ARegexOrpart node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseARegexOrpart(node, arg1);
         }
-        public override TValue CaseAPackage(APackage node, TValue arg)
+        public virtual TResult CaseARegexOrpart(ARegexOrpart node, T1 arg1)
         {
-            arg = InPPackage(node, arg);
-            arg = InAPackage(node, arg);
-            
-            arg = Visit(node.Packagetoken, arg);
-            arg = Visit(node.Packagename, arg);
-            arg = Visit(node.Semicolon, arg);
-            
-            arg = OutAPackage(node, arg);
-            arg = OutPPackage(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        
-        public virtual TValue InPHelpers(PHelpers node, TValue arg)
+        public TResult Visit(ACharRegexpart node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return CaseACharRegexpart(node, arg1);
         }
-        public virtual TValue OutPHelpers(PHelpers node, TValue arg)
+        public virtual TResult CaseACharRegexpart(ACharRegexpart node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAHelpers(AHelpers node, TValue arg)
+        public TResult Visit(ADecRegexpart node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseADecRegexpart(node, arg1);
         }
-        public virtual TValue OutAHelpers(AHelpers node, TValue arg)
+        public virtual TResult CaseADecRegexpart(ADecRegexpart node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAHelpers(AHelpers node, TValue arg)
+        public TResult Visit(AHexRegexpart node, T1 arg1)
         {
-            arg = InPHelpers(node, arg);
-            arg = InAHelpers(node, arg);
-            
-            arg = Visit(node.Helperstoken, arg);
-            {
-                PHelper[] temp = new PHelper[node.Helpers.Count];
-                node.Helpers.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutAHelpers(node, arg);
-            arg = OutPHelpers(node, arg);
-            
-            return arg;
+            return CaseAHexRegexpart(node, arg1);
         }
-        
-        public virtual TValue InPHelper(PHelper node, TValue arg)
+        public virtual TResult CaseAHexRegexpart(AHexRegexpart node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPHelper(PHelper node, TValue arg)
+        public TResult Visit(AUnarystarRegexpart node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseAUnarystarRegexpart(node, arg1);
         }
-        public virtual TValue InAHelper(AHelper node, TValue arg)
+        public virtual TResult CaseAUnarystarRegexpart(AUnarystarRegexpart node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAHelper(AHelper node, TValue arg)
+        public TResult Visit(AUnaryquestionRegexpart node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseAUnaryquestionRegexpart(node, arg1);
         }
-        public override TValue CaseAHelper(AHelper node, TValue arg)
+        public virtual TResult CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node, T1 arg1)
         {
-            arg = InPHelper(node, arg);
-            arg = InAHelper(node, arg);
-            
-            arg = Visit(node.Identifier, arg);
-            arg = Visit(node.Equal, arg);
-            arg = Visit((dynamic)node.Regex, arg);
-            arg = Visit(node.Semicolon, arg);
-            
-            arg = OutAHelper(node, arg);
-            arg = OutPHelper(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        
-        public virtual TValue InPTokens(PTokens node, TValue arg)
+        public TResult Visit(AUnaryplusRegexpart node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return CaseAUnaryplusRegexpart(node, arg1);
         }
-        public virtual TValue OutPTokens(PTokens node, TValue arg)
+        public virtual TResult CaseAUnaryplusRegexpart(AUnaryplusRegexpart node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InATokens(ATokens node, TValue arg)
+        public TResult Visit(ABinaryplusRegexpart node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseABinaryplusRegexpart(node, arg1);
         }
-        public virtual TValue OutATokens(ATokens node, TValue arg)
+        public virtual TResult CaseABinaryplusRegexpart(ABinaryplusRegexpart node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseATokens(ATokens node, TValue arg)
+        public TResult Visit(ABinaryminusRegexpart node, T1 arg1)
         {
-            arg = InPTokens(node, arg);
-            arg = InATokens(node, arg);
-            
-            arg = Visit(node.Tokenstoken, arg);
-            {
-                PToken[] temp = new PToken[node.Tokens.Count];
-                node.Tokens.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutATokens(node, arg);
-            arg = OutPTokens(node, arg);
-            
-            return arg;
+            return CaseABinaryminusRegexpart(node, arg1);
         }
-        
-        public virtual TValue InPToken(PToken node, TValue arg)
+        public virtual TResult CaseABinaryminusRegexpart(ABinaryminusRegexpart node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPToken(PToken node, TValue arg)
+        public TResult Visit(AIntervalRegexpart node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseAIntervalRegexpart(node, arg1);
         }
-        public virtual TValue InAToken(AToken node, TValue arg)
+        public virtual TResult CaseAIntervalRegexpart(AIntervalRegexpart node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAToken(AToken node, TValue arg)
+        public TResult Visit(AStringRegexpart node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseAStringRegexpart(node, arg1);
         }
-        public override TValue CaseAToken(AToken node, TValue arg)
+        public virtual TResult CaseAStringRegexpart(AStringRegexpart node, T1 arg1)
         {
-            arg = InPToken(node, arg);
-            arg = InAToken(node, arg);
-            
-            if (node.HasStatelist)
-                arg = Visit((dynamic)node.Statelist, arg);
-            arg = Visit(node.Identifier, arg);
-            arg = Visit(node.Equal, arg);
-            arg = Visit((dynamic)node.Regex, arg);
-            if (node.HasTokenlookahead)
-                arg = Visit((dynamic)node.Tokenlookahead, arg);
-            arg = Visit(node.Semicolon, arg);
-            
-            arg = OutAToken(node, arg);
-            arg = OutPToken(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        
-        public virtual TValue InPTokenlookahead(PTokenlookahead node, TValue arg)
+        public TResult Visit(AIdentifierRegexpart node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return CaseAIdentifierRegexpart(node, arg1);
         }
-        public virtual TValue OutPTokenlookahead(PTokenlookahead node, TValue arg)
+        public virtual TResult CaseAIdentifierRegexpart(AIdentifierRegexpart node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InATokenlookahead(ATokenlookahead node, TValue arg)
+        public TResult Visit(AParenthesisRegexpart node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseAParenthesisRegexpart(node, arg1);
         }
-        public virtual TValue OutATokenlookahead(ATokenlookahead node, TValue arg)
+        public virtual TResult CaseAParenthesisRegexpart(AParenthesisRegexpart node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseATokenlookahead(ATokenlookahead node, TValue arg)
+        public TResult Visit(AStates node, T1 arg1)
         {
-            arg = InPTokenlookahead(node, arg);
-            arg = InATokenlookahead(node, arg);
-            
-            arg = Visit(node.Slash, arg);
-            arg = Visit((dynamic)node.Regex, arg);
-            
-            arg = OutATokenlookahead(node, arg);
-            arg = OutPTokenlookahead(node, arg);
-            
-            return arg;
+            return CaseAStates(node, arg1);
         }
-        
-        public virtual TValue InPRegex(PRegex node, TValue arg)
+        public virtual TResult CaseAStates(AStates node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPRegex(PRegex node, TValue arg)
+        public TResult Visit(AIgnoredtokens node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseAIgnoredtokens(node, arg1);
         }
-        public virtual TValue InARegex(ARegex node, TValue arg)
+        public virtual TResult CaseAIgnoredtokens(AIgnoredtokens node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutARegex(ARegex node, TValue arg)
+        public TResult Visit(AIdentifierList node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseAIdentifierList(node, arg1);
         }
-        public override TValue CaseARegex(ARegex node, TValue arg)
+        public virtual TResult CaseAIdentifierList(AIdentifierList node, T1 arg1)
         {
-            arg = InPRegex(node, arg);
-            arg = InARegex(node, arg);
-            
-            {
-                POrpart[] temp = new POrpart[node.Parts.Count];
-                node.Parts.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutARegex(node, arg);
-            arg = OutPRegex(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        
-        public virtual TValue InPOrpart(POrpart node, TValue arg)
+        public TResult Visit(ATokenstateList node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return CaseATokenstateList(node, arg1);
         }
-        public virtual TValue OutPOrpart(POrpart node, TValue arg)
+        public virtual TResult CaseATokenstateList(ATokenstateList node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InARegexOrpart(ARegexOrpart node, TValue arg)
+        public TResult Visit(ATranslationList node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseATranslationList(node, arg1);
         }
-        public virtual TValue OutARegexOrpart(ARegexOrpart node, TValue arg)
+        public virtual TResult CaseATranslationList(ATranslationList node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseARegexOrpart(ARegexOrpart node, TValue arg)
+        public TResult Visit(AStyleList node, T1 arg1)
         {
-            arg = InPOrpart(node, arg);
-            arg = InARegexOrpart(node, arg);
-            
-            if (node.HasPipe)
-                arg = Visit(node.Pipe, arg);
-            {
-                PRegexpart[] temp = new PRegexpart[node.Regexpart.Count];
-                node.Regexpart.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutARegexOrpart(node, arg);
-            arg = OutPOrpart(node, arg);
-            
-            return arg;
+            return CaseAStyleList(node, arg1);
         }
-        
-        public virtual TValue InPRegexpart(PRegexpart node, TValue arg)
+        public virtual TResult CaseAStyleList(AStyleList node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPRegexpart(PRegexpart node, TValue arg)
+        public TResult Visit(AIdentifierListitem node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseAIdentifierListitem(node, arg1);
         }
-        public virtual TValue InACharRegexpart(ACharRegexpart node, TValue arg)
+        public virtual TResult CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutACharRegexpart(ACharRegexpart node, TValue arg)
+        public TResult Visit(ATokenstateListitem node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseATokenstateListitem(node, arg1);
         }
-        public override TValue CaseACharRegexpart(ACharRegexpart node, TValue arg)
+        public virtual TResult CaseATokenstateListitem(ATokenstateListitem node, T1 arg1)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InACharRegexpart(node, arg);
-            
-            arg = Visit(node.Character, arg);
-            
-            arg = OutACharRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InADecRegexpart(ADecRegexpart node, TValue arg)
+        public TResult Visit(ATokenstatetransitionListitem node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseATokenstatetransitionListitem(node, arg1);
         }
-        public virtual TValue OutADecRegexpart(ADecRegexpart node, TValue arg)
+        public virtual TResult CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseADecRegexpart(ADecRegexpart node, TValue arg)
+        public TResult Visit(ATranslationListitem node, T1 arg1)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InADecRegexpart(node, arg);
-            
-            arg = Visit(node.DecChar, arg);
-            
-            arg = OutADecRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return CaseATranslationListitem(node, arg1);
         }
-        public virtual TValue InAHexRegexpart(AHexRegexpart node, TValue arg)
+        public virtual TResult CaseATranslationListitem(ATranslationListitem node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAHexRegexpart(AHexRegexpart node, TValue arg)
+        public TResult Visit(AStyleListitem node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseAStyleListitem(node, arg1);
         }
-        public override TValue CaseAHexRegexpart(AHexRegexpart node, TValue arg)
+        public virtual TResult CaseAStyleListitem(AStyleListitem node, T1 arg1)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAHexRegexpart(node, arg);
-            
-            arg = Visit(node.HexChar, arg);
-            
-            arg = OutAHexRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAUnarystarRegexpart(AUnarystarRegexpart node, TValue arg)
+        public TResult Visit(AProductions node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseAProductions(node, arg1);
         }
-        public virtual TValue OutAUnarystarRegexpart(AUnarystarRegexpart node, TValue arg)
+        public virtual TResult CaseAProductions(AProductions node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAUnarystarRegexpart(AUnarystarRegexpart node, TValue arg)
+        public TResult Visit(AAstproductions node, T1 arg1)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAUnarystarRegexpart(node, arg);
-            
-            arg = Visit((dynamic)node.Regexpart, arg);
-            arg = Visit(node.Star, arg);
-            
-            arg = OutAUnarystarRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return CaseAAstproductions(node, arg1);
         }
-        public virtual TValue InAUnaryquestionRegexpart(AUnaryquestionRegexpart node, TValue arg)
+        public virtual TResult CaseAAstproductions(AAstproductions node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAUnaryquestionRegexpart(AUnaryquestionRegexpart node, TValue arg)
+        public TResult Visit(AProduction node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseAProduction(node, arg1);
         }
-        public override TValue CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node, TValue arg)
+        public virtual TResult CaseAProduction(AProduction node, T1 arg1)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAUnaryquestionRegexpart(node, arg);
-            
-            arg = Visit((dynamic)node.Regexpart, arg);
-            arg = Visit(node.Question, arg);
-            
-            arg = OutAUnaryquestionRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAUnaryplusRegexpart(AUnaryplusRegexpart node, TValue arg)
+        public TResult Visit(ACleanProdtranslation node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseACleanProdtranslation(node, arg1);
         }
-        public virtual TValue OutAUnaryplusRegexpart(AUnaryplusRegexpart node, TValue arg)
+        public virtual TResult CaseACleanProdtranslation(ACleanProdtranslation node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAUnaryplusRegexpart(AUnaryplusRegexpart node, TValue arg)
+        public TResult Visit(AStarProdtranslation node, T1 arg1)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAUnaryplusRegexpart(node, arg);
-            
-            arg = Visit((dynamic)node.Regexpart, arg);
-            arg = Visit(node.Plus, arg);
-            
-            arg = OutAUnaryplusRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return CaseAStarProdtranslation(node, arg1);
         }
-        public virtual TValue InABinaryplusRegexpart(ABinaryplusRegexpart node, TValue arg)
+        public virtual TResult CaseAStarProdtranslation(AStarProdtranslation node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutABinaryplusRegexpart(ABinaryplusRegexpart node, TValue arg)
+        public TResult Visit(APlusProdtranslation node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseAPlusProdtranslation(node, arg1);
         }
-        public override TValue CaseABinaryplusRegexpart(ABinaryplusRegexpart node, TValue arg)
+        public virtual TResult CaseAPlusProdtranslation(APlusProdtranslation node, T1 arg1)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InABinaryplusRegexpart(node, arg);
-            
-            arg = Visit(node.Lpar, arg);
-            arg = Visit((dynamic)node.Left, arg);
-            arg = Visit(node.Plus, arg);
-            arg = Visit((dynamic)node.Right, arg);
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutABinaryplusRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InABinaryminusRegexpart(ABinaryminusRegexpart node, TValue arg)
+        public TResult Visit(AQuestionProdtranslation node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseAQuestionProdtranslation(node, arg1);
         }
-        public virtual TValue OutABinaryminusRegexpart(ABinaryminusRegexpart node, TValue arg)
+        public virtual TResult CaseAQuestionProdtranslation(AQuestionProdtranslation node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseABinaryminusRegexpart(ABinaryminusRegexpart node, TValue arg)
+        public TResult Visit(AFullTranslation node, T1 arg1)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InABinaryminusRegexpart(node, arg);
-            
-            arg = Visit(node.Lpar, arg);
-            arg = Visit((dynamic)node.Left, arg);
-            arg = Visit(node.Minus, arg);
-            arg = Visit((dynamic)node.Right, arg);
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutABinaryminusRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return CaseAFullTranslation(node, arg1);
         }
-        public virtual TValue InAIntervalRegexpart(AIntervalRegexpart node, TValue arg)
+        public virtual TResult CaseAFullTranslation(AFullTranslation node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAIntervalRegexpart(AIntervalRegexpart node, TValue arg)
+        public TResult Visit(ANewTranslation node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseANewTranslation(node, arg1);
         }
-        public override TValue CaseAIntervalRegexpart(AIntervalRegexpart node, TValue arg)
+        public virtual TResult CaseANewTranslation(ANewTranslation node, T1 arg1)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAIntervalRegexpart(node, arg);
-            
-            arg = Visit(node.Lpar, arg);
-            arg = Visit((dynamic)node.Left, arg);
-            arg = Visit(node.Dots, arg);
-            arg = Visit((dynamic)node.Right, arg);
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutAIntervalRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAStringRegexpart(AStringRegexpart node, TValue arg)
+        public TResult Visit(ANewalternativeTranslation node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseANewalternativeTranslation(node, arg1);
         }
-        public virtual TValue OutAStringRegexpart(AStringRegexpart node, TValue arg)
+        public virtual TResult CaseANewalternativeTranslation(ANewalternativeTranslation node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAStringRegexpart(AStringRegexpart node, TValue arg)
+        public TResult Visit(AListTranslation node, T1 arg1)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAStringRegexpart(node, arg);
-            
-            arg = Visit(node.String, arg);
-            
-            arg = OutAStringRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return CaseAListTranslation(node, arg1);
         }
-        public virtual TValue InAIdentifierRegexpart(AIdentifierRegexpart node, TValue arg)
+        public virtual TResult CaseAListTranslation(AListTranslation node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAIdentifierRegexpart(AIdentifierRegexpart node, TValue arg)
+        public TResult Visit(ANullTranslation node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseANullTranslation(node, arg1);
         }
-        public override TValue CaseAIdentifierRegexpart(AIdentifierRegexpart node, TValue arg)
+        public virtual TResult CaseANullTranslation(ANullTranslation node, T1 arg1)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAIdentifierRegexpart(node, arg);
-            
-            arg = Visit(node.Identifier, arg);
-            
-            arg = OutAIdentifierRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAParenthesisRegexpart(AParenthesisRegexpart node, TValue arg)
+        public TResult Visit(AIdTranslation node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseAIdTranslation(node, arg1);
         }
-        public virtual TValue OutAParenthesisRegexpart(AParenthesisRegexpart node, TValue arg)
+        public virtual TResult CaseAIdTranslation(AIdTranslation node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAParenthesisRegexpart(AParenthesisRegexpart node, TValue arg)
+        public TResult Visit(AIddotidTranslation node, T1 arg1)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAParenthesisRegexpart(node, arg);
-            
-            arg = Visit(node.Lpar, arg);
-            arg = Visit((dynamic)node.Regex, arg);
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutAParenthesisRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return CaseAIddotidTranslation(node, arg1);
         }
-        
-        public virtual TValue InPStates(PStates node, TValue arg)
+        public virtual TResult CaseAIddotidTranslation(AIddotidTranslation node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPStates(PStates node, TValue arg)
+        public TResult Visit(AProductionrule node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseAProductionrule(node, arg1);
         }
-        public virtual TValue InAStates(AStates node, TValue arg)
+        public virtual TResult CaseAProductionrule(AProductionrule node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAStates(AStates node, TValue arg)
+        public TResult Visit(AAlternative node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseAAlternative(node, arg1);
         }
-        public override TValue CaseAStates(AStates node, TValue arg)
+        public virtual TResult CaseAAlternative(AAlternative node, T1 arg1)
         {
-            arg = InPStates(node, arg);
-            arg = InAStates(node, arg);
-            
-            arg = Visit(node.Statestoken, arg);
-            arg = Visit((dynamic)node.List, arg);
-            arg = Visit(node.Semicolon, arg);
-            
-            arg = OutAStates(node, arg);
-            arg = OutPStates(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        
-        public virtual TValue InPIgnoredtokens(PIgnoredtokens node, TValue arg)
+        public TResult Visit(AAlternativename node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return CaseAAlternativename(node, arg1);
         }
-        public virtual TValue OutPIgnoredtokens(PIgnoredtokens node, TValue arg)
+        public virtual TResult CaseAAlternativename(AAlternativename node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAIgnoredtokens(AIgnoredtokens node, TValue arg)
+        public TResult Visit(AElements node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseAElements(node, arg1);
         }
-        public virtual TValue OutAIgnoredtokens(AIgnoredtokens node, TValue arg)
+        public virtual TResult CaseAElements(AElements node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAIgnoredtokens(AIgnoredtokens node, TValue arg)
+        public TResult Visit(ASimpleElement node, T1 arg1)
         {
-            arg = InPIgnoredtokens(node, arg);
-            arg = InAIgnoredtokens(node, arg);
-            
-            arg = Visit(node.Ignoredtoken, arg);
-            arg = Visit(node.Tokenstoken, arg);
-            arg = Visit((dynamic)node.List, arg);
-            arg = Visit(node.Semicolon, arg);
-            
-            arg = OutAIgnoredtokens(node, arg);
-            arg = OutPIgnoredtokens(node, arg);
-            
-            return arg;
+            return CaseASimpleElement(node, arg1);
         }
-        
-        public virtual TValue InPList(PList node, TValue arg)
+        public virtual TResult CaseASimpleElement(ASimpleElement node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPList(PList node, TValue arg)
+        public TResult Visit(AStarElement node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseAStarElement(node, arg1);
         }
-        public virtual TValue InAIdentifierList(AIdentifierList node, TValue arg)
+        public virtual TResult CaseAStarElement(AStarElement node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAIdentifierList(AIdentifierList node, TValue arg)
+        public TResult Visit(AQuestionElement node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseAQuestionElement(node, arg1);
         }
-        public override TValue CaseAIdentifierList(AIdentifierList node, TValue arg)
+        public virtual TResult CaseAQuestionElement(AQuestionElement node, T1 arg1)
         {
-            arg = InPList(node, arg);
-            arg = InAIdentifierList(node, arg);
-            
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutAIdentifierList(node, arg);
-            arg = OutPList(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InATokenstateList(ATokenstateList node, TValue arg)
+        public TResult Visit(APlusElement node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseAPlusElement(node, arg1);
         }
-        public virtual TValue OutATokenstateList(ATokenstateList node, TValue arg)
+        public virtual TResult CaseAPlusElement(APlusElement node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseATokenstateList(ATokenstateList node, TValue arg)
+        public TResult Visit(AElementname node, T1 arg1)
         {
-            arg = InPList(node, arg);
-            arg = InATokenstateList(node, arg);
-            
-            arg = Visit(node.Lpar, arg);
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutATokenstateList(node, arg);
-            arg = OutPList(node, arg);
-            
-            return arg;
+            return CaseAElementname(node, arg1);
         }
-        public virtual TValue InATranslationList(ATranslationList node, TValue arg)
+        public virtual TResult CaseAElementname(AElementname node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutATranslationList(ATranslationList node, TValue arg)
+        public TResult Visit(ACleanElementid node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseACleanElementid(node, arg1);
         }
-        public override TValue CaseATranslationList(ATranslationList node, TValue arg)
+        public virtual TResult CaseACleanElementid(ACleanElementid node, T1 arg1)
         {
-            arg = InPList(node, arg);
-            arg = InATranslationList(node, arg);
-            
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutATranslationList(node, arg);
-            arg = OutPList(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAStyleList(AStyleList node, TValue arg)
+        public TResult Visit(ATokenElementid node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseATokenElementid(node, arg1);
         }
-        public virtual TValue OutAStyleList(AStyleList node, TValue arg)
+        public virtual TResult CaseATokenElementid(ATokenElementid node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAStyleList(AStyleList node, TValue arg)
+        public TResult Visit(AProductionElementid node, T1 arg1)
         {
-            arg = InPList(node, arg);
-            arg = InAStyleList(node, arg);
-            
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutAStyleList(node, arg);
-            arg = OutPList(node, arg);
-            
-            return arg;
+            return CaseAProductionElementid(node, arg1);
         }
-        
-        public virtual TValue InPListitem(PListitem node, TValue arg)
+        public virtual TResult CaseAProductionElementid(AProductionElementid node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPListitem(PListitem node, TValue arg)
+        public TResult Visit(AHighlightrules node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseAHighlightrules(node, arg1);
         }
-        public virtual TValue InAIdentifierListitem(AIdentifierListitem node, TValue arg)
+        public virtual TResult CaseAHighlightrules(AHighlightrules node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAIdentifierListitem(AIdentifierListitem node, TValue arg)
+        public TResult Visit(AHighlightrule node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseAHighlightrule(node, arg1);
         }
-        public override TValue CaseAIdentifierListitem(AIdentifierListitem node, TValue arg)
+        public virtual TResult CaseAHighlightrule(AHighlightrule node, T1 arg1)
         {
-            arg = InPListitem(node, arg);
-            arg = InAIdentifierListitem(node, arg);
-            
-            if (node.HasComma)
-                arg = Visit(node.Comma, arg);
-            arg = Visit(node.Identifier, arg);
-            
-            arg = OutAIdentifierListitem(node, arg);
-            arg = OutPListitem(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InATokenstateListitem(ATokenstateListitem node, TValue arg)
+        public TResult Visit(AItalicHighlightStyle node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseAItalicHighlightStyle(node, arg1);
         }
-        public virtual TValue OutATokenstateListitem(ATokenstateListitem node, TValue arg)
+        public virtual TResult CaseAItalicHighlightStyle(AItalicHighlightStyle node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseATokenstateListitem(ATokenstateListitem node, TValue arg)
+        public TResult Visit(ABoldHighlightStyle node, T1 arg1)
         {
-            arg = InPListitem(node, arg);
-            arg = InATokenstateListitem(node, arg);
-            
-            if (node.HasComma)
-                arg = Visit(node.Comma, arg);
-            arg = Visit(node.Identifier, arg);
-            
-            arg = OutATokenstateListitem(node, arg);
-            arg = OutPListitem(node, arg);
-            
-            return arg;
+            return CaseABoldHighlightStyle(node, arg1);
         }
-        public virtual TValue InATokenstatetransitionListitem(ATokenstatetransitionListitem node, TValue arg)
+        public virtual TResult CaseABoldHighlightStyle(ABoldHighlightStyle node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutATokenstatetransitionListitem(ATokenstatetransitionListitem node, TValue arg)
+        public TResult Visit(ATextHighlightStyle node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseATextHighlightStyle(node, arg1);
         }
-        public override TValue CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node, TValue arg)
+        public virtual TResult CaseATextHighlightStyle(ATextHighlightStyle node, T1 arg1)
         {
-            arg = InPListitem(node, arg);
-            arg = InATokenstatetransitionListitem(node, arg);
-            
-            if (node.HasComma)
-                arg = Visit(node.Comma, arg);
-            arg = Visit(node.From, arg);
-            arg = Visit(node.Arrow, arg);
-            arg = Visit(node.To, arg);
-            
-            arg = OutATokenstatetransitionListitem(node, arg);
-            arg = OutPListitem(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InATranslationListitem(ATranslationListitem node, TValue arg)
+        public TResult Visit(ABackgroundHighlightStyle node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseABackgroundHighlightStyle(node, arg1);
         }
-        public virtual TValue OutATranslationListitem(ATranslationListitem node, TValue arg)
+        public virtual TResult CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseATranslationListitem(ATranslationListitem node, TValue arg)
+        public TResult Visit(ARgbColor node, T1 arg1)
         {
-            arg = InPListitem(node, arg);
-            arg = InATranslationListitem(node, arg);
-            
-            if (node.HasComma)
-                arg = Visit(node.Comma, arg);
-            arg = Visit((dynamic)node.Translation, arg);
-            
-            arg = OutATranslationListitem(node, arg);
-            arg = OutPListitem(node, arg);
-            
-            return arg;
+            return CaseARgbColor(node, arg1);
         }
-        public virtual TValue InAStyleListitem(AStyleListitem node, TValue arg)
+        public virtual TResult CaseARgbColor(ARgbColor node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAStyleListitem(AStyleListitem node, TValue arg)
+        public TResult Visit(AHsvColor node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseAHsvColor(node, arg1);
         }
-        public override TValue CaseAStyleListitem(AStyleListitem node, TValue arg)
+        public virtual TResult CaseAHsvColor(AHsvColor node, T1 arg1)
         {
-            arg = InPListitem(node, arg);
-            arg = InAStyleListitem(node, arg);
-            
-            if (node.HasComma)
-                arg = Visit(node.Comma, arg);
-            arg = Visit((dynamic)node.HighlightStyle, arg);
-            
-            arg = OutAStyleListitem(node, arg);
-            arg = OutPListitem(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        
-        public virtual TValue InPProductions(PProductions node, TValue arg)
+        public TResult Visit(AHexColor node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return CaseAHexColor(node, arg1);
         }
-        public virtual TValue OutPProductions(PProductions node, TValue arg)
+        public virtual TResult CaseAHexColor(AHexColor node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAProductions(AProductions node, TValue arg)
+        public TResult Visit(TPackagename node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseTPackagename(node, arg1);
         }
-        public virtual TValue OutAProductions(AProductions node, TValue arg)
+        public virtual TResult CaseTPackagename(TPackagename node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAProductions(AProductions node, TValue arg)
+        public TResult Visit(TPackagetoken node, T1 arg1)
         {
-            arg = InPProductions(node, arg);
-            arg = InAProductions(node, arg);
-            
-            arg = Visit(node.Productionstoken, arg);
-            {
-                PProduction[] temp = new PProduction[node.Productions.Count];
-                node.Productions.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutAProductions(node, arg);
-            arg = OutPProductions(node, arg);
-            
-            return arg;
+            return CaseTPackagetoken(node, arg1);
         }
-        
-        public virtual TValue InPAstproductions(PAstproductions node, TValue arg)
+        public virtual TResult CaseTPackagetoken(TPackagetoken node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPAstproductions(PAstproductions node, TValue arg)
+        public TResult Visit(TStatestoken node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseTStatestoken(node, arg1);
         }
-        public virtual TValue InAAstproductions(AAstproductions node, TValue arg)
+        public virtual TResult CaseTStatestoken(TStatestoken node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAAstproductions(AAstproductions node, TValue arg)
+        public TResult Visit(THelperstoken node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseTHelperstoken(node, arg1);
         }
-        public override TValue CaseAAstproductions(AAstproductions node, TValue arg)
+        public virtual TResult CaseTHelperstoken(THelperstoken node, T1 arg1)
         {
-            arg = InPAstproductions(node, arg);
-            arg = InAAstproductions(node, arg);
-            
-            arg = Visit(node.Asttoken, arg);
-            {
-                PProduction[] temp = new PProduction[node.Productions.Count];
-                node.Productions.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutAAstproductions(node, arg);
-            arg = OutPAstproductions(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        
-        public virtual TValue InPProduction(PProduction node, TValue arg)
+        public TResult Visit(TTokenstoken node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return CaseTTokenstoken(node, arg1);
         }
-        public virtual TValue OutPProduction(PProduction node, TValue arg)
+        public virtual TResult CaseTTokenstoken(TTokenstoken node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAProduction(AProduction node, TValue arg)
+        public TResult Visit(TIgnoredtoken node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseTIgnoredtoken(node, arg1);
         }
-        public virtual TValue OutAProduction(AProduction node, TValue arg)
+        public virtual TResult CaseTIgnoredtoken(TIgnoredtoken node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAProduction(AProduction node, TValue arg)
+        public TResult Visit(TProductionstoken node, T1 arg1)
         {
-            arg = InPProduction(node, arg);
-            arg = InAProduction(node, arg);
-            
-            arg = Visit(node.Identifier, arg);
-            if (node.HasProdtranslation)
-                arg = Visit((dynamic)node.Prodtranslation, arg);
-            arg = Visit(node.Equal, arg);
-            arg = Visit((dynamic)node.Productionrule, arg);
-            arg = Visit(node.Semicolon, arg);
-            
-            arg = OutAProduction(node, arg);
-            arg = OutPProduction(node, arg);
-            
-            return arg;
+            return CaseTProductionstoken(node, arg1);
         }
-        
-        public virtual TValue InPProdtranslation(PProdtranslation node, TValue arg)
+        public virtual TResult CaseTProductionstoken(TProductionstoken node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPProdtranslation(PProdtranslation node, TValue arg)
+        public TResult Visit(TAsttoken node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseTAsttoken(node, arg1);
         }
-        public virtual TValue InACleanProdtranslation(ACleanProdtranslation node, TValue arg)
+        public virtual TResult CaseTAsttoken(TAsttoken node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutACleanProdtranslation(ACleanProdtranslation node, TValue arg)
+        public TResult Visit(THighlighttoken node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseTHighlighttoken(node, arg1);
         }
-        public override TValue CaseACleanProdtranslation(ACleanProdtranslation node, TValue arg)
+        public virtual TResult CaseTHighlighttoken(THighlighttoken node, T1 arg1)
         {
-            arg = InPProdtranslation(node, arg);
-            arg = InACleanProdtranslation(node, arg);
-            
-            arg = Visit(node.Lpar, arg);
-            arg = Visit(node.Arrow, arg);
-            arg = Visit(node.Identifier, arg);
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutACleanProdtranslation(node, arg);
-            arg = OutPProdtranslation(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAStarProdtranslation(AStarProdtranslation node, TValue arg)
+        public TResult Visit(TNew node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseTNew(node, arg1);
         }
-        public virtual TValue OutAStarProdtranslation(AStarProdtranslation node, TValue arg)
+        public virtual TResult CaseTNew(TNew node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAStarProdtranslation(AStarProdtranslation node, TValue arg)
+        public TResult Visit(TNull node, T1 arg1)
         {
-            arg = InPProdtranslation(node, arg);
-            arg = InAStarProdtranslation(node, arg);
-            
-            arg = Visit(node.Lpar, arg);
-            arg = Visit(node.Arrow, arg);
-            arg = Visit(node.Identifier, arg);
-            arg = Visit(node.Star, arg);
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutAStarProdtranslation(node, arg);
-            arg = OutPProdtranslation(node, arg);
-            
-            return arg;
+            return CaseTNull(node, arg1);
         }
-        public virtual TValue InAPlusProdtranslation(APlusProdtranslation node, TValue arg)
+        public virtual TResult CaseTNull(TNull node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAPlusProdtranslation(APlusProdtranslation node, TValue arg)
+        public TResult Visit(TTokenSpecifier node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseTTokenSpecifier(node, arg1);
         }
-        public override TValue CaseAPlusProdtranslation(APlusProdtranslation node, TValue arg)
+        public virtual TResult CaseTTokenSpecifier(TTokenSpecifier node, T1 arg1)
         {
-            arg = InPProdtranslation(node, arg);
-            arg = InAPlusProdtranslation(node, arg);
-            
-            arg = Visit(node.Lpar, arg);
-            arg = Visit(node.Arrow, arg);
-            arg = Visit(node.Identifier, arg);
-            arg = Visit(node.Plus, arg);
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutAPlusProdtranslation(node, arg);
-            arg = OutPProdtranslation(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAQuestionProdtranslation(AQuestionProdtranslation node, TValue arg)
+        public TResult Visit(TProductionSpecifier node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseTProductionSpecifier(node, arg1);
         }
-        public virtual TValue OutAQuestionProdtranslation(AQuestionProdtranslation node, TValue arg)
+        public virtual TResult CaseTProductionSpecifier(TProductionSpecifier node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAQuestionProdtranslation(AQuestionProdtranslation node, TValue arg)
+        public TResult Visit(TDot node, T1 arg1)
         {
-            arg = InPProdtranslation(node, arg);
-            arg = InAQuestionProdtranslation(node, arg);
-            
-            arg = Visit(node.Lpar, arg);
-            arg = Visit(node.Arrow, arg);
-            arg = Visit(node.Identifier, arg);
-            arg = Visit(node.QMark, arg);
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutAQuestionProdtranslation(node, arg);
-            arg = OutPProdtranslation(node, arg);
-            
-            return arg;
+            return CaseTDot(node, arg1);
         }
-        
-        public virtual TValue InPTranslation(PTranslation node, TValue arg)
+        public virtual TResult CaseTDot(TDot node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPTranslation(PTranslation node, TValue arg)
+        public TResult Visit(TDDot node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseTDDot(node, arg1);
         }
-        public virtual TValue InAFullTranslation(AFullTranslation node, TValue arg)
+        public virtual TResult CaseTDDot(TDDot node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAFullTranslation(AFullTranslation node, TValue arg)
+        public TResult Visit(TSemicolon node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseTSemicolon(node, arg1);
         }
-        public override TValue CaseAFullTranslation(AFullTranslation node, TValue arg)
+        public virtual TResult CaseTSemicolon(TSemicolon node, T1 arg1)
         {
-            arg = InPTranslation(node, arg);
-            arg = InAFullTranslation(node, arg);
-            
-            arg = Visit(node.Lpar, arg);
-            arg = Visit(node.Arrow, arg);
-            arg = Visit((dynamic)node.Translation, arg);
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutAFullTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InANewTranslation(ANewTranslation node, TValue arg)
+        public TResult Visit(TEqual node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseTEqual(node, arg1);
         }
-        public virtual TValue OutANewTranslation(ANewTranslation node, TValue arg)
+        public virtual TResult CaseTEqual(TEqual node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseANewTranslation(ANewTranslation node, TValue arg)
+        public TResult Visit(TLBkt node, T1 arg1)
         {
-            arg = InPTranslation(node, arg);
-            arg = InANewTranslation(node, arg);
-            
-            arg = Visit(node.New, arg);
-            arg = Visit(node.Production, arg);
-            arg = Visit(node.Lpar, arg);
-            arg = Visit((dynamic)node.Arguments, arg);
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutANewTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return CaseTLBkt(node, arg1);
         }
-        public virtual TValue InANewalternativeTranslation(ANewalternativeTranslation node, TValue arg)
+        public virtual TResult CaseTLBkt(TLBkt node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutANewalternativeTranslation(ANewalternativeTranslation node, TValue arg)
+        public TResult Visit(TRBkt node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseTRBkt(node, arg1);
         }
-        public override TValue CaseANewalternativeTranslation(ANewalternativeTranslation node, TValue arg)
+        public virtual TResult CaseTRBkt(TRBkt node, T1 arg1)
         {
-            arg = InPTranslation(node, arg);
-            arg = InANewalternativeTranslation(node, arg);
-            
-            arg = Visit(node.New, arg);
-            arg = Visit(node.Production, arg);
-            arg = Visit(node.Dot, arg);
-            arg = Visit(node.Alternative, arg);
-            arg = Visit(node.Lpar, arg);
-            arg = Visit((dynamic)node.Arguments, arg);
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutANewalternativeTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAListTranslation(AListTranslation node, TValue arg)
+        public TResult Visit(TLPar node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseTLPar(node, arg1);
         }
-        public virtual TValue OutAListTranslation(AListTranslation node, TValue arg)
+        public virtual TResult CaseTLPar(TLPar node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAListTranslation(AListTranslation node, TValue arg)
+        public TResult Visit(TRPar node, T1 arg1)
         {
-            arg = InPTranslation(node, arg);
-            arg = InAListTranslation(node, arg);
-            
-            arg = Visit(node.Lpar, arg);
-            arg = Visit((dynamic)node.Elements, arg);
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutAListTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return CaseTRPar(node, arg1);
         }
-        public virtual TValue InANullTranslation(ANullTranslation node, TValue arg)
+        public virtual TResult CaseTRPar(TRPar node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutANullTranslation(ANullTranslation node, TValue arg)
+        public TResult Visit(TLBrace node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseTLBrace(node, arg1);
         }
-        public override TValue CaseANullTranslation(ANullTranslation node, TValue arg)
+        public virtual TResult CaseTLBrace(TLBrace node, T1 arg1)
         {
-            arg = InPTranslation(node, arg);
-            arg = InANullTranslation(node, arg);
-            
-            arg = Visit(node.Null, arg);
-            
-            arg = OutANullTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAIdTranslation(AIdTranslation node, TValue arg)
+        public TResult Visit(TRBrace node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseTRBrace(node, arg1);
         }
-        public virtual TValue OutAIdTranslation(AIdTranslation node, TValue arg)
+        public virtual TResult CaseTRBrace(TRBrace node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAIdTranslation(AIdTranslation node, TValue arg)
+        public TResult Visit(TPlus node, T1 arg1)
         {
-            arg = InPTranslation(node, arg);
-            arg = InAIdTranslation(node, arg);
-            
-            arg = Visit(node.Identifier, arg);
-            
-            arg = OutAIdTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return CaseTPlus(node, arg1);
         }
-        public virtual TValue InAIddotidTranslation(AIddotidTranslation node, TValue arg)
+        public virtual TResult CaseTPlus(TPlus node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAIddotidTranslation(AIddotidTranslation node, TValue arg)
+        public TResult Visit(TMinus node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseTMinus(node, arg1);
         }
-        public override TValue CaseAIddotidTranslation(AIddotidTranslation node, TValue arg)
+        public virtual TResult CaseTMinus(TMinus node, T1 arg1)
         {
-            arg = InPTranslation(node, arg);
-            arg = InAIddotidTranslation(node, arg);
-            
-            arg = Visit(node.Identifier, arg);
-            arg = Visit(node.Dot, arg);
-            arg = Visit(node.Production, arg);
-            
-            arg = OutAIddotidTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        
-        public virtual TValue InPProductionrule(PProductionrule node, TValue arg)
+        public TResult Visit(TQMark node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return CaseTQMark(node, arg1);
         }
-        public virtual TValue OutPProductionrule(PProductionrule node, TValue arg)
+        public virtual TResult CaseTQMark(TQMark node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAProductionrule(AProductionrule node, TValue arg)
+        public TResult Visit(TStar node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseTStar(node, arg1);
         }
-        public virtual TValue OutAProductionrule(AProductionrule node, TValue arg)
+        public virtual TResult CaseTStar(TStar node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAProductionrule(AProductionrule node, TValue arg)
+        public TResult Visit(TPipe node, T1 arg1)
         {
-            arg = InPProductionrule(node, arg);
-            arg = InAProductionrule(node, arg);
-            
-            {
-                PAlternative[] temp = new PAlternative[node.Alternatives.Count];
-                node.Alternatives.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutAProductionrule(node, arg);
-            arg = OutPProductionrule(node, arg);
-            
-            return arg;
+            return CaseTPipe(node, arg1);
         }
-        
-        public virtual TValue InPAlternative(PAlternative node, TValue arg)
+        public virtual TResult CaseTPipe(TPipe node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPAlternative(PAlternative node, TValue arg)
+        public TResult Visit(TComma node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseTComma(node, arg1);
         }
-        public virtual TValue InAAlternative(AAlternative node, TValue arg)
+        public virtual TResult CaseTComma(TComma node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAAlternative(AAlternative node, TValue arg)
+        public TResult Visit(TSlash node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseTSlash(node, arg1);
         }
-        public override TValue CaseAAlternative(AAlternative node, TValue arg)
+        public virtual TResult CaseTSlash(TSlash node, T1 arg1)
         {
-            arg = InPAlternative(node, arg);
-            arg = InAAlternative(node, arg);
-            
-            if (node.HasPipe)
-                arg = Visit(node.Pipe, arg);
-            if (node.HasAlternativename)
-                arg = Visit((dynamic)node.Alternativename, arg);
-            arg = Visit((dynamic)node.Elements, arg);
-            if (node.HasTranslation)
-                arg = Visit((dynamic)node.Translation, arg);
-            
-            arg = OutAAlternative(node, arg);
-            arg = OutPAlternative(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        
-        public virtual TValue InPAlternativename(PAlternativename node, TValue arg)
+        public TResult Visit(TArrow node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return CaseTArrow(node, arg1);
         }
-        public virtual TValue OutPAlternativename(PAlternativename node, TValue arg)
+        public virtual TResult CaseTArrow(TArrow node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAAlternativename(AAlternativename node, TValue arg)
+        public TResult Visit(TColon node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseTColon(node, arg1);
         }
-        public virtual TValue OutAAlternativename(AAlternativename node, TValue arg)
+        public virtual TResult CaseTColon(TColon node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAAlternativename(AAlternativename node, TValue arg)
+        public TResult Visit(TIdentifier node, T1 arg1)
         {
-            arg = InPAlternativename(node, arg);
-            arg = InAAlternativename(node, arg);
-            
-            arg = Visit(node.Lpar, arg);
-            arg = Visit(node.Name, arg);
-            arg = Visit(node.Rpar, arg);
-            
-            arg = OutAAlternativename(node, arg);
-            arg = OutPAlternativename(node, arg);
-            
-            return arg;
+            return CaseTIdentifier(node, arg1);
         }
-        
-        public virtual TValue InPElements(PElements node, TValue arg)
+        public virtual TResult CaseTIdentifier(TIdentifier node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPElements(PElements node, TValue arg)
+        public TResult Visit(TCharacter node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseTCharacter(node, arg1);
         }
-        public virtual TValue InAElements(AElements node, TValue arg)
+        public virtual TResult CaseTCharacter(TCharacter node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAElements(AElements node, TValue arg)
+        public TResult Visit(TDecChar node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseTDecChar(node, arg1);
         }
-        public override TValue CaseAElements(AElements node, TValue arg)
+        public virtual TResult CaseTDecChar(TDecChar node, T1 arg1)
         {
-            arg = InPElements(node, arg);
-            arg = InAElements(node, arg);
-            
-            {
-                PElement[] temp = new PElement[node.Element.Count];
-                node.Element.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutAElements(node, arg);
-            arg = OutPElements(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        
-        public virtual TValue InPElement(PElement node, TValue arg)
+        public TResult Visit(THexChar node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return CaseTHexChar(node, arg1);
         }
-        public virtual TValue OutPElement(PElement node, TValue arg)
+        public virtual TResult CaseTHexChar(THexChar node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InASimpleElement(ASimpleElement node, TValue arg)
+        public TResult Visit(TString node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseTString(node, arg1);
         }
-        public virtual TValue OutASimpleElement(ASimpleElement node, TValue arg)
+        public virtual TResult CaseTString(TString node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseASimpleElement(ASimpleElement node, TValue arg)
+        public TResult Visit(TBlank node, T1 arg1)
         {
-            arg = InPElement(node, arg);
-            arg = InASimpleElement(node, arg);
-            
-            if (node.HasElementname)
-                arg = Visit((dynamic)node.Elementname, arg);
-            arg = Visit((dynamic)node.Elementid, arg);
-            
-            arg = OutASimpleElement(node, arg);
-            arg = OutPElement(node, arg);
-            
-            return arg;
+            return CaseTBlank(node, arg1);
         }
-        public virtual TValue InAStarElement(AStarElement node, TValue arg)
+        public virtual TResult CaseTBlank(TBlank node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAStarElement(AStarElement node, TValue arg)
+        public TResult Visit(TComment node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseTComment(node, arg1);
         }
-        public override TValue CaseAStarElement(AStarElement node, TValue arg)
+        public virtual TResult CaseTComment(TComment node, T1 arg1)
         {
-            arg = InPElement(node, arg);
-            arg = InAStarElement(node, arg);
-            
-            if (node.HasElementname)
-                arg = Visit((dynamic)node.Elementname, arg);
-            arg = Visit((dynamic)node.Elementid, arg);
-            arg = Visit(node.Star, arg);
-            
-            arg = OutAStarElement(node, arg);
-            arg = OutPElement(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAQuestionElement(AQuestionElement node, TValue arg)
+        public TResult Visit(TItalic node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseTItalic(node, arg1);
         }
-        public virtual TValue OutAQuestionElement(AQuestionElement node, TValue arg)
+        public virtual TResult CaseTItalic(TItalic node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAQuestionElement(AQuestionElement node, TValue arg)
+        public TResult Visit(TBold node, T1 arg1)
         {
-            arg = InPElement(node, arg);
-            arg = InAQuestionElement(node, arg);
-            
-            if (node.HasElementname)
-                arg = Visit((dynamic)node.Elementname, arg);
-            arg = Visit((dynamic)node.Elementid, arg);
-            arg = Visit(node.QMark, arg);
-            
-            arg = OutAQuestionElement(node, arg);
-            arg = OutPElement(node, arg);
-            
-            return arg;
+            return CaseTBold(node, arg1);
         }
-        public virtual TValue InAPlusElement(APlusElement node, TValue arg)
+        public virtual TResult CaseTBold(TBold node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutAPlusElement(APlusElement node, TValue arg)
+        public TResult Visit(TText node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return CaseTText(node, arg1);
         }
-        public override TValue CaseAPlusElement(APlusElement node, TValue arg)
+        public virtual TResult CaseTText(TText node, T1 arg1)
         {
-            arg = InPElement(node, arg);
-            arg = InAPlusElement(node, arg);
-            
-            if (node.HasElementname)
-                arg = Visit((dynamic)node.Elementname, arg);
-            arg = Visit((dynamic)node.Elementid, arg);
-            arg = Visit(node.Plus, arg);
-            
-            arg = OutAPlusElement(node, arg);
-            arg = OutPElement(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
-        
-        public virtual TValue InPElementname(PElementname node, TValue arg)
+        public TResult Visit(TBackground node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return CaseTBackground(node, arg1);
         }
-        public virtual TValue OutPElementname(PElementname node, TValue arg)
+        public virtual TResult CaseTBackground(TBackground node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue InAElementname(AElementname node, TValue arg)
+        public TResult Visit(TRgb node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
+            return CaseTRgb(node, arg1);
         }
-        public virtual TValue OutAElementname(AElementname node, TValue arg)
+        public virtual TResult CaseTRgb(TRgb node, T1 arg1)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public override TValue CaseAElementname(AElementname node, TValue arg)
+        public TResult Visit(THsv node, T1 arg1)
         {
-            arg = InPElementname(node, arg);
-            arg = InAElementname(node, arg);
-            
-            arg = Visit(node.Lpar, arg);
-            arg = Visit(node.Name, arg);
-            arg = Visit(node.Rpar, arg);
-            arg = Visit(node.Colon, arg);
-            
-            arg = OutAElementname(node, arg);
-            arg = OutPElementname(node, arg);
-            
-            return arg;
+            return CaseTHsv(node, arg1);
         }
-        
-        public virtual TValue InPElementid(PElementid node, TValue arg)
+        public virtual TResult CaseTHsv(THsv node, T1 arg1)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1);
         }
-        public virtual TValue OutPElementid(PElementid node, TValue arg)
+        public TResult Visit(THexColor node, T1 arg1)
         {
-            return DefaultPOut(node, arg);
+            return CaseTHexColor(node, arg1);
         }
-        public virtual TValue InACleanElementid(ACleanElementid node, TValue arg)
+        public virtual TResult CaseTHexColor(THexColor node, T1 arg1)
         {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutACleanElementid(ACleanElementid node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseACleanElementid(ACleanElementid node, TValue arg)
-        {
-            arg = InPElementid(node, arg);
-            arg = InACleanElementid(node, arg);
-            
-            arg = Visit(node.Identifier, arg);
-            
-            arg = OutACleanElementid(node, arg);
-            arg = OutPElementid(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InATokenElementid(ATokenElementid node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutATokenElementid(ATokenElementid node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseATokenElementid(ATokenElementid node, TValue arg)
-        {
-            arg = InPElementid(node, arg);
-            arg = InATokenElementid(node, arg);
-            
-            arg = Visit(node.TokenSpecifier, arg);
-            arg = Visit(node.Dot, arg);
-            arg = Visit(node.Identifier, arg);
-            
-            arg = OutATokenElementid(node, arg);
-            arg = OutPElementid(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InAProductionElementid(AProductionElementid node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutAProductionElementid(AProductionElementid node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseAProductionElementid(AProductionElementid node, TValue arg)
-        {
-            arg = InPElementid(node, arg);
-            arg = InAProductionElementid(node, arg);
-            
-            arg = Visit(node.ProductionSpecifier, arg);
-            arg = Visit(node.Dot, arg);
-            arg = Visit(node.Identifier, arg);
-            
-            arg = OutAProductionElementid(node, arg);
-            arg = OutPElementid(node, arg);
-            
-            return arg;
-        }
-        
-        public virtual TValue InPHighlightrules(PHighlightrules node, TValue arg)
-        {
-            return DefaultPIn(node, arg);
-        }
-        public virtual TValue OutPHighlightrules(PHighlightrules node, TValue arg)
-        {
-            return DefaultPOut(node, arg);
-        }
-        public virtual TValue InAHighlightrules(AHighlightrules node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutAHighlightrules(AHighlightrules node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseAHighlightrules(AHighlightrules node, TValue arg)
-        {
-            arg = InPHighlightrules(node, arg);
-            arg = InAHighlightrules(node, arg);
-            
-            arg = Visit(node.Highlighttoken, arg);
-            {
-                PHighlightrule[] temp = new PHighlightrule[node.Highlightrule.Count];
-                node.Highlightrule.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutAHighlightrules(node, arg);
-            arg = OutPHighlightrules(node, arg);
-            
-            return arg;
-        }
-        
-        public virtual TValue InPHighlightrule(PHighlightrule node, TValue arg)
-        {
-            return DefaultPIn(node, arg);
-        }
-        public virtual TValue OutPHighlightrule(PHighlightrule node, TValue arg)
-        {
-            return DefaultPOut(node, arg);
-        }
-        public virtual TValue InAHighlightrule(AHighlightrule node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutAHighlightrule(AHighlightrule node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseAHighlightrule(AHighlightrule node, TValue arg)
-        {
-            arg = InPHighlightrule(node, arg);
-            arg = InAHighlightrule(node, arg);
-            
-            arg = Visit(node.Name, arg);
-            arg = Visit(node.Lpar, arg);
-            arg = Visit((dynamic)node.Tokens, arg);
-            arg = Visit(node.Rpar, arg);
-            arg = Visit((dynamic)node.List, arg);
-            arg = Visit(node.Semicolon, arg);
-            
-            arg = OutAHighlightrule(node, arg);
-            arg = OutPHighlightrule(node, arg);
-            
-            return arg;
-        }
-        
-        public virtual TValue InPHighlightStyle(PHighlightStyle node, TValue arg)
-        {
-            return DefaultPIn(node, arg);
-        }
-        public virtual TValue OutPHighlightStyle(PHighlightStyle node, TValue arg)
-        {
-            return DefaultPOut(node, arg);
-        }
-        public virtual TValue InAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
-        {
-            arg = InPHighlightStyle(node, arg);
-            arg = InAItalicHighlightStyle(node, arg);
-            
-            arg = Visit(node.Italic, arg);
-            
-            arg = OutAItalicHighlightStyle(node, arg);
-            arg = OutPHighlightStyle(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
-        {
-            arg = InPHighlightStyle(node, arg);
-            arg = InABoldHighlightStyle(node, arg);
-            
-            arg = Visit(node.Bold, arg);
-            
-            arg = OutABoldHighlightStyle(node, arg);
-            arg = OutPHighlightStyle(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InATextHighlightStyle(ATextHighlightStyle node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutATextHighlightStyle(ATextHighlightStyle node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseATextHighlightStyle(ATextHighlightStyle node, TValue arg)
-        {
-            arg = InPHighlightStyle(node, arg);
-            arg = InATextHighlightStyle(node, arg);
-            
-            arg = Visit(node.Text, arg);
-            arg = Visit(node.Colon, arg);
-            arg = Visit((dynamic)node.Color, arg);
-            
-            arg = OutATextHighlightStyle(node, arg);
-            arg = OutPHighlightStyle(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
-        {
-            arg = InPHighlightStyle(node, arg);
-            arg = InABackgroundHighlightStyle(node, arg);
-            
-            arg = Visit(node.Background, arg);
-            arg = Visit(node.Colon, arg);
-            arg = Visit((dynamic)node.Color, arg);
-            
-            arg = OutABackgroundHighlightStyle(node, arg);
-            arg = OutPHighlightStyle(node, arg);
-            
-            return arg;
-        }
-        
-        public virtual TValue InPColor(PColor node, TValue arg)
-        {
-            return DefaultPIn(node, arg);
-        }
-        public virtual TValue OutPColor(PColor node, TValue arg)
-        {
-            return DefaultPOut(node, arg);
-        }
-        public virtual TValue InARgbColor(ARgbColor node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutARgbColor(ARgbColor node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseARgbColor(ARgbColor node, TValue arg)
-        {
-            arg = InPColor(node, arg);
-            arg = InARgbColor(node, arg);
-            
-            arg = Visit(node.Rgb, arg);
-            arg = Visit(node.LPar, arg);
-            arg = Visit(node.Red, arg);
-            arg = Visit(node.Comma1, arg);
-            arg = Visit(node.Green, arg);
-            arg = Visit(node.Comma2, arg);
-            arg = Visit(node.Blue, arg);
-            arg = Visit(node.RPar, arg);
-            
-            arg = OutARgbColor(node, arg);
-            arg = OutPColor(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InAHsvColor(AHsvColor node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutAHsvColor(AHsvColor node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseAHsvColor(AHsvColor node, TValue arg)
-        {
-            arg = InPColor(node, arg);
-            arg = InAHsvColor(node, arg);
-            
-            arg = Visit(node.Hsv, arg);
-            arg = Visit(node.LPar, arg);
-            arg = Visit(node.Hue, arg);
-            arg = Visit(node.Comma1, arg);
-            arg = Visit(node.Saturation, arg);
-            arg = Visit(node.Comma2, arg);
-            arg = Visit(node.Brightness, arg);
-            arg = Visit(node.RPar, arg);
-            
-            arg = OutAHsvColor(node, arg);
-            arg = OutPColor(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InAHexColor(AHexColor node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutAHexColor(AHexColor node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseAHexColor(AHexColor node, TValue arg)
-        {
-            arg = InPColor(node, arg);
-            arg = InAHexColor(node, arg);
-            
-            arg = Visit(node.Color, arg);
-            
-            arg = OutAHexColor(node, arg);
-            arg = OutPColor(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1);
         }
     }
-    
-    public class ReverseDepthFirstReturnAdapter : ReverseDepthFirstReturnAdapter<object>
+    public class ReturnAnalysisAdapter<T1, T2, TResult> : ReturnAdapter<T1, T2, TResult, PGrammar>
     {
+        public TResult Visit(AGrammar node, T1 arg1, T2 arg2)
+        {
+            return CaseAGrammar(node, arg1, arg2);
+        }
+        public virtual TResult CaseAGrammar(AGrammar node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(APackage node, T1 arg1, T2 arg2)
+        {
+            return CaseAPackage(node, arg1, arg2);
+        }
+        public virtual TResult CaseAPackage(APackage node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AHelpers node, T1 arg1, T2 arg2)
+        {
+            return CaseAHelpers(node, arg1, arg2);
+        }
+        public virtual TResult CaseAHelpers(AHelpers node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AHelper node, T1 arg1, T2 arg2)
+        {
+            return CaseAHelper(node, arg1, arg2);
+        }
+        public virtual TResult CaseAHelper(AHelper node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ATokens node, T1 arg1, T2 arg2)
+        {
+            return CaseATokens(node, arg1, arg2);
+        }
+        public virtual TResult CaseATokens(ATokens node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AToken node, T1 arg1, T2 arg2)
+        {
+            return CaseAToken(node, arg1, arg2);
+        }
+        public virtual TResult CaseAToken(AToken node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ATokenlookahead node, T1 arg1, T2 arg2)
+        {
+            return CaseATokenlookahead(node, arg1, arg2);
+        }
+        public virtual TResult CaseATokenlookahead(ATokenlookahead node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ARegex node, T1 arg1, T2 arg2)
+        {
+            return CaseARegex(node, arg1, arg2);
+        }
+        public virtual TResult CaseARegex(ARegex node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ARegexOrpart node, T1 arg1, T2 arg2)
+        {
+            return CaseARegexOrpart(node, arg1, arg2);
+        }
+        public virtual TResult CaseARegexOrpart(ARegexOrpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ACharRegexpart node, T1 arg1, T2 arg2)
+        {
+            return CaseACharRegexpart(node, arg1, arg2);
+        }
+        public virtual TResult CaseACharRegexpart(ACharRegexpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ADecRegexpart node, T1 arg1, T2 arg2)
+        {
+            return CaseADecRegexpart(node, arg1, arg2);
+        }
+        public virtual TResult CaseADecRegexpart(ADecRegexpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AHexRegexpart node, T1 arg1, T2 arg2)
+        {
+            return CaseAHexRegexpart(node, arg1, arg2);
+        }
+        public virtual TResult CaseAHexRegexpart(AHexRegexpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AUnarystarRegexpart node, T1 arg1, T2 arg2)
+        {
+            return CaseAUnarystarRegexpart(node, arg1, arg2);
+        }
+        public virtual TResult CaseAUnarystarRegexpart(AUnarystarRegexpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AUnaryquestionRegexpart node, T1 arg1, T2 arg2)
+        {
+            return CaseAUnaryquestionRegexpart(node, arg1, arg2);
+        }
+        public virtual TResult CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AUnaryplusRegexpart node, T1 arg1, T2 arg2)
+        {
+            return CaseAUnaryplusRegexpart(node, arg1, arg2);
+        }
+        public virtual TResult CaseAUnaryplusRegexpart(AUnaryplusRegexpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ABinaryplusRegexpart node, T1 arg1, T2 arg2)
+        {
+            return CaseABinaryplusRegexpart(node, arg1, arg2);
+        }
+        public virtual TResult CaseABinaryplusRegexpart(ABinaryplusRegexpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ABinaryminusRegexpart node, T1 arg1, T2 arg2)
+        {
+            return CaseABinaryminusRegexpart(node, arg1, arg2);
+        }
+        public virtual TResult CaseABinaryminusRegexpart(ABinaryminusRegexpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AIntervalRegexpart node, T1 arg1, T2 arg2)
+        {
+            return CaseAIntervalRegexpart(node, arg1, arg2);
+        }
+        public virtual TResult CaseAIntervalRegexpart(AIntervalRegexpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AStringRegexpart node, T1 arg1, T2 arg2)
+        {
+            return CaseAStringRegexpart(node, arg1, arg2);
+        }
+        public virtual TResult CaseAStringRegexpart(AStringRegexpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AIdentifierRegexpart node, T1 arg1, T2 arg2)
+        {
+            return CaseAIdentifierRegexpart(node, arg1, arg2);
+        }
+        public virtual TResult CaseAIdentifierRegexpart(AIdentifierRegexpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AParenthesisRegexpart node, T1 arg1, T2 arg2)
+        {
+            return CaseAParenthesisRegexpart(node, arg1, arg2);
+        }
+        public virtual TResult CaseAParenthesisRegexpart(AParenthesisRegexpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AStates node, T1 arg1, T2 arg2)
+        {
+            return CaseAStates(node, arg1, arg2);
+        }
+        public virtual TResult CaseAStates(AStates node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AIgnoredtokens node, T1 arg1, T2 arg2)
+        {
+            return CaseAIgnoredtokens(node, arg1, arg2);
+        }
+        public virtual TResult CaseAIgnoredtokens(AIgnoredtokens node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AIdentifierList node, T1 arg1, T2 arg2)
+        {
+            return CaseAIdentifierList(node, arg1, arg2);
+        }
+        public virtual TResult CaseAIdentifierList(AIdentifierList node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ATokenstateList node, T1 arg1, T2 arg2)
+        {
+            return CaseATokenstateList(node, arg1, arg2);
+        }
+        public virtual TResult CaseATokenstateList(ATokenstateList node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ATranslationList node, T1 arg1, T2 arg2)
+        {
+            return CaseATranslationList(node, arg1, arg2);
+        }
+        public virtual TResult CaseATranslationList(ATranslationList node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AStyleList node, T1 arg1, T2 arg2)
+        {
+            return CaseAStyleList(node, arg1, arg2);
+        }
+        public virtual TResult CaseAStyleList(AStyleList node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AIdentifierListitem node, T1 arg1, T2 arg2)
+        {
+            return CaseAIdentifierListitem(node, arg1, arg2);
+        }
+        public virtual TResult CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ATokenstateListitem node, T1 arg1, T2 arg2)
+        {
+            return CaseATokenstateListitem(node, arg1, arg2);
+        }
+        public virtual TResult CaseATokenstateListitem(ATokenstateListitem node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ATokenstatetransitionListitem node, T1 arg1, T2 arg2)
+        {
+            return CaseATokenstatetransitionListitem(node, arg1, arg2);
+        }
+        public virtual TResult CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ATranslationListitem node, T1 arg1, T2 arg2)
+        {
+            return CaseATranslationListitem(node, arg1, arg2);
+        }
+        public virtual TResult CaseATranslationListitem(ATranslationListitem node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AStyleListitem node, T1 arg1, T2 arg2)
+        {
+            return CaseAStyleListitem(node, arg1, arg2);
+        }
+        public virtual TResult CaseAStyleListitem(AStyleListitem node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AProductions node, T1 arg1, T2 arg2)
+        {
+            return CaseAProductions(node, arg1, arg2);
+        }
+        public virtual TResult CaseAProductions(AProductions node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AAstproductions node, T1 arg1, T2 arg2)
+        {
+            return CaseAAstproductions(node, arg1, arg2);
+        }
+        public virtual TResult CaseAAstproductions(AAstproductions node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AProduction node, T1 arg1, T2 arg2)
+        {
+            return CaseAProduction(node, arg1, arg2);
+        }
+        public virtual TResult CaseAProduction(AProduction node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ACleanProdtranslation node, T1 arg1, T2 arg2)
+        {
+            return CaseACleanProdtranslation(node, arg1, arg2);
+        }
+        public virtual TResult CaseACleanProdtranslation(ACleanProdtranslation node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AStarProdtranslation node, T1 arg1, T2 arg2)
+        {
+            return CaseAStarProdtranslation(node, arg1, arg2);
+        }
+        public virtual TResult CaseAStarProdtranslation(AStarProdtranslation node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(APlusProdtranslation node, T1 arg1, T2 arg2)
+        {
+            return CaseAPlusProdtranslation(node, arg1, arg2);
+        }
+        public virtual TResult CaseAPlusProdtranslation(APlusProdtranslation node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AQuestionProdtranslation node, T1 arg1, T2 arg2)
+        {
+            return CaseAQuestionProdtranslation(node, arg1, arg2);
+        }
+        public virtual TResult CaseAQuestionProdtranslation(AQuestionProdtranslation node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AFullTranslation node, T1 arg1, T2 arg2)
+        {
+            return CaseAFullTranslation(node, arg1, arg2);
+        }
+        public virtual TResult CaseAFullTranslation(AFullTranslation node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ANewTranslation node, T1 arg1, T2 arg2)
+        {
+            return CaseANewTranslation(node, arg1, arg2);
+        }
+        public virtual TResult CaseANewTranslation(ANewTranslation node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ANewalternativeTranslation node, T1 arg1, T2 arg2)
+        {
+            return CaseANewalternativeTranslation(node, arg1, arg2);
+        }
+        public virtual TResult CaseANewalternativeTranslation(ANewalternativeTranslation node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AListTranslation node, T1 arg1, T2 arg2)
+        {
+            return CaseAListTranslation(node, arg1, arg2);
+        }
+        public virtual TResult CaseAListTranslation(AListTranslation node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ANullTranslation node, T1 arg1, T2 arg2)
+        {
+            return CaseANullTranslation(node, arg1, arg2);
+        }
+        public virtual TResult CaseANullTranslation(ANullTranslation node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AIdTranslation node, T1 arg1, T2 arg2)
+        {
+            return CaseAIdTranslation(node, arg1, arg2);
+        }
+        public virtual TResult CaseAIdTranslation(AIdTranslation node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AIddotidTranslation node, T1 arg1, T2 arg2)
+        {
+            return CaseAIddotidTranslation(node, arg1, arg2);
+        }
+        public virtual TResult CaseAIddotidTranslation(AIddotidTranslation node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AProductionrule node, T1 arg1, T2 arg2)
+        {
+            return CaseAProductionrule(node, arg1, arg2);
+        }
+        public virtual TResult CaseAProductionrule(AProductionrule node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AAlternative node, T1 arg1, T2 arg2)
+        {
+            return CaseAAlternative(node, arg1, arg2);
+        }
+        public virtual TResult CaseAAlternative(AAlternative node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AAlternativename node, T1 arg1, T2 arg2)
+        {
+            return CaseAAlternativename(node, arg1, arg2);
+        }
+        public virtual TResult CaseAAlternativename(AAlternativename node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AElements node, T1 arg1, T2 arg2)
+        {
+            return CaseAElements(node, arg1, arg2);
+        }
+        public virtual TResult CaseAElements(AElements node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ASimpleElement node, T1 arg1, T2 arg2)
+        {
+            return CaseASimpleElement(node, arg1, arg2);
+        }
+        public virtual TResult CaseASimpleElement(ASimpleElement node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AStarElement node, T1 arg1, T2 arg2)
+        {
+            return CaseAStarElement(node, arg1, arg2);
+        }
+        public virtual TResult CaseAStarElement(AStarElement node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AQuestionElement node, T1 arg1, T2 arg2)
+        {
+            return CaseAQuestionElement(node, arg1, arg2);
+        }
+        public virtual TResult CaseAQuestionElement(AQuestionElement node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(APlusElement node, T1 arg1, T2 arg2)
+        {
+            return CaseAPlusElement(node, arg1, arg2);
+        }
+        public virtual TResult CaseAPlusElement(APlusElement node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AElementname node, T1 arg1, T2 arg2)
+        {
+            return CaseAElementname(node, arg1, arg2);
+        }
+        public virtual TResult CaseAElementname(AElementname node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ACleanElementid node, T1 arg1, T2 arg2)
+        {
+            return CaseACleanElementid(node, arg1, arg2);
+        }
+        public virtual TResult CaseACleanElementid(ACleanElementid node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ATokenElementid node, T1 arg1, T2 arg2)
+        {
+            return CaseATokenElementid(node, arg1, arg2);
+        }
+        public virtual TResult CaseATokenElementid(ATokenElementid node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AProductionElementid node, T1 arg1, T2 arg2)
+        {
+            return CaseAProductionElementid(node, arg1, arg2);
+        }
+        public virtual TResult CaseAProductionElementid(AProductionElementid node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AHighlightrules node, T1 arg1, T2 arg2)
+        {
+            return CaseAHighlightrules(node, arg1, arg2);
+        }
+        public virtual TResult CaseAHighlightrules(AHighlightrules node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AHighlightrule node, T1 arg1, T2 arg2)
+        {
+            return CaseAHighlightrule(node, arg1, arg2);
+        }
+        public virtual TResult CaseAHighlightrule(AHighlightrule node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AItalicHighlightStyle node, T1 arg1, T2 arg2)
+        {
+            return CaseAItalicHighlightStyle(node, arg1, arg2);
+        }
+        public virtual TResult CaseAItalicHighlightStyle(AItalicHighlightStyle node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ABoldHighlightStyle node, T1 arg1, T2 arg2)
+        {
+            return CaseABoldHighlightStyle(node, arg1, arg2);
+        }
+        public virtual TResult CaseABoldHighlightStyle(ABoldHighlightStyle node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ATextHighlightStyle node, T1 arg1, T2 arg2)
+        {
+            return CaseATextHighlightStyle(node, arg1, arg2);
+        }
+        public virtual TResult CaseATextHighlightStyle(ATextHighlightStyle node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ABackgroundHighlightStyle node, T1 arg1, T2 arg2)
+        {
+            return CaseABackgroundHighlightStyle(node, arg1, arg2);
+        }
+        public virtual TResult CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(ARgbColor node, T1 arg1, T2 arg2)
+        {
+            return CaseARgbColor(node, arg1, arg2);
+        }
+        public virtual TResult CaseARgbColor(ARgbColor node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AHsvColor node, T1 arg1, T2 arg2)
+        {
+            return CaseAHsvColor(node, arg1, arg2);
+        }
+        public virtual TResult CaseAHsvColor(AHsvColor node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(AHexColor node, T1 arg1, T2 arg2)
+        {
+            return CaseAHexColor(node, arg1, arg2);
+        }
+        public virtual TResult CaseAHexColor(AHexColor node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TPackagename node, T1 arg1, T2 arg2)
+        {
+            return CaseTPackagename(node, arg1, arg2);
+        }
+        public virtual TResult CaseTPackagename(TPackagename node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TPackagetoken node, T1 arg1, T2 arg2)
+        {
+            return CaseTPackagetoken(node, arg1, arg2);
+        }
+        public virtual TResult CaseTPackagetoken(TPackagetoken node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TStatestoken node, T1 arg1, T2 arg2)
+        {
+            return CaseTStatestoken(node, arg1, arg2);
+        }
+        public virtual TResult CaseTStatestoken(TStatestoken node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(THelperstoken node, T1 arg1, T2 arg2)
+        {
+            return CaseTHelperstoken(node, arg1, arg2);
+        }
+        public virtual TResult CaseTHelperstoken(THelperstoken node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TTokenstoken node, T1 arg1, T2 arg2)
+        {
+            return CaseTTokenstoken(node, arg1, arg2);
+        }
+        public virtual TResult CaseTTokenstoken(TTokenstoken node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TIgnoredtoken node, T1 arg1, T2 arg2)
+        {
+            return CaseTIgnoredtoken(node, arg1, arg2);
+        }
+        public virtual TResult CaseTIgnoredtoken(TIgnoredtoken node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TProductionstoken node, T1 arg1, T2 arg2)
+        {
+            return CaseTProductionstoken(node, arg1, arg2);
+        }
+        public virtual TResult CaseTProductionstoken(TProductionstoken node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TAsttoken node, T1 arg1, T2 arg2)
+        {
+            return CaseTAsttoken(node, arg1, arg2);
+        }
+        public virtual TResult CaseTAsttoken(TAsttoken node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(THighlighttoken node, T1 arg1, T2 arg2)
+        {
+            return CaseTHighlighttoken(node, arg1, arg2);
+        }
+        public virtual TResult CaseTHighlighttoken(THighlighttoken node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TNew node, T1 arg1, T2 arg2)
+        {
+            return CaseTNew(node, arg1, arg2);
+        }
+        public virtual TResult CaseTNew(TNew node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TNull node, T1 arg1, T2 arg2)
+        {
+            return CaseTNull(node, arg1, arg2);
+        }
+        public virtual TResult CaseTNull(TNull node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TTokenSpecifier node, T1 arg1, T2 arg2)
+        {
+            return CaseTTokenSpecifier(node, arg1, arg2);
+        }
+        public virtual TResult CaseTTokenSpecifier(TTokenSpecifier node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TProductionSpecifier node, T1 arg1, T2 arg2)
+        {
+            return CaseTProductionSpecifier(node, arg1, arg2);
+        }
+        public virtual TResult CaseTProductionSpecifier(TProductionSpecifier node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TDot node, T1 arg1, T2 arg2)
+        {
+            return CaseTDot(node, arg1, arg2);
+        }
+        public virtual TResult CaseTDot(TDot node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TDDot node, T1 arg1, T2 arg2)
+        {
+            return CaseTDDot(node, arg1, arg2);
+        }
+        public virtual TResult CaseTDDot(TDDot node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TSemicolon node, T1 arg1, T2 arg2)
+        {
+            return CaseTSemicolon(node, arg1, arg2);
+        }
+        public virtual TResult CaseTSemicolon(TSemicolon node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TEqual node, T1 arg1, T2 arg2)
+        {
+            return CaseTEqual(node, arg1, arg2);
+        }
+        public virtual TResult CaseTEqual(TEqual node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TLBkt node, T1 arg1, T2 arg2)
+        {
+            return CaseTLBkt(node, arg1, arg2);
+        }
+        public virtual TResult CaseTLBkt(TLBkt node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TRBkt node, T1 arg1, T2 arg2)
+        {
+            return CaseTRBkt(node, arg1, arg2);
+        }
+        public virtual TResult CaseTRBkt(TRBkt node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TLPar node, T1 arg1, T2 arg2)
+        {
+            return CaseTLPar(node, arg1, arg2);
+        }
+        public virtual TResult CaseTLPar(TLPar node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TRPar node, T1 arg1, T2 arg2)
+        {
+            return CaseTRPar(node, arg1, arg2);
+        }
+        public virtual TResult CaseTRPar(TRPar node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TLBrace node, T1 arg1, T2 arg2)
+        {
+            return CaseTLBrace(node, arg1, arg2);
+        }
+        public virtual TResult CaseTLBrace(TLBrace node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TRBrace node, T1 arg1, T2 arg2)
+        {
+            return CaseTRBrace(node, arg1, arg2);
+        }
+        public virtual TResult CaseTRBrace(TRBrace node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TPlus node, T1 arg1, T2 arg2)
+        {
+            return CaseTPlus(node, arg1, arg2);
+        }
+        public virtual TResult CaseTPlus(TPlus node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TMinus node, T1 arg1, T2 arg2)
+        {
+            return CaseTMinus(node, arg1, arg2);
+        }
+        public virtual TResult CaseTMinus(TMinus node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TQMark node, T1 arg1, T2 arg2)
+        {
+            return CaseTQMark(node, arg1, arg2);
+        }
+        public virtual TResult CaseTQMark(TQMark node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TStar node, T1 arg1, T2 arg2)
+        {
+            return CaseTStar(node, arg1, arg2);
+        }
+        public virtual TResult CaseTStar(TStar node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TPipe node, T1 arg1, T2 arg2)
+        {
+            return CaseTPipe(node, arg1, arg2);
+        }
+        public virtual TResult CaseTPipe(TPipe node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TComma node, T1 arg1, T2 arg2)
+        {
+            return CaseTComma(node, arg1, arg2);
+        }
+        public virtual TResult CaseTComma(TComma node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TSlash node, T1 arg1, T2 arg2)
+        {
+            return CaseTSlash(node, arg1, arg2);
+        }
+        public virtual TResult CaseTSlash(TSlash node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TArrow node, T1 arg1, T2 arg2)
+        {
+            return CaseTArrow(node, arg1, arg2);
+        }
+        public virtual TResult CaseTArrow(TArrow node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TColon node, T1 arg1, T2 arg2)
+        {
+            return CaseTColon(node, arg1, arg2);
+        }
+        public virtual TResult CaseTColon(TColon node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TIdentifier node, T1 arg1, T2 arg2)
+        {
+            return CaseTIdentifier(node, arg1, arg2);
+        }
+        public virtual TResult CaseTIdentifier(TIdentifier node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TCharacter node, T1 arg1, T2 arg2)
+        {
+            return CaseTCharacter(node, arg1, arg2);
+        }
+        public virtual TResult CaseTCharacter(TCharacter node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TDecChar node, T1 arg1, T2 arg2)
+        {
+            return CaseTDecChar(node, arg1, arg2);
+        }
+        public virtual TResult CaseTDecChar(TDecChar node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(THexChar node, T1 arg1, T2 arg2)
+        {
+            return CaseTHexChar(node, arg1, arg2);
+        }
+        public virtual TResult CaseTHexChar(THexChar node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TString node, T1 arg1, T2 arg2)
+        {
+            return CaseTString(node, arg1, arg2);
+        }
+        public virtual TResult CaseTString(TString node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TBlank node, T1 arg1, T2 arg2)
+        {
+            return CaseTBlank(node, arg1, arg2);
+        }
+        public virtual TResult CaseTBlank(TBlank node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TComment node, T1 arg1, T2 arg2)
+        {
+            return CaseTComment(node, arg1, arg2);
+        }
+        public virtual TResult CaseTComment(TComment node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TItalic node, T1 arg1, T2 arg2)
+        {
+            return CaseTItalic(node, arg1, arg2);
+        }
+        public virtual TResult CaseTItalic(TItalic node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TBold node, T1 arg1, T2 arg2)
+        {
+            return CaseTBold(node, arg1, arg2);
+        }
+        public virtual TResult CaseTBold(TBold node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TText node, T1 arg1, T2 arg2)
+        {
+            return CaseTText(node, arg1, arg2);
+        }
+        public virtual TResult CaseTText(TText node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TBackground node, T1 arg1, T2 arg2)
+        {
+            return CaseTBackground(node, arg1, arg2);
+        }
+        public virtual TResult CaseTBackground(TBackground node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(TRgb node, T1 arg1, T2 arg2)
+        {
+            return CaseTRgb(node, arg1, arg2);
+        }
+        public virtual TResult CaseTRgb(TRgb node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(THsv node, T1 arg1, T2 arg2)
+        {
+            return CaseTHsv(node, arg1, arg2);
+        }
+        public virtual TResult CaseTHsv(THsv node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public TResult Visit(THexColor node, T1 arg1, T2 arg2)
+        {
+            return CaseTHexColor(node, arg1, arg2);
+        }
+        public virtual TResult CaseTHexColor(THexColor node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
     }
-    public class ReverseDepthFirstReturnAdapter<TValue> : ReturnAnalysisAdapter<TValue>
+    public class ReturnAnalysisAdapter<T1, T2, T3, TResult> : ReturnAdapter<T1, T2, T3, TResult, PGrammar>
     {
-        public override TValue Visit(Node node, TValue arg)
+        public TResult Visit(AGrammar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return Visit((dynamic)node, arg);
+            return CaseAGrammar(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InStart(Start<PGrammar> node, TValue arg)
+        public virtual TResult CaseAGrammar(AGrammar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutStart(Start<PGrammar> node, TValue arg)
+        public TResult Visit(APackage node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return arg;
+            return CaseAPackage(node, arg1, arg2, arg3);
         }
-        public override TValue CaseStart(Start<PGrammar> node, TValue arg)
+        public virtual TResult CaseAPackage(APackage node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InStart(node, arg);
-            
-            arg = Visit(node.EOF, arg);
-            arg = Visit((dynamic)node.Root, arg);
-            
-            arg = OutStart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue DefaultPIn(Node node, TValue arg)
+        public TResult Visit(AHelpers node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return arg;
+            return CaseAHelpers(node, arg1, arg2, arg3);
         }
-        public virtual TValue DefaultPOut(Node node, TValue arg)
+        public virtual TResult CaseAHelpers(AHelpers node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue DefaultAIn(Node node, TValue arg)
+        public TResult Visit(AHelper node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return arg;
+            return CaseAHelper(node, arg1, arg2, arg3);
         }
-        public virtual TValue DefaultAOut(Node node, TValue arg)
+        public virtual TResult CaseAHelper(AHelper node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPGrammar(PGrammar node, TValue arg)
+        public TResult Visit(ATokens node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return CaseATokens(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPGrammar(PGrammar node, TValue arg)
+        public virtual TResult CaseATokens(ATokens node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAGrammar(AGrammar node, TValue arg)
+        public TResult Visit(AToken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseAToken(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAGrammar(AGrammar node, TValue arg)
+        public virtual TResult CaseAToken(AToken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAGrammar(AGrammar node, TValue arg)
+        public TResult Visit(ATokenlookahead node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPGrammar(node, arg);
-            arg = InAGrammar(node, arg);
-            
-            if (node.HasHighlightrules)
-                arg = Visit((dynamic)node.Highlightrules, arg);
-            if (node.HasAstproductions)
-                arg = Visit((dynamic)node.Astproductions, arg);
-            if (node.HasProductions)
-                arg = Visit((dynamic)node.Productions, arg);
-            if (node.HasIgnoredtokens)
-                arg = Visit((dynamic)node.Ignoredtokens, arg);
-            if (node.HasTokens)
-                arg = Visit((dynamic)node.Tokens, arg);
-            if (node.HasStates)
-                arg = Visit((dynamic)node.States, arg);
-            if (node.HasHelpers)
-                arg = Visit((dynamic)node.Helpers, arg);
-            if (node.HasPackage)
-                arg = Visit((dynamic)node.Package, arg);
-            
-            arg = OutAGrammar(node, arg);
-            arg = OutPGrammar(node, arg);
-            
-            return arg;
+            return CaseATokenlookahead(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPPackage(PPackage node, TValue arg)
+        public virtual TResult CaseATokenlookahead(ATokenlookahead node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPPackage(PPackage node, TValue arg)
+        public TResult Visit(ARegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseARegex(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAPackage(APackage node, TValue arg)
+        public virtual TResult CaseARegex(ARegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAPackage(APackage node, TValue arg)
+        public TResult Visit(ARegexOrpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseARegexOrpart(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAPackage(APackage node, TValue arg)
+        public virtual TResult CaseARegexOrpart(ARegexOrpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPPackage(node, arg);
-            arg = InAPackage(node, arg);
-            
-            arg = Visit(node.Semicolon, arg);
-            arg = Visit(node.Packagename, arg);
-            arg = Visit(node.Packagetoken, arg);
-            
-            arg = OutAPackage(node, arg);
-            arg = OutPPackage(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPHelpers(PHelpers node, TValue arg)
+        public TResult Visit(ACharRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return CaseACharRegexpart(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPHelpers(PHelpers node, TValue arg)
+        public virtual TResult CaseACharRegexpart(ACharRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAHelpers(AHelpers node, TValue arg)
+        public TResult Visit(ADecRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseADecRegexpart(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAHelpers(AHelpers node, TValue arg)
+        public virtual TResult CaseADecRegexpart(ADecRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAHelpers(AHelpers node, TValue arg)
+        public TResult Visit(AHexRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPHelpers(node, arg);
-            arg = InAHelpers(node, arg);
-            
-            {
-                PHelper[] temp = new PHelper[node.Helpers.Count];
-                node.Helpers.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            arg = Visit(node.Helperstoken, arg);
-            
-            arg = OutAHelpers(node, arg);
-            arg = OutPHelpers(node, arg);
-            
-            return arg;
+            return CaseAHexRegexpart(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPHelper(PHelper node, TValue arg)
+        public virtual TResult CaseAHexRegexpart(AHexRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPHelper(PHelper node, TValue arg)
+        public TResult Visit(AUnarystarRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseAUnarystarRegexpart(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAHelper(AHelper node, TValue arg)
+        public virtual TResult CaseAUnarystarRegexpart(AUnarystarRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAHelper(AHelper node, TValue arg)
+        public TResult Visit(AUnaryquestionRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseAUnaryquestionRegexpart(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAHelper(AHelper node, TValue arg)
+        public virtual TResult CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPHelper(node, arg);
-            arg = InAHelper(node, arg);
-            
-            arg = Visit(node.Semicolon, arg);
-            arg = Visit((dynamic)node.Regex, arg);
-            arg = Visit(node.Equal, arg);
-            arg = Visit(node.Identifier, arg);
-            
-            arg = OutAHelper(node, arg);
-            arg = OutPHelper(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPTokens(PTokens node, TValue arg)
+        public TResult Visit(AUnaryplusRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return CaseAUnaryplusRegexpart(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPTokens(PTokens node, TValue arg)
+        public virtual TResult CaseAUnaryplusRegexpart(AUnaryplusRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InATokens(ATokens node, TValue arg)
+        public TResult Visit(ABinaryplusRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseABinaryplusRegexpart(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutATokens(ATokens node, TValue arg)
+        public virtual TResult CaseABinaryplusRegexpart(ABinaryplusRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseATokens(ATokens node, TValue arg)
+        public TResult Visit(ABinaryminusRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPTokens(node, arg);
-            arg = InATokens(node, arg);
-            
-            {
-                PToken[] temp = new PToken[node.Tokens.Count];
-                node.Tokens.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            arg = Visit(node.Tokenstoken, arg);
-            
-            arg = OutATokens(node, arg);
-            arg = OutPTokens(node, arg);
-            
-            return arg;
+            return CaseABinaryminusRegexpart(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPToken(PToken node, TValue arg)
+        public virtual TResult CaseABinaryminusRegexpart(ABinaryminusRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPToken(PToken node, TValue arg)
+        public TResult Visit(AIntervalRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseAIntervalRegexpart(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAToken(AToken node, TValue arg)
+        public virtual TResult CaseAIntervalRegexpart(AIntervalRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAToken(AToken node, TValue arg)
+        public TResult Visit(AStringRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseAStringRegexpart(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAToken(AToken node, TValue arg)
+        public virtual TResult CaseAStringRegexpart(AStringRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPToken(node, arg);
-            arg = InAToken(node, arg);
-            
-            arg = Visit(node.Semicolon, arg);
-            if (node.HasTokenlookahead)
-                arg = Visit((dynamic)node.Tokenlookahead, arg);
-            arg = Visit((dynamic)node.Regex, arg);
-            arg = Visit(node.Equal, arg);
-            arg = Visit(node.Identifier, arg);
-            if (node.HasStatelist)
-                arg = Visit((dynamic)node.Statelist, arg);
-            
-            arg = OutAToken(node, arg);
-            arg = OutPToken(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPTokenlookahead(PTokenlookahead node, TValue arg)
+        public TResult Visit(AIdentifierRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return CaseAIdentifierRegexpart(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPTokenlookahead(PTokenlookahead node, TValue arg)
+        public virtual TResult CaseAIdentifierRegexpart(AIdentifierRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InATokenlookahead(ATokenlookahead node, TValue arg)
+        public TResult Visit(AParenthesisRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseAParenthesisRegexpart(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutATokenlookahead(ATokenlookahead node, TValue arg)
+        public virtual TResult CaseAParenthesisRegexpart(AParenthesisRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseATokenlookahead(ATokenlookahead node, TValue arg)
+        public TResult Visit(AStates node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPTokenlookahead(node, arg);
-            arg = InATokenlookahead(node, arg);
-            
-            arg = Visit((dynamic)node.Regex, arg);
-            arg = Visit(node.Slash, arg);
-            
-            arg = OutATokenlookahead(node, arg);
-            arg = OutPTokenlookahead(node, arg);
-            
-            return arg;
+            return CaseAStates(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPRegex(PRegex node, TValue arg)
+        public virtual TResult CaseAStates(AStates node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPRegex(PRegex node, TValue arg)
+        public TResult Visit(AIgnoredtokens node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseAIgnoredtokens(node, arg1, arg2, arg3);
         }
-        public virtual TValue InARegex(ARegex node, TValue arg)
+        public virtual TResult CaseAIgnoredtokens(AIgnoredtokens node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutARegex(ARegex node, TValue arg)
+        public TResult Visit(AIdentifierList node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseAIdentifierList(node, arg1, arg2, arg3);
         }
-        public override TValue CaseARegex(ARegex node, TValue arg)
+        public virtual TResult CaseAIdentifierList(AIdentifierList node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPRegex(node, arg);
-            arg = InARegex(node, arg);
-            
-            {
-                POrpart[] temp = new POrpart[node.Parts.Count];
-                node.Parts.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutARegex(node, arg);
-            arg = OutPRegex(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPOrpart(POrpart node, TValue arg)
+        public TResult Visit(ATokenstateList node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return CaseATokenstateList(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPOrpart(POrpart node, TValue arg)
+        public virtual TResult CaseATokenstateList(ATokenstateList node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InARegexOrpart(ARegexOrpart node, TValue arg)
+        public TResult Visit(ATranslationList node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseATranslationList(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutARegexOrpart(ARegexOrpart node, TValue arg)
+        public virtual TResult CaseATranslationList(ATranslationList node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseARegexOrpart(ARegexOrpart node, TValue arg)
+        public TResult Visit(AStyleList node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPOrpart(node, arg);
-            arg = InARegexOrpart(node, arg);
-            
-            {
-                PRegexpart[] temp = new PRegexpart[node.Regexpart.Count];
-                node.Regexpart.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            if (node.HasPipe)
-                arg = Visit(node.Pipe, arg);
-            
-            arg = OutARegexOrpart(node, arg);
-            arg = OutPOrpart(node, arg);
-            
-            return arg;
+            return CaseAStyleList(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPRegexpart(PRegexpart node, TValue arg)
+        public virtual TResult CaseAStyleList(AStyleList node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPRegexpart(PRegexpart node, TValue arg)
+        public TResult Visit(AIdentifierListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseAIdentifierListitem(node, arg1, arg2, arg3);
         }
-        public virtual TValue InACharRegexpart(ACharRegexpart node, TValue arg)
+        public virtual TResult CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutACharRegexpart(ACharRegexpart node, TValue arg)
+        public TResult Visit(ATokenstateListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseATokenstateListitem(node, arg1, arg2, arg3);
         }
-        public override TValue CaseACharRegexpart(ACharRegexpart node, TValue arg)
+        public virtual TResult CaseATokenstateListitem(ATokenstateListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InACharRegexpart(node, arg);
-            
-            arg = Visit(node.Character, arg);
-            
-            arg = OutACharRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InADecRegexpart(ADecRegexpart node, TValue arg)
+        public TResult Visit(ATokenstatetransitionListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseATokenstatetransitionListitem(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutADecRegexpart(ADecRegexpart node, TValue arg)
+        public virtual TResult CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseADecRegexpart(ADecRegexpart node, TValue arg)
+        public TResult Visit(ATranslationListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InADecRegexpart(node, arg);
-            
-            arg = Visit(node.DecChar, arg);
-            
-            arg = OutADecRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return CaseATranslationListitem(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAHexRegexpart(AHexRegexpart node, TValue arg)
+        public virtual TResult CaseATranslationListitem(ATranslationListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAHexRegexpart(AHexRegexpart node, TValue arg)
+        public TResult Visit(AStyleListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseAStyleListitem(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAHexRegexpart(AHexRegexpart node, TValue arg)
+        public virtual TResult CaseAStyleListitem(AStyleListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAHexRegexpart(node, arg);
-            
-            arg = Visit(node.HexChar, arg);
-            
-            arg = OutAHexRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAUnarystarRegexpart(AUnarystarRegexpart node, TValue arg)
+        public TResult Visit(AProductions node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseAProductions(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAUnarystarRegexpart(AUnarystarRegexpart node, TValue arg)
+        public virtual TResult CaseAProductions(AProductions node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAUnarystarRegexpart(AUnarystarRegexpart node, TValue arg)
+        public TResult Visit(AAstproductions node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAUnarystarRegexpart(node, arg);
-            
-            arg = Visit(node.Star, arg);
-            arg = Visit((dynamic)node.Regexpart, arg);
-            
-            arg = OutAUnarystarRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return CaseAAstproductions(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAUnaryquestionRegexpart(AUnaryquestionRegexpart node, TValue arg)
+        public virtual TResult CaseAAstproductions(AAstproductions node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAUnaryquestionRegexpart(AUnaryquestionRegexpart node, TValue arg)
+        public TResult Visit(AProduction node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseAProduction(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node, TValue arg)
+        public virtual TResult CaseAProduction(AProduction node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAUnaryquestionRegexpart(node, arg);
-            
-            arg = Visit(node.Question, arg);
-            arg = Visit((dynamic)node.Regexpart, arg);
-            
-            arg = OutAUnaryquestionRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAUnaryplusRegexpart(AUnaryplusRegexpart node, TValue arg)
+        public TResult Visit(ACleanProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseACleanProdtranslation(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAUnaryplusRegexpart(AUnaryplusRegexpart node, TValue arg)
+        public virtual TResult CaseACleanProdtranslation(ACleanProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAUnaryplusRegexpart(AUnaryplusRegexpart node, TValue arg)
+        public TResult Visit(AStarProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAUnaryplusRegexpart(node, arg);
-            
-            arg = Visit(node.Plus, arg);
-            arg = Visit((dynamic)node.Regexpart, arg);
-            
-            arg = OutAUnaryplusRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return CaseAStarProdtranslation(node, arg1, arg2, arg3);
         }
-        public virtual TValue InABinaryplusRegexpart(ABinaryplusRegexpart node, TValue arg)
+        public virtual TResult CaseAStarProdtranslation(AStarProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutABinaryplusRegexpart(ABinaryplusRegexpart node, TValue arg)
+        public TResult Visit(APlusProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseAPlusProdtranslation(node, arg1, arg2, arg3);
         }
-        public override TValue CaseABinaryplusRegexpart(ABinaryplusRegexpart node, TValue arg)
+        public virtual TResult CaseAPlusProdtranslation(APlusProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InABinaryplusRegexpart(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            arg = Visit((dynamic)node.Right, arg);
-            arg = Visit(node.Plus, arg);
-            arg = Visit((dynamic)node.Left, arg);
-            arg = Visit(node.Lpar, arg);
-            
-            arg = OutABinaryplusRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InABinaryminusRegexpart(ABinaryminusRegexpart node, TValue arg)
+        public TResult Visit(AQuestionProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseAQuestionProdtranslation(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutABinaryminusRegexpart(ABinaryminusRegexpart node, TValue arg)
+        public virtual TResult CaseAQuestionProdtranslation(AQuestionProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseABinaryminusRegexpart(ABinaryminusRegexpart node, TValue arg)
+        public TResult Visit(AFullTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InABinaryminusRegexpart(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            arg = Visit((dynamic)node.Right, arg);
-            arg = Visit(node.Minus, arg);
-            arg = Visit((dynamic)node.Left, arg);
-            arg = Visit(node.Lpar, arg);
-            
-            arg = OutABinaryminusRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return CaseAFullTranslation(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAIntervalRegexpart(AIntervalRegexpart node, TValue arg)
+        public virtual TResult CaseAFullTranslation(AFullTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAIntervalRegexpart(AIntervalRegexpart node, TValue arg)
+        public TResult Visit(ANewTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseANewTranslation(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAIntervalRegexpart(AIntervalRegexpart node, TValue arg)
+        public virtual TResult CaseANewTranslation(ANewTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAIntervalRegexpart(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            arg = Visit((dynamic)node.Right, arg);
-            arg = Visit(node.Dots, arg);
-            arg = Visit((dynamic)node.Left, arg);
-            arg = Visit(node.Lpar, arg);
-            
-            arg = OutAIntervalRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAStringRegexpart(AStringRegexpart node, TValue arg)
+        public TResult Visit(ANewalternativeTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseANewalternativeTranslation(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAStringRegexpart(AStringRegexpart node, TValue arg)
+        public virtual TResult CaseANewalternativeTranslation(ANewalternativeTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAStringRegexpart(AStringRegexpart node, TValue arg)
+        public TResult Visit(AListTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAStringRegexpart(node, arg);
-            
-            arg = Visit(node.String, arg);
-            
-            arg = OutAStringRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return CaseAListTranslation(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAIdentifierRegexpart(AIdentifierRegexpart node, TValue arg)
+        public virtual TResult CaseAListTranslation(AListTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAIdentifierRegexpart(AIdentifierRegexpart node, TValue arg)
+        public TResult Visit(ANullTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseANullTranslation(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAIdentifierRegexpart(AIdentifierRegexpart node, TValue arg)
+        public virtual TResult CaseANullTranslation(ANullTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAIdentifierRegexpart(node, arg);
-            
-            arg = Visit(node.Identifier, arg);
-            
-            arg = OutAIdentifierRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAParenthesisRegexpart(AParenthesisRegexpart node, TValue arg)
+        public TResult Visit(AIdTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseAIdTranslation(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAParenthesisRegexpart(AParenthesisRegexpart node, TValue arg)
+        public virtual TResult CaseAIdTranslation(AIdTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAParenthesisRegexpart(AParenthesisRegexpart node, TValue arg)
+        public TResult Visit(AIddotidTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPRegexpart(node, arg);
-            arg = InAParenthesisRegexpart(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            arg = Visit((dynamic)node.Regex, arg);
-            arg = Visit(node.Lpar, arg);
-            
-            arg = OutAParenthesisRegexpart(node, arg);
-            arg = OutPRegexpart(node, arg);
-            
-            return arg;
+            return CaseAIddotidTranslation(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPStates(PStates node, TValue arg)
+        public virtual TResult CaseAIddotidTranslation(AIddotidTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPStates(PStates node, TValue arg)
+        public TResult Visit(AProductionrule node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseAProductionrule(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAStates(AStates node, TValue arg)
+        public virtual TResult CaseAProductionrule(AProductionrule node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAStates(AStates node, TValue arg)
+        public TResult Visit(AAlternative node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseAAlternative(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAStates(AStates node, TValue arg)
+        public virtual TResult CaseAAlternative(AAlternative node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPStates(node, arg);
-            arg = InAStates(node, arg);
-            
-            arg = Visit(node.Semicolon, arg);
-            arg = Visit((dynamic)node.List, arg);
-            arg = Visit(node.Statestoken, arg);
-            
-            arg = OutAStates(node, arg);
-            arg = OutPStates(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPIgnoredtokens(PIgnoredtokens node, TValue arg)
+        public TResult Visit(AAlternativename node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return CaseAAlternativename(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPIgnoredtokens(PIgnoredtokens node, TValue arg)
+        public virtual TResult CaseAAlternativename(AAlternativename node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAIgnoredtokens(AIgnoredtokens node, TValue arg)
+        public TResult Visit(AElements node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseAElements(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAIgnoredtokens(AIgnoredtokens node, TValue arg)
+        public virtual TResult CaseAElements(AElements node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAIgnoredtokens(AIgnoredtokens node, TValue arg)
+        public TResult Visit(ASimpleElement node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPIgnoredtokens(node, arg);
-            arg = InAIgnoredtokens(node, arg);
-            
-            arg = Visit(node.Semicolon, arg);
-            arg = Visit((dynamic)node.List, arg);
-            arg = Visit(node.Tokenstoken, arg);
-            arg = Visit(node.Ignoredtoken, arg);
-            
-            arg = OutAIgnoredtokens(node, arg);
-            arg = OutPIgnoredtokens(node, arg);
-            
-            return arg;
+            return CaseASimpleElement(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPList(PList node, TValue arg)
+        public virtual TResult CaseASimpleElement(ASimpleElement node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPList(PList node, TValue arg)
+        public TResult Visit(AStarElement node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseAStarElement(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAIdentifierList(AIdentifierList node, TValue arg)
+        public virtual TResult CaseAStarElement(AStarElement node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAIdentifierList(AIdentifierList node, TValue arg)
+        public TResult Visit(AQuestionElement node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseAQuestionElement(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAIdentifierList(AIdentifierList node, TValue arg)
+        public virtual TResult CaseAQuestionElement(AQuestionElement node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPList(node, arg);
-            arg = InAIdentifierList(node, arg);
-            
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutAIdentifierList(node, arg);
-            arg = OutPList(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InATokenstateList(ATokenstateList node, TValue arg)
+        public TResult Visit(APlusElement node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseAPlusElement(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutATokenstateList(ATokenstateList node, TValue arg)
+        public virtual TResult CaseAPlusElement(APlusElement node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseATokenstateList(ATokenstateList node, TValue arg)
+        public TResult Visit(AElementname node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPList(node, arg);
-            arg = InATokenstateList(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            arg = Visit(node.Lpar, arg);
-            
-            arg = OutATokenstateList(node, arg);
-            arg = OutPList(node, arg);
-            
-            return arg;
+            return CaseAElementname(node, arg1, arg2, arg3);
         }
-        public virtual TValue InATranslationList(ATranslationList node, TValue arg)
+        public virtual TResult CaseAElementname(AElementname node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutATranslationList(ATranslationList node, TValue arg)
+        public TResult Visit(ACleanElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseACleanElementid(node, arg1, arg2, arg3);
         }
-        public override TValue CaseATranslationList(ATranslationList node, TValue arg)
+        public virtual TResult CaseACleanElementid(ACleanElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPList(node, arg);
-            arg = InATranslationList(node, arg);
-            
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutATranslationList(node, arg);
-            arg = OutPList(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAStyleList(AStyleList node, TValue arg)
+        public TResult Visit(ATokenElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseATokenElementid(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAStyleList(AStyleList node, TValue arg)
+        public virtual TResult CaseATokenElementid(ATokenElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAStyleList(AStyleList node, TValue arg)
+        public TResult Visit(AProductionElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPList(node, arg);
-            arg = InAStyleList(node, arg);
-            
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutAStyleList(node, arg);
-            arg = OutPList(node, arg);
-            
-            return arg;
+            return CaseAProductionElementid(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPListitem(PListitem node, TValue arg)
+        public virtual TResult CaseAProductionElementid(AProductionElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPListitem(PListitem node, TValue arg)
+        public TResult Visit(AHighlightrules node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseAHighlightrules(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAIdentifierListitem(AIdentifierListitem node, TValue arg)
+        public virtual TResult CaseAHighlightrules(AHighlightrules node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAIdentifierListitem(AIdentifierListitem node, TValue arg)
+        public TResult Visit(AHighlightrule node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseAHighlightrule(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAIdentifierListitem(AIdentifierListitem node, TValue arg)
+        public virtual TResult CaseAHighlightrule(AHighlightrule node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPListitem(node, arg);
-            arg = InAIdentifierListitem(node, arg);
-            
-            arg = Visit(node.Identifier, arg);
-            if (node.HasComma)
-                arg = Visit(node.Comma, arg);
-            
-            arg = OutAIdentifierListitem(node, arg);
-            arg = OutPListitem(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InATokenstateListitem(ATokenstateListitem node, TValue arg)
+        public TResult Visit(AItalicHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseAItalicHighlightStyle(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutATokenstateListitem(ATokenstateListitem node, TValue arg)
+        public virtual TResult CaseAItalicHighlightStyle(AItalicHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseATokenstateListitem(ATokenstateListitem node, TValue arg)
+        public TResult Visit(ABoldHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPListitem(node, arg);
-            arg = InATokenstateListitem(node, arg);
-            
-            arg = Visit(node.Identifier, arg);
-            if (node.HasComma)
-                arg = Visit(node.Comma, arg);
-            
-            arg = OutATokenstateListitem(node, arg);
-            arg = OutPListitem(node, arg);
-            
-            return arg;
+            return CaseABoldHighlightStyle(node, arg1, arg2, arg3);
         }
-        public virtual TValue InATokenstatetransitionListitem(ATokenstatetransitionListitem node, TValue arg)
+        public virtual TResult CaseABoldHighlightStyle(ABoldHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutATokenstatetransitionListitem(ATokenstatetransitionListitem node, TValue arg)
+        public TResult Visit(ATextHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseATextHighlightStyle(node, arg1, arg2, arg3);
         }
-        public override TValue CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node, TValue arg)
+        public virtual TResult CaseATextHighlightStyle(ATextHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPListitem(node, arg);
-            arg = InATokenstatetransitionListitem(node, arg);
-            
-            arg = Visit(node.To, arg);
-            arg = Visit(node.Arrow, arg);
-            arg = Visit(node.From, arg);
-            if (node.HasComma)
-                arg = Visit(node.Comma, arg);
-            
-            arg = OutATokenstatetransitionListitem(node, arg);
-            arg = OutPListitem(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InATranslationListitem(ATranslationListitem node, TValue arg)
+        public TResult Visit(ABackgroundHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseABackgroundHighlightStyle(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutATranslationListitem(ATranslationListitem node, TValue arg)
+        public virtual TResult CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseATranslationListitem(ATranslationListitem node, TValue arg)
+        public TResult Visit(ARgbColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPListitem(node, arg);
-            arg = InATranslationListitem(node, arg);
-            
-            arg = Visit((dynamic)node.Translation, arg);
-            if (node.HasComma)
-                arg = Visit(node.Comma, arg);
-            
-            arg = OutATranslationListitem(node, arg);
-            arg = OutPListitem(node, arg);
-            
-            return arg;
+            return CaseARgbColor(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAStyleListitem(AStyleListitem node, TValue arg)
+        public virtual TResult CaseARgbColor(ARgbColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAStyleListitem(AStyleListitem node, TValue arg)
+        public TResult Visit(AHsvColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseAHsvColor(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAStyleListitem(AStyleListitem node, TValue arg)
+        public virtual TResult CaseAHsvColor(AHsvColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPListitem(node, arg);
-            arg = InAStyleListitem(node, arg);
-            
-            arg = Visit((dynamic)node.HighlightStyle, arg);
-            if (node.HasComma)
-                arg = Visit(node.Comma, arg);
-            
-            arg = OutAStyleListitem(node, arg);
-            arg = OutPListitem(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPProductions(PProductions node, TValue arg)
+        public TResult Visit(AHexColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return CaseAHexColor(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPProductions(PProductions node, TValue arg)
+        public virtual TResult CaseAHexColor(AHexColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAProductions(AProductions node, TValue arg)
+        public TResult Visit(TPackagename node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseTPackagename(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAProductions(AProductions node, TValue arg)
+        public virtual TResult CaseTPackagename(TPackagename node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAProductions(AProductions node, TValue arg)
+        public TResult Visit(TPackagetoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPProductions(node, arg);
-            arg = InAProductions(node, arg);
-            
-            {
-                PProduction[] temp = new PProduction[node.Productions.Count];
-                node.Productions.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            arg = Visit(node.Productionstoken, arg);
-            
-            arg = OutAProductions(node, arg);
-            arg = OutPProductions(node, arg);
-            
-            return arg;
+            return CaseTPackagetoken(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPAstproductions(PAstproductions node, TValue arg)
+        public virtual TResult CaseTPackagetoken(TPackagetoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPAstproductions(PAstproductions node, TValue arg)
+        public TResult Visit(TStatestoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseTStatestoken(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAAstproductions(AAstproductions node, TValue arg)
+        public virtual TResult CaseTStatestoken(TStatestoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAAstproductions(AAstproductions node, TValue arg)
+        public TResult Visit(THelperstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseTHelperstoken(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAAstproductions(AAstproductions node, TValue arg)
+        public virtual TResult CaseTHelperstoken(THelperstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPAstproductions(node, arg);
-            arg = InAAstproductions(node, arg);
-            
-            {
-                PProduction[] temp = new PProduction[node.Productions.Count];
-                node.Productions.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            arg = Visit(node.Asttoken, arg);
-            
-            arg = OutAAstproductions(node, arg);
-            arg = OutPAstproductions(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPProduction(PProduction node, TValue arg)
+        public TResult Visit(TTokenstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return CaseTTokenstoken(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPProduction(PProduction node, TValue arg)
+        public virtual TResult CaseTTokenstoken(TTokenstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAProduction(AProduction node, TValue arg)
+        public TResult Visit(TIgnoredtoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseTIgnoredtoken(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAProduction(AProduction node, TValue arg)
+        public virtual TResult CaseTIgnoredtoken(TIgnoredtoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAProduction(AProduction node, TValue arg)
+        public TResult Visit(TProductionstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPProduction(node, arg);
-            arg = InAProduction(node, arg);
-            
-            arg = Visit(node.Semicolon, arg);
-            arg = Visit((dynamic)node.Productionrule, arg);
-            arg = Visit(node.Equal, arg);
-            if (node.HasProdtranslation)
-                arg = Visit((dynamic)node.Prodtranslation, arg);
-            arg = Visit(node.Identifier, arg);
-            
-            arg = OutAProduction(node, arg);
-            arg = OutPProduction(node, arg);
-            
-            return arg;
+            return CaseTProductionstoken(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPProdtranslation(PProdtranslation node, TValue arg)
+        public virtual TResult CaseTProductionstoken(TProductionstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPProdtranslation(PProdtranslation node, TValue arg)
+        public TResult Visit(TAsttoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseTAsttoken(node, arg1, arg2, arg3);
         }
-        public virtual TValue InACleanProdtranslation(ACleanProdtranslation node, TValue arg)
+        public virtual TResult CaseTAsttoken(TAsttoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutACleanProdtranslation(ACleanProdtranslation node, TValue arg)
+        public TResult Visit(THighlighttoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseTHighlighttoken(node, arg1, arg2, arg3);
         }
-        public override TValue CaseACleanProdtranslation(ACleanProdtranslation node, TValue arg)
+        public virtual TResult CaseTHighlighttoken(THighlighttoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPProdtranslation(node, arg);
-            arg = InACleanProdtranslation(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            arg = Visit(node.Identifier, arg);
-            arg = Visit(node.Arrow, arg);
-            arg = Visit(node.Lpar, arg);
-            
-            arg = OutACleanProdtranslation(node, arg);
-            arg = OutPProdtranslation(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAStarProdtranslation(AStarProdtranslation node, TValue arg)
+        public TResult Visit(TNew node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseTNew(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAStarProdtranslation(AStarProdtranslation node, TValue arg)
+        public virtual TResult CaseTNew(TNew node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAStarProdtranslation(AStarProdtranslation node, TValue arg)
+        public TResult Visit(TNull node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPProdtranslation(node, arg);
-            arg = InAStarProdtranslation(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            arg = Visit(node.Star, arg);
-            arg = Visit(node.Identifier, arg);
-            arg = Visit(node.Arrow, arg);
-            arg = Visit(node.Lpar, arg);
-            
-            arg = OutAStarProdtranslation(node, arg);
-            arg = OutPProdtranslation(node, arg);
-            
-            return arg;
+            return CaseTNull(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAPlusProdtranslation(APlusProdtranslation node, TValue arg)
+        public virtual TResult CaseTNull(TNull node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAPlusProdtranslation(APlusProdtranslation node, TValue arg)
+        public TResult Visit(TTokenSpecifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseTTokenSpecifier(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAPlusProdtranslation(APlusProdtranslation node, TValue arg)
+        public virtual TResult CaseTTokenSpecifier(TTokenSpecifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPProdtranslation(node, arg);
-            arg = InAPlusProdtranslation(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            arg = Visit(node.Plus, arg);
-            arg = Visit(node.Identifier, arg);
-            arg = Visit(node.Arrow, arg);
-            arg = Visit(node.Lpar, arg);
-            
-            arg = OutAPlusProdtranslation(node, arg);
-            arg = OutPProdtranslation(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAQuestionProdtranslation(AQuestionProdtranslation node, TValue arg)
+        public TResult Visit(TProductionSpecifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseTProductionSpecifier(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAQuestionProdtranslation(AQuestionProdtranslation node, TValue arg)
+        public virtual TResult CaseTProductionSpecifier(TProductionSpecifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAQuestionProdtranslation(AQuestionProdtranslation node, TValue arg)
+        public TResult Visit(TDot node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPProdtranslation(node, arg);
-            arg = InAQuestionProdtranslation(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            arg = Visit(node.QMark, arg);
-            arg = Visit(node.Identifier, arg);
-            arg = Visit(node.Arrow, arg);
-            arg = Visit(node.Lpar, arg);
-            
-            arg = OutAQuestionProdtranslation(node, arg);
-            arg = OutPProdtranslation(node, arg);
-            
-            return arg;
+            return CaseTDot(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPTranslation(PTranslation node, TValue arg)
+        public virtual TResult CaseTDot(TDot node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPTranslation(PTranslation node, TValue arg)
+        public TResult Visit(TDDot node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseTDDot(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAFullTranslation(AFullTranslation node, TValue arg)
+        public virtual TResult CaseTDDot(TDDot node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAFullTranslation(AFullTranslation node, TValue arg)
+        public TResult Visit(TSemicolon node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseTSemicolon(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAFullTranslation(AFullTranslation node, TValue arg)
+        public virtual TResult CaseTSemicolon(TSemicolon node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPTranslation(node, arg);
-            arg = InAFullTranslation(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            arg = Visit((dynamic)node.Translation, arg);
-            arg = Visit(node.Arrow, arg);
-            arg = Visit(node.Lpar, arg);
-            
-            arg = OutAFullTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InANewTranslation(ANewTranslation node, TValue arg)
+        public TResult Visit(TEqual node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseTEqual(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutANewTranslation(ANewTranslation node, TValue arg)
+        public virtual TResult CaseTEqual(TEqual node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseANewTranslation(ANewTranslation node, TValue arg)
+        public TResult Visit(TLBkt node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPTranslation(node, arg);
-            arg = InANewTranslation(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            arg = Visit((dynamic)node.Arguments, arg);
-            arg = Visit(node.Lpar, arg);
-            arg = Visit(node.Production, arg);
-            arg = Visit(node.New, arg);
-            
-            arg = OutANewTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return CaseTLBkt(node, arg1, arg2, arg3);
         }
-        public virtual TValue InANewalternativeTranslation(ANewalternativeTranslation node, TValue arg)
+        public virtual TResult CaseTLBkt(TLBkt node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutANewalternativeTranslation(ANewalternativeTranslation node, TValue arg)
+        public TResult Visit(TRBkt node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseTRBkt(node, arg1, arg2, arg3);
         }
-        public override TValue CaseANewalternativeTranslation(ANewalternativeTranslation node, TValue arg)
+        public virtual TResult CaseTRBkt(TRBkt node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPTranslation(node, arg);
-            arg = InANewalternativeTranslation(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            arg = Visit((dynamic)node.Arguments, arg);
-            arg = Visit(node.Lpar, arg);
-            arg = Visit(node.Alternative, arg);
-            arg = Visit(node.Dot, arg);
-            arg = Visit(node.Production, arg);
-            arg = Visit(node.New, arg);
-            
-            arg = OutANewalternativeTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAListTranslation(AListTranslation node, TValue arg)
+        public TResult Visit(TLPar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseTLPar(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAListTranslation(AListTranslation node, TValue arg)
+        public virtual TResult CaseTLPar(TLPar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAListTranslation(AListTranslation node, TValue arg)
+        public TResult Visit(TRPar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPTranslation(node, arg);
-            arg = InAListTranslation(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            arg = Visit((dynamic)node.Elements, arg);
-            arg = Visit(node.Lpar, arg);
-            
-            arg = OutAListTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return CaseTRPar(node, arg1, arg2, arg3);
         }
-        public virtual TValue InANullTranslation(ANullTranslation node, TValue arg)
+        public virtual TResult CaseTRPar(TRPar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutANullTranslation(ANullTranslation node, TValue arg)
+        public TResult Visit(TLBrace node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseTLBrace(node, arg1, arg2, arg3);
         }
-        public override TValue CaseANullTranslation(ANullTranslation node, TValue arg)
+        public virtual TResult CaseTLBrace(TLBrace node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPTranslation(node, arg);
-            arg = InANullTranslation(node, arg);
-            
-            arg = Visit(node.Null, arg);
-            
-            arg = OutANullTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAIdTranslation(AIdTranslation node, TValue arg)
+        public TResult Visit(TRBrace node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseTRBrace(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAIdTranslation(AIdTranslation node, TValue arg)
+        public virtual TResult CaseTRBrace(TRBrace node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAIdTranslation(AIdTranslation node, TValue arg)
+        public TResult Visit(TPlus node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPTranslation(node, arg);
-            arg = InAIdTranslation(node, arg);
-            
-            arg = Visit(node.Identifier, arg);
-            
-            arg = OutAIdTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return CaseTPlus(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAIddotidTranslation(AIddotidTranslation node, TValue arg)
+        public virtual TResult CaseTPlus(TPlus node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAIddotidTranslation(AIddotidTranslation node, TValue arg)
+        public TResult Visit(TMinus node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseTMinus(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAIddotidTranslation(AIddotidTranslation node, TValue arg)
+        public virtual TResult CaseTMinus(TMinus node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPTranslation(node, arg);
-            arg = InAIddotidTranslation(node, arg);
-            
-            arg = Visit(node.Production, arg);
-            arg = Visit(node.Dot, arg);
-            arg = Visit(node.Identifier, arg);
-            
-            arg = OutAIddotidTranslation(node, arg);
-            arg = OutPTranslation(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPProductionrule(PProductionrule node, TValue arg)
+        public TResult Visit(TQMark node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return CaseTQMark(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPProductionrule(PProductionrule node, TValue arg)
+        public virtual TResult CaseTQMark(TQMark node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAProductionrule(AProductionrule node, TValue arg)
+        public TResult Visit(TStar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseTStar(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAProductionrule(AProductionrule node, TValue arg)
+        public virtual TResult CaseTStar(TStar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAProductionrule(AProductionrule node, TValue arg)
+        public TResult Visit(TPipe node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPProductionrule(node, arg);
-            arg = InAProductionrule(node, arg);
-            
-            {
-                PAlternative[] temp = new PAlternative[node.Alternatives.Count];
-                node.Alternatives.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutAProductionrule(node, arg);
-            arg = OutPProductionrule(node, arg);
-            
-            return arg;
+            return CaseTPipe(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPAlternative(PAlternative node, TValue arg)
+        public virtual TResult CaseTPipe(TPipe node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPAlternative(PAlternative node, TValue arg)
+        public TResult Visit(TComma node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseTComma(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAAlternative(AAlternative node, TValue arg)
+        public virtual TResult CaseTComma(TComma node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAAlternative(AAlternative node, TValue arg)
+        public TResult Visit(TSlash node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseTSlash(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAAlternative(AAlternative node, TValue arg)
+        public virtual TResult CaseTSlash(TSlash node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPAlternative(node, arg);
-            arg = InAAlternative(node, arg);
-            
-            if (node.HasTranslation)
-                arg = Visit((dynamic)node.Translation, arg);
-            arg = Visit((dynamic)node.Elements, arg);
-            if (node.HasAlternativename)
-                arg = Visit((dynamic)node.Alternativename, arg);
-            if (node.HasPipe)
-                arg = Visit(node.Pipe, arg);
-            
-            arg = OutAAlternative(node, arg);
-            arg = OutPAlternative(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPAlternativename(PAlternativename node, TValue arg)
+        public TResult Visit(TArrow node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return CaseTArrow(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPAlternativename(PAlternativename node, TValue arg)
+        public virtual TResult CaseTArrow(TArrow node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAAlternativename(AAlternativename node, TValue arg)
+        public TResult Visit(TColon node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseTColon(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAAlternativename(AAlternativename node, TValue arg)
+        public virtual TResult CaseTColon(TColon node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAAlternativename(AAlternativename node, TValue arg)
+        public TResult Visit(TIdentifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPAlternativename(node, arg);
-            arg = InAAlternativename(node, arg);
-            
-            arg = Visit(node.Rpar, arg);
-            arg = Visit(node.Name, arg);
-            arg = Visit(node.Lpar, arg);
-            
-            arg = OutAAlternativename(node, arg);
-            arg = OutPAlternativename(node, arg);
-            
-            return arg;
+            return CaseTIdentifier(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPElements(PElements node, TValue arg)
+        public virtual TResult CaseTIdentifier(TIdentifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPElements(PElements node, TValue arg)
+        public TResult Visit(TCharacter node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseTCharacter(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAElements(AElements node, TValue arg)
+        public virtual TResult CaseTCharacter(TCharacter node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAElements(AElements node, TValue arg)
+        public TResult Visit(TDecChar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseTDecChar(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAElements(AElements node, TValue arg)
+        public virtual TResult CaseTDecChar(TDecChar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPElements(node, arg);
-            arg = InAElements(node, arg);
-            
-            {
-                PElement[] temp = new PElement[node.Element.Count];
-                node.Element.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            
-            arg = OutAElements(node, arg);
-            arg = OutPElements(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPElement(PElement node, TValue arg)
+        public TResult Visit(THexChar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return CaseTHexChar(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPElement(PElement node, TValue arg)
+        public virtual TResult CaseTHexChar(THexChar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InASimpleElement(ASimpleElement node, TValue arg)
+        public TResult Visit(TString node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseTString(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutASimpleElement(ASimpleElement node, TValue arg)
+        public virtual TResult CaseTString(TString node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseASimpleElement(ASimpleElement node, TValue arg)
+        public TResult Visit(TBlank node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPElement(node, arg);
-            arg = InASimpleElement(node, arg);
-            
-            arg = Visit((dynamic)node.Elementid, arg);
-            if (node.HasElementname)
-                arg = Visit((dynamic)node.Elementname, arg);
-            
-            arg = OutASimpleElement(node, arg);
-            arg = OutPElement(node, arg);
-            
-            return arg;
+            return CaseTBlank(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAStarElement(AStarElement node, TValue arg)
+        public virtual TResult CaseTBlank(TBlank node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAStarElement(AStarElement node, TValue arg)
+        public TResult Visit(TComment node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseTComment(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAStarElement(AStarElement node, TValue arg)
+        public virtual TResult CaseTComment(TComment node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPElement(node, arg);
-            arg = InAStarElement(node, arg);
-            
-            arg = Visit(node.Star, arg);
-            arg = Visit((dynamic)node.Elementid, arg);
-            if (node.HasElementname)
-                arg = Visit((dynamic)node.Elementname, arg);
-            
-            arg = OutAStarElement(node, arg);
-            arg = OutPElement(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAQuestionElement(AQuestionElement node, TValue arg)
+        public TResult Visit(TItalic node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseTItalic(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAQuestionElement(AQuestionElement node, TValue arg)
+        public virtual TResult CaseTItalic(TItalic node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAQuestionElement(AQuestionElement node, TValue arg)
+        public TResult Visit(TBold node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPElement(node, arg);
-            arg = InAQuestionElement(node, arg);
-            
-            arg = Visit(node.QMark, arg);
-            arg = Visit((dynamic)node.Elementid, arg);
-            if (node.HasElementname)
-                arg = Visit((dynamic)node.Elementname, arg);
-            
-            arg = OutAQuestionElement(node, arg);
-            arg = OutPElement(node, arg);
-            
-            return arg;
+            return CaseTBold(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAPlusElement(APlusElement node, TValue arg)
+        public virtual TResult CaseTBold(TBold node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAPlusElement(APlusElement node, TValue arg)
+        public TResult Visit(TText node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return CaseTText(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAPlusElement(APlusElement node, TValue arg)
+        public virtual TResult CaseTText(TText node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPElement(node, arg);
-            arg = InAPlusElement(node, arg);
-            
-            arg = Visit(node.Plus, arg);
-            arg = Visit((dynamic)node.Elementid, arg);
-            if (node.HasElementname)
-                arg = Visit((dynamic)node.Elementname, arg);
-            
-            arg = OutAPlusElement(node, arg);
-            arg = OutPElement(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPElementname(PElementname node, TValue arg)
+        public TResult Visit(TBackground node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return CaseTBackground(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPElementname(PElementname node, TValue arg)
+        public virtual TResult CaseTBackground(TBackground node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue InAElementname(AElementname node, TValue arg)
+        public TResult Visit(TRgb node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
+            return CaseTRgb(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutAElementname(AElementname node, TValue arg)
+        public virtual TResult CaseTRgb(TRgb node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAOut(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public override TValue CaseAElementname(AElementname node, TValue arg)
+        public TResult Visit(THsv node, T1 arg1, T2 arg2, T3 arg3)
         {
-            arg = InPElementname(node, arg);
-            arg = InAElementname(node, arg);
-            
-            arg = Visit(node.Colon, arg);
-            arg = Visit(node.Rpar, arg);
-            arg = Visit(node.Name, arg);
-            arg = Visit(node.Lpar, arg);
-            
-            arg = OutAElementname(node, arg);
-            arg = OutPElementname(node, arg);
-            
-            return arg;
+            return CaseTHsv(node, arg1, arg2, arg3);
         }
-        
-        public virtual TValue InPElementid(PElementid node, TValue arg)
+        public virtual TResult CaseTHsv(THsv node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPIn(node, arg);
+            return DefaultCase(node, arg1, arg2, arg3);
         }
-        public virtual TValue OutPElementid(PElementid node, TValue arg)
+        public TResult Visit(THexColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultPOut(node, arg);
+            return CaseTHexColor(node, arg1, arg2, arg3);
         }
-        public virtual TValue InACleanElementid(ACleanElementid node, TValue arg)
+        public virtual TResult CaseTHexColor(THexColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutACleanElementid(ACleanElementid node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseACleanElementid(ACleanElementid node, TValue arg)
-        {
-            arg = InPElementid(node, arg);
-            arg = InACleanElementid(node, arg);
-            
-            arg = Visit(node.Identifier, arg);
-            
-            arg = OutACleanElementid(node, arg);
-            arg = OutPElementid(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InATokenElementid(ATokenElementid node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutATokenElementid(ATokenElementid node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseATokenElementid(ATokenElementid node, TValue arg)
-        {
-            arg = InPElementid(node, arg);
-            arg = InATokenElementid(node, arg);
-            
-            arg = Visit(node.Identifier, arg);
-            arg = Visit(node.Dot, arg);
-            arg = Visit(node.TokenSpecifier, arg);
-            
-            arg = OutATokenElementid(node, arg);
-            arg = OutPElementid(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InAProductionElementid(AProductionElementid node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutAProductionElementid(AProductionElementid node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseAProductionElementid(AProductionElementid node, TValue arg)
-        {
-            arg = InPElementid(node, arg);
-            arg = InAProductionElementid(node, arg);
-            
-            arg = Visit(node.Identifier, arg);
-            arg = Visit(node.Dot, arg);
-            arg = Visit(node.ProductionSpecifier, arg);
-            
-            arg = OutAProductionElementid(node, arg);
-            arg = OutPElementid(node, arg);
-            
-            return arg;
-        }
-        
-        public virtual TValue InPHighlightrules(PHighlightrules node, TValue arg)
-        {
-            return DefaultPIn(node, arg);
-        }
-        public virtual TValue OutPHighlightrules(PHighlightrules node, TValue arg)
-        {
-            return DefaultPOut(node, arg);
-        }
-        public virtual TValue InAHighlightrules(AHighlightrules node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutAHighlightrules(AHighlightrules node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseAHighlightrules(AHighlightrules node, TValue arg)
-        {
-            arg = InPHighlightrules(node, arg);
-            arg = InAHighlightrules(node, arg);
-            
-            {
-                PHighlightrule[] temp = new PHighlightrule[node.Highlightrule.Count];
-                node.Highlightrule.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    arg = Visit((dynamic)temp[i], arg);
-            }
-            arg = Visit(node.Highlighttoken, arg);
-            
-            arg = OutAHighlightrules(node, arg);
-            arg = OutPHighlightrules(node, arg);
-            
-            return arg;
-        }
-        
-        public virtual TValue InPHighlightrule(PHighlightrule node, TValue arg)
-        {
-            return DefaultPIn(node, arg);
-        }
-        public virtual TValue OutPHighlightrule(PHighlightrule node, TValue arg)
-        {
-            return DefaultPOut(node, arg);
-        }
-        public virtual TValue InAHighlightrule(AHighlightrule node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutAHighlightrule(AHighlightrule node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseAHighlightrule(AHighlightrule node, TValue arg)
-        {
-            arg = InPHighlightrule(node, arg);
-            arg = InAHighlightrule(node, arg);
-            
-            arg = Visit(node.Semicolon, arg);
-            arg = Visit((dynamic)node.List, arg);
-            arg = Visit(node.Rpar, arg);
-            arg = Visit((dynamic)node.Tokens, arg);
-            arg = Visit(node.Lpar, arg);
-            arg = Visit(node.Name, arg);
-            
-            arg = OutAHighlightrule(node, arg);
-            arg = OutPHighlightrule(node, arg);
-            
-            return arg;
-        }
-        
-        public virtual TValue InPHighlightStyle(PHighlightStyle node, TValue arg)
-        {
-            return DefaultPIn(node, arg);
-        }
-        public virtual TValue OutPHighlightStyle(PHighlightStyle node, TValue arg)
-        {
-            return DefaultPOut(node, arg);
-        }
-        public virtual TValue InAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseAItalicHighlightStyle(AItalicHighlightStyle node, TValue arg)
-        {
-            arg = InPHighlightStyle(node, arg);
-            arg = InAItalicHighlightStyle(node, arg);
-            
-            arg = Visit(node.Italic, arg);
-            
-            arg = OutAItalicHighlightStyle(node, arg);
-            arg = OutPHighlightStyle(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseABoldHighlightStyle(ABoldHighlightStyle node, TValue arg)
-        {
-            arg = InPHighlightStyle(node, arg);
-            arg = InABoldHighlightStyle(node, arg);
-            
-            arg = Visit(node.Bold, arg);
-            
-            arg = OutABoldHighlightStyle(node, arg);
-            arg = OutPHighlightStyle(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InATextHighlightStyle(ATextHighlightStyle node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutATextHighlightStyle(ATextHighlightStyle node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseATextHighlightStyle(ATextHighlightStyle node, TValue arg)
-        {
-            arg = InPHighlightStyle(node, arg);
-            arg = InATextHighlightStyle(node, arg);
-            
-            arg = Visit((dynamic)node.Color, arg);
-            arg = Visit(node.Colon, arg);
-            arg = Visit(node.Text, arg);
-            
-            arg = OutATextHighlightStyle(node, arg);
-            arg = OutPHighlightStyle(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, TValue arg)
-        {
-            arg = InPHighlightStyle(node, arg);
-            arg = InABackgroundHighlightStyle(node, arg);
-            
-            arg = Visit((dynamic)node.Color, arg);
-            arg = Visit(node.Colon, arg);
-            arg = Visit(node.Background, arg);
-            
-            arg = OutABackgroundHighlightStyle(node, arg);
-            arg = OutPHighlightStyle(node, arg);
-            
-            return arg;
-        }
-        
-        public virtual TValue InPColor(PColor node, TValue arg)
-        {
-            return DefaultPIn(node, arg);
-        }
-        public virtual TValue OutPColor(PColor node, TValue arg)
-        {
-            return DefaultPOut(node, arg);
-        }
-        public virtual TValue InARgbColor(ARgbColor node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutARgbColor(ARgbColor node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseARgbColor(ARgbColor node, TValue arg)
-        {
-            arg = InPColor(node, arg);
-            arg = InARgbColor(node, arg);
-            
-            arg = Visit(node.RPar, arg);
-            arg = Visit(node.Blue, arg);
-            arg = Visit(node.Comma2, arg);
-            arg = Visit(node.Green, arg);
-            arg = Visit(node.Comma1, arg);
-            arg = Visit(node.Red, arg);
-            arg = Visit(node.LPar, arg);
-            arg = Visit(node.Rgb, arg);
-            
-            arg = OutARgbColor(node, arg);
-            arg = OutPColor(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InAHsvColor(AHsvColor node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutAHsvColor(AHsvColor node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseAHsvColor(AHsvColor node, TValue arg)
-        {
-            arg = InPColor(node, arg);
-            arg = InAHsvColor(node, arg);
-            
-            arg = Visit(node.RPar, arg);
-            arg = Visit(node.Brightness, arg);
-            arg = Visit(node.Comma2, arg);
-            arg = Visit(node.Saturation, arg);
-            arg = Visit(node.Comma1, arg);
-            arg = Visit(node.Hue, arg);
-            arg = Visit(node.LPar, arg);
-            arg = Visit(node.Hsv, arg);
-            
-            arg = OutAHsvColor(node, arg);
-            arg = OutPColor(node, arg);
-            
-            return arg;
-        }
-        public virtual TValue InAHexColor(AHexColor node, TValue arg)
-        {
-            return DefaultAIn(node, arg);
-        }
-        public virtual TValue OutAHexColor(AHexColor node, TValue arg)
-        {
-            return DefaultAOut(node, arg);
-        }
-        public override TValue CaseAHexColor(AHexColor node, TValue arg)
-        {
-            arg = InPColor(node, arg);
-            arg = InAHexColor(node, arg);
-            
-            arg = Visit(node.Color, arg);
-            
-            arg = OutAHexColor(node, arg);
-            arg = OutPColor(node, arg);
-            
-            return arg;
+            return DefaultCase(node, arg1, arg2, arg3);
         }
     }
     
