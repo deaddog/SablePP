@@ -379,6 +379,12 @@ namespace SablePP.Tools.Editor
             {
                 case MessageIcons.Accept:
                     iconImage = EditorResources.accept; break;
+                case MessageIcons.Error:
+                    iconImage = EditorResources.error; break;
+                case MessageIcons.Warning:
+                    iconImage = EditorResources.warning; break;
+                case MessageIcons.Working:
+                    iconImage = EditorResources.working; break;
                 default:
                     throw new ArgumentException("Unknown message icon.");
             }
