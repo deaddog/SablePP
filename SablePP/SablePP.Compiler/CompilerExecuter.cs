@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -46,7 +47,8 @@ namespace SablePP.Compiler
 
             compilationOptions.Highlight(identifierHighlighter);
 
-            if (compilationOptions.ErrorManager.Count == 0 && runSable)
+            var errors = from e in compilationOptions.ErrorManager where e.ErrorType == ErrorType.Error select e;
+            if (!errors.Any() && runSable)
                 ValidateWithSableCC(root, compilationOptions.ErrorManager);
         }
 
