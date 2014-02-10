@@ -59,6 +59,7 @@ namespace SablePP.Compiler.Generate.Analysis
             adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 0, node));
             adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 1, node));
             adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 2, node));
+            adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 3, node));
 
             nameElement.EmitNewLine();
             nameElement.EmitRegionEnd();
