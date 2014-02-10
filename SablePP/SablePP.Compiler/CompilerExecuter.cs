@@ -154,7 +154,7 @@ namespace SablePP.Compiler
                 {
                     Position start = new Position(eLine, eChar);
                     Position end = new Position(eLine, eChar);
-                    errorManager.Register(new CompilerError(start, end, "SableCC: " + eText));
+                    errorManager.Register(new CompilerError(ErrorType.Error, start, end, "SableCC: " + eText));
                 }
             }
             else
