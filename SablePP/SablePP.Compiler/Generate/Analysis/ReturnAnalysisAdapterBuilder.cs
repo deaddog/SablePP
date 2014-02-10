@@ -14,12 +14,6 @@ namespace SablePP.Compiler.Generate.Analysis
         {
             this.argumentCount = arguments;
 
-            string simpleBaseClass = "ReturnAnalysisAdapter<";
-            for (int i = 1; i <= argumentCount; i++)
-                simpleBaseClass += "object, ";
-            simpleBaseClass += "object>";
-            nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, simpleBaseClass);
-
             string baseClass = "ReturnAdapter<";
             for (int i = 1; i <= argumentCount; i++)
                 baseClass += "T" + i + ", ";
