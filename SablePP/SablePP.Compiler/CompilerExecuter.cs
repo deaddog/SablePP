@@ -47,8 +47,7 @@ namespace SablePP.Compiler
 
             compilationOptions.Highlight(identifierHighlighter);
 
-            var errors = from e in compilationOptions.ErrorManager where e.ErrorType == ErrorType.Error select e;
-            if (!errors.Any() && runSable)
+            if (compilationOptions.ErrorManager.Errors.Count == 0 && runSable)
                 ValidateWithSableCC(root, compilationOptions.ErrorManager);
         }
 

@@ -15,9 +15,36 @@ namespace SablePP.Tools.Error
         private ErrorComparison comparer;
         private List<CompilerError> errorList;
 
+        private ErrorCollection errors, warnings, messages;
+
+        /// <summary>
+        /// Gets the number of registered errors (all types).
+        /// </summary>
         public int Count
         {
             get { return errorList.Count; }
+        }
+
+        /// <summary>
+        /// Gets a collection of the <see cref="CompilerError"/>s with error type <see cref="ErrorType.Error"/>.
+        /// </summary>
+        public ErrorCollection Errors
+        {
+            get { return errors; }
+        }
+        /// <summary>
+        /// Gets a collection of the <see cref="CompilerError"/>s with error type <see cref="ErrorType.Warning"/>.
+        /// </summary>
+        public ErrorCollection Warnings
+        {
+            get { return warnings; }
+        }
+        /// <summary>
+        /// Gets a collection of the <see cref="CompilerError"/>s with error type <see cref="ErrorType.Message"/>.
+        /// </summary>
+        public ErrorCollection Messages
+        {
+            get { return messages; }
         }
 
         /// <summary>
@@ -26,7 +53,11 @@ namespace SablePP.Tools.Error
         public ErrorManager()
         {
             this.comparer = new ErrorComparison();
-            errorList = new List<CompilerError>();
+            this.errorList = new List<CompilerError>();
+
+            this.errors = new ErrorCollection(this, e => e.ErrorType == ErrorType.Error);
+            this.warnings = new ErrorCollection(this, e => e.ErrorType == ErrorType.Warning);
+            this.messages = new ErrorCollection(this, e => e.ErrorType == ErrorType.Message);
         }
 
         /// <summary>
