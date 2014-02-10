@@ -28,6 +28,7 @@ namespace SablePP.Compiler.Execution
             this.generateWorker.RunWorkerCompleted += generateWorker_RunWorkerCompleted;
 
             tools = this.AddMenuItem("&Tools");
+            tools.Enabled = false;
 
             outputButton.Click += (s, e) => updateOutputDirectory();
             outputButton.Enabled = false;
@@ -42,6 +43,7 @@ namespace SablePP.Compiler.Execution
 
         protected override void OnFiletoolsEnabledChanged(EventArgs e)
         {
+            tools.Enabled = FiletoolsEnabled;
             outputButton.Enabled = FiletoolsEnabled;
             generateButton.Enabled = FiletoolsEnabled;
         }
