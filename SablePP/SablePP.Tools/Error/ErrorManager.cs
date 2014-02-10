@@ -14,7 +14,11 @@ namespace SablePP.Tools.Error
     {
         private ErrorComparison comparer;
         private List<CompilerError> errorList;
-        public int Count { get { return errorList.Count; } }
+
+        public int Count
+        {
+            get { return errorList.Count; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorManager"/> class.
@@ -32,7 +36,7 @@ namespace SablePP.Tools.Error
         public void Register(CompilerError error)
         {
             int pos = errorList.BinarySearch(error, comparer);
-            if (pos < 0) 
+            if (pos < 0)
                 pos = ~pos;
             else
             {
@@ -223,5 +227,35 @@ namespace SablePP.Tools.Error
         }
 
         #endregion
+
+        public class ErrorCollection : IEnumerable<CompilerError>
+        {
+            private ErrorManager errorManager;
+            private Predicate<CompilerError> predicate;
+
+            public int Count
+            {
+                get { return this.Count(); }
+            }
+
+            public ErrorCollection(ErrorManager errorManager, Predicate<CompilerError> predicate)
+            {
+                this.errorManager = errorManager;
+                this.predicate = predicate;
+            }
+
+            IEnumerator<CompilerError> IEnumerable<CompilerError>.GetEnumerator()
+            {
+                foreach (var e in errorManager)
+                    if (predicate(e))
+                        yield return e;
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return (this as IEnumerable<CompilerError>).GetEnumerator();
+            }
+        }
+
     }
 }
