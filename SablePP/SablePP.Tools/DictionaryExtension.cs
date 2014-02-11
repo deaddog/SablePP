@@ -5,6 +5,26 @@ namespace SablePP.Tools
 {
     public static class DictionaryExtension
     {
+        public static T GetNearest<T>(this IDictionary<string, T> dict, string key)
+        {
+            if (dict.ContainsKey(key))
+                return dict[key];
+
+            int diff = int.MaxValue;
+            T t = default(T);
+            foreach (var k in dict.Keys)
+            {
+                int cdiff = editDistance(k, key);
+                if (cdiff < diff)
+                {
+                    diff = cdiff;
+                    t = dict[k];
+                }
+            }
+
+            return t;
+        }
+
         private static int editDistance(string s, string t)
         {
             int[,] dist = new int[s.Length + 1, t.Length + 1];
