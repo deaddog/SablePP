@@ -25,6 +25,23 @@ namespace SablePP.Tools
             return t;
         }
 
+        public static T GetNearest<T>(this IEnumerable<T> collection, string key, Func<T, string> translate)
+        {
+            int diff = int.MaxValue;
+            T t = default(T);
+            foreach (var k in collection)
+            {
+                int cdiff = editDistance(translate(k), key);
+                if (cdiff < diff)
+                {
+                    diff = cdiff;
+                    t = k;
+                }
+            }
+
+            return t;
+        }
+
         private static int editDistance(string s, string t)
         {
             int[,] dist = new int[s.Length + 1, t.Length + 1];
