@@ -66,6 +66,19 @@ namespace SablePP.Tools.Generate
         }
 
         /// <summary>
+        /// Occurs when a new line is emitted (inserted) in this <see cref="PatchElement"/>.
+        /// </summary>
+        public event Action NewLineEmitted;
+        /// <summary>
+        /// Raises the <see cref="NewLineEmitted"/> event.
+        /// </summary>
+        protected override void newLineEmitted()
+        {
+            if (NewLineEmitted != null)
+                NewLineEmitted();
+        }
+
+        /// <summary>
         /// Increases the indentation for the coming elements in this <see cref="PatchElement"/>.
         /// </summary>
         public void IncreaseIndentation()
