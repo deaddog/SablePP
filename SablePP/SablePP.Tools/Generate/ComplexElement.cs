@@ -89,6 +89,14 @@ namespace SablePP.Tools.Generate
         protected void emitNewLine()
         {
             insertElement(new NewLineElement());
+            newLineEmitted();
+        }
+        /// <summary>
+        /// When overridden in a derived class, handles element-specific operations when a newline is inserted into the element.
+        /// The <see cref="ComplexElement.newLineEmitted"/> has no effect.
+        /// </summary>
+        protected virtual void newLineEmitted()
+        {
         }
 
         /// <summary>
