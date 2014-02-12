@@ -21,7 +21,7 @@ namespace SablePP.Compiler.Execution
         {
             this.Executer = executer = new CompilerExecuter(true);
             this.Text = "SPP Editor";
-            this.FileExtension = "sablecc";
+            this.FileExtension = "sablepp";
 
             this.generateWorker = new BackgroundWorker();
             this.generateWorker.DoWork += generateWorker_DoWork;
