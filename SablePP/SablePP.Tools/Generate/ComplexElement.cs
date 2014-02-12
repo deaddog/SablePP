@@ -46,7 +46,7 @@ namespace SablePP.Tools.Generate
         }
 
         /// <summary>
-        /// Emits text to the end of this <see cref="ComplexElement"/>.
+        /// Emits <paramref name="text"/> to the end of this <see cref="ComplexElement"/>.
         /// </summary>
         /// <param name="text">The text to emit.</param>
         /// <param name="prepend">A <see cref="UseSpace"/> determining if this text should be prepended with a space.</param>
@@ -62,6 +62,27 @@ namespace SablePP.Tools.Generate
             else
                 insertElement(new TextElement(text, prepend, append));
         }
+        /// <summary>
+        /// Emits <paramref name="text"/>, followed by a newline, to the end of this <see cref="ComplexElement"/>. Space prepending is <see cref="UseSpace.NotPreferred"/>.
+        /// </summary>
+        /// <param name="text">The text to emit.</param>
+        /// <param name="args">Optional array of arguments to insert into the string. See <see cref="String.Format(String, Object[])"/>.</param>
+        public void emitLine(string text, params object[] args)
+        {
+            emitLine(text, UseSpace.NotPreferred, args);
+        }
+        /// <summary>
+        /// Emits <paramref name="text"/>, followed by a newline, to the end of this <see cref="ComplexElement"/>.
+        /// </summary>
+        /// <param name="text">The text to emit.</param>
+        /// <param name="prepend">A <see cref="UseSpace"/> determining if this text should be prepended with a space.</param>
+        /// <param name="args">Optional array of arguments to insert into the string. See <see cref="String.Format(String, Object[])"/>.</param>
+        public void emitLine(string text, UseSpace prepend, params object[] args)
+        {
+            emit(text, prepend, UseSpace.Never, args);
+            emitNewLine();
+        }
+
         /// <summary>
         /// Emits a new line at the end of this <see cref="ComplexElement"/>.
         /// </summary>
@@ -132,7 +153,7 @@ namespace SablePP.Tools.Generate
         {
             PatchElement result = new PatchElement();
 
-            foreach(var e in Walk(element))
+            foreach (var e in Walk(element))
             {
                 if (e is TextElement)
                     result.emit((e as TextElement).Text, e.Prepend, e.Append);
@@ -174,7 +195,7 @@ namespace SablePP.Tools.Generate
 
             disposed = true;
 
-            if(parent!=null)
+            if (parent != null)
             {
                 PatchElement replacement = FlattenElement(this);
                 if (replacement.elements.Count == 1)
