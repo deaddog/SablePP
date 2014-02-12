@@ -16,10 +16,11 @@ namespace SablePP.Tools.Generate.CSharp
             get { return type; }
         }
 
-        private AccessModifiers modifiers;
+        private AccessModifierElement modifiers;
         public AccessModifiers Modifiers
         {
-            get { return modifiers; }
+            get { return modifiers.Modifiers; }
+            set { modifiers.Modifiers = value; }
         }
 
         private PropertyGetter getter;
@@ -45,7 +46,7 @@ namespace SablePP.Tools.Generate.CSharp
             if (type == string.Empty)
                 throw new ArgumentException("Property must have a type.", "type");
 
-            this.modifiers = modifiers;
+            this.modifiers = new AccessModifierElement(modifiers);
             this.name = name.Trim();
             this.type = type.Trim();
 
@@ -54,13 +55,13 @@ namespace SablePP.Tools.Generate.CSharp
             if (hasSetter)
                 this.setter = new PropertySetter();
 
-            modifiers.Emit(emit);
+            insertElement(this.modifiers);
             emit(type, UseSpace.NotPreferred, UseSpace.Always);
             emit(name, UseSpace.NotPreferred, UseSpace.Never);
 
             emitBlockStart();
 
-            if (hasGetter) 
+            if (hasGetter)
                 insertElement(getter);
             if (hasSetter)
                 insertElement(setter);
