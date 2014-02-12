@@ -25,6 +25,7 @@ namespace SablePP.Tools.Generate
         {
             base.insertElement(element);
         }
+
         /// <summary>
         /// Emits text to the end of this <see cref="PatchElement"/>.
         /// </summary>
@@ -37,11 +38,31 @@ namespace SablePP.Tools.Generate
             base.emit(text, prepend, append, args);
         }
         /// <summary>
+        /// Emits <paramref name="text"/>, followed by a newline, to the end of this <see cref="PatchElement"/>. Space prepending is <see cref="UseSpace.NotPreferred"/>.
+        /// </summary>
+        /// <param name="text">The text to emit.</param>
+        /// <param name="args">Optional array of arguments to insert into the string. See <see cref="String.Format(String, Object[])"/>.</param>
+        public void EmitLine(string text, params object[] args)
+        {
+            base.emitLine(text, args);
+        }
+        /// <summary>
+        /// Emits <paramref name="text"/>, followed by a newline, to the end of this <see cref="PatchElement"/>.
+        /// </summary>
+        /// <param name="text">The text to emit.</param>
+        /// <param name="prepend">A <see cref="UseSpace"/> determining if this text should be prepended with a space.</param>
+        /// <param name="args">Optional array of arguments to insert into the string. See <see cref="String.Format(String, Object[])"/>.</param>
+        public void EmitLine(string text, UseSpace prepend, params object[] args)
+        {
+            base.emitLine(text, prepend, args);
+        }
+
+        /// <summary>
         /// Emits a new line at the end of this <see cref="PatchElement"/>.
         /// </summary>
         public void EmitNewLine()
         {
-            base.insertElement(new NewLineElement());
+            base.emitNewLine();
         }
 
         /// <summary>
