@@ -55,6 +55,7 @@
     <Compile Include="Editor\ErrorEventArgs.cs" />
     <Compile Include="Editor\ErrorEventHandler.cs" />
     <Compile Include="Editor\MessageIcons.cs" />
+    <Compile Include="Generate\CSharp\AccessModifierElement.cs" />
     <Compile Include="Generate\CSharp\InlineElement.cs" />
     <Compile Include="Generate\CSharp\PartialMethodElement.cs" />
     <Compile Include="ICompilerExecuter.cs" />
