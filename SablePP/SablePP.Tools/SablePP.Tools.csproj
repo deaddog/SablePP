@@ -57,6 +57,7 @@
     <Compile Include="Editor\MessageIcons.cs" />
     <Compile Include="Generate\CSharp\AccessModifierElement.cs" />
     <Compile Include="Generate\CSharp\GetSetHandle.cs" />
+    <Compile Include="Generate\CSharp\IndexerInterfaces.cs" />
     <Compile Include="Generate\CSharp\InlineElement.cs" />
     <Compile Include="Generate\CSharp\PartialMethodElement.cs" />
     <Compile Include="Generate\CSharp\PropertyInterfaces.cs" />

@@ -1,23 +1,23 @@
 ﻿namespace SablePP.Tools.Generate.CSharp
 {
-    public interface IProperty
+    public interface IIndexer
     {
-        string Name { get; }
         AccessModifiers Modifiers { get; set; }
         string Type { get; }
+        MethodElement.ParametersElement Parameters { get; }
     }
 
-    public interface IGetProperty : IProperty
+    public interface IGetIndexer : IIndexer
     {
         PatchElement Get { get; }
         AccessModifiers GetModifiers { get; set; }
     }
-    public interface ISetProperty : IProperty
+    public interface ISetIndexer : IIndexer
     {
         PatchElement Set { get; }
         AccessModifiers SetModifiers { get; set; }
     }
-    public interface IGetSetProperty : IGetProperty, ISetProperty
+    public interface IGetSetIndexer : IGetIndexer, ISetIndexer
     {
     }
 }
