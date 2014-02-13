@@ -59,6 +59,7 @@
     <Compile Include="Generate\CSharp\GetSetHandle.cs" />
     <Compile Include="Generate\CSharp\InlineElement.cs" />
     <Compile Include="Generate\CSharp\PartialMethodElement.cs" />
+    <Compile Include="Generate\CSharp\PropertyInterfaces.cs" />
     <Compile Include="ICompilerExecuter.cs" />
     <Compile Include="Editor\CodeTextBox.cs">
       <SubType>UserControl</SubType>
