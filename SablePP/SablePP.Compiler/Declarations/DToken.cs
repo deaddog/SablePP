@@ -33,7 +33,7 @@ namespace SablePP.Compiler
 
         public string GeneratedName
         {
-            get { return "T" + char.ToUpper(base.DeclarationToken.Text[0]) + base.DeclarationToken.Text.Substring(1); }
+            get { return "T" + base.DeclarationToken.Text.ToCamelCase(); }
         }
 
         public override string ToString()
