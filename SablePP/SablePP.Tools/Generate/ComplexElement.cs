@@ -49,6 +49,15 @@ namespace SablePP.Tools.Generate
         /// Emits <paramref name="text"/> to the end of this <see cref="ComplexElement"/>.
         /// </summary>
         /// <param name="text">The text to emit.</param>
+        /// <param name="args">Optional array of arguments to insert into the string. See <see cref="String.Format(String, Object[])"/>.</param>
+        protected void emit(string text, params object[] args)
+        {
+            emit(text, UseSpace.NotPreferred, UseSpace.NotPreferred, args);
+        }
+        /// <summary>
+        /// Emits <paramref name="text"/> to the end of this <see cref="ComplexElement"/>.
+        /// </summary>
+        /// <param name="text">The text to emit.</param>
         /// <param name="prepend">A <see cref="UseSpace"/> determining if this text should be prepended with a space.</param>
         /// <param name="append">A <see cref="UseSpace"/> determining if this text should be appended with a space.</param>
         /// <param name="args">Optional array of arguments to insert into the string. See <see cref="String.Format(String, Object[])"/>.</param>

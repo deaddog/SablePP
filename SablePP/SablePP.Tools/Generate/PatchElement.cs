@@ -27,6 +27,15 @@ namespace SablePP.Tools.Generate
         }
 
         /// <summary>
+        /// Emits <paramref name="text"/> to the end of this <see cref="PatchElement"/>.
+        /// </summary>
+        /// <param name="text">The text to emit.</param>
+        /// <param name="args">Optional array of arguments to insert into the string. See <see cref="String.Format(String, Object[])"/>.</param>
+        public void Emit(string text, params object[] args)
+        {
+            base.emit(text, args);
+        }
+        /// <summary>
         /// Emits text to the end of this <see cref="PatchElement"/>.
         /// </summary>
         /// <param name="text">The text to emit.</param>
