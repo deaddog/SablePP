@@ -21,45 +21,17 @@ namespace SablePP.Compiler.Generate.Productions
             GetSetPropertyElement property = CreateProperty(node);
             EmitGet(node, property);
 
-            //if (value == null)
-            using (var par = property.Set.EmitIf())
-            {
-                par.EmitIdentifier("value");
-                par.EmitEqual();
-                par.EmitNull();
-            }
-            property.Set.EmitNewLine();
-            property.Set.IncreaseIndentation();
+            property.Set.EmitLine("if (value == null)");
 
-            //throw new ArgumentException("Identifier in AAssignment cannot be null.", "value");
-            property.Set.EmitThrow();
-            property.Set.EmitNew();
-            property.Set.EmitIdentifier("ArgumentException");
-            using (var par = property.Set.EmitParenthesis())
-            {
-                par.EmitStringValue(GetPropertyName(node) + " in " + classElement.Name + " cannot be null.");
-                par.EmitComma();
-                par.EmitStringValue("value");
-            }
-            property.Set.EmitSemicolon(true);
+            property.Set.IncreaseIndentation();
+            property.Set.EmitLine("throw new ArgumentException(\"{0} in {1} cannot be null.\", \"value\");",GetPropertyName(node),classElement.Name);
             property.Set.DecreaseIndentation();
 
-            //SetParent(value, this);
-            property.Set.EmitIdentifier("SetParent");
-            using (var par = property.Set.EmitParenthesis())
-            {
-                par.EmitIdentifier("value");
-                par.EmitComma();
-                par.EmitThis();
-            }
-            property.Set.EmitSemicolon(true);
+            property.Set.EmitLine("SetParent(value, this);");
 
-            // _identifier_ = value;
             property.Set.EmitNewLine();
-            property.Set.EmitIdentifier(field);
-            property.Set.EmitAssignment();
-            property.Set.EmitIdentifier("value");
-            property.Set.EmitSemicolon(true);
+
+            property.Set.Emit("{0} = value;", field);
         }
         public override void CaseAStarElement(AStarElement node)
         {
@@ -78,61 +50,24 @@ namespace SablePP.Compiler.Generate.Productions
             GetSetPropertyElement property = CreateProperty(node);
             EmitGet(node, property);
 
-            //if (_identifier_ != null)
-            using (var par = property.Set.EmitIf())
-            {
-                par.EmitIdentifier(field);
-                par.EmitNotEqual();
-                par.EmitNull();
-            }
-            property.Set.EmitNewLine();
+            property.Set.EmitLine("if ({0} != null)", field);
+            
             property.Set.IncreaseIndentation();
-
-            //SetParent(_identifier_, null);
-            property.Set.EmitIdentifier("SetParent");
-            using (var par = property.Set.EmitParenthesis())
-            {
-                par.EmitIdentifier(field);
-                par.EmitComma();
-                par.EmitNull();
-            }
-            property.Set.EmitSemicolon(true);
+            property.Set.EmitLine("SetParent({0}, null);", field);
             property.Set.DecreaseIndentation();
 
-            //if (value != null)
-            using (var par = property.Set.EmitIf())
-            {
-                par.EmitIdentifier("value");
-                par.EmitNotEqual();
-                par.EmitNull();
-            }
-            property.Set.EmitNewLine();
-            property.Set.IncreaseIndentation();
+            property.Set.EmitLine("if (value != null)");
 
-            //SetParent(value, this);
-            property.Set.EmitIdentifier("SetParent");
-            using (var par = property.Set.EmitParenthesis())
-            {
-                par.EmitIdentifier("value");
-                par.EmitComma();
-                par.EmitThis();
-            }
-            property.Set.EmitSemicolon(true);
+            property.Set.IncreaseIndentation();
+            property.Set.EmitLine("SetParent(value, this);");
             property.Set.DecreaseIndentation();
 
-            // _identifier_ = value;
             property.Set.EmitNewLine();
-            property.Set.EmitIdentifier(field);
-            property.Set.EmitAssignment();
-            property.Set.EmitIdentifier("value");
-            property.Set.EmitSemicolon(true);
+
+            property.Set.Emit("{0} = value;", field);
 
             GetPropertyElement hasProperty = classElement.CreateGetProperty(AccessModifiers.@public, "Has" + GetPropertyName(node), "bool");
-            hasProperty.Get.EmitReturn();
-            hasProperty.Get.EmitIdentifier(GetFieldName(node));
-            hasProperty.Get.EmitNotEqual();
-            hasProperty.Get.EmitNull();
-            hasProperty.Get.EmitSemicolon(false);
+            hasProperty.Get.Emit("return {0} != null;", GetFieldName(node));
         }
 
         private GetSetPropertyElement CreateProperty(ASimpleElement node)
@@ -168,11 +103,9 @@ namespace SablePP.Compiler.Generate.Productions
             return classElement.CreateGetProperty(AccessModifiers.@public, name, "NodeList<" + type + ">");
         }
 
-        private void EmitGet(PElement node, PropertyElement property)
+        private void EmitGet(PElement node, IGetProperty property)
         {
-            property.Get.EmitReturn();
-            property.Get.EmitIdentifier(GetFieldName(node));
-            property.Get.EmitSemicolon(false);
+            property.Get.Emit("return {0};", GetFieldName(node));
         }
     }
 }
