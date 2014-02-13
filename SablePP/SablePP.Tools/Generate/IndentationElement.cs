@@ -19,7 +19,7 @@ namespace SablePP.Tools.Generate
 
         internal override UseSpace Append
         {
-            get { return UseSpace.NotPreferred; }
+            get { return UseSpace.Never; }
         }
         internal override UseSpace Prepend
         {
