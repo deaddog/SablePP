@@ -47,11 +47,8 @@ namespace SablePP.Tools.Generate
             get { return lastElement; }
             set
             {
-                if (value != null)
-                {
-                    if (!(value is NewLineElement) && !(value is TextElement))
-                        throw new ArgumentException("Last element can only be newline or text.");
-                }
+                if (value == null)
+                    throw new ArgumentNullException("Last element cannot be null.");
                 lastElement = value;
             }
         }
