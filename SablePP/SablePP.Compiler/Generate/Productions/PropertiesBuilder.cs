@@ -18,7 +18,7 @@ namespace SablePP.Compiler.Generate.Productions
         {
             string field = GetFieldName(node);
 
-            PropertyElement property = CreateProperty(node);
+            GetSetPropertyElement property = CreateProperty(node);
             EmitGet(node, property);
 
             //if (value == null)
@@ -63,19 +63,19 @@ namespace SablePP.Compiler.Generate.Productions
         }
         public override void CaseAStarElement(AStarElement node)
         {
-            PropertyElement property = CreateProperty(node);
+            GetPropertyElement property = CreateProperty(node);
             EmitGet(node, property);
         }
         public override void CaseAPlusElement(APlusElement node)
         {
-            PropertyElement property = CreateProperty(node);
+            GetPropertyElement property = CreateProperty(node);
             EmitGet(node, property);
         }
         public override void CaseAQuestionElement(AQuestionElement node)
         {
             string field = GetFieldName(node);
 
-            PropertyElement property = CreateProperty(node);
+            GetSetPropertyElement property = CreateProperty(node);
             EmitGet(node, property);
 
             //if (_identifier_ != null)
@@ -127,7 +127,7 @@ namespace SablePP.Compiler.Generate.Productions
             property.Set.EmitIdentifier("value");
             property.Set.EmitSemicolon(true);
 
-            PropertyElement hasProperty = classElement.CreateGetProperty(AccessModifiers.@public, "Has" + GetPropertyName(node), "bool");
+            GetPropertyElement hasProperty = classElement.CreateGetProperty(AccessModifiers.@public, "Has" + GetPropertyName(node), "bool");
             hasProperty.Get.EmitReturn();
             hasProperty.Get.EmitIdentifier(GetFieldName(node));
             hasProperty.Get.EmitNotEqual();
@@ -135,16 +135,37 @@ namespace SablePP.Compiler.Generate.Productions
             hasProperty.Get.EmitSemicolon(false);
         }
 
-        private PropertyElement CreateProperty(PElement node)
+        private GetSetPropertyElement CreateProperty(ASimpleElement node)
         {
             TIdentifier typeId = node.PElementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetPropertyName(node);
 
-            if (node is AStarElement || node is APlusElement)
-                return classElement.CreateGetProperty(AccessModifiers.@public, name, "NodeList<" + type + ">");
-            else
-                return classElement.CreateProperty(AccessModifiers.@public, name, type);
+            return classElement.CreateProperty(AccessModifiers.@public, name, type);
+        }
+        private GetSetPropertyElement CreateProperty(AQuestionElement node)
+        {
+            TIdentifier typeId = node.PElementid.TIdentifier;
+            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
+            string name = GetPropertyName(node);
+
+            return classElement.CreateProperty(AccessModifiers.@public, name, type);
+        }
+        private GetPropertyElement CreateProperty(APlusElement node)
+        {
+            TIdentifier typeId = node.PElementid.TIdentifier;
+            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
+            string name = GetPropertyName(node);
+
+            return classElement.CreateGetProperty(AccessModifiers.@public, name, "NodeList<" + type + ">");
+        }
+        private GetPropertyElement CreateProperty(AStarElement node)
+        {
+            TIdentifier typeId = node.PElementid.TIdentifier;
+            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
+            string name = GetPropertyName(node);
+
+            return classElement.CreateGetProperty(AccessModifiers.@public, name, "NodeList<" + type + ">");
         }
 
         private void EmitGet(PElement node, PropertyElement property)
