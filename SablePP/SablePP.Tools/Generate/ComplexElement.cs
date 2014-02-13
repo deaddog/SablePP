@@ -67,7 +67,7 @@ namespace SablePP.Tools.Generate
         /// </summary>
         /// <param name="text">The text to emit.</param>
         /// <param name="args">Optional array of arguments to insert into the string. See <see cref="String.Format(String, Object[])"/>.</param>
-        public void emitLine(string text, params object[] args)
+        protected void emitLine(string text, params object[] args)
         {
             emitLine(text, UseSpace.NotPreferred, args);
         }
@@ -77,7 +77,7 @@ namespace SablePP.Tools.Generate
         /// <param name="text">The text to emit.</param>
         /// <param name="prepend">A <see cref="UseSpace"/> determining if this text should be prepended with a space.</param>
         /// <param name="args">Optional array of arguments to insert into the string. See <see cref="String.Format(String, Object[])"/>.</param>
-        public void emitLine(string text, UseSpace prepend, params object[] args)
+        protected void emitLine(string text, UseSpace prepend, params object[] args)
         {
             emit(text, prepend, UseSpace.Never, args);
             emitNewLine();
