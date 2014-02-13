@@ -38,7 +38,7 @@ namespace SablePP.Tools.Generate.CSharp
             insertElement(break2);
             insertElement(content);
             insertElement(break3);
-            emit("}", UseSpace.NotPreferred, UseSpace.NotPreferred);
+            emit("}", UseSpace.Preferred, UseSpace.NotPreferred);
             emitNewLine();
         }
 
@@ -50,6 +50,7 @@ namespace SablePP.Tools.Generate.CSharp
                 break1.EmitNewLine();
                 break2.EmitNewLine();
                 break2.IncreaseIndentation();
+                break3.EmitNewLine();
                 break3.DecreaseIndentation();
             }
         }
