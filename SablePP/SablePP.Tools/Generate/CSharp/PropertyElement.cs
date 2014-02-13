@@ -2,7 +2,7 @@
 
 namespace SablePP.Tools.Generate.CSharp
 {
-    public class PropertyElement : CSharpElement
+    public abstract class PropertyElement : CSharpElement
     {
         private string name;
         private string type;

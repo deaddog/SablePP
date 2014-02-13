@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools.Generate.CSharp
 {
-    public class IndexerElement : CSharpElement
+    public abstract class IndexerElement : CSharpElement
     {
         private string type;
         public string Type
@@ -24,7 +24,7 @@ namespace SablePP.Tools.Generate.CSharp
             get { return parameters; }
         }
 
-        public IndexerElement(AccessModifiers modifiers, string type)
+        protected IndexerElement(AccessModifiers modifiers, string type)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
