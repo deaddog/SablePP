@@ -130,40 +130,42 @@ namespace SablePP.Tools.Generate.CSharp
             return method;
         }
 
-        public PropertyElement CreateProperty(AccessModifiers modifiers, string name, string type)
+        public GetSetPropertyElement CreateProperty(AccessModifiers modifiers, string name, string type)
         {
-            return _createProperty(modifiers, name, type, true, true);
+            GetSetPropertyElement element = new GetSetPropertyElement(modifiers, name, type);
+            contents.InsertElement(element);
+            return element;
         }
-        public PropertyElement CreateSetProperty(AccessModifiers modifiers, string name, string type)
+        public SetPropertyElement CreateSetProperty(AccessModifiers modifiers, string name, string type)
         {
-            return _createProperty(modifiers, name, type, false, true);
+            SetPropertyElement element = new SetPropertyElement(modifiers, name, type);
+            contents.InsertElement(element);
+            return element;
         }
-        public PropertyElement CreateGetProperty(AccessModifiers modifiers, string name, string type)
+        public GetPropertyElement CreateGetProperty(AccessModifiers modifiers, string name, string type)
         {
-            return _createProperty(modifiers, name, type, true, false);
-        }
-        private PropertyElement _createProperty(AccessModifiers modifiers, string name, string type, bool hasGetter, bool hasSetter)
-        {
-            PropertyElement element = new PropertyElement(modifiers, name, type, hasGetter, hasSetter);
+            GetPropertyElement element = new GetPropertyElement(modifiers, name, type);
             contents.InsertElement(element);
             return element;
         }
 
-        public IndexerElement CreateIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
+        public GetSetIndexerElement CreateIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
         {
-            return _createIndexer(modifiers, type, arg1name, arg1type, true, true);
+            GetSetIndexerElement element = new GetSetIndexerElement(modifiers, type);
+            element.Parameters.Add(arg1name, arg1type);
+            contents.InsertElement(element);
+            return element;
         }
-        public IndexerElement CreateSetIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
+        public SetIndexerElement CreateSetIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
         {
-            return _createIndexer(modifiers, type, arg1name, arg1type, false, true);
+            SetIndexerElement element = new SetIndexerElement(modifiers, type);
+            element.Parameters.Add(arg1name, arg1type);
+            contents.InsertElement(element);
+            return element;
         }
-        public IndexerElement CreateGetIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
+        public GetIndexerElement CreateGetIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
         {
-            return _createIndexer(modifiers, type, arg1name, arg1type, true, false);
-        }
-        private IndexerElement _createIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type, bool hasGetter, bool hasSetter)
-        {
-            IndexerElement element = new IndexerElement(modifiers, type, hasGetter, hasSetter);
+            GetIndexerElement element = new GetIndexerElement(modifiers, type);
             element.Parameters.Add(arg1name, arg1type);
             contents.InsertElement(element);
             return element;
