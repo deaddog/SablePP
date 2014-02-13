@@ -98,9 +98,9 @@ namespace SablePP.Tools.Generate.CSharp
             contents.EmitNewLine();
         }
 
-        public void EmitField(string name, string type, AccessModifiers modifiers, out InlineElement valueElement)
+        public void EmitField(string name, string type, AccessModifiers modifiers, out PatchElement valueElement)
         {
-            valueElement = new InlineElement();
+            valueElement = new PatchElement();
 
             modifiers.Emit(contents.Emit);
             contents.Emit(type, UseSpace.NotPreferred, UseSpace.Preferred);

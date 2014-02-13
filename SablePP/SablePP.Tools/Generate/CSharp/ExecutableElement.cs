@@ -31,15 +31,6 @@ namespace SablePP.Tools.Generate.CSharp
         }
 
         /// <summary>
-        /// Inserts an <see cref="InlineElement"/> at the end of the <see cref="ExecutableElement"/>s content.
-        /// </summary>
-        /// <param name="element">The element to insert.</param>
-        public void InsertInline(InlineElement element)
-        {
-            contents.InsertElement(element);
-        }
-
-        /// <summary>
         /// Emits curly bracket, newline and increases indentation
         /// </summary>
         public void EmitBlockStart()

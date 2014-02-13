@@ -4,6 +4,7 @@ using System.Text;
 
 using SablePP.Compiler.Nodes;
 
+using SablePP.Tools.Generate;
 using SablePP.Tools.Generate.CSharp;
 using SablePP.Tools.Nodes;
 
@@ -91,11 +92,11 @@ namespace SablePP.Compiler.Generate
                 par.EmitIdentifier("lexer");
             imMethod.EmitSemicolon(true);
         }
-        private static void CreateSimpleSyntaxMethod(ClassElement classElement, out InlineElement rulesElement)
+        private static void CreateSimpleSyntaxMethod(ClassElement classElement, out PatchElement rulesElement)
         {
             var method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "GetSimpleStyle", "Style");
             method.Parameters.Add("token", "Token");
-            rulesElement = new InlineElement();
+            rulesElement = new PatchElement();
             method.InsertInline(rulesElement);
             method.EmitReturn();
             method.EmitNull();
