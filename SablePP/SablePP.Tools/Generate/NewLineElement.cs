@@ -3,7 +3,7 @@ using System.Text;
 
 namespace SablePP.Tools.Generate
 {
-    internal sealed class NewLineElement : CodeElement
+    public sealed class NewLineElement : CodeElement
     {
         public NewLineElement()
         {

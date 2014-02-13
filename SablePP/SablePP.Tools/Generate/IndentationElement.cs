@@ -2,7 +2,7 @@
 
 namespace SablePP.Tools.Generate
 {
-    internal sealed class IndentationElement : CodeElement
+    public sealed class IndentationElement : CodeElement
     {
         private int difference;
 

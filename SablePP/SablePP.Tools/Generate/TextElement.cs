@@ -1,6 +1,6 @@
 ﻿namespace SablePP.Tools.Generate
 {
-    internal sealed class TextElement : CodeElement
+    public sealed class TextElement : CodeElement
     {
         private UseSpace prepend, append;
         private string text;
