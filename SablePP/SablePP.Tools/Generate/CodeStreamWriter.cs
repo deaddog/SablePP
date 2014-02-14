@@ -37,7 +37,13 @@ namespace SablePP.Tools.Generate
         public int Indentation
         {
             get { return indentation; }
-            set { indentation = value; }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value", "Indentation must be greater than or equal to zero.");
+
+                indentation = value;
+            }
         }
         public int IndentationSize
         {
