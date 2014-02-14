@@ -39,59 +39,8 @@ namespace SablePP.Tools.Generate.CSharp
             get { return typeParameters; }
         }
 
-        private PatchElement chainInsert;
-        public bool HasChain
+        public MethodElement(string signature, string chaincall = null)
         {
-            get { return chainElement != null; }
-        }
-        private ChainElement chainElement;
-        public ChainElement Chain
-        {
-            get { return chainElement; }
-        }
-
-        public MethodElement(AccessModifiers modifiers, string name, bool? baseChain = null)
-            : this(modifiers, name, null as string)
-        {
-            if (baseChain.HasValue)
-            {
-                chainElement = new ChainElement(baseChain.Value);
-                chainInsert.InsertElement(chainElement);
-            }
-        }
-        public MethodElement(AccessModifiers modifiers, string name, string returnType)
-        {
-            if (name == null)
-                throw new ArgumentNullException("name");
-            if (name == string.Empty)
-                throw new ArgumentException("Method must have a name.", "name");
-
-            this.modifiers = modifiers;
-            this.name = name.Trim();
-            this.returnType = returnType != null ? returnType.Trim() : null;
-            if (this.returnType == string.Empty)
-                this.returnType = null;
-
-            this.parameters = new ParametersElement();
-            this.typeParameters = new TypeParametersElement();
-
-            modifiers.Emit(emit);
-            if (this.returnType != null)
-                emit(returnType, UseSpace.NotPreferred, UseSpace.Always);
-            emit(name, UseSpace.NotPreferred, UseSpace.Never);
-            insertElement(typeParameters);
-            emit("(", UseSpace.Never, UseSpace.Never);
-            insertElement(parameters);
-            emit(")", UseSpace.Never, UseSpace.Never);
-
-            emitNewLine();
-            chainInsert = new PatchElement();
-            insertElement(chainInsert);
-            emit("{", UseSpace.Never, UseSpace.Never);
-            emitNewLine();
-            increaseIndentation();
-            InsertContents();
-            emitBlockEnd();
         }
 
         public class ChainElement : ExecutableElement
