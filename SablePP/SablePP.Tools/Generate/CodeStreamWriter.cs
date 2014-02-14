@@ -11,7 +11,7 @@ namespace SablePP.Tools.Generate
         private int indentation;
         private int indentationSize;
 
-        private CodeElement lastElement;
+        private string currentLine;
 
         public CodeStreamWriter(Stream stream, Encoding encoding, int indentationSize)
         {
@@ -30,6 +30,8 @@ namespace SablePP.Tools.Generate
 
             this.indentation = 0;
             this.indentationSize = indentationSize;
+
+            this.currentLine = string.Empty;
         }
 
         public int Indentation
@@ -42,23 +44,35 @@ namespace SablePP.Tools.Generate
             get { return indentationSize; }
         }
 
+        private string getIndentationString(int indent)
+        {
+            return string.Empty.PadRight(indent * indentationSize);
+        }
+
         public void WriteString(string text)
         {
-            byte[] buffer = encoding.GetBytes(text);
-            stream.Write(buffer, 0, buffer.Length);
-        }
-        public void RemoveFromEnd(string text)
-        {
-            int cut = encoding.GetByteCount(text);
-            if (cut > stream.Length)
-                throw new ArgumentOutOfRangeException("text", "Value longer than current length of stream.");
+            if (text == null)
+                throw new ArgumentNullException("text");
+            if (text.Length == 0)
+                return;
 
-            stream.Seek(-cut, System.IO.SeekOrigin.Current);
-            stream.SetLength(stream.Length - cut);
+            if (currentLine == string.Empty)
+                currentLine = getIndentationString(indentation);
+
+            currentLine += text;
+        }
+        public void WriteNewline()
+        {
+            byte[] buffer = encoding.GetBytes(currentLine + "\r\n");
+            stream.Write(buffer, 0, buffer.Length);
+
+            currentLine = string.Empty;
         }
 
         void IDisposable.Dispose()
         {
+            byte[] buffer = encoding.GetBytes(currentLine);
+            stream.Write(buffer, 0, buffer.Length);
         }
     }
 }
