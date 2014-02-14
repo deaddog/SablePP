@@ -42,17 +42,6 @@ namespace SablePP.Tools.Generate
             get { return indentationSize; }
         }
 
-        public CodeElement LastElement
-        {
-            get { return lastElement; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("Last element cannot be null.");
-                lastElement = value;
-            }
-        }
-
         public void WriteString(string text)
         {
             byte[] buffer = encoding.GetBytes(text);
