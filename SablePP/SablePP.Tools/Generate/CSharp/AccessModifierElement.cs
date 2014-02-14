@@ -32,7 +32,6 @@ namespace SablePP.Tools.Generate.CSharp
         internal override void Generate(CodeStreamWriter streamwriter)
         {
             streamwriter.WriteString(buildString(modifiers));
-            streamwriter.LastElement = this;
         }
 
         private static string buildString(AccessModifiers modifiers)
