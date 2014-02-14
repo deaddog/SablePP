@@ -32,12 +32,6 @@ namespace SablePP.Tools.Generate
                 return;
 
             streamwriter.Indentation += difference;
-            string indent = "".PadRight(Math.Abs(difference) * streamwriter.IndentationSize);
-
-            if (difference > 0)
-                streamwriter.WriteString(indent);
-            else if (difference < 0)
-                streamwriter.RemoveFromEnd(indent);
         }
 
         public override string ToString()

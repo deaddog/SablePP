@@ -20,7 +20,7 @@ namespace SablePP.Tools.Generate
 
         internal override void Generate(CodeStreamWriter streamwriter)
         {
-            streamwriter.WriteString("\r\n".PadRight(2 + streamwriter.Indentation * streamwriter.IndentationSize));
+            streamwriter.WriteNewline();
         }
 
         public override string ToString()
