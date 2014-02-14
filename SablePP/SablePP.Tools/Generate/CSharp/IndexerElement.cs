@@ -18,8 +18,8 @@ namespace SablePP.Tools.Generate.CSharp
             set { modifiers.Modifiers = value; }
         }
         
-        private MethodElement.ParametersElement parameters;
-        public MethodElement.ParametersElement Parameters
+        private ParametersElement parameters;
+        public ParametersElement Parameters
         {
             get { return parameters; }
         }
@@ -34,7 +34,7 @@ namespace SablePP.Tools.Generate.CSharp
             this.modifiers = new AccessModifierElement(modifiers);
             this.type = type.Trim();
 
-            this.parameters = new MethodElement.ParametersElement();
+            this.parameters = new ParametersElement();
 
             insertElement(this.modifiers);
             emit(type, UseSpace.NotPreferred, UseSpace.Always);

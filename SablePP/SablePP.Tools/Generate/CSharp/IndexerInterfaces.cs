@@ -4,7 +4,7 @@
     {
         AccessModifiers Modifiers { get; set; }
         string Type { get; }
-        MethodElement.ParametersElement Parameters { get; }
+        ParametersElement Parameters { get; }
     }
 
     public interface IGetIndexer : IIndexer

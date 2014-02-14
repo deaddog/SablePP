@@ -59,6 +59,7 @@
     <Compile Include="Generate\CSharp\BlockElement.cs" />
     <Compile Include="Generate\CSharp\GetSetHandle.cs" />
     <Compile Include="Generate\CSharp\IndexerInterfaces.cs" />
+    <Compile Include="Generate\CSharp\ParametersElement.cs" />
     <Compile Include="Generate\CSharp\PartialMethodElement.cs" />
     <Compile Include="Generate\CSharp\PropertyInterfaces.cs" />
     <Compile Include="ICompilerExecuter.cs" />
