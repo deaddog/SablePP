@@ -21,10 +21,11 @@ namespace SablePP.Tools.Generate.CSharp
             get { return returnType == null; }
         }
 
-        private AccessModifiers modifiers;
+        private AccessModifierElement modifiers;
         public AccessModifiers Modifiers
         {
-            get { return modifiers; }
+            get { return modifiers.Modifiers; }
+            set { modifiers.Modifiers = value; }
         }
 
         private ParametersElement parameters;
