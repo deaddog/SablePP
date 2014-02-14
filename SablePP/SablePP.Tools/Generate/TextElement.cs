@@ -35,7 +35,6 @@
         internal override void Generate(CodeStreamWriter streamwriter)
         {
             streamwriter.WriteString(text);
-            streamwriter.LastElement = this;
         }
 
         public override string ToString()

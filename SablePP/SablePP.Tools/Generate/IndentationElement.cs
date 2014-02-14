@@ -28,16 +28,10 @@ namespace SablePP.Tools.Generate
 
         internal override void Generate(CodeStreamWriter streamwriter)
         {
-            if (!(streamwriter.LastElement is NewLineElement))
-                throw new Exception("Can only change indentation after newline.");
+            if (difference == 0)
+                return;
 
             streamwriter.Indentation += difference;
-            string indent = "".PadRight(Math.Abs(difference) * streamwriter.IndentationSize);
-
-            if (difference > 0)
-                streamwriter.WriteString(indent);
-            else if (difference < 0)
-                streamwriter.RemoveFromEnd(indent);
         }
 
         public override string ToString()
