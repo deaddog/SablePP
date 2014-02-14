@@ -69,6 +69,9 @@ namespace SablePP.Tools.Generate
         }
         public void WriteNewline()
         {
+            if (currentLine == string.Empty)
+                currentLine = getIndentationString(indentation);
+
             byte[] buffer = encoding.GetBytes(currentLine + "\r\n");
             stream.Write(buffer, 0, buffer.Length);
 
