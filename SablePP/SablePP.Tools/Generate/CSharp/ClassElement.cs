@@ -144,7 +144,7 @@ namespace SablePP.Tools.Generate.CSharp
         public void EmitField(string declaration, out PatchElement valueElement)
         {
             valueElement = new PatchElement();
-            contents.Emit("{0} ", declaration.Trim());
+            contents.Emit("{0} = ", declaration.Trim());
             contents.InsertElement(valueElement);
             contents.EmitLine(";");
         }
