@@ -6,19 +6,9 @@ namespace SablePP.Tools.Generate.CSharp
     public class MethodElement : ExecutableElement
     {
         private string name;
-        private string returnType;
-
         public string Name
         {
             get { return name; }
-        }
-        public string ReturnType
-        {
-            get { return returnType; }
-        }
-        public bool IsConstructor
-        {
-            get { return returnType == null; }
         }
 
         private AccessModifierElement modifiers;
