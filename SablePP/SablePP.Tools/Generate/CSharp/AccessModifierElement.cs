@@ -22,7 +22,7 @@ namespace SablePP.Tools.Generate.CSharp
 
         internal override UseSpace Append
         {
-            get { return UseSpace.Preferred; }
+            get { return modifiers == AccessModifiers.None ? UseSpace.Never : UseSpace.Preferred; }
         }
 
         internal override UseSpace Prepend
