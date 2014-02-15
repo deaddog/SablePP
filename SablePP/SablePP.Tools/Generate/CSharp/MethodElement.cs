@@ -109,33 +109,5 @@ namespace SablePP.Tools.Generate.CSharp
             else
                 this.body = null;
         }
-
-        public class ChainElement : ExecutableElement
-        {
-            private bool isbase;
-
-            public bool IsBase
-            {
-                get { return isbase; }
-            }
-            public bool IsThis
-            {
-                get { return !isbase; }
-            }
-
-            public ChainElement(bool isbase)
-            {
-                this.isbase = isbase;
-
-                increaseIndentation();
-                emit(":", UseSpace.Never, UseSpace.Always);
-                emit(isbase ? "base" : "this", UseSpace.Always, UseSpace.Never);
-                emit("(", UseSpace.Never, UseSpace.Never);
-                InsertContents();
-                emit(")", UseSpace.Never, UseSpace.Never);
-                emitNewLine();
-                decreaseIndentation();
-            }
-        }
     }
 }
