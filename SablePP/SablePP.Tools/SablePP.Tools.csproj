@@ -60,7 +60,6 @@
     <Compile Include="Generate\CSharp\GetSetHandle.cs" />
     <Compile Include="Generate\CSharp\IndexerInterfaces.cs" />
     <Compile Include="Generate\CSharp\ParametersElement.cs" />
-    <Compile Include="Generate\CSharp\PartialMethodElement.cs" />
     <Compile Include="Generate\CSharp\PropertyInterfaces.cs" />
     <Compile Include="ICompilerExecuter.cs" />
     <Compile Include="Editor\CodeTextBox.cs">
@@ -109,7 +108,6 @@
     <Compile Include="Generate\CSharp\FileElement.cs" />
     <Compile Include="Generate\CSharp\MethodElement.cs" />
     <Compile Include="Generate\CSharp\NameSpaceElement.cs" />
-    <Compile Include="Generate\CSharp\NoBodyMethodElement.cs" />
     <Compile Include="Generate\CSharp\PropertyElement.cs" />
     <Compile Include="Generate\CSharp\TypeParametersElement.cs" />
     <Compile Include="Generate\CSharp\UsingsElement.cs" />
