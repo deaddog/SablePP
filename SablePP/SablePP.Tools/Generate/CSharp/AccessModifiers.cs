@@ -64,7 +64,15 @@ namespace SablePP.Tools.Generate.CSharp
         /// <summary>
         /// The operator access modifier.
         /// </summary>
-        @operator
+        @operator = 4096,
+        /// <summary>
+        /// The sealed access modifier.
+        /// </summary>
+        @sealed = 8192,
+        /// <summary>
+        /// The extern access modifier.
+        /// </summary>
+        @extern = 16384
     }
 
     internal static class AccessModifiersExtension

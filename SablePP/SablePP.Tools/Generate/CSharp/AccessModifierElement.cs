@@ -58,21 +58,24 @@ namespace SablePP.Tools.Generate.CSharp
                 case AccessModifiers.@protected:
                     return 1;
                 case AccessModifiers.@partial:
-                    return 4;
+                    return 5;
                 case AccessModifiers.@new:
                     return 0;
                 case AccessModifiers.@internal:
                     return 2;
+                case AccessModifiers.@sealed:
+                    return 3;
                 case AccessModifiers.@abstract:
                 case AccessModifiers.@virtual:
                 case AccessModifiers.@override:
                 case AccessModifiers.@static:
-                    return 3;
+                    return 4;
                 case AccessModifiers.@explicit:
                 case AccessModifiers.@implicit:
-                    return 5;
-                case AccessModifiers.@operator:
                     return 6;
+                case AccessModifiers.@operator:
+                case AccessModifiers.@extern:
+                    return 7;
                 default:
                     throw new NotImplementedException();
             }
