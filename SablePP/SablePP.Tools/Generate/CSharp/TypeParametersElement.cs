@@ -9,7 +9,7 @@ namespace SablePP.Tools.Generate.CSharp
     {
         private List<string> types;
 
-        internal TypeParametersElement()
+        private TypeParametersElement()
         {
             this.types = new List<string>();
         }
@@ -71,6 +71,20 @@ namespace SablePP.Tools.Generate.CSharp
                 }
                 streamwriter.WriteString(">");
             }
+        }
+        internal static TypeParametersElement Parse(string signature)
+        {
+            TypeParametersElement element = new TypeParametersElement();
+
+            string[] parameters = signature.Split(',');
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                parameters[i] = parameters[i].Trim();
+                if (parameters[i].Length > 0)
+                    element.types.Add(parameters[i]);
+            }
+
+            return element;
         }
     }
 }

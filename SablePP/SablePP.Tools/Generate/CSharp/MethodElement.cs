@@ -45,12 +45,22 @@ namespace SablePP.Tools.Generate.CSharp
 
             // Find the parameters
             int parIndex = signature.IndexOf('(');
+            name = signature.Substring(0, parIndex).TrimEnd();
+
+            // Find the type parameters
+            if (name.EndsWith(">"))
+            {
+                int typesStart = name.LastIndexOf('<');
+                string types = name.Substring(typesStart + 1, name.Length - typesStart - 2);
+                typeParameters = TypeParametersElement.Parse(types);
+                name = name.Substring(0, typesStart).TrimEnd();
+            }
+            else
+                typeParameters = TypeParametersElement.Parse(string.Empty);
 
             // Parse the name
-            name = signature.Substring(0, parIndex).TrimEnd();
             emit(name);
-            while (name.EndsWith(">") || name.EndsWith("<"))
-                name = name.Substring(0, name.LastIndexOf('<')).TrimEnd();
+            insertElement(typeParameters);
             if (name.Contains(" "))
                 name = name.Substring(name.LastIndexOf(' ') + 1);
             signature = signature.Substring(parIndex + 1);
