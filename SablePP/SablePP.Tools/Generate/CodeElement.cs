@@ -66,7 +66,7 @@ namespace SablePP.Tools.Generate
 
             using (MemoryStream ms = new MemoryStream())
             {
-                this.Generate(new CodeStreamWriter(ms, Encoding.Unicode, indentationSize));
+                ToStream(ms, Encoding.Unicode, indentationSize);
                 buffer = ms.ToArray();
             }
 
@@ -100,7 +100,8 @@ namespace SablePP.Tools.Generate
         /// <param name="indentationSize">Size of indentation (in spaces) when emitting a new line.</param>
         public void ToStream(Stream stream, Encoding encoding, int indentationSize)
         {
-            this.Generate(new CodeStreamWriter(stream, encoding, indentationSize));
+            using (CodeStreamWriter csw = new CodeStreamWriter(stream, encoding, indentationSize))
+                this.Generate(csw);
         }
         /// <summary>
         /// Writes the code of this <see cref="CodeElement"/> and all its children (if any) to a file using a specific encoding.
