@@ -28,7 +28,7 @@ namespace SablePP.Compiler.Generate.Productions
         {
             base.OutAAlternative(node);
 
-            method.Body.EmitLine("throw new ArgumentException(\"Node to be replaced is not a child in this production.\";");
+            method.Body.EmitLine("throw new ArgumentException(\"Node to be replaced is not a child in this production.\");");
         }
 
         public override void CaseASimpleElement(ASimpleElement node)
@@ -42,7 +42,7 @@ namespace SablePP.Compiler.Generate.Productions
 
             method.Body.EmitLine("if ({0} == null)", newChild);
             method.Body.IncreaseIndentation();
-            method.Body.EmitLine("throw new ArgumentException(\"{0} in {1} cannot be null.\");", GetPropertyName(node), classElement.Name);
+            method.Body.EmitLine("throw new ArgumentException(\"{0} in {1} cannot be null.\", \"{2}\");", GetPropertyName(node), classElement.Name, newChild);
             method.Body.DecreaseIndentation();
 
             method.Body.EmitLine("if (!({0} is {1}) && {0} != null)", newChild, type);
@@ -54,7 +54,7 @@ namespace SablePP.Compiler.Generate.Productions
 
             method.Body.DecreaseIndentation();
             method.Body.EmitLine("}");
-            method.Body.Emit("else");
+            method.Body.Emit("else ");
         }
         public override void CaseAQuestionElement(AQuestionElement node)
         {
@@ -74,7 +74,7 @@ namespace SablePP.Compiler.Generate.Productions
 
             method.Body.DecreaseIndentation();
             method.Body.EmitLine("}");
-            method.Body.Emit("else");
+            method.Body.Emit("else ");
         }
 
         public override void CaseAStarElement(AStarElement node)
@@ -91,10 +91,11 @@ namespace SablePP.Compiler.Generate.Productions
             TIdentifier typeId = node.PElementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
 
+            method.Body.EmitLine("if ({0} is {1} && {2}.Contains({0} as {1}))", oldChild, type, GetFieldName(node));
             method.Body.EmitLine("{");
             method.Body.IncreaseIndentation();
 
-            method.Body.EmitLine("if ({0} is {1} && {2}.Contains({0} as {1}))", oldChild, type, GetFieldName(node));
+            method.Body.EmitLine("if (!({0} is {1}) && {0} != null)", newChild, type);
             method.Body.IncreaseIndentation();
             method.Body.EmitLine("throw new ArgumentException(\"Child replaced must be of same type as child being replaced with.\");");
             method.Body.DecreaseIndentation();
@@ -105,7 +106,6 @@ namespace SablePP.Compiler.Generate.Productions
             method.Body.IncreaseIndentation();
             method.Body.EmitLine("{0}.RemoveAt(index);", GetFieldName(node));
             method.Body.DecreaseIndentation();
-
             method.Body.EmitLine("else");
             method.Body.IncreaseIndentation();
             method.Body.EmitLine("{0}[index] = {1} as {2};", GetFieldName(node), newChild, type);
@@ -113,7 +113,7 @@ namespace SablePP.Compiler.Generate.Productions
 
             method.Body.DecreaseIndentation();
             method.Body.EmitLine("}");
-            method.Body.Emit("else");
+            method.Body.Emit("else ");
         }
     }
 }
