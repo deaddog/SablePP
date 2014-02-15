@@ -87,14 +87,9 @@ namespace SablePP.Compiler.Generate
             code = parserThrow.Replace(code, "throw new ParserException(last_token, last_line, last_pos, ");
             code = parserClass.Replace(code, "{");
 
-            MethodElement parseMethodElement = new MethodElement(AccessModifiers.None, ToolsNamespace.Parsing + ".IParser.Parse", "Node");
-            parseMethodElement.EmitReturn();
-            parseMethodElement.EmitThis();
-            parseMethodElement.EmitPeriod();
-            parseMethodElement.EmitIdentifier("Parse");
-            parseMethodElement.EmitParenthesis();
-            parseMethodElement.EmitSemicolon(true);
-            string methodCode = parseMethodElement.ToString(4);
+            MethodElement parseMethodElement = new MethodElement("Node {0}.IParser.Parse()", true, ToolsNamespace.Parsing);
+            parseMethodElement.Body.EmitLine("return this.Parse();");
+            string methodCode = parseMethodElement.ToString("    ");
 
             code = indexMethod.Replace(code, ReplaceInIndexMethod);
             code = parseMethod.Replace(code, methodCode + "public Start<" + astRoot.Root.RootProduction + "> Parse()");

@@ -35,8 +35,7 @@ namespace SablePP.Compiler.Generate.Analysis
                 Visit(node.Package);
 
             string packageName = node.PackageName;
-
-            nameElement = fileElement.CreateNamespace(packageName + ".Analysis");
+            fileElement.Add(nameElement = new NameSpaceElement(packageName + ".Analysis"));
             fileElement.Using.Add(packageName + ".Nodes");
 
             List<DepthFirstAdapter> adapters = new List<DepthFirstAdapter>();

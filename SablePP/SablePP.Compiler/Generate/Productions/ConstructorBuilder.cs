@@ -17,7 +17,7 @@ namespace SablePP.Compiler.Generate.Productions
 
         public override void InAAlternative(AAlternative node)
         {
-            constructor = classElement.CreateConstructor(AccessModifiers.@public);
+            classElement.Add(constructor = new MethodElement("public {0}()", true, classElement.Name));
             base.InAAlternative(node);
         }
 
@@ -44,35 +44,15 @@ namespace SablePP.Compiler.Generate.Productions
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
 
             if (list)
-                constructor.Parameters.Add(GetFieldName(node), "IEnumerable<" + type + ">");
-            else
-                constructor.Parameters.Add(GetFieldName(node), type);
-
-            constructor.EmitThis();
-            constructor.EmitPeriod();
-            constructor.EmitIdentifier(list ? GetFieldName(node) : GetPropertyName(node));
-            constructor.EmitAssignment();
-            if (list)
             {
-                constructor.EmitNew();
-                constructor.EmitIdentifier("NodeList");
-                using (var par = constructor.EmitParenthesis(ParenthesisElement.Types.Angled))
-                    par.EmitIdentifier(type);
-                using (var par = constructor.EmitParenthesis(ParenthesisElement.Types.Round))
-                {
-                    par.EmitThis();
-                    par.EmitComma();
-                    par.EmitIdentifier(GetFieldName(node));
-                    par.EmitComma();
-                    if (node is AStarElement)
-                        par.EmitTrue();
-                    else
-                        par.EmitFalse();
-                }
+                constructor.Parameters.Add(GetFieldName(node), "IEnumerable<" + type + ">");
+                constructor.Body.EmitLine("this.{0} = new NodeList<{1}>(this, {0}, {2});", GetFieldName(node), type, node is AStarElement ? "true" : "false");
             }
             else
-                constructor.EmitIdentifier(GetFieldName(node));
-            constructor.EmitSemicolon(true);
+            {
+                constructor.Parameters.Add(GetFieldName(node), type);
+                constructor.Body.EmitLine("this.{0} = {1};", GetPropertyName(node), GetFieldName(node));
+            }
         }
     }
 }

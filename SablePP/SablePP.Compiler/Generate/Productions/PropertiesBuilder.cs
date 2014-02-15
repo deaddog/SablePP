@@ -24,7 +24,7 @@ namespace SablePP.Compiler.Generate.Productions
             property.Set.EmitLine("if (value == null)");
 
             property.Set.IncreaseIndentation();
-            property.Set.EmitLine("throw new ArgumentException(\"{0} in {1} cannot be null.\", \"value\");",GetPropertyName(node),classElement.Name);
+            property.Set.EmitLine("throw new ArgumentException(\"{0} in {1} cannot be null.\", \"value\");", GetPropertyName(node), classElement.Name);
             property.Set.DecreaseIndentation();
 
             property.Set.EmitLine("SetParent(value, this);");
@@ -51,7 +51,7 @@ namespace SablePP.Compiler.Generate.Productions
             EmitGet(node, property);
 
             property.Set.EmitLine("if ({0} != null)", field);
-            
+
             property.Set.IncreaseIndentation();
             property.Set.EmitLine("SetParent({0}, null);", field);
             property.Set.DecreaseIndentation();
@@ -66,7 +66,8 @@ namespace SablePP.Compiler.Generate.Productions
 
             property.Set.Emit("{0} = value;", field);
 
-            GetPropertyElement hasProperty = classElement.CreateGetProperty(AccessModifiers.@public, "Has" + GetPropertyName(node), "bool");
+            GetPropertyElement hasProperty;
+            classElement.Add(hasProperty = new GetPropertyElement(AccessModifiers.@public, "Has" + GetPropertyName(node), "bool"));
             hasProperty.Get.Emit("return {0} != null;", GetFieldName(node));
         }
 
@@ -76,7 +77,9 @@ namespace SablePP.Compiler.Generate.Productions
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetPropertyName(node);
 
-            return classElement.CreateProperty(AccessModifiers.@public, name, type);
+            GetSetPropertyElement property;
+            classElement.Add(property = new GetSetPropertyElement(AccessModifiers.@public, name, type));
+            return property;
         }
         private GetSetPropertyElement CreateProperty(AQuestionElement node)
         {
@@ -84,7 +87,9 @@ namespace SablePP.Compiler.Generate.Productions
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetPropertyName(node);
 
-            return classElement.CreateProperty(AccessModifiers.@public, name, type);
+            GetSetPropertyElement property;
+            classElement.Add(property = new GetSetPropertyElement(AccessModifiers.@public, name, type));
+            return property;
         }
         private GetPropertyElement CreateProperty(APlusElement node)
         {
@@ -92,7 +97,9 @@ namespace SablePP.Compiler.Generate.Productions
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetPropertyName(node);
 
-            return classElement.CreateGetProperty(AccessModifiers.@public, name, "NodeList<" + type + ">");
+            GetPropertyElement property;
+            classElement.Add(property = new GetPropertyElement(AccessModifiers.@public, name, "NodeList<" + type + ">"));
+            return property;
         }
         private GetPropertyElement CreateProperty(AStarElement node)
         {
@@ -100,7 +107,9 @@ namespace SablePP.Compiler.Generate.Productions
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetPropertyName(node);
 
-            return classElement.CreateGetProperty(AccessModifiers.@public, name, "NodeList<" + type + ">");
+            GetPropertyElement property;
+            classElement.Add(property = new GetPropertyElement(AccessModifiers.@public, name, "NodeList<" + type + ">"));
+            return property;
         }
 
         private void EmitGet(PElement node, IGetProperty property)

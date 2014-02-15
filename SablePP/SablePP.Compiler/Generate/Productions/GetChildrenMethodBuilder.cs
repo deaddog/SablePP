@@ -17,31 +17,21 @@ namespace SablePP.Compiler.Generate.Productions
 
         public override void InAAlternative(AAlternative node)
         {
-            method = classElement.CreateMethod(AccessModifiers.@protected | AccessModifiers.@override, "GetChildren", "IEnumerable<Node>");
+            classElement.Add(method = new MethodElement("protected override IEnumerable<Node> GetChildren()"));
 
             base.InAAlternative(node);
         }
 
         public override void CaseASimpleElement(ASimpleElement node)
         {
-            method.EmitYield();
-            method.EmitReturn();
-            method.EmitIdentifier(GetFieldName(node));
-            method.EmitSemicolon(true);
+            method.Body.EmitLine("yield return {0};", GetFieldName(node));
         }
         public override void CaseAQuestionElement(AQuestionElement node)
         {
-            using (var iff = method.EmitIf())
-                iff.EmitIdentifier("Has" + ToCamelCase(node.LowerName));
-            method.EmitNewLine();
-            method.IncreaseIndentation();
-
-            method.EmitYield();
-            method.EmitReturn();
-            method.EmitIdentifier(GetFieldName(node));
-            method.EmitSemicolon(true);
-
-            method.DecreaseIndentation();
+            method.Body.EmitLine("if (Has{0})", ToCamelCase(node.LowerName));
+            method.Body.IncreaseIndentation();
+            method.Body.EmitLine("yield return {0};", GetFieldName(node));
+            method.Body.DecreaseIndentation();
         }
 
         public override void CaseAStarElement(AStarElement node)
@@ -63,64 +53,18 @@ namespace SablePP.Compiler.Generate.Productions
 
         private void EmitListWalking(string type, string name, PElement node)
         {
-            method.EmitBlockStart();
+            method.Body.EmitLine("{");
+            method.Body.IncreaseIndentation();
 
-            //PAssignment[] temp = new PAssignment[_assignment.Count];
-            method.EmitIdentifier(type + "[]");
-            method.EmitIdentifier("temp");
-            method.EmitAssignment();
-            method.EmitNew();
-            method.EmitIdentifier(type);
-            using (var par = method.EmitParenthesis(ParenthesisElement.Types.Square))
-            {
-                par.EmitIdentifier(name);
-                par.EmitPeriod();
-                par.EmitIdentifier("Count");
-            }
-            method.EmitSemicolon(true);
+            method.Body.EmitLine("{0}[] temp = new {0}[{1}.Count];", type, name);
+            method.Body.EmitLine("{0}.CopyTo(temp, 0)", name);
+            method.Body.EmitLine("for (int i = 0; i < temp.Length; i++)");
+            method.Body.IncreaseIndentation();
+            method.Body.EmitLine("yield return temp[i];");
+            method.Body.DecreaseIndentation();
 
-            //_assignment.CopyTo(temp, 0);
-            method.EmitIdentifier(name);
-            method.EmitPeriod();
-            method.EmitIdentifier("CopyTo");
-            using (var par = method.EmitParenthesis())
-            {
-                par.EmitIdentifier("temp");
-                par.EmitComma();
-                par.EmitIntValue(0);
-            }
-            method.EmitSemicolon(true);
-
-            //for (int i = 0; i < temp.Length; i++)
-            using (var par = method.EmitFor())
-            {
-                par.EmitInt();
-                par.EmitIdentifier("i");
-                par.EmitAssignment();
-                par.EmitIntValue(0);
-                par.EmitSemicolon(false);
-                par.EmitIdentifier("i");
-                par.EmitLessThan();
-                par.EmitIdentifier("temp");
-                par.EmitPeriod();
-                par.EmitIdentifier("Length");
-                par.EmitSemicolon(false);
-                par.EmitIdentifier("i");
-                par.EmitPlusPlus();
-            }
-            method.EmitNewLine();
-
-            //    yield return temp[i];
-            method.IncreaseIndentation();
-            method.EmitYield();
-            method.EmitReturn();
-            method.EmitIdentifier("temp");
-            using (var square = method.EmitParenthesis(ParenthesisElement.Types.Square))
-                square.EmitIdentifier("i");
-            method.EmitSemicolon(true);
-            method.DecreaseIndentation();
-
-            method.EmitBlockEnd();
+            method.Body.DecreaseIndentation();
+            method.Body.EmitLine("}");
         }
     }
 }

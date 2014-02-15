@@ -20,7 +20,7 @@ namespace SablePP.Compiler.Generate.Productions
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetFieldName(node);
 
-            classElement.EmitField(name, type, AccessModifiers.@private);
+            classElement.EmitField("private " + type + " " + name);
         }
         public override void CaseAStarElement(AStarElement node)
         {
@@ -28,7 +28,7 @@ namespace SablePP.Compiler.Generate.Productions
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetFieldName(node);
 
-            classElement.EmitField(name, "NodeList<" + type + ">", AccessModifiers.@private);
+            classElement.EmitField("private NodeList<" + type + "> " + name);
         }
         public override void CaseAPlusElement(APlusElement node)
         {
@@ -36,7 +36,7 @@ namespace SablePP.Compiler.Generate.Productions
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetFieldName(node);
 
-            classElement.EmitField(name, "NodeList<" + type + ">", AccessModifiers.@private);
+            classElement.EmitField("private NodeList<" + type + "> " + name);
         }
         public override void CaseAQuestionElement(AQuestionElement node)
         {
@@ -44,7 +44,7 @@ namespace SablePP.Compiler.Generate.Productions
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetFieldName(node);
 
-            classElement.EmitField(name, type, AccessModifiers.@private);
+            classElement.EmitField("private " + type + " " + type);
         }
     }
 }

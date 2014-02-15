@@ -39,7 +39,7 @@ namespace SablePP.Compiler.Generate.Productions
 
             string packageName = node.PackageName;
 
-            nameElement = fileElement.CreateNamespace(packageName + ".Nodes");
+            fileElement.Add(nameElement = new NameSpaceElement(packageName + ".Nodes"));
             fileElement.Using.Add(packageName + ".Analysis");
 
             if (node.HasAstproductions)
@@ -53,7 +53,7 @@ namespace SablePP.Compiler.Generate.Productions
             this.productionName = ToCamelCase(node.Identifier.Text);
             string name = "P" + productionName;
 
-            classElement = nameElement.CreateClass(name, AccessModifiers.@public | AccessModifiers.@abstract | AccessModifiers.partial, "Production<" + name + ">");
+            nameElement.Add(classElement = new ClassElement("public abstract partial {0} : Production<{0}>", name));
             base.CaseAProduction(node);
         }
 
@@ -63,18 +63,18 @@ namespace SablePP.Compiler.Generate.Productions
             if(node.HasAlternativename)
                 name = "A" + ToCamelCase((node.Alternativename as AAlternativename).Name.Text) + productionName;
 
-            classElement = nameElement.CreateClass(name, AccessModifiers.@public | AccessModifiers.partial, "P" + productionName);
+            nameElement.Add(classElement = new ClassElement("public partial {0} : P{1}", name, productionName));
 
             new FieldBuilder(classElement).Visit(node);
-            classElement.EmitNewLine();
+            classElement.EmitNewline();
             new ConstructorBuilder(classElement).Visit(node);
-            classElement.EmitNewLine();
+            classElement.EmitNewline();
             new PropertiesBuilder(classElement).Visit(node);
-            classElement.EmitNewLine();
+            classElement.EmitNewline();
             new ReplaceMethodBuilder(classElement).Visit(node);
             new GetChildrenMethodBuilder(classElement).Visit(node);
-            classElement.EmitNewLine();
-            new CloneMethodBuilder(classElement).Visit(node);
+            classElement.EmitNewline();
+            new CloneMethodBuilder(classElement, "P" + productionName).Visit(node);
             new ToStringMethodBuilder(classElement).Visit(node);
         }
     }

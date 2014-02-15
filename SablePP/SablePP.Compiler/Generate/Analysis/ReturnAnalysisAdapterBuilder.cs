@@ -14,12 +14,12 @@ namespace SablePP.Compiler.Generate.Analysis
         {
             this.argumentCount = arguments;
 
-            string baseClass = "ReturnAdapter<";
+            string baseClass = "";
             for (int i = 1; i <= argumentCount; i++)
                 baseClass += "T" + i + ", ";
+            baseClass += "TResult, " + grammar.RootProduction;
 
-            baseClass += "TResult, " + grammar.RootProduction + ">";
-            returnAnalysisAdapter = nameElement.CreateClass("ReturnAnalysisAdapter", AccessModifiers.@public, baseClass);
+            nameElement.Add(returnAnalysisAdapter = new ClassElement("public class ReturnAnalysisAdapter : ReturnAdapter<{0}>", baseClass));
             for (int i = 1; i <= argumentCount; i++)
                 returnAnalysisAdapter.TypeParameters.Add("T" + i);
             returnAnalysisAdapter.TypeParameters.Add("TResult");
@@ -49,40 +49,24 @@ namespace SablePP.Compiler.Generate.Analysis
         {
             string caseName = "Case" + name;
 
-            var visitType = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public, "Visit", returnAnalysisAdapter.TypeParameters[argumentCount]);
-            visitType.Parameters.Add("node", name);
+            MethodElement method;
+            returnAnalysisAdapter.Add(method = new MethodElement("public {0} Visit({1} node)", true, returnAnalysisAdapter.TypeParameters[argumentCount], name));
             for (int i = 1; i <= argumentCount; i++)
-                visitType.Parameters.Add("arg" + i, returnAnalysisAdapter.TypeParameters[i - 1]);
-            visitType.EmitReturn();
-            visitType.EmitIdentifier(caseName);
-            using (var par = visitType.EmitParenthesis())
-            {
-                par.EmitIdentifier("node");
-                for (int i = 1; i <= argumentCount; i++)
-                {
-                    par.EmitComma();
-                    par.EmitIdentifier("arg" + i);
-                }
-            }
-            visitType.EmitSemicolon(true);
+                method.Parameters.Add("{0} arg{1}", returnAnalysisAdapter.TypeParameters[i - 1], i);
 
-            var typeMethod = returnAnalysisAdapter.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, caseName, returnAnalysisAdapter.TypeParameters[argumentCount]);
-            typeMethod.Parameters.Add("node", name);
+            method.Body.Emit("return {0}(node", caseName);
             for (int i = 1; i <= argumentCount; i++)
-                typeMethod.Parameters.Add("arg" + i, returnAnalysisAdapter.TypeParameters[i - 1]);
+                method.Body.Emit(", arg{0}", i);
+            method.Body.EmitLine(");");
 
-            typeMethod.EmitReturn();
-            typeMethod.EmitIdentifier("DefaultCase");
-            using (var par = typeMethod.EmitParenthesis())
-            {
-                par.EmitIdentifier("node");
-                for (int i = 1; i <= argumentCount; i++)
-                {
-                    par.EmitComma();
-                    par.EmitIdentifier("arg" + i);
-                }
-            }
-            typeMethod.EmitSemicolon(true);
+            returnAnalysisAdapter.Add(method = new MethodElement("public virtual {2} {0}({1} node)", true, caseName, name, returnAnalysisAdapter.TypeParameters[argumentCount]));
+            for (int i = 1; i <= argumentCount; i++)
+                method.Parameters.Add("{0} arg{1}", returnAnalysisAdapter.TypeParameters[i - 1], i);
+
+            method.Body.Emit("return DefaultCase(node");
+            for (int i = 1; i <= argumentCount; i++)
+                method.Body.Emit(", arg{0}", i);
+            method.Body.EmitLine(");");
         }
     }
 }
