@@ -67,7 +67,7 @@ namespace SablePP.Compiler.Generate
             NameSpaceElement name = new NameSpaceElement(packageName);
             fileElement.Add(name);
 
-            ClassElement executerClass = new ClassElement("public partial class CompilerExecuter<" + rootProduction + ", Lexer, Parser>");
+            ClassElement executerClass = new ClassElement("public partial class CompilerExecuter : CompilerExecuter<" + rootProduction + ", Lexer, Parser>");
             name.Add(executerClass);
 
             return executerClass;
@@ -89,7 +89,7 @@ namespace SablePP.Compiler.Generate
         }
         private static void CreateSimpleSyntaxMethod(ClassElement classElement, out PatchElement rulesElement)
         {
-            MethodElement method = new MethodElement("public override Style GetSimpleStyle(Token token);");
+            MethodElement method = new MethodElement("public override Style GetSimpleStyle(Token token)");
 
             rulesElement = new PatchElement();
             method.Body.InsertElement(rulesElement);
@@ -135,7 +135,7 @@ namespace SablePP.Compiler.Generate
             PatchElement temp = styleRulesElement;
             styleRulesElement = new PatchElement();
 
-            temp.Emit("if(");
+            temp.Emit("if (");
             temp.InsertElement(styleRulesElement);
             Visit((dynamic)node.Tokens);
             temp.EmitLine(")");
@@ -174,7 +174,7 @@ namespace SablePP.Compiler.Generate
             for (int i = 0; i < temp.Length; i++)
             {
                 if (i > 0)
-                    styleRulesElement.Emit(" | ");
+                    styleRulesElement.Emit(" || ");
                 Visit((dynamic)temp[i]);
             }
         }
