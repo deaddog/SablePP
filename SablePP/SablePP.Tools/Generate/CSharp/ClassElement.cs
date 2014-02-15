@@ -120,17 +120,29 @@ namespace SablePP.Tools.Generate.CSharp
             contents.EmitLine(";");
         }
 
+        /// <summary>
+        /// Adds a <see cref="MethodElement"/> to the <see cref="ClassElement"/>.
+        /// </summary>
+        /// <param name="method">The <see cref="MethodElement"/> that is added to the <see cref="ClassElement"/>.</param>
         public void Add(MethodElement method)
         {
-            throw new NotImplementedException();
+            contents.InsertElement(method);
         }
+        /// <summary>
+        /// Adds a <see cref="PropertyElement"/> to the <see cref="ClassElement"/>.
+        /// </summary>
+        /// <param name="property">The <see cref="PropertyElement"/> that is added to the <see cref="ClassElement"/>.</param>
         public void Add(PropertyElement property)
         {
-            throw new NotImplementedException();
+            contents.InsertElement(property);
         }
+        /// <summary>
+        /// Adds a <see cref="IndexerElement"/> to the <see cref="ClassElement"/>.
+        /// </summary>
+        /// <param name="indexer">The <see cref="IndexerElement"/> that is added to the <see cref="ClassElement"/>.</param>
         public void Add(IndexerElement indexer)
         {
-            throw new NotImplementedException();
+            contents.InsertElement(indexer);
         }
     }
 }
