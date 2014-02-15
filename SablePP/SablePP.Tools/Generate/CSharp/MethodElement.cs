@@ -145,5 +145,27 @@ namespace SablePP.Tools.Generate.CSharp
             else
                 this.body = null;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodElement"/> class from its signature.
+        /// </summary>
+        /// <param name="signature">The signature of the method.</param>
+        /// <param name="hasBody">if set to <c>true</c> the method will have a body element to which code can be written.</param>
+        /// <param name="args">A collection of arguments that are inserted into <paramref name="signature"/> using <see cref="String.Format(String, Object[])"/>.</param>
+        public MethodElement(string signature, bool hasBody, params object[] args)
+            : this(signature, null, hasBody, args)
+        {
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodElement"/> class from its signature.
+        /// </summary>
+        /// <param name="signature">The signature of the method.</param>
+        /// <param name="chaincall">A <see cref="String"/> that specifies a chain call to a baseclass (for constructors). Specify <c>null</c> for no chaining.</param>
+        /// <param name="hasBody">if set to <c>true</c> the method will have a body element to which code can be written.</param>
+        /// <param name="args">A collection of arguments that are inserted into <paramref name="signature"/> using <see cref="String.Format(String, Object[])"/>.</param>
+        public MethodElement(string signature, string chaincall, bool hasBody, params object[] args)
+            : this(string.Format(signature, args), chaincall, hasBody)
+        {
+        }
     }
 }

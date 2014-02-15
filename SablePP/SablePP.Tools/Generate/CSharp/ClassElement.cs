@@ -99,6 +99,15 @@ namespace SablePP.Tools.Generate.CSharp
             decreaseIndentation();
             emitLine("}");
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClassElement"/> class from its signature.
+        /// </summary>
+        /// <param name="signature">The signature for the class.</param>
+        /// <param name="args">A collection of arguments that are inserted into <paramref name="signature"/>.</param>
+        public ClassElement(string signature, params object[] args)
+            : this(string.Format(signature, args))
+        {
+        }
 
         /// <summary>
         /// Emits a newline to the <see cref="ClassElement"/>. This can be used to separate class members.
