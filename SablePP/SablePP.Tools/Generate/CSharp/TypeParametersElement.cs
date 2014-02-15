@@ -5,6 +5,9 @@ using System.Text;
 
 namespace SablePP.Tools.Generate.CSharp
 {
+    /// <summary>
+    /// Represents a list of types in the declaration of a type or member.
+    /// </summary>
     public class TypeParametersElement : CodeElement, IEnumerable<string>
     {
         private List<string> types;
@@ -14,15 +17,29 @@ namespace SablePP.Tools.Generate.CSharp
             this.types = new List<string>();
         }
 
+        /// <summary>
+        /// Adds a type name to the <see cref="TypeParametersElement"/>.
+        /// </summary>
+        /// <param name="type">The name of the type that is added.</param>
         public void Add(string type)
         {
             this.types.Add(type);
         }
+        /// <summary>
+        /// Removes a type name from the <see cref="TypeParametersElement"/>.
+        /// </summary>
+        /// <param name="type">The name of the type that should be removed.</param>
+        /// <returns><c>true</c>, if the type name was removed from the <see cref="TypeParametersElement"/>; otherwise, false.</returns>
         public bool Remove(string type)
         {
             return types.Remove(type);
         }
 
+        /// <summary>
+        /// Gets or sets the type name at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the type name in the <see cref="TypeParametersElement"/>.</param>
+        /// <returns>The type name at <paramref name="index"/>.</returns>
         public string this[int index]
         {
             get { return types[index]; }
