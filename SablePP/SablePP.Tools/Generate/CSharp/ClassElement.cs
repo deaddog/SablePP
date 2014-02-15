@@ -102,26 +102,22 @@ namespace SablePP.Tools.Generate.CSharp
             contents.EmitNewLine();
         }
 
-        public void EmitField(string name, string type, AccessModifiers modifiers)
+        public void EmitField(string declaration)
         {
-            modifiers.Emit(contents.Emit);
-            contents.Emit(type, UseSpace.NotPreferred, UseSpace.Preferred);
-            contents.Emit(name, UseSpace.NotPreferred, UseSpace.Preferred);
-            contents.Emit(";", UseSpace.Never, UseSpace.Never);
-            contents.EmitNewLine();
+            contents.EmitLine("{0};", declaration.Trim());
         }
 
-        public void EmitField(string name, string type, AccessModifiers modifiers, out PatchElement valueElement)
+        public void EmitField(string declaration, string value)
+        {
+            contents.EmitLine("{0} = {1};", declaration.Trim(), value.Trim());
+        }
+
+        public void EmitField(string declaration, out PatchElement valueElement)
         {
             valueElement = new PatchElement();
-
-            modifiers.Emit(contents.Emit);
-            contents.Emit(type, UseSpace.NotPreferred, UseSpace.Preferred);
-            contents.Emit(name, UseSpace.NotPreferred, UseSpace.Preferred);
-            contents.Emit("=", UseSpace.Always, UseSpace.Always);
+            contents.Emit("{0} ", declaration.Trim());
             contents.InsertElement(valueElement);
-            contents.Emit(";", UseSpace.Never, UseSpace.Never);
-            contents.EmitNewLine();
+            contents.EmitLine(";");
         }
 
         public void Add(MethodElement method)
