@@ -15,6 +15,11 @@ namespace SablePP.Tools.Generate.CSharp
             this.parameters = new List<Parameter>();
         }
 
+        /// <summary>
+        /// Adds a parameter to the <see cref="ParametersElement"/> by declaring its signature.
+        /// </summary>
+        /// <param name="parameterSignature">The parameter signature.</param>
+        /// <returns>The <see cref="Parameter"/> parsed from <paramref name="parameterSignature"/>.</returns>
         public Parameter Add(string parameterSignature)
         {
             Parameter par = Parameter.Parse(parameterSignature);
@@ -22,6 +27,11 @@ namespace SablePP.Tools.Generate.CSharp
             return par;
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="Parameter"/> at the specified index. Setting a parameter to <c>null</c> will remove it from the <see cref="ParametersElement"/>.
+        /// </summary>
+        /// <param name="index">The zero-based index of the <see cref="Parameter"/> to get or set.</param>
+        /// <returns>The <see cref="Parameter"/> found at the specified index.</returns>
         public Parameter this[int index]
         {
             get { return parameters[index]; }
@@ -32,6 +42,14 @@ namespace SablePP.Tools.Generate.CSharp
                 else
                     parameters[index] = value;
             }
+        }
+
+        /// <summary>
+        /// Gets the number of parameters in this <see cref="ParametersElement"/>.
+        /// </summary>
+        public int Count
+        {
+            get { return parameters.Count; }
         }
 
         internal override UseSpace Append
@@ -73,7 +91,7 @@ namespace SablePP.Tools.Generate.CSharp
                 yield return par;
         }
 
-        public static ParametersElement Parse(string signature)
+        internal static ParametersElement Parse(string signature)
         {
             ParametersElement element = new ParametersElement();
 
