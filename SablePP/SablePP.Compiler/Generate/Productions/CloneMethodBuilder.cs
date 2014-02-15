@@ -22,7 +22,7 @@ namespace SablePP.Compiler.Generate.Productions
 
         public override void InAAlternative(AAlternative node)
         {
-            method = new MethodElement("public override " + implements + " Clone()");
+            classElement.Add(method = new MethodElement("public override " + implements + " Clone()"));
 
             parenthesis = new PatchElement();
 
