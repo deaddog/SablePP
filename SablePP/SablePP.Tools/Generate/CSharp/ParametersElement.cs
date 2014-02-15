@@ -6,7 +6,7 @@ namespace SablePP.Tools.Generate.CSharp
     /// <summary>
     /// Represents a comma-separated list of formal parameters for a method or indexer.
     /// </summary>
-    public class ParametersElement : CodeElement
+    public class ParametersElement : CodeElement, IEnumerable<ParametersElement.Parameter>
     {
         private List<Parameter> parameters;
 
@@ -60,6 +60,17 @@ namespace SablePP.Tools.Generate.CSharp
                 if (par.DefaultValue != null)
                     streamwriter.WriteString(" = " + par.DefaultValue);
             }
+        }
+
+        IEnumerator<ParametersElement.Parameter> IEnumerable<ParametersElement.Parameter>.GetEnumerator()
+        {
+            foreach (var par in parameters)
+                yield return par;
+        }
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            foreach (var par in parameters)
+                yield return par;
         }
 
         public static ParametersElement Parse(string signature)
