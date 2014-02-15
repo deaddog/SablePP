@@ -10,7 +10,7 @@ namespace SablePP.Tools.Generate.CSharp
     {
         private UsingsElement usings;
         /// <summary>
-        /// Gets a <see cref="UsingElement"/> describing the using statements included in this <see cref="FileElement"/>.
+        /// Gets a <see cref="UsingsElement"/> describing the using statements included in this <see cref="FileElement"/>.
         /// </summary>
         public UsingsElement Using
         {

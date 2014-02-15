@@ -16,7 +16,7 @@
 
         private UsingsElement usings;
         /// <summary>
-        /// Gets a <see cref="UsingElement"/> describing the using statements included in this <see cref="NameSpaceElement"/>.
+        /// Gets a <see cref="UsingsElement"/> describing the using statements included in this <see cref="NameSpaceElement"/>.
         /// </summary>
         public UsingsElement Using
         {

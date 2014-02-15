@@ -146,7 +146,6 @@ namespace SablePP.Tools.Generate.CSharp
             /// <summary>
             /// Gets or sets the name of the parameter.
             /// </summary>
-            /// <value>
             public string Name
             {
                 get { return name; }
