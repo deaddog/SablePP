@@ -15,6 +15,9 @@
         /// </summary>
         string Type { get; }
 
+        /// <summary>
+        /// Gets the indexers collection of parameters.
+        /// </summary>
         ParametersElement Parameters { get; }
     }
 
