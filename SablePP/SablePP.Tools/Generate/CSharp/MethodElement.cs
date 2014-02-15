@@ -30,7 +30,22 @@ namespace SablePP.Tools.Generate.CSharp
             get { return typeParameters; }
         }
 
-        public MethodElement(string signature, string chaincall = null)
+        private PatchElement body;
+        public PatchElement Body
+        {
+            get { return body; }
+        }
+
+        public bool HasBody
+        {
+            get { return body != null; }
+        }
+
+        public MethodElement(string signature, bool hasBody = true)
+            : this(signature, null, hasBody)
+        {
+        }
+        public MethodElement(string signature, string chaincall, bool hasBody)
         {
             if (signature == null)
                 throw new ArgumentNullException("signature");
@@ -73,15 +88,26 @@ namespace SablePP.Tools.Generate.CSharp
             emit(")");
             signature = signature.Substring(parEnd + 1);
 
-            emit(signature);
+            emitLine(signature);
 
-            if (chaincall != null && (chaincall = chaincall.Trim()).Length > 0)
+            if (chaincall != null && (chaincall = chaincall.Trim(' ', '\t', ':')).Length > 0)
             {
-                emitNewLine();
                 increaseIndentation();
-                emitLine(chaincall);
+                emitLine(": " + chaincall);
                 decreaseIndentation();
             }
+
+            if (hasBody)
+            {
+                this.body = new PatchElement();
+                emitLine("{");
+                increaseIndentation();
+                insertElement(body);
+                decreaseIndentation();
+                emitLine("}");
+            }
+            else
+                this.body = null;
         }
 
         public class ChainElement : ExecutableElement
