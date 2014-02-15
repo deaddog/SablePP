@@ -56,6 +56,10 @@ namespace SablePP.Tools.Generate.CSharp
 
         private PatchElement contents;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClassElement"/> class from its signature.
+        /// </summary>
+        /// <param name="signature">The signature for the class.</param>
         public ClassElement(string signature)
         {
             if (signature == null)
@@ -97,21 +101,38 @@ namespace SablePP.Tools.Generate.CSharp
                 emit(" : {0}", signature);
         }
 
-        public void EmitNewLine()
+        /// <summary>
+        /// Emits a newline to the <see cref="ClassElement"/>. This can be used to separate class members.
+        /// </summary>
+        public void EmitNewline()
         {
             contents.EmitNewLine();
         }
 
+        /// <summary>
+        /// Emits a field (uninitialized) to the <see cref="ClassElement"/>.
+        /// </summary>
+        /// <param name="declaration">The field declaration that should be emitted.</param>
         public void EmitField(string declaration)
         {
             contents.EmitLine("{0};", declaration.Trim());
         }
 
+        /// <summary>
+        /// Emits a field, initialized to a value, to the <see cref="ClassElement"/>.
+        /// </summary>
+        /// <param name="declaration">The field declaration that should be emitted.</param>
+        /// <param name="value">The value that should be assigned to the field.</param>
         public void EmitField(string declaration, string value)
         {
             contents.EmitLine("{0} = {1};", declaration.Trim(), value.Trim());
         }
 
+        /// <summary>
+        /// Emits a field to the <see cref="ClassElement"/>. The initial value is determined by emitting code to a <see cref="PatchElement"/>.
+        /// </summary>
+        /// <param name="declaration">The field declaration that should be emitted.</param>
+        /// <param name="valueElement">When the method returns, a <see cref="PatchElement"/> to which the initial value of the field can be emitted.</param>
         public void EmitField(string declaration, out PatchElement valueElement)
         {
             valueElement = new PatchElement();
