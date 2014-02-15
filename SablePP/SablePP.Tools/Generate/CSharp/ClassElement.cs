@@ -111,64 +111,17 @@ namespace SablePP.Tools.Generate.CSharp
             contents.EmitNewLine();
         }
 
-        public MethodElement CreateMethod(AccessModifiers modifiers, string name, string returnType)
+        public void Add(MethodElement method)
         {
-            MethodElement method = new MethodElement(modifiers, name, returnType);
-            contents.InsertElement(method);
-            return method;
+            throw new NotImplementedException();
         }
-        public PartialMethodElement CreatePartialMethod(string name, string returnType)
+        public void Add(PropertyElement property)
         {
-            PartialMethodElement method = new PartialMethodElement(name, returnType);
-            contents.InsertElement(method);
-            return method;
+            throw new NotImplementedException();
         }
-        public MethodElement CreateConstructor(AccessModifiers modifiers, bool? baseChain = null)
+        public void Add(IndexerElement indexer)
         {
-            MethodElement method = new MethodElement(modifiers, this.name, baseChain);
-            contents.InsertElement(method);
-            return method;
-        }
-
-        public GetSetPropertyElement CreateProperty(AccessModifiers modifiers, string name, string type)
-        {
-            GetSetPropertyElement element = new GetSetPropertyElement(modifiers, name, type);
-            contents.InsertElement(element);
-            return element;
-        }
-        public SetPropertyElement CreateSetProperty(AccessModifiers modifiers, string name, string type)
-        {
-            SetPropertyElement element = new SetPropertyElement(modifiers, name, type);
-            contents.InsertElement(element);
-            return element;
-        }
-        public GetPropertyElement CreateGetProperty(AccessModifiers modifiers, string name, string type)
-        {
-            GetPropertyElement element = new GetPropertyElement(modifiers, name, type);
-            contents.InsertElement(element);
-            return element;
-        }
-
-        public GetSetIndexerElement CreateIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
-        {
-            GetSetIndexerElement element = new GetSetIndexerElement(modifiers, type);
-            element.Parameters.Add(arg1name, arg1type);
-            contents.InsertElement(element);
-            return element;
-        }
-        public SetIndexerElement CreateSetIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
-        {
-            SetIndexerElement element = new SetIndexerElement(modifiers, type);
-            element.Parameters.Add(arg1name, arg1type);
-            contents.InsertElement(element);
-            return element;
-        }
-        public GetIndexerElement CreateGetIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
-        {
-            GetIndexerElement element = new GetIndexerElement(modifiers, type);
-            element.Parameters.Add(arg1name, arg1type);
-            contents.InsertElement(element);
-            return element;
+            throw new NotImplementedException();
         }
     }
 }
