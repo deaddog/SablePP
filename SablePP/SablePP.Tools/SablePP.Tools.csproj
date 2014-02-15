@@ -103,7 +103,6 @@
     <Compile Include="Generate\CSharp\AccessModifiers.cs" />
     <Compile Include="Generate\CSharp\ClassElement.cs" />
     <Compile Include="Generate\CSharp\IndexerElement.cs" />
-    <Compile Include="Generate\CSharp\InterfaceElement.cs" />
     <Compile Include="Generate\CSharp\CSharpElement.cs" />
     <Compile Include="Generate\CSharp\FileElement.cs" />
     <Compile Include="Generate\CSharp\MethodElement.cs" />
