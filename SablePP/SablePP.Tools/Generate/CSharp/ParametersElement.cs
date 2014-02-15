@@ -26,9 +26,18 @@ namespace SablePP.Tools.Generate.CSharp
             parameters.Add(par);
             return par;
         }
+        /// <summary>
+        /// Removes the specified parameter from this <see cref="ParametersElement"/>.
+        /// </summary>
+        /// <param name="parameter">The parameter to remove.</param>
+        /// <returns><c>true</c>, if the parameter was removed; otherwise, <c>false</c>.</returns>
+        public bool Remove(Parameter parameter)
+        {
+            return parameters.Remove(parameter);
+        }
 
         /// <summary>
-        /// Gets or sets the <see cref="Parameter"/> at the specified index. Setting a parameter to <c>null</c> will remove it from the <see cref="ParametersElement"/>.
+        /// Gets or sets the <see cref="Parameter"/> at the specified index.
         /// </summary>
         /// <param name="index">The zero-based index of the <see cref="Parameter"/> to get or set.</param>
         /// <returns>The <see cref="Parameter"/> found at the specified index.</returns>
@@ -38,7 +47,7 @@ namespace SablePP.Tools.Generate.CSharp
             set
             {
                 if (value == null)
-                    parameters.RemoveAt(index);
+                    throw new ArgumentNullException("value");
                 else
                     parameters[index] = value;
             }
