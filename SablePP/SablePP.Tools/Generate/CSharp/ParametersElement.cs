@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SablePP.Tools.Generate.CSharp
 {
@@ -27,24 +28,74 @@ namespace SablePP.Tools.Generate.CSharp
             get { return parameters[index]; }
         }
 
+        /// <summary>
+        /// Holds information about a single method parameter
+        /// </summary>
         public class Parameter
         {
+            private string parameterType;
             private string name;
             private string type;
+            private string defaultValue;
 
-            public Parameter(string name, string type)
+            internal Parameter(string parameterType, string name, string type, string defaultValue)
             {
+                this.parameterType = parameterType;
                 this.name = name;
                 this.type = type;
+                this.defaultValue = defaultValue;
             }
 
+            /// <summary>
+            /// Gets or sets the type of the parameter (<c>ref</c>, <c>out</c> or <c>null</c> for default).
+            /// </summary>
+            public string ParameterType
+            {
+                get { return parameterType; }
+                set
+                {
+                    if (value != "ref" && value != "out" && value != null)
+                        throw new ArgumentException("ParameterType must be either ref, out or null.", "value");
+
+                    parameterType = value;
+                }
+            }
+            /// <summary>
+            /// Gets or sets the name of the parameter.
+            /// </summary>
+            /// <value>
             public string Name
             {
                 get { return name; }
+                set
+                {
+                    if (value == null)
+                        throw new ArgumentNullException("value");
+
+                    name = value;
+                }
             }
+            /// <summary>
+            /// Gets or sets the type of the parameter.
+            /// </summary>
             public string Type
             {
                 get { return type; }
+                set
+                {
+                    if (value == null)
+                        throw new ArgumentNullException("value"); 
+                    
+                    type = value;
+                }
+            }
+            /// <summary>
+            /// Gets the default value of the parameter - <c>null</c> indicates that there is no default value.
+            /// </summary>
+            public string DefaultValue
+            {
+                get { return defaultValue; }
+                set { defaultValue = value; }
             }
         }
     }
