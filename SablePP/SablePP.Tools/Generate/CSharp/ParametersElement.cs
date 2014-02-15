@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools.Generate.CSharp
 {
-    public class ParametersElement : ComplexElement
+    public class ParametersElement : CodeElement
     {
         private List<Parameter> parameters;
 
@@ -26,6 +26,36 @@ namespace SablePP.Tools.Generate.CSharp
         public Parameter this[int index]
         {
             get { return parameters[index]; }
+        }
+
+        internal override UseSpace Append
+        {
+            get { return UseSpace.Never; }
+        }
+
+        internal override UseSpace Prepend
+        {
+            get { return UseSpace.Never; }
+        }
+
+        internal override void Generate(CodeStreamWriter streamwriter)
+        {
+            bool first = true;
+
+            foreach (var par in parameters)
+            {
+                if (!first)
+                    streamwriter.WriteString(", ");
+                first = false;
+
+                if (par.ParameterType != null)
+                    streamwriter.WriteString(par.ParameterType + " ");
+
+                streamwriter.WriteString(par.Type + " " + par.Name);
+
+                if (par.DefaultValue != null)
+                    streamwriter.WriteString(" = " + par.DefaultValue);
+            }
         }
 
         public static ParametersElement Parse(string signature)
