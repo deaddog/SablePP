@@ -3,7 +3,7 @@
     /// <summary>
     /// Represent an object for handling code-generation of a C# namespace.
     /// </summary>
-    public sealed class NameSpaceElement : ComplexElement
+    public sealed class NameSpaceElement : CSharpElement
     {
         private string name;
         /// <summary>

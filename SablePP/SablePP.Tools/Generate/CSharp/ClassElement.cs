@@ -6,7 +6,7 @@ namespace SablePP.Tools.Generate.CSharp
     /// <summary>
     /// Represents a C# class and exposes methods for emitting fields, methods, properties etc. within the class.
     /// </summary>
-    public class ClassElement : ComplexElement
+    public class ClassElement : CSharpElement
     {
         private string name;
         /// <summary>

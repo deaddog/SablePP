@@ -6,7 +6,7 @@ namespace SablePP.Tools.Generate.CSharp
     /// <summary>
     /// Represents an object for handling code-generation of a C# indexer.
     /// </summary>
-    public abstract class IndexerElement : ComplexElement, IIndexer
+    public abstract class IndexerElement : CSharpElement, IIndexer
     {
         private string type;
         /// <summary>

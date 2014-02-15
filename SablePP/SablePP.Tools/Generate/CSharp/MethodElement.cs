@@ -6,7 +6,7 @@ namespace SablePP.Tools.Generate.CSharp
     /// <summary>
     /// Represents an object for handling code-generation of a C# method.
     /// </summary>
-    public class MethodElement : ComplexElement
+    public class MethodElement : CSharpElement
     {
         private string name;
         /// <summary>
