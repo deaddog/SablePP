@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools.Generate.CSharp
 {
-    public class MethodElement : ExecutableElement
+    public class MethodElement : ComplexElement
     {
         private string name;
         public string Name
@@ -74,6 +74,14 @@ namespace SablePP.Tools.Generate.CSharp
             signature = signature.Substring(parEnd + 1);
 
             emit(signature);
+
+            if (chaincall != null && (chaincall = chaincall.Trim()).Length > 0)
+            {
+                emitNewLine();
+                increaseIndentation();
+                emitLine(chaincall);
+                decreaseIndentation();
+            }
         }
 
         public class ChainElement : ExecutableElement
