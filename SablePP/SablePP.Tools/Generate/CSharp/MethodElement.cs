@@ -3,15 +3,24 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools.Generate.CSharp
 {
+    /// <summary>
+    /// Represents an object for handling code-generation of a C# method.
+    /// </summary>
     public class MethodElement : ComplexElement
     {
         private string name;
+        /// <summary>
+        /// Gets the name of the method.
+        /// </summary>
         public string Name
         {
             get { return name; }
         }
 
         private AccessModifierElement modifiers;
+        /// <summary>
+        /// Gets or sets the access modifiers associated with the method.
+        /// </summary>
         public AccessModifiers Modifiers
         {
             get { return modifiers.Modifiers; }
@@ -19,32 +28,59 @@ namespace SablePP.Tools.Generate.CSharp
         }
 
         private ParametersElement parameters;
+        /// <summary>
+        /// Gets the methods collection of parameters.
+        /// </summary>
         public ParametersElement Parameters
         {
             get { return parameters; }
         }
 
         private TypeParametersElement typeParameters;
+        /// <summary>
+        /// Gets the methods collection of type parameters.
+        /// </summary>
         public TypeParametersElement TypeParameters
         {
             get { return typeParameters; }
         }
 
         private PatchElement body;
+        /// <summary>
+        /// Gets a <see cref="PatchElement"/> that represents the body of the method. Executed code should be emitted to this element.
+        /// Note that this can have value <c>null</c> if the method has no body (such as an abstract method).
+        /// </summary>
         public PatchElement Body
         {
             get { return body; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the method has a body.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the method has a body; otherwise, <c>false</c>.
+        /// </value>
         public bool HasBody
         {
             get { return body != null; }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodElement"/> class from its signature.
+        /// </summary>
+        /// <param name="signature">The signature of the method.</param>
+        /// <param name="hasBody">if set to <c>true</c> the method will have a body element to which code can be written.</param>
         public MethodElement(string signature, bool hasBody = true)
             : this(signature, null, hasBody)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodElement"/> class from its signature.
+        /// </summary>
+        /// <param name="signature">The signature of the method.</param>
+        /// <param name="chaincall">A <see cref="String"/> that specifies a chain call to a baseclass (for constructors). Specify <c>null</c> for no chaining.</param>
+        /// <param name="hasBody">if set to <c>true</c> the method will have a body element to which code can be written.</param>
         public MethodElement(string signature, string chaincall, bool hasBody)
         {
             if (signature == null)
