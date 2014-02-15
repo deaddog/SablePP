@@ -56,17 +56,17 @@ namespace SablePP.Tools.Generate
         /// <summary>
         /// Builds a string with the code contained by this <see cref="CodeElement"/> and all its children (if any).
         /// </summary>
-        /// <param name="indentationSize">Size of indentation (in spaces) when emitting a new line.</param>
+        /// <param name="indentation">A string representing the indentation used when emitting a new line.</param>
         /// <returns>
         /// A string that contains all the code contained by this <see cref="CodeElement"/>.
         /// </returns>
-        public string ToString(int indentationSize)
+        public string ToString(string indentation)
         {
             byte[] buffer;
 
             using (MemoryStream ms = new MemoryStream())
             {
-                ToStream(ms, Encoding.Unicode, indentationSize);
+                ToStream(ms, Encoding.Unicode, indentation);
                 buffer = ms.ToArray();
             }
 
@@ -79,7 +79,7 @@ namespace SablePP.Tools.Generate
         /// <param name="stream">The stream to which the code should be written.</param>
         public void ToStream(Stream stream)
         {
-            ToStream(stream, Encoding.UTF8, 4);
+            ToStream(stream, Encoding.UTF8, "    ");
         }
         /// <summary>
         /// Writes the code of this <see cref="CodeElement"/> and all its children (if any) to a file.
@@ -97,10 +97,10 @@ namespace SablePP.Tools.Generate
         /// </summary>
         /// <param name="stream">The stream to which the code should be written.</param>
         /// <param name="encoding">The encoding used for writing.</param>
-        /// <param name="indentationSize">Size of indentation (in spaces) when emitting a new line.</param>
-        public void ToStream(Stream stream, Encoding encoding, int indentationSize)
+        /// <param name="indentation">A string representing the indentation used when emitting a new line.</param>
+        public void ToStream(Stream stream, Encoding encoding, string indentation)
         {
-            using (CodeStreamWriter csw = new CodeStreamWriter(stream, encoding, indentationSize))
+            using (CodeStreamWriter csw = new CodeStreamWriter(stream, encoding, indentation))
                 this.Generate(csw);
         }
         /// <summary>
@@ -109,11 +109,11 @@ namespace SablePP.Tools.Generate
         /// </summary>
         /// <param name="filename">The path of the file to which code should be written.</param>
         /// <param name="encoding">The encoding used for writing.</param>
-        /// <param name="indentationSize">Size of indentation (in spaces) when emitting a new line.</param>
-        public void ToFile(string filename, Encoding encoding, int indentationSize)
+        /// <param name="indentation">A string representing the indentation used when emitting a new line.</param>
+        public void ToFile(string filename, Encoding encoding, string indentation)
         {
             using (FileStream fs = new FileStream(filename, FileMode.Create))
-                ToStream(fs, encoding, indentationSize);
+                ToStream(fs, encoding, indentation);
         }
     }
 }

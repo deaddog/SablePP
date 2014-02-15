@@ -12,11 +12,11 @@ namespace SablePP.Tools.Generate
         private Stream stream;
         private Encoding encoding;
         private int indentation;
-        private int indentationSize;
+        private string indentationString;
 
         private string currentLine;
 
-        internal CodeStreamWriter(Stream stream, Encoding encoding, int indentationSize)
+        internal CodeStreamWriter(Stream stream, Encoding encoding, string indentation)
         {
             if (stream == null)
                 throw new ArgumentNullException("stream");
@@ -28,11 +28,13 @@ namespace SablePP.Tools.Generate
                 throw new ArgumentNullException("encoding");
             this.encoding = encoding;
 
-            if (indentationSize <= 0)
-                throw new ArgumentOutOfRangeException("indentationSize", "Indentation size must be greater than zero.");
+            if (indentation == null)
+                throw new ArgumentNullException("indentation");
+            if (indentation.Length == 0)
+                throw new ArgumentException("Indentation cannot be the empty string.", "indentation");
 
             this.indentation = 0;
-            this.indentationSize = indentationSize;
+            this.indentationString = indentation;
 
             this.currentLine = string.Empty;
         }
@@ -51,14 +53,15 @@ namespace SablePP.Tools.Generate
                 indentation = value;
             }
         }
-        public int IndentationSize
-        {
-            get { return indentationSize; }
-        }
 
         private string getIndentationString(int indent)
         {
-            return string.Empty.PadRight(indent * indentationSize);
+            string result = string.Empty;
+            
+            for (int i = 0; i < indent; i++)
+                result += indentationString;
+
+            return result;
         }
 
         /// <summary>
