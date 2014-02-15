@@ -44,7 +44,7 @@ namespace SablePP.Compiler.Generate.Productions
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = GetFieldName(node);
 
-            classElement.EmitField("private " + type + " " + type);
+            classElement.EmitField("private " + type + " " + name);
         }
     }
 }
