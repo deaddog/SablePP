@@ -3,41 +3,45 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools.Generate.CSharp
 {
+    /// <summary>
+    /// Represents a comma-separated list of formal parameters for a method or indexer.
+    /// </summary>
     public class ParametersElement : CodeElement
     {
         private List<Parameter> parameters;
 
-        public ParametersElement()
+        internal ParametersElement()
         {
             this.parameters = new List<Parameter>();
         }
 
-        public Parameter Add(string name, string type)
+        public Parameter Add(string parameterSignature)
         {
-            Parameter par = new Parameter(name, type);
+            Parameter par = Parameter.Parse(parameterSignature);
             parameters.Add(par);
-            if (parameters.Count > 1)
-                emit(",", UseSpace.Never, UseSpace.Always);
-            emit(type, UseSpace.NotPreferred, UseSpace.Always);
-            emit(name, UseSpace.NotPreferred, UseSpace.NotPreferred);
             return par;
         }
 
         public Parameter this[int index]
         {
             get { return parameters[index]; }
+            set
+            {
+                if (value == null)
+                    parameters.RemoveAt(index);
+                else
+                    parameters[index] = value;
+            }
         }
 
         internal override UseSpace Append
         {
             get { return UseSpace.Never; }
         }
-
         internal override UseSpace Prepend
         {
             get { return UseSpace.Never; }
         }
-
         internal override void Generate(CodeStreamWriter streamwriter)
         {
             bool first = true;
