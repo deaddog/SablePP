@@ -34,13 +34,26 @@ namespace SablePP.Tools.Generate.CSharp
         {
             if (signature == null)
                 throw new ArgumentNullException("signature");
-            signature = signature.Trim(' ');
+            signature = signature.Trim();
             int start, length;
 
+            // Parse the modifiers
             this.modifiers = AccessModifierElement.Parse(signature, out start, out length);
             emit(signature.Substring(0, start));
             insertElement(modifiers);
-            signature = signature.Substring(start + length).TrimStart(' ');
+            signature = signature.Substring(start + length).TrimStart();
+
+            // Find the parameters
+            int parIndex = signature.IndexOf('(');
+
+            // Parse the name
+            name = signature.Substring(0, parIndex).TrimEnd();
+            emit(name);
+            while (name.EndsWith(">") || name.EndsWith("<"))
+                name = name.Substring(0, name.LastIndexOf('<')).TrimEnd();
+            if (name.Contains(" "))
+                name = name.Substring(name.LastIndexOf(' ') + 1);
+            signature = signature.Substring(parIndex);
 
             emit(signature);
         }
