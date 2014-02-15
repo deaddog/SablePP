@@ -42,6 +42,14 @@ namespace SablePP.Tools.Generate.CSharp
 
         public MethodElement(string signature, string chaincall = null)
         {
+            int start, length;
+
+            this.modifiers = AccessModifierElement.Parse(signature, out start, out length);
+            emit(signature.Substring(0, start));
+            insertElement(modifiers);
+            signature = signature.Substring(start + length).TrimStart(' ');
+
+            emit(signature);
         }
 
         public class ChainElement : ExecutableElement

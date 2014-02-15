@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace SablePP.Tools.Generate.CSharp
 {
@@ -74,6 +75,49 @@ namespace SablePP.Tools.Generate.CSharp
                     return 6;
                 default:
                     throw new NotImplementedException();
+            }
+        }
+
+        private static Regex parseRegex;
+        static AccessModifierElement()
+        {
+            string enums = string.Empty;
+            foreach (string mod in Enum.GetNames(typeof(AccessModifiers)))
+                if (mod != "None")
+                    enums += mod + "|";
+            enums = enums.TrimEnd('|');
+            parseRegex = new Regex("((" + enums + ") +)+");
+        }
+
+        public static AccessModifierElement Parse(string signature, out int start, out int length)
+        {
+            Match match = parseRegex.Match(signature);
+
+            if (match.Success)
+            {
+                string val = match.Value.TrimEnd(' ');
+
+                start = match.Index;
+                length = val.Length;
+
+                AccessModifiers modifiers = AccessModifiers.None;
+                string[] arr = val.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var mod in arr)
+                {
+                    AccessModifiers temp;
+                    if (Enum.TryParse<AccessModifiers>(mod, out temp))
+                        modifiers |= temp;
+                }
+
+                return new AccessModifierElement(modifiers);
+            }
+            else
+            {
+                start = 0;
+                length = 0;
+
+                return new AccessModifierElement(AccessModifiers.None);
             }
         }
     }
