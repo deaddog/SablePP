@@ -45,15 +45,6 @@ namespace SablePP.Tools.Generate.CSharp
             get { return typeParameters; }
         }
 
-        private string implements;
-        /// <summary>
-        /// Gets a string describing the types this class inherits.
-        /// </summary>
-        public string Implements
-        {
-            get { return implements; }
-        }
-
         private PatchElement contents;
 
         /// <summary>
@@ -99,6 +90,14 @@ namespace SablePP.Tools.Generate.CSharp
             insertElement(typeParameters);
             if (colonIndex >= 0)
                 emit(" : {0}", signature);
+
+            contents = new PatchElement();
+            emitNewLine();
+            emitLine("{");
+            increaseIndentation();
+            insertElement(contents);
+            decreaseIndentation();
+            emitLine("}");
         }
 
         /// <summary>
