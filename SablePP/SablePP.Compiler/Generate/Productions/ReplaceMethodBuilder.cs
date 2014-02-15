@@ -91,10 +91,11 @@ namespace SablePP.Compiler.Generate.Productions
             TIdentifier typeId = node.PElementid.TIdentifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
 
-            method.Body.EmitLine("if ({0} is {1} && {2}.Contains({0} as {1}))", oldChild, type, GetFieldName(node));
             method.Body.EmitLine("{");
             method.Body.IncreaseIndentation();
 
+            method.Body.EmitLine("if ({0} is {1} && {2}.Contains({0} as {1}))", oldChild, type, GetFieldName(node));
+            method.Body.IncreaseIndentation();
             method.Body.EmitLine("throw new ArgumentException(\"Child replaced must be of same type as child being replaced with.\");");
             method.Body.DecreaseIndentation();
             method.Body.EmitNewLine();
