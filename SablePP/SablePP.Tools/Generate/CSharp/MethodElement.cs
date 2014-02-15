@@ -42,6 +42,9 @@ namespace SablePP.Tools.Generate.CSharp
 
         public MethodElement(string signature, string chaincall = null)
         {
+            if (signature == null)
+                throw new ArgumentNullException("signature");
+            signature = signature.Trim(' ');
             int start, length;
 
             this.modifiers = AccessModifierElement.Parse(signature, out start, out length);
