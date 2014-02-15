@@ -46,42 +46,8 @@ namespace SablePP.Tools.Generate.CSharp
 
         private PatchElement contents;
 
-        public ClassElement(string name, AccessModifiers modifiers, string implements)
+        public ClassElement(string signature)
         {
-            this.name = name;
-            this.modifiers = modifiers;
-
-            this.typeParameters = new TypeParametersElement();
-
-            if (implements != null)
-            {
-                implements = implements.Trim();
-                if (implements.Length == 0)
-                    implements = null;
-            }
-
-            this.implements = implements;
-            this.contents = new PatchElement();
-
-            modifiers.Emit(emit);
-            emit("class", UseSpace.Always, UseSpace.Always);
-            emit(name, UseSpace.Always, UseSpace.NotPreferred);
-            insertElement(typeParameters);
-
-            if (implements != null)
-            {
-                emit(":", UseSpace.Always, UseSpace.Always);
-                emit(implements, UseSpace.Preferred, UseSpace.NotPreferred);
-            }
-
-            emitNewLine();
-            emit("{", UseSpace.Never, UseSpace.Never);
-            emitNewLine();
-            increaseIndentation();
-            insertElement(contents);
-            decreaseIndentation();
-            emit("}", UseSpace.Never, UseSpace.Never);
-            emitNewLine();
         }
 
         public void EmitNewLine()
