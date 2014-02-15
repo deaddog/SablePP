@@ -1,7 +1,8 @@
 ﻿using System;
 
-using SablePP.Tools.Generate.CSharp;
 using SablePP.Compiler.Nodes;
+using SablePP.Tools.Generate;
+using SablePP.Tools.Generate.CSharp;
 
 namespace SablePP.Compiler.Generate.Productions
 {
@@ -9,7 +10,7 @@ namespace SablePP.Compiler.Generate.Productions
     {
         private ClassElement classElement;
         private MethodElement method;
-        private ParenthesisElement parenthesis;
+        private PatchElement parenthesis;
         private bool first = true;
 
         private string buildingString = "";
@@ -22,17 +23,16 @@ namespace SablePP.Compiler.Generate.Productions
 
         public override void CaseAAlternative(AAlternative node)
         {
-            method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "ToString", "string");
+            classElement.Add(method = new MethodElement("public override string ToString()"));
 
-            method.EmitReturn();
-            method.EmitIdentifier("string");
-            method.EmitPeriod();
-            method.EmitIdentifier("Format");
-            parenthesis = method.EmitParenthesis();
-            method.EmitSemicolon(true);
+            parenthesis = new PatchElement();
+
+            method.Body.Emit("return string.Format(");
+            method.Body.InsertElement(parenthesis);
+            method.Body.EmitLine(");");
 
             base.CaseAAlternative(node);
-            parenthesis.EmitStringValue(buildingString);
+            parenthesis.Emit("\"{0}\"", buildingString);
 
             buildingString = null;
             first = true;
@@ -69,10 +69,7 @@ namespace SablePP.Compiler.Generate.Productions
                 buildingString += "{" + count + "}";
             }
             else
-            {
-                parenthesis.EmitComma();
-                parenthesis.EmitIdentifier(GetFieldName(node));
-            }
+                parenthesis.Emit(", {0}", GetFieldName(node));
 
             count++;
         }

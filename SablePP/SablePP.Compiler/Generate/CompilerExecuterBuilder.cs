@@ -43,12 +43,12 @@ namespace SablePP.Compiler.Generate
             ClassElement classElement = CreateClass(fileElement, packageName, rootProduction);
             CreateLexerMethod(classElement);
 
-            classElement.EmitNewLine();
+            classElement.EmitNewline();
             CreateParserMethod(classElement);
 
-            InlineElement styleRules;
+            PatchElement styleRules;
 
-            classElement.EmitNewLine();
+            classElement.EmitNewline();
             CreateSimpleSyntaxMethod(classElement, out styleRules);
 
             if (root.Root is AGrammar && (root.Root as AGrammar).HasHighlightrules)
@@ -64,50 +64,45 @@ namespace SablePP.Compiler.Generate
 
         private static ClassElement CreateClass(FileElement fileElement, string packageName, string rootProduction)
         {
-            NameSpaceElement name = fileElement.CreateNamespace(packageName);
-            return name.CreateClass("CompilerExecuter", AccessModifiers.@public | AccessModifiers.partial, "CompilerExecuter<" + rootProduction + ", Lexer, Parser>");
+            NameSpaceElement name = new NameSpaceElement(packageName);
+            fileElement.Add(name);
+
+            ClassElement executerClass = new ClassElement("public partial class CompilerExecuter<" + rootProduction + ", Lexer, Parser>");
+            name.Add(executerClass);
+
+            return executerClass;
         }
 
         private static void CreateLexerMethod(ClassElement classElement)
         {
-            var imMethod = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "GetLexer", "Lexer");
-            imMethod.Parameters.Add("reader", "TextReader");
+            MethodElement imMethod = new MethodElement("public override Lexer GetLexer(TextReader reader)");
+            imMethod.Body.EmitLine("return new Lexer(reader);");
 
-            imMethod.EmitReturn();
-            imMethod.EmitNew();
-            imMethod.EmitIdentifier("Lexer");
-            using (var par = imMethod.EmitParenthesis())
-                par.EmitIdentifier("reader");
-            imMethod.EmitSemicolon(true);
+            classElement.Add(imMethod);
         }
         private static void CreateParserMethod(ClassElement classElement)
         {
-            var imMethod = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "GetParser", "Parser");
-            imMethod.Parameters.Add("lexer", "ILexer");
+            MethodElement imMethod = new MethodElement("public override Parser GetParser(ILexer lexer)");
+            imMethod.Body.EmitLine("return new Parser(lexer);");
 
-            imMethod.EmitReturn();
-            imMethod.EmitNew();
-            imMethod.EmitIdentifier("Parser");
-            using (var par = imMethod.EmitParenthesis())
-                par.EmitIdentifier("lexer");
-            imMethod.EmitSemicolon(true);
+            classElement.Add(imMethod);
         }
         private static void CreateSimpleSyntaxMethod(ClassElement classElement, out PatchElement rulesElement)
         {
-            var method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "GetSimpleStyle", "Style");
-            method.Parameters.Add("token", "Token");
+            MethodElement method = new MethodElement("public override Style GetSimpleStyle(Token token);");
+
             rulesElement = new PatchElement();
-            method.InsertInline(rulesElement);
-            method.EmitReturn();
-            method.EmitNull();
-            method.EmitSemicolon(true);
+            method.Body.InsertElement(rulesElement);
+            method.Body.EmitLine("return null;");
+
+            classElement.Add(method);
         }
 
         #endregion
 
         private ClassElement builderClass;
-        private ExecutableElement styleRulesElement;
-        private ExecutableElement styleField;
+        private PatchElement styleRulesElement;
+        private PatchElement styleField;
 
         private Color? textColor;
         private Color? backgroundColor;
@@ -115,7 +110,7 @@ namespace SablePP.Compiler.Generate
 
         private string currentStyle;
 
-        private CompilerExecuterBuilder(ClassElement builderClass, InlineElement styleRulesElement)
+        private CompilerExecuterBuilder(ClassElement builderClass, PatchElement styleRulesElement)
         {
             this.builderClass = builderClass;
             this.styleRulesElement = styleRulesElement;
@@ -125,51 +120,47 @@ namespace SablePP.Compiler.Generate
         {
             currentStyle = node.Name.Text + "Style";
 
-            InlineElement field;
-            builderClass.EmitField(currentStyle, "TextStyle", AccessModifiers.@private, out field);
+            PatchElement field;
+            builderClass.EmitField("private TextStyle " + currentStyle, out field);
 
-            field.EmitNew();
-            field.EmitIdentifier("TextStyle");
-            styleField = field.EmitParenthesis();
+            styleField = new PatchElement();
+            field.Emit("new TextStyle(");
+            field.InsertElement(styleField);
+            field.Emit(")");
 
             textColor = null;
             backgroundColor = null;
             fontStyle = FontStyle.Regular;
 
-            InlineElement temp = styleRulesElement as InlineElement;
-            styleRulesElement = temp.EmitIf();
+            PatchElement temp = styleRulesElement;
+            styleRulesElement = new PatchElement();
+
+            temp.Emit("if(");
+            temp.InsertElement(styleRulesElement);
             Visit((dynamic)node.Tokens);
-            temp.EmitNewLine();
+            temp.EmitLine(")");
             temp.IncreaseIndentation();
-            temp.EmitReturn();
-            temp.EmitIdentifier(currentStyle);
-            temp.EmitSemicolon(true);
+            temp.EmitLine("return {0};", currentStyle);
             temp.DecreaseIndentation();
             styleRulesElement = temp;
 
             Visit((dynamic)node.List);
 
             EmitNewBrush(textColor);
-            styleField.EmitComma();
+            styleField.Emit(", ");
             EmitNewBrush(backgroundColor);
-            styleField.EmitComma();
+            styleField.Emit(", ");
 
             if (fontStyle == FontStyle.Regular)
-            {
-                styleField.EmitIdentifier("FontStyle");
-                styleField.EmitPeriod();
-                styleField.EmitIdentifier("Regular");
-            }
+                styleField.Emit("FontStyle.Regular");
             else
             {
                 bool first = true;
                 foreach (FontStyle s in Enum.GetValues(typeof(FontStyle)))
                     if (fontStyle.HasFlag(s) && s != FontStyle.Regular)
                     {
-                        if (!first) styleField.EmitBinaryOr();
-                        styleField.EmitIdentifier("FontStyle");
-                        styleField.EmitPeriod();
-                        styleField.EmitIdentifier(s.ToString());
+                        if (!first) styleField.Emit(" | ");
+                        styleField.Emit("FontStyle.{0}", s);
 
                         first = false;
                     }
@@ -183,41 +174,22 @@ namespace SablePP.Compiler.Generate
             for (int i = 0; i < temp.Length; i++)
             {
                 if (i > 0)
-                    styleRulesElement.EmitLogicOr();
+                    styleRulesElement.Emit(" | ");
                 Visit((dynamic)temp[i]);
             }
         }
 
         public override void CaseTIdentifier(TIdentifier node)
         {
-            styleRulesElement.EmitIdentifier("token");
-            styleRulesElement.EmitIs();
-            styleRulesElement.EmitIdentifier(node.AsToken.GeneratedName);
+            styleRulesElement.Emit("token is {0}", node.AsToken.GeneratedName);
         }
 
         private void EmitNewBrush(Color? color)
         {
             if (color.HasValue)
-            {
-                styleField.EmitNew();
-                styleField.EmitIdentifier("SolidBrush");
-                using (var brushPar = styleField.EmitParenthesis())
-                {
-                    brushPar.EmitIdentifier("Color");
-                    brushPar.EmitPeriod();
-                    brushPar.EmitIdentifier("FromArgb");
-                    using (var par = brushPar.EmitParenthesis())
-                    {
-                        par.EmitIntValue(color.Value.R);
-                        par.EmitComma();
-                        par.EmitIntValue(color.Value.G);
-                        par.EmitComma();
-                        par.EmitIntValue(color.Value.B);
-                    }
-                }
-            }
+                styleField.Emit("new SolidBrush(Color.FromArgb({0}, {1}, {2}))", color.Value.R, color.Value.G, color.Value.B);
             else
-                styleField.EmitNull();
+                styleField.Emit("null");
         }
 
         private Color GetColor(ARgbColor node)

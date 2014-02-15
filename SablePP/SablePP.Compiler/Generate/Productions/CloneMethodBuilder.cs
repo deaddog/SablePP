@@ -1,31 +1,34 @@
 ﻿using System;
 
-using SablePP.Tools.Generate.CSharp;
 using SablePP.Compiler.Nodes;
+using SablePP.Tools.Generate;
+using SablePP.Tools.Generate.CSharp;
 
 namespace SablePP.Compiler.Generate.Productions
 {
     public class CloneMethodBuilder : ProductionVisitor
     {
         private ClassElement classElement;
+        private readonly string implements;
         private MethodElement method;
-        private ParenthesisElement parenthesis;
+        private PatchElement parenthesis;
         private bool first = true;
 
-        public CloneMethodBuilder(ClassElement classElement)
+        public CloneMethodBuilder(ClassElement classElement, string implements)
         {
             this.classElement = classElement;
+            this.implements = implements;
         }
 
         public override void InAAlternative(AAlternative node)
         {
-            method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Clone", classElement.Implements);
+            method = new MethodElement("public override " + implements + " Clone()");
 
-            method.EmitReturn();
-            method.EmitNew();
-            method.EmitIdentifier(classElement.Name);
-            parenthesis = method.EmitParenthesis();
-            method.EmitSemicolon(true);
+            parenthesis = new PatchElement();
+
+            method.Body.Emit("return new {0}(", classElement.Name);
+            method.Body.InsertElement(parenthesis);
+            method.Body.EmitLine(");");
 
             base.InAAlternative(node);
         }
@@ -50,17 +53,13 @@ namespace SablePP.Compiler.Generate.Productions
         private void Emit(PElement node, bool list)
         {
             if (!first)
-                parenthesis.EmitComma();
+                parenthesis.Emit(", ");
             else
                 first = false;
 
-            parenthesis.EmitIdentifier(GetFieldName(node));
+            parenthesis.Emit(GetFieldName(node));
             if (!list)
-            {
-                parenthesis.EmitPeriod();
-                parenthesis.EmitIdentifier("Clone");
-                parenthesis.EmitParenthesis();
-            }
+                parenthesis.Emit(".Clone()");
         }
     }
 }

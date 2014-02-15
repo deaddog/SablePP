@@ -11,9 +11,8 @@ namespace SablePP.Compiler.Generate.Analysis
 
         public AnalysisAdapterBuilder(NameSpaceElement namespaceElement, PGrammar grammar)
         {
-            namespaceElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "AnalysisAdapter<object>");
-            adapterClass = namespaceElement.CreateClass("AnalysisAdapter", AccessModifiers.@public, "Adapter<TValue, " + grammar.RootProduction + ">");
-            adapterClass.TypeParameters.Add("TValue");
+            namespaceElement.Add(new ClassElement("public class AnalysisAdapter : AnalysisAdapter<object>"));
+            namespaceElement.Add(adapterClass = new ClassElement("public class AnalysisAdapter<TValue> : Adapter<TValue, " + grammar.RootProduction + ">"));
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -29,40 +28,22 @@ namespace SablePP.Compiler.Generate.Analysis
 
         public override void CaseAToken(AToken node)
         {
-            var visitMethod = adapterClass.CreateMethod(AccessModifiers.@public, "Visit", "void");
-            visitMethod.Parameters.Add("node", node.ClassName);
+            MethodElement method;
+            adapterClass.Add(method = new MethodElement("public void Visit({0} node", true, node.ClassName));
+            method.Body.EmitLine("Case{0}(node);", node.ClassName);
 
-            visitMethod.EmitIdentifier("Case" + node.ClassName);
-            using (var par = visitMethod.EmitParenthesis())
-                par.EmitIdentifier("node");
-            visitMethod.EmitSemicolon(true);
-
-            var caseMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Case" + node.ClassName, "void");
-            caseMethod.Parameters.Add("node", node.ClassName);
-
-            caseMethod.EmitIdentifier("DefaultCase");
-            using (var par = caseMethod.EmitParenthesis())
-                par.EmitIdentifier("node");
-            caseMethod.EmitSemicolon(true);
+            adapterClass.Add(method = new MethodElement("public virtual void Case{0}({0} node)", true, node.ClassName));
+            method.Body.EmitLine("DefaultCase(node);");
         }
 
         public override void CaseAAlternative(AAlternative node)
         {
-            var visitMethod = adapterClass.CreateMethod(AccessModifiers.@public, "Visit", "void");
-            visitMethod.Parameters.Add("node", node.ClassName);
+            MethodElement method;
+            adapterClass.Add(method = new MethodElement("public void Visit({0} node)", true, node.ClassName));
+            method.Body.EmitLine("Case{0}(node);", node.ClassName);
 
-            visitMethod.EmitIdentifier("Case" + node.ClassName);
-            using (var par = visitMethod.EmitParenthesis())
-                par.EmitIdentifier("node");
-            visitMethod.EmitSemicolon(true);
-
-            var caseMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Case" + node.ClassName, "void");
-            caseMethod.Parameters.Add("node", node.ClassName);
-
-            caseMethod.EmitIdentifier("DefaultCase");
-            using (var par = caseMethod.EmitParenthesis())
-                par.EmitIdentifier("node");
-            caseMethod.EmitSemicolon(true);
+            adapterClass.Add(method = new MethodElement("public virtual void Case{0}({0} node)", true, node.ClassName));
+            method.Body.EmitLine("DefaultCase(node);");
         }
     }
 }
