@@ -56,7 +56,6 @@
     <Compile Include="Editor\ErrorEventHandler.cs" />
     <Compile Include="Editor\MessageIcons.cs" />
     <Compile Include="Generate\CSharp\AccessModifierElement.cs" />
-    <Compile Include="Generate\CSharp\BlockElement.cs" />
     <Compile Include="Generate\CSharp\GetSetHandle.cs" />
     <Compile Include="Generate\CSharp\IndexerInterfaces.cs" />
     <Compile Include="Generate\CSharp\ParametersElement.cs" />
