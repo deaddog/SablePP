@@ -35,21 +35,10 @@
             emitBlockEnd();
         }
 
-        public ClassElement CreateClass(string name, AccessModifiers modifiers, string implements = null)
+        public void Add(ClassElement @class)
         {
-            ClassElement element = new ClassElement(name, modifiers, implements);
-            classes.InsertElement(element);
-
+            classes.InsertElement(@class);
             hasClasses = true;
-            return element;
-        }
-        public InterfaceElement CreateInterface(string name, AccessModifiers modifiers, string implements = null)
-        {
-            InterfaceElement element = new InterfaceElement(name, modifiers, implements);
-            classes.InsertElement(element);
-
-            hasClasses = true;
-            return element;
         }
 
         public void EmitNewLine()
