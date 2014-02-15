@@ -45,12 +45,12 @@ namespace SablePP.Compiler.Generate.Productions
 
             if (list)
             {
-                constructor.Parameters.Add(GetFieldName(node), "IEnumerable<" + type + ">");
+                constructor.Parameters.Add("IEnumerable<{0}> {1}", type, GetFieldName(node));
                 constructor.Body.EmitLine("this.{0} = new NodeList<{1}>(this, {0}, {2});", GetFieldName(node), type, node is AStarElement ? "true" : "false");
             }
             else
             {
-                constructor.Parameters.Add(GetFieldName(node), type);
+                constructor.Parameters.Add("{0} {1}", type, GetFieldName(node));
                 constructor.Body.EmitLine("this.{0} = {1};", GetPropertyName(node), GetFieldName(node));
             }
         }
