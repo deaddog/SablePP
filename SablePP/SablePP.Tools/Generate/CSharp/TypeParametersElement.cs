@@ -5,34 +5,72 @@ using System.Text;
 
 namespace SablePP.Tools.Generate.CSharp
 {
-    public class TypeParametersElement : CSharpElement
+    public class TypeParametersElement : CodeElement, IEnumerable<string>
     {
-        private PatchElement contents = null;
         private List<string> types;
 
-        public TypeParametersElement()
+        internal TypeParametersElement()
         {
             this.types = new List<string>();
         }
 
         public void Add(string type)
         {
-            if (contents == null)
-            {
-                emit("<", UseSpace.Never, UseSpace.Never);
-                contents = new PatchElement();
-                insertElement(contents);
-                emit(">", UseSpace.Never, UseSpace.Never);
-            }
-
-            types.Add(type);
-            if (types.Count > 1)
-                contents.Emit(",", UseSpace.Never, UseSpace.Always);
-            contents.Emit(type, UseSpace.NotPreferred, UseSpace.NotPreferred);
+            this.types.Add(type);
         }
+        public bool Remove(string type)
+        {
+            return types.Remove(type);
+        }
+
         public string this[int index]
         {
             get { return types[index]; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                else
+                    types[index] = value;
+            }
+        }
+
+        IEnumerator<string> IEnumerable<string>.GetEnumerator()
+        {
+            foreach (var s in types)
+                yield return s;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            foreach (var s in types)
+                yield return s;
+        }
+
+        internal override UseSpace Append
+        {
+            get { return UseSpace.Never; }
+        }
+        internal override UseSpace Prepend
+        {
+            get { return UseSpace.Never; }
+        }
+        internal override void Generate(CodeStreamWriter streamwriter)
+        {
+            if (types.Count > 0)
+            {
+                streamwriter.WriteString("<");
+                bool first = true;
+                foreach (var type in types)
+                {
+                    if (!first)
+                        streamwriter.WriteString(", ");
+                    first = false;
+
+                    streamwriter.WriteString(type);
+                }
+                streamwriter.WriteString(">");
+            }
         }
     }
 }
