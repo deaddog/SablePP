@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools.Generate.CSharp
 {
-    [Flags]
     /// <summary>
     /// An enumeration of the various C# access modifiers
     /// </summary>
+    [Flags]
     public enum AccessModifiers
     {
         /// <summary>

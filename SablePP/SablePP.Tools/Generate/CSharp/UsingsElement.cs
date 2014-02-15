@@ -2,10 +2,18 @@
 
 namespace SablePP.Tools.Generate.CSharp
 {
+    /// <summary>
+    /// Represents a collection of using statements for C# code generation.
+    /// </summary>
     public sealed class UsingsElement : ComplexElement
     {
         private PatchElement usingsElement;
 
+        /// <summary>
+        /// Adds a usings statement to the collection.
+        /// </summary>
+        /// <param name="key">The name of the namespace to add.</param>
+        /// <param name="mapsto">(Optional) The name of the namespace to which <paramref name="key"/> points.</param>
         public void Add(string key, string mapsto = null)
         {
             if (key == null)
@@ -30,6 +38,9 @@ namespace SablePP.Tools.Generate.CSharp
             usingsElement.EmitNewLine();
         }
 
+        /// <summary>
+        /// Emits a newline character to the <see cref="UsingsElement"/>.
+        /// </summary>
         public void EmitNewline()
         {
             if (usingsElement == null)
