@@ -6,7 +6,7 @@ namespace SablePP.Tools.Generate.CSharp
     /// <summary>
     /// Represents a C# file and exposes methods for emitting namespaces and using statements.
     /// </summary>
-    public sealed class FileElement : CSharpElement, IEnumerable<NameSpaceElement>
+    public sealed class FileElement : ComplexElement, IEnumerable<NameSpaceElement>
     {
         private UsingsElement usings;
         /// <summary>

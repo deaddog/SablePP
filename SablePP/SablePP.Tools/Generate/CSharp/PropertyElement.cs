@@ -2,7 +2,7 @@
 
 namespace SablePP.Tools.Generate.CSharp
 {
-    public abstract class PropertyElement : CSharpElement
+    public abstract class PropertyElement : ComplexElement
     {
         private string name;
         private string type;
@@ -52,10 +52,14 @@ namespace SablePP.Tools.Generate.CSharp
         public GetPropertyElement(AccessModifiers modifiers, string name, string type)
             : base(modifiers, name, type)
         {
-            emitBlockStart();
             handle = new GetSetHandle("get");
+
+            emitNewLine();
+            emitLine("{");
+            increaseIndentation();
             insertElement(handle);
-            emitBlockEnd();
+            decreaseIndentation();
+            emitLine("}");
         }
 
         public PatchElement Get
@@ -77,10 +81,14 @@ namespace SablePP.Tools.Generate.CSharp
         public SetPropertyElement(AccessModifiers modifiers, string name, string type)
             : base(modifiers, name, type)
         {
-            emitBlockStart();
             handle = new GetSetHandle("set");
+
+            emitNewLine();
+            emitLine("{");
+            increaseIndentation();
             insertElement(handle);
-            emitBlockEnd();
+            decreaseIndentation();
+            emitLine("}");
         }
 
         public PatchElement Set
@@ -102,12 +110,16 @@ namespace SablePP.Tools.Generate.CSharp
         public GetSetPropertyElement(AccessModifiers modifiers, string name, string type)
             : base(modifiers, name, type)
         {
-            emitBlockStart();
             getter = new GetSetHandle("get");
             setter = new GetSetHandle("set");
+
+            emitNewLine();
+            emitLine("{");
+            increaseIndentation();
             insertElement(getter);
             insertElement(setter);
-            emitBlockEnd();
+            decreaseIndentation();
+            emitLine("}");
         }
 
         public PatchElement Get

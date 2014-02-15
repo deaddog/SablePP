@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools.Generate.CSharp
 {
-    public abstract class IndexerElement : CSharpElement
+    public abstract class IndexerElement : ComplexElement
     {
         private string type;
         public string Type
@@ -51,10 +51,14 @@ namespace SablePP.Tools.Generate.CSharp
         public GetIndexerElement(AccessModifiers modifiers, string type)
             : base(modifiers, type)
         {
-            emitBlockStart();
             handle = new GetSetHandle("get");
+
+            emitNewLine();
+            emitLine("{");
+            increaseIndentation();
             insertElement(handle);
-            emitBlockEnd();
+            decreaseIndentation();
+            emitLine("}");
         }
 
         public PatchElement Get
@@ -76,10 +80,14 @@ namespace SablePP.Tools.Generate.CSharp
         public SetIndexerElement(AccessModifiers modifiers, string type)
             : base(modifiers, type)
         {
-            emitBlockStart();
             handle = new GetSetHandle("set");
+
+            emitNewLine();
+            emitLine("{");
+            increaseIndentation();
             insertElement(handle);
-            emitBlockEnd();
+            decreaseIndentation();
+            emitLine("}");
         }
 
         public PatchElement Set
@@ -101,12 +109,16 @@ namespace SablePP.Tools.Generate.CSharp
         public GetSetIndexerElement(AccessModifiers modifiers, string type)
             : base(modifiers, type)
         {
-            emitBlockStart();
             getter = new GetSetHandle("get");
             setter = new GetSetHandle("set");
+
+            emitNewLine();
+            emitLine("{");
+            increaseIndentation();
             insertElement(getter);
             insertElement(setter);
-            emitBlockEnd();
+            decreaseIndentation();
+            emitLine("}");
         }
 
         public PatchElement Get

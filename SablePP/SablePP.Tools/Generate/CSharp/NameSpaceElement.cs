@@ -1,6 +1,6 @@
 ﻿namespace SablePP.Tools.Generate.CSharp
 {
-    public sealed class NameSpaceElement : CSharpElement
+    public sealed class NameSpaceElement : ComplexElement
     {
         private string name;
         public string Name
@@ -28,11 +28,13 @@
             this.classes = new PatchElement();
             this.hasClasses = false;
 
-            emit("namespace {0}", UseSpace.Never, UseSpace.Never, name);
-            emitBlockStart();
+            emitLine("namespace {0}", name);
+            emitLine("{");
+            increaseIndentation();
             insertElement(usings);
             insertElement(classes);
-            emitBlockEnd();
+            decreaseIndentation();
+            emitLine("}", UseSpace.Never, UseSpace.Never);
         }
 
         public void Add(ClassElement @class)
