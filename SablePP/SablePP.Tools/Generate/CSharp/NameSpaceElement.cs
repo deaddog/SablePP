@@ -73,5 +73,22 @@
         {
             classes.EmitNewLine();
         }
+
+        /// <summary>
+        /// Emits the start of a region.
+        /// </summary>
+        /// <param name="text">The message displayed in the first line of the region.</param>
+        new public void EmitRegionStart(string text)
+        {
+            classes.EmitLine("#region {0}", text);
+        }
+
+        /// <summary>
+        /// Emits the end of a region.
+        /// </summary>
+        new public void EmitRegionEnd()
+        {
+            classes.EmitLine("#endregion");
+        }
     }
 }
