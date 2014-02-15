@@ -4,6 +4,9 @@ using System.Text;
 
 namespace SablePP.Tools.Generate
 {
+    /// <summary>
+    /// Provides methods for generating code from the composite structure defined by <see cref="CodeElement"/>.
+    /// </summary>
     public class CodeStreamWriter : IDisposable
     {
         private Stream stream;
@@ -34,6 +37,9 @@ namespace SablePP.Tools.Generate
             this.currentLine = string.Empty;
         }
 
+        /// <summary>
+        /// Gets or sets the current indentation used by the <see cref="CodeStreamWriter"/>.
+        /// </summary>
         public int Indentation
         {
             get { return indentation; }
@@ -55,6 +61,11 @@ namespace SablePP.Tools.Generate
             return string.Empty.PadRight(indent * indentationSize);
         }
 
+        /// <summary>
+        /// Writes the a string to the output.
+        /// </summary>
+        /// <param name="text">The string that should be written to the output stream.
+        /// If the string contains newline, indentation is disregarded.</param>
         public void WriteString(string text)
         {
             if (text == null)
@@ -67,6 +78,9 @@ namespace SablePP.Tools.Generate
 
             currentLine += text;
         }
+        /// <summary>
+        /// Writes a newline to the output stream. The next line will obey the indentation defined by <see cref="Indentation"/>.
+        /// </summary>
         public void WriteNewline()
         {
             if (currentLine == string.Empty)
