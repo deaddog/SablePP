@@ -2,7 +2,7 @@
 
 namespace SablePP.Tools.Generate.CSharp
 {
-    public abstract class PropertyElement : ComplexElement
+    public abstract class PropertyElement : ComplexElement, IProperty
     {
         private string name;
         private string type;
