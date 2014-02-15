@@ -57,7 +57,7 @@ namespace SablePP.Compiler.Generate.Productions
             method.Body.IncreaseIndentation();
 
             method.Body.EmitLine("{0}[] temp = new {0}[{1}.Count];", type, name);
-            method.Body.EmitLine("{0}.CopyTo(temp, 0)", name);
+            method.Body.EmitLine("{0}.CopyTo(temp, 0);", name);
             method.Body.EmitLine("for (int i = 0; i < temp.Length; i++)");
             method.Body.IncreaseIndentation();
             method.Body.EmitLine("yield return temp[i];");
