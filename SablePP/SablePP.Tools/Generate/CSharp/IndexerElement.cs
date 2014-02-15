@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools.Generate.CSharp
 {
-    public abstract class IndexerElement : ComplexElement
+    public abstract class IndexerElement : ComplexElement, IIndexer
     {
         private string type;
         public string Type
