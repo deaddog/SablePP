@@ -15,6 +15,8 @@ namespace SablePP.Tools.Editor
     /// </summary>
     public partial class EditorForm : Form
     {
+        private const int DEFAULT_MESSAGE_TIME = 3000;
+
         #region Form Text/Application name
 
         private string text;
@@ -350,17 +352,21 @@ namespace SablePP.Tools.Editor
         /// Shows a message in the status strip in the bottom of the <see cref="EditorForm"/>.
         /// </summary>
         /// <param name="text">The text message to display.</param>
-        public void ShowMessage(string text)
+        /// <param name="duration">The time, in milliseconds, the message is displayed.</param>
+        public void ShowMessage(string text, int duration = DEFAULT_MESSAGE_TIME)
         {
-            ShowMessage(null, text);
+            ShowMessage(null, text, duration);
         }
         /// <summary>
         /// Shows a message and an image in the status strip in the bottom of the <see cref="EditorForm"/>.
         /// </summary>
         /// <param name="image">The image to display.</param>
         /// <param name="text">The text message to display.</param>
-        public void ShowMessage(Image image, string text)
+        /// <param name="duration">The time, in milliseconds, the message is displayed.</param>
+        public void ShowMessage(Image image, string text, int duration = DEFAULT_MESSAGE_TIME)
         {
+            messageTimer.Interval = duration;
+            messageTimer.Stop();
             messageTimer.Start();
 
             fillerLabel.Image = image;
@@ -371,7 +377,8 @@ namespace SablePP.Tools.Editor
         /// </summary>
         /// <param name="icon">The icon to display.</param>
         /// <param name="text">The text message to display.</param>
-        public void ShowMessage(MessageIcons icon, string text)
+        /// <param name="duration">The time, in milliseconds, the message is displayed.</param>
+        public void ShowMessage(MessageIcons icon, string text, int duration = DEFAULT_MESSAGE_TIME)
         {
             Image iconImage;
 
@@ -379,11 +386,17 @@ namespace SablePP.Tools.Editor
             {
                 case MessageIcons.Accept:
                     iconImage = EditorResources.accept; break;
+                case MessageIcons.Error:
+                    iconImage = EditorResources.error; break;
+                case MessageIcons.Warning:
+                    iconImage = EditorResources.warning; break;
+                case MessageIcons.Working:
+                    iconImage = EditorResources.working; break;
                 default:
                     throw new ArgumentException("Unknown message icon.");
             }
 
-            ShowMessage(iconImage, text);
+            ShowMessage(iconImage, text, duration);
         }
 
         private void messageTimer_Tick(object sender, EventArgs e)

@@ -381,7 +381,6 @@
             // 
             // messageTimer
             // 
-            this.messageTimer.Interval = 3000;
             this.messageTimer.Tick += new System.EventHandler(this.messageTimer_Tick);
             // 
             // EditorForm

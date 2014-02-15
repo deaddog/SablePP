@@ -11,11 +11,15 @@ namespace SablePP.Compiler
     {
         private Stream stream;
         private Encoding encoding;
+        private int line;
+        private int position;
 
         public SableGrammarEmitter(Stream stream)
         {
             this.stream = stream;
             this.encoding = new System.Text.UTF8Encoding(false);
+            this.line = 1;
+            this.position = 1;
         }
 
         public override void CaseAGrammar(Nodes.AGrammar node)
@@ -39,14 +43,25 @@ namespace SablePP.Compiler
         {
             byte[] buffer = encoding.GetBytes(text);
             stream.Write(buffer, 0, buffer.Length);
+            this.position += text.Length;
         }
 
         public override void DefaultCase(Node node)
         {
             if (node is Token)
             {
-                write((node as Token).Text);
-                write(" ");
+                Token token = node as Token;
+
+                while (token.Line > line)
+                {
+                    write("\r\n");
+                    this.position = 1;
+                    this.line++;
+                }
+                if (token.Position > position)
+                    write("".PadLeft(token.Position - position));
+
+                write(token.Text);
             }
             else
             {

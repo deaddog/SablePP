@@ -70,7 +70,6 @@
     <Compile Include="CommonMethods.cs" />
     <Compile Include="Generate\Analysis\DepthFirstAdapterBuilder.cs" />
     <Compile Include="Generate\Analysis\ReturnAnalysisAdapterBuilder.cs" />
-    <Compile Include="Generate\Analysis\DepthFirstReturnAdapterBuilder.cs" />
     <Compile Include="Generate\CompilerExecuterBuilder.cs" />
     <Compile Include="Generate\Productions\CloneMethodBuilder.cs" />
     <Compile Include="Declarations\DAlternativeName.cs" />

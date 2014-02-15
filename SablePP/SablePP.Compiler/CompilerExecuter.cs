@@ -24,6 +24,7 @@ namespace SablePP.Compiler
     {
         private const int SABLE_MAX_WAIT = 500;
         private bool runSable;
+        private bool modificationsCompleted;
         private IdentifierHighlighter identifierHighlighter;
 
         public bool RunSable
@@ -35,6 +36,7 @@ namespace SablePP.Compiler
         public CompilerExecuter(bool runSable)
         {
             this.runSable = runSable;
+            this.modificationsCompleted = false;
             this.identifierHighlighter = new IdentifierHighlighter();
         }
 
@@ -105,6 +107,8 @@ namespace SablePP.Compiler
                 }
                 proc.Close();
             }
+
+            modificationsCompleted = false;
         }
         private Process StartSableCC()
         {
@@ -142,7 +146,14 @@ namespace SablePP.Compiler
                 int eChar = int.Parse(m.Groups["char"].Value);
                 string eText = m.Groups["text"].Value;
 
-                errorManager.Register("SableCC: {2} at {{{0},{1}}}", eLine, eChar, eText);
+                if (eLine == 0 || eChar == 0)
+                    errorManager.Register("SableCC: {2} at {{{0},{1}}}", eLine, eChar, eText);
+                else
+                {
+                    Position start = new Position(eLine, eChar);
+                    Position end = new Position(eLine, eChar);
+                    errorManager.Register(new CompilerError(start, end, "SableCC: " + eText));
+                }
             }
             else
                 errorManager.Register(text);
@@ -161,8 +172,12 @@ namespace SablePP.Compiler
             ProductionNodes.BuildCode(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "prods.cs"));
             AnalysisBuilder.BuildCode(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "analysis.cs"));
 
-            ParserModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\parser.cs", root);
-            LexerModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\lexer.cs", root);
+            if (!modificationsCompleted)
+            {
+                modificationsCompleted = true;
+                ParserModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\parser.cs", root);
+                LexerModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\lexer.cs", root);
+            }
 
             CompilerExecuterBuilder.Build(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "CompilerExecuter.cs"));
 
