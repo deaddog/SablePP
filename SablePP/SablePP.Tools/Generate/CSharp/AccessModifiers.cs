@@ -14,41 +14,57 @@ namespace SablePP.Tools.Generate.CSharp
         /// </summary>
         None = 0,
         /// <summary>
-        /// The public access modifiers.
+        /// The public access modifier.
         /// </summary>
         @public = 1,
         /// <summary>
-        /// The private access modifiers.
+        /// The private access modifier.
         /// </summary>
         @private = 2,
         /// <summary>
-        /// The protected access modifiers.
+        /// The protected access modifier.
         /// </summary>
         @protected = 4,
         /// <summary>
-        /// The partial access modifiers.
+        /// The partial access modifier.
         /// </summary>
         @partial = 8,
         /// <summary>
-        /// The new access modifiers.
+        /// The new access modifier.
         /// </summary>
         @new = 16,
         /// <summary>
-        /// The internal access modifiers.
+        /// The internal access modifier.
         /// </summary>
         @internal = 32,
         /// <summary>
-        /// The abstract access modifiers.
+        /// The abstract access modifier.
         /// </summary>
         @abstract = 64,
         /// <summary>
-        /// The virtual access modifiers.
+        /// The virtual access modifier.
         /// </summary>
         @virtual = 128,
         /// <summary>
-        /// The override access modifiers.
+        /// The override access modifier.
         /// </summary>
-        @override = 256
+        @override = 256,
+        /// <summary>
+        /// The static access modifier.
+        /// </summary>
+        @static = 512,
+        /// <summary>
+        /// The explicit access modifier.
+        /// </summary>
+        @explicit = 1024,
+        /// <summary>
+        /// The implicit access modifier.
+        /// </summary>
+        @implicit = 2048,
+        /// <summary>
+        /// The operator access modifier.
+        /// </summary>
+        @operator
     }
 
     internal static class AccessModifiersExtension

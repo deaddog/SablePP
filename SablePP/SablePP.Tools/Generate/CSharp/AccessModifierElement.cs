@@ -65,7 +65,13 @@ namespace SablePP.Tools.Generate.CSharp
                 case AccessModifiers.@abstract:
                 case AccessModifiers.@virtual:
                 case AccessModifiers.@override:
+                case AccessModifiers.@static:
                     return 3;
+                case AccessModifiers.@explicit:
+                case AccessModifiers.@implicit:
+                    return 5;
+                case AccessModifiers.@operator:
+                    return 6;
                 default:
                     throw new NotImplementedException();
             }
