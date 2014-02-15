@@ -66,6 +66,7 @@ namespace SablePP.Compiler.Generate.Analysis
             adapterClass.Add(method = new MethodElement("public override void CaseStart(Start<{0}> node)", true, grammar.RootProduction));
 
             method.Body.EmitLine("InStart(node);");
+            method.Body.EmitNewLine();
 
             if (!reversed)
             {
@@ -78,6 +79,7 @@ namespace SablePP.Compiler.Generate.Analysis
                 method.Body.EmitLine("Visit((dynamic)node.Root);");
             }
 
+            method.Body.EmitNewLine();
             method.Body.EmitLine("OutStart(node);");
         }
 
@@ -190,7 +192,7 @@ namespace SablePP.Compiler.Generate.Analysis
                 method.Body.EmitLine("for (int i = temp.Length - 1; i >= 0; i--)");
             method.Body.IncreaseIndentation();
 
-            method.Body.EmitLine("Visit(temp[i]);");
+            method.Body.EmitLine("Visit({0}temp[i]);", node.PElementid.TIdentifier.IsProduction ? "(dynamic)" : "");
             method.Body.DecreaseIndentation();
 
             method.Body.DecreaseIndentation();
