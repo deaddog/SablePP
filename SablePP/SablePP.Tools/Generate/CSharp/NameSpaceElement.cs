@@ -53,7 +53,7 @@
             insertElement(usings);
             insertElement(classes);
             decreaseIndentation();
-            emitLine("}", UseSpace.Never, UseSpace.Never);
+            emitLine("}");
         }
 
         /// <summary>
