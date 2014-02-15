@@ -28,6 +28,21 @@ namespace SablePP.Tools.Generate.CSharp
             get { return parameters[index]; }
         }
 
+        public static ParametersElement Parse(string signature)
+        {
+            ParametersElement element = new ParametersElement();
+
+            string[] parameters = signature.Split(',');
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                parameters[i] = parameters[i].Trim();
+                if (parameters[i].Length > 0)
+                    element.parameters.Add(Parameter.Parse(parameters[i]));
+            }
+
+            return element;
+        }
+
         /// <summary>
         /// Holds information about a single method parameter
         /// </summary>
@@ -38,12 +53,8 @@ namespace SablePP.Tools.Generate.CSharp
             private string type;
             private string defaultValue;
 
-            internal Parameter(string parameterType, string name, string type, string defaultValue)
+            private Parameter()
             {
-                this.parameterType = parameterType;
-                this.name = name;
-                this.type = type;
-                this.defaultValue = defaultValue;
             }
 
             /// <summary>
@@ -84,8 +95,8 @@ namespace SablePP.Tools.Generate.CSharp
                 set
                 {
                     if (value == null)
-                        throw new ArgumentNullException("value"); 
-                    
+                        throw new ArgumentNullException("value");
+
                     type = value;
                 }
             }
@@ -96,6 +107,29 @@ namespace SablePP.Tools.Generate.CSharp
             {
                 get { return defaultValue; }
                 set { defaultValue = value; }
+            }
+
+            internal static Parameter Parse(string signature)
+            {
+                Parameter par = new Parameter();
+
+                int equalIndex = signature.IndexOf('=');
+
+                string pre = equalIndex <= 0 ? signature : signature.Substring(0, equalIndex).TrimEnd();
+                par.defaultValue = equalIndex <= 0 ? null : signature.Substring(equalIndex + 1).TrimStart();
+
+                if (pre.StartsWith("ref") || pre.StartsWith("out"))
+                {
+                    par.parameterType = pre.Substring(0, 3);
+                    pre = pre.Substring(3).TrimStart();
+                }
+                else
+                    par.parameterType = null;
+
+                par.name = pre.Contains(" ") ? pre.Substring(pre.LastIndexOf(' ') + 1) : pre;
+                par.type = pre.Substring(0, pre.Length - par.name.Length).TrimEnd();
+
+                return par;
             }
         }
     }

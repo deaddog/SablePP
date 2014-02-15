@@ -53,7 +53,15 @@ namespace SablePP.Tools.Generate.CSharp
                 name = name.Substring(0, name.LastIndexOf('<')).TrimEnd();
             if (name.Contains(" "))
                 name = name.Substring(name.LastIndexOf(' ') + 1);
-            signature = signature.Substring(parIndex);
+            signature = signature.Substring(parIndex + 1);
+
+            // Parse the parameters
+            int parEnd = signature.IndexOf(')');
+            this.parameters = ParametersElement.Parse(signature.Substring(0, parEnd));
+            emit("(");
+            insertElement(parameters);
+            emit(")");
+            signature = signature.Substring(parEnd + 1);
 
             emit(signature);
         }
