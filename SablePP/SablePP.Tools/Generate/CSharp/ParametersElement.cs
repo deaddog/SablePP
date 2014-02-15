@@ -18,7 +18,7 @@ namespace SablePP.Tools.Generate.CSharp
         /// <summary>
         /// Adds a parameter to the <see cref="ParametersElement"/> by declaring its signature.
         /// </summary>
-        /// <param name="parameterSignature">The parameter signature.</param>
+        /// <param name="parameterSignature">The signature of the parameter.</param>
         /// <returns>The <see cref="Parameter"/> parsed from <paramref name="parameterSignature"/>.</returns>
         public Parameter Add(string parameterSignature)
         {
@@ -26,6 +26,17 @@ namespace SablePP.Tools.Generate.CSharp
             parameters.Add(par);
             return par;
         }
+        /// <summary>
+        /// Adds a parameter to the <see cref="ParametersElement"/> by declaring its signature.
+        /// </summary>
+        /// <param name="parameterSignature">The signature of the parameter.</param>
+        /// <param name="args">A collection of arguments inserted into <paramref name="parameterSignature"/> using <see cref="String.Format(String, Object[])"/>.</param>
+        /// <returns>The <see cref="Parameter"/> parsed from <paramref name="parameterSignature"/>.</returns>
+        public Parameter Add(string parameterSignature, params object[] args)
+        {
+            return Add(string.Format(parameterSignature, args));
+        }
+
         /// <summary>
         /// Removes the specified parameter from this <see cref="ParametersElement"/>.
         /// </summary>
