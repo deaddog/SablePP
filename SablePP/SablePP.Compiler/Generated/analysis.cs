@@ -13,6 +13,10 @@ namespace SablePP.Compiler.Analysis
     }
     public class AnalysisAdapter<TValue> : Adapter<TValue, PGrammar>
     {
+        public override void Visit(Node node)
+        {
+            Visit((dynamic)node);
+        }
         public void Visit(AGrammar node)
         {
             CaseAGrammar(node);
@@ -924,10 +928,6 @@ namespace SablePP.Compiler.Analysis
     }
     public class DepthFirstAdapter<TValue> : AnalysisAdapter<TValue>
     {
-        public override void Visit(Node node)
-        {
-            Visit((dynamic)node);
-        }
         
         public virtual void InStart(Start<PGrammar> node)
         {
@@ -2662,10 +2662,6 @@ namespace SablePP.Compiler.Analysis
     }
     public class ReverseDepthFirstAdapter<TValue> : AnalysisAdapter<TValue>
     {
-        public override void Visit(Node node)
-        {
-            Visit((dynamic)node);
-        }
         
         public virtual void InStart(Start<PGrammar> node)
         {
@@ -4401,6 +4397,10 @@ namespace SablePP.Compiler.Analysis
     
     public class ReturnAnalysisAdapter<TResult> : ReturnAdapter<TResult, PGrammar>
     {
+        public override TResult Visit(Node node)
+        {
+            return Visit((dynamic)node);
+        }
         public TResult Visit(AGrammar node)
         {
             return CaseAGrammar(node);
@@ -5308,6 +5308,10 @@ namespace SablePP.Compiler.Analysis
     }
     public class ReturnAnalysisAdapter<T1, TResult> : ReturnAdapter<T1, TResult, PGrammar>
     {
+        public override TResult Visit(Node node, T1 arg1)
+        {
+            return Visit((dynamic)node, arg1);
+        }
         public TResult Visit(AGrammar node, T1 arg1)
         {
             return CaseAGrammar(node, arg1);
@@ -6215,6 +6219,10 @@ namespace SablePP.Compiler.Analysis
     }
     public class ReturnAnalysisAdapter<T1, T2, TResult> : ReturnAdapter<T1, T2, TResult, PGrammar>
     {
+        public override TResult Visit(Node node, T1 arg1, T2 arg2)
+        {
+            return Visit((dynamic)node, arg1, arg2);
+        }
         public TResult Visit(AGrammar node, T1 arg1, T2 arg2)
         {
             return CaseAGrammar(node, arg1, arg2);
@@ -7122,6 +7130,10 @@ namespace SablePP.Compiler.Analysis
     }
     public class ReturnAnalysisAdapter<T1, T2, T3, TResult> : ReturnAdapter<T1, T2, T3, TResult, PGrammar>
     {
+        public override TResult Visit(Node node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return Visit((dynamic)node, arg1, arg2, arg3);
+        }
         public TResult Visit(AGrammar node, T1 arg1, T2 arg2, T3 arg3)
         {
             return CaseAGrammar(node, arg1, arg2, arg3);

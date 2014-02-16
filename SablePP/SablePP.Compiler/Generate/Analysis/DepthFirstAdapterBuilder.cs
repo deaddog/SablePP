@@ -27,9 +27,6 @@ namespace SablePP.Compiler.Generate.Analysis
         {
             this.grammar = node;
 
-            CreateVisitNodeMethod();
-            adapterClass.EmitNewline();
-
             CreateStartInOutMethods();
             CreateStartCaseMethod();
             adapterClass.EmitNewline();
@@ -47,13 +44,6 @@ namespace SablePP.Compiler.Generate.Analysis
         }
 
         #region Default methods
-
-        public void CreateVisitNodeMethod()
-        {
-            MethodElement method;
-            adapterClass.Add(method = new MethodElement("public override void Visit(Node node)"));
-            method.Body.EmitLine("Visit((dynamic)node);");
-        }
 
         public void CreateStartInOutMethods()
         {

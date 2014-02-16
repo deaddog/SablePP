@@ -17,6 +17,13 @@ namespace SablePP.Compiler.Generate.Analysis
 
         public override void CaseAGrammar(AGrammar node)
         {
+            // Dynamic Visit(node) method
+            MethodElement method;
+            adapterClass.Add(method = new MethodElement("public override void Visit(Node node)"));
+            method.Body.EmitLine("Visit((dynamic)node);");
+            
+            adapterClass.EmitNewline();
+
             if (node.HasAstproductions)
                 Visit(node.Astproductions);
             else if (node.HasProductions)
