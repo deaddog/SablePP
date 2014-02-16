@@ -34,6 +34,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openRecentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,6 +90,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.openRecentToolStripMenuItem,
             this.toolStripSeparator,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
@@ -120,6 +122,12 @@
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.openToolStripMenuItem.Text = "&Open";
+            // 
+            // openRecentToolStripMenuItem
+            // 
+            this.openRecentToolStripMenuItem.Name = "openRecentToolStripMenuItem";
+            this.openRecentToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.openRecentToolStripMenuItem.Text = "Open &Recent";
             // 
             // toolStripSeparator
             // 
@@ -415,6 +423,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openRecentToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
