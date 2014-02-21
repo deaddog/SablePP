@@ -154,10 +154,21 @@ namespace SablePP.Tools.Editor
         /// </summary>
         public event ErrorEventHandler ErrorAdded;
 
+        private bool useSmartPar = true;
+        /// <summary>
+        /// Gets or sets a value indicating whether the <see cref="CodeTextBox"/> should use smart parenthesis (inserting of '(' when text is selected will enclose the text with '(...)'.
+        /// </summary>
+        [DefaultValue(true)]
+        public bool UseSmartParenthesis
+        {
+            get { return useSmartPar; }
+            set { this.useSmartPar = value; }
+        }
+
 #pragma warning disable 1591
         public sealed override bool ProcessKey(char c, System.Windows.Forms.Keys modifiers)
         {
-            if (this.SelectionLength > 0)
+            if (this.SelectionLength > 0 && useSmartPar)
             {
                 char end = c == '(' ? ')' : c == '{' ? '}' : c == '[' ? ']' : c == '<' ? '>' : '\0';
                 if (end != '\0')
