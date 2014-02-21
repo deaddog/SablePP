@@ -168,14 +168,13 @@ namespace SablePP.Tools.Editor
 #pragma warning disable 1591
         public sealed override bool ProcessKey(char c, System.Windows.Forms.Keys modifiers)
         {
-            if (this.SelectionLength > 0 && useSmartPar)
+            if (useSmartPar)
             {
                 char end = c == '(' ? ')' : c == '{' ? '}' : c == '[' ? ']' : c == '<' ? '>' : '\0';
                 if (end != '\0')
                 {
                     int s = this.SelectionStart;
                     int l = this.SelectionLength;
-                    //this.Text = this.Text.Substring(0, s) + "(" + this.Text.Substring(s, l) + ")" + this.Text.Substring(s + l);
                     this.InsertText(c + this.Text.Substring(s, l) + end);
                     this.SelectionStart = s + 1;
                     this.SelectionLength = l;
