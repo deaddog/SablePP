@@ -19,6 +19,8 @@ namespace SablePP.Tools.Editor
     {
         private const int DEFAULT_MESSAGE_TIME = 3000;
 
+        private RecentFilesHandler recentFiles;
+
         #region Form Text/Application name
 
         private string text;
@@ -291,6 +293,7 @@ namespace SablePP.Tools.Editor
             this.codeTextBox1.ErrorsCleared += (s, e) => this.errorTextBox1.ClearErrors();
 
             this.Text = EditorResources.DefaultTitle;
+            this.recentFiles = new RecentFilesHandler();
 
             #region FileHandle initialize
 
