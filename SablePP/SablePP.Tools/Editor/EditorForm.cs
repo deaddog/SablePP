@@ -514,6 +514,22 @@ namespace SablePP.Tools.Editor
                 foreach (var s in EditorSettings.Default.RecentFiles.Split(new char[] { '?' }, StringSplitOptions.RemoveEmptyEntries))
                     yield return s;
             }
+
+            public void AddRecent(string filepath)
+            {
+                if (filepath == null)
+                    throw new ArgumentNullException("filepath");
+                files.Insert(0, filepath);
+
+                string filesString = filepath;
+                filepath = filepath.ToLower();
+                foreach (var f in getPropertyFiles())
+                    if (f.ToLower() != filepath)
+                        filesString += "?" + f;
+
+                EditorSettings.Default.RecentFiles = filesString;
+                EditorSettings.Default.Save();
+            }
         }
     }
 }
