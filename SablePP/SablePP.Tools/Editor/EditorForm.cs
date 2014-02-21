@@ -491,5 +491,8 @@ namespace SablePP.Tools.Editor
         {
             this.changed = true;
         }
+        private void fileToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+        }
     }
 }
