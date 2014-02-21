@@ -499,6 +499,10 @@ namespace SablePP.Tools.Editor
 
         private class RecentFilesHandler
         {
+            /// <summary>
+            /// Defines the maximum number of elements in the list
+            /// </summary>
+            private const int MAXLISTSIZE = 50;
             private List<string> files;
 
             public RecentFilesHandler()
@@ -523,7 +527,7 @@ namespace SablePP.Tools.Editor
 
                 string filesString = filepath;
                 filepath = filepath.ToLower();
-                foreach (var f in getPropertyFiles())
+                foreach (var f in getPropertyFiles().Take(MAXLISTSIZE))
                     if (f.ToLower() != filepath)
                         filesString += "?" + f;
 
