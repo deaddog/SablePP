@@ -534,6 +534,24 @@ namespace SablePP.Tools.Editor
                 EditorSettings.Default.RecentFiles = filesString;
                 EditorSettings.Default.Save();
             }
+
+            public IEnumerable<string> Take(int count)
+            {
+                return getPropertyFiles().Take(count);
+            }
+
+            public IEnumerable<string> TakeExisting(int count)
+            {
+                int c = 0;
+                foreach (var f in getPropertyFiles())
+                {
+                    if (new FileInfo(f).Exists)
+                        yield return f;
+
+                    if (c++ == count)
+                        break;
+                }
+            }
         }
     }
 }
