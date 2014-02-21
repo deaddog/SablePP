@@ -494,5 +494,20 @@ namespace SablePP.Tools.Editor
         private void fileToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
         }
+
+        private class RecentFilesHandler
+        {
+            private int fileCount;
+            private string[] files;
+
+            public RecentFilesHandler(int fileCount)
+            {
+                if (fileCount < 0)
+                    throw new ArgumentOutOfRangeException("fileCount");
+
+                this.fileCount = fileCount;
+                this.files = new string[fileCount];
+            }
+        }
     }
 }
