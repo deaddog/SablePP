@@ -500,6 +500,22 @@ namespace SablePP.Tools.Editor
         }
         private void fileToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
+            while (openRecentToolStripMenuItem.DropDownItems.Count > 0)
+            {
+                var item = openRecentToolStripMenuItem.DropDownItems[0];
+                openRecentToolStripMenuItem.DropDownItems.RemoveAt(0);
+                item.Dispose();
+            }
+
+            int i = 1;
+            foreach (var file in recentFiles.TakeExisting(5))
+            {
+                ToolStripMenuItem item = new ToolStripMenuItem(string.Format("&{0} {1}", i, file));
+                openRecentToolStripMenuItem.DropDownItems.Add(item);
+                i++;
+            }
+
+            openRecentToolStripMenuItem.Enabled = openRecentToolStripMenuItem.DropDownItems.Count > 0;
         }
 
         private class RecentFilesHandler
