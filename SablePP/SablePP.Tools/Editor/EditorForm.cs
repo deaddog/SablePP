@@ -523,6 +523,12 @@ namespace SablePP.Tools.Editor
             {
                 if (filepath == null)
                     throw new ArgumentNullException("filepath");
+
+                filepath = Path.GetFullPath(filepath);
+
+                if (filepath.EndsWith("/") || filepath.EndsWith("\\"))
+                    throw new ArgumentException("File path cannot end in / or \\ - it must be the path of a file.");
+
                 files.Insert(0, filepath);
 
                 string filesString = filepath;
