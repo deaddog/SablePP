@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -497,16 +499,20 @@ namespace SablePP.Tools.Editor
 
         private class RecentFilesHandler
         {
-            private int fileCount;
-            private string[] files;
+            private List<string> files;
 
-            public RecentFilesHandler(int fileCount)
+            public RecentFilesHandler()
             {
-                if (fileCount < 0)
-                    throw new ArgumentOutOfRangeException("fileCount");
+                this.files = new List<string>(getPropertyFiles());
+            }
 
-                this.fileCount = fileCount;
-                this.files = new string[fileCount];
+            private IEnumerable<string> getPropertyFiles()
+            {
+                if (EditorSettings.Default.RecentFiles == null || EditorSettings.Default.RecentFiles.Length == 0)
+                    yield break;
+
+                foreach (var s in EditorSettings.Default.RecentFiles.Split(new char[] { '?' }, StringSplitOptions.RemoveEmptyEntries))
+                    yield return s;
             }
         }
     }
