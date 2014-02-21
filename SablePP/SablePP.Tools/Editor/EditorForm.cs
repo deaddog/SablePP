@@ -203,6 +203,8 @@ namespace SablePP.Tools.Editor
             if (codeTextBox1.Text == string.Empty)
                 codeTextBox1.OnTextChangedDelayed(codeTextBox1.Range);
 
+            recentFiles.AddRecent(filepath);
+
             return DialogResult.OK;
         }
         /// <summary>
