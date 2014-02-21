@@ -527,7 +527,10 @@ namespace SablePP.Tools.Editor
                 filepath = Path.GetFullPath(filepath);
 
                 if (filepath.EndsWith("/") || filepath.EndsWith("\\"))
-                    throw new ArgumentException("File path cannot end in / or \\ - it must be the path of a file.");
+                    throw new ArgumentException("File path cannot end in / or \\ - it must be the path of a file.", "filepath");
+
+                if (!isValid(filepath))
+                    throw new ArgumentException("File path is not valid.", "filepath");
 
                 files.Insert(0, filepath);
 
@@ -539,6 +542,22 @@ namespace SablePP.Tools.Editor
 
                 EditorSettings.Default.RecentFiles = filesString;
                 EditorSettings.Default.Save();
+            }
+
+            private bool isValid(string filepath)
+            {
+                string filename = Path.GetFileName(filepath);
+                filepath = filepath.Substring(0, filepath.Length - filename.Length);
+
+                foreach (var c in Path.GetInvalidFileNameChars())
+                    if (filename.Contains(c))
+                        return false;
+
+                foreach (var c in Path.GetInvalidPathChars())
+                    if (filepath.Contains(c))
+                        return false;
+
+                return true;
             }
 
             public IEnumerable<string> Take(int count)
