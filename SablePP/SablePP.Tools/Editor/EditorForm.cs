@@ -510,7 +510,9 @@ namespace SablePP.Tools.Editor
             int i = 1;
             foreach (var file in recentFiles.TakeExisting(5))
             {
+                string filepath = file;
                 ToolStripMenuItem item = new ToolStripMenuItem(string.Format("&{0} {1}", i, file));
+                item.Click += (s, ee) => OpenFile(filepath);
                 openRecentToolStripMenuItem.DropDownItems.Add(item);
                 i++;
             }
