@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SablePP.Compiler.Nodes;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,6 +49,18 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         public Dictionary<string, DHighlightRule> HighlightRules
         {
             get { return highlight; }
+        }
+
+        public class DeclarationTable<TDeclaration> where TDeclaration : Declaration
+        {
+            private Func<TIdentifier, TDeclaration> construct;
+            private Dictionary<string, TDeclaration> declarations;
+
+            public DeclarationTable(Func<TIdentifier, TDeclaration> construct)
+            {
+                this.construct = construct;
+                this.declarations = new Dictionary<string, TDeclaration>();
+            }
         }
     }
 }
