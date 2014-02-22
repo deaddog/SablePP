@@ -99,7 +99,11 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (tokens.ContainsKey(text) && productions.ContainsKey(text))
                 RegisterError(ident, "Unable to determine if {0} refers to a token or a production. Use T.{1} or P.{1} to specify.", ident, text);
             else if (tokens.ContainsKey(text))
+            {
                 ident.SetDeclaration(tokens[text]);
+                if (tokens[text].Ignored)
+                    RegisterError(node, "The ignored token {0} cannot be used in a production.", ident);
+            }
             else if (productions.ContainsKey(text))
                 ident.SetDeclaration(productions[text]);
             else
@@ -113,7 +117,11 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             DToken token = null;
             if (tokens.TryGetValue(identifier.Text, out token))
+            {
                 identifier.SetDeclaration(token);
+                if (tokens[identifier.Text].Ignored)
+                    RegisterError(node, "The ignored token {0} cannot be used in a production.", identifier);
+            }
             else
                 RegisterError(identifier, "The token {0} has not been defined.", identifier);
 
