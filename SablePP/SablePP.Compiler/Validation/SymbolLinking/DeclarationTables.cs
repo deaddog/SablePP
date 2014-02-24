@@ -55,11 +55,45 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             private Func<TIdentifier, TDeclaration> construct;
             private Dictionary<string, TDeclaration> declarations;
+            private List<TDeclaration> unusedList;
 
             public DeclarationTable(Func<TIdentifier, TDeclaration> construct)
             {
                 this.construct = construct;
                 this.declarations = new Dictionary<string, TDeclaration>();
+                this.unusedList = new List<TDeclaration>();
+            }
+
+            public bool Declare(TIdentifier identifier)
+            {
+                string text = identifier.Text;
+
+                if (declarations.ContainsKey(text))
+                    return false;
+                else
+                {
+                    TDeclaration declaration = construct(identifier);
+                    identifier.SetDeclaration(declaration);
+
+                    declarations.Add(text, declaration);
+                    unusedList.Add(declaration);
+
+                    return true;
+                }
+            }
+
+            public bool Link(TIdentifier identifier)
+            {
+                TDeclaration declaration = null;
+                if (declarations.TryGetValue(identifier.Text, out declaration))
+                {
+                    identifier.SetDeclaration(declaration);
+                    unusedList.Remove(declaration);
+
+                    return true;
+                }
+                else
+                    return false;
             }
         }
     }
