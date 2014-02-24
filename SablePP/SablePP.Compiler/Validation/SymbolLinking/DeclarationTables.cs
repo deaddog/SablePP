@@ -95,6 +95,15 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 else
                     return false;
             }
+
+            public IEnumerable<TDeclaration> NonLinked
+            {
+                get
+                {
+                    foreach (var d in unusedList)
+                        yield return d;
+                }
+            }
         }
     }
 }
