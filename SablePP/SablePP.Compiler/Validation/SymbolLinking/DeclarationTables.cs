@@ -64,6 +64,15 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 this.unusedList = new List<TDeclaration>();
             }
 
+            public TDeclaration this[TIdentifier identifier]
+            {
+                get { return this[identifier.Text]; }
+            }
+            public TDeclaration this[string text]
+            {
+                get { return declarations[text]; }
+            }
+
             public bool Declare(TIdentifier identifier)
             {
                 string text = identifier.Text;
