@@ -44,6 +44,9 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             if(node.HasHighlightrules)
                 TokenHighlightVisitor.LoadTokenDeclarations(node.Highlightrules, declarations, this.ErrorManager);
+
+            foreach (var h in declarations.Helpers.NonLinked)
+                RegisterWarning(h.DeclarationToken, "The helper '{0}' is never used in a helper or token definition.", h.DeclarationToken.Text);
         }
     }
 }
