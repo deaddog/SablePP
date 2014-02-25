@@ -8,10 +8,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class TokenVisitor : DeclarationVisitor
     {
-        private Dictionary<string, DHelper> helpers;
+        private DeclarationTables.DeclarationTable<DHelper> helpers;
         private Dictionary<string, DState> states;
         private Dictionary<string, DToken> tokens;
-        
+
         private TokenVisitor(DeclarationTables declarations, ErrorManager errorManager)
             : base(errorManager)
         {
@@ -72,10 +72,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseTIdentifier(TIdentifier node)
         {
-            DHelper helper = null;
-            if (helpers.TryGetValue(node.Text, out helper))
-                node.SetDeclaration(helper);
-            else
+            if (!helpers.Link(node))
                 RegisterError(node, "The helper {0} has not been defined.", node);
         }
     }

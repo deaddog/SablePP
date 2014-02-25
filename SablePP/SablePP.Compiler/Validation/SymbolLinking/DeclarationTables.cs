@@ -9,7 +9,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class DeclarationTables
     {
-        private Dictionary<string, DHelper> helpers;
+        private DeclarationTable<DHelper> helpers;
         private Dictionary<string, DState> states;
         private Dictionary<string, DToken> tokens;
         private Dictionary<string, DProduction> productions;
@@ -18,7 +18,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public DeclarationTables()
         {
-            this.helpers = new Dictionary<string, DHelper>();
+            this.helpers = new DeclarationTable<DHelper>(id => new DHelper(id));
             this.states = new Dictionary<string, DState>();
             this.tokens = new Dictionary<string, DToken>();
             this.productions = new Dictionary<string, DProduction>();
@@ -26,7 +26,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             this.highlight = new Dictionary<string, DHighlightRule>();
         }
 
-        public Dictionary<string, DHelper> Helpers
+        public DeclarationTable<DHelper> Helpers
         {
             get { return helpers; }
         }

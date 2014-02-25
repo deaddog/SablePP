@@ -14,9 +14,9 @@ namespace SablePP.Compiler
         /// <summary>
         /// Initializes a new instance of the <see cref="DHelper"/> class.
         /// </summary>
-        /// <param name="node">The helper node from which this <see cref="DHelper"/> should be constructed.</param>
-        public DHelper(AHelper node)
-            : base(node.Identifier)
+        /// <param name="node">The identifier token that declares this <see cref="DHelper"/>.</param>
+        public DHelper(TIdentifier identifier)
+            : base(identifier)
         {
         }
 
