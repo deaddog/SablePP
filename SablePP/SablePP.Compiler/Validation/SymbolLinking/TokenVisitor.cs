@@ -10,7 +10,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
     {
         private DeclarationTables.DeclarationTable<DHelper> helpers;
         private DeclarationTables.DeclarationTable<DState> states;
-        private Dictionary<string, DToken> tokens;
+        private DeclarationTables.DeclarationTable<DToken> tokens;
 
         private TokenVisitor(DeclarationTables declarations, ErrorManager errorManager)
             : base(errorManager)
@@ -30,14 +30,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (node.HasStatelist)
                 Visit(node.Statelist);
 
-            string text = node.Identifier.Text;
-
-            DToken token = new DToken(node);
-            if (tokens.ContainsKey(text))
-                RegisterError(node.Identifier, "Token {0} has already been defined (line {1}).", node.Identifier, tokens[text].DeclarationToken.Line);
-            else
-                tokens.Add(text, token);
-            node.Identifier.SetDeclaration(tokens[text]);
+            if (!tokens.Declare(node.Identifier))
+                RegisterError(node.Identifier, "Token {0} has already been defined (line {1}).", node.Identifier, tokens[node.Identifier].DeclarationToken.Line);
 
             Visit(node.Regex);
             if (node.HasTokenlookahead)

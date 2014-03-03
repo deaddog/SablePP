@@ -8,7 +8,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class ProductionVisitor : DeclarationVisitor
     {
-        private Dictionary<string, DToken> tokens;
+        private DeclarationTables.DeclarationTable<DToken> tokens;
         private Dictionary<string, DProduction> productions;
         private Dictionary<string, DAlternativeName> alternatives;
         private Dictionary<string, DElementName> elements;
@@ -96,11 +96,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             TIdentifier ident = node.Identifier;
             string text = ident.Text;
 
-            if (tokens.ContainsKey(text) && productions.ContainsKey(text))
+            if (tokens.Contains(text) && productions.ContainsKey(text))
                 RegisterError(ident, "Unable to determine if {0} refers to a token or a production. Use T.{1} or P.{1} to specify.", ident, text);
-            else if (tokens.ContainsKey(text))
+            else if (tokens.Link(ident))
             {
-                ident.SetDeclaration(tokens[text]);
                 if (tokens[text].Ignored)
                     RegisterError(node, "The ignored token {0} cannot be used in a production.", ident);
             }
@@ -113,17 +112,13 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         }
         public override void InATokenElementid(ATokenElementid node)
         {
-            TIdentifier identifier = node.Identifier;
-
-            DToken token = null;
-            if (tokens.TryGetValue(identifier.Text, out token))
+            if (tokens.Link(node.Identifier))
             {
-                identifier.SetDeclaration(token);
-                if (tokens[identifier.Text].Ignored)
-                    RegisterError(node, "The ignored token {0} cannot be used in a production.", identifier);
+                if (tokens[node.Identifier.Text].Ignored)
+                    RegisterError(node, "The ignored token {0} cannot be used in a production.", node.Identifier);
             }
             else
-                RegisterError(identifier, "The token {0} has not been defined.", identifier);
+                RegisterError(node.Identifier, "The token {0} has not been defined.", node.Identifier);
 
             base.InATokenElementid(node);
         }

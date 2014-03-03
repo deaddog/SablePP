@@ -8,7 +8,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class TokenHighlightVisitor : ErrorVisitor
     {
-        private Dictionary<string, DToken> tokens;
+        private DeclarationTables.DeclarationTable<DToken> tokens;
         private Dictionary<string, DHighlightRule> highlight;
 
         private Dictionary<string, DHighlightRule> styledTokens;
@@ -46,15 +46,12 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         }
         public override void CaseTIdentifier(TIdentifier node)
         {
-            if (!tokens.ContainsKey(node.Text))
+            if(!tokens.Link(node))
                 RegisterError(node, "The token {0} has not been defined.", node);
             else if (styledTokens.ContainsKey(node.Text))
                 RegisterError(node, "The style of {0} has already been defined as {1} (line {2}).", node, styledTokens[node.Text], styledTokens[node.Text].DeclarationToken.Line);
             else
-            {
-                node.SetDeclaration(tokens[node.Text]);
                 styledTokens.Add(node.Text, currentRule);
-            }
         }
     }
 }

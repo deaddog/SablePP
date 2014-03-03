@@ -8,7 +8,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class IgnoredTokenVisitor : ErrorVisitor
     {
-        private Dictionary<string, DToken> tokens;
+        private DeclarationTables.DeclarationTable<DToken> tokens;
 
         private IgnoredTokenVisitor(DeclarationTables declarations, ErrorManager errorManager)
             : base(errorManager)
@@ -23,13 +23,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseTIdentifier(TIdentifier node)
         {
-            DToken token = null;
-            if (tokens.TryGetValue(node.Text, out token))
-            {
-                node.SetDeclaration(token);
-                token.Ignored = true;
-            }
-            else
+            if (!tokens.Link(node))
                 RegisterError(node, "The token {0} has not been defined.", node);
         }
     }
