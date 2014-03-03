@@ -90,7 +90,6 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                     return true;
                 }
             }
-
             public bool Link(TIdentifier identifier)
             {
                 TDeclaration declaration = null;
@@ -103,6 +102,15 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 }
                 else
                     return false;
+            }
+
+            public bool Contains(TIdentifier identifier)
+            {
+                return Contains(identifier.Text);
+            }
+            public bool Contains(string text)
+            {
+                return declarations.ContainsKey(text);
             }
 
             public IEnumerable<TDeclaration> NonLinked
