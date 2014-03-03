@@ -17,18 +17,18 @@ namespace SablePP.Compiler
         /// Initializes a new instance of the <see cref="DProduction"/> class.
         /// </summary>
         /// <param name="node">The production node from which this <see cref="DProduction"/> should be constructed.</param>
-        public DProduction(AProduction production)
-            : base(production.Identifier)
+        public DProduction(TIdentifier identifier)
+            : base(identifier)
         {
-            this.production = production;
+            if (!(identifier.GetParent() is AProduction))
+                throw new ArgumentException("The identifier used for constructing DProduction must be the direct child of AProduction.");
+
+            this.production = identifier.GetParent() as AProduction;
         }
 
         /// <summary>
-        /// Gets the production declared by this <see cref="DProduction"/>.
+        /// Gets the production to which this <see cref="DProduction"/> refers.
         /// </summary>
-        /// <value>
-        /// The production declared by this <see cref="DProduction"/>.
-        /// </value>
         public AProduction Production
         {
             get { return production; }

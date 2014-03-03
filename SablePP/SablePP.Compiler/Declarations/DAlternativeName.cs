@@ -14,9 +14,9 @@ namespace SablePP.Compiler
         /// <summary>
         /// Initializes a new instance of the <see cref="DAlternativeName"/> class.
         /// </summary>
-        /// <param name="node">The alternative name node from which this <see cref="DAlternativeName"/> should be constructed.</param>
-        public DAlternativeName(AAlternativename name)
-            : base(name.Name)
+        /// <param name="node">The identifier node from which this <see cref="DAlternativeName"/> should be constructed.</param>
+        public DAlternativeName(TIdentifier node)
+            : base(node)
         {
         }
     }

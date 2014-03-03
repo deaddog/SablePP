@@ -14,9 +14,9 @@ namespace SablePP.Compiler
         /// <summary>
         /// Initializes a new instance of the <see cref="DElementName"/> class.
         /// </summary>
-        /// <param name="node">The element name node from which this <see cref="DElementName"/> should be constructed.</param>
-        public DElementName(AElementname name)
-            : base(name.Name)
+        /// <param name="node">The identifier node from which this <see cref="DElementName"/> should be constructed.</param>
+        public DElementName(TIdentifier node)
+            : base(node)
         {
         }
 
