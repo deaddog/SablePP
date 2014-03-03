@@ -11,7 +11,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
     {
         private DeclarationTable<DHelper> helpers;
         private DeclarationTable<DState> states;
-        private Dictionary<string, DToken> tokens;
+        private DeclarationTable<DToken> tokens;
         private Dictionary<string, DProduction> productions;
         private Dictionary<string, DProduction> astProductions;
         private Dictionary<string, DHighlightRule> highlight;
@@ -20,7 +20,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             this.helpers = new DeclarationTable<DHelper>(id => new DHelper(id));
             this.states = new DeclarationTable<DState>(id => new DState(id));
-            this.tokens = new Dictionary<string, DToken>();
+            this.tokens = new DeclarationTable<DToken>(id => new DToken(id));
             this.productions = new Dictionary<string, DProduction>();
             this.astProductions = new Dictionary<string, DProduction>();
             this.highlight = new Dictionary<string, DHighlightRule>();
@@ -34,7 +34,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             get { return states; }
         }
-        public Dictionary<string, DToken> Tokens
+        public DeclarationTable<DToken> Tokens
         {
             get { return tokens; }
         }
