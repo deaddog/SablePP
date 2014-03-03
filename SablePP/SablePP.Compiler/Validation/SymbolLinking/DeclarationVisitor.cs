@@ -47,6 +47,9 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             foreach (var h in declarations.Helpers.NonLinked)
                 RegisterWarning(h.DeclarationToken, "The helper '{0}' is never used in a helper or token definition.", h.DeclarationToken.Text);
+
+            foreach (var s in declarations.States.NonLinked)
+                RegisterWarning(s.DeclarationToken, "The state '{0}' is never used.", s.DeclarationToken.Text);
         }
     }
 }
