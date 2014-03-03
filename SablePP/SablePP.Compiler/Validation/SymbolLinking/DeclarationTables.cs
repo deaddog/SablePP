@@ -12,8 +12,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         private DeclarationTable<DHelper> helpers;
         private DeclarationTable<DState> states;
         private DeclarationTable<DToken> tokens;
-        private Dictionary<string, DProduction> productions;
-        private Dictionary<string, DProduction> astProductions;
+        private DeclarationTable<DProduction> productions;
+        private DeclarationTable<DProduction> astProductions;
         private Dictionary<string, DHighlightRule> highlight;
 
         public DeclarationTables()
@@ -38,11 +38,11 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             get { return tokens; }
         }
-        public Dictionary<string, DProduction> Productions
+        public DeclarationTable<DProduction> Productions
         {
             get { return productions; }
         }
-        public Dictionary<string, DProduction> AstProductions
+        public DeclarationTable<DProduction> AstProductions
         {
             get { return astProductions; }
         }
