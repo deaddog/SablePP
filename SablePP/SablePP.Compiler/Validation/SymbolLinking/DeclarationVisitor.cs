@@ -53,6 +53,12 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             foreach (var t in declarations.Tokens.NonLinked)
                 RegisterWarning(t.DeclarationToken, "The token '{0}' is never used in a production.", t.DeclarationToken.Text);
+
+            foreach (var p in declarations.Productions.NonLinked)
+                RegisterWarning(p.DeclarationToken, "The production '{0}' is never used in another production.", p.DeclarationToken.Text);
+
+            foreach (var p in declarations.AstProductions.NonLinked)
+                RegisterWarning(p.DeclarationToken, "The AST production '{0}' is never used in another production.", p.DeclarationToken.Text);
         }
     }
 }
