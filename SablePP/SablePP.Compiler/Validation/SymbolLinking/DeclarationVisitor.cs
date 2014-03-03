@@ -50,6 +50,9 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             foreach (var s in declarations.States.NonLinked)
                 RegisterWarning(s.DeclarationToken, "The state '{0}' is never used.", s.DeclarationToken.Text);
+
+            foreach (var t in declarations.Tokens.NonLinked)
+                RegisterWarning(t.DeclarationToken, "The token '{0}' is never used in a production.", t.DeclarationToken.Text);
         }
     }
 }
