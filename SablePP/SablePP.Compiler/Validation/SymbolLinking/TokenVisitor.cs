@@ -9,7 +9,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
     public class TokenVisitor : DeclarationVisitor
     {
         private DeclarationTables.DeclarationTable<DHelper> helpers;
-        private Dictionary<string, DState> states;
+        private DeclarationTables.DeclarationTable<DState> states;
         private Dictionary<string, DToken> tokens;
 
         private TokenVisitor(DeclarationTables declarations, ErrorManager errorManager)
@@ -46,28 +46,15 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseATokenstateListitem(ATokenstateListitem node)
         {
-            DState state = null;
-            if (states.TryGetValue(node.Identifier.Text, out state))
-                node.Identifier.SetDeclaration(state);
-            else
+            if (!states.Link(node.Identifier))
                 RegisterError(node.Identifier, "The state {0} has not been defined.", node.Identifier);
         }
         public override void CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node)
         {
-            {
-                DState state = null;
-                if (states.TryGetValue(node.From.Text, out state))
-                    node.From.SetDeclaration(state);
-                else
-                    RegisterError(node.From, "The state {0} has not been defined.", node.From);
-            }
-            {
-                DState state = null;
-                if (states.TryGetValue(node.To.Text, out state))
-                    node.To.SetDeclaration(state);
-                else
-                    RegisterError(node.To, "The state {0} has not been defined.", node.To);
-            }
+            if (!states.Link(node.From))
+                RegisterError(node.From, "The state {0} has not been defined.", node.From);
+            if (!states.Link(node.To))
+                RegisterError(node.To, "The state {0} has not been defined.", node.To);
         }
 
         public override void CaseTIdentifier(TIdentifier node)

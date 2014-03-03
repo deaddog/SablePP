@@ -8,7 +8,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class StateVisitor : DeclarationVisitor
     {
-        private Dictionary<string, DState> states;
+        private DeclarationTables.DeclarationTable<DState> states;
 
         private StateVisitor(DeclarationTables declarations, ErrorManager errorManager)
             : base(errorManager)
@@ -23,14 +23,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseTIdentifier(TIdentifier node)
         {
-            string text = node.Text;
-            DState state = new DState(node);
-            if (states.ContainsKey(text))
+            if (!states.Declare(node))
                 RegisterError(node, "State {0} has already been defined.", node);
-            else
-                states.Add(text, state);
-
-            node.SetDeclaration(states[text]);
         }
     }
 }
