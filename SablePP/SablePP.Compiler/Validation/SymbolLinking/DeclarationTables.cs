@@ -21,8 +21,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             this.helpers = new DeclarationTable<DHelper>(id => new DHelper(id));
             this.states = new DeclarationTable<DState>(id => new DState(id));
             this.tokens = new DeclarationTable<DToken>(id => new DToken(id));
-            this.productions = new Dictionary<string, DProduction>();
-            this.astProductions = new Dictionary<string, DProduction>();
+            this.productions = new DeclarationTable<DProduction>(id => new DProduction(id));
+            this.astProductions = new DeclarationTable<DProduction>(id => new DProduction(id));
             this.highlight = new Dictionary<string, DHighlightRule>();
         }
 

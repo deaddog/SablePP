@@ -9,9 +9,9 @@ namespace SablePP.Compiler.Validation.SymbolLinking
     public class ProductionVisitor : DeclarationVisitor
     {
         private DeclarationTables.DeclarationTable<DToken> tokens;
-        private Dictionary<string, DProduction> productions;
-        private Dictionary<string, DAlternativeName> alternatives;
-        private Dictionary<string, DElementName> elements;
+        private DeclarationTables.DeclarationTable<DProduction> productions;
+        private DeclarationTables.DeclarationTable<DAlternativeName> alternatives;
+        private DeclarationTables.DeclarationTable<DElementName> elements;
 
         private AAlternative currentAlternative;
 
@@ -21,8 +21,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             this.tokens = declarations.Tokens;
             this.productions = ast ? declarations.AstProductions : declarations.Productions;
 
-            this.alternatives = new Dictionary<string, DAlternativeName>();
-            this.elements = new Dictionary<string, DElementName>();
+            this.alternatives = null;
+            this.elements = null;
         }
 
         public static void LoadProductionDeclarations(PProductions node, DeclarationTables declarations, ErrorManager errorManager)
@@ -36,58 +36,52 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void InAProductions(AProductions node)
         {
-            DeclarationLinker linker = new DeclarationLinker(this.ErrorManager);
-            linker.Visit(node);
-            foreach (var p in linker.Productions)
-                this.productions.Add(p.Key, p.Value);
-            base.InAProductions(node);
+            foreach (var p in node.Productions)
+                if (p is AProduction)
+                {
+                    AProduction prod = p as AProduction;
+                    if (!productions.Declare(prod.Identifier))
+                        RegisterError(prod.Identifier, "Production {0} has already been defined (line {1}).", prod.Identifier, productions[prod.Identifier].DeclarationToken.Line);
+                }
+                else
+                    throw new Exception("Unknown production type.");
         }
         public override void InAAstproductions(AAstproductions node)
         {
-            DeclarationLinker linker = new DeclarationLinker(this.ErrorManager);
-            linker.Visit(node);
-            foreach (var p in linker.Productions)
-                this.productions.Add(p.Key, p.Value);
-            base.InAAstproductions(node);
+            foreach (var p in node.Productions)
+                if (p is AProduction)
+                {
+                    AProduction prod = p as AProduction;
+                    if (!productions.Declare(prod.Identifier))
+                        RegisterError(prod.Identifier, "AST production {0} has already been defined (line {1}).", prod.Identifier, productions[prod.Identifier].DeclarationToken.Line);
+                }
+                else
+                    throw new Exception("Unknown production type.");
         }
         public override void InAProduction(AProduction node)
         {
-            alternatives.Clear();
+            alternatives = new DeclarationTables.DeclarationTable<DAlternativeName>(id => new DAlternativeName(id));
             base.InAProduction(node);
         }
         public override void InAAlternative(AAlternative node)
         {
-            elements.Clear();
+            elements = new DeclarationTables.DeclarationTable<DElementName>(id => new DElementName(id));
             this.currentAlternative = node;
 
             base.InAAlternative(node);
         }
         public override void InAAlternativename(AAlternativename node)
         {
-            string text = node.Name.Text;
-            DAlternativeName alternative = new DAlternativeName(node);
-            if (alternatives.ContainsKey(text))
-                RegisterError(node.Name, "Production alternative {0} is already in use (line {1}).", node.Name, alternatives[text].DeclarationToken.Line);
-            else
-            {
-                alternatives.Add(text, alternative);
-                node.Name.SetDeclaration(alternative);
-            }
+            if (!alternatives.Declare(node.Name))
+                RegisterError(node.Name, "Production alternative {0} is already in use (line {1}).", node.Name, alternatives[node.Name].DeclarationToken.Line);
 
             base.InAAlternativename(node);
         }
 
         public override void InAElementname(AElementname node)
         {
-            string text = node.Name.Text;
-            DElementName element = new DElementName(node);
-            if (elements.ContainsKey(text))
+            if(!elements.Declare(node.Name))
                 RegisterError(node.Name, "Element name {0} is already in use in this production.", node.Name);
-            else
-            {
-                elements.Add(text, element);
-                node.Name.SetDeclaration(element);
-            }
 
             base.InAElementname(node);
         }
@@ -96,16 +90,14 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             TIdentifier ident = node.Identifier;
             string text = ident.Text;
 
-            if (tokens.Contains(text) && productions.ContainsKey(text))
+            if (tokens.Contains(text) && productions.Contains(text))
                 RegisterError(ident, "Unable to determine if {0} refers to a token or a production. Use T.{1} or P.{1} to specify.", ident, text);
             else if (tokens.Link(ident))
             {
                 if (tokens[text].Ignored)
                     RegisterError(node, "The ignored token {0} cannot be used in a production.", ident);
             }
-            else if (productions.ContainsKey(text))
-                ident.SetDeclaration(productions[text]);
-            else
+            else if (!productions.Link(ident))
                 RegisterError(ident, "The token or production {0} has not been defined.", ident);
 
             base.InACleanElementid(node);
@@ -124,48 +116,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         }
         public override void InAProductionElementid(AProductionElementid node)
         {
-            TIdentifier identifier = node.Identifier;
-
-            DProduction production = null;
-            if (productions.TryGetValue(identifier.Text, out production))
-                identifier.SetDeclaration(production);
-            else
-                RegisterError(identifier, "The production {0} has not been defined.", identifier);
+            if (!productions.Link(node.Identifier))
+                RegisterError(node.Identifier, "The production {0} has not been defined.", node.Identifier);
 
             base.InAProductionElementid(node);
-        }
-
-        private class DeclarationLinker : DeclarationVisitor
-        {
-            private Dictionary<string, DProduction> productions = new Dictionary<string, DProduction>();
-            public Dictionary<string, DProduction> Productions
-            {
-                get
-                {
-                    Dictionary<string, DProduction> productionDict = new Dictionary<string, DProduction>();
-                    foreach (var p in productions)
-                        productionDict.Add(p.Key, p.Value);
-                    return productionDict;
-                }
-            }
-
-            public DeclarationLinker(ErrorManager errorManager)
-                : base(errorManager)
-            {
-            }
-
-            public override void CaseAProduction(AProduction node)
-            {
-                string text = node.Identifier.Text;
-                DProduction production = new DProduction(node);
-                if (productions.ContainsKey(text))
-                    RegisterError(node.Identifier, "Production {0} has already been defined (line {1}).", node.Identifier, productions[text].DeclarationToken.Line);
-                else
-                {
-                    productions.Add(text, production);
-                    node.Identifier.SetDeclaration(production);
-                }
-            }
         }
     }
 }
