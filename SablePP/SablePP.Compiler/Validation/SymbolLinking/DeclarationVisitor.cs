@@ -42,7 +42,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (node.HasProductions)
                 TranslationVisitor.SetIdentifiersInTranslations(node.Productions, declarations, this.ErrorManager);
 
-            if(node.HasHighlightrules)
+            if (node.HasHighlightrules)
                 TokenHighlightVisitor.LoadTokenDeclarations(node.Highlightrules, declarations, this.ErrorManager);
 
             foreach (var h in declarations.Helpers.NonLinked)
@@ -55,10 +55,12 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 RegisterWarning(t.DeclarationToken, "The token '{0}' is never used in a production.", t.DeclarationToken.Text);
 
             foreach (var p in declarations.Productions.NonLinked)
-                RegisterWarning(p.DeclarationToken, "The production '{0}' is never used in another production.", p.DeclarationToken.Text);
+                if (!p.First)
+                    RegisterWarning(p.DeclarationToken, "The production '{0}' is never used in another production.", p.DeclarationToken.Text);
 
             foreach (var p in declarations.AstProductions.NonLinked)
-                RegisterWarning(p.DeclarationToken, "The AST production '{0}' is never used in another production.", p.DeclarationToken.Text);
+                if (!p.First)
+                    RegisterWarning(p.DeclarationToken, "The AST production '{0}' is never used in another production.", p.DeclarationToken.Text);
         }
     }
 }

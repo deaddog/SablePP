@@ -18,11 +18,14 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public DeclarationTables()
         {
+            bool firstProduction = true;
+            bool firstASTProduction = true;
+
             this.helpers = new DeclarationTable<DHelper>(id => new DHelper(id));
             this.states = new DeclarationTable<DState>(id => new DState(id));
             this.tokens = new DeclarationTable<DToken>(id => new DToken(id));
-            this.productions = new DeclarationTable<DProduction>(id => new DProduction(id));
-            this.astProductions = new DeclarationTable<DProduction>(id => new DProduction(id));
+            this.productions = new DeclarationTable<DProduction>(id => { var p = new DProduction(id, firstProduction); firstProduction = false; return p; });
+            this.astProductions = new DeclarationTable<DProduction>(id => { var p = new DProduction(id, firstASTProduction); firstASTProduction = false; return p; });
             this.highlight = new Dictionary<string, DHighlightRule>();
         }
 
