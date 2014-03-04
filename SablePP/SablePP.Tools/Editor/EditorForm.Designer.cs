@@ -63,7 +63,7 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.messageTimer = new System.Windows.Forms.Timer(this.components);
             this.codeTextBox1 = new SablePP.Tools.Editor.CodeTextBox();
-            this.errorTextBox1 = new SablePP.Tools.Editor.ErrorTextBox();
+            this.errorView1 = new SablePP.Tools.Editor.ErrorView();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -71,7 +71,6 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.codeTextBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorTextBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -330,7 +329,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.errorTextBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.errorView1);
             this.splitContainer1.Size = new System.Drawing.Size(569, 356);
             this.splitContainer1.SplitterDistance = 225;
             this.splitContainer1.TabIndex = 2;
@@ -349,6 +348,7 @@
             // 
             // messageTimer
             // 
+            this.messageTimer.Interval = 3000;
             this.messageTimer.Tick += new System.EventHandler(this.messageTimer_Tick);
             // 
             // codeTextBox1
@@ -372,25 +372,20 @@
             this.codeTextBox1.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.codeTextBox1_TextChanged);
             this.codeTextBox1.SelectionChanged += new System.EventHandler(this.codeTextBox1_SelectionChanged);
             // 
-            // errorTextBox1
+            // errorView1
             // 
-            this.errorTextBox1.AutoScrollMinSize = new System.Drawing.Size(27, 14);
-            this.errorTextBox1.BackBrush = null;
-            this.errorTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.errorTextBox1.CharHeight = 14;
-            this.errorTextBox1.CharWidth = 8;
-            this.errorTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.errorTextBox1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
-            this.errorTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.errorTextBox1.IsReplaceMode = false;
-            this.errorTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.errorTextBox1.Name = "errorTextBox1";
-            this.errorTextBox1.Paddings = new System.Windows.Forms.Padding(0);
-            this.errorTextBox1.ReadOnly = true;
-            this.errorTextBox1.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
-            this.errorTextBox1.Size = new System.Drawing.Size(569, 127);
-            this.errorTextBox1.TabIndex = 0;
-            this.errorTextBox1.Zoom = 100;
+            this.errorView1.CodeTextBox = this.codeTextBox1;
+            this.errorView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.errorView1.FullRowSelect = true;
+            this.errorView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.errorView1.HideSelection = false;
+            this.errorView1.Location = new System.Drawing.Point(0, 0);
+            this.errorView1.MultiSelect = false;
+            this.errorView1.Name = "errorView1";
+            this.errorView1.Size = new System.Drawing.Size(569, 127);
+            this.errorView1.TabIndex = 0;
+            this.errorView1.UseCompatibleStateImageBehavior = false;
+            this.errorView1.View = System.Windows.Forms.View.Details;
             // 
             // EditorForm
             // 
@@ -412,7 +407,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.codeTextBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorTextBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -450,9 +444,9 @@
         private System.Windows.Forms.ToolStripStatusLabel lineLabel;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private CodeTextBox codeTextBox1;
-        private ErrorTextBox errorTextBox1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Timer messageTimer;
+        private ErrorView errorView1;
     }
 }

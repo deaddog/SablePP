@@ -16,9 +16,9 @@ namespace SablePP.Compiler
         /// <summary>
         /// Initializes a new instance of the <see cref="DToken"/> class.
         /// </summary>
-        /// <param name="node">The token node from which this <see cref="DToken"/> should be constructed.</param>
-        public DToken(AToken node)
-            : base(node.Identifier)
+        /// <param name="node">The identifier from which this <see cref="DToken"/> should be constructed.</param>
+        public DToken(TIdentifier identifier)
+            : base(identifier)
         {
         }
 

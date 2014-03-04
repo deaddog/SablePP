@@ -9,12 +9,12 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class TranslationVisitor : DeclarationVisitor
     {
-        private LookupDictionary<string, DProduction> astProductions;
+        private DeclarationTables.DeclarationTable<DProduction> astProductions;
 
         private TranslationVisitor(DeclarationTables declarations, ErrorManager errorManager)
             : base(errorManager)
         {
-            this.astProductions = new LookupDictionary<string, DProduction>(declarations.AstProductions);
+            this.astProductions = declarations.AstProductions;
         }
 
         public static void SetIdentifiersInTranslations(PProductions node, DeclarationTables declarations, ErrorManager errorManager)
@@ -53,25 +53,22 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         }
         private void linkAst(TIdentifier identifier)
         {
-            DProduction production = null;
-            if (astProductions.TryGetValue(identifier.Text, out production))
-                identifier.SetDeclaration(production);
-            else
+            if (!astProductions.Link(identifier))
                 RegisterError(identifier, "The AST node {0} has not been defined.", identifier);
         }
 
         private class AlternativeVisitor : DeclarationVisitor
         {
-            private LookupDictionary<string, DProduction> astProductions;
+            private DeclarationTables.DeclarationTable<DProduction> astProductions;
             private AAlternative alternative = null;
 
-            private AlternativeVisitor(LookupDictionary<string, DProduction> astProductions, ErrorManager errorManager)
+            private AlternativeVisitor(DeclarationTables.DeclarationTable<DProduction> astProductions, ErrorManager errorManager)
                 : base(errorManager)
             {
                 this.astProductions = astProductions;
             }
 
-            public static void SetIdentifiers(AAlternative node, LookupDictionary<string, DProduction> astProductions, ErrorManager errorManager)
+            public static void SetIdentifiers(AAlternative node, DeclarationTables.DeclarationTable<DProduction> astProductions, ErrorManager errorManager)
             {
                 new AlternativeVisitor(astProductions, errorManager).Visit(node);
             }
@@ -85,22 +82,17 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             public override void InANewTranslation(ANewTranslation node)
             {
-                DProduction production = null;
-                if (astProductions.TryGetValue(node.Production.Text, out production))
-                    node.Production.SetDeclaration(production);
-                else
+                if (!astProductions.Link(node.Production))
                     RegisterError(node.Production, "The AST node {0} has not been defined.", node.Production);
 
                 base.InANewTranslation(node);
             }
             public override void InANewalternativeTranslation(ANewalternativeTranslation node)
             {
-                DProduction production = null;
-                if (astProductions.TryGetValue(node.Production.Text, out production))
+                if (astProductions.Contains(node.Production))
                 {
-                    node.Production.SetDeclaration(production);
-
-                    LookupDictionary<string, DAlternativeName> alternatives = AlternativesLocater.Alternatives(production, this.ErrorManager);
+                    DProduction dp = astProductions[node.Production];
+                    LookupDictionary<string, DAlternativeName> alternatives = AlternativesLocater.Alternatives(dp.Production, this.ErrorManager);
                     DAlternativeName alternative = null;
                     if (alternatives.TryGetValue(node.Alternative.Text, out alternative))
                         node.Alternative.SetDeclaration(alternative);
@@ -127,10 +119,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 if (declaration != null)
                     node.Identifier.SetDeclaration(declaration);
 
-                DProduction production = null;
-                if (astProductions.TryGetValue(node.Production.Text, out production))
-                    node.Production.SetDeclaration(production);
-                else
+                if (!astProductions.Link(node.Production))
                     RegisterError(node.Production, "The AST node {0} has not been defined.", node.Production);
 
                 base.InAIddotidTranslation(node);
@@ -147,10 +136,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 this.alternatives = new Dictionary<string, DAlternativeName>();
             }
 
-            public static LookupDictionary<string, DAlternativeName> Alternatives(DProduction production, ErrorManager errorManager)
+            public static LookupDictionary<string, DAlternativeName> Alternatives(AProduction production, ErrorManager errorManager)
             {
                 AlternativesLocater locater = new AlternativesLocater(errorManager);
-                locater.Visit(production.Production);
+                locater.Visit(production);
                 return new LookupDictionary<string, DAlternativeName>(locater.alternatives);
             }
 
@@ -173,7 +162,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             {
             }
             private ElementLocater(string lookFor, ErrorManager errorManager)
-                :base(errorManager)
+                : base(errorManager)
             {
                 this.lookFor = lookFor;
                 this.result = null;

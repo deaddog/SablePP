@@ -15,6 +15,7 @@ namespace SablePP.Tools.Error
     {
         private Position start, end;
         private string errorMessage;
+        private ErrorType errorType;
 
         private static string endWithPeriod(string input)
         {
@@ -28,11 +29,13 @@ namespace SablePP.Tools.Error
         /// <summary>
         /// Initializes a new instance of the <see cref="CompilerError"/> class.
         /// </summary>
+        /// <param name="errorType">The <see cref="ErrorType"/> of the <see cref="CompilerError"/>.</param>
         /// <param name="start">The start <see cref="Position"/> of the error.</param>
         /// <param name="end">The end <see cref="Position"/> of the error.</param>
         /// <param name="errorMessage">The error message associated with the <see cref="CompilerError"/>.</param>
-        public CompilerError(Position start, Position end, string errorMessage)
+        public CompilerError(ErrorType errorType, Position start, Position end, string errorMessage)
         {
+            this.errorType = errorType;
             this.start = start;
             this.end = end;
             this.errorMessage = endWithPeriod(errorMessage);
@@ -68,6 +71,14 @@ namespace SablePP.Tools.Error
         public string ErrorMessage
         {
             get { return errorMessage; }
+        }
+
+        /// <summary>
+        /// Gets the type of the error.
+        /// </summary>
+        public ErrorType ErrorType
+        {
+            get { return errorType; }
         }
 
         /// <summary>

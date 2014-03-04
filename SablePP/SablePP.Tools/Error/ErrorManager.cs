@@ -14,7 +14,38 @@ namespace SablePP.Tools.Error
     {
         private ErrorComparison comparer;
         private List<CompilerError> errorList;
-        public int Count { get { return errorList.Count; } }
+
+        private ErrorCollection errors, warnings, messages;
+
+        /// <summary>
+        /// Gets the number of registered errors (all types).
+        /// </summary>
+        public int Count
+        {
+            get { return errorList.Count; }
+        }
+
+        /// <summary>
+        /// Gets a collection of the <see cref="CompilerError"/>s with error type <see cref="ErrorType.Error"/>.
+        /// </summary>
+        public ErrorCollection Errors
+        {
+            get { return errors; }
+        }
+        /// <summary>
+        /// Gets a collection of the <see cref="CompilerError"/>s with error type <see cref="ErrorType.Warning"/>.
+        /// </summary>
+        public ErrorCollection Warnings
+        {
+            get { return warnings; }
+        }
+        /// <summary>
+        /// Gets a collection of the <see cref="CompilerError"/>s with error type <see cref="ErrorType.Message"/>.
+        /// </summary>
+        public ErrorCollection Messages
+        {
+            get { return messages; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorManager"/> class.
@@ -22,7 +53,11 @@ namespace SablePP.Tools.Error
         public ErrorManager()
         {
             this.comparer = new ErrorComparison();
-            errorList = new List<CompilerError>();
+            this.errorList = new List<CompilerError>();
+
+            this.errors = new ErrorCollection(this, e => e.ErrorType == ErrorType.Error);
+            this.warnings = new ErrorCollection(this, e => e.ErrorType == ErrorType.Warning);
+            this.messages = new ErrorCollection(this, e => e.ErrorType == ErrorType.Message);
         }
 
         /// <summary>
@@ -32,7 +67,7 @@ namespace SablePP.Tools.Error
         public void Register(CompilerError error)
         {
             int pos = errorList.BinarySearch(error, comparer);
-            if (pos < 0) 
+            if (pos < 0)
                 pos = ~pos;
             else
             {
@@ -50,6 +85,17 @@ namespace SablePP.Tools.Error
         /// <param name="args">Arguments for the error message.</param>
         public void Register(Node node, string errorMessage, params object[] args)
         {
+            Register(node, ErrorType.Error, errorMessage, args);
+        }
+        /// <summary>
+        /// Registers an error at the location of a specified <see cref="Node"/>, specifying the <see cref="ErrorType"/>.
+        /// </summary>
+        /// <param name="node">The node that should be marked as cause of the error. The full node will be marked.</param>
+        /// <param name="errorType">Type of the error.</param>
+        /// <param name="errorMessage">The error message associated with the <see cref="CompilerError"/>.</param>
+        /// <param name="args">Arguments for the error message.</param>
+        public void Register(Node node, ErrorType errorType, string errorMessage, params object[] args)
+        {
             if (args != null && args.Length > 0)
                 errorMessage = string.Format(errorMessage, translateArguments(args));
 
@@ -58,6 +104,7 @@ namespace SablePP.Tools.Error
             FirstLastVisitor.FindTokens(node, out first, out last);
 
             Register(new CompilerError(
+                errorType,
                 new Position(first.Line, first.Position),
                 new Position(last.Line, last.Position + last.Text.Length - 1),
                 errorMessage));
@@ -70,10 +117,20 @@ namespace SablePP.Tools.Error
         /// <param name="args">Arguments for the error message.</param>
         public void Register(string errorMessage, params object[] args)
         {
+            Register(ErrorType.Error, errorMessage, args);
+        }
+        /// <summary>
+        /// Registers an error with an unknown location, specifying the <see cref="ErrorType"/>.
+        /// </summary>
+        /// <param name="errorType">Type of the error.</param>
+        /// <param name="errorMessage">The error message associated with the <see cref="CompilerError"/>.</param>
+        /// <param name="args">Arguments for the error message.</param>
+        public void Register(ErrorType errorType, string errorMessage, params object[] args)
+        {
             if (args != null && args.Length > 0)
                 errorMessage = string.Format(errorMessage, translateArguments(args));
 
-            Register(new CompilerError(new Position(0, 0), new Position(0, 0), errorMessage));
+            Register(new CompilerError(errorType, new Position(0, 0), new Position(0, 0), errorMessage));
         }
 
         /// <summary>
@@ -83,6 +140,7 @@ namespace SablePP.Tools.Error
         public void Register(LexerException exception)
         {
             Register(new CompilerError(
+                ErrorType.Error,
                 new Position(exception.Line, exception.Position),
                 new Position(exception.Line, exception.Position),
                 exception.Message));
@@ -95,6 +153,7 @@ namespace SablePP.Tools.Error
         public void Register(ParserException exception)
         {
             Register(new CompilerError(
+                ErrorType.Error,
                 new Position(exception.LastLine, exception.LastPosition),
                 new Position(exception.LastLine, exception.LastPosition),
                 exception.Message));
@@ -199,5 +258,35 @@ namespace SablePP.Tools.Error
         }
 
         #endregion
+
+        public class ErrorCollection : IEnumerable<CompilerError>
+        {
+            private ErrorManager errorManager;
+            private Predicate<CompilerError> predicate;
+
+            public int Count
+            {
+                get { return this.Count(); }
+            }
+
+            public ErrorCollection(ErrorManager errorManager, Predicate<CompilerError> predicate)
+            {
+                this.errorManager = errorManager;
+                this.predicate = predicate;
+            }
+
+            IEnumerator<CompilerError> IEnumerable<CompilerError>.GetEnumerator()
+            {
+                foreach (var e in errorManager)
+                    if (predicate(e))
+                        yield return e;
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return (this as IEnumerable<CompilerError>).GetEnumerator();
+            }
+        }
+
     }
 }

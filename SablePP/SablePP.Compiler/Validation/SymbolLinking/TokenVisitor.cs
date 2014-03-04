@@ -8,10 +8,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class TokenVisitor : DeclarationVisitor
     {
-        private Dictionary<string, DHelper> helpers;
-        private Dictionary<string, DState> states;
-        private Dictionary<string, DToken> tokens;
-        
+        private DeclarationTables.DeclarationTable<DHelper> helpers;
+        private DeclarationTables.DeclarationTable<DState> states;
+        private DeclarationTables.DeclarationTable<DToken> tokens;
+
         private TokenVisitor(DeclarationTables declarations, ErrorManager errorManager)
             : base(errorManager)
         {
@@ -30,14 +30,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (node.HasStatelist)
                 Visit(node.Statelist);
 
-            string text = node.Identifier.Text;
-
-            DToken token = new DToken(node);
-            if (tokens.ContainsKey(text))
-                RegisterError(node.Identifier, "Token {0} has already been defined (line {1}).", node.Identifier, tokens[text].DeclarationToken.Line);
-            else
-                tokens.Add(text, token);
-            node.Identifier.SetDeclaration(tokens[text]);
+            if (!tokens.Declare(node.Identifier))
+                RegisterError(node.Identifier, "Token {0} has already been defined (line {1}).", node.Identifier, tokens[node.Identifier].DeclarationToken.Line);
 
             Visit(node.Regex);
             if (node.HasTokenlookahead)
@@ -46,36 +40,20 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseATokenstateListitem(ATokenstateListitem node)
         {
-            DState state = null;
-            if (states.TryGetValue(node.Identifier.Text, out state))
-                node.Identifier.SetDeclaration(state);
-            else
+            if (!states.Link(node.Identifier))
                 RegisterError(node.Identifier, "The state {0} has not been defined.", node.Identifier);
         }
         public override void CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node)
         {
-            {
-                DState state = null;
-                if (states.TryGetValue(node.From.Text, out state))
-                    node.From.SetDeclaration(state);
-                else
-                    RegisterError(node.From, "The state {0} has not been defined.", node.From);
-            }
-            {
-                DState state = null;
-                if (states.TryGetValue(node.To.Text, out state))
-                    node.To.SetDeclaration(state);
-                else
-                    RegisterError(node.To, "The state {0} has not been defined.", node.To);
-            }
+            if (!states.Link(node.From))
+                RegisterError(node.From, "The state {0} has not been defined.", node.From);
+            if (!states.Link(node.To))
+                RegisterError(node.To, "The state {0} has not been defined.", node.To);
         }
 
         public override void CaseTIdentifier(TIdentifier node)
         {
-            DHelper helper = null;
-            if (helpers.TryGetValue(node.Text, out helper))
-                node.SetDeclaration(helper);
-            else
+            if (!helpers.Link(node))
                 RegisterError(node, "The helper {0} has not been defined.", node);
         }
     }

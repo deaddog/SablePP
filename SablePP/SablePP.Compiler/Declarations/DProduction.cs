@@ -12,26 +12,34 @@ namespace SablePP.Compiler
     public class DProduction : Declaration
     {
         private AProduction production;
+        private bool first;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DProduction"/> class.
         /// </summary>
-        /// <param name="node">The production node from which this <see cref="DProduction"/> should be constructed.</param>
-        public DProduction(AProduction production)
-            : base(production.Identifier)
+        /// <param name="identifier">The production node from which this <see cref="DProduction"/> should be constructed.</param>
+        /// <param name="first">Denotes if this <see cref="DProduction"/> is the first listed production</param>
+        public DProduction(TIdentifier identifier, bool first)
+            : base(identifier)
         {
-            this.production = production;
+            if (!(identifier.GetParent() is AProduction))
+                throw new ArgumentException("The identifier used for constructing DProduction must be the direct child of AProduction.");
+
+            this.production = identifier.GetParent() as AProduction;
+            this.first = first;
         }
 
         /// <summary>
-        /// Gets the production declared by this <see cref="DProduction"/>.
+        /// Gets the production to which this <see cref="DProduction"/> refers.
         /// </summary>
-        /// <value>
-        /// The production declared by this <see cref="DProduction"/>.
-        /// </value>
         public AProduction Production
         {
             get { return production; }
+        }
+
+        public bool First
+        {
+            get { return first; }
         }
 
         public override string ToString()

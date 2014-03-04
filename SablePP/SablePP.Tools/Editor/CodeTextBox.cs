@@ -19,9 +19,9 @@ namespace SablePP.Tools.Editor
     /// </summary>
     public class CodeTextBox : FastColoredTextBox
     {
-        private SquigglyStyle errorStyle;
+        private SquigglyStyle errorStyle, warningStyle, messageStyle;
         private Dictionary<Range, string> tooltipMessages;
-        private List<Range> directDrawErrors;
+        private Dictionary<Range, SquigglyStyle> directDrawErrors;
 
         private ICompilerExecuter executer;
         private ResetableLexer lexer;
@@ -40,8 +40,10 @@ namespace SablePP.Tools.Editor
             : base()
         {
             errorStyle = new SquigglyStyle(Pens.Red);
+            warningStyle = new SquigglyStyle(new Pen(Color.FromArgb(48, 150, 49)));
+            messageStyle = new SquigglyStyle(Pens.DodgerBlue);
             tooltipMessages = new Dictionary<Range, string>();
-            directDrawErrors = new List<Range>();
+            directDrawErrors = new Dictionary<Range, SquigglyStyle>();
 
             this.executer = null;
             this.lexer = null;
@@ -117,6 +119,17 @@ namespace SablePP.Tools.Editor
             return new Range(this, p1, p2);
         }
 
+        private SquigglyStyle getSquigglyStyle(ErrorType errorType)
+        {
+            switch (errorType)
+            {
+                case ErrorType.Error: return errorStyle;
+                case ErrorType.Warning: return warningStyle;
+                case ErrorType.Message: return messageStyle;
+                default: throw new ArgumentException("Unknown error type.");
+            }
+        }
+
         private void addError(CompilerError error)
         {
             Range range = new Range(this,
@@ -125,10 +138,11 @@ namespace SablePP.Tools.Editor
 
             if (!(range.Start.iChar < 1 && range.Start.iLine < 1 && range.End.iChar < 1 && range.End.iLine < 1))
             {
+                var style = getSquigglyStyle(error.ErrorType);
                 if (range.GetIntersectionWith(this.Range).IsEmpty)
-                    directDrawErrors.Add(range);
+                    directDrawErrors.Add(range, style);
                 else
-                    range.SetStyle(errorStyle);
+                    range.SetStyle(style);
                 tooltipMessages.Add(range, error.ErrorMessage);
             }
 
@@ -138,7 +152,7 @@ namespace SablePP.Tools.Editor
         private void clearErrors()
         {
             directDrawErrors.Clear();
-            this.Range.ClearStyle(errorStyle);
+            this.Range.ClearStyle(errorStyle, warningStyle, messageStyle);
             this.tooltipMessages.Clear();
 
             if (ErrorsCleared != null)
@@ -226,7 +240,7 @@ namespace SablePP.Tools.Editor
         {
             base.OnPaint(e);
             foreach (var r in directDrawErrors)
-                errorStyle.Draw(e.Graphics, PlaceToPoint(r.Start), r);
+                r.Value.Draw(e.Graphics, PlaceToPoint(r.Key.Start), r.Key);
         }
 #pragma warning restore
 

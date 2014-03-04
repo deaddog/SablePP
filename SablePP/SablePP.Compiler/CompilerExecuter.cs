@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -46,7 +47,7 @@ namespace SablePP.Compiler
 
             compilationOptions.Highlight(identifierHighlighter);
 
-            if (compilationOptions.ErrorManager.Count == 0 && runSable)
+            if (compilationOptions.ErrorManager.Errors.Count == 0 && runSable)
                 ValidateWithSableCC(root, compilationOptions.ErrorManager);
         }
 
@@ -152,7 +153,7 @@ namespace SablePP.Compiler
                 {
                     Position start = new Position(eLine, eChar);
                     Position end = new Position(eLine, eChar);
-                    errorManager.Register(new CompilerError(start, end, "SableCC: " + eText));
+                    errorManager.Register(new CompilerError(ErrorType.Error, start, end, "SableCC: " + eText));
                 }
             }
             else

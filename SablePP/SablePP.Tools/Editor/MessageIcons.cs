@@ -20,6 +20,10 @@
         /// <summary>
         /// A working (in progress) icon.
         /// </summary>
-        Working
+        Working,
+        /// <summary>
+        /// An information icon.
+        /// </summary>
+        Information
     }
 }

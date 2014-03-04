@@ -54,6 +54,9 @@
     <Compile Include="CompilerExecuter.cs" />
     <Compile Include="Editor\ErrorEventArgs.cs" />
     <Compile Include="Editor\ErrorEventHandler.cs" />
+    <Compile Include="Editor\ErrorView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Editor\MessageIcons.cs" />
     <Compile Include="Generate\CSharp\AccessModifierElement.cs" />
     <Compile Include="Generate\CSharp\CSharpElement.cs" />
@@ -61,6 +64,9 @@
     <Compile Include="Generate\CSharp\IndexerInterfaces.cs" />
     <Compile Include="Generate\CSharp\ParametersElement.cs" />
     <Compile Include="Generate\CSharp\PropertyInterfaces.cs" />
+    <Compile Include="Error\ErrorType.cs" />
+    <Compile Include="Generate\CSharp\InlineElement.cs" />
+    <Compile Include="Generate\CSharp\PartialMethodElement.cs" />
     <Compile Include="ICompilerExecuter.cs" />
     <Compile Include="Editor\CodeTextBox.cs">
       <SubType>UserControl</SubType>
@@ -150,6 +156,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\working.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\info.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
