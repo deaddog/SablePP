@@ -34,6 +34,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openRecentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,11 +59,11 @@
             this.lineLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.positionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.codeTextBox1 = new SablePP.Tools.Editor.CodeTextBox();
-            this.errorTextBox1 = new SablePP.Tools.Editor.ErrorTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.messageTimer = new System.Windows.Forms.Timer(this.components);
+            this.codeTextBox1 = new SablePP.Tools.Editor.CodeTextBox();
+            this.errorTextBox1 = new SablePP.Tools.Editor.ErrorTextBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -89,6 +90,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.openRecentToolStripMenuItem,
             this.toolStripSeparator,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
@@ -102,6 +104,7 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
+            this.fileToolStripMenuItem.DropDownOpening += new System.EventHandler(this.fileToolStripMenuItem_DropDownOpening);
             // 
             // newToolStripMenuItem
             // 
@@ -120,6 +123,12 @@
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.openToolStripMenuItem.Text = "&Open";
+            // 
+            // openRecentToolStripMenuItem
+            // 
+            this.openRecentToolStripMenuItem.Name = "openRecentToolStripMenuItem";
+            this.openRecentToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.openRecentToolStripMenuItem.Text = "Open &Recent";
             // 
             // toolStripSeparator
             // 
@@ -326,6 +335,22 @@
             this.splitContainer1.SplitterDistance = 225;
             this.splitContainer1.TabIndex = 2;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.Filter = "Code files|*.file";
+            this.openFileDialog1.InitialDirectory = "%userprofile%\\Documents";
+            this.openFileDialog1.SupportMultiDottedExtensions = true;
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.Filter = "Code files|*.file";
+            this.saveFileDialog1.InitialDirectory = "%userprofile%\\Documents";
+            this.saveFileDialog1.SupportMultiDottedExtensions = true;
+            // 
+            // messageTimer
+            // 
+            this.messageTimer.Tick += new System.EventHandler(this.messageTimer_Tick);
+            // 
             // codeTextBox1
             // 
             this.codeTextBox1.AutoScrollMinSize = new System.Drawing.Size(27, 14);
@@ -367,22 +392,6 @@
             this.errorTextBox1.TabIndex = 0;
             this.errorTextBox1.Zoom = 100;
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.Filter = "Code files|*.file";
-            this.openFileDialog1.InitialDirectory = "%userprofile%\\Documents";
-            this.openFileDialog1.SupportMultiDottedExtensions = true;
-            // 
-            // saveFileDialog1
-            // 
-            this.saveFileDialog1.Filter = "Code files|*.file";
-            this.saveFileDialog1.InitialDirectory = "%userprofile%\\Documents";
-            this.saveFileDialog1.SupportMultiDottedExtensions = true;
-            // 
-            // messageTimer
-            // 
-            this.messageTimer.Tick += new System.EventHandler(this.messageTimer_Tick);
-            // 
             // EditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -415,6 +424,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openRecentToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
