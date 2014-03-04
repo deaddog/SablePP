@@ -89,7 +89,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             }
             public override void InANewalternativeTranslation(ANewalternativeTranslation node)
             {
-                if (astProductions.Declare(node.Production))
+                if (astProductions.Contains(node.Production))
                 {
                     DProduction dp = astProductions[node.Production];
                     LookupDictionary<string, DAlternativeName> alternatives = AlternativesLocater.Alternatives(dp.Production, this.ErrorManager);
