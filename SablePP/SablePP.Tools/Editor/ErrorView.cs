@@ -115,10 +115,10 @@ namespace SablePP.Tools.Editor
             }
         }
 
-        [DefaultValue(null)]
         /// <summary>
         /// Gets or sets the <see cref="CodeTextBox"/> associated where errors should be located.
         /// </summary>
+        [DefaultValue(null)]
         public CodeTextBox CodeTextBox
         {
             get { return this.codeTextBox; }
