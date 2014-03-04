@@ -259,16 +259,27 @@ namespace SablePP.Tools.Error
 
         #endregion
 
+        /// <summary>
+        /// Exposes a filtered collection of <see cref="CompilerError"/>s contained by an <see cref="ErrorManager"/>.
+        /// </summary>
         public class ErrorCollection : IEnumerable<CompilerError>
         {
             private ErrorManager errorManager;
             private Predicate<CompilerError> predicate;
 
+            /// <summary>
+            /// Gets the number of <see cref="CompilerError"/>s in this <see cref="ErrorCollection"/>.
+            /// </summary>
             public int Count
             {
                 get { return this.Count(); }
             }
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ErrorCollection"/> class.
+            /// </summary>
+            /// <param name="errorManager">The error manager from which errors should be extracted.</param>
+            /// <param name="predicate">The predicate that errors must meet to be part of this <see cref="ErrorCollection"/>.</param>
             public ErrorCollection(ErrorManager errorManager, Predicate<CompilerError> predicate)
             {
                 this.errorManager = errorManager;
