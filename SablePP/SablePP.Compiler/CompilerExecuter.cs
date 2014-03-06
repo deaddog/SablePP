@@ -80,6 +80,12 @@ namespace SablePP.Compiler
                     else
                         errorManager.Register(message);
                 }
+                else
+                {
+                    var prod = (grammar.Productions as AProductions).Productions.FirstOrDefault();
+                    if (prod != null && (prod as AProduction).Identifier.Text == "start")
+                        errorManager.Register((prod as AProduction).Identifier, "The root production of a SablePP grammar cannot be 'start'.");
+                }
             }
 
             var linktest = new Validation.SymbolLinking.DeclarationVisitor(errorManager);
