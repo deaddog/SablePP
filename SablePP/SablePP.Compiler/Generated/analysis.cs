@@ -17,6 +17,7 @@ namespace SablePP.Compiler.Analysis
         {
             Visit((dynamic)node);
         }
+        
         public void Visit(AGrammar node)
         {
             CaseAGrammar(node);
@@ -928,7 +929,6 @@ namespace SablePP.Compiler.Analysis
     }
     public class DepthFirstAdapter<TValue> : AnalysisAdapter<TValue>
     {
-        
         public virtual void InStart(Start<PGrammar> node)
         {
         }
@@ -2662,7 +2662,6 @@ namespace SablePP.Compiler.Analysis
     }
     public class ReverseDepthFirstAdapter<TValue> : AnalysisAdapter<TValue>
     {
-        
         public virtual void InStart(Start<PGrammar> node)
         {
         }
@@ -4401,6 +4400,7 @@ namespace SablePP.Compiler.Analysis
         {
             return Visit((dynamic)node);
         }
+        
         public TResult Visit(AGrammar node)
         {
             return CaseAGrammar(node);
@@ -5312,6 +5312,7 @@ namespace SablePP.Compiler.Analysis
         {
             return Visit((dynamic)node, arg1);
         }
+        
         public TResult Visit(AGrammar node, T1 arg1)
         {
             return CaseAGrammar(node, arg1);
@@ -6223,6 +6224,7 @@ namespace SablePP.Compiler.Analysis
         {
             return Visit((dynamic)node, arg1, arg2);
         }
+        
         public TResult Visit(AGrammar node, T1 arg1, T2 arg2)
         {
             return CaseAGrammar(node, arg1, arg2);
@@ -7134,6 +7136,7 @@ namespace SablePP.Compiler.Analysis
         {
             return Visit((dynamic)node, arg1, arg2, arg3);
         }
+        
         public TResult Visit(AGrammar node, T1 arg1, T2 arg2, T3 arg3)
         {
             return CaseAGrammar(node, arg1, arg2, arg3);
