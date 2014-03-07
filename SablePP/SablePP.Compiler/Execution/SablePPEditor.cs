@@ -30,7 +30,7 @@ namespace SablePP.Compiler.Execution
             tools = this.AddMenuItem("&Tools");
             tools.Enabled = false;
 
-            outputButton.Click += (s, e) => updateOutputDirectory();
+            outputButton.Click += outputButton_Click;
             outputButton.Enabled = false;
 
             generateButton.Click += generateButton_Click;
@@ -52,6 +52,9 @@ namespace SablePP.Compiler.Execution
         {
             DialogResult result;
 
+            if (!this.File.Exists)
+                return System.Windows.Forms.DialogResult.Cancel;
+
             using (FolderBrowserDialog fbd = new FolderBrowserDialog()
             {
                 Description = "Select output folder...",
@@ -68,8 +71,25 @@ namespace SablePP.Compiler.Execution
             return result;
         }
 
+        private void outputButton_Click(object sender, EventArgs e)
+        {
+            if (!this.File.Exists)
+            {
+                ShowMessage(MessageIcons.Error, "Grammar files must be saved before selecting output destination...");
+                return;
+            }
+            else
+                updateOutputDirectory();
+        }
+
         private void generateButton_Click(object sender, EventArgs e)
         {
+            if (!this.File.Exists)
+            {
+                ShowMessage(MessageIcons.Error, "Grammar files must be saved before calling build...");
+                return;
+            }
+
             if (settings.OutputPaths[this.File.FullName] == null && updateOutputDirectory() != DialogResult.OK)
                 return;
 
