@@ -46,6 +46,11 @@ namespace SablePP.Compiler
             this.position += text.Length;
         }
 
+        public override void CaseTPackagetoken(Nodes.TPackagetoken node)
+        {
+            DefaultCase(new Nodes.TPackagetoken("Package", node.Line, node.Position));
+        }
+
         public override void DefaultCase(Node node)
         {
             if (node is Token)
