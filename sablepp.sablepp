@@ -36,7 +36,7 @@ Tokens
     packagename = letter (letter | digit)* ('.' letter (letter | digit)*)*;
 
 {normal->package}
-    packagetoken = 'Package';
+    packagetoken = 'Package'|'Namespace';
     statestoken = 'States';
     helperstoken = 'Helpers';
     tokenstoken = 'Tokens';

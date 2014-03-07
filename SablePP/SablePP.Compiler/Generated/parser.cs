@@ -14174,7 +14174,7 @@ public Start<PGrammar> Parse()
     };
 
     private static String[] errorMessages = {
-      "expecting: 'Package', 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', asttoken, 'Token Syntax Highlight', EOF",
+      "expecting: packagetoken, 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', asttoken, 'Token Syntax Highlight', EOF",
       "expecting: packagename",
       "expecting: identifier",
       "expecting: '{', identifier",
