@@ -143,7 +143,13 @@ namespace SablePP.Compiler.Execution
             if (res.Errors.Length > 0)
                 ShowMessage(MessageIcons.Error, "Unable to generate compiler; error in validation.");
             else
+            {
                 ShowMessage(MessageIcons.Accept, "Code generation completed!");
+                var root = res.Tree as SablePP.Tools.Nodes.Start<SablePP.Compiler.Nodes.PGrammar>;
+                var grammar = root.Root as SablePP.Compiler.Nodes.AGrammar;
+
+                lce.LoadCompiler(grammar.PackageName);
+            }
 
             generateButton.Enabled = true;
         }
