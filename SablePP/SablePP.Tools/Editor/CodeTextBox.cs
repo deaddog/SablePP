@@ -98,6 +98,8 @@ namespace SablePP.Tools.Editor
 
         private void setStyle(Token token, Style style)
         {
+            if ((from s in Styles where s != null select s).Count() >= 16 && !Styles.Contains(style))
+                this.ClearStylesBuffer();
             getRangeFromToken(token).SetStyle(style);
         }
         private Range getRangeFromToken(Token token)
@@ -197,7 +199,7 @@ namespace SablePP.Tools.Editor
             }
             return base.ProcessKey(c, modifiers);
         }
-        
+
         public sealed override void OnTextChangedDelayed(Range changedRange)
         {
             if (executer != null && this.Enabled)
