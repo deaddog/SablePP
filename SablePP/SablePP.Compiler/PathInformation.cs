@@ -58,15 +58,9 @@ namespace SablePP.Compiler
                 lock (pathLock)
                     if (_temporary_ == null)
                     {
-                        string tempDir = Path.Combine(ExecutingDirectory, "temp");
+                        string tempDir = Path.Combine(ExecutingDirectory, "tmp." + DateTime.Now.ToString("yyyyMMdd.HHmmss.fff"));
 
                         DirectoryInfo dir = new DirectoryInfo(tempDir);
-                        if (!dir.Exists)
-                            dir.Create();
-
-                        tempDir = Path.Combine(tempDir, DateTime.Now.ToString("yyyyMMdd.HHmmss.fff"));
-
-                        dir = new DirectoryInfo(tempDir);
                         if (!dir.Exists)
                             dir.Create();
 
