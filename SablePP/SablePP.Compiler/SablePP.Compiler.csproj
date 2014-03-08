@@ -56,6 +56,12 @@
     <Compile Include="Execution\EditorCompiler.cs" />
     <Compile Include="Execution\EditorSettings.cs" />
     <Compile Include="Execution\IdentifierHighlighter.cs" />
+    <Compile Include="Execution\LiveCodeEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Execution\LiveCodeEditor.Designer.cs">
+      <DependentUpon>LiveCodeEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Execution\SablePPEditor.cs">
       <SubType>Form</SubType>
     </Compile>
