@@ -41,6 +41,12 @@ namespace SablePP.Compiler.Execution
             tools.DropDownItems.Add(generateButton);
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            PathInformation.CleanTemporaryFiles();
+        }
+
         protected override void OnFiletoolsEnabledChanged(EventArgs e)
         {
             tools.Enabled = FiletoolsEnabled;

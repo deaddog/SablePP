@@ -12,6 +12,8 @@ namespace SablePP.Compiler
         private static string _executing_ = null;
         private static string _temporary_ = null;
 
+        private static object pathLock = new object();
+
         public static string ExecutingDirectory
         {
             get
@@ -26,26 +28,50 @@ namespace SablePP.Compiler
             }
         }
 
+        public static void CleanTemporaryFiles()
+        {
+            lock (pathLock)
+                if (_temporary_ == null)
+                    return;
+                else
+                {
+                    DirectoryInfo dir = new DirectoryInfo(_temporary_);
+                    if (dir.Exists)
+                        DeleteRecursive(dir);
+
+                    _temporary_ = null;
+                }
+        }
+        private static void DeleteRecursive(DirectoryInfo dir)
+        {
+            foreach (var f in dir.GetFiles())
+                f.Delete();
+            foreach (var d in dir.GetDirectories())
+                DeleteRecursive(d);
+            dir.Delete();
+        }
+
         public static string TemporaryDirectory
         {
             get
             {
-                if (_temporary_ == null)
-                {
-                    string tempDir = Path.Combine(ExecutingDirectory, "temp");
+                lock (pathLock)
+                    if (_temporary_ == null)
+                    {
+                        string tempDir = Path.Combine(ExecutingDirectory, "temp");
 
-                    DirectoryInfo dir = new DirectoryInfo(tempDir);
-                    if (!dir.Exists)
-                        dir.Create();
+                        DirectoryInfo dir = new DirectoryInfo(tempDir);
+                        if (!dir.Exists)
+                            dir.Create();
 
-                    tempDir = Path.Combine(tempDir, DateTime.Now.ToString("yyyyMMdd.HHmmss.fff"));
+                        tempDir = Path.Combine(tempDir, DateTime.Now.ToString("yyyyMMdd.HHmmss.fff"));
 
-                    dir = new DirectoryInfo(tempDir);
-                    if (!dir.Exists)
-                        dir.Create();
+                        dir = new DirectoryInfo(tempDir);
+                        if (!dir.Exists)
+                            dir.Create();
 
-                    _temporary_ = tempDir;
-                }
+                        _temporary_ = tempDir;
+                    }
 
                 return _temporary_;
             }
