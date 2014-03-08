@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.CSharp;
+using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +16,9 @@ namespace SablePP.Compiler.Execution
         private const int POSITION_DISTANCE = 5;
         private const int SNAPPING_MARGIN = 10;
         private bool snapped = true;
+
+        CSharpCodeProvider provider;
+        CompilerParameters options;
 
         private Form parentForm;
         public Form ManagingForm
@@ -101,6 +106,17 @@ namespace SablePP.Compiler.Execution
                 codeTextBox1.Font = consolas;
             else
                 consolas.Dispose();
+
+            provider = new CSharpCodeProvider();
+            options = new CompilerParameters(new string[] { "System.Drawing.dll", "Microsoft.CSharp.dll", "System.Core.dll" })
+            {
+                GenerateExecutable = false,
+                GenerateInMemory = true
+            };
+
+            //The two types used below are only used to reference their assembly
+            options.ReferencedAssemblies.Add(typeof(SablePP.Tools.CompilationOptions).Assembly.Location);
+            options.ReferencedAssemblies.Add(typeof(FastColoredTextBoxNS.TextStyle).Assembly.Location);
         }
 
         private void codeTextBox1_KeyDown(object sender, KeyEventArgs e)
