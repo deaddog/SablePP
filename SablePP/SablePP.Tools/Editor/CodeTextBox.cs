@@ -182,6 +182,13 @@ namespace SablePP.Tools.Editor
         }
 
 #pragma warning disable 1591
+        protected sealed override void OnEnabledChanged(EventArgs e)
+        {
+            if (!this.Enabled)
+                this.clearErrors();
+            base.OnEnabledChanged(e);
+        }
+
         public sealed override bool ProcessKey(char c, System.Windows.Forms.Keys modifiers)
         {
             if (useSmartPar)
