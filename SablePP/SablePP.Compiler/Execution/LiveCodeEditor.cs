@@ -16,8 +16,7 @@ namespace SablePP.Compiler.Execution
         private bool snapped = true;
 
         private Form parentForm;
-
-        public Form ParentForm
+        public Form ManagingForm
         {
             get { return parentForm; }
             set
@@ -39,6 +38,7 @@ namespace SablePP.Compiler.Execution
                 this.parentForm = value;
             }
         }
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);

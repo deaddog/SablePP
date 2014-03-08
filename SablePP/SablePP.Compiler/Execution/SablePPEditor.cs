@@ -48,7 +48,7 @@ namespace SablePP.Compiler.Execution
 
             lce = new LiveCodeEditor()
             {
-                ParentForm = this
+                ManagingForm = this
             };
             lce.VisibleChanged += (s, e) => livecodeButton.Checked = lce.Visible;
         }
