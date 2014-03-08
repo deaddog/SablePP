@@ -11,6 +11,7 @@ namespace SablePP.Compiler
     {
         private static string _executing_ = null;
         private static string _temporary_ = null;
+
         public static string ExecutingDirectory
         {
             get
@@ -37,7 +38,7 @@ namespace SablePP.Compiler
                     if (!dir.Exists)
                         dir.Create();
 
-                    tempDir = Path.Combine(tempDir, DateTime.Now.ToString("yyyyMMdd.HHmmss"));
+                    tempDir = Path.Combine(tempDir, DateTime.Now.ToString("yyyyMMdd.HHmmss.fff"));
 
                     dir = new DirectoryInfo(tempDir);
                     if (!dir.Exists)
