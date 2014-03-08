@@ -54,12 +54,9 @@ namespace SablePP.Compiler.Execution
             generateButton.Enabled = FiletoolsEnabled;
         }
 
-        private DialogResult updateOutputDirectory()
+        private string getOutputDirectory(out DialogResult result)
         {
-            DialogResult result;
-
-            if (!this.File.Exists)
-                return System.Windows.Forms.DialogResult.Cancel;
+            string path = null;
 
             using (FolderBrowserDialog fbd = new FolderBrowserDialog()
             {
@@ -71,8 +68,17 @@ namespace SablePP.Compiler.Execution
 
                 result = fbd.ShowDialog();
                 if (result == DialogResult.OK)
-                    settings.OutputPaths[this.File.FullName] = fbd.SelectedPath;
+                    path = fbd.SelectedPath;
             }
+
+            return path;
+        }
+        private DialogResult updateOutputDirectory()
+        {
+            DialogResult result;
+
+            string path = getOutputDirectory(out result);
+            settings.OutputPaths[this.File.FullName] = path;
 
             return result;
         }
