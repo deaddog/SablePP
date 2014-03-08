@@ -11,6 +11,36 @@ namespace SablePP.Compiler.Execution
 {
     public partial class LiveCodeEditor : Form
     {
+        private Form parentForm;
+
+        public Form ParentForm
+        {
+            get { return parentForm; }
+            set
+            {
+                if (!DesignMode)
+                {
+                    if (parentForm != null)
+                    {
+                        parentForm.LocationChanged -= updateBounds;
+                        parentForm.SizeChanged -= updateBounds;
+                    }
+                    if (value != null)
+                    {
+                        value.LocationChanged += updateBounds;
+                        value.SizeChanged += updateBounds;
+                    }
+                }
+
+                this.parentForm = value;
+            }
+        }
+
+        void updateBounds(object sender, EventArgs e)
+        {
+            Form form = sender as Form;
+        }
+
         public LiveCodeEditor()
         {
             InitializeComponent();
