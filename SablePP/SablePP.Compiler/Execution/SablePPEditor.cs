@@ -14,7 +14,7 @@ namespace SablePP.Compiler.Execution
         private EditorSettings settings = EditorSettings.Default;
 
         private ToolStripMenuItem tools;
-        private ToolStripMenuItem outputButton = new ToolStripMenuItem("&Output directory...");
+        private ToolStripMenuItem outputButton = new ToolStripMenuItem("Set &Output Directory...");
         private ToolStripMenuItem generateButton = new ToolStripMenuItem("&Build");
 
         public SablePPEditor()
