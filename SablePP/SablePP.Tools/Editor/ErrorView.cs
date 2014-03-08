@@ -79,12 +79,10 @@ namespace SablePP.Tools.Editor
         }
 #pragma warning restore
 
-        /// <summary>
-        /// Adds a <see cref="CompilerError"/> error to the <see cref="ErrorView"/>.
-        /// </summary>
-        /// <param name="error">The error that should be added to the <see cref="ErrorView"/>.</param>
-        public void AddError(CompilerError error)
+        private void addError(object sender, ErrorEventArgs e)
         {
+            CompilerError error = e.Error;
+
             ListViewItem item = new ListViewItem(
                 new string[] {
                     "",
@@ -96,10 +94,7 @@ namespace SablePP.Tools.Editor
             );
             this.Items.Add(item);
         }
-        /// <summary>
-        /// Clears all errors from the <see cref="ErrorView"/>.
-        /// </summary>
-        public void ClearErrors()
+        private void clearErrors(object sender, EventArgs e)
         {
             this.Items.Clear();
         }
@@ -122,7 +117,23 @@ namespace SablePP.Tools.Editor
         public CodeTextBox CodeTextBox
         {
             get { return this.codeTextBox; }
-            set { this.codeTextBox = value; }
+            set
+            {
+                if (!DesignMode)
+                {
+                    if (this.codeTextBox != null)
+                    {
+                        this.codeTextBox.ErrorAdded -= addError;
+                        this.codeTextBox.ErrorsCleared -= clearErrors;
+                    }
+                    if (value != null)
+                    {
+                        value.ErrorAdded += addError;
+                        value.ErrorsCleared += clearErrors;
+                    }
+                }
+                this.codeTextBox = value;
+            }
         }
 
 #pragma warning disable 1591
