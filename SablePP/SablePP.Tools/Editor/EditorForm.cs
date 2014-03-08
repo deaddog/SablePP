@@ -98,7 +98,7 @@ namespace SablePP.Tools.Editor
         }
 
         /// <summary>
-        /// Occurs when the <see cref="EditorForm.File"/> property changes. Note that this property can be c>null</c>.
+        /// Occurs when the <see cref="EditorForm.File"/> property changes. Note that this property can be <c>null</c>.
         /// </summary>
         public event EventHandler FileChanged;
 
@@ -296,7 +296,6 @@ namespace SablePP.Tools.Editor
 
             splitContainer1.Enabled = false;
             codeTextBox1.Text = "";
-            errorView1.ClearErrors();
             return DialogResult.OK;
         }
 
@@ -325,9 +324,6 @@ namespace SablePP.Tools.Editor
         public EditorForm()
         {
             InitializeComponent();
-
-            this.codeTextBox1.ErrorAdded += (s, e) => this.errorView1.AddError(e.Error);
-            this.codeTextBox1.ErrorsCleared += (s, e) => this.errorView1.ClearErrors();
 
             this.Text = EditorResources.DefaultTitle;
             this.recentFiles = new RecentFilesHandler();
