@@ -35,10 +35,22 @@ namespace SablePP.Compiler.Execution
                 this.parentForm = value;
             }
         }
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (parentForm != null)
+                updateBounds(parentForm, EventArgs.Empty);
+        }
 
         void updateBounds(object sender, EventArgs e)
         {
             Form form = sender as Form;
+            this.DesktopBounds = new Rectangle(
+                form.DesktopLocation.X + 5 + form.Width,
+                form.DesktopLocation.Y,
+                this.Width,
+                form.Height
+                );
         }
 
         public LiveCodeEditor()
