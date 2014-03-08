@@ -40,6 +40,7 @@ namespace SablePP.Compiler.Execution
             generateButton.ShortcutKeys = Keys.F5;
 
             livecodeButton.Click += livecodeButton_Click;
+            livecodeButton.ShortcutKeys = Keys.F2;
 
             tools.DropDownItems.Add(outputButton);
             tools.DropDownItems.Add(generateButton);
