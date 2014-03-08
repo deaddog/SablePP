@@ -10,6 +10,7 @@ namespace SablePP.Compiler
     public static class PathInformation
     {
         private static string _executing_ = null;
+        private static string _temporary_ = null;
         public static string ExecutingDirectory
         {
             get
@@ -28,13 +29,24 @@ namespace SablePP.Compiler
         {
             get
             {
-                string tempDir = Path.Combine(ExecutingDirectory, "temp");
+                if (_temporary_ == null)
+                {
+                    string tempDir = Path.Combine(ExecutingDirectory, "temp");
 
-                DirectoryInfo dir = new DirectoryInfo(tempDir);
-                if (!dir.Exists)
-                    dir.Create();
+                    DirectoryInfo dir = new DirectoryInfo(tempDir);
+                    if (!dir.Exists)
+                        dir.Create();
 
-                return tempDir;
+                    tempDir = Path.Combine(tempDir, DateTime.Now.ToString("yyyyMMdd.HHmmss"));
+
+                    dir = new DirectoryInfo(tempDir);
+                    if (!dir.Exists)
+                        dir.Create();
+
+                    _temporary_ = tempDir;
+                }
+
+                return _temporary_;
             }
         }
         public static string SableOutputDirectory
