@@ -78,35 +78,31 @@ namespace SablePP.Compiler.Execution
 
             return path;
         }
-        private DialogResult updateOutputDirectory()
-        {
-            DialogResult result;
-
-            string path = getOutputDirectory(out result);
-            settings.OutputPaths[this.File.FullName] = path;
-
-            return result;
-        }
 
         private void outputButton_Click(object sender, EventArgs e)
         {
-            updateOutputDirectory();
+            DialogResult result;
+            settings.OutputPaths[this.File.FullName] = getOutputDirectory(out result);
         }
 
         private void generateButton_Click(object sender, EventArgs e)
         {
-            if (!this.File.Exists)
-            {
-                ShowMessage(MessageIcons.Error, "Grammar files must be saved before calling build...");
-                return;
-            }
+            string output = settings.OutputPaths[this.File.FullName];
 
-            if (settings.OutputPaths[this.File.FullName] == null && updateOutputDirectory() != DialogResult.OK)
-                return;
+            if (output == null)
+            {
+                DialogResult result;
+                output = getOutputDirectory(out result);
+                if (result != DialogResult.OK)
+                    return;
+
+                if (this.File.Exists)
+                    settings.OutputPaths[this.File.FullName] = output;
+            }
 
             ShowMessage(MessageIcons.Working, "Building compiler...", 1000 * 60 * 10);
             generateButton.Enabled = false;
-            generateWorker.RunWorkerAsync(settings.OutputPaths[this.File.FullName]);
+            generateWorker.RunWorkerAsync(output);
         }
 
         private void generateWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
