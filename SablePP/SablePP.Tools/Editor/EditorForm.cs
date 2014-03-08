@@ -284,6 +284,23 @@ namespace SablePP.Tools.Editor
 
         #endregion
 
+        private int recentfilesCount = 5;
+        /// <summary>
+        /// Gets or sets the maximum bumber of files shown in the recent files list.
+        /// </summary>
+        [DefaultValue(5)]
+        [Description("The maximum number of files to show in the Recent Files list.")]
+        public int RecentFilesCount
+        {
+            get { return recentfilesCount; }
+            set
+            {
+                if (value < 0)
+                    value = 0;
+                this.recentfilesCount = value;
+            }
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="EditorForm"/> class.
         /// </summary>
@@ -508,7 +525,7 @@ namespace SablePP.Tools.Editor
             }
 
             int i = 1;
-            foreach (var file in recentFiles.TakeExisting(5))
+            foreach (var file in recentFiles.TakeExisting(recentfilesCount))
             {
                 string filepath = file;
                 ToolStripMenuItem item = new ToolStripMenuItem(string.Format("&{0} {1}", i, file));
