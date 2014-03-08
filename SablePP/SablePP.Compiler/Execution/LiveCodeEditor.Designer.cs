@@ -75,6 +75,7 @@
             this.codeTextBox1.Size = new System.Drawing.Size(395, 265);
             this.codeTextBox1.TabIndex = 0;
             this.codeTextBox1.Zoom = 100;
+            this.codeTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.codeTextBox1_KeyDown);
             // 
             // errorView1
             // 

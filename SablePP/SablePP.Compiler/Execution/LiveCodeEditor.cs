@@ -21,5 +21,15 @@ namespace SablePP.Compiler.Execution
             else
                 consolas.Dispose();
         }
+
+        private void codeTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                this.Close();
+            }
+        }
     }
 }
