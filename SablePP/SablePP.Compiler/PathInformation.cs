@@ -28,16 +28,26 @@ namespace SablePP.Compiler
         {
             get
             {
-                ensureTemporaryDirectory();
-                return ExecutingDirectory + "\\temp";
+                string tempDir = Path.Combine(ExecutingDirectory, "temp");
+
+                DirectoryInfo dir = new DirectoryInfo(tempDir);
+                if (!dir.Exists)
+                    dir.Create();
+
+                return tempDir;
             }
         }
         public static string SableOutputDirectory
         {
             get
             {
-                ensureSableOutputDirectory();
-                return ExecutingDirectory + "\\temp\\sable";
+                string sableDir = Path.Combine(TemporaryDirectory, "sable");
+
+                DirectoryInfo dir = new DirectoryInfo(sableDir);
+                if (!dir.Exists)
+                    dir.Create();
+
+                return sableDir;
             }
         }
 
@@ -48,20 +58,6 @@ namespace SablePP.Compiler
         public static string TemporarySableGrammarPath
         {
             get { return SableOutputDirectory + "\\grammar.sablecc"; }
-        }
-
-        private static void ensureTemporaryDirectory()
-        {
-            DirectoryInfo dir = new DirectoryInfo(ExecutingDirectory + "\\temp");
-            if (!dir.Exists)
-                dir.Create();
-        }
-        private static void ensureSableOutputDirectory()
-        {
-            ensureTemporaryDirectory();
-            DirectoryInfo dir = new DirectoryInfo(ExecutingDirectory + "\\temp\\sable");
-            if (!dir.Exists)
-                dir.Create();
         }
 
         private static bool _javaLoaded_ = false;
