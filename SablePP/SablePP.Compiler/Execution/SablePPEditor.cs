@@ -29,7 +29,6 @@ namespace SablePP.Compiler.Execution
 
             tools = this.AddMenuItem("&Tools");
             tools.Enabled = false;
-            tools.DropDownOpening += (s, e) => outputButton.Enabled = File.Exists;
 
             outputButton.Click += outputButton_Click;
             outputButton.Enabled = false;
@@ -40,6 +39,11 @@ namespace SablePP.Compiler.Execution
 
             tools.DropDownItems.Add(outputButton);
             tools.DropDownItems.Add(generateButton);
+        }
+
+        protected override void OnFileChanged(EventArgs e)
+        {
+            outputButton.Enabled = File != null && File.Exists;
         }
 
         protected override void OnClosed(EventArgs e)

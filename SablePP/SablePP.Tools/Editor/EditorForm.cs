@@ -92,8 +92,26 @@ namespace SablePP.Tools.Editor
                 updateTitle();
 
                 FiletoolsEnabled = _file != null;
+
+                OnFileChanged(EventArgs.Empty);
             }
         }
+
+        /// <summary>
+        /// Occurs when the <see cref="EditorForm.File"/> property changes. Note that this property can be c>null</c>.
+        /// </summary>
+        public event EventHandler FileChanged;
+
+        /// <summary>
+        /// Raises the <see cref="EditorForm.FileChanged" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        protected virtual void OnFileChanged(EventArgs e)
+        {
+            if (FileChanged != null)
+                FileChanged(this, e);
+        }
+
         /// <summary>
         /// Gets a value indicating whether a file is currently open.
         /// </summary>
