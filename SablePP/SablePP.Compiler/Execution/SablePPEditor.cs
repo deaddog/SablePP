@@ -29,6 +29,7 @@ namespace SablePP.Compiler.Execution
 
             tools = this.AddMenuItem("&Tools");
             tools.Enabled = false;
+            tools.DropDownOpening += (s, e) => outputButton.Enabled = File.Exists;
 
             outputButton.Click += outputButton_Click;
             outputButton.Enabled = false;
@@ -85,13 +86,7 @@ namespace SablePP.Compiler.Execution
 
         private void outputButton_Click(object sender, EventArgs e)
         {
-            if (!this.File.Exists)
-            {
-                ShowMessage(MessageIcons.Error, "Grammar files must be saved before selecting output destination...");
-                return;
-            }
-            else
-                updateOutputDirectory();
+            updateOutputDirectory();
         }
 
         private void generateButton_Click(object sender, EventArgs e)
