@@ -109,7 +109,7 @@ namespace SablePP.Compiler.Execution
             {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
-                this.Close();
+                this.Hide();
             }
         }
     }

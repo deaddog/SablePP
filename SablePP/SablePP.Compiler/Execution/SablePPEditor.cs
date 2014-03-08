@@ -16,6 +16,9 @@ namespace SablePP.Compiler.Execution
         private ToolStripMenuItem tools;
         private ToolStripMenuItem outputButton = new ToolStripMenuItem("Set &Output Directory...");
         private ToolStripMenuItem generateButton = new ToolStripMenuItem("&Build");
+        private ToolStripMenuItem livecodeButton = new ToolStripMenuItem("&LiveCode Tool");
+
+        private LiveCodeEditor lce;
 
         public SablePPEditor()
         {
@@ -37,8 +40,18 @@ namespace SablePP.Compiler.Execution
             generateButton.Enabled = false;
             generateButton.ShortcutKeys = Keys.F5;
 
+            livecodeButton.Click += livecodeButton_Click;
+
             tools.DropDownItems.Add(outputButton);
             tools.DropDownItems.Add(generateButton);
+            tools.DropDownItems.Add(new ToolStripSeparator());
+            tools.DropDownItems.Add(livecodeButton);
+
+            lce = new LiveCodeEditor()
+            {
+                ParentForm = this
+            };
+            lce.VisibleChanged += (s, e) => livecodeButton.Checked = lce.Visible;
         }
 
         protected override void OnFileChanged(EventArgs e)
@@ -103,6 +116,14 @@ namespace SablePP.Compiler.Execution
             ShowMessage(MessageIcons.Working, "Building compiler...", 1000 * 60 * 10);
             generateButton.Enabled = false;
             generateWorker.RunWorkerAsync(output);
+        }
+
+        void livecodeButton_Click(object sender, EventArgs e)
+        {
+            if (!livecodeButton.Checked)
+                lce.Show();
+            else
+                lce.Hide();
         }
 
         private void generateWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
