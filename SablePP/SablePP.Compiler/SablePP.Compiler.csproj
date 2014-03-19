@@ -59,9 +59,7 @@
     <Compile Include="Execution\LiveCodeEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Execution\LiveCodeEditor.Designer.cs">
-      <DependentUpon>LiveCodeEditor.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Execution\LiveCodeEditor.Designer.cs" />
     <Compile Include="Execution\SablePPEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,9 +133,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Execution\LiveCodeEditor.resx">
-      <DependentUpon>LiveCodeEditor.cs</DependentUpon>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Execution\LiveCodeEditor.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
