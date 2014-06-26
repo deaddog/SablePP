@@ -50,11 +50,17 @@ namespace SablePP.Tools.Lexing
         private bool eof;
         private StringBuilder text;
 
-        public Lexer(TextReader input, int initialState)
+        private int[][][][] gotoTable;
+        private int[][] acceptTable;
+
+        public Lexer(TextReader input, int initialState, int[][][][] gotoTable, int[][] acceptTable)
         {
-            this.input = new PushbackReader(input);
-            this.currentState = initialState;
             this.text = new StringBuilder();
+            this.input = new PushbackReader(input);
+
+            this.currentState = initialState;
+            this.gotoTable = gotoTable;
+            this.acceptTable = acceptTable;
         }
     }
 }
