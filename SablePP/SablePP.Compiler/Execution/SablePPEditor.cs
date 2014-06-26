@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SablePP.Compiler.Execution
@@ -105,13 +106,18 @@ namespace SablePP.Compiler.Execution
             generateWorker.RunWorkerAsync(output);
         }
 
+        private bool testForErrors(Tools.Error.CompilerError[] errors)
+        {
+            return errors.Any(e => e.ErrorType == Tools.Error.ErrorType.Error);
+        }
+
         private void generateWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             string path = e.Argument as string;
 
             var res = this.WaitForResult();
 
-            if (res.Errors.Length == 0)
+            if (!testForErrors(res.Errors))
                 executer.Generate(res.Tree as SablePP.Tools.Nodes.Start<Nodes.PGrammar>, path);
 
             e.Result = res;
@@ -121,7 +127,7 @@ namespace SablePP.Compiler.Execution
         {
             var res = e.Result as CodeTextBox.Result;
 
-            if (res.Errors.Length > 0)
+            if (testForErrors(res.Errors))
                 ShowMessage(MessageIcons.Error, "Unable to generate compiler; error in validation.");
             else
                 ShowMessage(MessageIcons.Accept, "Code generation completed!");
