@@ -40,8 +40,8 @@ namespace SablePP.Tools.Lexing
             }
         }
 
-        protected Token token;
-        protected int currentState;
+        private Token token;
+        private int currentState;
 
         private PushbackReader input;
         private int line;
@@ -63,7 +63,7 @@ namespace SablePP.Tools.Lexing
             this.acceptTable = acceptTable;
         }
 
-        protected virtual Token GetToken()
+        private Token getToken()
         {
             int dfa_state = 0;
 
@@ -82,7 +82,7 @@ namespace SablePP.Tools.Lexing
 
             while (true)
             {
-                int c = GetChar();
+                int c = getChar();
 
                 if (c != -1)
                 {
@@ -164,8 +164,8 @@ namespace SablePP.Tools.Lexing
                     {
                         int tokenIndex = accept_token;
 
-                        Token token = getToken(tokenIndex, GetText(accept_length), start_line + 1, start_pos + 1);
-                        PushBack(accept_length);
+                        Token token = getToken(tokenIndex, getText(accept_length), start_line + 1, start_pos + 1);
+                        pushBack(accept_length);
                         pos = accept_pos;
                         line = accept_line;
 
@@ -199,7 +199,7 @@ namespace SablePP.Tools.Lexing
             return -1;
         }
 
-        private int GetChar()
+        private int getChar()
         {
             if (eof)
                 return -1;
@@ -211,7 +211,7 @@ namespace SablePP.Tools.Lexing
 
             return result;
         }
-        private void PushBack(int acceptLength)
+        private void pushBack(int acceptLength)
         {
             int length = text.Length;
             for (int i = length - 1; i >= acceptLength; i--)
@@ -220,21 +220,7 @@ namespace SablePP.Tools.Lexing
                 input.Unread(text[i]);
             }
         }
-        protected virtual void Unread(Token token)
-        {
-            String text = token.Text;
-            int length = text.Length;
-
-            for (int i = length - 1; i >= 0; i--)
-            {
-                eof = false;
-                input.Unread(text[i]);
-            }
-
-            pos = token.Position - 1;
-            line = token.Line - 1;
-        }
-        private string GetText(int acceptLength)
+        private string getText(int acceptLength)
         {
             StringBuilder s = new StringBuilder(acceptLength);
             for (int i = 0; i < acceptLength; i++)
@@ -246,7 +232,7 @@ namespace SablePP.Tools.Lexing
         public Token Peek()
         {
             while (token == null)
-                token = GetToken();
+                token = getToken();
 
             return token;
         }
