@@ -93,6 +93,7 @@
     <Compile Include="Error\ParserException.cs" />
     <Compile Include="IHighlighter.cs" />
     <Compile Include="Lexing\ILexer.cs" />
+    <Compile Include="Lexing\Lexer.cs" />
     <Compile Include="Lexing\ResetableLexer.cs" />
     <Compile Include="Parsing\IParser.cs" />
     <Compile Include="SimplePrinter.cs" />
