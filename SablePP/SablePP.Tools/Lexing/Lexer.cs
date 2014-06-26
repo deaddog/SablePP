@@ -7,6 +7,9 @@ using SablePP.Tools.Error;
 
 namespace SablePP.Tools.Lexing
 {
+    /// <summary>
+    /// Performs lexical analysis when provided with a goto-table and and accept-table.
+    /// </summary>
     public abstract class Lexer : ILexer
     {
         private class PushbackReader
@@ -53,6 +56,13 @@ namespace SablePP.Tools.Lexing
         private int[][][][] gotoTable;
         private int[][] acceptTable;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Lexer"/> class.
+        /// </summary>
+        /// <param name="input">The <see cref="TextReader"/> from which the lexer will read its input.</param>
+        /// <param name="initialState">The initial state of the lexer.</param>
+        /// <param name="gotoTable">The goto table.</param>
+        /// <param name="acceptTable">The accept table.</param>
         public Lexer(TextReader input, int initialState, int[][][][] gotoTable, int[][] acceptTable)
         {
             this.text = new StringBuilder();
@@ -193,7 +203,21 @@ namespace SablePP.Tools.Lexing
             }
         }
 
+        /// <summary>
+        /// When overridden in a deriving class; constructs a new instance of the <see cref="Token"/> corresponding to <paramref name="tokenIndex"/>.
+        /// </summary>
+        /// <param name="tokenIndex">The index of the token that should be constructed.</param>
+        /// <param name="text">The text associated with the token.</param>
+        /// <param name="line">The line (one-based) where the token is located in the source.</param>
+        /// <param name="position">The position (one-based) where the token is located in the source line.</param>
+        /// <returns>A new <see cref="Token"/> that corresponds to <paramref name="tokenIndex"/>.</returns>
         protected abstract Token getToken(int tokenIndex, string text, int line, int position);
+        /// <summary>
+        /// Gets the next state of the lexer, if any.
+        /// </summary>
+        /// <param name="tokenIndex">The index of the current token.</param>
+        /// <param name="currentState">The current state of the lexer.</param>
+        /// <returns>The next state of the lexer after the current token; or -1 if the state should not change.</returns>
         protected virtual int getNextState(int tokenIndex, int currentState)
         {
             return -1;
@@ -229,6 +253,12 @@ namespace SablePP.Tools.Lexing
             return s.ToString();
         }
 
+        /// <summary>
+        /// Gets the next <see cref="Token" /> in the token stream, but does not remove it from the stream.
+        /// </summary>
+        /// <returns>
+        /// The next <see cref="Token" /> in the token stream.
+        /// </returns>
         public Token Peek()
         {
             while (token == null)
@@ -237,6 +267,12 @@ namespace SablePP.Tools.Lexing
             return token;
         }
 
+        /// <summary>
+        /// Gets the next <see cref="Token" /> in the token stream, and removes it from the stream.
+        /// </summary>
+        /// <returns>
+        /// The next <see cref="Token" /> in the token stream.
+        /// </returns>
         public Token Next()
         {
             Token result = Peek();
