@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using SablePP.Tools.Nodes;
 
 namespace SablePP.Tools.Lexing
 {
@@ -37,6 +38,23 @@ namespace SablePP.Tools.Lexing
             {
                 stack.Push(v);
             }
+        }
+
+        protected Token token;
+        protected int currentState;
+
+        private PushbackReader input;
+        private int line;
+        private int pos;
+        private bool cr;
+        private bool eof;
+        private StringBuilder text;
+
+        public Lexer(TextReader input, int initialState)
+        {
+            this.input = new PushbackReader(input);
+            this.currentState = initialState;
+            this.text = new StringBuilder();
         }
     }
 }
