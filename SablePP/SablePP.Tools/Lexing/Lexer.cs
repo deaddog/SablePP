@@ -169,7 +169,7 @@ namespace SablePP.Tools.Lexing
                         pos = accept_pos;
                         line = accept_line;
 
-                        int newState = changeState(tokenIndex, currentState);
+                        int newState = getNextState(tokenIndex, currentState);
                         if (newState != -1)
                             currentState = newState;
 
@@ -194,7 +194,7 @@ namespace SablePP.Tools.Lexing
         }
 
         protected abstract Token getToken(int tokenIndex, string text, int line, int position);
-        protected virtual int changeState(int tokenIndex, int currentState)
+        protected virtual int getNextState(int tokenIndex, int currentState)
         {
             return -1;
         }
