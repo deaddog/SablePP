@@ -106,5 +106,20 @@ namespace SablePP.Tools.Lexing
 
             return s.ToString();
         }
+
+        public Token Peek()
+        {
+            while (token == null)
+                token = GetToken();
+
+            return token;
+        }
+
+        public Token Next()
+        {
+            Token result = Peek();
+            token = null;
+            return result;
+        }
     }
 }
