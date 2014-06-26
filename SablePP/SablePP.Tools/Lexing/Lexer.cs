@@ -62,5 +62,49 @@ namespace SablePP.Tools.Lexing
             this.gotoTable = gotoTable;
             this.acceptTable = acceptTable;
         }
+
+        private int GetChar()
+        {
+            if (eof)
+                return -1;
+
+            int result = input.Read();
+
+            if (result == -1)
+                eof = true;
+
+            return result;
+        }
+        private void PushBack(int acceptLength)
+        {
+            int length = text.Length;
+            for (int i = length - 1; i >= acceptLength; i--)
+            {
+                eof = false;
+                input.Unread(text[i]);
+            }
+        }
+        protected virtual void Unread(Token token)
+        {
+            String text = token.Text;
+            int length = text.Length;
+
+            for (int i = length - 1; i >= 0; i--)
+            {
+                eof = false;
+                input.Unread(text[i]);
+            }
+
+            pos = token.Position - 1;
+            line = token.Line - 1;
+        }
+        private string GetText(int acceptLength)
+        {
+            StringBuilder s = new StringBuilder(acceptLength);
+            for (int i = 0; i < acceptLength; i++)
+                s.Append(text[i]);
+
+            return s.ToString();
+        }
     }
 }
