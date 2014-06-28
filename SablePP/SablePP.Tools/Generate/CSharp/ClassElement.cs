@@ -140,10 +140,22 @@ namespace SablePP.Tools.Generate.CSharp
         /// Emits a field to the <see cref="ClassElement"/>. The initial value is determined by emitting code to a <see cref="PatchElement"/>.
         /// </summary>
         /// <param name="declaration">The field declaration that should be emitted.</param>
-        /// <param name="valueElement">When the method returns, a <see cref="PatchElement"/> to which the initial value of the field can be emitted.</param>
+        /// <param name="valueElement">When the method returns, a <see cref="PatchElement"/> to which the initial value of the field should be emitted.</param>
         public void EmitField(string declaration, out PatchElement valueElement)
         {
             valueElement = new PatchElement();
+            contents.Emit("{0} = ", declaration.Trim());
+            contents.InsertElement(valueElement);
+            contents.EmitLine(";");
+        }
+
+        /// <summary>
+        /// Emits a field to the <see cref="ClassElement"/>. The initial value is determined by the code emitted to a <see cref="PatchElement"/>.
+        /// </summary>
+        /// <param name="declaration">The field declaration that should be emitted.</param>
+        /// <param name="valueElement">The <see cref="PatchElement"/> to which the initial value of the field should be emitted.</param>
+        public void EmitField(string declaration, PatchElement valueElement)
+        {
             contents.Emit("{0} = ", declaration.Trim());
             contents.InsertElement(valueElement);
             contents.EmitLine(";");
