@@ -16,6 +16,9 @@ namespace SablePP.Compiler.Generate
         private ClassElement classElement;
 
         private PatchElement gotoElement, acceptElement;
+        private List<string> states;
+
+        private PatchElement getTokenMethod, changeStateMethod;
 
         private LexerBuilder(PatchElement gotoElement, PatchElement acceptElement)
         {
@@ -24,6 +27,8 @@ namespace SablePP.Compiler.Generate
 
             this.gotoElement = gotoElement;
             this.acceptElement = acceptElement;
+
+            this.states = new List<string>();
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -41,6 +46,22 @@ namespace SablePP.Compiler.Generate
             if (node.HasStates)
                 Visit(node.States);
 
+            for (int i = 0; i < states.Count; i++)
+                classElement.EmitField("private const int " + states[i], i.ToString());
+
+            if (node.HasStates)
+                classElement.EmitNewline();
+
+            string initialState = node.HasStates ? states[0] : "0";
+            classElement.Add(new MethodElement(
+                "public Lexer(System.IO.TextReader input)", 
+                "base(input, " + initialState + ", gotoTable, acceptTable)", true));
+
+            classElement.EmitNewline();
+            classElement.Add(emitGetToken());
+            if (node.HasStates)
+                classElement.Add(emitChangeState());
+
             if (node.HasTokens)
                 Visit(node.Tokens);
 
@@ -57,6 +78,52 @@ namespace SablePP.Compiler.Generate
             classElement.EmitField("private static int[][] acceptTable", acceptElement);
             classElement.EmitNewline();
             classElement.EmitRegionEnd();
+        }
+
+        private MethodElement emitGetToken()
+        {
+            var method = new MethodElement("protected override SablePP.Tools.Nodes.Token getToken(int tokenIndex, string text, int line, int position)");
+
+            method.Body.EmitLine("switch (tokenIndex)");
+            method.Body.EmitLine("{");
+            method.Body.IncreaseIndentation();
+
+            method.Body.InsertElement(getTokenMethod = new PatchElement());
+            method.Body.EmitLine("default:");
+            method.Body.IncreaseIndentation();
+            method.Body.EmitLine("throw new ArgumentException(\"Unknown token index.\", \"tokenIndex\");");
+            method.Body.DecreaseIndentation();
+
+            method.Body.DecreaseIndentation();
+            method.Body.EmitLine("}");
+
+            return method;
+        }
+
+        private MethodElement emitChangeState()
+        {
+            var method = new MethodElement("protected override int changeState(int tokenIndex, int currentState)");
+
+            method.Body.EmitLine("switch (tokenIndex)");
+            method.Body.EmitLine("{");
+            method.Body.IncreaseIndentation();
+
+            method.Body.InsertElement(changeStateMethod = new PatchElement());
+            method.Body.EmitLine("default: return -1;");
+
+            method.Body.DecreaseIndentation();
+            method.Body.EmitLine("}");
+
+            return method;
+        }
+
+        public override void CaseAStates(AStates node)
+        {
+            var statesList = (node.List as AIdentifierList).Listitem;
+            var statesEnum = from id in statesList select id as AIdentifierListitem;
+
+            foreach (var state in statesEnum)
+                states.Add(state.Identifier.AsState.Name.ToUpper());
         }
 
         public static FileElement BuildCode(string originalFile, Start<PGrammar> astRoot)
