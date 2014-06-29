@@ -96,6 +96,7 @@
     <Compile Include="Lexing\Lexer.cs" />
     <Compile Include="Lexing\ResetableLexer.cs" />
     <Compile Include="Parsing\IParser.cs" />
+    <Compile Include="Parsing\ITokenIndex.cs" />
     <Compile Include="SimplePrinter.cs" />
     <Compile Include="Error\CompilerError.cs" />
     <Compile Include="Error\ErrorArgumentEventHandler.cs" />
