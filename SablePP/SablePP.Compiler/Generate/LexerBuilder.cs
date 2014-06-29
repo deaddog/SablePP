@@ -16,7 +16,7 @@ namespace SablePP.Compiler.Generate
         private ClassElement classElement;
 
         private PatchElement gotoElement, acceptElement;
-        private List<string> states;
+        private Dictionary<string, int> states;
 
         private PatchElement getTokenMethod, changeStateMethod;
 
@@ -28,7 +28,7 @@ namespace SablePP.Compiler.Generate
             this.gotoElement = gotoElement;
             this.acceptElement = acceptElement;
 
-            this.states = new List<string>();
+            this.states = new Dictionary<string, int>();
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -46,15 +46,12 @@ namespace SablePP.Compiler.Generate
             if (node.HasStates)
                 Visit(node.States);
 
-            for (int i = 0; i < states.Count; i++)
-                classElement.EmitField("private const int " + states[i], i.ToString());
-
             if (node.HasStates)
                 classElement.EmitNewline();
 
-            string initialState = node.HasStates ? states[0] : "0";
+            string initialState = node.HasStates ? states.Keys.Where(s => states[s] == 0).First() : "0";
             classElement.Add(new MethodElement(
-                "public Lexer(System.IO.TextReader input)", 
+                "public Lexer(System.IO.TextReader input)",
                 "base(input, " + initialState + ", gotoTable, acceptTable)", true));
 
             classElement.EmitNewline();
@@ -99,7 +96,6 @@ namespace SablePP.Compiler.Generate
 
             return method;
         }
-
         private MethodElement emitChangeState()
         {
             var method = new MethodElement("protected override int changeState(int tokenIndex, int currentState)");
@@ -122,8 +118,15 @@ namespace SablePP.Compiler.Generate
             var statesList = (node.List as AIdentifierList).Listitem;
             var statesEnum = from id in statesList select id as AIdentifierListitem;
 
+            int index = 0;
             foreach (var state in statesEnum)
-                states.Add(state.Identifier.AsState.Name.ToUpper());
+            {
+                string name = state.Identifier.AsState.Name.ToUpper();
+                states.Add(name, index);
+                classElement.EmitField("private const int " + name, index.ToString());
+
+                index++;
+            }
         }
 
         public static FileElement BuildCode(string originalFile, Start<PGrammar> astRoot)
