@@ -19,7 +19,7 @@ namespace SablePP.Compiler.Generate
         private Dictionary<string, int> states;
         private int tokenIndex = 0;
 
-        private PatchElement getTokenMethod, changeStateMethod;
+        private PatchElement getTokenMethod, getNextStateMethod;
 
         private LexerBuilder(PatchElement gotoElement, PatchElement acceptElement)
         {
@@ -58,7 +58,7 @@ namespace SablePP.Compiler.Generate
             classElement.EmitNewline();
             classElement.Add(emitGetToken());
             if (node.HasStates)
-                classElement.Add(emitChangeState());
+                classElement.Add(emitGetNextState());
 
             if (node.HasTokens)
                 Visit(node.Tokens);
@@ -97,15 +97,15 @@ namespace SablePP.Compiler.Generate
 
             return method;
         }
-        private MethodElement emitChangeState()
+        private MethodElement emitGetNextState()
         {
-            var method = new MethodElement("protected override int changeState(int tokenIndex, int currentState)");
+            var method = new MethodElement("protected override int getNextState(int tokenIndex, int currentState)");
 
             method.Body.EmitLine("switch (tokenIndex)");
             method.Body.EmitLine("{");
             method.Body.IncreaseIndentation();
 
-            method.Body.InsertElement(changeStateMethod = new PatchElement());
+            method.Body.InsertElement(getNextStateMethod = new PatchElement());
             method.Body.EmitLine("default: return -1;");
 
             method.Body.DecreaseIndentation();
@@ -129,25 +129,25 @@ namespace SablePP.Compiler.Generate
             if (!node.Listitem.Any(n => n is ATokenstatetransitionListitem))
                 return;
 
-            changeStateMethod.EmitLine("case {0}:", tokenIndex);
-            changeStateMethod.IncreaseIndentation();
-            changeStateMethod.EmitLine("switch (currentState)");
-            changeStateMethod.EmitLine("{");
-            changeStateMethod.IncreaseIndentation();
+            getNextStateMethod.EmitLine("case {0}:", tokenIndex);
+            getNextStateMethod.IncreaseIndentation();
+            getNextStateMethod.EmitLine("switch (currentState)");
+            getNextStateMethod.EmitLine("{");
+            getNextStateMethod.IncreaseIndentation();
 
             base.CaseATokenstateList(node);
 
-            changeStateMethod.EmitLine("default: return -1;");
-            changeStateMethod.DecreaseIndentation();
-            changeStateMethod.EmitLine("}");
-            changeStateMethod.DecreaseIndentation();
+            getNextStateMethod.EmitLine("default: return -1;");
+            getNextStateMethod.DecreaseIndentation();
+            getNextStateMethod.EmitLine("}");
+            getNextStateMethod.DecreaseIndentation();
         }
         public override void CaseATokenstateListitem(ATokenstateListitem node)
         {
         }
         public override void CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node)
         {
-            changeStateMethod.EmitLine("case {0}: return {1};", node.From.AsState.Name.ToUpper(), node.To.AsState.Name.ToUpper());
+            getNextStateMethod.EmitLine("case {0}: return {1};", node.From.AsState.Name.ToUpper(), node.To.AsState.Name.ToUpper());
         }
 
         public override void CaseAStates(AStates node)
