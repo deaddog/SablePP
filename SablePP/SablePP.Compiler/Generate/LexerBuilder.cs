@@ -17,6 +17,7 @@ namespace SablePP.Compiler.Generate
 
         private PatchElement gotoElement, acceptElement;
         private Dictionary<string, int> states;
+        private int tokenIndex = 0;
 
         private PatchElement getTokenMethod, changeStateMethod;
 
@@ -111,6 +112,16 @@ namespace SablePP.Compiler.Generate
             method.Body.EmitLine("}");
 
             return method;
+        }
+
+        public override void CaseAToken(AToken node)
+        {
+            var token = node.Identifier.AsToken;
+            getTokenMethod.EmitLine("case {1}: return new {0}(text, line, position);", token.GeneratedName, tokenIndex);
+
+            base.CaseAToken(node);
+
+            tokenIndex++;
         }
 
         public override void CaseAStates(AStates node)
