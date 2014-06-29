@@ -124,6 +124,32 @@ namespace SablePP.Compiler.Generate
             tokenIndex++;
         }
 
+        public override void CaseATokenstateList(ATokenstateList node)
+        {
+            if (!node.Listitem.Any(n => n is ATokenstatetransitionListitem))
+                return;
+
+            changeStateMethod.EmitLine("case {0}:", tokenIndex);
+            changeStateMethod.IncreaseIndentation();
+            changeStateMethod.EmitLine("switch (currentState)");
+            changeStateMethod.EmitLine("{");
+            changeStateMethod.IncreaseIndentation();
+
+            base.CaseATokenstateList(node);
+
+            changeStateMethod.EmitLine("default: return -1;");
+            changeStateMethod.DecreaseIndentation();
+            changeStateMethod.EmitLine("}");
+            changeStateMethod.DecreaseIndentation();
+        }
+        public override void CaseATokenstateListitem(ATokenstateListitem node)
+        {
+        }
+        public override void CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node)
+        {
+            changeStateMethod.EmitLine("case {0}: return {1};", node.From.AsState.Name.ToUpper(), node.To.AsState.Name.ToUpper());
+        }
+
         public override void CaseAStates(AStates node)
         {
             var statesList = (node.List as AIdentifierList).Listitem;
