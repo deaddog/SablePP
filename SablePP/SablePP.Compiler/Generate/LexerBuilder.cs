@@ -39,7 +39,7 @@ namespace SablePP.Compiler.Generate
             string packageName = node.PackageName;
 
             fileElement.Add(nameElement = new NameSpaceElement(packageName + ".Lexing"));
-            fileElement.Using.Add(packageName + ".Analysis");
+            fileElement.Using.Add(packageName + ".Nodes");
 
             nameElement.Add(classElement = new ClassElement("public class Lexer : {0}.Lexer", ToolsNamespace.Lexing));
 
