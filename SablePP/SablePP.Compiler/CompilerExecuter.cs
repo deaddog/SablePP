@@ -178,23 +178,26 @@ namespace SablePP.Compiler
             if (manager.Count > 0)
                 return false;
 
-            TokenNodes.BuildCode(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "tokens.cs"));
-            ProductionNodes.BuildCode(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "prods.cs"));
-            AnalysisBuilder.BuildCode(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "analysis.cs"));
+            string output = PathInformation.SableOutputDirectory;
+
+            TokenNodes.BuildCode(root).ToFile(Path.Combine(output, "tokens.cs"));
+            ProductionNodes.BuildCode(root).ToFile(Path.Combine(output, "prods.cs"));
+            AnalysisBuilder.BuildCode(root).ToFile(Path.Combine(output, "analysis.cs"));
+
+            LexerBuilder.BuildCode(Path.Combine(output, "lexer.cs"), root).ToFile(Path.Combine(output, "lexer.cs"));
 
             if (!modificationsCompleted)
             {
                 modificationsCompleted = true;
-                ParserModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\parser.cs", root);
-                LexerModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\lexer.cs", root);
+                ParserModifier.ApplyToFile(Path.Combine(output, "parser.cs"), root);
             }
 
-            CompilerExecuterBuilder.Build(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "CompilerExecuter.cs"));
+            CompilerExecuterBuilder.Build(root).ToFile(Path.Combine(output, "CompilerExecuter.cs"));
 
             directory = directory.TrimEnd('\\');
 
             foreach (var file in new[] { "tokens.cs", "prods.cs", "analysis.cs", "parser.cs", "lexer.cs", "CompilerExecuter.cs" })
-                File.Copy(PathInformation.SableOutputDirectory + "\\" + file, directory + "\\" + file, true);
+                File.Copy(Path.Combine(output, file), Path.Combine(directory, file), true);
 
             return true;
         }
