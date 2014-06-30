@@ -6,6 +6,11 @@ namespace SablePP.Tools.Parsing
 {
     public abstract class Parser<TRoot> : IParser where TRoot : Production
     {
+        private const int SHIFT = 0;
+        private const int REDUCE = 1;
+        private const int ACCEPT = 2;
+        private const int ERROR = 3;
+
         #region Stack
 
         private Stack<Tuple<int, object>> stack;
