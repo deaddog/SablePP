@@ -43,8 +43,12 @@ namespace SablePP.Compiler.Generate.Parsing
 
             fileElement.Add(nameElement = new NameSpaceElement(packageName + ".Parsing"));
             fileElement.Using.Add(packageName + ".Nodes");
+            fileElement.Using.Add(ToolsNamespace.Nodes);
 
             nameElement.Add(classElement = new ClassElement("public class Parser : {0}.Parser<{1}>", ToolsNamespace.Parsing, node.RootProduction));
+
+            TokenIndexBuilder indexer = new TokenIndexBuilder(classElement);
+            indexer.Visit(node.Tokens);
         }
     }
 }
