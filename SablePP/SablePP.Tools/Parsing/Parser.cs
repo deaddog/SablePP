@@ -98,5 +98,7 @@ namespace SablePP.Tools.Parsing
         /// The index of <paramref name="token" />; or <c>-1</c> if <paramref name="token"/> has no index.
         /// </returns>
         protected abstract int getTokenIndex(Token token);
+
+        protected abstract void reduce(int action);
     }
 }
