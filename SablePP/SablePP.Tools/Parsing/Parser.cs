@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools.Parsing
 {
+    /// <summary>
+    /// Performs parsing of an input string when provided with an <see cref="ILexer"/> and a set of control tables.
+    /// </summary>
+    /// <typeparam name="TRoot">The type of the root production.</typeparam>
     public abstract class Parser<TRoot> : IParser where TRoot : Production
     {
         private const int SHIFT = 0;
@@ -16,11 +20,22 @@ namespace SablePP.Tools.Parsing
 
         private Stack<Tuple<int, object>> stack;
 
+        /// <summary>
+        /// Pops the topmost object off the stack and casts it to an object of type <typeparamref name="N"/>.
+        /// </summary>
+        /// <typeparam name="N">The type of the object expected at the top of the stack.</typeparam>
+        /// <returns>The topmost object on the stack.</returns>
         public N Pop<N>() where N : class
         {
             var obj = stack.Pop();
             return obj.Item2 as N;
         }
+        /// <summary>
+        /// Pushes an object index and an object onto the stack.
+        /// </summary>
+        /// <typeparam name="N">The type of the object being pushed onto the stack.</typeparam>
+        /// <param name="index">The index of the object type of <paramref name="obj"/>.</param>
+        /// <param name="obj">The object that should be pushed onto the stack.</param>
         public void Push<N>(int index, N obj)
         {
             int state = State;
@@ -53,6 +68,9 @@ namespace SablePP.Tools.Parsing
         {
             stack.Push(Tuple.Create(state, (object)obj));
         }
+        /// <summary>
+        /// Gets the topmost state on the stack.
+        /// </summary>
         public int State
         {
             get { return stack.Peek().Item1; }
@@ -61,6 +79,9 @@ namespace SablePP.Tools.Parsing
         #endregion
 
         private Dictionary<Token, Token[]> ignoredTokens;
+        /// <summary>
+        /// Gets a dictionary containing the tokens that were ignored; indexed by their succeeding token.
+        /// </summary>
         public Dictionary<Token, Token[]> IgnoredTokens
         {
             get { return ignoredTokens; }
@@ -78,6 +99,14 @@ namespace SablePP.Tools.Parsing
         private string[] errorMessages;
         private int[] errors;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Parser{TRoot}"/> class.
+        /// </summary>
+        /// <param name="lexer">The lexer used by the parser.</param>
+        /// <param name="actionTable">The action table.</param>
+        /// <param name="gotoTable">The goto table.</param>
+        /// <param name="errorMessages">The error messages.</param>
+        /// <param name="errors">The error states.</param>
         public Parser(ILexer lexer, int[][][] actionTable, int[][][] gotoTable, string[] errorMessages, int[] errors)
         {
             this.stack = new Stack<Tuple<int, object>>();
@@ -103,6 +132,10 @@ namespace SablePP.Tools.Parsing
         {
             return this.Parse();
         }
+        /// <summary>
+        /// Parses the tokens specified by the <see cref="ILexer"/> into an AST.
+        /// </summary>
+        /// <returns>An AST representing the input from the <see cref="ILexer"/> with a <typeparamref name="TRoot"/> as the root element.</returns>
         public Start<TRoot> Parse()
         {
             PushNoGoto<object>(0, null);
@@ -181,6 +214,10 @@ namespace SablePP.Tools.Parsing
             }
         }
 
-        protected abstract void reduce(int action);
+        /// <summary>
+        /// When overridden in a derived class; reduces the elements on top of the stack given an action index.
+        /// </summary>
+        /// <param name="index">The action index.</param>
+        protected abstract void reduce(int index);
     }
 }
