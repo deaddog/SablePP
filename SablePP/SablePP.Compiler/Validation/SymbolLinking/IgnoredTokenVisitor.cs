@@ -25,6 +25,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             if (!tokens.Link(node))
                 RegisterError(node, "The token {0} has not been defined.", node);
+            else if (!node.IsToken)
+                RegisterError(node, "{0} is not a token; Only tokens can be ignored.", node);
+            else
+                node.AsToken.Ignored = true;
         }
     }
 }
