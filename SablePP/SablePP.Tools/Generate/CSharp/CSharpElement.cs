@@ -1,10 +1,14 @@
 ﻿namespace SablePP.Tools.Generate.CSharp
 {
     /// <summary>
-    /// Provides an extension to the <see cref="ComplexElement"/> specific to C#.
+    /// Provides an extension to the <see cref="ContentElement{Content}"/> specific to C#.
     /// </summary>
     public abstract class CSharpElement<Content> : ContentElement<Content> where Content : PatchElement
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CSharpElement{Content}"/> class.
+        /// </summary>
+        /// <param name="content">The element that should contain the exposed content contained in the element.</param>
         public CSharpElement(Content content)
             :base(content)
         {
