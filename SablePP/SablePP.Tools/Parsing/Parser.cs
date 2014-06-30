@@ -99,6 +99,88 @@ namespace SablePP.Tools.Parsing
         /// </returns>
         protected abstract int getTokenIndex(Token token);
 
+        Node SablePP.Tools.Parsing.IParser.Parse()
+        {
+            return this.Parse();
+        }
+        public Start<TRoot> Parse()
+        {
+            PushNoGoto<object>(0, null);
+
+            List<Token> ign = null;
+            while (true)
+            {
+                while (getTokenIndex(lexer.Peek()) == -1)
+                {
+                    if (ign == null)
+                    {
+                        ign = new List<Token>();
+                    }
+
+                    ign.Add(lexer.Next());
+                }
+
+                if (ign != null)
+                {
+                    ignoredTokens[lexer.Peek()] = ign.ToArray();
+                    ign = null;
+                }
+
+                last_pos = lexer.Peek().Position;
+                last_line = lexer.Peek().Line;
+                last_token = lexer.Peek();
+
+                int index = getTokenIndex(lexer.Peek());
+                action[0] = actionTable[State][0][1];
+                action[1] = actionTable[State][0][2];
+
+                int low = 1;
+                int high = actionTable[State].Length - 1;
+
+                while (low <= high)
+                {
+                    int middle = (low + high) / 2;
+
+                    if (index < actionTable[State][middle][0])
+                    {
+                        high = middle - 1;
+                    }
+                    else if (index > actionTable[State][middle][0])
+                    {
+                        low = middle + 1;
+                    }
+                    else
+                    {
+                        action[0] = actionTable[State][middle][1];
+                        action[1] = actionTable[State][middle][2];
+                        break;
+                    }
+                }
+
+                switch (action[0])
+                {
+                    case SHIFT:
+                        {
+                            PushNoGoto(action[1], lexer.Next());
+                            last_shift = action[1];
+                        }
+                        break;
+                    case REDUCE:
+                        reduce(action[1]);
+                        break;
+                    case ACCEPT:
+                        {
+                            EOF node2 = (EOF)lexer.Next();
+                            TRoot node1 = Pop<TRoot>();
+                            Start<TRoot> node = new Start<TRoot>(node1, node2);
+                            return node;
+                        }
+                    case ERROR:
+                        throw new SablePP.Tools.Error.ParserException(last_token, last_line, last_pos, errorMessages[errors[action[1]]]);
+                }
+            }
+        }
+
         protected abstract void reduce(int action);
     }
 }
