@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace SablePP.Compiler.Generate.Parsing
 {
@@ -31,8 +32,50 @@ namespace SablePP.Compiler.Generate.Parsing
             ParserBuilder n = new ParserBuilder();
             n.Visit(astRoot);
 
+            
+
             return n.fileElement;
         }
+
+        #region Table Extraction
+
+        private static PatchElement getTable(string code, string regex)
+        {
+            return getTable(Regex.Match(code, regex).Groups["table"].Value);
+        }
+        private static PatchElement getTable(string code)
+        {
+            PatchElement element = new PatchElement();
+
+            string[] strings = getNonEmpty(code.Split(new char[] { '\r', '\n' })).ToArray();
+
+            for (int i = 0; i < strings.Length; i++)
+            {
+                if (strings[i].StartsWith("}"))
+                    element.DecreaseIndentation();
+
+                element.Emit(strings[i]);
+                if (i < strings.Length - 1)
+                    element.EmitNewLine();
+
+                if (strings[i].EndsWith("{"))
+                    element.IncreaseIndentation();
+            }
+
+            return element;
+        }
+
+        private static IEnumerable<string> getNonEmpty(IEnumerable<string> collection)
+        {
+            foreach (var s in collection)
+            {
+                var t = s.Trim();
+                if (t.Length > 0)
+                    yield return t;
+            }
+        }
+
+        #endregion
 
         public override void CaseAGrammar(AGrammar node)
         {
