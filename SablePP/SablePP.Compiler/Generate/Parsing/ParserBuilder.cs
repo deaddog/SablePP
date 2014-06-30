@@ -33,16 +33,34 @@ namespace SablePP.Compiler.Generate.Parsing
             n.Visit(astRoot);
 
             n.classElement.EmitNewline();
+            n.classElement.EmitField("private static int[][][] actionTable", getActionTable(code));
+            n.classElement.EmitField("private static int[][][] gotoTable", getGotoTable(code));
             n.classElement.EmitField("private static string[] errorMessages", getErrorMessages(code));
+            n.classElement.EmitField("private static int[] errors", getErrors(code));
 
             return n.fileElement;
         }
 
         #region Table Extraction
 
+        private static PatchElement getActionTable(string parserCode)
+        {
+            return getTable(parserCode, @"int\[\]\[\]\[\] actionTable[^{]+(?<table>{[^;]*);");
+        }
+
+        private static PatchElement getGotoTable(string parserCode)
+        {
+            return getTable(parserCode, @"int\[\]\[\]\[\] gotoTable[^{]+(?<table>{[^;]*);");
+        }
+
         private static PatchElement getErrorMessages(string parserCode)
         {
             return getTable(parserCode, "String\\[\\] errorMessages[^{]*(?<table>([^\"}]*\"[^\"]*\")+[^}]*\\});");
+        }
+
+        private static PatchElement getErrors(string parserCode)
+        {
+            return getTable(parserCode, @"int\[\] errors[^{]+(?<table>{[^;]*);");
         }
 
         private static PatchElement getTable(string code, string regex)
