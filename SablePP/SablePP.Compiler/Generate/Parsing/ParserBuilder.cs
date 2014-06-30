@@ -32,12 +32,18 @@ namespace SablePP.Compiler.Generate.Parsing
             ParserBuilder n = new ParserBuilder();
             n.Visit(astRoot);
 
-            
+            n.classElement.EmitNewline();
+            n.classElement.EmitField("private static string[] errorMessages", getErrorMessages(code));
 
             return n.fileElement;
         }
 
         #region Table Extraction
+
+        private static PatchElement getErrorMessages(string parserCode)
+        {
+            return getTable(parserCode, "String\\[\\] errorMessages[^{]*(?<table>([^\"}]*\"[^\"]*\")+[^}]*\\});");
+        }
 
         private static PatchElement getTable(string code, string regex)
         {
