@@ -121,12 +121,40 @@ namespace SablePP.Compiler.Generate.Parsing
                 "public Parser(NewLanguage.Lexing.Lexer lexer)",
                 "base(lexer, actionTable, gotoTable, errorMessages, errors)", true));
 
+            classElement.Add(reduceMethod = new MethodElement("protected override void reduce(int index)"));
+            reduceMethod.Body.EmitLine("switch (index)");
+            reduceMethod.Body.EmitLine("{");
+            reduceMethod.Body.IncreaseIndentation();
+
             Visit(node.Productions);
+
+            reduceMethod.Body.DecreaseIndentation();
+            reduceMethod.Body.EmitLine("}");
         }
 
-        public override void CaseAProduction(AProduction node)
+        private int reduceCase = 0;
+        private MethodElement reduceMethod;
+
+        public override void CaseAAlternative(AAlternative node)
         {
-            base.CaseAProduction(node);
+            var elements = node.HasTranslation ? TranslationReductionBuilder.Build(node) : SimpleReductionBuilder.Build(node);
+
+            foreach (var e in elements)
+            {
+                reduceMethod.Body.EmitLine("case {0}:", reduceCase);
+                reduceMethod.Body.IncreaseIndentation();
+                reduceMethod.Body.EmitLine("{");
+                reduceMethod.Body.IncreaseIndentation();
+
+                reduceMethod.Body.InsertElement(e);
+
+                reduceMethod.Body.DecreaseIndentation();
+                reduceMethod.Body.EmitLine("}");
+                reduceMethod.Body.EmitLine("break;");
+                reduceMethod.Body.DecreaseIndentation();
+
+                reduceCase++;
+            }
         }
     }
 }
