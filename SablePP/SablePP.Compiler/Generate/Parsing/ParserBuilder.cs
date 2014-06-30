@@ -49,6 +49,17 @@ namespace SablePP.Compiler.Generate.Parsing
 
             TokenIndexBuilder indexer = new TokenIndexBuilder(classElement);
             indexer.Visit(node.Tokens);
+
+            classElement.Add(new MethodElement(
+                "public Parser(NewLanguage.Lexing.Lexer lexer)",
+                "base(lexer, actionTable, gotoTable, errorMessages, errors)", true));
+
+            Visit(node.Productions);
+        }
+
+        public override void CaseAProduction(AProduction node)
+        {
+            base.CaseAProduction(node);
         }
     }
 }
