@@ -5,7 +5,7 @@ namespace SablePP.Tools.Generate.CSharp
     /// <summary>
     /// Represents a collection of using statements for C# code generation.
     /// </summary>
-    public sealed class UsingsElement : CSharpElement
+    public sealed class UsingsElement : ComplexElement
     {
         private PatchElement usingsElement;
 
