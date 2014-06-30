@@ -60,6 +60,11 @@ namespace SablePP.Tools.Parsing
 
         #endregion
 
+        private Dictionary<Token, Token[]> ignoredTokens;
+        public Dictionary<Token, Token[]> IgnoredTokens
+        {
+            get { return ignoredTokens; }
+        }
         private ILexer lexer;
 
         private int last_shift;
@@ -76,6 +81,7 @@ namespace SablePP.Tools.Parsing
         public Parser(ILexer lexer, int[][][] actionTable, int[][][] gotoTable, string[] errorMessages, int[] errors)
         {
             this.stack = new Stack<Tuple<int, object>>();
+            this.ignoredTokens = new Dictionary<Token, Token[]>();
             this.lexer = lexer;
 
             this.actionTable = actionTable;
