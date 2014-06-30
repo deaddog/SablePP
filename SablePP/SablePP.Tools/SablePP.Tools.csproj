@@ -58,6 +58,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Editor\MessageIcons.cs" />
+    <Compile Include="Generate\ContentElement.cs" />
     <Compile Include="Generate\CSharp\AccessModifierElement.cs" />
     <Compile Include="Generate\CSharp\CSharpElement.cs" />
     <Compile Include="Generate\CSharp\GetSetHandle.cs" />
