@@ -83,5 +83,14 @@ namespace SablePP.Tools.Parsing
             this.errorMessages = errorMessages;
             this.errors = errors;
         }
+
+        /// <summary>
+        /// When overridden in a derived class; gets the index of a <see cref="Token" />.
+        /// </summary>
+        /// <param name="token">The <see cref="Token" /> of which to retrieve the index..</param>
+        /// <returns>
+        /// The index of <paramref name="token" />; or <c>-1</c> if <paramref name="token"/> has no index.
+        /// </returns>
+        protected abstract int getTokenIndex(Token token);
     }
 }
