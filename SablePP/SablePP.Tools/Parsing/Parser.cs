@@ -21,7 +21,35 @@ namespace SablePP.Tools.Parsing
             var obj = stack.Pop();
             return obj.Item2 as N;
         }
-        public void Push<N>(int state, N obj)
+        public void Push<N>(int index, N obj)
+        {
+            int state = State;
+            int low = 1;
+            int high = gotoTable[index].Length - 1;
+            int value = gotoTable[index][0][1];
+
+            while (low <= high)
+            {
+                int middle = (low + high) / 2;
+
+                if (state < gotoTable[index][middle][0])
+                {
+                    high = middle - 1;
+                }
+                else if (state > gotoTable[index][middle][0])
+                {
+                    low = middle + 1;
+                }
+                else
+                {
+                    value = gotoTable[index][middle][1];
+                    break;
+                }
+            }
+
+            PushNoGoto(value, obj);
+        }
+        private void PushNoGoto<N>(int state, N obj)
         {
             stack.Push(Tuple.Create(state, (object)obj));
         }
