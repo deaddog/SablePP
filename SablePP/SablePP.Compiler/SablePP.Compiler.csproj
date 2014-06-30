@@ -73,6 +73,7 @@
     <Compile Include="Generate\CompilerExecuterBuilder.cs" />
     <Compile Include="Generate\LexerBuilder.cs" />
     <Compile Include="Generate\Parsing\ParserBuilder.cs" />
+    <Compile Include="Generate\Parsing\ReductionBuilder.cs" />
     <Compile Include="Generate\Parsing\SimpleReductionBuilder.cs" />
     <Compile Include="Generate\Parsing\TokenIndexBuilder.cs" />
     <Compile Include="Generate\Parsing\TranslationReductionBuilder.cs" />

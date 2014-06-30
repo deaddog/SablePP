@@ -3,7 +3,7 @@ using SablePP.Tools.Generate;
 
 namespace SablePP.Compiler.Generate.Parsing
 {
-    public class TranslationReductionBuilder : ReturnAnalysisAdapter<PatchElement>
+    public class TranslationReductionBuilder : ReductionBuilder
     {
     }
 }
