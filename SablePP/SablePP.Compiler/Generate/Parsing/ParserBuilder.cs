@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace SablePP.Compiler.Generate
+namespace SablePP.Compiler.Generate.Parsing
 {
     public class ParserBuilder : GenerateVisitor
     {
