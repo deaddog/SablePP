@@ -1,4 +1,5 @@
-﻿using SablePP.Tools.Nodes;
+﻿using SablePP.Tools.Lexing;
+using SablePP.Tools.Nodes;
 using System;
 using System.Collections.Generic;
 
@@ -31,9 +32,12 @@ namespace SablePP.Tools.Parsing
 
         #endregion
 
-        public Parser()
+        private ILexer lexer;
+
+        public Parser(ILexer lexer)
         {
             this.stack = new Stack<Tuple<int, object>>();
+            this.lexer = lexer;
         }
     }
 }
