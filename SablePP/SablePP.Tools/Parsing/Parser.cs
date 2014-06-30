@@ -34,10 +34,26 @@ namespace SablePP.Tools.Parsing
 
         private ILexer lexer;
 
-        public Parser(ILexer lexer)
+        private int last_shift;
+        private int last_pos;
+        private int last_line;
+        private Token last_token;
+
+        private int[] action = new int[2];
+        private int[][][] actionTable;
+        private int[][][] gotoTable;
+        private string[] errorMessages;
+        private int[] errors;
+
+        public Parser(ILexer lexer, int[][][] actionTable, int[][][] gotoTable, string[] errorMessages, int[] errors)
         {
             this.stack = new Stack<Tuple<int, object>>();
             this.lexer = lexer;
+
+            this.actionTable = actionTable;
+            this.gotoTable = gotoTable;
+            this.errorMessages = errorMessages;
+            this.errors = errors;
         }
     }
 }
