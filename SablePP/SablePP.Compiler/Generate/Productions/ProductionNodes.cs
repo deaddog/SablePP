@@ -12,6 +12,65 @@ namespace SablePP.Compiler.Generate.Productions
 {
     public class ProductionNodes : ProductionVisitor
     {
+        #region Production Elements Analysis
+
+        private ElementTypes getType(PElement element)
+        {
+            if (element is ASimpleElement)
+                return ElementTypes.Simple;
+            if (element is AQuestionElement)
+                return ElementTypes.Question;
+            if (element is APlusElement)
+                return ElementTypes.Plus;
+            if (element is AStarElement)
+                return ElementTypes.Star;
+
+            throw new ArgumentException();
+        }
+
+        private Dictionary<string, ElementTypes> getSharedElements(AProduction node)
+        {
+            var alternatives = (node.Productionrule as AProductionrule).Alternatives;
+
+            var e = getDictionary(alternatives[0] as AAlternative);
+            for (int i = 1; i < alternatives.Count; i++)
+            {
+                foreach (var r in getUndefined(e.ToArray(), alternatives[i] as AAlternative))
+                    e.Remove(r);
+            }
+
+            return e;
+        }
+
+        private Dictionary<string, ElementTypes> getDictionary(AAlternative node)
+        {
+            Dictionary<string, ElementTypes> dict = new Dictionary<string, ElementTypes>();
+
+            foreach (var element in (node.Elements as AElements).Element)
+            {
+                var name = GetPropertyName(element);
+                var type = getType(element);
+
+                dict.Add(name, type);
+            }
+
+            return dict;
+        }
+        private IEnumerable<string> getUndefined(KeyValuePair<string, ElementTypes>[] existing, AAlternative node)
+        {
+            var dict = getDictionary(node);
+
+            foreach (var v in existing)
+            {
+                if (!dict.ContainsKey(v.Key))
+                    yield return v.Key;
+                else if (dict[v.Key] != v.Value)
+                    yield return v.Key;
+            }
+        }
+
+        #endregion
+
         private FileElement fileElement;
         private NameSpaceElement nameElement;
         private ClassElement classElement;
@@ -60,7 +119,7 @@ namespace SablePP.Compiler.Generate.Productions
         public override void CaseAAlternative(AAlternative node)
         {
             string name = "A" + productionName;
-            if(node.HasAlternativename)
+            if (node.HasAlternativename)
                 name = "A" + ToCamelCase((node.Alternativename as AAlternativename).Name.Text) + productionName;
 
             nameElement.Add(classElement = new ClassElement("public partial class {0} : P{1}", name, productionName));
