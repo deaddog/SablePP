@@ -1,4 +1,4 @@
-﻿namespace SablePP.Compiler.Generate.Productions
+﻿namespace SablePP.Compiler.Nodes
 {
     public enum ElementTypes
     {
