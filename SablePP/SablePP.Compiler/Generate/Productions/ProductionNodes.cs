@@ -14,20 +14,6 @@ namespace SablePP.Compiler.Generate.Productions
     {
         #region Production Elements Analysis
 
-        private ElementTypes getType(PElement element)
-        {
-            if (element is ASimpleElement)
-                return ElementTypes.Simple;
-            if (element is AQuestionElement)
-                return ElementTypes.Question;
-            if (element is APlusElement)
-                return ElementTypes.Plus;
-            if (element is AStarElement)
-                return ElementTypes.Star;
-
-            throw new ArgumentException();
-        }
-
         private Dictionary<string, ElementTypes> getSharedElements(AProduction node)
         {
             var alternatives = (node.Productionrule as AProductionrule).Alternatives;
@@ -49,7 +35,7 @@ namespace SablePP.Compiler.Generate.Productions
             foreach (var element in (node.Elements as AElements).Element)
             {
                 var name = GetPropertyName(element);
-                var type = getType(element);
+                var type = element.GetElementType();
 
                 dict.Add(name, type);
             }
