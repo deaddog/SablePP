@@ -1,6 +1,4 @@
-﻿using System;
-
-using SablePP.Tools.Generate.CSharp;
+﻿using SablePP.Tools.Generate.CSharp;
 using SablePP.Compiler.Nodes;
 using System.Collections.Generic;
 

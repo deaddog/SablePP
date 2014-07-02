@@ -1,12 +1,10 @@
-﻿using System;
-
-using SablePP.Tools.Generate.CSharp;
+﻿using SablePP.Tools.Generate.CSharp;
 using SablePP.Compiler.Nodes;
 using System.Collections.Generic;
 
 namespace SablePP.Compiler.Generate.Productions
 {
-    public class PropertiesBuilder : ProductionVisitor
+    public class PropertiesBuilder
     {
         private ClassElement classElement;
 
@@ -38,49 +36,51 @@ namespace SablePP.Compiler.Generate.Productions
 
         private void emitElement(ProductionElement node)
         {
-
+            switch (node.ElementType)
+            {
+                case ElementTypes.Simple:
+                    emitSimpleElement(node);
+                    break;
+                case ElementTypes.Question:
+                    emitQuestionElement(node);
+                    break;
+                case ElementTypes.Plus:
+                case ElementTypes.Star:
+                    GetPropertyElement property;
+                    classElement.Add(property = new GetPropertyElement(AccessModifiers.@public, node.PropertyName, "NodeList<" + node.ProductionOrTokenClass + ">"));
+                    EmitGet(node, property);
+                    break;
+            }
         }
 
-        public override void CaseASimpleElement(ASimpleElement node)
+        private void emitSimpleElement(ProductionElement node)
         {
-            string field = GetFieldName(node);
-
-            GetSetPropertyElement property = CreateProperty(node);
+            GetSetPropertyElement property;
+            classElement.Add(property = new GetSetPropertyElement(AccessModifiers.@public, node.PropertyName, node.ProductionOrTokenClass));
             EmitGet(node, property);
 
             property.Set.EmitLine("if (value == null)");
 
             property.Set.IncreaseIndentation();
-            property.Set.EmitLine("throw new ArgumentException(\"{0} in {1} cannot be null.\", \"value\");", GetPropertyName(node), classElement.Name);
+            property.Set.EmitLine("throw new ArgumentException(\"{0} in {1} cannot be null.\", \"value\");", node.PropertyName, classElement.Name);
             property.Set.DecreaseIndentation();
 
             property.Set.EmitLine("SetParent(value, this);");
 
             property.Set.EmitNewLine();
 
-            property.Set.Emit("{0} = value;", field);
+            property.Set.Emit("{0} = value;", node.FieldName);
         }
-        public override void CaseAStarElement(AStarElement node)
+        private void emitQuestionElement(ProductionElement node)
         {
-            GetPropertyElement property = CreateProperty(node);
-            EmitGet(node, property);
-        }
-        public override void CaseAPlusElement(APlusElement node)
-        {
-            GetPropertyElement property = CreateProperty(node);
-            EmitGet(node, property);
-        }
-        public override void CaseAQuestionElement(AQuestionElement node)
-        {
-            string field = GetFieldName(node);
-
-            GetSetPropertyElement property = CreateProperty(node);
+            GetSetPropertyElement property;
+            classElement.Add(property = new GetSetPropertyElement(AccessModifiers.@public, node.PropertyName, node.ProductionOrTokenClass));
             EmitGet(node, property);
 
-            property.Set.EmitLine("if ({0} != null)", field);
+            property.Set.EmitLine("if ({0} != null)", node.FieldName);
 
             property.Set.IncreaseIndentation();
-            property.Set.EmitLine("SetParent({0}, null);", field);
+            property.Set.EmitLine("SetParent({0}, null);", node.FieldName);
             property.Set.DecreaseIndentation();
 
             property.Set.EmitLine("if (value != null)");
@@ -91,57 +91,16 @@ namespace SablePP.Compiler.Generate.Productions
 
             property.Set.EmitNewLine();
 
-            property.Set.Emit("{0} = value;", field);
+            property.Set.Emit("{0} = value;", node.FieldName);
 
             GetPropertyElement hasProperty;
-            classElement.Add(hasProperty = new GetPropertyElement(AccessModifiers.@public, "Has" + GetPropertyName(node), "bool"));
-            hasProperty.Get.Emit("return {0} != null;", GetFieldName(node));
+            classElement.Add(hasProperty = new GetPropertyElement(AccessModifiers.@public, "Has" + node.PropertyName, "bool"));
+            hasProperty.Get.Emit("return {0} != null;", node.FieldName);
         }
 
-        private GetSetPropertyElement CreateProperty(ASimpleElement node)
+        private void EmitGet(ProductionElement node, IGetProperty property)
         {
-            TIdentifier typeId = node.PElementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = GetPropertyName(node);
-
-            GetSetPropertyElement property;
-            classElement.Add(property = new GetSetPropertyElement(AccessModifiers.@public, name, type));
-            return property;
-        }
-        private GetSetPropertyElement CreateProperty(AQuestionElement node)
-        {
-            TIdentifier typeId = node.PElementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = GetPropertyName(node);
-
-            GetSetPropertyElement property;
-            classElement.Add(property = new GetSetPropertyElement(AccessModifiers.@public, name, type));
-            return property;
-        }
-        private GetPropertyElement CreateProperty(APlusElement node)
-        {
-            TIdentifier typeId = node.PElementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = GetPropertyName(node);
-
-            GetPropertyElement property;
-            classElement.Add(property = new GetPropertyElement(AccessModifiers.@public, name, "NodeList<" + type + ">"));
-            return property;
-        }
-        private GetPropertyElement CreateProperty(AStarElement node)
-        {
-            TIdentifier typeId = node.PElementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = GetPropertyName(node);
-
-            GetPropertyElement property;
-            classElement.Add(property = new GetPropertyElement(AccessModifiers.@public, name, "NodeList<" + type + ">"));
-            return property;
-        }
-
-        private void EmitGet(PElement node, IGetProperty property)
-        {
-            property.Get.Emit("return {0};", GetFieldName(node));
+            property.Get.Emit("return {0};", node.FieldName);
         }
     }
 }

@@ -54,7 +54,10 @@ namespace SablePP.Compiler.Generate.Productions
             string name = "P" + productionName;
 
             nameElement.Add(classElement = new ClassElement("public abstract partial class {0} : Production<{0}>", name));
+
             FieldBuilder.Emit(classElement, node);
+            PropertiesBuilder.Emit(classElement, node);
+
             base.CaseAProduction(node);
         }
 
@@ -69,8 +72,7 @@ namespace SablePP.Compiler.Generate.Productions
             FieldBuilder.Emit(classElement, node);
             new ConstructorBuilder(classElement).Visit(node);
             classElement.EmitNewline();
-            new PropertiesBuilder(classElement).Visit(node);
-            classElement.EmitNewline();
+            PropertiesBuilder.Emit(classElement, node);
             new ReplaceMethodBuilder(classElement).Visit(node);
             new GetChildrenMethodBuilder(classElement).Visit(node);
             classElement.EmitNewline();
