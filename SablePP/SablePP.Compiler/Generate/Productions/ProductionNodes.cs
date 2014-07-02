@@ -14,44 +14,49 @@ namespace SablePP.Compiler.Generate.Productions
     {
         #region Production Elements Analysis
 
-        private Dictionary<string, ElementTypes> getSharedElements(AProduction node)
+        private IEnumerable<ProductionElement> getSharedElements(AProduction node)
         {
             var alternatives = (node.Productionrule as AProductionrule).Alternatives;
 
-            var e = getDictionary(alternatives[0] as AAlternative);
+            var shared = getElements(alternatives[0] as AAlternative).ToList();
+
             for (int i = 1; i < alternatives.Count; i++)
             {
-                foreach (var r in getUndefined(e.ToArray(), alternatives[i] as AAlternative))
-                    e.Remove(r);
+                var elements = getElements(alternatives[i] as AAlternative);
+
+                for (int s = 0; s < shared.Count; s++)
+                {
+                    var t = elements.FirstOrDefault(x => x.PropertyName == shared[s].PropertyName);
+                    if (t == null || t.ElementType != shared[s].ElementType)
+                        shared.RemoveAt(s--);
+                }
             }
 
-            return e;
+            foreach (var s in shared)
+                yield return s;
         }
 
-        private Dictionary<string, ElementTypes> getDictionary(AAlternative node)
+        private IEnumerable<ProductionElement> getElements(AAlternative node)
         {
-            Dictionary<string, ElementTypes> dict = new Dictionary<string, ElementTypes>();
+            var eP = (node.Elements as AElements).Element;
 
-            foreach (var element in (node.Elements as AElements).Element)
-            {
-                var name = GetPropertyName(element);
-                var type = element.GetElementType();
+            PElement[] elements = new PElement[eP.Count];
+            eP.CopyTo(elements, 0);
 
-                dict.Add(name, type);
-            }
-
-            return dict;
+            for (int i = 0; i < elements.Length; i++)
+                yield return new ProductionElement(elements[i]);
         }
-        private IEnumerable<string> getUndefined(KeyValuePair<string, ElementTypes>[] existing, AAlternative node)
+        private IEnumerable<ProductionElement> getUndefined(IEnumerable<ProductionElement> existing, AAlternative node)
         {
-            var dict = getDictionary(node);
+            var elements = getElements(node);
 
             foreach (var v in existing)
             {
-                if (!dict.ContainsKey(v.Key))
-                    yield return v.Key;
-                else if (dict[v.Key] != v.Value)
-                    yield return v.Key;
+                var e = elements.FirstOrDefault(x => x.PropertyName == v.PropertyName);
+                if (e == null)
+                    yield return v;
+                else if (e.ElementType != v.ElementType)
+                    yield return v;
             }
         }
 
