@@ -57,11 +57,11 @@ namespace SablePP.Compiler.Generate.Productions
             {
                 var alternatives = (node.Productionrule as AProductionrule).Alternatives;
 
-                var shared = getElements(alternatives[0] as AAlternative).ToList();
+                var shared = GetAllElements(alternatives[0] as AAlternative).ToList();
 
                 for (int i = 1; i < alternatives.Count; i++)
                 {
-                    var elements = getElements(alternatives[i] as AAlternative);
+                    var elements = GetAllElements(alternatives[i] as AAlternative);
 
                     for (int s = 0; s < shared.Count; s++)
                     {
@@ -75,26 +75,18 @@ namespace SablePP.Compiler.Generate.Productions
             }
             return temp;
         }
+        public static ProductionElement[] GetSharedElements(AAlternative node)
+        {
+            return GetSharedElements(getProduction(node));
+        }
         public static ProductionElement[] GetUniqueElements(AAlternative node)
         {
             var shared = GetSharedElements(getProduction(node));
-            var mine = getElements(node);
+            var mine = GetAllElements(node);
 
             return mine.Where(m => !shared.Any(x => x.propertyName == m.propertyName)).ToArray();
         }
-
-        private static AProduction getProduction(SablePP.Tools.Nodes.Node node)
-        {
-            if(node == null)
-                return null;
-            if (node is AProduction)
-                return node as AProduction;
-
-            var parent = node.GetParent();
-            return getProduction(parent);
-        }
-
-        private static ProductionElement[] getElements(AAlternative node)
+        public static ProductionElement[] GetAllElements(AAlternative node)
         {
             ProductionElement[] temp;
             if (!elementsDictionary.TryGetValue(node, out temp))
@@ -108,6 +100,17 @@ namespace SablePP.Compiler.Generate.Productions
                 elementsDictionary.Add(node, temp);
             }
             return temp;
+        }
+
+        private static AProduction getProduction(SablePP.Tools.Nodes.Node node)
+        {
+            if(node == null)
+                return null;
+            if (node is AProduction)
+                return node as AProduction;
+
+            var parent = node.GetParent();
+            return getProduction(parent);
         }
     }
 }
