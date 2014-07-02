@@ -73,11 +73,10 @@ namespace SablePP.Compiler.Generate.Productions
             FieldBuilder.Emit(classElement, node);
             ConstructorBuilder.Emit(classElement, node);
             PropertiesBuilder.Emit(classElement, node);
-            new ReplaceMethodBuilder(classElement).Visit(node);
-            new GetChildrenMethodBuilder(classElement).Visit(node);
-            classElement.EmitNewline();
-            new CloneMethodBuilder(classElement, "P" + productionName).Visit(node);
-            new ToStringMethodBuilder(classElement).Visit(node);
+            ReplaceMethodBuilder.Emit(classElement, node);
+            GetChildrenMethodBuilder.Emit(classElement, node);
+            CloneMethodBuilder.Emit(classElement, node);
+            ToStringMethodBuilder.Emit(classElement, node);
         }
     }
 }
