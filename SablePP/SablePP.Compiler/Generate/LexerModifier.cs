@@ -38,11 +38,19 @@ namespace SablePP.Compiler.Generate
         private string ReplaceIn(string parserCode)
         {
             string code = parserCode;
-
+            
             string package = astRoot.Root.PackageName;
 
-            code = code.Replace("using " + package + ".node;", "using " + ToolsNamespace.Nodes + ";\nusing " + package + ".Nodes;\nusing " + ToolsNamespace.Error + ";");
-            code = code.Replace("namespace " + package + ".lexer", "namespace " + package + ".Lexing");
+            if (astRoot.Root.HasPackage)
+            {
+                code = code.Replace("using " + package + ".node;", "using " + ToolsNamespace.Nodes + ";\nusing " + package + ".Nodes;\nusing " + ToolsNamespace.Error + ";");
+                code = code.Replace("namespace " + package + ".lexer", "namespace " + package + ".Lexing");
+            }
+            else
+            {
+                code = code.Replace("using .node;", "using " + ToolsNamespace.Nodes + ";\nusing " + package + ".Nodes;\nusing " + ToolsNamespace.Error + ";");
+                code = code.Replace("namespace .lexer", "namespace " + package + ".Lexing");
+            }
 
             code = Regex.Replace(code, ".Pos[^a-z]", m => { return ".Position" + m.Value.Substring(4); });
             code = lexerThrow.Replace(code, "throw new LexerException(start_line + 1, start_pos + 1, \"Unknown token: \" + text);");

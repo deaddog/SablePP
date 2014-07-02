@@ -57,7 +57,7 @@ namespace SablePP.Compiler
             {
                 AGrammar grammar = root.Root as AGrammar;
                 if (!grammar.HasPackage)
-                    errorManager.Register("A SablePP grammar must contain a Package/Namespace definition.");
+                    errorManager.Register(ErrorType.Message, "When a SablePP does not have a Namespace definition, code is generated in the {0} namespace.", PGrammar.DefaultName);
 
                 if (!grammar.HasTokens)
                 {
