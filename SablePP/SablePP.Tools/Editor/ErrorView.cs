@@ -87,8 +87,8 @@ namespace SablePP.Tools.Editor
                 new string[] {
                     "",
                     error.ErrorMessage,
-                    error.Start.Line.ToString(),
-                    error.Start.Character.ToString()
+                    error.Start.Line < 1 ? string.Empty : error.Start.Line.ToString(),
+                    error.Start.Character < 1 ? string.Empty : error.Start.Character.ToString()
                 },
                 getImageKey(error.ErrorType)
             );
