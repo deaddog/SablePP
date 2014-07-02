@@ -15,9 +15,13 @@ namespace SablePP.Compiler.Generate.Productions
             this.element = element;
         }
 
-        public PElement Element
+        public string ProductionOrTokenClass
         {
-            get { return element; }
+            get
+            {
+                TIdentifier typeId = element.PElementid.TIdentifier;
+                return (typeId.IsToken ? "T" + SablePP.Compiler.CommonMethods.ToCamelCase(typeId.AsToken.Name) : "P" + SablePP.Compiler.CommonMethods.ToCamelCase(typeId.AsProduction.Name));
+            }
         }
 
         public string FieldName
