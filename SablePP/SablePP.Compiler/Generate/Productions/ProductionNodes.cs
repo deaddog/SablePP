@@ -54,6 +54,7 @@ namespace SablePP.Compiler.Generate.Productions
             string name = "P" + productionName;
 
             nameElement.Add(classElement = new ClassElement("public abstract partial class {0} : Production<{0}>", name));
+            FieldBuilder.Emit(classElement, node);
             base.CaseAProduction(node);
         }
 
@@ -65,8 +66,7 @@ namespace SablePP.Compiler.Generate.Productions
 
             nameElement.Add(classElement = new ClassElement("public partial class {0} : P{1}", name, productionName));
 
-            new FieldBuilder(classElement).Visit(node);
-            classElement.EmitNewline();
+            FieldBuilder.Emit(classElement, node);
             new ConstructorBuilder(classElement).Visit(node);
             classElement.EmitNewline();
             new PropertiesBuilder(classElement).Visit(node);

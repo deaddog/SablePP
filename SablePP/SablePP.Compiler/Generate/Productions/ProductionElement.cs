@@ -50,7 +50,7 @@ namespace SablePP.Compiler.Generate.Productions
         private static Dictionary<AProduction, ProductionElement[]> sharedDictionary = new Dictionary<AProduction, ProductionElement[]>();
         private static Dictionary<AAlternative, ProductionElement[]> elementsDictionary = new Dictionary<AAlternative, ProductionElement[]>();
 
-        public static IEnumerable<ProductionElement> GetSharedElements(AProduction node)
+        public static ProductionElement[] GetSharedElements(AProduction node)
         {
             ProductionElement[] temp;
             if (!sharedDictionary.TryGetValue(node, out temp))
