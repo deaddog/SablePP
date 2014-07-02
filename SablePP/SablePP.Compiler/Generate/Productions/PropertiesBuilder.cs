@@ -2,6 +2,7 @@
 
 using SablePP.Tools.Generate.CSharp;
 using SablePP.Compiler.Nodes;
+using System.Collections.Generic;
 
 namespace SablePP.Compiler.Generate.Productions
 {
@@ -9,9 +10,35 @@ namespace SablePP.Compiler.Generate.Productions
     {
         private ClassElement classElement;
 
-        public PropertiesBuilder(ClassElement classElement)
+        public static void Emit(ClassElement classElement, AProduction node)
         {
-            this.classElement = classElement;
+            var fields = ProductionElement.GetSharedElements(node);
+            if (fields.Length > 0)
+            {
+                emit(classElement, fields);
+                classElement.EmitNewline();
+            }
+        }
+        public static void Emit(ClassElement classElement, AAlternative node)
+        {
+            var fields = ProductionElement.GetUniqueElements(node);
+            if (fields.Length > 0)
+            {
+                emit(classElement, fields);
+                classElement.EmitNewline();
+            }
+        }
+
+        private static void emit(ClassElement classElement, IEnumerable<ProductionElement> elements)
+        {
+            PropertiesBuilder builder = new PropertiesBuilder() { classElement = classElement };
+            foreach (var e in elements)
+                builder.emitElement(e);
+        }
+
+        private void emitElement(ProductionElement node)
+        {
+
         }
 
         public override void CaseASimpleElement(ASimpleElement node)
