@@ -80,7 +80,6 @@
     <Compile Include="Declarations\DProduction.cs" />
     <Compile Include="Declarations\DState.cs" />
     <Compile Include="Declarations\DToken.cs" />
-    <Compile Include="Declarations\ProductionElement.cs" />
     <Compile Include="Generate\Productions\ConstructorBuilder.cs" />
     <Compile Include="Nodes\ElementTypes.cs" />
     <Compile Include="Generate\Productions\GetChildrenMethodBuilder.cs" />
