@@ -2,6 +2,7 @@
 
 using SablePP.Tools.Generate.CSharp;
 using SablePP.Compiler.Nodes;
+using System.Collections.Generic;
 
 namespace SablePP.Compiler.Generate.Productions
 {
@@ -9,42 +10,26 @@ namespace SablePP.Compiler.Generate.Productions
     {
         private ClassElement classElement;
 
-        public FieldBuilder(ClassElement classElement)
+        public static void Emit(ClassElement classElement, IEnumerable<ProductionElement> elements)
         {
-            this.classElement = classElement;
+            FieldBuilder builder = new FieldBuilder() { classElement = classElement };
+            foreach (var e in elements)
+                builder.emitElement(e);
         }
 
-        public override void CaseASimpleElement(ASimpleElement node)
+        private void emitElement(ProductionElement node)
         {
-            TIdentifier typeId = node.Elementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = GetFieldName(node);
-
-            classElement.EmitField("private " + type + " " + name);
-        }
-        public override void CaseAStarElement(AStarElement node)
-        {
-            TIdentifier typeId = node.Elementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = GetFieldName(node);
-
-            classElement.EmitField("private NodeList<" + type + "> " + name);
-        }
-        public override void CaseAPlusElement(APlusElement node)
-        {
-            TIdentifier typeId = node.Elementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = GetFieldName(node);
-
-            classElement.EmitField("private NodeList<" + type + "> " + name);
-        }
-        public override void CaseAQuestionElement(AQuestionElement node)
-        {
-            TIdentifier typeId = node.Elementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = GetFieldName(node);
-
-            classElement.EmitField("private " + type + " " + name);
+            switch (node.ElementType)
+            {
+                case ElementTypes.Simple:
+                case ElementTypes.Question:
+                    classElement.EmitField("private " + node.ProductionOrTokenClass + " " + node.FieldName);
+                    break;
+                case ElementTypes.Plus:
+                case ElementTypes.Star:
+                    classElement.EmitField("private NodeList<" + node.ProductionOrTokenClass + "> " + node.FieldName);
+                    break;
+            }
         }
     }
 }
