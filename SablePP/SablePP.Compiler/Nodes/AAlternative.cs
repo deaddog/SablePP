@@ -8,9 +8,7 @@ namespace SablePP.Compiler.Nodes
         {
             get
             {
-                PProductionrule rule = this.GetParent() as PProductionrule;
-                AProduction production = rule.GetParent() as AProduction;
-
+                var production = GetFirstParent<PProduction>();
                 return "P" + production.Identifier.Text.ToCamelCase();
             }
         }
@@ -19,13 +17,12 @@ namespace SablePP.Compiler.Nodes
         {
             get
             {
-                PProductionrule rule = this.GetParent() as PProductionrule;
-                AProduction production = rule.GetParent() as AProduction;
+                var production = GetFirstParent<PProduction>();
 
                 string productionName = production.Identifier.Text.ToCamelCase();
 
                 if (this.HasAlternativename)
-                    return "A" + (Alternativename as AAlternativename).Name.Text.ToCamelCase() + productionName;
+                    return "A" + Alternativename.Name.Text.ToCamelCase() + productionName;
                 else
                     return "A" + productionName;
             }

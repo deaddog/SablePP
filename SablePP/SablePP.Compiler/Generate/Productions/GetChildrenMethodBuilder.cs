@@ -1,70 +1,56 @@
-using System;
-
 using SablePP.Tools.Generate.CSharp;
 using SablePP.Compiler.Nodes;
 
 namespace SablePP.Compiler.Generate.Productions
 {
-    public class GetChildrenMethodBuilder : ProductionVisitor
+    public class GetChildrenMethodBuilder
     {
-        private ClassElement classElement;
         private MethodElement method;
 
-        public GetChildrenMethodBuilder(ClassElement classElement)
+        public static void Emit(ClassElement classElement, AAlternative node)
         {
-            this.classElement = classElement;
+            var elements = ProductionElement.GetAllElements(node);
+
+            GetChildrenMethodBuilder builder = new GetChildrenMethodBuilder();
+            classElement.Add(builder.method = new MethodElement("protected override IEnumerable<Node> GetChildren()"));
+
+            foreach (var e in elements)
+                builder.emitElement(e);
+
+            classElement.EmitNewline();
         }
 
-        public override void InAAlternative(AAlternative node)
+        private void emitElement(ProductionElement node)
         {
-            classElement.Add(method = new MethodElement("protected override IEnumerable<Node> GetChildren()"));
+            switch (node.ElementType)
+            {
+                case ElementTypes.Simple:
+                    method.Body.EmitLine("yield return {0};", node.PropertyName);
+                    break;
 
-            base.InAAlternative(node);
-        }
+                case ElementTypes.Question:
+                    method.Body.EmitLine("if (Has{0})", node.PropertyName);
+                    method.Body.IncreaseIndentation();
+                    method.Body.EmitLine("yield return {0};", node.PropertyName);
+                    method.Body.DecreaseIndentation();
+                    break;
 
-        public override void CaseASimpleElement(ASimpleElement node)
-        {
-            method.Body.EmitLine("yield return {0};", GetFieldName(node));
-        }
-        public override void CaseAQuestionElement(AQuestionElement node)
-        {
-            method.Body.EmitLine("if (Has{0})", ToCamelCase(node.LowerName));
-            method.Body.IncreaseIndentation();
-            method.Body.EmitLine("yield return {0};", GetFieldName(node));
-            method.Body.DecreaseIndentation();
-        }
+                case ElementTypes.Plus:
+                case ElementTypes.Star:
+                    method.Body.EmitLine("{");
+                    method.Body.IncreaseIndentation();
 
-        public override void CaseAStarElement(AStarElement node)
-        {
-            TIdentifier typeId = node.Elementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = GetFieldName(node);
+                    method.Body.EmitLine("{0}[] temp = new {0}[{1}.Count];", node.ProductionOrTokenClass, node.PropertyName);
+                    method.Body.EmitLine("{0}.CopyTo(temp, 0);", node.PropertyName);
+                    method.Body.EmitLine("for (int i = 0; i < temp.Length; i++)");
+                    method.Body.IncreaseIndentation();
+                    method.Body.EmitLine("yield return temp[i];");
+                    method.Body.DecreaseIndentation();
 
-            EmitListWalking(type, name, node);
-        }
-        public override void CaseAPlusElement(APlusElement node)
-        {
-            TIdentifier typeId = node.Elementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = GetFieldName(node);
-
-            EmitListWalking(type, name, node);
-        }
-
-        private void EmitListWalking(string type, string name, PElement node)
-        {
-            method.Body.EmitLine("{");
-            method.Body.IncreaseIndentation();
-
-            method.Body.EmitLine("{0}[] temp = new {0}[{1}.Count];", type, name);
-            method.Body.EmitLine("{0}.CopyTo(temp, 0);", name);
-            method.Body.EmitLine("for (int i = 0; i < temp.Length; i++)");
-            method.Body.IncreaseIndentation();
-            method.Body.EmitLine("yield return temp[i];");
-            method.Body.DecreaseIndentation();
-
-            method.Body.DecreaseIndentation();
-            method.Body.EmitLine("}");
+                    method.Body.DecreaseIndentation();
+                    method.Body.EmitLine("}");
+                    break;
+            }
         }
     }
 }

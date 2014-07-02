@@ -1,4 +1,6 @@
-﻿namespace SablePP.Compiler.Nodes
+﻿using System;
+
+namespace SablePP.Compiler.Nodes
 {
     public partial class PElement
     {
@@ -6,22 +8,25 @@
         {
             get
             {
-                PElementname name = PElementname;
-                PElementid id = PElementid;
-                if (name != null && name is AElementname)
-                    return (name as AElementname).Name.Text;
+                if (HasElementname)
+                    return Elementname.Name.Text;
                 else
-                    return id.TIdentifier.Text;
+                    return Elementid.Identifier.Text;
             }
         }
 
-        public PElementid PElementid
+        public ElementTypes GetElementType()
         {
-            get { return ((dynamic)this).Elementid; }
-        }
-        public PElementname PElementname
-        {
-            get { return ((dynamic)this).Elementname; }
+            if (this is ASimpleElement)
+                return ElementTypes.Simple;
+            if (this is AQuestionElement)
+                return ElementTypes.Question;
+            if (this is APlusElement)
+                return ElementTypes.Plus;
+            if (this is AStarElement)
+                return ElementTypes.Star;
+
+            throw new ArgumentException("Unknown element type; " + this.GetType().Name, "element");
         }
     }
 }

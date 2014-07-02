@@ -72,6 +72,7 @@
     <Compile Include="Generate\Analysis\ReturnAnalysisAdapterBuilder.cs" />
     <Compile Include="Generate\CompilerExecuterBuilder.cs" />
     <Compile Include="Generate\LexerBuilder.cs" />
+    <Compile Include="Generate\Productions\ProductionElement.cs" />
     <Compile Include="Generate\Parsing\ParserBuilder.cs" />
     <Compile Include="Generate\Parsing\ReductionBuilder.cs" />
     <Compile Include="Generate\Parsing\SimpleReductionBuilder.cs" />
@@ -85,8 +86,8 @@
     <Compile Include="Declarations\DProduction.cs" />
     <Compile Include="Declarations\DState.cs" />
     <Compile Include="Declarations\DToken.cs" />
-    <Compile Include="Declarations\ProductionElement.cs" />
     <Compile Include="Generate\Productions\ConstructorBuilder.cs" />
+    <Compile Include="Nodes\ElementTypes.cs" />
     <Compile Include="Generate\Productions\GetChildrenMethodBuilder.cs" />
     <Compile Include="Generate\Productions\ReplaceMethodBuilder.cs" />
     <Compile Include="Generate\Productions\ToStringMethodBuilder.cs" />
@@ -100,7 +101,6 @@
     <Compile Include="Nodes\AAlternative.cs" />
     <Compile Include="Nodes\AToken.cs" />
     <Compile Include="Nodes\PElement.cs" />
-    <Compile Include="Nodes\PElementid.cs" />
     <Compile Include="Nodes\PGrammar.cs" />
     <Compile Include="Nodes\TDecChar.cs" />
     <Compile Include="Generate\ParserModifier.cs" />
