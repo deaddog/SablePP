@@ -8,41 +8,25 @@ namespace SablePP.Compiler.Nodes
         {
             get
             {
-                PElementname name = PElementname;
-                PElementid id = PElementid;
-                if (name != null && name is AElementname)
-                    return (name as AElementname).Name.Text;
+                if (HasElementname)
+                    return Elementname.Name.Text;
                 else
-                    return id.TIdentifier.Text;
+                    return Elementid.Identifier.Text;
             }
-        }
-
-        public PElementid PElementid
-        {
-            get { return ((dynamic)this).Elementid; }
-        }
-        public PElementname PElementname
-        {
-            get { return ((dynamic)this).Elementname; }
         }
 
         public ElementTypes GetElementType()
         {
-            return getType(this);
-        }
-
-        private static ElementTypes getType(PElement element)
-        {
-            if (element is ASimpleElement)
+            if (this is ASimpleElement)
                 return ElementTypes.Simple;
-            if (element is AQuestionElement)
+            if (this is AQuestionElement)
                 return ElementTypes.Question;
-            if (element is APlusElement)
+            if (this is APlusElement)
                 return ElementTypes.Plus;
-            if (element is AStarElement)
+            if (this is AStarElement)
                 return ElementTypes.Star;
 
-            throw new ArgumentException("Unknown element type; " + element.GetType().Name, "element");
+            throw new ArgumentException("Unknown element type; " + this.GetType().Name, "element");
         }
     }
 }

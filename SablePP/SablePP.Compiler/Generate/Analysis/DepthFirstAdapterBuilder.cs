@@ -142,18 +142,18 @@ namespace SablePP.Compiler.Generate.Analysis
 
         public override void CaseASimpleElement(ASimpleElement node)
         {
-            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.TIdentifier.IsProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
+            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.Identifier.IsProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
         }
         public override void CaseAQuestionElement(AQuestionElement node)
         {
             method.Body.EmitLine("if (node.Has{0})", ToCamelCase(node.LowerName));
             method.Body.IncreaseIndentation();
-            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.TIdentifier.IsProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
+            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.Identifier.IsProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
             method.Body.DecreaseIndentation();
         }
         public override void CaseAPlusElement(APlusElement node)
         {
-            TIdentifier typeId = node.Elementid.TIdentifier;
+            TIdentifier typeId = node.Elementid.Identifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = ToCamelCase(node.LowerName);
 
@@ -161,7 +161,7 @@ namespace SablePP.Compiler.Generate.Analysis
         }
         public override void CaseAStarElement(AStarElement node)
         {
-            TIdentifier typeId = node.Elementid.TIdentifier;
+            TIdentifier typeId = node.Elementid.Identifier;
             string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
             string name = ToCamelCase(node.LowerName);
 
@@ -182,7 +182,7 @@ namespace SablePP.Compiler.Generate.Analysis
                 method.Body.EmitLine("for (int i = temp.Length - 1; i >= 0; i--)");
             method.Body.IncreaseIndentation();
 
-            method.Body.EmitLine("Visit({0}temp[i]);", node.PElementid.TIdentifier.IsProduction ? "(dynamic)" : "");
+            method.Body.EmitLine("Visit({0}temp[i]);", node.Elementid.Identifier.IsProduction ? "(dynamic)" : "");
             method.Body.DecreaseIndentation();
 
             method.Body.DecreaseIndentation();

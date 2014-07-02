@@ -13,7 +13,7 @@ namespace SablePP.Compiler.Generate.Productions
 
         private ProductionElement(PElement element)
         {
-            TIdentifier typeId = element.PElementid.TIdentifier;
+            TIdentifier typeId = element.Elementid.Identifier;
             this.prodOrtoken = (typeId.IsToken ?
                 "T" + SablePP.Compiler.CommonMethods.ToCamelCase(typeId.AsToken.Name) :
                 "P" + SablePP.Compiler.CommonMethods.ToCamelCase(typeId.AsProduction.Name));

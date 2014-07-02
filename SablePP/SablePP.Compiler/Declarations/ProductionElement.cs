@@ -17,9 +17,9 @@ namespace SablePP.Compiler.Declarations
             if (node == null)
                 throw new ArgumentNullException("node");
 
-            AElementname aName = node.PElementname as AElementname;
+            AElementname aName = node.Elementname as AElementname;
             this.name = aName == null ? null : aName.Name.Text;
-            this.declaration = node.PElementid.TIdentifier.Declaration;
+            this.declaration = node.Elementid.Identifier.Declaration;
 
             if (node is AStarElement)
                 star = true;
