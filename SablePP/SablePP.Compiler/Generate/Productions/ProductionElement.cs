@@ -77,11 +77,11 @@ namespace SablePP.Compiler.Generate.Productions
         }
         public static ProductionElement[] GetSharedElements(AAlternative node)
         {
-            return GetSharedElements(getProduction(node));
+            return GetSharedElements(node.GetFirstParent<AProduction>());
         }
         public static ProductionElement[] GetUniqueElements(AAlternative node)
         {
-            var shared = GetSharedElements(getProduction(node));
+            var shared = GetSharedElements(node.GetFirstParent<AProduction>());
             var mine = GetAllElements(node);
 
             return mine.Where(m => !shared.Any(x => x.propertyName == m.propertyName)).ToArray();
@@ -100,17 +100,6 @@ namespace SablePP.Compiler.Generate.Productions
                 elementsDictionary.Add(node, temp);
             }
             return temp;
-        }
-
-        private static AProduction getProduction(SablePP.Tools.Nodes.Node node)
-        {
-            if(node == null)
-                return null;
-            if (node is AProduction)
-                return node as AProduction;
-
-            var parent = node.GetParent();
-            return getProduction(parent);
         }
     }
 }
