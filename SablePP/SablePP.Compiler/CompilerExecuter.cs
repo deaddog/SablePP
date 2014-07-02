@@ -53,39 +53,19 @@ namespace SablePP.Compiler
 
         private void ValidatePreSable(Start<PGrammar> root, ErrorManager errorManager)
         {
-            if (root.Root is AGrammar)
+            if (!root.Root.HasPackage)
+                errorManager.Register(ErrorType.Message, "When a SablePP does not have a Namespace definition, code is generated in the {0} namespace.", PGrammar.DefaultName);
+
+            if (!root.Root.HasTokens)
+                errorManager.Register("A SablePP grammar must contain a Tokens definition.");
+
+            if (!root.Root.HasProductions)
+                errorManager.Register("A SablePP grammar must contain a Productions definition.");
+            else
             {
-                AGrammar grammar = root.Root as AGrammar;
-                if (!grammar.HasPackage)
-                    errorManager.Register(ErrorType.Message, "When a SablePP does not have a Namespace definition, code is generated in the {0} namespace.", PGrammar.DefaultName);
-
-                if (!grammar.HasTokens)
-                {
-                    string message = "A SablePP grammar must contain a Tokens definition.";
-                    if (grammar.HasIgnoredtokens)
-                        errorManager.Register((grammar.Ignoredtokens as AIgnoredtokens).Ignoredtoken, message);
-                    else if (grammar.HasProductions)
-                        errorManager.Register((grammar.Productions as AProductions).Productionstoken, message);
-                    else if (grammar.HasAstproductions)
-                        errorManager.Register((grammar.Astproductions as AAstproductions).Asttoken, message);
-                    else
-                        errorManager.Register(message);
-                }
-
-                if (!grammar.HasProductions)
-                {
-                    string message = "A SablePP grammar must contain a Productions definition.";
-                    if (grammar.HasAstproductions)
-                        errorManager.Register((grammar.Astproductions as AAstproductions).Asttoken, message);
-                    else
-                        errorManager.Register(message);
-                }
-                else
-                {
-                    var prod = (grammar.Productions as AProductions).Productions.FirstOrDefault();
-                    if (prod != null && (prod as AProduction).Identifier.Text == "start")
-                        errorManager.Register((prod as AProduction).Identifier, "The root production of a SablePP grammar cannot be 'start'.");
-                }
+                var prod = root.Root.Productions.Productions.FirstOrDefault();
+                if (prod != null && prod.Identifier.Text == "start")
+                    errorManager.Register(prod.Identifier, "The root production of a SablePP grammar cannot be 'start'.");
             }
 
             var linktest = new Validation.SymbolLinking.DeclarationVisitor(errorManager);
