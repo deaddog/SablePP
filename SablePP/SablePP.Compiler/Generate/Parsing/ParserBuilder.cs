@@ -118,7 +118,7 @@ namespace SablePP.Compiler.Generate.Parsing
             indexer.Visit(node.Tokens);
 
             classElement.Add(new MethodElement(
-                "public Parser(NewLanguage.Lexing.Lexer lexer)",
+                "public Parser(SablePP.Tools.Lexing.ILexer lexer)",
                 "base(lexer, actionTable, gotoTable, errorMessages, errors)", true));
 
             classElement.Add(reduceMethod = new MethodElement("protected override void reduce(int index)"));
