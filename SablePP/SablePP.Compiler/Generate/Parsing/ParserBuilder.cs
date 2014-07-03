@@ -2,11 +2,9 @@
 using SablePP.Tools.Generate;
 using SablePP.Tools.Generate.CSharp;
 using SablePP.Tools.Nodes;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace SablePP.Compiler.Generate.Parsing
@@ -133,16 +131,22 @@ namespace SablePP.Compiler.Generate.Parsing
         }
 
         private int reduceCase = 0;
+        private int productionCase = 0;
         private MethodElement reduceMethod;
 
         private SimpleReductionBuilder simple = new SimpleReductionBuilder();
         private TranslationReductionBuilder translation = new TranslationReductionBuilder();
 
+        public override void OutAProduction(AProduction node)
+        {
+            productionCase++;
+        }
+
         public override void CaseAAlternative(AAlternative node)
         {
             ReductionBuilder builder = node.HasTranslation ? (ReductionBuilder)translation : (ReductionBuilder)simple;
 
-            foreach (var e in builder.GetElements(node))
+            foreach (var e in builder.GetElements(node, productionCase))
             {
                 reduceMethod.Body.EmitLine("case {0}:", reduceCase);
                 reduceMethod.Body.IncreaseIndentation();

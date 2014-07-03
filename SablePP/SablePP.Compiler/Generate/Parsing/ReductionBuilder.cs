@@ -1,7 +1,6 @@
 ﻿using SablePP.Compiler.Analysis;
 using SablePP.Compiler.Nodes;
 using SablePP.Tools.Generate;
-using SablePP.Tools.Nodes;
 using System.Collections.Generic;
 
 namespace SablePP.Compiler.Generate.Parsing
@@ -63,6 +62,12 @@ namespace SablePP.Compiler.Generate.Parsing
 
         #endregion
 
+        private int gotoNumber;
+        protected int GoTo
+        {
+            get { return gotoNumber; }
+        }
+
         public ReductionBuilder()
             : base()
         {
@@ -77,8 +82,9 @@ namespace SablePP.Compiler.Generate.Parsing
             reset();
         }
 
-        public PatchElement[] GetElements(AAlternative node)
+        public PatchElement[] GetElements(AAlternative node, int gotoNumber)
         {
+            this.gotoNumber = gotoNumber;
             reset();
             elements.Clear();
             _code = null;

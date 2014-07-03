@@ -25,6 +25,8 @@ namespace SablePP.Compiler.Generate.Parsing
 
             code.DecreaseIndentation();
             code.EmitLine(");");
+
+            code.EmitLine("Push({0}, {1});", GoTo, GetVariable(node));
         }
 
         private void Pop(ProductionElement node)
