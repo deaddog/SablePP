@@ -10,6 +10,8 @@ namespace SablePP.Compiler.Generate.Analysis
 {
     public class AnalysisBuilder : GenerateVisitor
     {
+        private const byte TYPEARGSCOUNT_RETURN = 3;
+
         private FileElement fileElement;
         private NameSpaceElement nameElement;
 
@@ -53,10 +55,8 @@ namespace SablePP.Compiler.Generate.Analysis
             nameElement.EmitRegionStart("Return analysis adapters", false);
             nameElement.EmitNewLine();
 
-            adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 0, node));
-            adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 1, node));
-            adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 2, node));
-            adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 3, node));
+            for (byte i = 0; i <= TYPEARGSCOUNT_RETURN; i++)
+                adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, i, node));
 
             nameElement.EmitNewLine();
             nameElement.EmitRegionEnd(false);
