@@ -31,6 +31,11 @@ namespace SablePP.Compiler.Generate.Parsing
 
             base.CaseATokens(node);
 
+            classElement.EmitNewline();
+
+            classElement.Add(none = new MethodElement("private int getIndex(EOF node)"));
+            none.Body.EmitLine("return {0};", index);
+
             this.classElement.EmitRegionEnd();
         }
 
