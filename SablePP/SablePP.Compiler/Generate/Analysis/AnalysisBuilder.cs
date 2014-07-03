@@ -40,7 +40,7 @@ namespace SablePP.Compiler.Generate.Analysis
 
             List<DepthFirstAdapter> adapters = new List<DepthFirstAdapter>();
 
-            nameElement.EmitRegionStart("Analysis adapters");
+            nameElement.EmitRegionStart("Analysis adapters", false);
             nameElement.EmitNewLine();
 
             adapters.Add(new AnalysisAdapterBuilder(nameElement, node));
@@ -49,10 +49,8 @@ namespace SablePP.Compiler.Generate.Analysis
             nameElement.EmitNewLine();
             adapters.Add(new DepthFirstAdapterBuilder(nameElement, true));
 
-            nameElement.EmitNewLine();
             nameElement.EmitRegionEnd();
-            nameElement.EmitNewLine();
-            nameElement.EmitRegionStart("Return analysis adapters");
+            nameElement.EmitRegionStart("Return analysis adapters", false);
             nameElement.EmitNewLine();
 
             adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 0, node));
@@ -61,7 +59,7 @@ namespace SablePP.Compiler.Generate.Analysis
             adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 3, node));
 
             nameElement.EmitNewLine();
-            nameElement.EmitRegionEnd();
+            nameElement.EmitRegionEnd(false);
 
             VisitInParallel(node, adapters.ToArray());
         }
