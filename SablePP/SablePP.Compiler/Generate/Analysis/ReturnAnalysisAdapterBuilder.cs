@@ -7,6 +7,7 @@ namespace SablePP.Compiler.Generate.Analysis
 {
     public class ReturnAnalysisAdapterBuilder : GenerateVisitor
     {
+        private static readonly string typeParameter = "Result";
         private ClassElement returnAnalysisAdapter;
         private int argumentCount;
 
@@ -17,12 +18,12 @@ namespace SablePP.Compiler.Generate.Analysis
             string baseClass = "";
             for (int i = 1; i <= argumentCount; i++)
                 baseClass += "T" + i + ", ";
-            baseClass += "TResult, " + grammar.RootProduction;
+            baseClass += typeParameter + ", " + grammar.RootProduction;
 
             nameElement.Add(returnAnalysisAdapter = new ClassElement("public class ReturnAnalysisAdapter : ReturnAdapter<{0}>", baseClass));
             for (int i = 1; i <= argumentCount; i++)
                 returnAnalysisAdapter.TypeParameters.Add("T" + i);
-            returnAnalysisAdapter.TypeParameters.Add("TResult");
+            returnAnalysisAdapter.TypeParameters.Add(typeParameter);
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -49,7 +50,7 @@ namespace SablePP.Compiler.Generate.Analysis
 
         public override void CaseAToken(AToken node)
         {
-            EmitCase("T" + node.Identifier.Text.ToCamelCase());
+            EmitCase(node.ClassName);
         }
 
         public override void CaseAAlternative(AAlternative node)
