@@ -28,5 +28,17 @@ namespace SablePP.Compiler.Nodes
 
             throw new ArgumentException("Unknown element type; " + this.GetType().Name, "element");
         }
+
+        public string GeneratedTypeName
+        {
+            get
+            {
+                var id = Elementid.Identifier;
+                if (id.IsToken)
+                    return id.AsToken.GeneratedName;
+                else
+                    return "";
+            }
+        }
     }
 }

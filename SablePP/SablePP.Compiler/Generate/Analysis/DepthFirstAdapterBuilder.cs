@@ -7,6 +7,7 @@ namespace SablePP.Compiler.Generate.Analysis
 {
     public class DepthFirstAdapterBuilder : GenerateVisitor
     {
+        private static readonly string typeParameter = "Value";
         private ClassElement adapterClass;
         private AGrammar grammar;
 
@@ -20,7 +21,7 @@ namespace SablePP.Compiler.Generate.Analysis
             string className = (reversed ? "Reverse" : "") + "DepthFirstAdapter";
 
             namespaceElement.Add(new ClassElement("public class {0} : {0}<object>", className));
-            namespaceElement.Add(adapterClass = new ClassElement("public class {0}<TValue> : AnalysisAdapter<TValue>", className));
+            namespaceElement.Add(adapterClass = new ClassElement("public class {0}<{1}> : AnalysisAdapter<{1}>", className, typeParameter));
         }
 
         public override void CaseAGrammar(AGrammar node)

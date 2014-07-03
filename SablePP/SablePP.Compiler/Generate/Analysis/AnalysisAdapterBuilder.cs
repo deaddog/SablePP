@@ -7,12 +7,13 @@ namespace SablePP.Compiler.Generate.Analysis
 {
     public class AnalysisAdapterBuilder : GenerateVisitor
     {
+        private static readonly string typeParameter = "Value";
         private ClassElement adapterClass;
 
         public AnalysisAdapterBuilder(NameSpaceElement namespaceElement, PGrammar grammar)
         {
             namespaceElement.Add(new ClassElement("public class AnalysisAdapter : AnalysisAdapter<object>"));
-            namespaceElement.Add(adapterClass = new ClassElement("public class AnalysisAdapter<TValue> : Adapter<TValue, " + grammar.RootProduction + ">"));
+            namespaceElement.Add(adapterClass = new ClassElement("public class AnalysisAdapter<{1}> : Adapter<{1}, {0}>", grammar.RootProduction, typeParameter));
         }
 
         public override void CaseAGrammar(AGrammar node)

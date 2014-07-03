@@ -73,7 +73,7 @@ namespace SablePP.Compiler.Generate
             for (int i = namespaces.Length - 1; i >= 0; i--)
                 usingstring = "using " + namespaces[i] + ";\r\n" + usingstring;
 
-            code = Regex.Replace(code, "using .*namespace " + package + ".parser", usingstring, RegexOptions.Singleline);
+            code = Regex.Replace(code, "using .*namespace .*\\.parser {", usingstring + " {", RegexOptions.Singleline);
             code = code.Replace("private Lexer lexer;", "private ILexer lexer;");
             code = code.Replace("public Parser(Lexer lexer)", "public Parser(ILexer lexer)");
 
