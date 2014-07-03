@@ -135,11 +135,14 @@ namespace SablePP.Compiler.Generate.Parsing
         private int reduceCase = 0;
         private MethodElement reduceMethod;
 
+        private SimpleReductionBuilder simple = new SimpleReductionBuilder();
+        private TranslationReductionBuilder translation = new TranslationReductionBuilder();
+
         public override void CaseAAlternative(AAlternative node)
         {
-            var elements = node.HasTranslation ? TranslationReductionBuilder.Build(node) : SimpleReductionBuilder.Build(node);
+            ReductionBuilder builder = node.HasTranslation ? (ReductionBuilder)translation : (ReductionBuilder)simple;
 
-            foreach (var e in elements)
+            foreach (var e in builder.GetElements(node))
             {
                 reduceMethod.Body.EmitLine("case {0}:", reduceCase);
                 reduceMethod.Body.IncreaseIndentation();
