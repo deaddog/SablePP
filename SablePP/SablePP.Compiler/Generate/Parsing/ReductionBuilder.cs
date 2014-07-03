@@ -11,8 +11,20 @@ namespace SablePP.Compiler.Generate.Parsing
         #region Variable Names
 
         private List<string> namesInUse;
-        private Dictionary<Node, string> names;
+        private Dictionary<object, string> names;
 
+        protected string GetVariable(SablePP.Compiler.Generate.Productions.ProductionElement node)
+        {
+            string name;
+            if (!names.TryGetValue(node, out name))
+            {
+                var type = node.ProductionOrTokenClass;
+                name = GetVariable(type.ToLower());
+
+                names.Add(node, name);
+            }
+            return name;
+        }
         protected string GetVariable(AAlternative node)
         {
             string name;
@@ -55,7 +67,7 @@ namespace SablePP.Compiler.Generate.Parsing
             : base()
         {
             this.namesInUse = new List<string>();
-            this.names = new Dictionary<Node, string>();
+            this.names = new Dictionary<object, string>();
 
             this.elements = new List<PatchElement>();
         }
