@@ -1,5 +1,6 @@
 ﻿using SablePP.Compiler.Generate.Productions;
 using SablePP.Compiler.Nodes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +15,7 @@ namespace SablePP.Compiler.Generate.Parsing
         {
             var elements = ProductionElement.GetAllElements(node);
 
-            this.questions = elements.Where(x => x.ElementType == ElementTypes.Question).ToList();
+            this.questions = elements.Where(x => x.ElementType == ElementTypes.Question || x.ElementType == ElementTypes.Star).ToList();
 
             int max = 1 << questions.Count;
             for (caseCounter = 0; caseCounter < max; caseCounter++)
@@ -22,18 +23,14 @@ namespace SablePP.Compiler.Generate.Parsing
                 CreateNewCase();
 
                 for (int i = elements.Length - 1; i >= 0; i--)
-                    Pop(elements[i]);
+                    Pop(elements[i], IsOn(elements[i], i));
 
                 code.EmitLine("{0} {1} = new {0}(", node.ClassName, GetVariable(node));
                 code.IncreaseIndentation();
 
                 for (int i = 0; i < elements.Length; i++)
                 {
-                    string name = GetVariable(elements[i]);
-                    if (elements[i].ElementType == ElementTypes.Question && ((1 << questions.IndexOf(elements[i])) & caseCounter) == 0)
-                        name = "null";
-
-                    code.EmitLine("{0}{1}", name, i < elements.Length - 1 ? "," : "");
+                    code.EmitLine("{0}{1}", Argument(elements[i], IsOn(elements[i], i)), i < elements.Length - 1 ? "," : "");
                 }
 
                 code.DecreaseIndentation();
@@ -43,7 +40,13 @@ namespace SablePP.Compiler.Generate.Parsing
             }
         }
 
-        private void Pop(ProductionElement node)
+        private bool IsOn(ProductionElement node, int index)
+        {
+            index = questions.IndexOf(node);
+            return !(index >= 0 && ((1 << index) & caseCounter) == 0);
+        }
+
+        private void Pop(ProductionElement node, bool on)
         {
             switch (node.ElementType)
             {
@@ -61,7 +64,31 @@ namespace SablePP.Compiler.Generate.Parsing
                 case ElementTypes.Plus:
                     code.EmitLine("List<{0}> {1} = Pop<List<{0}>>();", node.ProductionOrTokenClass, GetVariable(node));
                     break;
+
+                case ElementTypes.Star:
+                    if (on)
+                        code.EmitLine("List<{0}> {1} = Pop<List<{0}>>();", node.ProductionOrTokenClass, GetVariable(node));
+                    else
+                        code.EmitLine("List<{0}> {1} = new List<{0}>();", node.ProductionOrTokenClass, GetVariable(node));
+                    break;
             }
+        }
+
+        private string Argument(ProductionElement node, bool on)
+        {
+            switch (node.ElementType)
+            {
+                case ElementTypes.Simple:
+                case ElementTypes.Plus:
+                case ElementTypes.Star:
+                    return GetVariable(node);
+                case ElementTypes.Question:
+                    if (on)
+                        return GetVariable(node);
+                    else
+                        return null;
+            }
+            throw new InvalidOperationException("Unknown element type: " + node.ElementType);
         }
     }
 }
