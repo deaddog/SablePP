@@ -15,10 +15,15 @@ namespace SablePP.Compiler.Generate.Parsing
         private NameSpaceElement nameElement;
         private ClassElement classElement;
 
+        private List<string> listTypes;
+
         private ParserBuilder()
         {
             fileElement = new FileElement();
             fileElement.Using.Add("System");
+            fileElement.Using.Add("System.Collections.Generic");
+
+            this.listTypes = new List<string>();
         }
 
         public static FileElement BuildCode(string originalFile, Start<PGrammar> astRoot)
@@ -126,6 +131,30 @@ namespace SablePP.Compiler.Generate.Parsing
 
             Visit(node.Productions);
 
+            foreach(var type in listTypes)
+            {
+                reduceMethod.Body.EmitLine("case {0}:", reduceCase++);
+                reduceMethod.Body.IncreaseIndentation();
+                reduceMethod.Body.EmitLine("Push({1}, new List<{0}>() {{ Pop<{0}>() }});", type, productionCase);
+                reduceMethod.Body.EmitLine("break;");
+                reduceMethod.Body.DecreaseIndentation();
+
+                reduceMethod.Body.EmitLine("case {0}:", reduceCase++);
+                reduceMethod.Body.IncreaseIndentation();
+                reduceMethod.Body.EmitLine("{");
+                reduceMethod.Body.IncreaseIndentation();
+                reduceMethod.Body.EmitLine("{0} item = Pop<{0}>();", type);
+                reduceMethod.Body.EmitLine("List<{0}> list = Pop<List<{0}>>();", type);
+                reduceMethod.Body.EmitLine("list.Add(item);");
+                reduceMethod.Body.EmitLine("Push({0}, list);", productionCase);
+                reduceMethod.Body.DecreaseIndentation();
+                reduceMethod.Body.EmitLine("}");
+                reduceMethod.Body.EmitLine("break;");
+                reduceMethod.Body.DecreaseIndentation();
+
+                productionCase++;
+            }
+
             reduceMethod.Body.DecreaseIndentation();
             reduceMethod.Body.EmitLine("}");
         }
@@ -162,6 +191,11 @@ namespace SablePP.Compiler.Generate.Parsing
 
                 reduceCase++;
             }
+
+            foreach (var e in SablePP.Compiler.Generate.Productions.ProductionElement.GetAllElements(node))
+                if (e.ElementType == ElementTypes.Plus || e.ElementType == ElementTypes.Star)
+                    if (!listTypes.Contains(e.ProductionOrTokenClass))
+                        listTypes.Add(e.ProductionOrTokenClass);
         }
     }
 }

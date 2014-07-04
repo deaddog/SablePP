@@ -24,7 +24,7 @@ namespace SablePP.Compiler.Generate.Parsing
                 for (int i = elements.Length - 1; i >= 0; i--)
                     Pop(elements[i]);
 
-                code.EmitLine("{0} {1} = new {0} (", node.ClassName, GetVariable(node));
+                code.EmitLine("{0} {1} = new {0}(", node.ClassName, GetVariable(node));
                 code.IncreaseIndentation();
 
                 for (int i = 0; i < elements.Length; i++)
@@ -56,6 +56,10 @@ namespace SablePP.Compiler.Generate.Parsing
                     int index = 1 << questions.IndexOf(node);
                     if ((index & caseCounter) > 0)
                         code.EmitLine("{0} {1} = Pop<{0}>();", node.ProductionOrTokenClass, GetVariable(node));
+                    break;
+
+                case ElementTypes.Plus:
+                    code.EmitLine("List<{0}> {1} = Pop<List<{0}>>();", node.ProductionOrTokenClass, GetVariable(node));
                     break;
             }
         }
