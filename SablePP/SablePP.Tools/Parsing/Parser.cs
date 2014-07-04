@@ -28,6 +28,8 @@ namespace SablePP.Tools.Parsing
         public N Pop<N>() where N : class
         {
             var obj = stack.Pop();
+            if (!(obj.Item2 is N))
+                throw new ArgumentException("Unable to pop node of type " + typeof(N).Name + " from top of parser stack. Top element is " + obj.Item2.GetType().Name + ".");
             return obj.Item2 as N;
         }
         /// <summary>
