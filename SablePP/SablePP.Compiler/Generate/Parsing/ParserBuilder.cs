@@ -15,15 +15,11 @@ namespace SablePP.Compiler.Generate.Parsing
         private NameSpaceElement nameElement;
         private ClassElement classElement;
 
-        private List<string> listTypes;
-
         private ParserBuilder()
         {
             fileElement = new FileElement();
             fileElement.Using.Add("System");
             fileElement.Using.Add("System.Collections.Generic");
-
-            this.listTypes = new List<string>();
         }
 
         public static FileElement BuildCode(string originalFile, Start<PGrammar> astRoot)
@@ -131,7 +127,7 @@ namespace SablePP.Compiler.Generate.Parsing
 
             Visit(node.Productions);
 
-            foreach(var type in listTypes)
+            foreach(var type in getListTypes(node))
             {
                 reduceMethod.Body.EmitLine("case {0}:", reduceCase++);
                 reduceMethod.Body.IncreaseIndentation();
@@ -157,6 +153,24 @@ namespace SablePP.Compiler.Generate.Parsing
 
             reduceMethod.Body.DecreaseIndentation();
             reduceMethod.Body.EmitLine("}");
+        }
+
+        private static string[] getListTypes(AGrammar grammar)
+        {
+            List<string> types = new List<string>();
+
+            var prod = grammar.HasAstproductions ? grammar.Astproductions.Productions : grammar.Productions.Productions;
+            foreach (var p in prod)
+                foreach (var a in p.Productionrule.Alternatives)
+                    foreach (var e in a.Elements.Element)
+                    {
+                        var t = e.GetElementType();
+                        if (t == ElementTypes.Plus || t == ElementTypes.Star)
+                            if (!types.Contains(e.GeneratedTypeName))
+                                types.Add(e.GeneratedTypeName);
+                    }
+
+            return types.ToArray();
         }
 
         private int reduceCase = 0;
@@ -191,11 +205,6 @@ namespace SablePP.Compiler.Generate.Parsing
 
                 reduceCase++;
             }
-
-            foreach (var e in SablePP.Compiler.Generate.Productions.ProductionElement.GetAllElements(node))
-                if (e.ElementType == ElementTypes.Plus || e.ElementType == ElementTypes.Star)
-                    if (!listTypes.Contains(e.ProductionOrTokenClass))
-                        listTypes.Add(e.ProductionOrTokenClass);
         }
     }
 }
