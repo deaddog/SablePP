@@ -95,6 +95,7 @@
     <Compile Include="LookupDictionary.cs" />
     <Compile Include="Nodes\AAlternative.cs" />
     <Compile Include="Nodes\AToken.cs" />
+    <Compile Include="Nodes\Identifiers\HelperIdentifier.cs" />
     <Compile Include="Nodes\Identifiers\TokenIdentifier.cs" />
     <Compile Include="Nodes\PElement.cs" />
     <Compile Include="Nodes\PGrammar.cs" />
