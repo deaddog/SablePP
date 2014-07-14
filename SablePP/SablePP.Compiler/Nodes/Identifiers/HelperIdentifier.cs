@@ -1,18 +1,10 @@
 ﻿namespace SablePP.Compiler.Nodes.Identifiers
 {
-    public class HelperIdentifier : TIdentifier
+    public class HelperIdentifier : DeclarationIdentifier<PHelper>
     {
-        private PHelper helper;
-
         public HelperIdentifier(TIdentifier identifier, PHelper helper)
-            :base(identifier)
+            :base(identifier, helper)
         {
-            this.helper = helper;
-        }
-
-        public PHelper Declaration
-        {
-            get { return helper; }
         }
     }
 }

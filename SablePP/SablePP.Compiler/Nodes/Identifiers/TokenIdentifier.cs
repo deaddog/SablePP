@@ -1,18 +1,10 @@
 ﻿namespace SablePP.Compiler.Nodes.Identifiers
 {
-    public class TokenIdentifier : TIdentifier
+    public class TokenIdentifier : DeclarationIdentifier<PToken>
     {
-        private PToken token;
-
         public TokenIdentifier(TIdentifier identifier, PToken token)
-            :base(identifier)
+            : base(identifier, token)
         {
-            this.token = token;
-        }
-
-        public PToken Declaration
-        {
-            get { return token; }
         }
     }
 }

@@ -54,31 +54,31 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             get { return highlight; }
         }
 
-        public abstract class Table<Tid, TDeclarationType> 
-            where Tid : TIdentifier
-            where TDeclarationType : SablePP.Tools.Nodes.Production
+        public abstract class Table<TID, TDeclaration>
+            where TID : DeclarationIdentifier<TDeclaration>
+            where TDeclaration : SablePP.Tools.Nodes.Production
         {
-            private Dictionary<string, TDeclarationType> declarations;
-            private List<TDeclarationType> unusedList;
+            private Dictionary<string, TDeclaration> declarations;
+            private List<TDeclaration> unusedList;
 
-            public TDeclarationType this[string text]
+            public TDeclaration this[string text]
             {
                 get { return declarations[text]; }
             }
 
-            protected abstract Tid construct(TIdentifier identifier, TDeclarationType declaration);
-            protected abstract TIdentifier getIdentifier(TDeclarationType declaration);
+            protected abstract TID construct(TIdentifier identifier, TDeclaration declaration);
+            protected abstract TIdentifier getIdentifier(TDeclaration declaration);
 
-            public bool Declare(TDeclarationType declaration)
+            public bool Declare(TDeclaration declaration)
             {
-                TIdentifier identifier =  getIdentifier(declaration);
+                TIdentifier identifier = getIdentifier(declaration);
                 string text = identifier.Text;
 
                 if (declarations.ContainsKey(text))
                     return false;
                 else
                 {
-                    Tid reference = construct(identifier, declaration);
+                    TID reference = construct(identifier, declaration);
                     identifier.ReplaceBy(reference);
                     unusedList.Remove(declaration);
 
@@ -90,10 +90,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             public bool Link(TIdentifier identifier)
             {
-                TDeclarationType declaration = null;
+                TDeclaration declaration = null;
                 if (declarations.TryGetValue(identifier.Text, out declaration))
                 {
-                    Tid reference = construct(identifier, declaration);
+                    TID reference = construct(identifier, declaration);
                     identifier.ReplaceBy(reference);
                     unusedList.Remove(declaration);
 
@@ -108,7 +108,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 return declarations.ContainsKey(text);
             }
 
-            public IEnumerable<TDeclarationType> NonLinked
+            public IEnumerable<TDeclaration> NonLinked
             {
                 get
                 {

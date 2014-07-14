@@ -9,11 +9,6 @@ namespace SablePP.Compiler.Nodes
     {
         private Declaration declaration;
 
-        public TIdentifier(TIdentifier identifier)
-            : this(identifier.Text, identifier.Line, identifier.Position)
-        {
-        }
-
         /// <summary>
         /// Sets the declaration for this identifier.
         /// </summary>
