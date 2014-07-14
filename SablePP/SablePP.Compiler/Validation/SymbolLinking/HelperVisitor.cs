@@ -8,7 +8,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class HelperVisitor : DeclarationVisitor
     {
-        private DeclarationTables.DeclarationTable<DHelper> helpers;
+        private DeclarationTables.HelpersTable helpers;
         private bool firstRun = true;
 
         private HelperVisitor(DeclarationTables declarations, ErrorManager errorManager)
@@ -26,8 +26,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             if (firstRun)
             {
-                if (!helpers.Declare(node.Identifier))
-                    RegisterError(node.Identifier, "Helper {0} has already been defined (line {1}).", node.Identifier, helpers[node.Identifier].DeclarationToken.Line);
+                if (!helpers.Declare(node))
+                    RegisterError(node.Identifier, "Helper {0} has already been defined (line {1}).", node.Identifier, helpers[node.Identifier.Text].Identifier.Line);
             }
             else
                 Visit(node.Regex);

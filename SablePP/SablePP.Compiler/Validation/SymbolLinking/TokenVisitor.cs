@@ -8,7 +8,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class TokenVisitor : DeclarationVisitor
     {
-        private DeclarationTables.DeclarationTable<DHelper> helpers;
+        private DeclarationTables.HelpersTable helpers;
         private DeclarationTables.DeclarationTable<DState> states;
         private DeclarationTables.DeclarationTable<DToken> tokens;
 

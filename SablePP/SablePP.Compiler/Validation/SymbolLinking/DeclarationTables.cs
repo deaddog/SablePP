@@ -9,7 +9,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class DeclarationTables
     {
-        private DeclarationTable<DHelper> helpers;
+        private HelpersTable helpers;
         private DeclarationTable<DState> states;
         private DeclarationTable<DToken> tokens;
         private DeclarationTable<DProduction> productions;
@@ -21,7 +21,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             bool firstProduction = true;
             bool firstASTProduction = true;
 
-            this.helpers = new DeclarationTable<DHelper>(id => new DHelper(id));
+            this.helpers = new HelpersTable();
             this.states = new DeclarationTable<DState>(id => new DState(id));
             this.tokens = new DeclarationTable<DToken>(id => new DToken(id));
             this.productions = new DeclarationTable<DProduction>(id => { var p = new DProduction(id, firstProduction); firstProduction = false; return p; });
@@ -29,7 +29,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             this.highlight = new Dictionary<string, DHighlightRule>();
         }
 
-        public DeclarationTable<DHelper> Helpers
+        public HelpersTable Helpers
         {
             get { return helpers; }
         }
@@ -53,6 +53,20 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             get { return highlight; }
         }
+
+        public class HelpersTable : Table<HelperIdentifier, PHelper>
+        {
+            protected override HelperIdentifier construct(TIdentifier identifier, PHelper declaration)
+            {
+                return new HelperIdentifier(identifier, declaration);
+            }
+
+            protected override TIdentifier getIdentifier(PHelper declaration)
+            {
+                return declaration.Identifier;
+            }
+        }
+
 
         public abstract class Table<TID, TDeclaration>
             where TID : DeclarationIdentifier<TDeclaration>
