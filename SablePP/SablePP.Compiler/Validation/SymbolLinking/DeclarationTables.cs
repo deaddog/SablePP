@@ -1,5 +1,5 @@
 ﻿using SablePP.Compiler.Nodes;
-
+using SablePP.Compiler.Nodes.Identifiers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +52,70 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         public Dictionary<string, DHighlightRule> HighlightRules
         {
             get { return highlight; }
+        }
+
+        public abstract class Table<Tid, TDeclarationType> 
+            where Tid : TIdentifier
+            where TDeclarationType : SablePP.Tools.Nodes.Production
+        {
+            private Dictionary<string, TDeclarationType> declarations;
+            private List<TDeclarationType> unusedList;
+
+            public TDeclarationType this[string text]
+            {
+                get { return declarations[text]; }
+            }
+
+            protected abstract Tid construct(TIdentifier identifier, TDeclarationType declaration);
+            protected abstract TIdentifier getIdentifier(TDeclarationType declaration);
+
+            public bool Declare(TDeclarationType declaration)
+            {
+                TIdentifier identifier =  getIdentifier(declaration);
+                string text = identifier.Text;
+
+                if (declarations.ContainsKey(text))
+                    return false;
+                else
+                {
+                    Tid reference = construct(identifier, declaration);
+                    identifier.ReplaceBy(reference);
+                    unusedList.Remove(declaration);
+
+                    unusedList.Add(declaration);
+
+                    return true;
+                }
+            }
+
+            public bool Link(TIdentifier identifier)
+            {
+                TDeclarationType declaration = null;
+                if (declarations.TryGetValue(identifier.Text, out declaration))
+                {
+                    Tid reference = construct(identifier, declaration);
+                    identifier.ReplaceBy(reference);
+                    unusedList.Remove(declaration);
+
+                    return true;
+                }
+                else
+                    return false;
+            }
+
+            public bool Contains(string text)
+            {
+                return declarations.ContainsKey(text);
+            }
+
+            public IEnumerable<TDeclarationType> NonLinked
+            {
+                get
+                {
+                    foreach (var d in unusedList)
+                        yield return d;
+                }
+            }
         }
 
         public class DeclarationTable<TDeclaration> where TDeclaration : Declaration
