@@ -76,7 +76,6 @@
     <Compile Include="Declarations\DAlternativeName.cs" />
     <Compile Include="Declarations\Declaration.cs" />
     <Compile Include="Declarations\DElementName.cs" />
-    <Compile Include="Declarations\DHelper.cs" />
     <Compile Include="Declarations\DProduction.cs" />
     <Compile Include="Declarations\DState.cs" />
     <Compile Include="Declarations\DToken.cs" />
