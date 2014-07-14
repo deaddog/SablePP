@@ -7,22 +7,15 @@ namespace SablePP.Compiler.Nodes.Identifiers
 {
     public class TokenIdentifier : TIdentifier
     {
-        private AToken token;
+        private PToken token;
 
-        public static TokenIdentifier Replace(TIdentifier identifier, AToken token)
-        {
-            TokenIdentifier t = new TokenIdentifier(identifier.Text, identifier.Line, identifier.Position, token);
-            identifier.ReplaceBy(t);
-            return t;
-        }
-
-        private TokenIdentifier(string text, int line, int pos, AToken token)
-            :base(text, line, pos)
+        public TokenIdentifier(TIdentifier identifier, PToken token)
+            :base(identifier)
         {
             this.token = token;
         }
 
-        public AToken Declaration
+        public PToken Declaration
         {
             get { return token; }
         }
