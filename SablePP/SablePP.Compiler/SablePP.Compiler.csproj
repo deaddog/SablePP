@@ -109,7 +109,7 @@
     <Compile Include="Generate\ParserModifier.cs" />
     <Compile Include="PathInformation.cs" />
     <Compile Include="SableGrammarEmitter.cs" />
-    <Compile Include="Validation\SymbolLinking\DeclarationTables.cs" />
+    <Compile Include="Validation\SymbolLinking\DeclarationTable.cs" />
     <Compile Include="Validation\SymbolLinking\DeclarationVisitor.cs" />
     <Compile Include="Validation\ErrorVisitor.cs" />
     <Compile Include="Nodes\TIdentifier.cs" />

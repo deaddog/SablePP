@@ -10,38 +10,38 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class DeclarationVisitor : ErrorVisitor
     {
-        private DeclarationTables.HelpersTable helpers;
-        private DeclarationTables.StatesTable states;
-        private DeclarationTables.TokensTable tokens;
+        private DeclarationTable.HelpersTable helpers;
+        private DeclarationTable.StatesTable states;
+        private DeclarationTable.TokensTable tokens;
 
-        private DeclarationTables.ProductionsTable productions;
-        private DeclarationTables.ProductionsTable astProd;
-        private DeclarationTables.ProductionsTable nonastProd;
+        private DeclarationTable.ProductionsTable productions;
+        private DeclarationTable.ProductionsTable astProd;
+        private DeclarationTable.ProductionsTable nonastProd;
 
-        private DeclarationTables.AlternativesTable alternatives;
-        private Dictionary<PProduction, DeclarationTables.AlternativesTable> allAlternatives;
-        private DeclarationTables.ElementsTable elements;
-        private Dictionary<PAlternative, DeclarationTables.ElementsTable> allElements;
+        private DeclarationTable.AlternativesTable alternatives;
+        private Dictionary<PProduction, DeclarationTable.AlternativesTable> allAlternatives;
+        private DeclarationTable.ElementsTable elements;
+        private Dictionary<PAlternative, DeclarationTable.ElementsTable> allElements;
 
-        private DeclarationTables.HighlightrulesTable highlightrules;
+        private DeclarationTable.HighlightrulesTable highlightrules;
 
         public DeclarationVisitor(ErrorManager errorManager)
             : base(errorManager)
         {
-            this.helpers = new DeclarationTables.HelpersTable();
-            this.states = new DeclarationTables.StatesTable();
-            this.tokens = new DeclarationTables.TokensTable();
+            this.helpers = new DeclarationTable.HelpersTable();
+            this.states = new DeclarationTable.StatesTable();
+            this.tokens = new DeclarationTable.TokensTable();
 
             this.productions = null;
-            this.astProd = new DeclarationTables.ProductionsTable();
-            this.nonastProd = new DeclarationTables.ProductionsTable();
+            this.astProd = new DeclarationTable.ProductionsTable();
+            this.nonastProd = new DeclarationTable.ProductionsTable();
 
             this.alternatives = null;
-            this.allAlternatives = new Dictionary<PProduction, DeclarationTables.AlternativesTable>();
+            this.allAlternatives = new Dictionary<PProduction, DeclarationTable.AlternativesTable>();
             this.elements = null;
-            this.allElements = new Dictionary<PAlternative, DeclarationTables.ElementsTable>();
+            this.allElements = new Dictionary<PAlternative, DeclarationTable.ElementsTable>();
 
-            this.highlightrules = new DeclarationTables.HighlightrulesTable();
+            this.highlightrules = new DeclarationTable.HighlightrulesTable();
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -173,13 +173,13 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         }
         public override void CaseAProduction(AProduction node)
         {
-            alternatives = new DeclarationTables.AlternativesTable();
+            alternatives = new DeclarationTable.AlternativesTable();
             base.CaseAProduction(node);
             allAlternatives[node] = alternatives;
         }
         public override void CaseAAlternative(AAlternative node)
         {
-            elements = new DeclarationTables.ElementsTable();
+            elements = new DeclarationTable.ElementsTable();
             base.CaseAAlternative(node);
             allElements[node] = elements;
         }

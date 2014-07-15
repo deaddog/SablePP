@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
-    public static class DeclarationTables
+    public static class DeclarationTable
     {
         #region Helpers
 
