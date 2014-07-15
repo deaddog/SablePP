@@ -14,12 +14,24 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         private DeclarationTables.StatesTable states;
         private DeclarationTables.TokensTable tokens;
 
+        private DeclarationTables.ProductionsTable productions;
+        private DeclarationTables.ProductionsTable astProd;
+        private DeclarationTables.ProductionsTable nonastProd;
+        private DeclarationTables.AlternativesTable alternatives;
+        private DeclarationTables.ElementsTable elements;
+
         public DeclarationVisitor(ErrorManager errorManager)
             : base(errorManager)
         {
             this.helpers = new DeclarationTables.HelpersTable();
             this.states = new DeclarationTables.StatesTable();
             this.tokens = new DeclarationTables.TokensTable();
+
+            this.productions = null;
+            this.astProd = new DeclarationTables.ProductionsTable();
+            this.nonastProd = new DeclarationTables.ProductionsTable();
+            this.alternatives = new DeclarationTables.AlternativesTable();
+            this.elements = new DeclarationTables.ElementsTable();
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -42,10 +54,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 Visit(node.Ignoredtokens);
 
             if (node.HasProductions)
-                ProductionVisitor.LoadProductionDeclarations(node.Productions, declarations, this.ErrorManager);
+                Visit(node.Productions);
 
             if (node.HasAstproductions)
-                ProductionVisitor.LoadProductionDeclarations(node.Astproductions, declarations, this.ErrorManager);
+                Visit(node.Astproductions);
 
             if (node.HasProductions)
                 TranslationVisitor.SetIdentifiersInTranslations(node.Productions, declarations, this.ErrorManager);
@@ -123,13 +135,98 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseAIgnoredtokens(AIgnoredtokens node)
         {
-            foreach(AIdentifierListitem item in node.List.Listitem)
+            foreach (AIdentifierListitem item in node.List.Listitem)
             {
                 if (!tokens.Link(item.Identifier))
                     RegisterError(item.Identifier, "The token {0} has not been defined.", item.Identifier);
                 else
                     tokens[item.Identifier.Text].IsIgnored = true;
             }
+        }
+
+        public override void CaseAAstproductions(AAstproductions node)
+        {
+            productions = astProd;
+
+            foreach (var prod in node.Productions)
+                if (!productions.Declare(prod))
+                    RegisterError(prod.Identifier, "AST production {0} has already been defined (line {1}).", prod.Identifier, productions[prod.Identifier.Text].Identifier.Line);
+
+            base.CaseAAstproductions(node);
+
+            productions = null;
+        }
+        public override void CaseAProductions(AProductions node)
+        {
+            productions = nonastProd;
+
+            foreach (var prod in node.Productions)
+                if (!productions.Declare(prod))
+                    RegisterError(prod.Identifier, "Production {0} has already been defined (line {1}).", prod.Identifier, productions[prod.Identifier.Text].Identifier.Line);
+
+            base.CaseAProductions(node);
+
+            productions = null;
+        }
+        public override void CaseAProduction(AProduction node)
+        {
+            alternatives.Clear();
+            base.CaseAProduction(node);
+        }
+        public override void CaseAAlternative(AAlternative node)
+        {
+            elements.Clear();
+            base.CaseAAlternative(node);
+        }
+
+        public override void CaseAAlternativename(AAlternativename node)
+        {
+            if (!alternatives.Declare(node.GetFirstParent<AAlternative>()))
+                RegisterError(node.Name, "Production alternative {0} is already in use (line {1}).", node.Name, alternatives[node.Name.Text].Alternativename.Name.Line);
+            base.CaseAAlternativename(node);
+        }
+        public override void CaseAElementname(AElementname node)
+        {
+            if (!elements.Declare(node.GetFirstParent<PElement>()))
+                RegisterError(node.Name, "Element name {0} is already in use in this production.", node.Name);
+            base.CaseAElementname(node);
+        }
+
+        public override void CaseACleanElementid(ACleanElementid node)
+        {
+            TIdentifier ident = node.Identifier;
+            string text = ident.Text;
+
+            if (tokens.Contains(text) && productions.Contains(text))
+                RegisterError(ident, "Unable to determine if {0} refers to a token or a production. Use T.{1} or P.{1} to specify.", ident, text);
+            else if (tokens.Link(ident))
+            {
+                if (tokens[text].IsIgnored)
+                    RegisterError(node, "The ignored token {0} cannot be used in a production.", ident);
+            }
+            else if (!productions.Link(ident))
+                RegisterError(ident, "The token or production {0} has not been defined.", ident);
+
+            base.CaseACleanElementid(node);
+        }
+        public override void CaseATokenElementid(ATokenElementid node)
+        {
+            if (tokens.Link(node.Identifier))
+            {
+                if (tokens[node.Identifier.Text].IsIgnored)
+                    RegisterError(node, "The ignored token {0} cannot be used in a production.", node.Identifier);
+            }
+            else
+                RegisterError(node.Identifier, "The token {0} has not been defined.", node.Identifier);
+
+            base.CaseATokenElementid(node);
+        }
+        public override void CaseAProductionElementid(AProductionElementid node)
+        {
+            if (!productions.Link(node.Identifier))
+                RegisterError(node.Identifier, "The production {0} has not been defined.", node.Identifier);
+            
+            base.CaseAProductionElementid(node);
         }
     }
 }
