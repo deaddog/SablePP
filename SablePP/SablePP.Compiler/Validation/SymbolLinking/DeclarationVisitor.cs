@@ -80,9 +80,11 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 RegisterWarning(t.Identifier, "The token {0} is never used in a production.", t.Identifier);
 
             foreach (var p in nonastProd.NonLinked)
+                if (!p.Identifier.AsProduction.IsFirst)
                     RegisterWarning(p.Identifier, "The production {0} is never used in another production.", p.Identifier);
 
             foreach (var p in astProd.NonLinked)
+                if (!p.Identifier.AsProduction.IsFirst)
                     RegisterWarning(p.Identifier, "The AST production {0} is never used in another production.", p.Identifier);
         }
 
@@ -276,7 +278,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (!elements.Link(node.Identifier))
                 RegisterError(node.Identifier, "The production element {0} has not been defined. Check for possible renames.", node.Identifier);
 
-            if(!astProd.Link(node.Production))
+            if (!astProd.Link(node.Production))
                 RegisterError(node.Production, "The AST production {0} has not been defined.", node.Production);
         }
 
@@ -285,7 +287,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (!highlightrules.Declare(node))
                 RegisterError(node.Name, "Syntax highlight style {0} has already been defined (line {1}).", node.Name, highlightrules[node.Name.Text].Name.Line);
 
-            foreach(AIdentifierListitem item in node.Tokens.Listitem)
+            foreach (AIdentifierListitem item in node.Tokens.Listitem)
             {
                 if (!tokens.Link(item.Identifier))
                     RegisterError(node, "The token {0} has not been defined.", node);

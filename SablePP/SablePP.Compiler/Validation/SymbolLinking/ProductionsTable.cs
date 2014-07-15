@@ -7,7 +7,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
     {
         protected override ProductionIdentifier construct(TIdentifier identifier, PProduction declaration)
         {
-            return new ProductionIdentifier(identifier, declaration);
+            return new ProductionIdentifier(identifier, declaration, Count == 0);
         }
 
         protected override TIdentifier getIdentifier(PProduction declaration)

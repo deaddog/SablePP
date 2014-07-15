@@ -33,6 +33,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             this.declarations.Clear();
             this.unusedList.Clear();
         }
+        public int Count
+        {
+            get { return declarations.Count; }
+        }
 
         public bool Declare(TDeclaration declaration)
         {

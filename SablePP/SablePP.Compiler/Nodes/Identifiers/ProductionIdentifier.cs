@@ -2,9 +2,17 @@
 {
     public class ProductionIdentifier : DeclarationIdentifier<PProduction>
     {
-        public ProductionIdentifier(TIdentifier identifier, PProduction production)
+        private bool first;
+
+        public ProductionIdentifier(TIdentifier identifier, PProduction production, bool first)
             : base(identifier, production)
         {
+            this.first = first;
+        }
+
+        public bool IsFirst
+        {
+            get { return first; }
         }
     }
 }
