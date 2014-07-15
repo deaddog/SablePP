@@ -351,8 +351,6 @@ namespace SablePP.Compiler.Generate
                         Visit(node.Productions);
                 }
 
-                private DProduction currentProduction;
-
                 private string currentPname;
                 private string currentAname;
 
@@ -360,7 +358,6 @@ namespace SablePP.Compiler.Generate
                 {
                     currentPname = node.Identifier.Text;
                     currentPname = "P" + currentPname.ToCamelCase();
-                    currentProduction = node.Identifier.AsProduction;
                 }
 
                 public override void InAAlternative(AAlternative node)
@@ -368,9 +365,7 @@ namespace SablePP.Compiler.Generate
                     index = 0;
 
                     if (!node.HasAlternativename)
-                    {
                         currentAname = 'A' + currentPname.Substring(1);
-                    }
                 }
                 public override void InAAlternativename(AAlternativename node)
                 {

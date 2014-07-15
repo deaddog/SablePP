@@ -73,7 +73,6 @@
     <Compile Include="Generate\Productions\ProductionElement.cs" />
     <Compile Include="Generate\Productions\CloneMethodBuilder.cs" />
     <Compile Include="Declarations\Declaration.cs" />
-    <Compile Include="Declarations\DProduction.cs" />
     <Compile Include="Generate\Productions\ConstructorBuilder.cs" />
     <Compile Include="Nodes\ElementTypes.cs" />
     <Compile Include="Generate\Productions\GetChildrenMethodBuilder.cs" />

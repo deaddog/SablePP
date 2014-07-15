@@ -72,24 +72,24 @@ namespace SablePP.Compiler.Nodes
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="DProduction"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="ProductionIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="DProduction"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="ProductionIdentifier"/>; otherwise, <c>false</c>.
         /// </value>
         public bool IsProduction
         {
-            get { return declaration is DProduction; }
+            get { return this is ProductionIdentifier; }
         }
         /// <summary>
-        /// Gets the declaration associated with this identifier, as a <see cref="DProduction"/>.
+        /// Gets the declaration associated with this identifier, as a <see cref="ProductionIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="DProduction"/> if this identifier refers to a <see cref="DProduction"/>; otherwise, <c>null</c>.
+        ///   A <see cref="ProductionIdentifier"/> if this identifier refers to a <see cref="ProductionIdentifier"/>; otherwise, <c>null</c>.
         /// </value>
-        public DProduction AsProduction
+        public ProductionIdentifier AsProduction
         {
-            get { return declaration as DProduction; }
+            get { return this as ProductionIdentifier; }
         }
 
         /// <summary>

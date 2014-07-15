@@ -16,7 +16,7 @@ namespace SablePP.Compiler.Generate.Productions
             TIdentifier typeId = element.Elementid.Identifier;
             this.prodOrtoken = (typeId.IsToken ?
                 typeId.AsToken.Declaration.ClassName :
-                "P" + SablePP.Compiler.CommonMethods.ToCamelCase(typeId.AsProduction.Name));
+                typeId.AsProduction.Declaration.ClassName);
 
             this.fieldName = "_" + element.LowerName + "_";
             this.propertyName = SablePP.Compiler.CommonMethods.ToCamelCase(element.LowerName);
