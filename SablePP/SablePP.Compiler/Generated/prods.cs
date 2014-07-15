@@ -275,6 +275,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Packagetoken in PPackage cannot be null.", "value");
+                
+                if (_packagetoken_ != null)
+                    SetParent(_packagetoken_, null);
                 SetParent(value, this);
                 
                 _packagetoken_ = value;
@@ -287,6 +290,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Packagename in PPackage cannot be null.", "value");
+                
+                if (_packagename_ != null)
+                    SetParent(_packagename_, null);
                 SetParent(value, this);
                 
                 _packagename_ = value;
@@ -299,6 +305,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Semicolon in PPackage cannot be null.", "value");
+                
+                if (_semicolon_ != null)
+                    SetParent(_semicolon_, null);
                 SetParent(value, this);
                 
                 _semicolon_ = value;
@@ -376,6 +385,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Helperstoken in PHelpers cannot be null.", "value");
+                
+                if (_helperstoken_ != null)
+                    SetParent(_helperstoken_, null);
                 SetParent(value, this);
                 
                 _helperstoken_ = value;
@@ -460,6 +472,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Identifier in PHelper cannot be null.", "value");
+                
+                if (_identifier_ != null)
+                    SetParent(_identifier_, null);
                 SetParent(value, this);
                 
                 _identifier_ = value;
@@ -472,6 +487,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Equal in PHelper cannot be null.", "value");
+                
+                if (_equal_ != null)
+                    SetParent(_equal_, null);
                 SetParent(value, this);
                 
                 _equal_ = value;
@@ -484,6 +502,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Regex in PHelper cannot be null.", "value");
+                
+                if (_regex_ != null)
+                    SetParent(_regex_, null);
                 SetParent(value, this);
                 
                 _regex_ = value;
@@ -496,6 +517,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Semicolon in PHelper cannot be null.", "value");
+                
+                if (_semicolon_ != null)
+                    SetParent(_semicolon_, null);
                 SetParent(value, this);
                 
                 _semicolon_ = value;
@@ -582,6 +606,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Tokenstoken in PTokens cannot be null.", "value");
+                
+                if (_tokenstoken_ != null)
+                    SetParent(_tokenstoken_, null);
                 SetParent(value, this);
                 
                 _tokenstoken_ = value;
@@ -687,6 +714,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Identifier in PToken cannot be null.", "value");
+                
+                if (_identifier_ != null)
+                    SetParent(_identifier_, null);
                 SetParent(value, this);
                 
                 _identifier_ = value;
@@ -699,6 +729,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Equal in PToken cannot be null.", "value");
+                
+                if (_equal_ != null)
+                    SetParent(_equal_, null);
                 SetParent(value, this);
                 
                 _equal_ = value;
@@ -711,6 +744,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Regex in PToken cannot be null.", "value");
+                
+                if (_regex_ != null)
+                    SetParent(_regex_, null);
                 SetParent(value, this);
                 
                 _regex_ = value;
@@ -740,6 +776,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Semicolon in PToken cannot be null.", "value");
+                
+                if (_semicolon_ != null)
+                    SetParent(_semicolon_, null);
                 SetParent(value, this);
                 
                 _semicolon_ = value;
@@ -842,6 +881,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Slash in PTokenlookahead cannot be null.", "value");
+                
+                if (_slash_ != null)
+                    SetParent(_slash_, null);
                 SetParent(value, this);
                 
                 _slash_ = value;
@@ -854,6 +896,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Regex in PTokenlookahead cannot be null.", "value");
+                
+                if (_regex_ != null)
+                    SetParent(_regex_, null);
                 SetParent(value, this);
                 
                 _regex_ = value;
@@ -1069,6 +1114,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Character in ACharRegexpart cannot be null.", "value");
+                
+                if (_character_ != null)
+                    SetParent(_character_, null);
                 SetParent(value, this);
                 
                 _character_ = value;
@@ -1119,6 +1167,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("DecChar in ADecRegexpart cannot be null.", "value");
+                
+                if (_dec_char_ != null)
+                    SetParent(_dec_char_, null);
                 SetParent(value, this);
                 
                 _dec_char_ = value;
@@ -1169,6 +1220,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("HexChar in AHexRegexpart cannot be null.", "value");
+                
+                if (_hex_char_ != null)
+                    SetParent(_hex_char_, null);
                 SetParent(value, this);
                 
                 _hex_char_ = value;
@@ -1221,6 +1275,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Regexpart in AUnarystarRegexpart cannot be null.", "value");
+                
+                if (_regexpart_ != null)
+                    SetParent(_regexpart_, null);
                 SetParent(value, this);
                 
                 _regexpart_ = value;
@@ -1233,6 +1290,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Star in AUnarystarRegexpart cannot be null.", "value");
+                
+                if (_star_ != null)
+                    SetParent(_star_, null);
                 SetParent(value, this);
                 
                 _star_ = value;
@@ -1294,6 +1354,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Regexpart in AUnaryquestionRegexpart cannot be null.", "value");
+                
+                if (_regexpart_ != null)
+                    SetParent(_regexpart_, null);
                 SetParent(value, this);
                 
                 _regexpart_ = value;
@@ -1306,6 +1369,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Question in AUnaryquestionRegexpart cannot be null.", "value");
+                
+                if (_question_ != null)
+                    SetParent(_question_, null);
                 SetParent(value, this);
                 
                 _question_ = value;
@@ -1367,6 +1433,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Regexpart in AUnaryplusRegexpart cannot be null.", "value");
+                
+                if (_regexpart_ != null)
+                    SetParent(_regexpart_, null);
                 SetParent(value, this);
                 
                 _regexpart_ = value;
@@ -1379,6 +1448,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Plus in AUnaryplusRegexpart cannot be null.", "value");
+                
+                if (_plus_ != null)
+                    SetParent(_plus_, null);
                 SetParent(value, this);
                 
                 _plus_ = value;
@@ -1446,6 +1518,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Lpar in ABinaryplusRegexpart cannot be null.", "value");
+                
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
                 _lpar_ = value;
@@ -1458,6 +1533,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Left in ABinaryplusRegexpart cannot be null.", "value");
+                
+                if (_left_ != null)
+                    SetParent(_left_, null);
                 SetParent(value, this);
                 
                 _left_ = value;
@@ -1470,6 +1548,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Plus in ABinaryplusRegexpart cannot be null.", "value");
+                
+                if (_plus_ != null)
+                    SetParent(_plus_, null);
                 SetParent(value, this);
                 
                 _plus_ = value;
@@ -1482,6 +1563,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Right in ABinaryplusRegexpart cannot be null.", "value");
+                
+                if (_right_ != null)
+                    SetParent(_right_, null);
                 SetParent(value, this);
                 
                 _right_ = value;
@@ -1494,6 +1578,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rpar in ABinaryplusRegexpart cannot be null.", "value");
+                
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
                 _rpar_ = value;
@@ -1588,6 +1675,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Lpar in ABinaryminusRegexpart cannot be null.", "value");
+                
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
                 _lpar_ = value;
@@ -1600,6 +1690,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Left in ABinaryminusRegexpart cannot be null.", "value");
+                
+                if (_left_ != null)
+                    SetParent(_left_, null);
                 SetParent(value, this);
                 
                 _left_ = value;
@@ -1612,6 +1705,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Minus in ABinaryminusRegexpart cannot be null.", "value");
+                
+                if (_minus_ != null)
+                    SetParent(_minus_, null);
                 SetParent(value, this);
                 
                 _minus_ = value;
@@ -1624,6 +1720,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Right in ABinaryminusRegexpart cannot be null.", "value");
+                
+                if (_right_ != null)
+                    SetParent(_right_, null);
                 SetParent(value, this);
                 
                 _right_ = value;
@@ -1636,6 +1735,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rpar in ABinaryminusRegexpart cannot be null.", "value");
+                
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
                 _rpar_ = value;
@@ -1730,6 +1832,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Lpar in AIntervalRegexpart cannot be null.", "value");
+                
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
                 _lpar_ = value;
@@ -1742,6 +1847,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Left in AIntervalRegexpart cannot be null.", "value");
+                
+                if (_left_ != null)
+                    SetParent(_left_, null);
                 SetParent(value, this);
                 
                 _left_ = value;
@@ -1754,6 +1862,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Dots in AIntervalRegexpart cannot be null.", "value");
+                
+                if (_dots_ != null)
+                    SetParent(_dots_, null);
                 SetParent(value, this);
                 
                 _dots_ = value;
@@ -1766,6 +1877,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Right in AIntervalRegexpart cannot be null.", "value");
+                
+                if (_right_ != null)
+                    SetParent(_right_, null);
                 SetParent(value, this);
                 
                 _right_ = value;
@@ -1778,6 +1892,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rpar in AIntervalRegexpart cannot be null.", "value");
+                
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
                 _rpar_ = value;
@@ -1864,6 +1981,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("String in AStringRegexpart cannot be null.", "value");
+                
+                if (_string_ != null)
+                    SetParent(_string_, null);
                 SetParent(value, this);
                 
                 _string_ = value;
@@ -1914,6 +2034,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Identifier in AIdentifierRegexpart cannot be null.", "value");
+                
+                if (_identifier_ != null)
+                    SetParent(_identifier_, null);
                 SetParent(value, this);
                 
                 _identifier_ = value;
@@ -1968,6 +2091,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Lpar in AParenthesisRegexpart cannot be null.", "value");
+                
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
                 _lpar_ = value;
@@ -1980,6 +2106,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Regex in AParenthesisRegexpart cannot be null.", "value");
+                
+                if (_regex_ != null)
+                    SetParent(_regex_, null);
                 SetParent(value, this);
                 
                 _regex_ = value;
@@ -1992,6 +2121,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rpar in AParenthesisRegexpart cannot be null.", "value");
+                
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
                 _rpar_ = value;
@@ -2063,6 +2195,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Statestoken in PStates cannot be null.", "value");
+                
+                if (_statestoken_ != null)
+                    SetParent(_statestoken_, null);
                 SetParent(value, this);
                 
                 _statestoken_ = value;
@@ -2075,6 +2210,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("List in PStates cannot be null.", "value");
+                
+                if (_list_ != null)
+                    SetParent(_list_, null);
                 SetParent(value, this);
                 
                 _list_ = value;
@@ -2087,6 +2225,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Semicolon in PStates cannot be null.", "value");
+                
+                if (_semicolon_ != null)
+                    SetParent(_semicolon_, null);
                 SetParent(value, this);
                 
                 _semicolon_ = value;
@@ -2168,6 +2309,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Ignoredtoken in PIgnoredtokens cannot be null.", "value");
+                
+                if (_ignoredtoken_ != null)
+                    SetParent(_ignoredtoken_, null);
                 SetParent(value, this);
                 
                 _ignoredtoken_ = value;
@@ -2180,6 +2324,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Tokenstoken in PIgnoredtokens cannot be null.", "value");
+                
+                if (_tokenstoken_ != null)
+                    SetParent(_tokenstoken_, null);
                 SetParent(value, this);
                 
                 _tokenstoken_ = value;
@@ -2192,6 +2339,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("List in PIgnoredtokens cannot be null.", "value");
+                
+                if (_list_ != null)
+                    SetParent(_list_, null);
                 SetParent(value, this);
                 
                 _list_ = value;
@@ -2204,6 +2354,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Semicolon in PIgnoredtokens cannot be null.", "value");
+                
+                if (_semicolon_ != null)
+                    SetParent(_semicolon_, null);
                 SetParent(value, this);
                 
                 _semicolon_ = value;
@@ -2348,6 +2501,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Lpar in ATokenstateList cannot be null.", "value");
+                
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
                 _lpar_ = value;
@@ -2360,6 +2516,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rpar in ATokenstateList cannot be null.", "value");
+                
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
                 _rpar_ = value;
@@ -2548,6 +2707,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Identifier in AIdentifierListitem cannot be null.", "value");
+                
+                if (_identifier_ != null)
+                    SetParent(_identifier_, null);
                 SetParent(value, this);
                 
                 _identifier_ = value;
@@ -2606,6 +2768,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Identifier in ATokenstateListitem cannot be null.", "value");
+                
+                if (_identifier_ != null)
+                    SetParent(_identifier_, null);
                 SetParent(value, this);
                 
                 _identifier_ = value;
@@ -2668,6 +2833,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("From in ATokenstatetransitionListitem cannot be null.", "value");
+                
+                if (_from_ != null)
+                    SetParent(_from_, null);
                 SetParent(value, this);
                 
                 _from_ = value;
@@ -2680,6 +2848,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Arrow in ATokenstatetransitionListitem cannot be null.", "value");
+                
+                if (_arrow_ != null)
+                    SetParent(_arrow_, null);
                 SetParent(value, this);
                 
                 _arrow_ = value;
@@ -2692,6 +2863,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("To in ATokenstatetransitionListitem cannot be null.", "value");
+                
+                if (_to_ != null)
+                    SetParent(_to_, null);
                 SetParent(value, this);
                 
                 _to_ = value;
@@ -2768,6 +2942,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Translation in ATranslationListitem cannot be null.", "value");
+                
+                if (_translation_ != null)
+                    SetParent(_translation_, null);
                 SetParent(value, this);
                 
                 _translation_ = value;
@@ -2826,6 +3003,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("HighlightStyle in AStyleListitem cannot be null.", "value");
+                
+                if (_highlight_style_ != null)
+                    SetParent(_highlight_style_, null);
                 SetParent(value, this);
                 
                 _highlight_style_ = value;
@@ -2885,6 +3065,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Productionstoken in PProductions cannot be null.", "value");
+                
+                if (_productionstoken_ != null)
+                    SetParent(_productionstoken_, null);
                 SetParent(value, this);
                 
                 _productionstoken_ = value;
@@ -2965,6 +3148,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Asttoken in PAstproductions cannot be null.", "value");
+                
+                if (_asttoken_ != null)
+                    SetParent(_asttoken_, null);
                 SetParent(value, this);
                 
                 _asttoken_ = value;
@@ -3051,6 +3237,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Identifier in PProduction cannot be null.", "value");
+                
+                if (_identifier_ != null)
+                    SetParent(_identifier_, null);
                 SetParent(value, this);
                 
                 _identifier_ = value;
@@ -3080,6 +3269,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Equal in PProduction cannot be null.", "value");
+                
+                if (_equal_ != null)
+                    SetParent(_equal_, null);
                 SetParent(value, this);
                 
                 _equal_ = value;
@@ -3092,6 +3284,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Productionrule in PProduction cannot be null.", "value");
+                
+                if (_productionrule_ != null)
+                    SetParent(_productionrule_, null);
                 SetParent(value, this);
                 
                 _productionrule_ = value;
@@ -3104,6 +3299,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Semicolon in PProduction cannot be null.", "value");
+                
+                if (_semicolon_ != null)
+                    SetParent(_semicolon_, null);
                 SetParent(value, this);
                 
                 _semicolon_ = value;
@@ -3202,6 +3400,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Lpar in PProdtranslation cannot be null.", "value");
+                
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
                 _lpar_ = value;
@@ -3214,6 +3415,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Arrow in PProdtranslation cannot be null.", "value");
+                
+                if (_arrow_ != null)
+                    SetParent(_arrow_, null);
                 SetParent(value, this);
                 
                 _arrow_ = value;
@@ -3226,6 +3430,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Identifier in PProdtranslation cannot be null.", "value");
+                
+                if (_identifier_ != null)
+                    SetParent(_identifier_, null);
                 SetParent(value, this);
                 
                 _identifier_ = value;
@@ -3238,6 +3445,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rpar in PProdtranslation cannot be null.", "value");
+                
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
                 _rpar_ = value;
@@ -3323,6 +3533,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Star in AStarProdtranslation cannot be null.", "value");
+                
+                if (_star_ != null)
+                    SetParent(_star_, null);
                 SetParent(value, this);
                 
                 _star_ = value;
@@ -3409,6 +3622,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Plus in APlusProdtranslation cannot be null.", "value");
+                
+                if (_plus_ != null)
+                    SetParent(_plus_, null);
                 SetParent(value, this);
                 
                 _plus_ = value;
@@ -3495,6 +3711,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("QMark in AQuestionProdtranslation cannot be null.", "value");
+                
+                if (_q_mark_ != null)
+                    SetParent(_q_mark_, null);
                 SetParent(value, this);
                 
                 _q_mark_ = value;
@@ -3594,6 +3813,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Lpar in AFullTranslation cannot be null.", "value");
+                
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
                 _lpar_ = value;
@@ -3606,6 +3828,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Arrow in AFullTranslation cannot be null.", "value");
+                
+                if (_arrow_ != null)
+                    SetParent(_arrow_, null);
                 SetParent(value, this);
                 
                 _arrow_ = value;
@@ -3618,6 +3843,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Translation in AFullTranslation cannot be null.", "value");
+                
+                if (_translation_ != null)
+                    SetParent(_translation_, null);
                 SetParent(value, this);
                 
                 _translation_ = value;
@@ -3630,6 +3858,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rpar in AFullTranslation cannot be null.", "value");
+                
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
                 _rpar_ = value;
@@ -3715,6 +3946,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("New in ANewTranslation cannot be null.", "value");
+                
+                if (_new_ != null)
+                    SetParent(_new_, null);
                 SetParent(value, this);
                 
                 _new_ = value;
@@ -3727,6 +3961,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Production in ANewTranslation cannot be null.", "value");
+                
+                if (_production_ != null)
+                    SetParent(_production_, null);
                 SetParent(value, this);
                 
                 _production_ = value;
@@ -3739,6 +3976,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Lpar in ANewTranslation cannot be null.", "value");
+                
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
                 _lpar_ = value;
@@ -3751,6 +3991,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Arguments in ANewTranslation cannot be null.", "value");
+                
+                if (_arguments_ != null)
+                    SetParent(_arguments_, null);
                 SetParent(value, this);
                 
                 _arguments_ = value;
@@ -3763,6 +4006,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rpar in ANewTranslation cannot be null.", "value");
+                
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
                 _rpar_ = value;
@@ -3861,6 +4107,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("New in ANewalternativeTranslation cannot be null.", "value");
+                
+                if (_new_ != null)
+                    SetParent(_new_, null);
                 SetParent(value, this);
                 
                 _new_ = value;
@@ -3873,6 +4122,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Production in ANewalternativeTranslation cannot be null.", "value");
+                
+                if (_production_ != null)
+                    SetParent(_production_, null);
                 SetParent(value, this);
                 
                 _production_ = value;
@@ -3885,6 +4137,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Dot in ANewalternativeTranslation cannot be null.", "value");
+                
+                if (_dot_ != null)
+                    SetParent(_dot_, null);
                 SetParent(value, this);
                 
                 _dot_ = value;
@@ -3897,6 +4152,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Alternative in ANewalternativeTranslation cannot be null.", "value");
+                
+                if (_alternative_ != null)
+                    SetParent(_alternative_, null);
                 SetParent(value, this);
                 
                 _alternative_ = value;
@@ -3909,6 +4167,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Lpar in ANewalternativeTranslation cannot be null.", "value");
+                
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
                 _lpar_ = value;
@@ -3921,6 +4182,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Arguments in ANewalternativeTranslation cannot be null.", "value");
+                
+                if (_arguments_ != null)
+                    SetParent(_arguments_, null);
                 SetParent(value, this);
                 
                 _arguments_ = value;
@@ -3933,6 +4197,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rpar in ANewalternativeTranslation cannot be null.", "value");
+                
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
                 _rpar_ = value;
@@ -4041,6 +4308,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Lpar in AListTranslation cannot be null.", "value");
+                
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
                 _lpar_ = value;
@@ -4053,6 +4323,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Elements in AListTranslation cannot be null.", "value");
+                
+                if (_elements_ != null)
+                    SetParent(_elements_, null);
                 SetParent(value, this);
                 
                 _elements_ = value;
@@ -4065,6 +4338,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rpar in AListTranslation cannot be null.", "value");
+                
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
                 _rpar_ = value;
@@ -4133,6 +4409,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Null in ANullTranslation cannot be null.", "value");
+                
+                if (_null_ != null)
+                    SetParent(_null_, null);
                 SetParent(value, this);
                 
                 _null_ = value;
@@ -4183,6 +4462,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Identifier in AIdTranslation cannot be null.", "value");
+                
+                if (_identifier_ != null)
+                    SetParent(_identifier_, null);
                 SetParent(value, this);
                 
                 _identifier_ = value;
@@ -4237,6 +4519,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Identifier in AIddotidTranslation cannot be null.", "value");
+                
+                if (_identifier_ != null)
+                    SetParent(_identifier_, null);
                 SetParent(value, this);
                 
                 _identifier_ = value;
@@ -4249,6 +4534,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Dot in AIddotidTranslation cannot be null.", "value");
+                
+                if (_dot_ != null)
+                    SetParent(_dot_, null);
                 SetParent(value, this);
                 
                 _dot_ = value;
@@ -4261,6 +4549,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Production in AIddotidTranslation cannot be null.", "value");
+                
+                if (_production_ != null)
+                    SetParent(_production_, null);
                 SetParent(value, this);
                 
                 _production_ = value;
@@ -4425,6 +4716,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Elements in PAlternative cannot be null.", "value");
+                
+                if (_elements_ != null)
+                    SetParent(_elements_, null);
                 SetParent(value, this);
                 
                 _elements_ = value;
@@ -4527,6 +4821,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Lpar in PAlternativename cannot be null.", "value");
+                
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
                 _lpar_ = value;
@@ -4539,6 +4836,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Name in PAlternativename cannot be null.", "value");
+                
+                if (_name_ != null)
+                    SetParent(_name_, null);
                 SetParent(value, this);
                 
                 _name_ = value;
@@ -4551,6 +4851,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rpar in PAlternativename cannot be null.", "value");
+                
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
                 _rpar_ = value;
@@ -4702,6 +5005,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Elementid in PElement cannot be null.", "value");
+                
+                if (_elementid_ != null)
+                    SetParent(_elementid_, null);
                 SetParent(value, this);
                 
                 _elementid_ = value;
@@ -4768,6 +5074,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Star in AStarElement cannot be null.", "value");
+                
+                if (_star_ != null)
+                    SetParent(_star_, null);
                 SetParent(value, this);
                 
                 _star_ = value;
@@ -4835,6 +5144,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("QMark in AQuestionElement cannot be null.", "value");
+                
+                if (_q_mark_ != null)
+                    SetParent(_q_mark_, null);
                 SetParent(value, this);
                 
                 _q_mark_ = value;
@@ -4902,6 +5214,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Plus in APlusElement cannot be null.", "value");
+                
+                if (_plus_ != null)
+                    SetParent(_plus_, null);
                 SetParent(value, this);
                 
                 _plus_ = value;
@@ -4974,6 +5289,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Lpar in PElementname cannot be null.", "value");
+                
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
                 _lpar_ = value;
@@ -4986,6 +5304,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Name in PElementname cannot be null.", "value");
+                
+                if (_name_ != null)
+                    SetParent(_name_, null);
                 SetParent(value, this);
                 
                 _name_ = value;
@@ -4998,6 +5319,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rpar in PElementname cannot be null.", "value");
+                
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
                 _rpar_ = value;
@@ -5010,6 +5334,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Colon in PElementname cannot be null.", "value");
+                
+                if (_colon_ != null)
+                    SetParent(_colon_, null);
                 SetParent(value, this);
                 
                 _colon_ = value;
@@ -5094,6 +5421,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Identifier in PElementid cannot be null.", "value");
+                
+                if (_identifier_ != null)
+                    SetParent(_identifier_, null);
                 SetParent(value, this);
                 
                 _identifier_ = value;
@@ -5154,6 +5484,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("TokenSpecifier in ATokenElementid cannot be null.", "value");
+                
+                if (_token_specifier_ != null)
+                    SetParent(_token_specifier_, null);
                 SetParent(value, this);
                 
                 _token_specifier_ = value;
@@ -5166,6 +5499,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Dot in ATokenElementid cannot be null.", "value");
+                
+                if (_dot_ != null)
+                    SetParent(_dot_, null);
                 SetParent(value, this);
                 
                 _dot_ = value;
@@ -5236,6 +5572,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("ProductionSpecifier in AProductionElementid cannot be null.", "value");
+                
+                if (_production_specifier_ != null)
+                    SetParent(_production_specifier_, null);
                 SetParent(value, this);
                 
                 _production_specifier_ = value;
@@ -5248,6 +5587,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Dot in AProductionElementid cannot be null.", "value");
+                
+                if (_dot_ != null)
+                    SetParent(_dot_, null);
                 SetParent(value, this);
                 
                 _dot_ = value;
@@ -5317,6 +5659,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Highlighttoken in PHighlightrules cannot be null.", "value");
+                
+                if (_highlighttoken_ != null)
+                    SetParent(_highlighttoken_, null);
                 SetParent(value, this);
                 
                 _highlighttoken_ = value;
@@ -5405,6 +5750,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Name in PHighlightrule cannot be null.", "value");
+                
+                if (_name_ != null)
+                    SetParent(_name_, null);
                 SetParent(value, this);
                 
                 _name_ = value;
@@ -5417,6 +5765,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Lpar in PHighlightrule cannot be null.", "value");
+                
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
                 _lpar_ = value;
@@ -5429,6 +5780,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Tokens in PHighlightrule cannot be null.", "value");
+                
+                if (_tokens_ != null)
+                    SetParent(_tokens_, null);
                 SetParent(value, this);
                 
                 _tokens_ = value;
@@ -5441,6 +5795,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rpar in PHighlightrule cannot be null.", "value");
+                
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
                 _rpar_ = value;
@@ -5453,6 +5810,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("List in PHighlightrule cannot be null.", "value");
+                
+                if (_list_ != null)
+                    SetParent(_list_, null);
                 SetParent(value, this);
                 
                 _list_ = value;
@@ -5465,6 +5825,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Semicolon in PHighlightrule cannot be null.", "value");
+                
+                if (_semicolon_ != null)
+                    SetParent(_semicolon_, null);
                 SetParent(value, this);
                 
                 _semicolon_ = value;
@@ -5575,6 +5938,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Italic in AItalicHighlightStyle cannot be null.", "value");
+                
+                if (_italic_ != null)
+                    SetParent(_italic_, null);
                 SetParent(value, this);
                 
                 _italic_ = value;
@@ -5625,6 +5991,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Bold in ABoldHighlightStyle cannot be null.", "value");
+                
+                if (_bold_ != null)
+                    SetParent(_bold_, null);
                 SetParent(value, this);
                 
                 _bold_ = value;
@@ -5679,6 +6048,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Text in ATextHighlightStyle cannot be null.", "value");
+                
+                if (_text_ != null)
+                    SetParent(_text_, null);
                 SetParent(value, this);
                 
                 _text_ = value;
@@ -5691,6 +6063,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Colon in ATextHighlightStyle cannot be null.", "value");
+                
+                if (_colon_ != null)
+                    SetParent(_colon_, null);
                 SetParent(value, this);
                 
                 _colon_ = value;
@@ -5703,6 +6078,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Color in ATextHighlightStyle cannot be null.", "value");
+                
+                if (_color_ != null)
+                    SetParent(_color_, null);
                 SetParent(value, this);
                 
                 _color_ = value;
@@ -5775,6 +6153,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Background in ABackgroundHighlightStyle cannot be null.", "value");
+                
+                if (_background_ != null)
+                    SetParent(_background_, null);
                 SetParent(value, this);
                 
                 _background_ = value;
@@ -5787,6 +6168,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Colon in ABackgroundHighlightStyle cannot be null.", "value");
+                
+                if (_colon_ != null)
+                    SetParent(_colon_, null);
                 SetParent(value, this);
                 
                 _colon_ = value;
@@ -5799,6 +6183,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Color in ABackgroundHighlightStyle cannot be null.", "value");
+                
+                if (_color_ != null)
+                    SetParent(_color_, null);
                 SetParent(value, this);
                 
                 _color_ = value;
@@ -5888,6 +6275,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Rgb in ARgbColor cannot be null.", "value");
+                
+                if (_rgb_ != null)
+                    SetParent(_rgb_, null);
                 SetParent(value, this);
                 
                 _rgb_ = value;
@@ -5900,6 +6290,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("LPar in ARgbColor cannot be null.", "value");
+                
+                if (_l_par_ != null)
+                    SetParent(_l_par_, null);
                 SetParent(value, this);
                 
                 _l_par_ = value;
@@ -5912,6 +6305,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Red in ARgbColor cannot be null.", "value");
+                
+                if (_red_ != null)
+                    SetParent(_red_, null);
                 SetParent(value, this);
                 
                 _red_ = value;
@@ -5924,6 +6320,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Comma1 in ARgbColor cannot be null.", "value");
+                
+                if (_comma1_ != null)
+                    SetParent(_comma1_, null);
                 SetParent(value, this);
                 
                 _comma1_ = value;
@@ -5936,6 +6335,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Green in ARgbColor cannot be null.", "value");
+                
+                if (_green_ != null)
+                    SetParent(_green_, null);
                 SetParent(value, this);
                 
                 _green_ = value;
@@ -5948,6 +6350,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Comma2 in ARgbColor cannot be null.", "value");
+                
+                if (_comma2_ != null)
+                    SetParent(_comma2_, null);
                 SetParent(value, this);
                 
                 _comma2_ = value;
@@ -5960,6 +6365,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Blue in ARgbColor cannot be null.", "value");
+                
+                if (_blue_ != null)
+                    SetParent(_blue_, null);
                 SetParent(value, this);
                 
                 _blue_ = value;
@@ -5972,6 +6380,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("RPar in ARgbColor cannot be null.", "value");
+                
+                if (_r_par_ != null)
+                    SetParent(_r_par_, null);
                 SetParent(value, this);
                 
                 _r_par_ = value;
@@ -6099,6 +6510,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Hsv in AHsvColor cannot be null.", "value");
+                
+                if (_hsv_ != null)
+                    SetParent(_hsv_, null);
                 SetParent(value, this);
                 
                 _hsv_ = value;
@@ -6111,6 +6525,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("LPar in AHsvColor cannot be null.", "value");
+                
+                if (_l_par_ != null)
+                    SetParent(_l_par_, null);
                 SetParent(value, this);
                 
                 _l_par_ = value;
@@ -6123,6 +6540,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Hue in AHsvColor cannot be null.", "value");
+                
+                if (_hue_ != null)
+                    SetParent(_hue_, null);
                 SetParent(value, this);
                 
                 _hue_ = value;
@@ -6135,6 +6555,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Comma1 in AHsvColor cannot be null.", "value");
+                
+                if (_comma1_ != null)
+                    SetParent(_comma1_, null);
                 SetParent(value, this);
                 
                 _comma1_ = value;
@@ -6147,6 +6570,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Saturation in AHsvColor cannot be null.", "value");
+                
+                if (_saturation_ != null)
+                    SetParent(_saturation_, null);
                 SetParent(value, this);
                 
                 _saturation_ = value;
@@ -6159,6 +6585,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Comma2 in AHsvColor cannot be null.", "value");
+                
+                if (_comma2_ != null)
+                    SetParent(_comma2_, null);
                 SetParent(value, this);
                 
                 _comma2_ = value;
@@ -6171,6 +6600,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Brightness in AHsvColor cannot be null.", "value");
+                
+                if (_brightness_ != null)
+                    SetParent(_brightness_, null);
                 SetParent(value, this);
                 
                 _brightness_ = value;
@@ -6183,6 +6615,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("RPar in AHsvColor cannot be null.", "value");
+                
+                if (_r_par_ != null)
+                    SetParent(_r_par_, null);
                 SetParent(value, this);
                 
                 _r_par_ = value;
@@ -6296,6 +6731,9 @@ namespace SablePP.Compiler.Nodes
             {
                 if (value == null)
                     throw new ArgumentException("Color in AHexColor cannot be null.", "value");
+                
+                if (_color_ != null)
+                    SetParent(_color_, null);
                 SetParent(value, this);
                 
                 _color_ = value;
