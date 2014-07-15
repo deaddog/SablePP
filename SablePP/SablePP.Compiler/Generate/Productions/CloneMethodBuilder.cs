@@ -12,7 +12,7 @@ namespace SablePP.Compiler.Generate.Productions
             var elements = ProductionElement.GetAllElements(node);
 
             CloneMethodBuilder builder = new CloneMethodBuilder();
-            classElement.Add(builder.method = new MethodElement("public override {0} Clone()", true, node.ProductionName));
+            classElement.Add(builder.method = new MethodElement("public override {0} Clone()", true, node.Production.ClassName));
 
             builder.method.Body.Emit("return new {0}(", classElement.Name);
             for (int i = 0; i < elements.Length; i++)

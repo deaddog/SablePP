@@ -35,7 +35,7 @@ namespace SablePP.Compiler.Nodes
             {
                 var id = Elementid.Identifier;
                 if (id.IsToken)
-                    return id.AsToken.GeneratedName;
+                    return id.AsToken.Declaration.ClassName;
                 else
                     return "";
             }

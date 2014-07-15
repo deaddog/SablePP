@@ -176,7 +176,7 @@ namespace SablePP.Compiler.Generate
 
         public override void CaseTIdentifier(TIdentifier node)
         {
-            styleRulesElement.Emit("token is {0}", node.AsToken.GeneratedName);
+            styleRulesElement.Emit("token is {0}", node.AsToken.Declaration.ClassName);
         }
 
         private void EmitNewBrush(Color? color)

@@ -98,7 +98,7 @@ namespace SablePP.Compiler.Generate.Analysis
             EmitInOut(node.ClassName);
 
             adapterClass.Add(method = new MethodElement("public override void Case{0}({0} node)", true, node.ClassName));
-            method.Body.EmitLine("In{0}(node);", node.ProductionName);
+            method.Body.EmitLine("In{0}(node);", node.Production.ClassName);
             method.Body.EmitLine("In{0}(node);", node.ClassName);
             method.Body.EmitNewLine();
 
@@ -106,7 +106,7 @@ namespace SablePP.Compiler.Generate.Analysis
 
             method.Body.EmitNewLine();
             method.Body.EmitLine("Out{0}(node);", node.ClassName);
-            method.Body.EmitLine("Out{0}(node);", node.ProductionName);
+            method.Body.EmitLine("Out{0}(node);", node.Production.ClassName);
         }
 
         public override void CaseAElements(AElements node)
@@ -155,7 +155,7 @@ namespace SablePP.Compiler.Generate.Analysis
         public override void CaseAPlusElement(APlusElement node)
         {
             TIdentifier typeId = node.Elementid.Identifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
+            string type = (typeId.IsToken ? typeId.AsToken.Declaration.ClassName : typeId.AsProduction.Declaration.ClassName);
             string name = ToCamelCase(node.LowerName);
 
             EmitListWalking(type, name, node);
@@ -163,7 +163,7 @@ namespace SablePP.Compiler.Generate.Analysis
         public override void CaseAStarElement(AStarElement node)
         {
             TIdentifier typeId = node.Elementid.Identifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
+            string type = (typeId.IsToken ? typeId.AsToken.Declaration.ClassName : typeId.AsProduction.Declaration.ClassName);
             string name = ToCamelCase(node.LowerName);
 
             EmitListWalking(type, name, node);

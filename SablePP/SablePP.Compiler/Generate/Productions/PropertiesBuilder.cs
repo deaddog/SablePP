@@ -65,6 +65,14 @@ namespace SablePP.Compiler.Generate.Productions
             property.Set.EmitLine("throw new ArgumentException(\"{0} in {1} cannot be null.\", \"value\");", node.PropertyName, classElement.Name);
             property.Set.DecreaseIndentation();
 
+            property.Set.EmitNewLine();
+
+            property.Set.EmitLine("if ({0} != null)", node.FieldName);
+
+            property.Set.IncreaseIndentation();
+            property.Set.EmitLine("SetParent({0}, null);", node.FieldName);
+            property.Set.DecreaseIndentation();
+
             property.Set.EmitLine("SetParent(value, this);");
 
             property.Set.EmitNewLine();

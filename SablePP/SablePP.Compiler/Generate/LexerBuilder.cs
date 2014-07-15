@@ -117,7 +117,7 @@ namespace SablePP.Compiler.Generate
         public override void CaseAToken(AToken node)
         {
             var token = node.Identifier.AsToken;
-            getTokenMethod.EmitLine("case {1}: return new {0}(text, line, position);", token.GeneratedName, tokenIndex);
+            getTokenMethod.EmitLine("case {1}: return new {0}(text, line, position);", token.Declaration.ClassName, tokenIndex);
 
             base.CaseAToken(node);
 
@@ -147,7 +147,7 @@ namespace SablePP.Compiler.Generate
         }
         public override void CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node)
         {
-            getNextStateMethod.EmitLine("case {0}: return {1};", node.From.AsState.Name.ToUpper(), node.To.AsState.Name.ToUpper());
+            getNextStateMethod.EmitLine("case {0}: return {1};", node.From.AsState.Text.ToUpper(), node.To.AsState.Text.ToUpper());
         }
 
         public override void CaseAStates(AStates node)
@@ -158,7 +158,7 @@ namespace SablePP.Compiler.Generate
             int index = 0;
             foreach (var state in statesEnum)
             {
-                string name = state.Identifier.AsState.Name.ToUpper();
+                string name = state.Identifier.AsState.Text.ToUpper();
                 states.Add(name, index);
                 classElement.EmitField("private const int " + name, index.ToString());
 
