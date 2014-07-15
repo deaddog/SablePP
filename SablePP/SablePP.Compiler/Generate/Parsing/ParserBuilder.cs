@@ -159,8 +159,7 @@ namespace SablePP.Compiler.Generate.Parsing
         {
             List<string> types = new List<string>();
 
-            var prod = grammar.HasAstproductions ? grammar.Astproductions.Productions : grammar.Productions.Productions;
-            foreach (var p in prod)
+            foreach (var p in grammar.Productions.Productions)
                 foreach (var a in p.Productionrule.Alternatives)
                     foreach (var e in a.Elements.Element)
                     {
