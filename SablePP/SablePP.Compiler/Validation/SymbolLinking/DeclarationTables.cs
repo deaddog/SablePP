@@ -7,53 +7,8 @@ using System.Text;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
-    public class DeclarationTables
+    public static class DeclarationTables
     {
-        private HelpersTable helpers;
-        private DeclarationTable<DState> states;
-        private DeclarationTable<DToken> tokens;
-        private DeclarationTable<DProduction> productions;
-        private DeclarationTable<DProduction> astProductions;
-        private Dictionary<string, DHighlightRule> highlight;
-
-        public DeclarationTables()
-        {
-            bool firstProduction = true;
-            bool firstASTProduction = true;
-
-            this.helpers = new HelpersTable();
-            this.states = new DeclarationTable<DState>(id => new DState(id));
-            this.tokens = new DeclarationTable<DToken>(id => new DToken(id));
-            this.productions = new DeclarationTable<DProduction>(id => { var p = new DProduction(id, firstProduction); firstProduction = false; return p; });
-            this.astProductions = new DeclarationTable<DProduction>(id => { var p = new DProduction(id, firstASTProduction); firstASTProduction = false; return p; });
-            this.highlight = new Dictionary<string, DHighlightRule>();
-        }
-
-        public HelpersTable Helpers
-        {
-            get { return helpers; }
-        }
-        public DeclarationTable<DState> States
-        {
-            get { return states; }
-        }
-        public DeclarationTable<DToken> Tokens
-        {
-            get { return tokens; }
-        }
-        public DeclarationTable<DProduction> Productions
-        {
-            get { return productions; }
-        }
-        public DeclarationTable<DProduction> AstProductions
-        {
-            get { return astProductions; }
-        }
-        public Dictionary<string, DHighlightRule> HighlightRules
-        {
-            get { return highlight; }
-        }
-
         #region Helpers
 
         public class HelpersTable : Table<HelperIdentifier, PHelper>
