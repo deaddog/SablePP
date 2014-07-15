@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SablePP.Compiler.Nodes.Identifiers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,45 +9,45 @@ namespace SablePP.Compiler.Nodes
     public partial class TIdentifier
     {
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="DHelper"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="HelperIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="DHelper"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="HelperIdentifier"/>; otherwise, <c>false</c>.
         /// </value>
         public bool IsHelper
         {
-            get { return declaration is DHelper; }
+            get { return this is HelperIdentifier; }
         }
         /// <summary>
-        /// Gets the declaration associated with this identifier, as a <see cref="DHelper"/>.
+        /// Gets the declaration associated with this identifier, as a <see cref="HelperIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="DHelper"/> if this identifier refers to a <see cref="DHelper"/>; otherwise, <c>null</c>.
+        ///   A <see cref="HelperIdentifier"/> if this identifier refers to a <see cref="HelperIdentifier"/>; otherwise, <c>null</c>.
         /// </value>
-        public DHelper AsHelper
+        public HelperIdentifier AsHelper
         {
-            get { return declaration as DHelper; }
+            get { return this as HelperIdentifier; }
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="DState"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="StateIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="DState"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="StateIdentifier"/>; otherwise, <c>false</c>.
         /// </value>
         public bool IsState
         {
-            get { return declaration is DState; }
+            get { return this is StateIdentifier; }
         }
         /// <summary>
-        /// Gets the declaration associated with this identifier, as a <see cref="DState"/>.
+        /// Gets the declaration associated with this identifier, as a <see cref="StateIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="DState"/> if this identifier refers to a <see cref="DState"/>; otherwise, <c>null</c>.
+        ///   A <see cref="StateIdentifier"/> if this identifier refers to a <see cref="StateIdentifier"/>; otherwise, <c>null</c>.
         /// </value>
-        public DState AsState
+        public StateIdentifier AsState
         {
-            get { return declaration as DState; }
+            get { return this as StateIdentifier; }
         }
 
         /// <summary>
@@ -113,24 +114,24 @@ namespace SablePP.Compiler.Nodes
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="DElementName"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="ElementNameIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="DElementName"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="ElementNameIdentifier"/>; otherwise, <c>false</c>.
         /// </value>
         public bool IsElementName
         {
-            get { return declaration is DElementName; }
+            get { return this is ElementIdentifier; }
         }
         /// <summary>
-        /// Gets the element name associated with this identifier, as a <see cref="DElementName"/>.
+        /// Gets the element name associated with this identifier, as a <see cref="ElementNameIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="DElementName"/> if this identifier refers to a <see cref="DElementName"/>; otherwise, <c>null</c>.
+        ///   A <see cref="ElementNameIdentifier"/> if this identifier refers to a <see cref="ElementNameIdentifier"/>; otherwise, <c>null</c>.
         /// </value>
-        public DElementName AsElementName
+        public ElementIdentifier AsElementName
         {
-            get { return declaration as DElementName; }
+            get { return this as ElementIdentifier; }
         }
 
         /// <summary>
