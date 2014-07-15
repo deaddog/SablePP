@@ -31,6 +31,27 @@ namespace SablePP.Compiler.Nodes
         }
 
         /// <summary>
+        /// Gets a value indicating whether this identifier refers to a <see cref="DHelper"/>.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this identifier refers to a <see cref="DHelper"/>; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsHelper
+        {
+            get { return declaration is DHelper; }
+        }
+        /// <summary>
+        /// Gets the declaration associated with this identifier, as a <see cref="DHelper"/>.
+        /// </summary>
+        /// <value>
+        ///   A <see cref="DHelper"/> if this identifier refers to a <see cref="DHelper"/>; otherwise, <c>null</c>.
+        /// </value>
+        public DHelper AsHelper
+        {
+            get { return declaration as DHelper; }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether this identifier refers to a <see cref="DState"/>.
         /// </summary>
         /// <value>
