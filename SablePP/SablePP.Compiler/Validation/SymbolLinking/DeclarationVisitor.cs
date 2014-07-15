@@ -17,8 +17,11 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         private DeclarationTables.ProductionsTable productions;
         private DeclarationTables.ProductionsTable astProd;
         private DeclarationTables.ProductionsTable nonastProd;
+
         private DeclarationTables.AlternativesTable alternatives;
+        private Dictionary<PProduction, DeclarationTables.AlternativesTable> allAlternatives;
         private DeclarationTables.ElementsTable elements;
+        private Dictionary<PAlternative, DeclarationTables.ElementsTable> allElements;
 
         public DeclarationVisitor(ErrorManager errorManager)
             : base(errorManager)
@@ -30,8 +33,11 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             this.productions = null;
             this.astProd = new DeclarationTables.ProductionsTable();
             this.nonastProd = new DeclarationTables.ProductionsTable();
-            this.alternatives = new DeclarationTables.AlternativesTable();
-            this.elements = new DeclarationTables.ElementsTable();
+
+            this.alternatives = null;
+            this.allAlternatives = new Dictionary<PProduction, DeclarationTables.AlternativesTable>();
+            this.elements = null;
+            this.allElements = new Dictionary<PAlternative, DeclarationTables.ElementsTable>();
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -53,14 +59,11 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (node.HasIgnoredtokens)
                 Visit(node.Ignoredtokens);
 
-            if (node.HasProductions)
-                Visit(node.Productions);
-
             if (node.HasAstproductions)
                 Visit(node.Astproductions);
 
             if (node.HasProductions)
-                TranslationVisitor.SetIdentifiersInTranslations(node.Productions, declarations, this.ErrorManager);
+                Visit(node.Productions);
 
             if (node.HasHighlightrules)
                 TokenHighlightVisitor.LoadTokenDeclarations(node.Highlightrules, declarations, this.ErrorManager);
@@ -170,13 +173,15 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         }
         public override void CaseAProduction(AProduction node)
         {
-            alternatives.Clear();
+            alternatives = new DeclarationTables.AlternativesTable();
             base.CaseAProduction(node);
+            allAlternatives[node] = alternatives;
         }
         public override void CaseAAlternative(AAlternative node)
         {
-            elements.Clear();
+            elements = new DeclarationTables.ElementsTable();
             base.CaseAAlternative(node);
+            allElements[node] = elements;
         }
 
         public override void CaseAAlternativename(AAlternativename node)
@@ -185,11 +190,15 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 RegisterError(node.Name, "Production alternative {0} is already in use (line {1}).", node.Name, alternatives[node.Name.Text].Alternativename.Name.Line);
             base.CaseAAlternativename(node);
         }
-        public override void CaseAElementname(AElementname node)
+        public override void InPElement(PElement node)
         {
-            if (!elements.Declare(node.GetFirstParent<PElement>()))
-                RegisterError(node.Name, "Element name {0} is already in use in this production.", node.Name);
-            base.CaseAElementname(node);
+            if (!elements.Declare(node))
+            {
+                if (node.HasElementname)
+                    RegisterError(node.Elementname.Name, "Element name {0} is already in use in this production.", node.Elementname.Name);
+                else
+                    RegisterError(node.Elementid.Identifier, "A {0} element (or an element named {0}) is already in use in this production.", node.Elementid.Identifier);
+            }
         }
 
         public override void CaseACleanElementid(ACleanElementid node)
@@ -225,8 +234,50 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             if (!productions.Link(node.Identifier))
                 RegisterError(node.Identifier, "The production {0} has not been defined.", node.Identifier);
-            
+
             base.CaseAProductionElementid(node);
+        }
+
+        public override void InPProdtranslation(PProdtranslation node)
+        {
+            if (!astProd.Link(node.Identifier))
+                RegisterError(node.Identifier, "The AST production {0} has not been defined.", node.Identifier);
+        }
+
+        public override void CaseANewTranslation(ANewTranslation node)
+        {
+            if (!astProd.Link(node.Production))
+                RegisterError(node.Production, "The AST production {0} has not been defined.", node.Production);
+
+            base.CaseANewTranslation(node);
+        }
+        public override void CaseANewalternativeTranslation(ANewalternativeTranslation node)
+        {
+            if (astProd.Contains(node.Production.Text))
+            {
+                PProduction dp = astProd[node.Production.Text];
+                var alternatives = allAlternatives[dp];
+
+                if (!alternatives.Link(node.Alternative))
+                    RegisterError(node.Alternative, "The AST alternative {0} has not been defined.", node.Alternative);
+            }
+            else
+                RegisterError(node.Production, "The AST production {0} has not been defined.", node.Production);
+
+            base.CaseANewalternativeTranslation(node);
+        }
+        public override void CaseAIdTranslation(AIdTranslation node)
+        {
+            if (!elements.Link(node.Identifier))
+                RegisterError(node.Identifier, "The production element {0} has not been defined. Check for possible renames.", node.Identifier);
+        }
+        public override void CaseAIddotidTranslation(AIddotidTranslation node)
+        {
+            if (!elements.Link(node.Identifier))
+                RegisterError(node.Identifier, "The production element {0} has not been defined. Check for possible renames.", node.Identifier);
+
+            if(!astProd.Link(node.Production))
+                RegisterError(node.Production, "The AST production {0} has not been defined.", node.Production);
         }
     }
 }
