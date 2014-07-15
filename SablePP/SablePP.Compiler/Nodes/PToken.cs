@@ -8,5 +8,16 @@
             get { return ignored.HasValue ? ignored.Value : false; }
             set { ignored = value; }
         }
+
+        private PHighlightrule highlight = null;
+        public bool HasHighlighting
+        {
+            get { return highlight != null; }
+        }
+        public PHighlightrule Highlighting
+        {
+            get { return highlight; }
+            set { highlight = value; }
+        }
     }
 }

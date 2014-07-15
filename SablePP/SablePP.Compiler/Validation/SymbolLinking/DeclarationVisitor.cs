@@ -23,6 +23,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         private DeclarationTables.ElementsTable elements;
         private Dictionary<PAlternative, DeclarationTables.ElementsTable> allElements;
 
+        private DeclarationTables.HighlightrulesTable highlightrules;
+
         public DeclarationVisitor(ErrorManager errorManager)
             : base(errorManager)
         {
@@ -38,6 +40,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             this.allAlternatives = new Dictionary<PProduction, DeclarationTables.AlternativesTable>();
             this.elements = null;
             this.allElements = new Dictionary<PAlternative, DeclarationTables.ElementsTable>();
+
+            this.highlightrules = new DeclarationTables.HighlightrulesTable();
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -66,7 +70,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 Visit(node.Productions);
 
             if (node.HasHighlightrules)
-                TokenHighlightVisitor.LoadTokenDeclarations(node.Highlightrules, declarations, this.ErrorManager);
+                Visit(node.Highlightrules);
 
             foreach (var h in helpers.NonLinked)
                 RegisterWarning(h.Identifier, "The helper '{0}' is never used in a helper or token definition.", h.Identifier.Text);
@@ -278,6 +282,26 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             if(!astProd.Link(node.Production))
                 RegisterError(node.Production, "The AST production {0} has not been defined.", node.Production);
+        }
+
+        public override void CaseAHighlightrule(AHighlightrule node)
+        {
+            if (!highlightrules.Declare(node))
+                RegisterError(node.Name, "Syntax highlight style {0} has already been defined (line {1}).", node.Name, highlightrules[node.Name.Text].Name.Line);
+
+            foreach(AIdentifierListitem item in node.Tokens.Listitem)
+            {
+                if (!tokens.Link(item.Identifier))
+                    RegisterError(node, "The token {0} has not been defined.", node);
+                else
+                {
+                    var token = tokens[item.Identifier.Text];
+                    if (token.HasHighlighting)
+                        RegisterError(item.Identifier, "The style of {0} has already been defined as {1} (line {2}).", item.Identifier, token.Highlighting.Name, token.Highlighting.Name.Line);
+                    else
+                        token.Highlighting = node;
+                }
+            }
         }
     }
 }
