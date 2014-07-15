@@ -54,6 +54,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             get { return highlight; }
         }
 
+        #region Helpers
+
         public class HelpersTable : Table<HelperIdentifier, PHelper>
         {
             protected override HelperIdentifier construct(TIdentifier identifier, PHelper declaration)
@@ -66,6 +68,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 return declaration.Identifier;
             }
         }
+
+        #endregion
+
+        #region States
 
         public class StatesTable
         {
@@ -131,6 +137,26 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 }
             }
         }
+
+        #endregion
+
+        #region Tokens
+
+        public class TokensTable : Table<TokenIdentifier, PToken>
+        {
+            protected override TokenIdentifier construct(TIdentifier identifier, PToken declaration)
+            {
+                return new TokenIdentifier(identifier, declaration);
+            }
+
+            protected override TIdentifier getIdentifier(PToken declaration)
+            {
+                return declaration.Identifier;
+            }
+        }
+
+
+        #endregion
 
         public abstract class Table<TID, TDeclaration>
             where TID : DeclarationIdentifier<TDeclaration>
