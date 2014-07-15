@@ -228,6 +228,12 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             protected abstract TID construct(TIdentifier identifier, TDeclaration declaration);
             protected abstract TIdentifier getIdentifier(TDeclaration declaration);
 
+            public void Clear()
+            {
+                this.declarations.Clear();
+                this.unusedList.Clear();
+            }
+
             public bool Declare(TDeclaration declaration)
             {
                 TIdentifier identifier = getIdentifier(declaration);
