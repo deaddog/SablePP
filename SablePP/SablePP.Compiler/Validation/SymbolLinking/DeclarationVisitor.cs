@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using SablePP.Compiler.Nodes;
 
 using SablePP.Tools.Error;
+using SablePP.Compiler.Nodes.Identifiers;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
@@ -38,7 +39,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 Visit(node.Tokens);
 
             if (node.HasIgnoredtokens)
-                IgnoredTokenVisitor.SetIgnoredTokens(node.Ignoredtokens, declarations, this.ErrorManager);
+                Visit(node.Ignoredtokens);
 
             if (node.HasProductions)
                 ProductionVisitor.LoadProductionDeclarations(node.Productions, declarations, this.ErrorManager);
@@ -118,6 +119,17 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 RegisterError(node.From, "The state {0} has not been defined.", node.From);
             if (!states.Link(node.To))
                 RegisterError(node.To, "The state {0} has not been defined.", node.To);
+        }
+
+        public override void CaseAIgnoredtokens(AIgnoredtokens node)
+        {
+            foreach(AIdentifierListitem item in node.List.Listitem)
+            {
+                if (!tokens.Link(item.Identifier))
+                    RegisterError(item.Identifier, "The token {0} has not been defined.", item.Identifier);
+                else
+                    tokens[item.Identifier.Text].IsIgnored = true;
+            }
         }
     }
 }
