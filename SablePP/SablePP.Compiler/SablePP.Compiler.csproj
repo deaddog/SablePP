@@ -113,7 +113,6 @@
     <Compile Include="Validation\SymbolLinking\IgnoredTokenVisitor.cs" />
     <Compile Include="Validation\SymbolLinking\ProductionVisitor.cs" />
     <Compile Include="Validation\SymbolLinking\TokenHighlightVisitor.cs" />
-    <Compile Include="Validation\SymbolLinking\TokenVisitor.cs" />
     <Compile Include="Validation\SymbolLinking\TranslationVisitor.cs" />
     <Compile Include="Validation\SyntaxHighlightValidator.cs" />
   </ItemGroup>

@@ -11,12 +11,14 @@ namespace SablePP.Compiler.Validation.SymbolLinking
     {
         private DeclarationTables.HelpersTable helpers;
         private DeclarationTables.StatesTable states;
+        private DeclarationTables.TokensTable tokens;
 
         public DeclarationVisitor(ErrorManager errorManager)
             : base(errorManager)
         {
             this.helpers = new DeclarationTables.HelpersTable();
             this.states = new DeclarationTables.StatesTable();
+            this.tokens = new DeclarationTables.TokensTable();
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -33,7 +35,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 Visit(node.States);
 
             if (node.HasTokens)
-                TokenVisitor.LoadTokenDeclarations(node.Tokens, declarations, this.ErrorManager);
+                Visit(node.Tokens);
 
             if (node.HasIgnoredtokens)
                 IgnoredTokenVisitor.SetIgnoredTokens(node.Ignoredtokens, declarations, this.ErrorManager);
@@ -90,6 +92,32 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             foreach (AIdentifierListitem s in node.List.Listitem)
                 states.Declare(s.Identifier);
+        }
+
+        public override void CaseAToken(AToken node)
+        {
+            if (node.HasStatelist)
+                Visit(node.Statelist);
+
+            if (!tokens.Declare(node))
+                RegisterError(node.Identifier, "Token {0} has already been defined (line {1}).", node.Identifier, tokens[node.Identifier.Text].Identifier.Line);
+
+            Visit(node.Regex);
+            if (node.HasTokenlookahead)
+                Visit(node.Tokenlookahead);
+        }
+
+        public override void CaseATokenstateListitem(ATokenstateListitem node)
+        {
+            if (!states.Link(node.Identifier))
+                RegisterError(node.Identifier, "The state {0} has not been defined.", node.Identifier);
+        }
+        public override void CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node)
+        {
+            if (!states.Link(node.From))
+                RegisterError(node.From, "The state {0} has not been defined.", node.From);
+            if (!states.Link(node.To))
+                RegisterError(node.To, "The state {0} has not been defined.", node.To);
         }
     }
 }
