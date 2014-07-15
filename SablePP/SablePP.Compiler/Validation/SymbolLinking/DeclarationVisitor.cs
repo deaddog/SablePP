@@ -49,8 +49,6 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (node.HasPackage)
                 Visit(node.Package);
 
-            DeclarationTables declarations = new DeclarationTables();
-
             if (node.HasHelpers)
                 Visit(node.Helpers);
 
@@ -73,21 +71,19 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 Visit(node.Highlightrules);
 
             foreach (var h in helpers.NonLinked)
-                RegisterWarning(h.Identifier, "The helper '{0}' is never used in a helper or token definition.", h.Identifier.Text);
+                RegisterWarning(h.Identifier, "The helper {0} is never used in a helper or token definition.", h.Identifier);
 
             foreach (var s in states.NonLinked)
-                RegisterWarning(s, "The state '{0}' is never used.", s.Text);
+                RegisterWarning(s, "The state {0} is never used.", s);
 
-            foreach (var t in declarations.Tokens.NonLinked)
-                RegisterWarning(t.DeclarationToken, "The token '{0}' is never used in a production.", t.DeclarationToken.Text);
+            foreach (var t in tokens.NonLinked)
+                RegisterWarning(t.Identifier, "The token {0} is never used in a production.", t.Identifier);
 
-            foreach (var p in declarations.Productions.NonLinked)
-                if (!p.First)
-                    RegisterWarning(p.DeclarationToken, "The production '{0}' is never used in another production.", p.DeclarationToken.Text);
+            foreach (var p in nonastProd.NonLinked)
+                    RegisterWarning(p.Identifier, "The production {0} is never used in another production.", p.Identifier);
 
-            foreach (var p in declarations.AstProductions.NonLinked)
-                if (!p.First)
-                    RegisterWarning(p.DeclarationToken, "The AST production '{0}' is never used in another production.", p.DeclarationToken.Text);
+            foreach (var p in astProd.NonLinked)
+                    RegisterWarning(p.Identifier, "The AST production {0} is never used in another production.", p.Identifier);
         }
 
         public override void CaseAHelpers(AHelpers node)
