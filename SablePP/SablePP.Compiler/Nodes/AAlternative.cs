@@ -4,22 +4,16 @@ namespace SablePP.Compiler.Nodes
 {
     public partial class AAlternative
     {
-        public string ProductionName
+        public PProduction Production
         {
-            get
-            {
-                var production = GetFirstParent<PProduction>();
-                return "P" + production.Identifier.Text.ToCamelCase();
-            }
+            get { return GetFirstParent<PProduction>(); }
         }
 
         public string ClassName
         {
             get
             {
-                var production = GetFirstParent<PProduction>();
-
-                string productionName = production.Identifier.Text.ToCamelCase();
+                string productionName = Production.ClassName.Substring(1);
 
                 if (this.HasAlternativename)
                     return "A" + Alternativename.Name.Text.ToCamelCase() + productionName;

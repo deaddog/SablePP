@@ -98,7 +98,7 @@ namespace SablePP.Compiler.Generate.Analysis
             EmitInOut(node.ClassName);
 
             adapterClass.Add(method = new MethodElement("public override void Case{0}({0} node)", true, node.ClassName));
-            method.Body.EmitLine("In{0}(node);", node.ProductionName);
+            method.Body.EmitLine("In{0}(node);", node.Production.ClassName);
             method.Body.EmitLine("In{0}(node);", node.ClassName);
             method.Body.EmitNewLine();
 
@@ -106,7 +106,7 @@ namespace SablePP.Compiler.Generate.Analysis
 
             method.Body.EmitNewLine();
             method.Body.EmitLine("Out{0}(node);", node.ClassName);
-            method.Body.EmitLine("Out{0}(node);", node.ProductionName);
+            method.Body.EmitLine("Out{0}(node);", node.Production.ClassName);
         }
 
         public override void CaseAElements(AElements node)
