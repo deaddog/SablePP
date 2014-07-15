@@ -135,24 +135,24 @@ namespace SablePP.Compiler.Nodes
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="DHighlightRule"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="HighlightRuleIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="DHighlightRule"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="HighlightRuleIdentifier"/>; otherwise, <c>false</c>.
         /// </value>
         public bool IsHighlightRule
         {
-            get { return declaration is DHighlightRule; }
+            get { return this is HighlightruleIdentifier; }
         }
         /// <summary>
-        /// Gets the highlighter rule associated with this identifier, as a <see cref="DHighlightRule"/>.
+        /// Gets the highlighter rule associated with this identifier, as a <see cref="HighlightRuleIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="DAlternativeName"/> if this identifier refers to a <see cref="DHighlightRule"/>; otherwise, <c>null</c>.
+        ///   A <see cref="AlternativeNameIdentifier"/> if this identifier refers to a <see cref="HighlightRuleIdentifier"/>; otherwise, <c>null</c>.
         /// </value>
-        public DHighlightRule AsHighlightRule
+        public HighlightruleIdentifier AsHighlightRule
         {
-            get { return declaration as DHighlightRule; }
+            get { return this as HighlightruleIdentifier; }
         }
     }
 }

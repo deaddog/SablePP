@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompilerExecuter.cs" />
-    <Compile Include="Declarations\DHighlightRule.cs" />
     <Compile Include="Execution\CompilerBase.cs" />
     <Compile Include="Execution\ConsoleCompiler.cs" />
     <Compile Include="Execution\EditorCompiler.cs" />
