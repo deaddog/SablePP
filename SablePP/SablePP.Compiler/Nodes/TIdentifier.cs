@@ -7,29 +7,6 @@ namespace SablePP.Compiler.Nodes
 {
     public partial class TIdentifier
     {
-        private Declaration declaration;
-
-        /// <summary>
-        /// Sets the declaration for this identifier.
-        /// </summary>
-        /// <param name="declaration">The declaration.</param>
-        public void SetDeclaration(Declaration declaration)
-        {
-            if (this.declaration != null)
-                throw new InvalidOperationException("Attempted to set declaration twice.");
-            else
-                this.declaration = declaration;
-        }
-
-        public bool HasDeclaration
-        {
-            get { return declaration != null; }
-        }
-        public Declaration Declaration
-        {
-            get { return declaration; }
-        }
-
         /// <summary>
         /// Gets a value indicating whether this identifier refers to a <see cref="DHelper"/>.
         /// </summary>
