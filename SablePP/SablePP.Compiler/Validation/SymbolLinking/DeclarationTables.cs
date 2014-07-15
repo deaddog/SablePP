@@ -75,6 +75,12 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             private Dictionary<string, TDeclaration> declarations;
             private List<TDeclaration> unusedList;
 
+            public Table()
+            {
+                this.declarations = new Dictionary<string, TDeclaration>();
+                this.unusedList = new List<TDeclaration>();
+            }
+
             public TDeclaration this[string text]
             {
                 get { return declarations[text]; }
@@ -94,7 +100,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 {
                     TID reference = construct(identifier, declaration);
                     identifier.ReplaceBy(reference);
-                    unusedList.Remove(declaration);
+                    declarations.Add(text, declaration);
 
                     unusedList.Add(declaration);
 
