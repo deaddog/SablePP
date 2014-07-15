@@ -9,9 +9,12 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class DeclarationVisitor : ErrorVisitor
     {
+        private DeclarationTables.HelpersTable helpers;
+
         public DeclarationVisitor(ErrorManager errorManager)
             : base(errorManager)
         {
+            this.helpers = new DeclarationTables.HelpersTable();
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -22,7 +25,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             DeclarationTables declarations = new DeclarationTables();
 
             if (node.HasHelpers)
-                HelperVisitor.LoadHelperDeclarations(node.Helpers, declarations, this.ErrorManager);
+                Visit(node.Helpers);
 
             if (node.HasStates)
                 StateVisitor.LoadStateDeclarations(node.States, declarations, this.ErrorManager);
@@ -61,6 +64,24 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             foreach (var p in declarations.AstProductions.NonLinked)
                 if (!p.First)
                     RegisterWarning(p.DeclarationToken, "The AST production '{0}' is never used in another production.", p.DeclarationToken.Text);
+        }
+
+        public override void CaseAHelpers(AHelpers node)
+        {
+            foreach (var h in node.Helpers)
+                if (!helpers.Declare(h))
+                {
+                    RegisterError(h.Identifier, "Helper {0} has already been defined (line {1}).",
+                        h.Identifier,
+                        helpers[h.Identifier.Text].Identifier.Line);
+                }
+
+            base.CaseAHelpers(node);
+        }
+        public override void CaseAIdentifierRegexpart(AIdentifierRegexpart node)
+        {
+            if (!helpers.Link(node.Identifier))
+                RegisterError(node.Identifier, "The helper {0} has not been defined.", node.Identifier);
         }
     }
 }

@@ -110,7 +110,6 @@
     <Compile Include="Nodes\TIdentifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validation\SymbolLinking\HelperVisitor.cs" />
     <Compile Include="Validation\SymbolLinking\IgnoredTokenVisitor.cs" />
     <Compile Include="Validation\SymbolLinking\ProductionVisitor.cs" />
     <Compile Include="Validation\SymbolLinking\StateVisitor.cs" />
