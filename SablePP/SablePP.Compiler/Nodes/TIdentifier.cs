@@ -51,24 +51,24 @@ namespace SablePP.Compiler.Nodes
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="DToken"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="TokenIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="DToken"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="TokenIdentifier"/>; otherwise, <c>false</c>.
         /// </value>
         public bool IsToken
         {
-            get { return declaration is DToken; }
+            get { return this is TokenIdentifier; }
         }
         /// <summary>
-        /// Gets the declaration associated with this identifier, as a <see cref="DToken"/>.
+        /// Gets the declaration associated with this identifier, as a <see cref="TokenIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="DToken"/> if this identifier refers to a <see cref="DToken"/>; otherwise, <c>null</c>.
+        ///   A <see cref="TokenIdentifier"/> if this identifier refers to a <see cref="TokenIdentifier"/>; otherwise, <c>null</c>.
         /// </value>
-        public DToken AsToken
+        public TokenIdentifier AsToken
         {
-            get { return declaration as DToken; }
+            get { return this as TokenIdentifier; }
         }
 
         /// <summary>
