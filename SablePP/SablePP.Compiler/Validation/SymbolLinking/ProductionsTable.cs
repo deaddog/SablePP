@@ -3,7 +3,7 @@ using SablePP.Compiler.Nodes.Identifiers;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
-    public class ProductionsTable : Table<ProductionIdentifier, PProduction>
+    public class ProductionsTable : DeclarationTable<ProductionIdentifier, PProduction>
     {
         protected override ProductionIdentifier construct(TIdentifier identifier, PProduction declaration)
         {

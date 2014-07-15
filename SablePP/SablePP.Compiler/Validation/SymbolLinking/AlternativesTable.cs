@@ -4,7 +4,7 @@ using System;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
-    public class AlternativesTable : Table<AlternativeIdentifier, PAlternative>
+    public class AlternativesTable : DeclarationTable<AlternativeIdentifier, PAlternative>
     {
         protected override AlternativeIdentifier construct(TIdentifier identifier, PAlternative declaration)
         {

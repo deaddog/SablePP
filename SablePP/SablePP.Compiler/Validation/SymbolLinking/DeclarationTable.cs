@@ -7,18 +7,14 @@ using System.Text;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
-    public static class DeclarationTable
-    {
-    }
-
-    public abstract class Table<TID, TDeclaration>
+    public abstract class DeclarationTable<TID, TDeclaration>
         where TID : DeclarationIdentifier<TDeclaration>
         where TDeclaration : SablePP.Tools.Nodes.Production
     {
         private Dictionary<string, TDeclaration> declarations;
         private List<TDeclaration> unusedList;
 
-        public Table()
+        public DeclarationTable()
         {
             this.declarations = new Dictionary<string, TDeclaration>();
             this.unusedList = new List<TDeclaration>();

@@ -3,7 +3,7 @@ using SablePP.Compiler.Nodes.Identifiers;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
-    public class HelpersTable : Table<HelperIdentifier, PHelper>
+    public class HelpersTable : DeclarationTable<HelperIdentifier, PHelper>
     {
         protected override HelperIdentifier construct(TIdentifier identifier, PHelper declaration)
         {
