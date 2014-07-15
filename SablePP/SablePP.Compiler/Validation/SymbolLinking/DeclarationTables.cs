@@ -201,7 +201,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 if (declaration.HasElementname)
                     return declaration.Elementname.Name;
                 else
-                    throw new ArgumentException("Element has no name.", "declaration");
+                    return declaration.Elementid.Identifier;
             }
         }
 
