@@ -89,7 +89,6 @@
     <Compile Include="Generate\Productions\ProductionNodes.cs" />
     <Compile Include="LookupDictionary.cs" />
     <Compile Include="Nodes\AAlternative.cs" />
-    <Compile Include="Nodes\AToken.cs" />
     <Compile Include="Nodes\Identifiers\ElementIdentifier.cs" />
     <Compile Include="Nodes\Identifiers\AlternativeIdentifier.cs" />
     <Compile Include="Nodes\Identifiers\DeclarationIdentifier.cs" />

@@ -19,5 +19,10 @@
             get { return highlight; }
             set { highlight = value; }
         }
+
+        public string ClassName
+        {
+            get { return "T" + this.Identifier.Text.ToCamelCase(); }
+        }
     }
 }
