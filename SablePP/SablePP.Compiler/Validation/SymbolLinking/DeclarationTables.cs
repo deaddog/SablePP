@@ -158,6 +158,55 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         #endregion
 
+        #region Productions
+
+        public class ProductionsTable : Table<ProductionIdentifier, PProduction>
+        {
+            protected override ProductionIdentifier construct(TIdentifier identifier, PProduction declaration)
+            {
+                return new ProductionIdentifier(identifier, declaration);
+            }
+
+            protected override TIdentifier getIdentifier(PProduction declaration)
+            {
+                return declaration.Identifier;
+            }
+        }
+
+        public class AlternativesTable : Table<AlternativeIdentifier, PAlternative>
+        {
+            protected override AlternativeIdentifier construct(TIdentifier identifier, PAlternative declaration)
+            {
+                return new AlternativeIdentifier(identifier, declaration);
+            }
+
+            protected override TIdentifier getIdentifier(PAlternative declaration)
+            {
+                if (declaration.HasAlternativename)
+                    return declaration.Alternativename.Name;
+                else
+                    throw new ArgumentException("Alternative has no name.", "declaration");
+            }
+        }
+
+        public class ElementsTable : Table<ElementIdentifier, PElement>
+        {
+            protected override ElementIdentifier construct(TIdentifier identifier, PElement declaration)
+            {
+                return new ElementIdentifier(identifier, declaration);
+            }
+
+            protected override TIdentifier getIdentifier(PElement declaration)
+            {
+                if (declaration.HasElementname)
+                    return declaration.Elementname.Name;
+                else
+                    throw new ArgumentException("Element has no name.", "declaration");
+            }
+        }
+
+        #endregion
+
         public abstract class Table<TID, TDeclaration>
             where TID : DeclarationIdentifier<TDeclaration>
             where TDeclaration : SablePP.Tools.Nodes.Production
