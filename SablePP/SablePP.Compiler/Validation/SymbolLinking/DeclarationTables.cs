@@ -207,6 +207,23 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         #endregion
 
+        #region Highlight rules
+
+        public class HighlightrulesTable : Table<HightlightruleIdentifier, PHighlightrule>
+        {
+            protected override HightlightruleIdentifier construct(TIdentifier identifier, PHighlightrule declaration)
+            {
+                return new HightlightruleIdentifier(identifier, declaration);
+            }
+
+            protected override TIdentifier getIdentifier(PHighlightrule declaration)
+            {
+                return declaration.Name;
+            }
+        }
+
+        #endregion
+
         public abstract class Table<TID, TDeclaration>
             where TID : DeclarationIdentifier<TDeclaration>
             where TDeclaration : SablePP.Tools.Nodes.Production
