@@ -10,11 +10,13 @@ namespace SablePP.Compiler.Validation.SymbolLinking
     public class DeclarationVisitor : ErrorVisitor
     {
         private DeclarationTables.HelpersTable helpers;
+        private DeclarationTables.StatesTable states;
 
         public DeclarationVisitor(ErrorManager errorManager)
             : base(errorManager)
         {
             this.helpers = new DeclarationTables.HelpersTable();
+            this.states = new DeclarationTables.StatesTable();
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -28,7 +30,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 Visit(node.Helpers);
 
             if (node.HasStates)
-                StateVisitor.LoadStateDeclarations(node.States, declarations, this.ErrorManager);
+                Visit(node.States);
 
             if (node.HasTokens)
                 TokenVisitor.LoadTokenDeclarations(node.Tokens, declarations, this.ErrorManager);
@@ -51,8 +53,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             foreach (var h in declarations.Helpers.NonLinked)
                 RegisterWarning(h.Identifier, "The helper '{0}' is never used in a helper or token definition.", h.Identifier.Text);
 
-            foreach (var s in declarations.States.NonLinked)
-                RegisterWarning(s.DeclarationToken, "The state '{0}' is never used.", s.DeclarationToken.Text);
+            foreach (var s in states.NonLinked)
+                RegisterWarning(s, "The state '{0}' is never used.", s.Text);
 
             foreach (var t in declarations.Tokens.NonLinked)
                 RegisterWarning(t.DeclarationToken, "The token '{0}' is never used in a production.", t.DeclarationToken.Text);
@@ -82,6 +84,12 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             if (!helpers.Link(node.Identifier))
                 RegisterError(node.Identifier, "The helper {0} has not been defined.", node.Identifier);
+        }
+
+        public override void CaseAStates(AStates node)
+        {
+            foreach (AIdentifierListitem s in node.List.Listitem)
+                states.Declare(s.Identifier);
         }
     }
 }
