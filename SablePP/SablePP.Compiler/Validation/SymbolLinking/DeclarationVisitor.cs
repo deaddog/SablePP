@@ -255,7 +255,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         }
         public override void CaseANewalternativeTranslation(ANewalternativeTranslation node)
         {
-            if (astProd.Contains(node.Production.Text))
+            if (astProd.Link(node.Production))
             {
                 PProduction dp = astProd[node.Production.Text];
                 var alternatives = allAlternatives[dp];
