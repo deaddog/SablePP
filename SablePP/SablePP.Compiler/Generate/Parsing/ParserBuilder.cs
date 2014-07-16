@@ -127,7 +127,7 @@ namespace SablePP.Compiler.Generate.Parsing
 
             Visit(node.Productions);
 
-            foreach(var type in getListTypes(node))
+            foreach (var type in getListTypes(node))
             {
                 reduceMethod.Body.EmitLine("case {0}:", reduceCase++);
                 reduceMethod.Body.IncreaseIndentation();
@@ -186,7 +186,9 @@ namespace SablePP.Compiler.Generate.Parsing
 
         public override void CaseAAlternative(AAlternative node)
         {
-            ReductionBuilder builder = node.HasTranslation ? (ReductionBuilder)translation : (ReductionBuilder)simple;
+            ReductionBuilder builder = node.HasTranslation || !hasAstAlternative(node)
+                ? (ReductionBuilder)translation
+                : (ReductionBuilder)simple;
 
             foreach (var e in builder.GetElements(node, productionCase))
             {
@@ -204,6 +206,22 @@ namespace SablePP.Compiler.Generate.Parsing
 
                 reduceCase++;
             }
+        }
+
+        private bool hasAstAlternative(PAlternative productionAlternative)
+        {
+            PGrammar grammar = productionAlternative.GetFirstParent<PGrammar>();
+            PProduction production = productionAlternative.Production;
+
+            if (!grammar.HasAstproductions)
+                return false;
+
+            var astProduction = grammar.Astproductions.Productions.Where(p => p.ClassName == production.ClassName).FirstOrDefault();
+            if (astProduction == null)
+                return false;
+
+            var astAlternative = astProduction.Productionrule.Alternatives.Where(a => a.ClassName == productionAlternative.ClassName).FirstOrDefault();
+            return astAlternative != null;
         }
     }
 }
