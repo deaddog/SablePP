@@ -62,5 +62,10 @@ namespace SablePP.Compiler.Generate.Parsing
             base.CaseAFullTranslation(node);
             translationVariables[node] = translationVariables[node.Translation];
         }
+
+        public override void CaseANullTranslation(ANullTranslation node)
+        {
+            translationVariables[node] = "null";
+        }
     }
 }
