@@ -165,8 +165,8 @@ namespace SablePP.Compiler.Generate.Parsing
                     {
                         var t = e.GetElementType();
                         if (t == ElementTypes.Plus || t == ElementTypes.Star)
-                            if (!types.Contains(e.GeneratedTypeName))
-                                types.Add(e.GeneratedTypeName);
+                            if (!types.Contains(e.ClassName))
+                                types.Add(e.ClassName);
                     }
 
             return types.ToArray();

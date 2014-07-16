@@ -39,7 +39,7 @@ namespace SablePP.Compiler.Generate.Parsing
             string name;
             if (!names.TryGetValue(node, out name))
             {
-                var type = node.GeneratedTypeName;
+                var type = node.ClassName;
                 name = GetVariable(type.ToLower());
 
                 names.Add(node, name);
