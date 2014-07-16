@@ -8,6 +8,51 @@ namespace SablePP.Compiler.Generate.Parsing
 {
     public class SimpleReductionBuilder : ReductionBuilder
     {
+        private Dictionary<object, string> names;
+
+        private string GetVariable(SablePP.Compiler.Generate.Productions.ProductionElement node)
+        {
+            string name;
+            if (!names.TryGetValue(node, out name))
+            {
+                var type = node.ProductionOrTokenClass;
+                name = GetVariable(type.ToLower());
+
+                names.Add(node, name);
+            }
+            return name;
+        }
+        private string GetVariable(AAlternative node)
+        {
+            string name;
+            if (!names.TryGetValue(node, out name))
+            {
+                var type = node.ClassName;
+                name = GetVariable(type.ToLower());
+
+                names.Add(node, name);
+            }
+            return name;
+        }
+        private string GetVariable(PElement node)
+        {
+            string name;
+            if (!names.TryGetValue(node, out name))
+            {
+                var type = node.GeneratedTypeName;
+                name = GetVariable(type.ToLower());
+
+                names.Add(node, name);
+            }
+            return name;
+        }
+
+        public SimpleReductionBuilder()
+            :base()
+        {
+            this.names = new Dictionary<object, string>();
+        }
+
         private List<ProductionElement> questions;
         private int caseCounter;
 
