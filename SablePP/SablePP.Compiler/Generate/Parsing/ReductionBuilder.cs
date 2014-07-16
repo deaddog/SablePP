@@ -13,8 +13,9 @@ namespace SablePP.Compiler.Generate.Parsing
         protected string GetVariable(string name)
         {
             int i = 1;
-
             string variable;
+
+            name = name.ToLower();
 
             do variable = name + (i++); while (namesInUse.Contains(variable));
             namesInUse.Add(variable);
