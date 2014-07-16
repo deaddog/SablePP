@@ -18,7 +18,7 @@ Helpers
 
     blank = (' ' | tab | eol)+;
 
-    short_comment = '//' not_cr_lf* eol;
+    short_comment = '//' not_cr_lf*;
     long_comment = '/*' not_star* '*'+ (not_star_slash not_star* '*'+)* '/';
     comment = short_comment | long_comment;
 
