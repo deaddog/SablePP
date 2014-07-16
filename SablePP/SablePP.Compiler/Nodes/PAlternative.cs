@@ -2,7 +2,7 @@
 
 namespace SablePP.Compiler.Nodes
 {
-    public partial class AAlternative
+    public partial class PAlternative
     {
         public PProduction Production
         {
