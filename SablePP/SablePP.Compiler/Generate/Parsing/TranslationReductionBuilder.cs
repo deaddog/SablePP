@@ -56,5 +56,11 @@ namespace SablePP.Compiler.Generate.Parsing
 
             return grammar.Astproductions.Productions.Where(p => p.ClassName == production.ClassName).Any();
         }
+
+        public override void CaseAFullTranslation(AFullTranslation node)
+        {
+            base.CaseAFullTranslation(node);
+            translationVariables[node] = translationVariables[node.Translation];
+        }
     }
 }
