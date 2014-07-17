@@ -111,13 +111,13 @@ namespace SablePP.Compiler.Generate.Parsing
             fileElement.Using.Add(packageName + ".Nodes");
             fileElement.Using.Add(ToolsNamespace.Nodes);
 
-            nameElement.Add(classElement = new ClassElement("public class Parser : {0}.Parser<{1}>", ToolsNamespace.Parsing, node.RootProduction));
+            nameElement.Add(classElement = new ClassElement("public class Parser2 : {0}.Parser<{1}>", ToolsNamespace.Parsing, node.RootProduction));
 
             TokenIndexBuilder indexer = new TokenIndexBuilder(classElement);
             indexer.Visit(node.Tokens);
 
             classElement.Add(new MethodElement(
-                "public Parser(SablePP.Tools.Lexing.ILexer lexer)",
+                "public Parser2(SablePP.Tools.Lexing.ILexer lexer)",
                 "base(lexer, actionTable, gotoTable, errorMessages, errors)", true));
 
             classElement.Add(reduceMethod = new MethodElement("protected override void reduce(int index)"));
