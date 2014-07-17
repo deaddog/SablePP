@@ -18,6 +18,7 @@ using SablePP.Tools;
 using SablePP.Tools.Error;
 using SablePP.Tools.Generate;
 using SablePP.Tools.Nodes;
+using SablePP.Compiler.Generate.Parsing;
 
 namespace SablePP.Compiler
 {
@@ -25,7 +26,6 @@ namespace SablePP.Compiler
     {
         private const int SABLE_MAX_WAIT = 500;
         private bool runSable;
-        private bool modificationsCompleted;
         private IdentifierHighlighter identifierHighlighter;
 
         public bool RunSable
@@ -37,7 +37,6 @@ namespace SablePP.Compiler
         public CompilerExecuter(bool runSable)
         {
             this.runSable = runSable;
-            this.modificationsCompleted = false;
             this.identifierHighlighter = new IdentifierHighlighter();
         }
 
@@ -95,10 +94,21 @@ namespace SablePP.Compiler
                         handleSableException(errorManager, text[i]);
                     }
                 }
+                else
+                {
+                    string lexerDestination = Path.Combine(PathInformation.SableOutputDirectory, "sablecc_lexer.cs");
+                    string parserDestination = Path.Combine(PathInformation.SableOutputDirectory, "sablecc_parser.cs");
+
+                    if (File.Exists(lexerDestination))
+                        File.Delete(lexerDestination);
+                    File.Move(Path.Combine(PathInformation.SableOutputDirectory, "lexer.cs"), lexerDestination);
+
+                    if (File.Exists(parserDestination))
+                        File.Delete(parserDestination);
+                    File.Move(Path.Combine(PathInformation.SableOutputDirectory, "parser.cs"), parserDestination);
+                }
                 proc.Close();
             }
-
-            modificationsCompleted = false;
         }
         private Process StartSableCC()
         {
@@ -164,13 +174,8 @@ namespace SablePP.Compiler
             ProductionNodes.BuildCode(root).ToFile(Path.Combine(output, "prods.cs"));
             AnalysisBuilder.BuildCode(root).ToFile(Path.Combine(output, "analysis.cs"));
 
-            LexerBuilder.BuildCode(Path.Combine(output, "lexer.cs"), root).ToFile(Path.Combine(output, "lexer.cs"));
-
-            if (!modificationsCompleted)
-            {
-                modificationsCompleted = true;
-                ParserModifier.ApplyToFile(Path.Combine(output, "parser.cs"), root);
-            }
+            LexerBuilder.BuildCode(Path.Combine(output, "sablecc_lexer.cs"), root).ToFile(Path.Combine(output, "lexer.cs"));
+            ParserBuilder.BuildCode(Path.Combine(output, "sablecc_parser.cs"), root).ToFile(Path.Combine(output, "parser.cs"));
 
             CompilerExecuterBuilder.Build(root).ToFile(Path.Combine(output, "CompilerExecuter.cs"));
 
