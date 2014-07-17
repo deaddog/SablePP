@@ -29,6 +29,9 @@ namespace SablePP.Compiler.Nodes
             throw new ArgumentException("Unknown element type; " + this.GetType().Name, "element");
         }
 
+        /// <summary>
+        /// Gets the name of the generated class that this <see cref="PElement"/> refers to.
+        /// </summary>
         public string ClassName
         {
             get
@@ -36,8 +39,13 @@ namespace SablePP.Compiler.Nodes
                 var id = Elementid.Identifier;
                 if (id.IsToken)
                     return id.AsToken.Declaration.ClassName;
-                else if (id.IsProduction)
-                    return id.AsProduction.Declaration.ClassName;
+                else if (id.IsProduction){
+                    var prod = id.AsProduction.Declaration;
+                    if(prod.HasProdtranslation)
+                        return prod.Prodtranslation.Identifier.AsProduction.Declaration.ClassName;
+                    else
+                        return prod.ClassName;
+                }
                 else if (id.IsAlternativeName)
                     return id.AsAlternativeName.Declaration.ClassName;
                 else
