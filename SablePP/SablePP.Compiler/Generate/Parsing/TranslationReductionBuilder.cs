@@ -73,5 +73,10 @@ namespace SablePP.Compiler.Generate.Parsing
             var element = node.Identifier.AsElementName.Declaration;
             translationVariables[node] = elementVariables[element];
         }
+        public override void CaseAIddotidTranslation(AIddotidTranslation node)
+        {
+            var element = node.Identifier.AsElementName.Declaration;
+            translationVariables[node] = elementVariables[element];
+        }
     }
 }
