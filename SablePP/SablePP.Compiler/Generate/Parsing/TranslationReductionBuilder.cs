@@ -78,5 +78,27 @@ namespace SablePP.Compiler.Generate.Parsing
             var element = node.Identifier.AsElementName.Declaration;
             translationVariables[node] = elementVariables[element];
         }
+
+        public override void CaseANewTranslation(ANewTranslation node)
+        {
+            string className = "A" + node.Production.AsProduction.Declaration.ClassName.Substring(1);
+            translationVariables[node] = GetVariable(className);
+
+            code.EmitLine("{0} {1} = new {0}(", className, translationVariables[node]);
+            code.IncreaseIndentation();
+
+
+            Visit(node.Arguments);
+            var args = node.Arguments.Listitem;
+
+            for (int i = 0; i < args.Count; i++)
+            {
+                string arg = translationVariables[(args[i] as ATranslationListitem).Translation];
+                code.EmitLine("{0}{1}", arg, i < args.Count - 1 ? "," : "");
+            }
+
+            code.DecreaseIndentation();
+            code.EmitLine(");");
+        }
     }
 }
