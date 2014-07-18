@@ -59,13 +59,19 @@ namespace SablePP.Compiler.Generate.Parsing
 
         public override void CaseAFullTranslation(AFullTranslation node)
         {
-            base.CaseAFullTranslation(node);
+            Visit(node.Translation);
             translationVariables[node] = translationVariables[node.Translation];
         }
 
         public override void CaseANullTranslation(ANullTranslation node)
         {
             translationVariables[node] = "null";
+        }
+
+        public override void CaseAIdTranslation(AIdTranslation node)
+        {
+            var element = node.Identifier.AsElementName.Declaration;
+            translationVariables[node] = elementVariables[element];
         }
     }
 }
