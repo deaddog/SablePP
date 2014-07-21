@@ -21,7 +21,7 @@ namespace SablePP.Compiler.Execution
 
         private Style getStyle(TIdentifier identifier)
         {
-            if (identifier.IsToken)
+            if (identifier.IsPToken)
             {
                 var e = identifier.GetFirstParent<PElement>();
                 if (e == null || !e.HasElementname)
@@ -40,7 +40,7 @@ namespace SablePP.Compiler.Execution
             else if (identifier.IsElementName)
             {
                 var id = identifier.AsElementName.Declaration.Elementid.Identifier;
-                if (id.IsToken)
+                if (id.IsPToken)
                     return tokenStyle;
                 else if (id.IsProduction)
                     return productionStyle;

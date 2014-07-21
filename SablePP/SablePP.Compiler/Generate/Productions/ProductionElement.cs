@@ -14,8 +14,8 @@ namespace SablePP.Compiler.Generate.Productions
         private ProductionElement(PElement element)
         {
             TIdentifier typeId = element.Elementid.Identifier;
-            this.prodOrtoken = (typeId.IsToken ?
-                typeId.AsToken.Declaration.ClassName :
+            this.prodOrtoken = (typeId.IsPToken ?
+                typeId.AsPToken.Declaration.ClassName :
                 typeId.AsProduction.Declaration.ClassName);
 
             this.fieldName = "_" + element.LowerName + "_";

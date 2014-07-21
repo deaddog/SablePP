@@ -116,7 +116,7 @@ namespace SablePP.Compiler.Generate
 
         public override void CaseAToken(AToken node)
         {
-            var token = node.Identifier.AsToken;
+            var token = node.Identifier.AsPToken;
             getTokenMethod.EmitLine("case {1}: return new {0}(text, line, position);", token.Declaration.ClassName, tokenIndex);
 
             base.CaseAToken(node);

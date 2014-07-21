@@ -378,7 +378,7 @@ namespace SablePP.Compiler.Generate
                 }
                 public override void InACleanElementid(ACleanElementid node)
                 {
-                    if (node.Identifier.IsToken)
+                    if (node.Identifier.IsPToken)
                         arguments[currentAname][index] = "T" + node.Identifier.Text.ToCamelCase();
                     else if (node.Identifier.IsProduction)
                         arguments[currentAname][index] = "P" + node.Identifier.Text.ToCamelCase();

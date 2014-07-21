@@ -41,7 +41,7 @@ namespace SablePP.Compiler.Generate.Parsing
 
         public override void CaseAToken(Nodes.AToken node)
         {
-            if (node.Identifier.AsToken.Declaration.IsIgnored)
+            if (node.Identifier.AsPToken.Declaration.IsIgnored)
                 return;
 
             MethodElement m;

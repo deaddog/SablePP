@@ -14,7 +14,7 @@ namespace SablePP.Compiler.Nodes
         /// <value>
         ///   <c>true</c> if this identifier refers to a <see cref="PHelper"/>; otherwise, <c>false</c>.
         /// </value>
-        public bool IsHelper
+        public bool IsPHelper
         {
             get { return this is DeclarationIdentifier<PHelper>; }
         }
@@ -56,7 +56,7 @@ namespace SablePP.Compiler.Nodes
         /// <value>
         ///   <c>true</c> if this identifier refers to a <see cref="TokenIdentifier"/>; otherwise, <c>false</c>.
         /// </value>
-        public bool IsToken
+        public bool IsPToken
         {
             get { return this is TokenIdentifier; }
         }
@@ -66,7 +66,7 @@ namespace SablePP.Compiler.Nodes
         /// <value>
         ///   A <see cref="TokenIdentifier"/> if this identifier refers to a <see cref="TokenIdentifier"/>; otherwise, <c>null</c>.
         /// </value>
-        public TokenIdentifier AsToken
+        public TokenIdentifier AsPToken
         {
             get { return this as TokenIdentifier; }
         }

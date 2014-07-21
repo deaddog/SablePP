@@ -37,8 +37,8 @@ namespace SablePP.Compiler.Nodes
             get
             {
                 var id = Elementid.Identifier;
-                if (id.IsToken)
-                    return id.AsToken.Declaration.ClassName;
+                if (id.IsPToken)
+                    return id.AsPToken.Declaration.ClassName;
                 else if (id.IsProduction){
                     var prod = id.AsProduction.Declaration;
                     if(prod.HasProdtranslation)
