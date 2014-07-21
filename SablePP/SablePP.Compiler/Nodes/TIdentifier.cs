@@ -9,24 +9,24 @@ namespace SablePP.Compiler.Nodes
     public partial class TIdentifier
     {
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="HelperIdentifier"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="PHelper"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="HelperIdentifier"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="PHelper"/>; otherwise, <c>false</c>.
         /// </value>
         public bool IsHelper
         {
             get { return this is HelperIdentifier; }
         }
         /// <summary>
-        /// Gets the declaration associated with this identifier, as a <see cref="HelperIdentifier"/>.
+        /// Gets the declaration associated with this identifier, as a <see cref="PHelper"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="HelperIdentifier"/> if this identifier refers to a <see cref="HelperIdentifier"/>; otherwise, <c>null</c>.
+        ///   A <see cref="PHelper"/> if this identifier refers to a <see cref="PHelper"/>; otherwise, <c>null</c>.
         /// </value>
-        public HelperIdentifier AsHelper
+        public PHelper AsPHelper
         {
-            get { return this as HelperIdentifier; }
+            get { return (this as HelperIdentifier).Declaration; }
         }
 
         /// <summary>
