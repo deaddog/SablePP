@@ -7,6 +7,11 @@ using System.Text;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
+    public abstract class DeclarationTable<TDeclaration> : DeclarationTable<DeclarationIdentifier<TDeclaration>, TDeclaration>
+        where TDeclaration : SablePP.Tools.Nodes.Production
+    {
+    }
+
     public abstract class DeclarationTable<TID, TDeclaration>
         where TID : DeclarationIdentifier<TDeclaration>
         where TDeclaration : SablePP.Tools.Nodes.Production

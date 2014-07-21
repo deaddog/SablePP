@@ -2,7 +2,7 @@
 
 namespace SablePP.Compiler.Nodes.Identifiers
 {
-    public abstract class DeclarationIdentifier<T> : TIdentifier where T : Production
+    public class DeclarationIdentifier<T> : TIdentifier where T : Production
     {
         private T declaration;
 
