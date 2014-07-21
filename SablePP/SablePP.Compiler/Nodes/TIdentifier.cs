@@ -16,7 +16,7 @@ namespace SablePP.Compiler.Nodes
         /// </value>
         public bool IsHelper
         {
-            get { return this is HelperIdentifier; }
+            get { return this is DeclarationIdentifier<PHelper>; }
         }
         /// <summary>
         /// Gets the declaration associated with this identifier, as a <see cref="PHelper"/>.
@@ -26,7 +26,7 @@ namespace SablePP.Compiler.Nodes
         /// </value>
         public PHelper AsPHelper
         {
-            get { return (this as HelperIdentifier).Declaration; }
+            get { return (this as DeclarationIdentifier<PHelper>).Declaration; }
         }
 
         /// <summary>
