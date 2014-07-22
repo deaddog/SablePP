@@ -47,7 +47,7 @@ namespace SablePP.Compiler.Nodes
                         return prod.ClassName;
                 }
                 else if (id.IsPAlternative)
-                    return id.AsPAlternative.Declaration.ClassName;
+                    return id.AsPAlternative.ClassName;
                 else
                     throw new InvalidOperationException();
             }

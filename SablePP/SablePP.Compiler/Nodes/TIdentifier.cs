@@ -100,7 +100,7 @@ namespace SablePP.Compiler.Nodes
         /// </value>
         public bool IsPAlternative
         {
-            get { return this is AlternativeIdentifier; }
+            get { return this is DeclarationIdentifier<PAlternative>; }
         }
         /// <summary>
         /// Gets the alternative name associated with this identifier, as a <see cref="PAlternative"/>.
@@ -108,9 +108,9 @@ namespace SablePP.Compiler.Nodes
         /// <value>
         ///   A <see cref="PAlternative"/> if this identifier refers to a <see cref="PAlternative"/>; otherwise, <c>null</c>.
         /// </value>
-        public AlternativeIdentifier AsPAlternative
+        public PAlternative AsPAlternative
         {
-            get { return this as AlternativeIdentifier; }
+            get { return IsPAlternative ? (this as DeclarationIdentifier<PAlternative>).Declaration : null; }
         }
 
         /// <summary>
