@@ -2509,13 +2509,13 @@ namespace SablePP.Compiler.Nodes
     public abstract partial class PTokenstateList : Production<PTokenstateList>
     {
         private TLBrace _lpar_;
-        private NodeList<PTokenstateListitem> _tokenstate_listitem_;
+        private NodeList<PTokenstateListitem> _states_;
         private TRBrace _rpar_;
         
-        public PTokenstateList(TLBrace _lpar_, IEnumerable<PTokenstateListitem> _tokenstate_listitem_, TRBrace _rpar_)
+        public PTokenstateList(TLBrace _lpar_, IEnumerable<PTokenstateListitem> _states_, TRBrace _rpar_)
         {
             this.Lpar = _lpar_;
-            this._tokenstate_listitem_ = new NodeList<PTokenstateListitem>(this, _tokenstate_listitem_, false);
+            this._states_ = new NodeList<PTokenstateListitem>(this, _states_, false);
             this.Rpar = _rpar_;
         }
         
@@ -2534,9 +2534,9 @@ namespace SablePP.Compiler.Nodes
                 _lpar_ = value;
             }
         }
-        public NodeList<PTokenstateListitem> TokenstateListitem
+        public NodeList<PTokenstateListitem> States
         {
-            get { return _tokenstate_listitem_; }
+            get { return _states_; }
         }
         public TRBrace Rpar
         {
@@ -2557,8 +2557,8 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class ATokenstateList : PTokenstateList
     {
-        public ATokenstateList(TLBrace _lpar_, IEnumerable<PTokenstateListitem> _tokenstate_listitem_, TRBrace _rpar_)
-            : base(_lpar_, _tokenstate_listitem_, _rpar_)
+        public ATokenstateList(TLBrace _lpar_, IEnumerable<PTokenstateListitem> _states_, TRBrace _rpar_)
+            : base(_lpar_, _states_, _rpar_)
         {
         }
         
@@ -2572,16 +2572,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBrace;
             }
-            else if (oldChild is PTokenstateListitem && TokenstateListitem.Contains(oldChild as PTokenstateListitem))
+            else if (oldChild is PTokenstateListitem && States.Contains(oldChild as PTokenstateListitem))
             {
                 if (!(newChild is PTokenstateListitem) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
-                int index = TokenstateListitem.IndexOf(oldChild as PTokenstateListitem);
+                int index = States.IndexOf(oldChild as PTokenstateListitem);
                 if (newChild == null)
-                    TokenstateListitem.RemoveAt(index);
+                    States.RemoveAt(index);
                 else
-                    TokenstateListitem[index] = newChild as PTokenstateListitem;
+                    States[index] = newChild as PTokenstateListitem;
             }
             else if (Rpar == oldChild)
             {
@@ -2597,8 +2597,8 @@ namespace SablePP.Compiler.Nodes
         {
             yield return Lpar;
             {
-                PTokenstateListitem[] temp = new PTokenstateListitem[TokenstateListitem.Count];
-                TokenstateListitem.CopyTo(temp, 0);
+                PTokenstateListitem[] temp = new PTokenstateListitem[States.Count];
+                States.CopyTo(temp, 0);
                 for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
@@ -2607,12 +2607,12 @@ namespace SablePP.Compiler.Nodes
         
         public override PTokenstateList Clone()
         {
-            return new ATokenstateList(Lpar.Clone(), TokenstateListitem, Rpar.Clone());
+            return new ATokenstateList(Lpar.Clone(), States, Rpar.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2}", Lpar, TokenstateListitem, Rpar);
+            return string.Format("{0} {1} {2}", Lpar, States, Rpar);
         }
     }
     public abstract partial class PTokenstateListitem : Production<PTokenstateListitem>

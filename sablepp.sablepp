@@ -342,7 +342,7 @@ Abstract Syntax Tree
     
     identifier_listitem = comma? identifier;
     
-    tokenstate_list = [lpar]:l_brace tokenstate_listitem+ [rpar]:r_brace;
+    tokenstate_list = [lpar]:l_brace [states]:tokenstate_listitem+ [rpar]:r_brace;
     tokenstate_listitem
         = comma? identifier
         | {transition} comma? [from]:identifier arrow [to]:identifier

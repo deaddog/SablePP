@@ -1608,8 +1608,8 @@ namespace SablePP.Compiler.Analysis
             
             Visit(node.Lpar);
             {
-                PTokenstateListitem[] temp = new PTokenstateListitem[node.TokenstateListitem.Count];
-                node.TokenstateListitem.CopyTo(temp, 0);
+                PTokenstateListitem[] temp = new PTokenstateListitem[node.States.Count];
+                node.States.CopyTo(temp, 0);
                 for (int i = 0; i < temp.Length; i++)
                     Visit((dynamic)temp[i]);
             }
@@ -3360,8 +3360,8 @@ namespace SablePP.Compiler.Analysis
             
             Visit(node.Rpar);
             {
-                PTokenstateListitem[] temp = new PTokenstateListitem[node.TokenstateListitem.Count];
-                node.TokenstateListitem.CopyTo(temp, 0);
+                PTokenstateListitem[] temp = new PTokenstateListitem[node.States.Count];
+                node.States.CopyTo(temp, 0);
                 for (int i = temp.Length - 1; i >= 0; i--)
                     Visit((dynamic)temp[i]);
             }

@@ -125,7 +125,7 @@ namespace SablePP.Compiler.Generate
 
         public override void CaseATokenstateList(ATokenstateList node)
         {
-            if (!node.TokenstateListitem.Any(item => item is ATransitionTokenstateListitem))
+            if (!node.States.Any(item => item is ATransitionTokenstateListitem))
                 return;
 
             getNextStateMethod.EmitLine("case {0}:", tokenIndex);
