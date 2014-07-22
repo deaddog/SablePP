@@ -97,7 +97,6 @@
     <Compile Include="Nodes\Identifiers\HighlightruleIdentifier.cs" />
     <Compile Include="Nodes\Identifiers\ProductionIdentifier.cs" />
     <Compile Include="Nodes\Identifiers\StateIdentifier.cs" />
-    <Compile Include="Nodes\Identifiers\TokenIdentifier.cs" />
     <Compile Include="Nodes\PElement.cs" />
     <Compile Include="Nodes\PGrammar.cs" />
     <Compile Include="Nodes\PProduction.cs" />

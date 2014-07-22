@@ -3,11 +3,11 @@ using SablePP.Compiler.Nodes.Identifiers;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
-    public class TokensTable : DeclarationTable<TokenIdentifier, PToken>
+    public class TokensTable : DeclarationTable<PToken>
     {
-        protected override TokenIdentifier construct(TIdentifier identifier, PToken declaration)
+        protected override DeclarationIdentifier<PToken> construct(TIdentifier identifier, PToken declaration)
         {
-            return new TokenIdentifier(identifier, declaration);
+            return new DeclarationIdentifier<PToken>(identifier, declaration);
         }
 
         protected override TIdentifier getIdentifier(PToken declaration)

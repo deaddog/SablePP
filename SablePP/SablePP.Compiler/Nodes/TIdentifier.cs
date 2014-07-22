@@ -26,7 +26,7 @@ namespace SablePP.Compiler.Nodes
         /// </value>
         public PHelper AsPHelper
         {
-            get { return (this as DeclarationIdentifier<PHelper>).Declaration; }
+            get { return IsPToken ? (this as DeclarationIdentifier<PHelper>).Declaration : null; }
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace SablePP.Compiler.Nodes
         /// </value>
         public bool IsPToken
         {
-            get { return this is TokenIdentifier; }
+            get { return this is DeclarationIdentifier<PToken>; }
         }
         /// <summary>
         /// Gets the declaration associated with this identifier, as a <see cref="PToken"/>.
@@ -68,7 +68,7 @@ namespace SablePP.Compiler.Nodes
         /// </value>
         public PToken AsPToken
         {
-            get { return (this as TokenIdentifier).Declaration; }
+            get { return IsPToken ? (this as DeclarationIdentifier<PToken>).Declaration : null; }
         }
 
         /// <summary>
