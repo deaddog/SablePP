@@ -29,6 +29,7 @@ namespace SablePP.Compiler.Generate.Analysis
             this.grammar = node;
 
             CreateGenericListMethod();
+            adapterClass.EmitNewline();
 
             CreateStartInOutMethods();
             CreateStartCaseMethod();
@@ -173,41 +174,11 @@ namespace SablePP.Compiler.Generate.Analysis
         }
         public override void CaseAPlusElement(APlusElement node)
         {
-            TIdentifier typeId = node.Elementid.Identifier;
-            string type = (typeId.IsPToken ? typeId.AsPToken.ClassName : typeId.AsPProduction.ClassName);
-            string name = ToCamelCase(node.LowerName);
-
-            EmitListWalking(type, name, node);
+            method.Body.EmitLine("Visit(node.{0});", ToCamelCase(node.LowerName));
         }
         public override void CaseAStarElement(AStarElement node)
         {
-            TIdentifier typeId = node.Elementid.Identifier;
-            string type = (typeId.IsPToken ? typeId.AsPToken.ClassName : typeId.AsPProduction.ClassName);
-            string name = ToCamelCase(node.LowerName);
-
-            EmitListWalking(type, name, node);
+            method.Body.EmitLine("Visit(node.{0});", ToCamelCase(node.LowerName));
         }
-
-        private void EmitListWalking(string type, string name, PElement node)
-        {
-            method.Body.EmitLine("{");
-            method.Body.IncreaseIndentation();
-
-            method.Body.EmitLine("{0}[] temp = new {0}[node.{1}.Count];", type, name);
-            method.Body.EmitLine("node.{0}.CopyTo(temp, 0);", name);
-
-            if (!reversed)
-                method.Body.EmitLine("for (int i = 0; i < temp.Length; i++)");
-            else
-                method.Body.EmitLine("for (int i = temp.Length - 1; i >= 0; i--)");
-            method.Body.IncreaseIndentation();
-
-            method.Body.EmitLine("Visit({0}temp[i]);", node.Elementid.Identifier.IsPProduction ? "(dynamic)" : "");
-            method.Body.DecreaseIndentation();
-
-            method.Body.DecreaseIndentation();
-            method.Body.EmitLine("}");
-        }
-
     }
 }
