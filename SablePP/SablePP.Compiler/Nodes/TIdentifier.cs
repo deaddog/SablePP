@@ -114,24 +114,24 @@ namespace SablePP.Compiler.Nodes
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="ElementNameIdentifier"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="PElement"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="ElementNameIdentifier"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="PElement"/>; otherwise, <c>false</c>.
         /// </value>
         public bool IsPElement
         {
-            get { return this is ElementIdentifier; }
+            get { return this is DeclarationIdentifier<PElement>; }
         }
         /// <summary>
-        /// Gets the element name associated with this identifier, as a <see cref="ElementNameIdentifier"/>.
+        /// Gets the element name associated with this identifier, as a <see cref="PElement"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="ElementNameIdentifier"/> if this identifier refers to a <see cref="ElementNameIdentifier"/>; otherwise, <c>null</c>.
+        ///   A <see cref="ElementNameIdentifier"/> if this identifier refers to a <see cref="PElement"/>; otherwise, <c>null</c>.
         /// </value>
-        public ElementIdentifier AsPElement
+        public PElement AsPElement
         {
-            get { return this as ElementIdentifier; }
+            get { return IsPElement ? (this as DeclarationIdentifier<PElement>).Declaration : null; }
         }
 
         /// <summary>

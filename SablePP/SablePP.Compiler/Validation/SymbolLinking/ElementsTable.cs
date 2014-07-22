@@ -3,11 +3,11 @@ using SablePP.Compiler.Nodes.Identifiers;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
-    public class ElementsTable : DeclarationTable<ElementIdentifier, PElement>
+    public class ElementsTable : DeclarationTable<PElement>
     {
-        protected override ElementIdentifier construct(TIdentifier identifier, PElement declaration)
+        protected override DeclarationIdentifier<PElement> construct(TIdentifier identifier, PElement declaration)
         {
-            return new ElementIdentifier(identifier, declaration);
+            return new DeclarationIdentifier<PElement>(identifier, declaration);
         }
 
         protected override TIdentifier getIdentifier(PElement declaration)

@@ -39,7 +39,7 @@ namespace SablePP.Compiler.Execution
             }
             else if (identifier.IsPElement)
             {
-                var id = identifier.AsPElement.Declaration.Elementid.Identifier;
+                var id = identifier.AsPElement.Elementid.Identifier;
                 if (id.IsPToken)
                     return tokenStyle;
                 else if (id.IsPProduction)
