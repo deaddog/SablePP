@@ -29,7 +29,7 @@ namespace SablePP.Compiler.Execution
                 else
                     return greyStyle;
             }
-            else if (identifier.IsProduction)
+            else if (identifier.IsPProduction)
             {
                 var e = identifier.GetFirstParent<PElement>();
                 if (e == null || !e.HasElementname)
@@ -42,7 +42,7 @@ namespace SablePP.Compiler.Execution
                 var id = identifier.AsElementName.Declaration.Elementid.Identifier;
                 if (id.IsPToken)
                     return tokenStyle;
-                else if (id.IsProduction)
+                else if (id.IsPProduction)
                     return productionStyle;
             }
             return null;

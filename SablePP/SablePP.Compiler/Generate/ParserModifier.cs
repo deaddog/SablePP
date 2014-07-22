@@ -380,7 +380,7 @@ namespace SablePP.Compiler.Generate
                 {
                     if (node.Identifier.IsPToken)
                         arguments[currentAname][index] = "T" + node.Identifier.Text.ToCamelCase();
-                    else if (node.Identifier.IsProduction)
+                    else if (node.Identifier.IsPProduction)
                         arguments[currentAname][index] = "P" + node.Identifier.Text.ToCamelCase();
                     index++;
                 }

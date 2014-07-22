@@ -143,19 +143,19 @@ namespace SablePP.Compiler.Generate.Analysis
 
         public override void CaseASimpleElement(ASimpleElement node)
         {
-            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.Identifier.IsProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
+            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.Identifier.IsPProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
         }
         public override void CaseAQuestionElement(AQuestionElement node)
         {
             method.Body.EmitLine("if (node.Has{0})", ToCamelCase(node.LowerName));
             method.Body.IncreaseIndentation();
-            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.Identifier.IsProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
+            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.Identifier.IsPProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
             method.Body.DecreaseIndentation();
         }
         public override void CaseAPlusElement(APlusElement node)
         {
             TIdentifier typeId = node.Elementid.Identifier;
-            string type = (typeId.IsPToken ? typeId.AsPToken.ClassName : typeId.AsProduction.Declaration.ClassName);
+            string type = (typeId.IsPToken ? typeId.AsPToken.ClassName : typeId.AsPProduction.Declaration.ClassName);
             string name = ToCamelCase(node.LowerName);
 
             EmitListWalking(type, name, node);
@@ -163,7 +163,7 @@ namespace SablePP.Compiler.Generate.Analysis
         public override void CaseAStarElement(AStarElement node)
         {
             TIdentifier typeId = node.Elementid.Identifier;
-            string type = (typeId.IsPToken ? typeId.AsPToken.ClassName : typeId.AsProduction.Declaration.ClassName);
+            string type = (typeId.IsPToken ? typeId.AsPToken.ClassName : typeId.AsPProduction.Declaration.ClassName);
             string name = ToCamelCase(node.LowerName);
 
             EmitListWalking(type, name, node);
@@ -183,7 +183,7 @@ namespace SablePP.Compiler.Generate.Analysis
                 method.Body.EmitLine("for (int i = temp.Length - 1; i >= 0; i--)");
             method.Body.IncreaseIndentation();
 
-            method.Body.EmitLine("Visit({0}temp[i]);", node.Elementid.Identifier.IsProduction ? "(dynamic)" : "");
+            method.Body.EmitLine("Visit({0}temp[i]);", node.Elementid.Identifier.IsPProduction ? "(dynamic)" : "");
             method.Body.DecreaseIndentation();
 
             method.Body.DecreaseIndentation();

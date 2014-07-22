@@ -80,11 +80,11 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 RegisterWarning(t.Identifier, "The token {0} is never used in a production.", t.Identifier);
 
             foreach (var p in nonastProd.NonLinked)
-                if (!p.Identifier.AsProduction.IsFirst)
+                if (!p.Identifier.AsPProduction.IsFirst)
                     RegisterWarning(p.Identifier, "The production {0} is never used in another production.", p.Identifier);
 
             foreach (var p in astProd.NonLinked)
-                if (!p.Identifier.AsProduction.IsFirst)
+                if (!p.Identifier.AsPProduction.IsFirst)
                     RegisterWarning(p.Identifier, "The AST production {0} is never used in another production.", p.Identifier);
         }
 

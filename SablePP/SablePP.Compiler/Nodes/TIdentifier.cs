@@ -77,7 +77,7 @@ namespace SablePP.Compiler.Nodes
         /// <value>
         ///   <c>true</c> if this identifier refers to a <see cref="ProductionIdentifier"/>; otherwise, <c>false</c>.
         /// </value>
-        public bool IsProduction
+        public bool IsPProduction
         {
             get { return this is ProductionIdentifier; }
         }
@@ -87,7 +87,7 @@ namespace SablePP.Compiler.Nodes
         /// <value>
         ///   A <see cref="ProductionIdentifier"/> if this identifier refers to a <see cref="ProductionIdentifier"/>; otherwise, <c>null</c>.
         /// </value>
-        public ProductionIdentifier AsProduction
+        public ProductionIdentifier AsPProduction
         {
             get { return this as ProductionIdentifier; }
         }
