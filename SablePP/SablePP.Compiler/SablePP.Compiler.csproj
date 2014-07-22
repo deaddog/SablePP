@@ -95,7 +95,6 @@
     <Compile Include="Nodes\Identifiers\AlternativeIdentifier.cs" />
     <Compile Include="Nodes\Identifiers\DeclarationIdentifier.cs" />
     <Compile Include="Nodes\Identifiers\HighlightruleIdentifier.cs" />
-    <Compile Include="Nodes\Identifiers\ProductionIdentifier.cs" />
     <Compile Include="Nodes\Identifiers\StateIdentifier.cs" />
     <Compile Include="Nodes\PElement.cs" />
     <Compile Include="Nodes\PGrammar.cs" />
