@@ -9090,13 +9090,13 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList3 = (ArrayList) Pop();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        PList plistNode2 = (PList)nodeArrayList1[0];
+        PTokenstateList ptokenstatelistNode2 = (PTokenstateList)nodeArrayList1[0];
         TIdentifier tidentifierNode3 = (TIdentifier)nodeArrayList2[0];
         TEqual tequalNode4 = (TEqual)nodeArrayList3[0];
         PRegex pregexNode5 = (PRegex)nodeArrayList4[0];
         TSemicolon tsemicolonNode7 = (TSemicolon)nodeArrayList5[0];
         AToken ptokenNode1 = new AToken (
-              plistNode2,
+              ptokenstatelistNode2,
               tidentifierNode3,
               tequalNode4,
               pregexNode5,
@@ -9139,14 +9139,14 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList3 = (ArrayList) Pop();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        PList plistNode2 = (PList)nodeArrayList1[0];
+        PTokenstateList ptokenstatelistNode2 = (PTokenstateList)nodeArrayList1[0];
         TIdentifier tidentifierNode3 = (TIdentifier)nodeArrayList2[0];
         TEqual tequalNode4 = (TEqual)nodeArrayList3[0];
         PRegex pregexNode5 = (PRegex)nodeArrayList4[0];
         PTokenlookahead ptokenlookaheadNode6 = (PTokenlookahead)nodeArrayList5[0];
         TSemicolon tsemicolonNode7 = (TSemicolon)nodeArrayList6[0];
         AToken ptokenNode1 = new AToken (
-              plistNode2,
+              ptokenstatelistNode2,
               tidentifierNode3,
               tequalNode4,
               pregexNode5,
@@ -9162,24 +9162,24 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList3 = (ArrayList) Pop();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode6 = new List<PListitem>();
+        List<PTokenstateListitem> listNode6 = new List<PTokenstateListitem>();
         TLBrace tlbraceNode2 = (TLBrace)nodeArrayList1[0];
         TIdentifier tidentifierNode5 = (TIdentifier)nodeArrayList2[0];
-        ATokenstateListitem plistitemNode3 = new ATokenstateListitem (
+        ATokenstateListitem ptokenstatelistitemNode3 = new ATokenstateListitem (
               null,
               tidentifierNode5
         );
-        if ( plistitemNode3 != null )
+        if ( ptokenstatelistitemNode3 != null )
         {
-            listNode6.Add(plistitemNode3);
+            listNode6.Add(ptokenstatelistitemNode3);
         }
         TRBrace trbraceNode7 = (TRBrace)nodeArrayList3[0];
-        ATokenstateList plistNode1 = new ATokenstateList (
+        ATokenstateList ptokenstatelistNode1 = new ATokenstateList (
               tlbraceNode2,
               listNode6,
               trbraceNode7
         );
-        nodeList.Add(plistNode1);
+        nodeList.Add(ptokenstatelistNode1);
         return nodeList;
     }
     ArrayList New269()
@@ -9189,29 +9189,29 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList3 = (ArrayList) Pop();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode7 = new List<PListitem>();
+        List<PTokenstateListitem> listNode7 = new List<PTokenstateListitem>();
         TLBrace tlbraceNode2 = (TLBrace)nodeArrayList1[0];
         TIdentifier tidentifierNode5 = (TIdentifier)nodeArrayList2[0];
-        ATokenstateListitem plistitemNode3 = new ATokenstateListitem (
+        ATokenstateListitem ptokenstatelistitemNode3 = new ATokenstateListitem (
               null,
               tidentifierNode5
         );
-        List<PListitem> listNode6 = (List<PListitem>)nodeArrayList3[0];
-        if ( plistitemNode3 != null )
+        List<PTokenstateListitem> listNode6 = (List<PTokenstateListitem>)nodeArrayList3[0];
+        if ( ptokenstatelistitemNode3 != null )
         {
-            listNode7.Add(plistitemNode3);
+            listNode7.Add(ptokenstatelistitemNode3);
         }
         if ( listNode6 != null )
         {
             listNode7.AddRange(listNode6);
         }
         TRBrace trbraceNode8 = (TRBrace)nodeArrayList4[0];
-        ATokenstateList plistNode1 = new ATokenstateList (
+        ATokenstateList ptokenstatelistNode1 = new ATokenstateList (
               tlbraceNode2,
               listNode7,
               trbraceNode8
         );
-        nodeList.Add(plistNode1);
+        nodeList.Add(ptokenstatelistNode1);
         return nodeList;
     }
     ArrayList New270()
@@ -9222,28 +9222,28 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList3 = (ArrayList) Pop();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode8 = new List<PListitem>();
+        List<PTokenstateListitem> listNode8 = new List<PTokenstateListitem>();
         TLBrace tlbraceNode2 = (TLBrace)nodeArrayList1[0];
         TIdentifier tidentifierNode5 = (TIdentifier)nodeArrayList2[0];
         TArrow tarrowNode6 = (TArrow)nodeArrayList3[0];
         TIdentifier tidentifierNode7 = (TIdentifier)nodeArrayList4[0];
-        ATokenstatetransitionListitem plistitemNode3 = new ATokenstatetransitionListitem (
+        ATransitionTokenstateListitem ptokenstatelistitemNode3 = new ATransitionTokenstateListitem (
               null,
               tidentifierNode5,
               tarrowNode6,
               tidentifierNode7
         );
-        if ( plistitemNode3 != null )
+        if ( ptokenstatelistitemNode3 != null )
         {
-            listNode8.Add(plistitemNode3);
+            listNode8.Add(ptokenstatelistitemNode3);
         }
         TRBrace trbraceNode9 = (TRBrace)nodeArrayList5[0];
-        ATokenstateList plistNode1 = new ATokenstateList (
+        ATokenstateList ptokenstatelistNode1 = new ATokenstateList (
               tlbraceNode2,
               listNode8,
               trbraceNode9
         );
-        nodeList.Add(plistNode1);
+        nodeList.Add(ptokenstatelistNode1);
         return nodeList;
     }
     ArrayList New271()
@@ -9255,33 +9255,33 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList3 = (ArrayList) Pop();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode9 = new List<PListitem>();
+        List<PTokenstateListitem> listNode9 = new List<PTokenstateListitem>();
         TLBrace tlbraceNode2 = (TLBrace)nodeArrayList1[0];
         TIdentifier tidentifierNode5 = (TIdentifier)nodeArrayList2[0];
         TArrow tarrowNode6 = (TArrow)nodeArrayList3[0];
         TIdentifier tidentifierNode7 = (TIdentifier)nodeArrayList4[0];
-        ATokenstatetransitionListitem plistitemNode3 = new ATokenstatetransitionListitem (
+        ATransitionTokenstateListitem ptokenstatelistitemNode3 = new ATransitionTokenstateListitem (
               null,
               tidentifierNode5,
               tarrowNode6,
               tidentifierNode7
         );
-        List<PListitem> listNode8 = (List<PListitem>)nodeArrayList5[0];
-        if ( plistitemNode3 != null )
+        List<PTokenstateListitem> listNode8 = (List<PTokenstateListitem>)nodeArrayList5[0];
+        if ( ptokenstatelistitemNode3 != null )
         {
-            listNode9.Add(plistitemNode3);
+            listNode9.Add(ptokenstatelistitemNode3);
         }
         if ( listNode8 != null )
         {
             listNode9.AddRange(listNode8);
         }
         TRBrace trbraceNode10 = (TRBrace)nodeArrayList6[0];
-        ATokenstateList plistNode1 = new ATokenstateList (
+        ATokenstateList ptokenstatelistNode1 = new ATokenstateList (
               tlbraceNode2,
               listNode9,
               trbraceNode10
         );
-        nodeList.Add(plistNode1);
+        nodeList.Add(ptokenstatelistNode1);
         return nodeList;
     }
     ArrayList New272()
@@ -9291,11 +9291,11 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList1 = (ArrayList) Pop();
         TComma tcommaNode2 = (TComma)nodeArrayList1[0];
         TIdentifier tidentifierNode3 = (TIdentifier)nodeArrayList2[0];
-        ATokenstateListitem plistitemNode1 = new ATokenstateListitem (
+        ATokenstateListitem ptokenstatelistitemNode1 = new ATokenstateListitem (
               tcommaNode2,
               tidentifierNode3
         );
-        nodeList.Add(plistitemNode1);
+        nodeList.Add(ptokenstatelistitemNode1);
         return nodeList;
     }
     ArrayList New273()
@@ -9309,13 +9309,13 @@ public Start<PGrammar> Parse()
         TIdentifier tidentifierNode3 = (TIdentifier)nodeArrayList2[0];
         TArrow tarrowNode4 = (TArrow)nodeArrayList3[0];
         TIdentifier tidentifierNode5 = (TIdentifier)nodeArrayList4[0];
-        ATokenstatetransitionListitem plistitemNode1 = new ATokenstatetransitionListitem (
+        ATransitionTokenstateListitem ptokenstatelistitemNode1 = new ATransitionTokenstateListitem (
               tcommaNode2,
               tidentifierNode3,
               tarrowNode4,
               tidentifierNode5
         );
-        nodeList.Add(plistitemNode1);
+        nodeList.Add(ptokenstatelistitemNode1);
         return nodeList;
     }
     ArrayList New274()
@@ -11355,11 +11355,11 @@ public Start<PGrammar> Parse()
     {
         ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode2 = new List<PListitem>();
-        PListitem plistitemNode1 = (PListitem)nodeArrayList1[0];
-        if ( plistitemNode1 != null )
+        List<PTokenstateListitem> listNode2 = new List<PTokenstateListitem>();
+        PTokenstateListitem ptokenstatelistitemNode1 = (PTokenstateListitem)nodeArrayList1[0];
+        if ( ptokenstatelistitemNode1 != null )
         {
-            listNode2.Add(plistitemNode1);
+            listNode2.Add(ptokenstatelistitemNode1);
         }
         nodeList.Add(listNode2);
         return nodeList;
@@ -11369,16 +11369,16 @@ public Start<PGrammar> Parse()
         ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode3 = new List<PListitem>();
-        List<PListitem> listNode1 = (List<PListitem>)nodeArrayList1[0];
-        PListitem plistitemNode2 = (PListitem)nodeArrayList2[0];
+        List<PTokenstateListitem> listNode3 = new List<PTokenstateListitem>();
+        List<PTokenstateListitem> listNode1 = (List<PTokenstateListitem>)nodeArrayList1[0];
+        PTokenstateListitem ptokenstatelistitemNode2 = (PTokenstateListitem)nodeArrayList2[0];
         if ( listNode1 != null )
         {
             listNode3.AddRange(listNode1);
         }
-        if ( plistitemNode2 != null )
+        if ( ptokenstatelistitemNode2 != null )
         {
-            listNode3.Add(plistitemNode2);
+            listNode3.Add(ptokenstatelistitemNode2);
         }
         nodeList.Add(listNode3);
         return nodeList;

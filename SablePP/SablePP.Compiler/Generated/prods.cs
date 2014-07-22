@@ -673,14 +673,14 @@ namespace SablePP.Compiler.Nodes
     }
     public abstract partial class PToken : Production<PToken>
     {
-        private PList _statelist_;
+        private PTokenstateList _statelist_;
         private TIdentifier _identifier_;
         private TEqual _equal_;
         private PRegex _regex_;
         private PTokenlookahead _tokenlookahead_;
         private TSemicolon _semicolon_;
         
-        public PToken(PList _statelist_, TIdentifier _identifier_, TEqual _equal_, PRegex _regex_, PTokenlookahead _tokenlookahead_, TSemicolon _semicolon_)
+        public PToken(PTokenstateList _statelist_, TIdentifier _identifier_, TEqual _equal_, PRegex _regex_, PTokenlookahead _tokenlookahead_, TSemicolon _semicolon_)
         {
             this.Statelist = _statelist_;
             this.Identifier = _identifier_;
@@ -690,7 +690,7 @@ namespace SablePP.Compiler.Nodes
             this.Semicolon = _semicolon_;
         }
         
-        public PList Statelist
+        public PTokenstateList Statelist
         {
             get { return _statelist_; }
             set
@@ -788,7 +788,7 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AToken : PToken
     {
-        public AToken(PList _statelist_, TIdentifier _identifier_, TEqual _equal_, PRegex _regex_, PTokenlookahead _tokenlookahead_, TSemicolon _semicolon_)
+        public AToken(PTokenstateList _statelist_, TIdentifier _identifier_, TEqual _equal_, PRegex _regex_, PTokenlookahead _tokenlookahead_, TSemicolon _semicolon_)
             : base(_statelist_, _identifier_, _equal_, _regex_, _tokenlookahead_, _semicolon_)
         {
         }
@@ -797,9 +797,9 @@ namespace SablePP.Compiler.Nodes
         {
             if (Statelist == oldChild)
             {
-                if (!(newChild is PList) && newChild != null)
+                if (!(newChild is PTokenstateList) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Statelist = newChild as PList;
+                Statelist = newChild as PTokenstateList;
             }
             else if (Identifier == oldChild)
             {
@@ -2506,30 +2506,16 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0} {1}", Comma, Identifier);
         }
     }
-    public abstract partial class PList : Production<PList>
-    {
-        private NodeList<PListitem> _listitem_;
-        
-        public PList(IEnumerable<PListitem> _listitem_)
-        {
-            this._listitem_ = new NodeList<PListitem>(this, _listitem_, false);
-        }
-        
-        public NodeList<PListitem> Listitem
-        {
-            get { return _listitem_; }
-        }
-        
-    }
-    public partial class ATokenstateList : PList
+    public abstract partial class PTokenstateList : Production<PTokenstateList>
     {
         private TLBrace _lpar_;
+        private NodeList<PTokenstateListitem> _tokenstate_listitem_;
         private TRBrace _rpar_;
         
-        public ATokenstateList(TLBrace _lpar_, IEnumerable<PListitem> _listitem_, TRBrace _rpar_)
-            : base(_listitem_)
+        public PTokenstateList(TLBrace _lpar_, IEnumerable<PTokenstateListitem> _tokenstate_listitem_, TRBrace _rpar_)
         {
             this.Lpar = _lpar_;
+            this._tokenstate_listitem_ = new NodeList<PTokenstateListitem>(this, _tokenstate_listitem_, false);
             this.Rpar = _rpar_;
         }
         
@@ -2539,7 +2525,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Lpar in ATokenstateList cannot be null.", "value");
+                    throw new ArgumentException("Lpar in PTokenstateList cannot be null.", "value");
                 
                 if (_lpar_ != null)
                     SetParent(_lpar_, null);
@@ -2548,13 +2534,17 @@ namespace SablePP.Compiler.Nodes
                 _lpar_ = value;
             }
         }
+        public NodeList<PTokenstateListitem> TokenstateListitem
+        {
+            get { return _tokenstate_listitem_; }
+        }
         public TRBrace Rpar
         {
             get { return _rpar_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Rpar in ATokenstateList cannot be null.", "value");
+                    throw new ArgumentException("Rpar in PTokenstateList cannot be null.", "value");
                 
                 if (_rpar_ != null)
                     SetParent(_rpar_, null);
@@ -2562,6 +2552,14 @@ namespace SablePP.Compiler.Nodes
                 
                 _rpar_ = value;
             }
+        }
+        
+    }
+    public partial class ATokenstateList : PTokenstateList
+    {
+        public ATokenstateList(TLBrace _lpar_, IEnumerable<PTokenstateListitem> _tokenstate_listitem_, TRBrace _rpar_)
+            : base(_lpar_, _tokenstate_listitem_, _rpar_)
+        {
         }
         
         public override void ReplaceChild(Node oldChild, Node newChild)
@@ -2574,16 +2572,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBrace;
             }
-            else if (oldChild is PListitem && Listitem.Contains(oldChild as PListitem))
+            else if (oldChild is PTokenstateListitem && TokenstateListitem.Contains(oldChild as PTokenstateListitem))
             {
-                if (!(newChild is PListitem) && newChild != null)
+                if (!(newChild is PTokenstateListitem) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
-                int index = Listitem.IndexOf(oldChild as PListitem);
+                int index = TokenstateListitem.IndexOf(oldChild as PTokenstateListitem);
                 if (newChild == null)
-                    Listitem.RemoveAt(index);
+                    TokenstateListitem.RemoveAt(index);
                 else
-                    Listitem[index] = newChild as PListitem;
+                    TokenstateListitem[index] = newChild as PTokenstateListitem;
             }
             else if (Rpar == oldChild)
             {
@@ -2599,23 +2597,240 @@ namespace SablePP.Compiler.Nodes
         {
             yield return Lpar;
             {
-                PListitem[] temp = new PListitem[Listitem.Count];
-                Listitem.CopyTo(temp, 0);
+                PTokenstateListitem[] temp = new PTokenstateListitem[TokenstateListitem.Count];
+                TokenstateListitem.CopyTo(temp, 0);
                 for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
             yield return Rpar;
         }
         
-        public override PList Clone()
+        public override PTokenstateList Clone()
         {
-            return new ATokenstateList(Lpar.Clone(), Listitem, Rpar.Clone());
+            return new ATokenstateList(Lpar.Clone(), TokenstateListitem, Rpar.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2}", Lpar, Listitem, Rpar);
+            return string.Format("{0} {1} {2}", Lpar, TokenstateListitem, Rpar);
         }
+    }
+    public abstract partial class PTokenstateListitem : Production<PTokenstateListitem>
+    {
+        private TComma _comma_;
+        
+        public PTokenstateListitem(TComma _comma_)
+        {
+            this.Comma = _comma_;
+        }
+        
+        public TComma Comma
+        {
+            get { return _comma_; }
+            set
+            {
+                if (_comma_ != null)
+                    SetParent(_comma_, null);
+                if (value != null)
+                    SetParent(value, this);
+                
+                _comma_ = value;
+            }
+        }
+        public bool HasComma
+        {
+            get { return _comma_ != null; }
+        }
+        
+    }
+    public partial class ATokenstateListitem : PTokenstateListitem
+    {
+        private TIdentifier _identifier_;
+        
+        public ATokenstateListitem(TComma _comma_, TIdentifier _identifier_)
+            : base(_comma_)
+        {
+            this.Identifier = _identifier_;
+        }
+        
+        public TIdentifier Identifier
+        {
+            get { return _identifier_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Identifier in ATokenstateListitem cannot be null.", "value");
+                
+                if (_identifier_ != null)
+                    SetParent(_identifier_, null);
+                SetParent(value, this);
+                
+                _identifier_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Comma == oldChild)
+            {
+                if (!(newChild is TComma) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Comma = newChild as TComma;
+            }
+            else if (Identifier == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Identifier in ATokenstateListitem cannot be null.", "newChild");
+                if (!(newChild is TIdentifier) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Identifier = newChild as TIdentifier;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            if (HasComma)
+                yield return Comma;
+            yield return Identifier;
+        }
+        
+        public override PTokenstateListitem Clone()
+        {
+            return new ATokenstateListitem(Comma.Clone(), Identifier.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0} {1}", Comma, Identifier);
+        }
+    }
+    public partial class ATransitionTokenstateListitem : PTokenstateListitem
+    {
+        private TIdentifier _from_;
+        private TArrow _arrow_;
+        private TIdentifier _to_;
+        
+        public ATransitionTokenstateListitem(TComma _comma_, TIdentifier _from_, TArrow _arrow_, TIdentifier _to_)
+            : base(_comma_)
+        {
+            this.From = _from_;
+            this.Arrow = _arrow_;
+            this.To = _to_;
+        }
+        
+        public TIdentifier From
+        {
+            get { return _from_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("From in ATransitionTokenstateListitem cannot be null.", "value");
+                
+                if (_from_ != null)
+                    SetParent(_from_, null);
+                SetParent(value, this);
+                
+                _from_ = value;
+            }
+        }
+        public TArrow Arrow
+        {
+            get { return _arrow_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Arrow in ATransitionTokenstateListitem cannot be null.", "value");
+                
+                if (_arrow_ != null)
+                    SetParent(_arrow_, null);
+                SetParent(value, this);
+                
+                _arrow_ = value;
+            }
+        }
+        public TIdentifier To
+        {
+            get { return _to_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("To in ATransitionTokenstateListitem cannot be null.", "value");
+                
+                if (_to_ != null)
+                    SetParent(_to_, null);
+                SetParent(value, this);
+                
+                _to_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Comma == oldChild)
+            {
+                if (!(newChild is TComma) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Comma = newChild as TComma;
+            }
+            else if (From == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("From in ATransitionTokenstateListitem cannot be null.", "newChild");
+                if (!(newChild is TIdentifier) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                From = newChild as TIdentifier;
+            }
+            else if (Arrow == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Arrow in ATransitionTokenstateListitem cannot be null.", "newChild");
+                if (!(newChild is TArrow) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Arrow = newChild as TArrow;
+            }
+            else if (To == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("To in ATransitionTokenstateListitem cannot be null.", "newChild");
+                if (!(newChild is TIdentifier) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                To = newChild as TIdentifier;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            if (HasComma)
+                yield return Comma;
+            yield return From;
+            yield return Arrow;
+            yield return To;
+        }
+        
+        public override PTokenstateListitem Clone()
+        {
+            return new ATransitionTokenstateListitem(Comma.Clone(), From.Clone(), Arrow.Clone(), To.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0} {1} {2} {3}", Comma, From, Arrow, To);
+        }
+    }
+    public abstract partial class PList : Production<PList>
+    {
+        private NodeList<PListitem> _listitem_;
+        
+        public PList(IEnumerable<PListitem> _listitem_)
+        {
+            this._listitem_ = new NodeList<PListitem>(this, _listitem_, false);
+        }
+        
+        public NodeList<PListitem> Listitem
+        {
+            get { return _listitem_; }
+        }
+        
     }
     public partial class ATranslationList : PList
     {
@@ -2728,180 +2943,6 @@ namespace SablePP.Compiler.Nodes
             get { return _comma_ != null; }
         }
         
-    }
-    public partial class ATokenstateListitem : PListitem
-    {
-        private TIdentifier _identifier_;
-        
-        public ATokenstateListitem(TComma _comma_, TIdentifier _identifier_)
-            : base(_comma_)
-        {
-            this.Identifier = _identifier_;
-        }
-        
-        public TIdentifier Identifier
-        {
-            get { return _identifier_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Identifier in ATokenstateListitem cannot be null.", "value");
-                
-                if (_identifier_ != null)
-                    SetParent(_identifier_, null);
-                SetParent(value, this);
-                
-                _identifier_ = value;
-            }
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Comma == oldChild)
-            {
-                if (!(newChild is TComma) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Comma = newChild as TComma;
-            }
-            else if (Identifier == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Identifier in ATokenstateListitem cannot be null.", "newChild");
-                if (!(newChild is TIdentifier) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Identifier = newChild as TIdentifier;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            if (HasComma)
-                yield return Comma;
-            yield return Identifier;
-        }
-        
-        public override PListitem Clone()
-        {
-            return new ATokenstateListitem(Comma.Clone(), Identifier.Clone());
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1}", Comma, Identifier);
-        }
-    }
-    public partial class ATokenstatetransitionListitem : PListitem
-    {
-        private TIdentifier _from_;
-        private TArrow _arrow_;
-        private TIdentifier _to_;
-        
-        public ATokenstatetransitionListitem(TComma _comma_, TIdentifier _from_, TArrow _arrow_, TIdentifier _to_)
-            : base(_comma_)
-        {
-            this.From = _from_;
-            this.Arrow = _arrow_;
-            this.To = _to_;
-        }
-        
-        public TIdentifier From
-        {
-            get { return _from_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("From in ATokenstatetransitionListitem cannot be null.", "value");
-                
-                if (_from_ != null)
-                    SetParent(_from_, null);
-                SetParent(value, this);
-                
-                _from_ = value;
-            }
-        }
-        public TArrow Arrow
-        {
-            get { return _arrow_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Arrow in ATokenstatetransitionListitem cannot be null.", "value");
-                
-                if (_arrow_ != null)
-                    SetParent(_arrow_, null);
-                SetParent(value, this);
-                
-                _arrow_ = value;
-            }
-        }
-        public TIdentifier To
-        {
-            get { return _to_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("To in ATokenstatetransitionListitem cannot be null.", "value");
-                
-                if (_to_ != null)
-                    SetParent(_to_, null);
-                SetParent(value, this);
-                
-                _to_ = value;
-            }
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Comma == oldChild)
-            {
-                if (!(newChild is TComma) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Comma = newChild as TComma;
-            }
-            else if (From == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("From in ATokenstatetransitionListitem cannot be null.", "newChild");
-                if (!(newChild is TIdentifier) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                From = newChild as TIdentifier;
-            }
-            else if (Arrow == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Arrow in ATokenstatetransitionListitem cannot be null.", "newChild");
-                if (!(newChild is TArrow) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Arrow = newChild as TArrow;
-            }
-            else if (To == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("To in ATokenstatetransitionListitem cannot be null.", "newChild");
-                if (!(newChild is TIdentifier) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                To = newChild as TIdentifier;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            if (HasComma)
-                yield return Comma;
-            yield return From;
-            yield return Arrow;
-            yield return To;
-        }
-        
-        public override PListitem Clone()
-        {
-            return new ATokenstatetransitionListitem(Comma.Clone(), From.Clone(), Arrow.Clone(), To.Clone());
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1} {2} {3}", Comma, From, Arrow, To);
-        }
     }
     public partial class ATranslationListitem : PListitem
     {
