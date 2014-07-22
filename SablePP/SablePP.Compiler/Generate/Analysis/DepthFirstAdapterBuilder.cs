@@ -155,7 +155,7 @@ namespace SablePP.Compiler.Generate.Analysis
         public override void CaseAPlusElement(APlusElement node)
         {
             TIdentifier typeId = node.Elementid.Identifier;
-            string type = (typeId.IsPToken ? typeId.AsPToken.Declaration.ClassName : typeId.AsProduction.Declaration.ClassName);
+            string type = (typeId.IsPToken ? typeId.AsPToken.ClassName : typeId.AsProduction.Declaration.ClassName);
             string name = ToCamelCase(node.LowerName);
 
             EmitListWalking(type, name, node);
@@ -163,7 +163,7 @@ namespace SablePP.Compiler.Generate.Analysis
         public override void CaseAStarElement(AStarElement node)
         {
             TIdentifier typeId = node.Elementid.Identifier;
-            string type = (typeId.IsPToken ? typeId.AsPToken.Declaration.ClassName : typeId.AsProduction.Declaration.ClassName);
+            string type = (typeId.IsPToken ? typeId.AsPToken.ClassName : typeId.AsProduction.Declaration.ClassName);
             string name = ToCamelCase(node.LowerName);
 
             EmitListWalking(type, name, node);
