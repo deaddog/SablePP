@@ -119,7 +119,7 @@ namespace SablePP.Compiler.Nodes
         /// <value>
         ///   <c>true</c> if this identifier refers to a <see cref="ElementNameIdentifier"/>; otherwise, <c>false</c>.
         /// </value>
-        public bool IsElementName
+        public bool IsPElement
         {
             get { return this is ElementIdentifier; }
         }
@@ -129,7 +129,7 @@ namespace SablePP.Compiler.Nodes
         /// <value>
         ///   A <see cref="ElementNameIdentifier"/> if this identifier refers to a <see cref="ElementNameIdentifier"/>; otherwise, <c>null</c>.
         /// </value>
-        public ElementIdentifier AsElementName
+        public ElementIdentifier AsPElement
         {
             get { return this as ElementIdentifier; }
         }
