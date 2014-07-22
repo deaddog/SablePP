@@ -9839,20 +9839,17 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList3 = (ArrayList) Pop();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
+        List<PTranslationListitem> listNode5 = new List<PTranslationListitem>();
         TNew tnewNode2 = (TNew)nodeArrayList1[0];
         TIdentifier tidentifierNode3 = (TIdentifier)nodeArrayList2[0];
         TLPar tlparNode4 = (TLPar)nodeArrayList3[0];
-        List<PListitem> listNode6 = new List<PListitem>();
-        ATranslationList plistNode5 = new ATranslationList (
-              listNode6
-        );
-        TRPar trparNode7 = (TRPar)nodeArrayList4[0];
+        TRPar trparNode6 = (TRPar)nodeArrayList4[0];
         ANewTranslation ptranslationNode1 = new ANewTranslation (
               tnewNode2,
               tidentifierNode3,
               tlparNode4,
-              plistNode5,
-              trparNode7
+              listNode5,
+              trparNode6
         );
         nodeList.Add(ptranslationNode1);
         return nodeList;
@@ -9865,25 +9862,22 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList3 = (ArrayList) Pop();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
+        List<PTranslationListitem> listNode6 = new List<PTranslationListitem>();
         TNew tnewNode2 = (TNew)nodeArrayList1[0];
         TIdentifier tidentifierNode3 = (TIdentifier)nodeArrayList2[0];
         TLPar tlparNode4 = (TLPar)nodeArrayList3[0];
-        List<PListitem> listNode7 = new List<PListitem>();
-        List<PListitem> listNode6 = (List<PListitem>)nodeArrayList4[0];
-        if ( listNode6 != null )
+        List<PTranslationListitem> listNode5 = (List<PTranslationListitem>)nodeArrayList4[0];
+        if ( listNode5 != null )
         {
-            listNode7.AddRange(listNode6);
+            listNode6.AddRange(listNode5);
         }
-        ATranslationList plistNode5 = new ATranslationList (
-              listNode7
-        );
-        TRPar trparNode8 = (TRPar)nodeArrayList5[0];
+        TRPar trparNode7 = (TRPar)nodeArrayList5[0];
         ANewTranslation ptranslationNode1 = new ANewTranslation (
               tnewNode2,
               tidentifierNode3,
               tlparNode4,
-              plistNode5,
-              trparNode8
+              listNode6,
+              trparNode7
         );
         nodeList.Add(ptranslationNode1);
         return nodeList;
@@ -9897,24 +9891,21 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList3 = (ArrayList) Pop();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
+        List<PTranslationListitem> listNode7 = new List<PTranslationListitem>();
         TNew tnewNode2 = (TNew)nodeArrayList1[0];
         TIdentifier tidentifierNode3 = (TIdentifier)nodeArrayList2[0];
         TDot tdotNode4 = (TDot)nodeArrayList3[0];
         TIdentifier tidentifierNode5 = (TIdentifier)nodeArrayList4[0];
         TLPar tlparNode6 = (TLPar)nodeArrayList5[0];
-        List<PListitem> listNode8 = new List<PListitem>();
-        ATranslationList plistNode7 = new ATranslationList (
-              listNode8
-        );
-        TRPar trparNode9 = (TRPar)nodeArrayList6[0];
+        TRPar trparNode8 = (TRPar)nodeArrayList6[0];
         ANewalternativeTranslation ptranslationNode1 = new ANewalternativeTranslation (
               tnewNode2,
               tidentifierNode3,
               tdotNode4,
               tidentifierNode5,
               tlparNode6,
-              plistNode7,
-              trparNode9
+              listNode7,
+              trparNode8
         );
         nodeList.Add(ptranslationNode1);
         return nodeList;
@@ -9929,29 +9920,26 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList3 = (ArrayList) Pop();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
+        List<PTranslationListitem> listNode8 = new List<PTranslationListitem>();
         TNew tnewNode2 = (TNew)nodeArrayList1[0];
         TIdentifier tidentifierNode3 = (TIdentifier)nodeArrayList2[0];
         TDot tdotNode4 = (TDot)nodeArrayList3[0];
         TIdentifier tidentifierNode5 = (TIdentifier)nodeArrayList4[0];
         TLPar tlparNode6 = (TLPar)nodeArrayList5[0];
-        List<PListitem> listNode9 = new List<PListitem>();
-        List<PListitem> listNode8 = (List<PListitem>)nodeArrayList6[0];
-        if ( listNode8 != null )
+        List<PTranslationListitem> listNode7 = (List<PTranslationListitem>)nodeArrayList6[0];
+        if ( listNode7 != null )
         {
-            listNode9.AddRange(listNode8);
+            listNode8.AddRange(listNode7);
         }
-        ATranslationList plistNode7 = new ATranslationList (
-              listNode9
-        );
-        TRPar trparNode10 = (TRPar)nodeArrayList7[0];
+        TRPar trparNode9 = (TRPar)nodeArrayList7[0];
         ANewalternativeTranslation ptranslationNode1 = new ANewalternativeTranslation (
               tnewNode2,
               tidentifierNode3,
               tdotNode4,
               tidentifierNode5,
               tlparNode6,
-              plistNode7,
-              trparNode10
+              listNode8,
+              trparNode9
         );
         nodeList.Add(ptranslationNode1);
         return nodeList;
@@ -9972,16 +9960,13 @@ public Start<PGrammar> Parse()
         ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
+        List<PTranslationListitem> listNode3 = new List<PTranslationListitem>();
         TLBkt tlbktNode2 = (TLBkt)nodeArrayList1[0];
-        List<PListitem> listNode4 = new List<PListitem>();
-        ATranslationList plistNode3 = new ATranslationList (
-              listNode4
-        );
-        TRBkt trbktNode5 = (TRBkt)nodeArrayList2[0];
+        TRBkt trbktNode4 = (TRBkt)nodeArrayList2[0];
         AListTranslation ptranslationNode1 = new AListTranslation (
               tlbktNode2,
-              plistNode3,
-              trbktNode5
+              listNode3,
+              trbktNode4
         );
         nodeList.Add(ptranslationNode1);
         return nodeList;
@@ -9992,21 +9977,18 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList3 = (ArrayList) Pop();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
+        List<PTranslationListitem> listNode4 = new List<PTranslationListitem>();
         TLBkt tlbktNode2 = (TLBkt)nodeArrayList1[0];
-        List<PListitem> listNode5 = new List<PListitem>();
-        List<PListitem> listNode4 = (List<PListitem>)nodeArrayList2[0];
-        if ( listNode4 != null )
+        List<PTranslationListitem> listNode3 = (List<PTranslationListitem>)nodeArrayList2[0];
+        if ( listNode3 != null )
         {
-            listNode5.AddRange(listNode4);
+            listNode4.AddRange(listNode3);
         }
-        ATranslationList plistNode3 = new ATranslationList (
-              listNode5
-        );
-        TRBkt trbktNode6 = (TRBkt)nodeArrayList3[0];
+        TRBkt trbktNode5 = (TRBkt)nodeArrayList3[0];
         AListTranslation ptranslationNode1 = new AListTranslation (
               tlbktNode2,
-              plistNode3,
-              trbktNode6
+              listNode4,
+              trbktNode5
         );
         nodeList.Add(ptranslationNode1);
         return nodeList;
@@ -10015,15 +9997,15 @@ public Start<PGrammar> Parse()
     {
         ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode4 = new List<PListitem>();
+        List<PTranslationListitem> listNode4 = new List<PTranslationListitem>();
         PTranslation ptranslationNode3 = (PTranslation)nodeArrayList1[0];
-        ATranslationListitem plistitemNode1 = new ATranslationListitem (
+        ATranslationListitem ptranslationlistitemNode1 = new ATranslationListitem (
               null,
               ptranslationNode3
         );
-        if ( plistitemNode1 != null )
+        if ( ptranslationlistitemNode1 != null )
         {
-            listNode4.Add(plistitemNode1);
+            listNode4.Add(ptranslationlistitemNode1);
         }
         nodeList.Add(listNode4);
         return nodeList;
@@ -10033,16 +10015,16 @@ public Start<PGrammar> Parse()
         ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode5 = new List<PListitem>();
+        List<PTranslationListitem> listNode5 = new List<PTranslationListitem>();
         PTranslation ptranslationNode3 = (PTranslation)nodeArrayList1[0];
-        ATranslationListitem plistitemNode1 = new ATranslationListitem (
+        ATranslationListitem ptranslationlistitemNode1 = new ATranslationListitem (
               null,
               ptranslationNode3
         );
-        List<PListitem> listNode4 = (List<PListitem>)nodeArrayList2[0];
-        if ( plistitemNode1 != null )
+        List<PTranslationListitem> listNode4 = (List<PTranslationListitem>)nodeArrayList2[0];
+        if ( ptranslationlistitemNode1 != null )
         {
-            listNode5.Add(plistitemNode1);
+            listNode5.Add(ptranslationlistitemNode1);
         }
         if ( listNode4 != null )
         {
@@ -10058,11 +10040,11 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList1 = (ArrayList) Pop();
         TComma tcommaNode2 = (TComma)nodeArrayList1[0];
         PTranslation ptranslationNode3 = (PTranslation)nodeArrayList2[0];
-        ATranslationListitem plistitemNode1 = new ATranslationListitem (
+        ATranslationListitem ptranslationlistitemNode1 = new ATranslationListitem (
               tcommaNode2,
               ptranslationNode3
         );
-        nodeList.Add(plistitemNode1);
+        nodeList.Add(ptranslationlistitemNode1);
         return nodeList;
     }
     ArrayList New314()
@@ -11483,11 +11465,11 @@ public Start<PGrammar> Parse()
     {
         ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode2 = new List<PListitem>();
-        PListitem plistitemNode1 = (PListitem)nodeArrayList1[0];
-        if ( plistitemNode1 != null )
+        List<PTranslationListitem> listNode2 = new List<PTranslationListitem>();
+        PTranslationListitem ptranslationlistitemNode1 = (PTranslationListitem)nodeArrayList1[0];
+        if ( ptranslationlistitemNode1 != null )
         {
-            listNode2.Add(plistitemNode1);
+            listNode2.Add(ptranslationlistitemNode1);
         }
         nodeList.Add(listNode2);
         return nodeList;
@@ -11497,16 +11479,16 @@ public Start<PGrammar> Parse()
         ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode3 = new List<PListitem>();
-        List<PListitem> listNode1 = (List<PListitem>)nodeArrayList1[0];
-        PListitem plistitemNode2 = (PListitem)nodeArrayList2[0];
+        List<PTranslationListitem> listNode3 = new List<PTranslationListitem>();
+        List<PTranslationListitem> listNode1 = (List<PTranslationListitem>)nodeArrayList1[0];
+        PTranslationListitem ptranslationlistitemNode2 = (PTranslationListitem)nodeArrayList2[0];
         if ( listNode1 != null )
         {
             listNode3.AddRange(listNode1);
         }
-        if ( plistitemNode2 != null )
+        if ( ptranslationlistitemNode2 != null )
         {
-            listNode3.Add(plistitemNode2);
+            listNode3.Add(ptranslationlistitemNode2);
         }
         nodeList.Add(listNode3);
         return nodeList;
