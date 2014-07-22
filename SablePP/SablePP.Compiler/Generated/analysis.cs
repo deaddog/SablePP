@@ -921,6 +921,14 @@ namespace SablePP.Compiler.Analysis
     }
     public class DepthFirstAdapter<Value> : AnalysisAdapter<Value>
     {
+        public void Visit<Element>(Production.NodeList<Element> elements) where Element : Node
+        {
+            Element[] temp = new Element[elements.Count];
+            elements.CopyTo(temp, 0);
+            for (int i = 0; i < temp.Length; i++)
+                Visit((dynamic)temp[i]);
+        }
+        
         public virtual void InStart(Start<PGrammar> node)
         {
         }
@@ -1043,12 +1051,7 @@ namespace SablePP.Compiler.Analysis
             InAHelpers(node);
             
             Visit(node.Helperstoken);
-            {
-                PHelper[] temp = new PHelper[node.Helpers.Count];
-                node.Helpers.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Helpers);
             
             OutAHelpers(node);
             OutPHelpers(node);
@@ -1106,12 +1109,7 @@ namespace SablePP.Compiler.Analysis
             InATokens(node);
             
             Visit(node.Tokenstoken);
-            {
-                PToken[] temp = new PToken[node.Tokens.Count];
-                node.Tokens.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Tokens);
             
             OutATokens(node);
             OutPTokens(node);
@@ -1200,12 +1198,7 @@ namespace SablePP.Compiler.Analysis
             InPRegex(node);
             InARegex(node);
             
-            {
-                POrpart[] temp = new POrpart[node.Parts.Count];
-                node.Parts.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Parts);
             
             OutARegex(node);
             OutPRegex(node);
@@ -1234,12 +1227,7 @@ namespace SablePP.Compiler.Analysis
             
             if (node.HasPipe)
                 Visit(node.Pipe);
-            {
-                PRegexpart[] temp = new PRegexpart[node.Regexpart.Count];
-                node.Regexpart.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Regexpart);
             
             OutARegexOrpart(node);
             OutPOrpart(node);
@@ -1509,12 +1497,7 @@ namespace SablePP.Compiler.Analysis
             InAStates(node);
             
             Visit(node.Statestoken);
-            {
-                PIdentifierListitem[] temp = new PIdentifierListitem[node.States.Count];
-                node.States.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.States);
             Visit(node.Semicolon);
             
             OutAStates(node);
@@ -1544,12 +1527,7 @@ namespace SablePP.Compiler.Analysis
             
             Visit(node.Ignoredtoken);
             Visit(node.Tokenstoken);
-            {
-                PIdentifierListitem[] temp = new PIdentifierListitem[node.Tokens.Count];
-                node.Tokens.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Tokens);
             Visit(node.Semicolon);
             
             OutAIgnoredtokens(node);
@@ -1607,12 +1585,7 @@ namespace SablePP.Compiler.Analysis
             InATokenstateList(node);
             
             Visit(node.Lpar);
-            {
-                PTokenstateListitem[] temp = new PTokenstateListitem[node.States.Count];
-                node.States.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.States);
             Visit(node.Rpar);
             
             OutATokenstateList(node);
@@ -1691,12 +1664,7 @@ namespace SablePP.Compiler.Analysis
             InPList(node);
             InATranslationList(node);
             
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Listitem);
             
             OutATranslationList(node);
             OutPList(node);
@@ -1714,12 +1682,7 @@ namespace SablePP.Compiler.Analysis
             InPList(node);
             InAStyleList(node);
             
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Listitem);
             
             OutAStyleList(node);
             OutPList(node);
@@ -1796,12 +1759,7 @@ namespace SablePP.Compiler.Analysis
             InAProductions(node);
             
             Visit(node.Productionstoken);
-            {
-                PProduction[] temp = new PProduction[node.Productions.Count];
-                node.Productions.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Productions);
             
             OutAProductions(node);
             OutPProductions(node);
@@ -1829,12 +1787,7 @@ namespace SablePP.Compiler.Analysis
             InAAstproductions(node);
             
             Visit(node.Asttoken);
-            {
-                PProduction[] temp = new PProduction[node.Productions.Count];
-                node.Productions.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Productions);
             
             OutAAstproductions(node);
             OutPAstproductions(node);
@@ -2141,12 +2094,7 @@ namespace SablePP.Compiler.Analysis
             InPProductionrule(node);
             InAProductionrule(node);
             
-            {
-                PAlternative[] temp = new PAlternative[node.Alternatives.Count];
-                node.Alternatives.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Alternatives);
             
             OutAProductionrule(node);
             OutPProductionrule(node);
@@ -2235,12 +2183,7 @@ namespace SablePP.Compiler.Analysis
             InPElements(node);
             InAElements(node);
             
-            {
-                PElement[] temp = new PElement[node.Element.Count];
-                node.Element.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Element);
             
             OutAElements(node);
             OutPElements(node);
@@ -2457,12 +2400,7 @@ namespace SablePP.Compiler.Analysis
             InAHighlightrules(node);
             
             Visit(node.Highlighttoken);
-            {
-                PHighlightrule[] temp = new PHighlightrule[node.Highlightrule.Count];
-                node.Highlightrule.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Highlightrule);
             
             OutAHighlightrules(node);
             OutPHighlightrules(node);
@@ -2491,12 +2429,7 @@ namespace SablePP.Compiler.Analysis
             
             Visit(node.Name);
             Visit(node.Lpar);
-            {
-                PIdentifierListitem[] temp = new PIdentifierListitem[node.Tokens.Count];
-                node.Tokens.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Tokens);
             Visit(node.Rpar);
             Visit((dynamic)node.List);
             Visit(node.Semicolon);
@@ -2673,6 +2606,14 @@ namespace SablePP.Compiler.Analysis
     }
     public class ReverseDepthFirstAdapter<Value> : AnalysisAdapter<Value>
     {
+        public void Visit<Element>(Production.NodeList<Element> elements) where Element : Node
+        {
+            Element[] temp = new Element[elements.Count];
+            elements.CopyTo(temp, 0);
+            for (int i = temp.Length - 1; i >= 0; i--)
+                Visit((dynamic)temp[i]);
+        }
+        
         public virtual void InStart(Start<PGrammar> node)
         {
         }
@@ -2794,12 +2735,7 @@ namespace SablePP.Compiler.Analysis
             InPHelpers(node);
             InAHelpers(node);
             
-            {
-                PHelper[] temp = new PHelper[node.Helpers.Count];
-                node.Helpers.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Helpers);
             Visit(node.Helperstoken);
             
             OutAHelpers(node);
@@ -2857,12 +2793,7 @@ namespace SablePP.Compiler.Analysis
             InPTokens(node);
             InATokens(node);
             
-            {
-                PToken[] temp = new PToken[node.Tokens.Count];
-                node.Tokens.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Tokens);
             Visit(node.Tokenstoken);
             
             OutATokens(node);
@@ -2952,12 +2883,7 @@ namespace SablePP.Compiler.Analysis
             InPRegex(node);
             InARegex(node);
             
-            {
-                POrpart[] temp = new POrpart[node.Parts.Count];
-                node.Parts.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Parts);
             
             OutARegex(node);
             OutPRegex(node);
@@ -2984,12 +2910,7 @@ namespace SablePP.Compiler.Analysis
             InPOrpart(node);
             InARegexOrpart(node);
             
-            {
-                PRegexpart[] temp = new PRegexpart[node.Regexpart.Count];
-                node.Regexpart.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Regexpart);
             if (node.HasPipe)
                 Visit(node.Pipe);
             
@@ -3261,12 +3182,7 @@ namespace SablePP.Compiler.Analysis
             InAStates(node);
             
             Visit(node.Semicolon);
-            {
-                PIdentifierListitem[] temp = new PIdentifierListitem[node.States.Count];
-                node.States.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.States);
             Visit(node.Statestoken);
             
             OutAStates(node);
@@ -3295,12 +3211,7 @@ namespace SablePP.Compiler.Analysis
             InAIgnoredtokens(node);
             
             Visit(node.Semicolon);
-            {
-                PIdentifierListitem[] temp = new PIdentifierListitem[node.Tokens.Count];
-                node.Tokens.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Tokens);
             Visit(node.Tokenstoken);
             Visit(node.Ignoredtoken);
             
@@ -3359,12 +3270,7 @@ namespace SablePP.Compiler.Analysis
             InATokenstateList(node);
             
             Visit(node.Rpar);
-            {
-                PTokenstateListitem[] temp = new PTokenstateListitem[node.States.Count];
-                node.States.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.States);
             Visit(node.Lpar);
             
             OutATokenstateList(node);
@@ -3443,12 +3349,7 @@ namespace SablePP.Compiler.Analysis
             InPList(node);
             InATranslationList(node);
             
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Listitem);
             
             OutATranslationList(node);
             OutPList(node);
@@ -3466,12 +3367,7 @@ namespace SablePP.Compiler.Analysis
             InPList(node);
             InAStyleList(node);
             
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Listitem);
             
             OutAStyleList(node);
             OutPList(node);
@@ -3547,12 +3443,7 @@ namespace SablePP.Compiler.Analysis
             InPProductions(node);
             InAProductions(node);
             
-            {
-                PProduction[] temp = new PProduction[node.Productions.Count];
-                node.Productions.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Productions);
             Visit(node.Productionstoken);
             
             OutAProductions(node);
@@ -3580,12 +3471,7 @@ namespace SablePP.Compiler.Analysis
             InPAstproductions(node);
             InAAstproductions(node);
             
-            {
-                PProduction[] temp = new PProduction[node.Productions.Count];
-                node.Productions.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Productions);
             Visit(node.Asttoken);
             
             OutAAstproductions(node);
@@ -3893,12 +3779,7 @@ namespace SablePP.Compiler.Analysis
             InPProductionrule(node);
             InAProductionrule(node);
             
-            {
-                PAlternative[] temp = new PAlternative[node.Alternatives.Count];
-                node.Alternatives.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Alternatives);
             
             OutAProductionrule(node);
             OutPProductionrule(node);
@@ -3987,12 +3868,7 @@ namespace SablePP.Compiler.Analysis
             InPElements(node);
             InAElements(node);
             
-            {
-                PElement[] temp = new PElement[node.Element.Count];
-                node.Element.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Element);
             
             OutAElements(node);
             OutPElements(node);
@@ -4208,12 +4084,7 @@ namespace SablePP.Compiler.Analysis
             InPHighlightrules(node);
             InAHighlightrules(node);
             
-            {
-                PHighlightrule[] temp = new PHighlightrule[node.Highlightrule.Count];
-                node.Highlightrule.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Highlightrule);
             Visit(node.Highlighttoken);
             
             OutAHighlightrules(node);
@@ -4244,12 +4115,7 @@ namespace SablePP.Compiler.Analysis
             Visit(node.Semicolon);
             Visit((dynamic)node.List);
             Visit(node.Rpar);
-            {
-                PIdentifierListitem[] temp = new PIdentifierListitem[node.Tokens.Count];
-                node.Tokens.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
+            Visit(node.Tokens);
             Visit(node.Lpar);
             Visit(node.Name);
             
