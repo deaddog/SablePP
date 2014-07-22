@@ -142,19 +142,19 @@ Productions
         ;
 
     token_def {-> token}
-        = state_list? identifier equal reg_exp look_ahead? semicolon {-> New token(state_list.list, identifier, equal, reg_exp.regex, look_ahead.tokenlookahead, semicolon)}
+        = state_list? identifier equal reg_exp look_ahead? semicolon {-> New token(state_list.tokenstate_list, identifier, equal, reg_exp.regex, look_ahead.tokenlookahead, semicolon)}
         ;
 
-    state_list {-> list}
+    state_list {-> tokenstate_list}
         = {notransition} l_brace identifier [state_lists]:state_list_tail* r_brace
-          {-> New list.tokenstate(l_brace, [New listitem.tokenstate(Null, identifier), state_lists.listitem], r_brace)}
+          {-> New tokenstate_list(l_brace, [New tokenstate_listitem(Null, identifier), state_lists.tokenstate_listitem], r_brace)}
         | {transition} l_brace [f]:identifier arrow [t]:identifier [state_lists]:state_list_tail* r_brace
-          {-> New list.tokenstate(l_brace, [New listitem.tokenstatetransition(Null, f, arrow, t), state_lists.listitem], r_brace)}
+          {-> New tokenstate_list(l_brace, [New tokenstate_listitem.transition(Null, f, arrow, t), state_lists.tokenstate_listitem], r_brace)}
         ;
 
-    state_list_tail {-> listitem}
-        = {notransition} comma identifier {-> New listitem.tokenstate(comma, identifier)}
-        | {transition} comma [f]:identifier arrow [t]:identifier {-> New listitem.tokenstatetransition(comma, f, arrow, t)}
+    state_list_tail {-> tokenstate_listitem}
+        = {notransition} comma identifier {-> New tokenstate_listitem(comma, identifier)}
+        | {transition} comma [f]:identifier arrow [t]:identifier {-> New tokenstate_listitem.transition(comma, f, arrow, t)}
         ;
 
     ign_tokens {-> ignoredtokens}
@@ -312,7 +312,7 @@ Abstract Syntax Tree
     helper = identifier equal regex semicolon;
     
     tokens = tokenstoken [tokens]:token*;
-    token = [statelist]:list? identifier equal regex tokenlookahead? semicolon;
+    token = [statelist]:tokenstate_list? identifier equal regex tokenlookahead? semicolon;
     tokenlookahead = slash regex;
     
     regex
@@ -342,15 +342,18 @@ Abstract Syntax Tree
     
     identifier_listitem = comma? identifier;
     
+    tokenstate_list = [lpar]:l_brace tokenstate_listitem+ [rpar]:r_brace;
+    tokenstate_listitem
+        = comma? identifier
+        | {transition} comma? [from]:identifier arrow [to]:identifier
+        ;
+    
     list
-        = {tokenstate} [lpar]:l_brace listitem+ [rpar]:r_brace
-        | {translation} listitem+
+        = {translation} listitem+
         | {style} listitem+
         ;
     listitem
-        = {tokenstate} comma? identifier
-        | {tokenstatetransition} comma? [from]:identifier arrow [to]:identifier
-        | {translation} comma? translation
+        = {translation} comma? translation
         | {style} comma? highlight_style
         ;
 
