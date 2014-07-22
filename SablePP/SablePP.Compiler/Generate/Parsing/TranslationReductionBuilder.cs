@@ -89,10 +89,10 @@ namespace SablePP.Compiler.Generate.Parsing
             string className = "A" + node.Production.AsPProduction.ClassName.Substring(1);
             translationVariables[node] = GetVariable(className);
 
+            Visit(node.Arguments);
+
             code.EmitLine("{0} {1} = new {0}(", className, translationVariables[node]);
             code.IncreaseIndentation();
-
-            Visit(node.Arguments);
 
             for (int i = 0; i < node.Arguments.Count; i++)
             {
@@ -108,10 +108,10 @@ namespace SablePP.Compiler.Generate.Parsing
             string className = node.Alternative.AsPAlternative.ClassName;
             translationVariables[node] = GetVariable(className);
 
+            Visit(node.Arguments);
+
             code.EmitLine("{0} {1} = new {0}(", className, translationVariables[node]);
             code.IncreaseIndentation();
-
-            Visit(node.Arguments);
 
             for (int i = 0; i < node.Arguments.Count; i++)
             {
