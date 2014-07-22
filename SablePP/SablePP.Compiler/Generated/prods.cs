@@ -2904,69 +2904,12 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0} {1}", Comma, Translation);
         }
     }
-    public abstract partial class PList : Production<PList>
-    {
-        private NodeList<PListitem> _listitem_;
-        
-        public PList(IEnumerable<PListitem> _listitem_)
-        {
-            this._listitem_ = new NodeList<PListitem>(this, _listitem_, false);
-        }
-        
-        public NodeList<PListitem> Listitem
-        {
-            get { return _listitem_; }
-        }
-        
-    }
-    public partial class AStyleList : PList
-    {
-        public AStyleList(IEnumerable<PListitem> _listitem_)
-            : base(_listitem_)
-        {
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (oldChild is PListitem && Listitem.Contains(oldChild as PListitem))
-            {
-                if (!(newChild is PListitem) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                
-                int index = Listitem.IndexOf(oldChild as PListitem);
-                if (newChild == null)
-                    Listitem.RemoveAt(index);
-                else
-                    Listitem[index] = newChild as PListitem;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            {
-                PListitem[] temp = new PListitem[Listitem.Count];
-                Listitem.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    yield return temp[i];
-            }
-        }
-        
-        public override PList Clone()
-        {
-            return new AStyleList(Listitem);
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0}", Listitem);
-        }
-    }
-    public abstract partial class PListitem : Production<PListitem>
+    public abstract partial class PStyleListitem : Production<PStyleListitem>
     {
         private TComma _comma_;
         private PHighlightStyle _highlight_style_;
         
-        public PListitem(TComma _comma_, PHighlightStyle _highlight_style_)
+        public PStyleListitem(TComma _comma_, PHighlightStyle _highlight_style_)
         {
             this.Comma = _comma_;
             this.HighlightStyle = _highlight_style_;
@@ -2995,7 +2938,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("HighlightStyle in PListitem cannot be null.", "value");
+                    throw new ArgumentException("HighlightStyle in PStyleListitem cannot be null.", "value");
                 
                 if (_highlight_style_ != null)
                     SetParent(_highlight_style_, null);
@@ -3006,7 +2949,7 @@ namespace SablePP.Compiler.Nodes
         }
         
     }
-    public partial class AStyleListitem : PListitem
+    public partial class AStyleListitem : PStyleListitem
     {
         public AStyleListitem(TComma _comma_, PHighlightStyle _highlight_style_)
             : base(_comma_, _highlight_style_)
@@ -3038,7 +2981,7 @@ namespace SablePP.Compiler.Nodes
             yield return HighlightStyle;
         }
         
-        public override PListitem Clone()
+        public override PStyleListitem Clone()
         {
             return new AStyleListitem(Comma.Clone(), HighlightStyle.Clone());
         }
@@ -5722,16 +5665,16 @@ namespace SablePP.Compiler.Nodes
         private TLBrace _lpar_;
         private NodeList<PIdentifierListitem> _tokens_;
         private TRBrace _rpar_;
-        private PList _list_;
+        private NodeList<PStyleListitem> _styles_;
         private TSemicolon _semicolon_;
         
-        public PHighlightrule(TIdentifier _name_, TLBrace _lpar_, IEnumerable<PIdentifierListitem> _tokens_, TRBrace _rpar_, PList _list_, TSemicolon _semicolon_)
+        public PHighlightrule(TIdentifier _name_, TLBrace _lpar_, IEnumerable<PIdentifierListitem> _tokens_, TRBrace _rpar_, IEnumerable<PStyleListitem> _styles_, TSemicolon _semicolon_)
         {
             this.Name = _name_;
             this.Lpar = _lpar_;
             this._tokens_ = new NodeList<PIdentifierListitem>(this, _tokens_, false);
             this.Rpar = _rpar_;
-            this.List = _list_;
+            this._styles_ = new NodeList<PStyleListitem>(this, _styles_, false);
             this.Semicolon = _semicolon_;
         }
         
@@ -5784,20 +5727,9 @@ namespace SablePP.Compiler.Nodes
                 _rpar_ = value;
             }
         }
-        public PList List
+        public NodeList<PStyleListitem> Styles
         {
-            get { return _list_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("List in PHighlightrule cannot be null.", "value");
-                
-                if (_list_ != null)
-                    SetParent(_list_, null);
-                SetParent(value, this);
-                
-                _list_ = value;
-            }
+            get { return _styles_; }
         }
         public TSemicolon Semicolon
         {
@@ -5818,8 +5750,8 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AHighlightrule : PHighlightrule
     {
-        public AHighlightrule(TIdentifier _name_, TLBrace _lpar_, IEnumerable<PIdentifierListitem> _tokens_, TRBrace _rpar_, PList _list_, TSemicolon _semicolon_)
-            : base(_name_, _lpar_, _tokens_, _rpar_, _list_, _semicolon_)
+        public AHighlightrule(TIdentifier _name_, TLBrace _lpar_, IEnumerable<PIdentifierListitem> _tokens_, TRBrace _rpar_, IEnumerable<PStyleListitem> _styles_, TSemicolon _semicolon_)
+            : base(_name_, _lpar_, _tokens_, _rpar_, _styles_, _semicolon_)
         {
         }
         
@@ -5860,13 +5792,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBrace;
             }
-            else if (List == oldChild)
+            else if (oldChild is PStyleListitem && Styles.Contains(oldChild as PStyleListitem))
             {
-                if (newChild == null)
-                    throw new ArgumentException("List in AHighlightrule cannot be null.", "newChild");
-                if (!(newChild is PList) && newChild != null)
+                if (!(newChild is PStyleListitem) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                List = newChild as PList;
+                
+                int index = Styles.IndexOf(oldChild as PStyleListitem);
+                if (newChild == null)
+                    Styles.RemoveAt(index);
+                else
+                    Styles[index] = newChild as PStyleListitem;
             }
             else if (Semicolon == oldChild)
             {
@@ -5889,18 +5824,23 @@ namespace SablePP.Compiler.Nodes
                     yield return temp[i];
             }
             yield return Rpar;
-            yield return List;
+            {
+                PStyleListitem[] temp = new PStyleListitem[Styles.Count];
+                Styles.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
             yield return Semicolon;
         }
         
         public override PHighlightrule Clone()
         {
-            return new AHighlightrule(Name.Clone(), Lpar.Clone(), Tokens, Rpar.Clone(), List.Clone(), Semicolon.Clone());
+            return new AHighlightrule(Name.Clone(), Lpar.Clone(), Tokens, Rpar.Clone(), Styles, Semicolon.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3} {4} {5}", Name, Lpar, Tokens, Rpar, List, Semicolon);
+            return string.Format("{0} {1} {2} {3} {4} {5}", Name, Lpar, Tokens, Rpar, Styles, Semicolon);
         }
     }
     public abstract partial class PHighlightStyle : Production<PHighlightStyle>

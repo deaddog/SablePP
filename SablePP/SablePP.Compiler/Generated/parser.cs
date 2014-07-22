@@ -11023,6 +11023,7 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
         List<PIdentifierListitem> listNode5 = new List<PIdentifierListitem>();
+        List<PStyleListitem> listNode8 = new List<PStyleListitem>();
         TIdentifier tidentifierNode2 = (TIdentifier)nodeArrayList1[0];
         TLBrace tlbraceNode3 = (TLBrace)nodeArrayList2[0];
         List<PIdentifierListitem> listNode4 = (List<PIdentifierListitem>)nodeArrayList3[0];
@@ -11031,23 +11032,19 @@ public Start<PGrammar> Parse()
             listNode5.AddRange(listNode4);
         }
         TRBrace trbraceNode6 = (TRBrace)nodeArrayList4[0];
-        List<PListitem> listNode9 = new List<PListitem>();
-        List<PListitem> listNode8 = (List<PListitem>)nodeArrayList5[0];
-        if ( listNode8 != null )
+        List<PStyleListitem> listNode7 = (List<PStyleListitem>)nodeArrayList5[0];
+        if ( listNode7 != null )
         {
-            listNode9.AddRange(listNode8);
+            listNode8.AddRange(listNode7);
         }
-        AStyleList plistNode7 = new AStyleList (
-              listNode9
-        );
-        TSemicolon tsemicolonNode10 = (TSemicolon)nodeArrayList6[0];
+        TSemicolon tsemicolonNode9 = (TSemicolon)nodeArrayList6[0];
         AHighlightrule phighlightruleNode1 = new AHighlightrule (
               tidentifierNode2,
               tlbraceNode3,
               listNode5,
               trbraceNode6,
-              plistNode7,
-              tsemicolonNode10
+              listNode8,
+              tsemicolonNode9
         );
         nodeList.Add(phighlightruleNode1);
         return nodeList;
@@ -11056,15 +11053,15 @@ public Start<PGrammar> Parse()
     {
         ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode4 = new List<PListitem>();
+        List<PStyleListitem> listNode4 = new List<PStyleListitem>();
         PHighlightStyle phighlightstyleNode3 = (PHighlightStyle)nodeArrayList1[0];
-        AStyleListitem plistitemNode1 = new AStyleListitem (
+        AStyleListitem pstylelistitemNode1 = new AStyleListitem (
               null,
               phighlightstyleNode3
         );
-        if ( plistitemNode1 != null )
+        if ( pstylelistitemNode1 != null )
         {
-            listNode4.Add(plistitemNode1);
+            listNode4.Add(pstylelistitemNode1);
         }
         nodeList.Add(listNode4);
         return nodeList;
@@ -11074,16 +11071,16 @@ public Start<PGrammar> Parse()
         ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode5 = new List<PListitem>();
+        List<PStyleListitem> listNode5 = new List<PStyleListitem>();
         PHighlightStyle phighlightstyleNode3 = (PHighlightStyle)nodeArrayList1[0];
-        AStyleListitem plistitemNode1 = new AStyleListitem (
+        AStyleListitem pstylelistitemNode1 = new AStyleListitem (
               null,
               phighlightstyleNode3
         );
-        List<PListitem> listNode4 = (List<PListitem>)nodeArrayList2[0];
-        if ( plistitemNode1 != null )
+        List<PStyleListitem> listNode4 = (List<PStyleListitem>)nodeArrayList2[0];
+        if ( pstylelistitemNode1 != null )
         {
-            listNode5.Add(plistitemNode1);
+            listNode5.Add(pstylelistitemNode1);
         }
         if ( listNode4 != null )
         {
@@ -11099,11 +11096,11 @@ public Start<PGrammar> Parse()
         ArrayList nodeArrayList1 = (ArrayList) Pop();
         TComma tcommaNode2 = (TComma)nodeArrayList1[0];
         PHighlightStyle phighlightstyleNode3 = (PHighlightStyle)nodeArrayList2[0];
-        AStyleListitem plistitemNode1 = new AStyleListitem (
+        AStyleListitem pstylelistitemNode1 = new AStyleListitem (
               tcommaNode2,
               phighlightstyleNode3
         );
-        nodeList.Add(plistitemNode1);
+        nodeList.Add(pstylelistitemNode1);
         return nodeList;
     }
     ArrayList New359()
@@ -11593,11 +11590,11 @@ public Start<PGrammar> Parse()
     {
         ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode2 = new List<PListitem>();
-        PListitem plistitemNode1 = (PListitem)nodeArrayList1[0];
-        if ( plistitemNode1 != null )
+        List<PStyleListitem> listNode2 = new List<PStyleListitem>();
+        PStyleListitem pstylelistitemNode1 = (PStyleListitem)nodeArrayList1[0];
+        if ( pstylelistitemNode1 != null )
         {
-            listNode2.Add(plistitemNode1);
+            listNode2.Add(pstylelistitemNode1);
         }
         nodeList.Add(listNode2);
         return nodeList;
@@ -11607,16 +11604,16 @@ public Start<PGrammar> Parse()
         ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
-        List<PListitem> listNode3 = new List<PListitem>();
-        List<PListitem> listNode1 = (List<PListitem>)nodeArrayList1[0];
-        PListitem plistitemNode2 = (PListitem)nodeArrayList2[0];
+        List<PStyleListitem> listNode3 = new List<PStyleListitem>();
+        List<PStyleListitem> listNode1 = (List<PStyleListitem>)nodeArrayList1[0];
+        PStyleListitem pstylelistitemNode2 = (PStyleListitem)nodeArrayList2[0];
         if ( listNode1 != null )
         {
             listNode3.AddRange(listNode1);
         }
-        if ( plistitemNode2 != null )
+        if ( pstylelistitemNode2 != null )
         {
-            listNode3.Add(plistitemNode2);
+            listNode3.Add(pstylelistitemNode2);
         }
         nodeList.Add(listNode3);
         return nodeList;
