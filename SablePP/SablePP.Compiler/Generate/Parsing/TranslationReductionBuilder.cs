@@ -87,14 +87,12 @@ namespace SablePP.Compiler.Generate.Parsing
             code.EmitLine("{0} {1} = new {0}(", className, translationVariables[node]);
             code.IncreaseIndentation();
 
-
             Visit(node.Arguments);
-            var args = node.Arguments.Listitem;
 
-            for (int i = 0; i < args.Count; i++)
+            for (int i = 0; i < node.Arguments.Count; i++)
             {
-                string arg = translationVariables[(args[i] as ATranslationListitem).Translation];
-                code.EmitLine("{0}{1}", arg, i < args.Count - 1 ? "," : "");
+                string arg = translationVariables[node.Arguments[i].Translation];
+                code.EmitLine("{0}{1}", arg, i < node.Arguments.Count - 1 ? "," : "");
             }
 
             code.DecreaseIndentation();
@@ -108,14 +106,12 @@ namespace SablePP.Compiler.Generate.Parsing
             code.EmitLine("{0} {1} = new {0}(", className, translationVariables[node]);
             code.IncreaseIndentation();
 
-
             Visit(node.Arguments);
-            var args = node.Arguments.Listitem;
 
-            for (int i = 0; i < args.Count; i++)
+            for (int i = 0; i < node.Arguments.Count; i++)
             {
-                string arg = translationVariables[(args[i] as ATranslationListitem).Translation];
-                code.EmitLine("{0}{1}", arg, i < args.Count - 1 ? "," : "");
+                string arg = translationVariables[node.Arguments[i].Translation];
+                code.EmitLine("{0}{1}", arg, i < node.Arguments.Count - 1 ? "," : "");
             }
 
             code.DecreaseIndentation();
