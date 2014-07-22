@@ -147,7 +147,7 @@ namespace SablePP.Compiler.Generate
             temp.DecreaseIndentation();
             styleRulesElement = temp;
 
-            Visit((dynamic)node.List);
+            Visit(node.Styles);
 
             EmitNewBrush(textColor);
             styleField.Emit(", ");
