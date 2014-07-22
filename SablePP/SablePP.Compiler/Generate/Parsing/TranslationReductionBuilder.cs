@@ -156,5 +156,55 @@ namespace SablePP.Compiler.Generate.Parsing
         {
             return getClassName(translation.Elements[0].Translation);
         }
+
+        private bool isList(PTranslation translation)
+        {
+            return isList((dynamic)translation);
+        }
+
+        private bool isList(ANewTranslation translation)
+        {
+            return false;
+        }
+        private bool isList(ANewalternativeTranslation translation)
+        {
+            return false;
+        }
+        private bool isList(AIdTranslation translation)
+        {
+            switch (translation.Identifier.AsPElement.GetElementType())
+            {
+                case ElementTypes.Simple:
+                case ElementTypes.Question:
+                    return false;
+                case ElementTypes.Plus:
+                case ElementTypes.Star:
+                    return true;
+                default:
+                    throw new System.NotImplementedException();
+            }
+        }
+        private bool isList(AIddotidTranslation translation)
+        {
+            switch (translation.Identifier.AsPElement.GetElementType())
+            {
+                case ElementTypes.Simple:
+                case ElementTypes.Question:
+                    return false;
+                case ElementTypes.Plus:
+                case ElementTypes.Star:
+                    return true;
+                default:
+                    throw new System.NotImplementedException();
+            }
+        }
+        private bool isList(AListTranslation translation)
+        {
+            return true;
+        }
+        private bool isList(ANullTranslation translation)
+        {
+            return false;
+        }
     }
 }
