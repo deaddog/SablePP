@@ -108,7 +108,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseAStates(AStates node)
         {
-            foreach (AIdentifierListitem s in node.List.Listitem)
+            foreach (var s in node.States)
                 states.Declare(s.Identifier);
         }
 
@@ -140,7 +140,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseAIgnoredtokens(AIgnoredtokens node)
         {
-            foreach (AIdentifierListitem item in node.List.Listitem)
+            foreach (var item in node.Tokens)
             {
                 if (!tokens.Link(item.Identifier))
                     RegisterError(item.Identifier, "The token {0} has not been defined.", item.Identifier);
@@ -287,7 +287,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (!highlightrules.Declare(node))
                 RegisterError(node.Name, "Syntax highlight style {0} has already been defined (line {1}).", node.Name, highlightrules[node.Name.Text].Name.Line);
 
-            foreach (AIdentifierListitem item in node.Tokens.Listitem)
+            foreach (var item in node.Tokens)
             {
                 if (!tokens.Link(item.Identifier))
                     RegisterError(node, "The token {0} has not been defined.", node);

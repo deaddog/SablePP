@@ -151,11 +151,8 @@ namespace SablePP.Compiler.Generate
 
         public override void CaseAStates(AStates node)
         {
-            var statesList = (node.List as AIdentifierList).Listitem;
-            var statesEnum = from id in statesList select id as AIdentifierListitem;
-
             int index = 0;
-            foreach (var state in statesEnum)
+            foreach (var state in node.States)
             {
                 string name = state.Identifier.AsState.Text.ToUpper();
                 states.Add(name, index);
