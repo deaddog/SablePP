@@ -130,7 +130,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (!states.Link(node.Identifier))
                 RegisterError(node.Identifier, "The state {0} has not been defined.", node.Identifier);
         }
-        public override void CaseATokenstatetransitionListitem(ATokenstatetransitionListitem node)
+        public override void CaseATransitionTokenstateListitem(ATransitionTokenstateListitem node)
         {
             if (!states.Link(node.From))
                 RegisterError(node.From, "The state {0} has not been defined.", node.From);
