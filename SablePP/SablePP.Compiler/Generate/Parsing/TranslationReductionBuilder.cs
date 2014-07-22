@@ -102,7 +102,7 @@ namespace SablePP.Compiler.Generate.Parsing
         }
         public override void CaseANewalternativeTranslation(ANewalternativeTranslation node)
         {
-            string className = node.Alternative.AsAlternativeName.Declaration.ClassName;
+            string className = node.Alternative.AsPAlternative.Declaration.ClassName;
             translationVariables[node] = GetVariable(className);
 
             code.EmitLine("{0} {1} = new {0}(", className, translationVariables[node]);

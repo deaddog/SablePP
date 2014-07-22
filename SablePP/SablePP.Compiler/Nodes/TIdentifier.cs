@@ -93,22 +93,22 @@ namespace SablePP.Compiler.Nodes
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="AlternativeNameIdentifier"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="PAlternative"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="AlternativeNameIdentifier"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="PAlternative"/>; otherwise, <c>false</c>.
         /// </value>
-        public bool IsAlternativeName
+        public bool IsPAlternative
         {
             get { return this is AlternativeIdentifier; }
         }
         /// <summary>
-        /// Gets the alternative name associated with this identifier, as a <see cref="AlternativeNameIdentifier"/>.
+        /// Gets the alternative name associated with this identifier, as a <see cref="PAlternative"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="AlternativeNameIdentifier"/> if this identifier refers to a <see cref="AlternativeNameIdentifier"/>; otherwise, <c>null</c>.
+        ///   A <see cref="PAlternative"/> if this identifier refers to a <see cref="PAlternative"/>; otherwise, <c>null</c>.
         /// </value>
-        public AlternativeIdentifier AsAlternativeName
+        public AlternativeIdentifier AsPAlternative
         {
             get { return this as AlternativeIdentifier; }
         }
