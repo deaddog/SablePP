@@ -202,11 +202,11 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(AIdentifierList node)
+        public void Visit(AIdentifierListitem node)
         {
-            CaseAIdentifierList(node);
+            CaseAIdentifierListitem(node);
         }
-        public virtual void CaseAIdentifierList(AIdentifierList node)
+        public virtual void CaseAIdentifierListitem(AIdentifierListitem node)
         {
             DefaultCase(node);
         }
@@ -231,14 +231,6 @@ namespace SablePP.Compiler.Analysis
             CaseAStyleList(node);
         }
         public virtual void CaseAStyleList(AStyleList node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AIdentifierListitem node)
-        {
-            CaseAIdentifierListitem(node);
-        }
-        public virtual void CaseAIdentifierListitem(AIdentifierListitem node)
         {
             DefaultCase(node);
         }
@@ -1517,7 +1509,12 @@ namespace SablePP.Compiler.Analysis
             InAStates(node);
             
             Visit(node.Statestoken);
-            Visit((dynamic)node.List);
+            {
+                PIdentifierListitem[] temp = new PIdentifierListitem[node.States.Count];
+                node.States.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    Visit((dynamic)temp[i]);
+            }
             Visit(node.Semicolon);
             
             OutAStates(node);
@@ -1547,11 +1544,45 @@ namespace SablePP.Compiler.Analysis
             
             Visit(node.Ignoredtoken);
             Visit(node.Tokenstoken);
-            Visit((dynamic)node.List);
+            {
+                PIdentifierListitem[] temp = new PIdentifierListitem[node.Tokens.Count];
+                node.Tokens.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    Visit((dynamic)temp[i]);
+            }
             Visit(node.Semicolon);
             
             OutAIgnoredtokens(node);
             OutPIgnoredtokens(node);
+        }
+        
+        public virtual void InPIdentifierListitem(PIdentifierListitem node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPIdentifierListitem(PIdentifierListitem node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAIdentifierListitem(AIdentifierListitem node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAIdentifierListitem(AIdentifierListitem node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAIdentifierListitem(AIdentifierListitem node)
+        {
+            InPIdentifierListitem(node);
+            InAIdentifierListitem(node);
+            
+            if (node.HasComma)
+                Visit(node.Comma);
+            Visit(node.Identifier);
+            
+            OutAIdentifierListitem(node);
+            OutPIdentifierListitem(node);
         }
         
         public virtual void InPList(PList node)
@@ -1561,29 +1592,6 @@ namespace SablePP.Compiler.Analysis
         public virtual void OutPList(PList node)
         {
             DefaultPOut(node);
-        }
-        public virtual void InAIdentifierList(AIdentifierList node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIdentifierList(AIdentifierList node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIdentifierList(AIdentifierList node)
-        {
-            InPList(node);
-            InAIdentifierList(node);
-            
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    Visit((dynamic)temp[i]);
-            }
-            
-            OutAIdentifierList(node);
-            OutPList(node);
         }
         public virtual void InATokenstateList(ATokenstateList node)
         {
@@ -1664,26 +1672,6 @@ namespace SablePP.Compiler.Analysis
         public virtual void OutPListitem(PListitem node)
         {
             DefaultPOut(node);
-        }
-        public virtual void InAIdentifierListitem(AIdentifierListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIdentifierListitem(AIdentifierListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIdentifierListitem(AIdentifierListitem node)
-        {
-            InPListitem(node);
-            InAIdentifierListitem(node);
-            
-            if (node.HasComma)
-                Visit(node.Comma);
-            Visit(node.Identifier);
-            
-            OutAIdentifierListitem(node);
-            OutPListitem(node);
         }
         public virtual void InATokenstateListitem(ATokenstateListitem node)
         {
@@ -2485,7 +2473,12 @@ namespace SablePP.Compiler.Analysis
             
             Visit(node.Name);
             Visit(node.Lpar);
-            Visit((dynamic)node.Tokens);
+            {
+                PIdentifierListitem[] temp = new PIdentifierListitem[node.Tokens.Count];
+                node.Tokens.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    Visit((dynamic)temp[i]);
+            }
             Visit(node.Rpar);
             Visit((dynamic)node.List);
             Visit(node.Semicolon);
@@ -3250,7 +3243,12 @@ namespace SablePP.Compiler.Analysis
             InAStates(node);
             
             Visit(node.Semicolon);
-            Visit((dynamic)node.List);
+            {
+                PIdentifierListitem[] temp = new PIdentifierListitem[node.States.Count];
+                node.States.CopyTo(temp, 0);
+                for (int i = temp.Length - 1; i >= 0; i--)
+                    Visit((dynamic)temp[i]);
+            }
             Visit(node.Statestoken);
             
             OutAStates(node);
@@ -3279,12 +3277,46 @@ namespace SablePP.Compiler.Analysis
             InAIgnoredtokens(node);
             
             Visit(node.Semicolon);
-            Visit((dynamic)node.List);
+            {
+                PIdentifierListitem[] temp = new PIdentifierListitem[node.Tokens.Count];
+                node.Tokens.CopyTo(temp, 0);
+                for (int i = temp.Length - 1; i >= 0; i--)
+                    Visit((dynamic)temp[i]);
+            }
             Visit(node.Tokenstoken);
             Visit(node.Ignoredtoken);
             
             OutAIgnoredtokens(node);
             OutPIgnoredtokens(node);
+        }
+        
+        public virtual void InPIdentifierListitem(PIdentifierListitem node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPIdentifierListitem(PIdentifierListitem node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAIdentifierListitem(AIdentifierListitem node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAIdentifierListitem(AIdentifierListitem node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAIdentifierListitem(AIdentifierListitem node)
+        {
+            InPIdentifierListitem(node);
+            InAIdentifierListitem(node);
+            
+            Visit(node.Identifier);
+            if (node.HasComma)
+                Visit(node.Comma);
+            
+            OutAIdentifierListitem(node);
+            OutPIdentifierListitem(node);
         }
         
         public virtual void InPList(PList node)
@@ -3294,29 +3326,6 @@ namespace SablePP.Compiler.Analysis
         public virtual void OutPList(PList node)
         {
             DefaultPOut(node);
-        }
-        public virtual void InAIdentifierList(AIdentifierList node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIdentifierList(AIdentifierList node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIdentifierList(AIdentifierList node)
-        {
-            InPList(node);
-            InAIdentifierList(node);
-            
-            {
-                PListitem[] temp = new PListitem[node.Listitem.Count];
-                node.Listitem.CopyTo(temp, 0);
-                for (int i = temp.Length - 1; i >= 0; i--)
-                    Visit((dynamic)temp[i]);
-            }
-            
-            OutAIdentifierList(node);
-            OutPList(node);
         }
         public virtual void InATokenstateList(ATokenstateList node)
         {
@@ -3397,26 +3406,6 @@ namespace SablePP.Compiler.Analysis
         public virtual void OutPListitem(PListitem node)
         {
             DefaultPOut(node);
-        }
-        public virtual void InAIdentifierListitem(AIdentifierListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIdentifierListitem(AIdentifierListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIdentifierListitem(AIdentifierListitem node)
-        {
-            InPListitem(node);
-            InAIdentifierListitem(node);
-            
-            Visit(node.Identifier);
-            if (node.HasComma)
-                Visit(node.Comma);
-            
-            OutAIdentifierListitem(node);
-            OutPListitem(node);
         }
         public virtual void InATokenstateListitem(ATokenstateListitem node)
         {
@@ -4219,7 +4208,12 @@ namespace SablePP.Compiler.Analysis
             Visit(node.Semicolon);
             Visit((dynamic)node.List);
             Visit(node.Rpar);
-            Visit((dynamic)node.Tokens);
+            {
+                PIdentifierListitem[] temp = new PIdentifierListitem[node.Tokens.Count];
+                node.Tokens.CopyTo(temp, 0);
+                for (int i = temp.Length - 1; i >= 0; i--)
+                    Visit((dynamic)temp[i]);
+            }
             Visit(node.Lpar);
             Visit(node.Name);
             
@@ -4585,11 +4579,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(AIdentifierList node)
+        public Result Visit(AIdentifierListitem node)
         {
-            return CaseAIdentifierList(node);
+            return CaseAIdentifierListitem(node);
         }
-        public virtual Result CaseAIdentifierList(AIdentifierList node)
+        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node)
         {
             return DefaultCase(node);
         }
@@ -4614,14 +4608,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAStyleList(node);
         }
         public virtual Result CaseAStyleList(AStyleList node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AIdentifierListitem node)
-        {
-            return CaseAIdentifierListitem(node);
-        }
-        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node)
         {
             return DefaultCase(node);
         }
@@ -5497,11 +5483,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(AIdentifierList node, T1 arg1)
+        public Result Visit(AIdentifierListitem node, T1 arg1)
         {
-            return CaseAIdentifierList(node, arg1);
+            return CaseAIdentifierListitem(node, arg1);
         }
-        public virtual Result CaseAIdentifierList(AIdentifierList node, T1 arg1)
+        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -5526,14 +5512,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAStyleList(node, arg1);
         }
         public virtual Result CaseAStyleList(AStyleList node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AIdentifierListitem node, T1 arg1)
-        {
-            return CaseAIdentifierListitem(node, arg1);
-        }
-        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -6409,11 +6387,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(AIdentifierList node, T1 arg1, T2 arg2)
+        public Result Visit(AIdentifierListitem node, T1 arg1, T2 arg2)
         {
-            return CaseAIdentifierList(node, arg1, arg2);
+            return CaseAIdentifierListitem(node, arg1, arg2);
         }
-        public virtual Result CaseAIdentifierList(AIdentifierList node, T1 arg1, T2 arg2)
+        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -6438,14 +6416,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAStyleList(node, arg1, arg2);
         }
         public virtual Result CaseAStyleList(AStyleList node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AIdentifierListitem node, T1 arg1, T2 arg2)
-        {
-            return CaseAIdentifierListitem(node, arg1, arg2);
-        }
-        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -7321,11 +7291,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(AIdentifierList node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(AIdentifierListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAIdentifierList(node, arg1, arg2, arg3);
+            return CaseAIdentifierListitem(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAIdentifierList(AIdentifierList node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
@@ -7350,14 +7320,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAStyleList(node, arg1, arg2, arg3);
         }
         public virtual Result CaseAStyleList(AStyleList node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AIdentifierListitem node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAIdentifierListitem(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }

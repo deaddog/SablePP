@@ -2178,13 +2178,13 @@ namespace SablePP.Compiler.Nodes
     public abstract partial class PStates : Production<PStates>
     {
         private TStatestoken _statestoken_;
-        private PList _list_;
+        private NodeList<PIdentifierListitem> _states_;
         private TSemicolon _semicolon_;
         
-        public PStates(TStatestoken _statestoken_, PList _list_, TSemicolon _semicolon_)
+        public PStates(TStatestoken _statestoken_, IEnumerable<PIdentifierListitem> _states_, TSemicolon _semicolon_)
         {
             this.Statestoken = _statestoken_;
-            this.List = _list_;
+            this._states_ = new NodeList<PIdentifierListitem>(this, _states_, false);
             this.Semicolon = _semicolon_;
         }
         
@@ -2203,20 +2203,9 @@ namespace SablePP.Compiler.Nodes
                 _statestoken_ = value;
             }
         }
-        public PList List
+        public NodeList<PIdentifierListitem> States
         {
-            get { return _list_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("List in PStates cannot be null.", "value");
-                
-                if (_list_ != null)
-                    SetParent(_list_, null);
-                SetParent(value, this);
-                
-                _list_ = value;
-            }
+            get { return _states_; }
         }
         public TSemicolon Semicolon
         {
@@ -2237,8 +2226,8 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AStates : PStates
     {
-        public AStates(TStatestoken _statestoken_, PList _list_, TSemicolon _semicolon_)
-            : base(_statestoken_, _list_, _semicolon_)
+        public AStates(TStatestoken _statestoken_, IEnumerable<PIdentifierListitem> _states_, TSemicolon _semicolon_)
+            : base(_statestoken_, _states_, _semicolon_)
         {
         }
         
@@ -2252,13 +2241,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Statestoken = newChild as TStatestoken;
             }
-            else if (List == oldChild)
+            else if (oldChild is PIdentifierListitem && States.Contains(oldChild as PIdentifierListitem))
             {
-                if (newChild == null)
-                    throw new ArgumentException("List in AStates cannot be null.", "newChild");
-                if (!(newChild is PList) && newChild != null)
+                if (!(newChild is PIdentifierListitem) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                List = newChild as PList;
+                
+                int index = States.IndexOf(oldChild as PIdentifierListitem);
+                if (newChild == null)
+                    States.RemoveAt(index);
+                else
+                    States[index] = newChild as PIdentifierListitem;
             }
             else if (Semicolon == oldChild)
             {
@@ -2273,32 +2265,37 @@ namespace SablePP.Compiler.Nodes
         protected override IEnumerable<Node> GetChildren()
         {
             yield return Statestoken;
-            yield return List;
+            {
+                PIdentifierListitem[] temp = new PIdentifierListitem[States.Count];
+                States.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
             yield return Semicolon;
         }
         
         public override PStates Clone()
         {
-            return new AStates(Statestoken.Clone(), List.Clone(), Semicolon.Clone());
+            return new AStates(Statestoken.Clone(), States, Semicolon.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2}", Statestoken, List, Semicolon);
+            return string.Format("{0} {1} {2}", Statestoken, States, Semicolon);
         }
     }
     public abstract partial class PIgnoredtokens : Production<PIgnoredtokens>
     {
         private TIgnoredtoken _ignoredtoken_;
         private TTokenstoken _tokenstoken_;
-        private PList _list_;
+        private NodeList<PIdentifierListitem> _tokens_;
         private TSemicolon _semicolon_;
         
-        public PIgnoredtokens(TIgnoredtoken _ignoredtoken_, TTokenstoken _tokenstoken_, PList _list_, TSemicolon _semicolon_)
+        public PIgnoredtokens(TIgnoredtoken _ignoredtoken_, TTokenstoken _tokenstoken_, IEnumerable<PIdentifierListitem> _tokens_, TSemicolon _semicolon_)
         {
             this.Ignoredtoken = _ignoredtoken_;
             this.Tokenstoken = _tokenstoken_;
-            this.List = _list_;
+            this._tokens_ = new NodeList<PIdentifierListitem>(this, _tokens_, false);
             this.Semicolon = _semicolon_;
         }
         
@@ -2332,20 +2329,9 @@ namespace SablePP.Compiler.Nodes
                 _tokenstoken_ = value;
             }
         }
-        public PList List
+        public NodeList<PIdentifierListitem> Tokens
         {
-            get { return _list_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("List in PIgnoredtokens cannot be null.", "value");
-                
-                if (_list_ != null)
-                    SetParent(_list_, null);
-                SetParent(value, this);
-                
-                _list_ = value;
-            }
+            get { return _tokens_; }
         }
         public TSemicolon Semicolon
         {
@@ -2366,8 +2352,8 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AIgnoredtokens : PIgnoredtokens
     {
-        public AIgnoredtokens(TIgnoredtoken _ignoredtoken_, TTokenstoken _tokenstoken_, PList _list_, TSemicolon _semicolon_)
-            : base(_ignoredtoken_, _tokenstoken_, _list_, _semicolon_)
+        public AIgnoredtokens(TIgnoredtoken _ignoredtoken_, TTokenstoken _tokenstoken_, IEnumerable<PIdentifierListitem> _tokens_, TSemicolon _semicolon_)
+            : base(_ignoredtoken_, _tokenstoken_, _tokens_, _semicolon_)
         {
         }
         
@@ -2389,13 +2375,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Tokenstoken = newChild as TTokenstoken;
             }
-            else if (List == oldChild)
+            else if (oldChild is PIdentifierListitem && Tokens.Contains(oldChild as PIdentifierListitem))
             {
-                if (newChild == null)
-                    throw new ArgumentException("List in AIgnoredtokens cannot be null.", "newChild");
-                if (!(newChild is PList) && newChild != null)
+                if (!(newChild is PIdentifierListitem) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                List = newChild as PList;
+                
+                int index = Tokens.IndexOf(oldChild as PIdentifierListitem);
+                if (newChild == null)
+                    Tokens.RemoveAt(index);
+                else
+                    Tokens[index] = newChild as PIdentifierListitem;
             }
             else if (Semicolon == oldChild)
             {
@@ -2411,18 +2400,110 @@ namespace SablePP.Compiler.Nodes
         {
             yield return Ignoredtoken;
             yield return Tokenstoken;
-            yield return List;
+            {
+                PIdentifierListitem[] temp = new PIdentifierListitem[Tokens.Count];
+                Tokens.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
             yield return Semicolon;
         }
         
         public override PIgnoredtokens Clone()
         {
-            return new AIgnoredtokens(Ignoredtoken.Clone(), Tokenstoken.Clone(), List.Clone(), Semicolon.Clone());
+            return new AIgnoredtokens(Ignoredtoken.Clone(), Tokenstoken.Clone(), Tokens, Semicolon.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3}", Ignoredtoken, Tokenstoken, List, Semicolon);
+            return string.Format("{0} {1} {2} {3}", Ignoredtoken, Tokenstoken, Tokens, Semicolon);
+        }
+    }
+    public abstract partial class PIdentifierListitem : Production<PIdentifierListitem>
+    {
+        private TComma _comma_;
+        private TIdentifier _identifier_;
+        
+        public PIdentifierListitem(TComma _comma_, TIdentifier _identifier_)
+        {
+            this.Comma = _comma_;
+            this.Identifier = _identifier_;
+        }
+        
+        public TComma Comma
+        {
+            get { return _comma_; }
+            set
+            {
+                if (_comma_ != null)
+                    SetParent(_comma_, null);
+                if (value != null)
+                    SetParent(value, this);
+                
+                _comma_ = value;
+            }
+        }
+        public bool HasComma
+        {
+            get { return _comma_ != null; }
+        }
+        public TIdentifier Identifier
+        {
+            get { return _identifier_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Identifier in PIdentifierListitem cannot be null.", "value");
+                
+                if (_identifier_ != null)
+                    SetParent(_identifier_, null);
+                SetParent(value, this);
+                
+                _identifier_ = value;
+            }
+        }
+        
+    }
+    public partial class AIdentifierListitem : PIdentifierListitem
+    {
+        public AIdentifierListitem(TComma _comma_, TIdentifier _identifier_)
+            : base(_comma_, _identifier_)
+        {
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Comma == oldChild)
+            {
+                if (!(newChild is TComma) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Comma = newChild as TComma;
+            }
+            else if (Identifier == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Identifier in AIdentifierListitem cannot be null.", "newChild");
+                if (!(newChild is TIdentifier) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Identifier = newChild as TIdentifier;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            if (HasComma)
+                yield return Comma;
+            yield return Identifier;
+        }
+        
+        public override PIdentifierListitem Clone()
+        {
+            return new AIdentifierListitem(Comma.Clone(), Identifier.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0} {1}", Comma, Identifier);
         }
     }
     public abstract partial class PList : Production<PList>
@@ -2439,48 +2520,6 @@ namespace SablePP.Compiler.Nodes
             get { return _listitem_; }
         }
         
-    }
-    public partial class AIdentifierList : PList
-    {
-        public AIdentifierList(IEnumerable<PListitem> _listitem_)
-            : base(_listitem_)
-        {
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (oldChild is PListitem && Listitem.Contains(oldChild as PListitem))
-            {
-                if (!(newChild is PListitem) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                
-                int index = Listitem.IndexOf(oldChild as PListitem);
-                if (newChild == null)
-                    Listitem.RemoveAt(index);
-                else
-                    Listitem[index] = newChild as PListitem;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            {
-                PListitem[] temp = new PListitem[Listitem.Count];
-                Listitem.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    yield return temp[i];
-            }
-        }
-        
-        public override PList Clone()
-        {
-            return new AIdentifierList(Listitem);
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0}", Listitem);
-        }
     }
     public partial class ATokenstateList : PList
     {
@@ -2689,67 +2728,6 @@ namespace SablePP.Compiler.Nodes
             get { return _comma_ != null; }
         }
         
-    }
-    public partial class AIdentifierListitem : PListitem
-    {
-        private TIdentifier _identifier_;
-        
-        public AIdentifierListitem(TComma _comma_, TIdentifier _identifier_)
-            : base(_comma_)
-        {
-            this.Identifier = _identifier_;
-        }
-        
-        public TIdentifier Identifier
-        {
-            get { return _identifier_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Identifier in AIdentifierListitem cannot be null.", "value");
-                
-                if (_identifier_ != null)
-                    SetParent(_identifier_, null);
-                SetParent(value, this);
-                
-                _identifier_ = value;
-            }
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Comma == oldChild)
-            {
-                if (!(newChild is TComma) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Comma = newChild as TComma;
-            }
-            else if (Identifier == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Identifier in AIdentifierListitem cannot be null.", "newChild");
-                if (!(newChild is TIdentifier) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Identifier = newChild as TIdentifier;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            if (HasComma)
-                yield return Comma;
-            yield return Identifier;
-        }
-        
-        public override PListitem Clone()
-        {
-            return new AIdentifierListitem(Comma.Clone(), Identifier.Clone());
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1}", Comma, Identifier);
-        }
     }
     public partial class ATokenstateListitem : PListitem
     {
@@ -5728,16 +5706,16 @@ namespace SablePP.Compiler.Nodes
     {
         private TIdentifier _name_;
         private TLBrace _lpar_;
-        private PList _tokens_;
+        private NodeList<PIdentifierListitem> _tokens_;
         private TRBrace _rpar_;
         private PList _list_;
         private TSemicolon _semicolon_;
         
-        public PHighlightrule(TIdentifier _name_, TLBrace _lpar_, PList _tokens_, TRBrace _rpar_, PList _list_, TSemicolon _semicolon_)
+        public PHighlightrule(TIdentifier _name_, TLBrace _lpar_, IEnumerable<PIdentifierListitem> _tokens_, TRBrace _rpar_, PList _list_, TSemicolon _semicolon_)
         {
             this.Name = _name_;
             this.Lpar = _lpar_;
-            this.Tokens = _tokens_;
+            this._tokens_ = new NodeList<PIdentifierListitem>(this, _tokens_, false);
             this.Rpar = _rpar_;
             this.List = _list_;
             this.Semicolon = _semicolon_;
@@ -5773,20 +5751,9 @@ namespace SablePP.Compiler.Nodes
                 _lpar_ = value;
             }
         }
-        public PList Tokens
+        public NodeList<PIdentifierListitem> Tokens
         {
             get { return _tokens_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Tokens in PHighlightrule cannot be null.", "value");
-                
-                if (_tokens_ != null)
-                    SetParent(_tokens_, null);
-                SetParent(value, this);
-                
-                _tokens_ = value;
-            }
         }
         public TRBrace Rpar
         {
@@ -5837,7 +5804,7 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AHighlightrule : PHighlightrule
     {
-        public AHighlightrule(TIdentifier _name_, TLBrace _lpar_, PList _tokens_, TRBrace _rpar_, PList _list_, TSemicolon _semicolon_)
+        public AHighlightrule(TIdentifier _name_, TLBrace _lpar_, IEnumerable<PIdentifierListitem> _tokens_, TRBrace _rpar_, PList _list_, TSemicolon _semicolon_)
             : base(_name_, _lpar_, _tokens_, _rpar_, _list_, _semicolon_)
         {
         }
@@ -5860,13 +5827,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBrace;
             }
-            else if (Tokens == oldChild)
+            else if (oldChild is PIdentifierListitem && Tokens.Contains(oldChild as PIdentifierListitem))
             {
-                if (newChild == null)
-                    throw new ArgumentException("Tokens in AHighlightrule cannot be null.", "newChild");
-                if (!(newChild is PList) && newChild != null)
+                if (!(newChild is PIdentifierListitem) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Tokens = newChild as PList;
+                
+                int index = Tokens.IndexOf(oldChild as PIdentifierListitem);
+                if (newChild == null)
+                    Tokens.RemoveAt(index);
+                else
+                    Tokens[index] = newChild as PIdentifierListitem;
             }
             else if (Rpar == oldChild)
             {
@@ -5898,7 +5868,12 @@ namespace SablePP.Compiler.Nodes
         {
             yield return Name;
             yield return Lpar;
-            yield return Tokens;
+            {
+                PIdentifierListitem[] temp = new PIdentifierListitem[Tokens.Count];
+                Tokens.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
             yield return Rpar;
             yield return List;
             yield return Semicolon;
@@ -5906,7 +5881,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PHighlightrule Clone()
         {
-            return new AHighlightrule(Name.Clone(), Lpar.Clone(), Tokens.Clone(), Rpar.Clone(), List.Clone(), Semicolon.Clone());
+            return new AHighlightrule(Name.Clone(), Lpar.Clone(), Tokens, Rpar.Clone(), List.Clone(), Semicolon.Clone());
         }
         
         public override string ToString()
