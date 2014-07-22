@@ -15,6 +15,11 @@ namespace SablePP.Compiler.Nodes
             }
         }
 
+        public bool IsList
+        {
+            get { return this is AStarElement || this is APlusElement; }
+        }
+
         public ElementTypes GetElementType()
         {
             if (this is ASimpleElement)

@@ -31,7 +31,12 @@ namespace SablePP.Compiler.Generate.Parsing
                 PProduction production = element.Elementid.Identifier.AsPProduction;
 
                 if (node.HasTranslation && (production == null || hasAstProduction(production)))
-                    code.EmitLine("{0} {1} = Pop<{0}>();", className, elementVariables[element]);
+                {
+                    if (element.IsList)
+                        code.EmitLine("List<{0}> {1} = Pop<List<{0}>>();", className, elementVariables[element]);
+                    else
+                        code.EmitLine("{0} {1} = Pop<{0}>();", className, elementVariables[element]);
+                }
                 else
                     code.EmitLine("Pop<object>();");
             }
