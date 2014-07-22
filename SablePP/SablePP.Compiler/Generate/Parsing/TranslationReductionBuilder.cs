@@ -122,5 +122,39 @@ namespace SablePP.Compiler.Generate.Parsing
             code.DecreaseIndentation();
             code.EmitLine(");");
         }
+
+        private string getClassName(PTranslation translation)
+        {
+            return getClassName((dynamic)translation);
+        }
+
+        private string getClassName(ANewTranslation translation)
+        {
+            return translation.Production.AsPProduction.ClassName;
+        }
+        private string getClassName(ANewalternativeTranslation translation)
+        {
+            return translation.Alternative.AsPAlternative.Production.ClassName;
+        }
+        private string getClassName(AIdTranslation translation)
+        {
+            var element = translation.Identifier.AsPElement;
+            if (element.Elementid.Identifier.IsPAlternative)
+                return element.Elementid.Identifier.AsPAlternative.Production.ClassName;
+            else if (element.Elementid.Identifier.IsPProduction)
+                return element.Elementid.Identifier.AsPProduction.ClassName;
+            else if (element.Elementid.Identifier.IsPToken)
+                return element.Elementid.Identifier.AsPToken.ClassName;
+            else
+                throw new System.NotImplementedException();
+        }
+        private string getClassName(AIddotidTranslation translation)
+        {
+            return translation.Production.AsPProduction.ClassName;
+        }
+        private string getClassName(AListTranslation translation)
+        {
+            return getClassName(translation.Elements[0].Translation);
+        }
     }
 }
