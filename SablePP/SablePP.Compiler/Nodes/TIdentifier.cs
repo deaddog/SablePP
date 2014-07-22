@@ -135,24 +135,24 @@ namespace SablePP.Compiler.Nodes
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="HighlightRuleIdentifier"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="PHighlightrule"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="HighlightRuleIdentifier"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="PHighlightrule"/>; otherwise, <c>false</c>.
         /// </value>
-        public bool IsHighlightRule
+        public bool IsPHighlightrule
         {
-            get { return this is HighlightruleIdentifier; }
+            get { return this is DeclarationIdentifier<PHighlightrule>; }
         }
         /// <summary>
-        /// Gets the highlighter rule associated with this identifier, as a <see cref="HighlightRuleIdentifier"/>.
+        /// Gets the highlighter rule associated with this identifier, as a <see cref="PHighlightrule"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="AlternativeNameIdentifier"/> if this identifier refers to a <see cref="HighlightRuleIdentifier"/>; otherwise, <c>null</c>.
+        ///   A <see cref="PHighlightrule"/> if this identifier refers to a <see cref="PHighlightrule"/>; otherwise, <c>null</c>.
         /// </value>
-        public HighlightruleIdentifier AsHighlightRule
+        public PHighlightrule AsPHighlightrule
         {
-            get { return this as HighlightruleIdentifier; }
+            get { return IsPHighlightrule ? (this as DeclarationIdentifier<PHighlightrule>).Declaration : null; }
         }
     }
 }

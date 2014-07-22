@@ -3,11 +3,11 @@ using SablePP.Compiler.Nodes.Identifiers;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
-    public class HighlightrulesTable : DeclarationTable<HighlightruleIdentifier, PHighlightrule>
+    public class HighlightrulesTable : DeclarationTable<PHighlightrule>
     {
-        protected override HighlightruleIdentifier construct(TIdentifier identifier, PHighlightrule declaration)
+        protected override DeclarationIdentifier<PHighlightrule> construct(TIdentifier identifier, PHighlightrule declaration)
         {
-            return new HighlightruleIdentifier(identifier, declaration);
+            return new DeclarationIdentifier<PHighlightrule>(identifier, declaration);
         }
 
         protected override TIdentifier getIdentifier(PHighlightrule declaration)

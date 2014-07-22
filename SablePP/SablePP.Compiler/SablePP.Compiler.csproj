@@ -92,7 +92,6 @@
     <Compile Include="LookupDictionary.cs" />
     <Compile Include="Nodes\PAlternative.cs" />
     <Compile Include="Nodes\Identifiers\DeclarationIdentifier.cs" />
-    <Compile Include="Nodes\Identifiers\HighlightruleIdentifier.cs" />
     <Compile Include="Nodes\Identifiers\StateIdentifier.cs" />
     <Compile Include="Nodes\PElement.cs" />
     <Compile Include="Nodes\PGrammar.cs" />
