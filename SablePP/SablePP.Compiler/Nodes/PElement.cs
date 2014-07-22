@@ -40,9 +40,9 @@ namespace SablePP.Compiler.Nodes
                 if (id.IsPToken)
                     return id.AsPToken.ClassName;
                 else if (id.IsPProduction){
-                    var prod = id.AsPProduction.Declaration;
+                    var prod = id.AsPProduction;
                     if(prod.HasProdtranslation)
-                        return prod.Prodtranslation.Identifier.AsPProduction.Declaration.ClassName;
+                        return prod.Prodtranslation.Identifier.AsPProduction.ClassName;
                     else
                         return prod.ClassName;
                 }

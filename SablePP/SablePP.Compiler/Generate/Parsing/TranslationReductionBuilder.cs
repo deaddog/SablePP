@@ -28,7 +28,7 @@ namespace SablePP.Compiler.Generate.Parsing
                 string className = element.ClassName;
                 elementVariables[element] = GetVariable(className);
 
-                PProduction production = element.Elementid.Identifier.IsPProduction ? element.Elementid.Identifier.AsPProduction.Declaration : null;
+                PProduction production = element.Elementid.Identifier.AsPProduction;
 
                 if (node.HasTranslation && (production == null || hasAstProduction(production)))
                     code.EmitLine("{0} {1} = Pop<{0}>();", className, elementVariables[element]);
@@ -81,7 +81,7 @@ namespace SablePP.Compiler.Generate.Parsing
 
         public override void CaseANewTranslation(ANewTranslation node)
         {
-            string className = "A" + node.Production.AsPProduction.Declaration.ClassName.Substring(1);
+            string className = "A" + node.Production.AsPProduction.ClassName.Substring(1);
             translationVariables[node] = GetVariable(className);
 
             code.EmitLine("{0} {1} = new {0}(", className, translationVariables[node]);
