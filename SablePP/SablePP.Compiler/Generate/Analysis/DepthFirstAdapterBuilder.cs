@@ -28,6 +28,8 @@ namespace SablePP.Compiler.Generate.Analysis
         {
             this.grammar = node;
 
+            CreateGenericListMethod();
+
             CreateStartInOutMethods();
             CreateStartCaseMethod();
             adapterClass.EmitNewline();
@@ -45,6 +47,23 @@ namespace SablePP.Compiler.Generate.Analysis
         }
 
         #region Default methods
+
+        public void CreateGenericListMethod()
+        {
+            MethodElement method;
+            adapterClass.Add(method = new MethodElement("public void Visit<Element>(Production.NodeList<Element> elements) where Element : Node"));
+            method.Body.EmitLine("Element[] temp = new Element[elements.Count];");
+            method.Body.EmitLine("elements.CopyTo(temp, 0);");
+
+            if(!reversed)
+                method.Body.EmitLine("for (int i = 0; i < temp.Length; i++)");
+            else
+                method.Body.EmitLine("for (int i = temp.Length - 1; i >= 0; i--)");
+
+            method.Body.IncreaseIndentation();
+            method.Body.EmitLine("Visit((dynamic)temp[i]);");
+            method.Body.DecreaseIndentation();
+        }
 
         public void CreateStartInOutMethods()
         {
