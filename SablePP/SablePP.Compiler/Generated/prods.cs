@@ -1009,12 +1009,12 @@ namespace SablePP.Compiler.Nodes
     public abstract partial class POrpart : Production<POrpart>
     {
         private TPipe _pipe_;
-        private NodeList<PRegexpart> _regexpart_;
+        private NodeList<PRegexpart> _regexparts_;
         
-        public POrpart(TPipe _pipe_, IEnumerable<PRegexpart> _regexpart_)
+        public POrpart(TPipe _pipe_, IEnumerable<PRegexpart> _regexparts_)
         {
             this.Pipe = _pipe_;
-            this._regexpart_ = new NodeList<PRegexpart>(this, _regexpart_, false);
+            this._regexparts_ = new NodeList<PRegexpart>(this, _regexparts_, false);
         }
         
         public TPipe Pipe
@@ -1034,16 +1034,16 @@ namespace SablePP.Compiler.Nodes
         {
             get { return _pipe_ != null; }
         }
-        public NodeList<PRegexpart> Regexpart
+        public NodeList<PRegexpart> Regexparts
         {
-            get { return _regexpart_; }
+            get { return _regexparts_; }
         }
         
     }
     public partial class ARegexOrpart : POrpart
     {
-        public ARegexOrpart(TPipe _pipe_, IEnumerable<PRegexpart> _regexpart_)
-            : base(_pipe_, _regexpart_)
+        public ARegexOrpart(TPipe _pipe_, IEnumerable<PRegexpart> _regexparts_)
+            : base(_pipe_, _regexparts_)
         {
         }
         
@@ -1055,16 +1055,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Pipe = newChild as TPipe;
             }
-            else if (oldChild is PRegexpart && Regexpart.Contains(oldChild as PRegexpart))
+            else if (oldChild is PRegexpart && Regexparts.Contains(oldChild as PRegexpart))
             {
                 if (!(newChild is PRegexpart) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
-                int index = Regexpart.IndexOf(oldChild as PRegexpart);
+                int index = Regexparts.IndexOf(oldChild as PRegexpart);
                 if (newChild == null)
-                    Regexpart.RemoveAt(index);
+                    Regexparts.RemoveAt(index);
                 else
-                    Regexpart[index] = newChild as PRegexpart;
+                    Regexparts[index] = newChild as PRegexpart;
             }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
@@ -1073,8 +1073,8 @@ namespace SablePP.Compiler.Nodes
             if (HasPipe)
                 yield return Pipe;
             {
-                PRegexpart[] temp = new PRegexpart[Regexpart.Count];
-                Regexpart.CopyTo(temp, 0);
+                PRegexpart[] temp = new PRegexpart[Regexparts.Count];
+                Regexparts.CopyTo(temp, 0);
                 for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
@@ -1082,12 +1082,12 @@ namespace SablePP.Compiler.Nodes
         
         public override POrpart Clone()
         {
-            return new ARegexOrpart(Pipe.Clone(), Regexpart);
+            return new ARegexOrpart(Pipe.Clone(), Regexparts);
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1}", Pipe, Regexpart);
+            return string.Format("{0} {1}", Pipe, Regexparts);
         }
     }
     public abstract partial class PRegexpart : Production<PRegexpart>
@@ -4850,46 +4850,46 @@ namespace SablePP.Compiler.Nodes
     }
     public abstract partial class PElements : Production<PElements>
     {
-        private NodeList<PElement> _element_;
+        private NodeList<PElement> _elements_;
         
-        public PElements(IEnumerable<PElement> _element_)
+        public PElements(IEnumerable<PElement> _elements_)
         {
-            this._element_ = new NodeList<PElement>(this, _element_, false);
+            this._elements_ = new NodeList<PElement>(this, _elements_, false);
         }
         
-        public NodeList<PElement> Element
+        public NodeList<PElement> Elements
         {
-            get { return _element_; }
+            get { return _elements_; }
         }
         
     }
     public partial class AElements : PElements
     {
-        public AElements(IEnumerable<PElement> _element_)
-            : base(_element_)
+        public AElements(IEnumerable<PElement> _elements_)
+            : base(_elements_)
         {
         }
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (oldChild is PElement && Element.Contains(oldChild as PElement))
+            if (oldChild is PElement && Elements.Contains(oldChild as PElement))
             {
                 if (!(newChild is PElement) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
-                int index = Element.IndexOf(oldChild as PElement);
+                int index = Elements.IndexOf(oldChild as PElement);
                 if (newChild == null)
-                    Element.RemoveAt(index);
+                    Elements.RemoveAt(index);
                 else
-                    Element[index] = newChild as PElement;
+                    Elements[index] = newChild as PElement;
             }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
         protected override IEnumerable<Node> GetChildren()
         {
             {
-                PElement[] temp = new PElement[Element.Count];
-                Element.CopyTo(temp, 0);
+                PElement[] temp = new PElement[Elements.Count];
+                Elements.CopyTo(temp, 0);
                 for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
@@ -4897,12 +4897,12 @@ namespace SablePP.Compiler.Nodes
         
         public override PElements Clone()
         {
-            return new AElements(Element);
+            return new AElements(Elements);
         }
         
         public override string ToString()
         {
-            return string.Format("{0}", Element);
+            return string.Format("{0}", Elements);
         }
     }
     public abstract partial class PElement : Production<PElement>
@@ -5579,12 +5579,12 @@ namespace SablePP.Compiler.Nodes
     public abstract partial class PHighlightrules : Production<PHighlightrules>
     {
         private THighlighttoken _highlighttoken_;
-        private NodeList<PHighlightrule> _highlightrule_;
+        private NodeList<PHighlightrule> _highlightrules_;
         
-        public PHighlightrules(THighlighttoken _highlighttoken_, IEnumerable<PHighlightrule> _highlightrule_)
+        public PHighlightrules(THighlighttoken _highlighttoken_, IEnumerable<PHighlightrule> _highlightrules_)
         {
             this.Highlighttoken = _highlighttoken_;
-            this._highlightrule_ = new NodeList<PHighlightrule>(this, _highlightrule_, false);
+            this._highlightrules_ = new NodeList<PHighlightrule>(this, _highlightrules_, false);
         }
         
         public THighlighttoken Highlighttoken
@@ -5602,16 +5602,16 @@ namespace SablePP.Compiler.Nodes
                 _highlighttoken_ = value;
             }
         }
-        public NodeList<PHighlightrule> Highlightrule
+        public NodeList<PHighlightrule> Highlightrules
         {
-            get { return _highlightrule_; }
+            get { return _highlightrules_; }
         }
         
     }
     public partial class AHighlightrules : PHighlightrules
     {
-        public AHighlightrules(THighlighttoken _highlighttoken_, IEnumerable<PHighlightrule> _highlightrule_)
-            : base(_highlighttoken_, _highlightrule_)
+        public AHighlightrules(THighlighttoken _highlighttoken_, IEnumerable<PHighlightrule> _highlightrules_)
+            : base(_highlighttoken_, _highlightrules_)
         {
         }
         
@@ -5625,16 +5625,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Highlighttoken = newChild as THighlighttoken;
             }
-            else if (oldChild is PHighlightrule && Highlightrule.Contains(oldChild as PHighlightrule))
+            else if (oldChild is PHighlightrule && Highlightrules.Contains(oldChild as PHighlightrule))
             {
                 if (!(newChild is PHighlightrule) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
-                int index = Highlightrule.IndexOf(oldChild as PHighlightrule);
+                int index = Highlightrules.IndexOf(oldChild as PHighlightrule);
                 if (newChild == null)
-                    Highlightrule.RemoveAt(index);
+                    Highlightrules.RemoveAt(index);
                 else
-                    Highlightrule[index] = newChild as PHighlightrule;
+                    Highlightrules[index] = newChild as PHighlightrule;
             }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
@@ -5642,8 +5642,8 @@ namespace SablePP.Compiler.Nodes
         {
             yield return Highlighttoken;
             {
-                PHighlightrule[] temp = new PHighlightrule[Highlightrule.Count];
-                Highlightrule.CopyTo(temp, 0);
+                PHighlightrule[] temp = new PHighlightrule[Highlightrules.Count];
+                Highlightrules.CopyTo(temp, 0);
                 for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
@@ -5651,12 +5651,12 @@ namespace SablePP.Compiler.Nodes
         
         public override PHighlightrules Clone()
         {
-            return new AHighlightrules(Highlighttoken.Clone(), Highlightrule);
+            return new AHighlightrules(Highlighttoken.Clone(), Highlightrules);
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1}", Highlighttoken, Highlightrule);
+            return string.Format("{0} {1}", Highlighttoken, Highlightrules);
         }
     }
     public abstract partial class PHighlightrule : Production<PHighlightrule>

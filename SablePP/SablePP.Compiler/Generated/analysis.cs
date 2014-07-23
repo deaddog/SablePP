@@ -1211,7 +1211,7 @@ namespace SablePP.Compiler.Analysis
             
             if (node.HasPipe)
                 Visit(node.Pipe);
-            Visit(node.Regexpart);
+            Visit(node.Regexparts);
             
             OutARegexOrpart(node);
             OutPOrpart(node);
@@ -2131,7 +2131,7 @@ namespace SablePP.Compiler.Analysis
             InPElements(node);
             InAElements(node);
             
-            Visit(node.Element);
+            Visit(node.Elements);
             
             OutAElements(node);
             OutPElements(node);
@@ -2348,7 +2348,7 @@ namespace SablePP.Compiler.Analysis
             InAHighlightrules(node);
             
             Visit(node.Highlighttoken);
-            Visit(node.Highlightrule);
+            Visit(node.Highlightrules);
             
             OutAHighlightrules(node);
             OutPHighlightrules(node);
@@ -2858,7 +2858,7 @@ namespace SablePP.Compiler.Analysis
             InPOrpart(node);
             InARegexOrpart(node);
             
-            Visit(node.Regexpart);
+            Visit(node.Regexparts);
             if (node.HasPipe)
                 Visit(node.Pipe);
             
@@ -3780,7 +3780,7 @@ namespace SablePP.Compiler.Analysis
             InPElements(node);
             InAElements(node);
             
-            Visit(node.Element);
+            Visit(node.Elements);
             
             OutAElements(node);
             OutPElements(node);
@@ -3996,7 +3996,7 @@ namespace SablePP.Compiler.Analysis
             InPHighlightrules(node);
             InAHighlightrules(node);
             
-            Visit(node.Highlightrule);
+            Visit(node.Highlightrules);
             Visit(node.Highlighttoken);
             
             OutAHighlightrules(node);
