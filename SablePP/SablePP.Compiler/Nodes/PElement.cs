@@ -20,18 +20,21 @@ namespace SablePP.Compiler.Nodes
             get { return this is AStarElement || this is APlusElement; }
         }
 
-        public ElementTypes GetElementType()
+        public ElementTypes ElementType
         {
-            if (this is ASimpleElement)
-                return ElementTypes.Simple;
-            if (this is AQuestionElement)
-                return ElementTypes.Question;
-            if (this is APlusElement)
-                return ElementTypes.Plus;
-            if (this is AStarElement)
-                return ElementTypes.Star;
+            get
+            {
+                if (this is ASimpleElement)
+                    return ElementTypes.Simple;
+                if (this is AQuestionElement)
+                    return ElementTypes.Question;
+                if (this is APlusElement)
+                    return ElementTypes.Plus;
+                if (this is AStarElement)
+                    return ElementTypes.Star;
 
-            throw new ArgumentException("Unknown element type; " + this.GetType().Name, "element");
+                throw new ArgumentException("Unknown element type; " + this.GetType().Name, "element");
+            }
         }
 
         /// <summary>

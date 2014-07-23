@@ -163,7 +163,7 @@ namespace SablePP.Compiler.Generate.Parsing
                 foreach (var a in p.Productionrule.Alternatives)
                     foreach (var e in a.Elements.Element)
                     {
-                        var t = e.GetElementType();
+                        var t = e.ElementType;
                         if (t == ElementTypes.Plus || t == ElementTypes.Star)
                             if (!types.Contains(e.ClassName))
                                 types.Add(e.ClassName);

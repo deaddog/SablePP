@@ -20,7 +20,7 @@ namespace SablePP.Compiler.Generate.Productions
 
             this.fieldName = "_" + element.LowerName + "_";
             this.propertyName = SablePP.Compiler.CommonMethods.ToCamelCase(element.LowerName);
-            this.type = element.GetElementType();
+            this.type = element.ElementType;
         }
 
         public string ProductionOrTokenClass

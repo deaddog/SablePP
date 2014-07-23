@@ -193,7 +193,7 @@ namespace SablePP.Compiler.Generate.Parsing
         }
         private bool isList(AIdTranslation translation)
         {
-            switch (translation.Identifier.AsPElement.GetElementType())
+            switch (translation.Identifier.AsPElement.ElementType)
             {
                 case ElementTypes.Simple:
                 case ElementTypes.Question:
@@ -207,7 +207,7 @@ namespace SablePP.Compiler.Generate.Parsing
         }
         private bool isList(AIddotidTranslation translation)
         {
-            switch (translation.Identifier.AsPElement.GetElementType())
+            switch (translation.Identifier.AsPElement.ElementType)
             {
                 case ElementTypes.Simple:
                 case ElementTypes.Question:
