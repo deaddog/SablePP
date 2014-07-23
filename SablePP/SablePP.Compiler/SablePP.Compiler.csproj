@@ -98,7 +98,6 @@
     <Compile Include="Nodes\PProduction.cs" />
     <Compile Include="Nodes\PToken.cs" />
     <Compile Include="Nodes\TDecChar.cs" />
-    <Compile Include="Generate\ParserModifier.cs" />
     <Compile Include="PathInformation.cs" />
     <Compile Include="SableGrammarEmitter.cs" />
     <Compile Include="Validation\SymbolLinking\AlternativesTable.cs" />
