@@ -175,16 +175,13 @@ namespace SablePP.Compiler
             AnalysisBuilder.BuildCode(root).ToFile(Path.Combine(output, "analysis.cs"));
 
             LexerBuilder.BuildCode(Path.Combine(output, "sablecc_lexer.cs"), root).ToFile(Path.Combine(output, "lexer.cs"));
-            ParserBuilder.BuildCode(Path.Combine(output, "sablecc_parser.cs"), root).ToFile(Path.Combine(output, "parser2.cs"));
-
-            File.Copy(Path.Combine(output, "sablecc_parser.cs"), Path.Combine(output, "parser.cs"), true);
-            ParserModifier.ApplyToFile(Path.Combine(output, "parser.cs"), root);
+            ParserBuilder.BuildCode(Path.Combine(output, "sablecc_parser.cs"), root).ToFile(Path.Combine(output, "parser.cs"));
 
             CompilerExecuterBuilder.Build(root).ToFile(Path.Combine(output, "CompilerExecuter.cs"));
 
             directory = directory.TrimEnd('\\');
-            
-            foreach (var file in new[] { "tokens.cs", "prods.cs", "analysis.cs", "parser.cs", "parser2.cs", "lexer.cs", "CompilerExecuter.cs" })
+
+            foreach (var file in new[] { "tokens.cs", "prods.cs", "analysis.cs", "parser.cs", "lexer.cs", "CompilerExecuter.cs" })
                 File.Copy(Path.Combine(output, file), Path.Combine(directory, file), true);
 
             return true;
