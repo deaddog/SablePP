@@ -67,6 +67,7 @@ namespace SablePP.Compiler.Generate.Parsing
         {
             _code = new PatchElement();
             elements.Add(_code);
+            reset();
         }
     }
 }
