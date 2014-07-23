@@ -138,10 +138,9 @@ namespace SablePP.Compiler.Generate.Analysis
                 InPElements(node);
                 InAElements(node);
 
-
                 {
-                    PElement[] temp = new PElement[node.Element.Count];
-                    node.Element.CopyTo(temp, 0);
+                    PElement[] temp = new PElement[node.Elements.Count];
+                    node.Elements.CopyTo(temp, 0);
                     for (int i = temp.Length - 1; i >= 0; i--)
                         Visit((dynamic)temp[i]);
                 }

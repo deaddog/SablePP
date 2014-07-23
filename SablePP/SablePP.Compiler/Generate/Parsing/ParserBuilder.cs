@@ -161,7 +161,7 @@ namespace SablePP.Compiler.Generate.Parsing
 
             foreach (var p in grammar.Productions.Productions)
                 foreach (var a in p.Productionrule.Alternatives)
-                    foreach (var e in a.Elements.Element)
+                    foreach (var e in a.Elements.Elements)
                     {
                         var t = e.ElementType;
                         if (t == ElementTypes.Plus || t == ElementTypes.Star)
