@@ -33,14 +33,17 @@ namespace SablePP.Compiler.Generate.Parsing
                 for (int i = collection.Count - 1; i >= 0; i--)
                 {
                     var element = collection[i];
-                    string className = element.ClassName;
-                    elementVariables[element] = GetVariable(className);
 
                     PProduction production = element.Elementid.Identifier.AsPProduction;
 
                     if (IsOn(element))
+                    {
+                        string className = element.ClassName;
+
                         if (node.HasTranslation && (production == null || hasAstProduction(production)))
                         {
+                            elementVariables[element] = GetVariable(element.IsList ? className + "list" : className);
+
                             if (element.IsList)
                                 code.EmitLine("List<{0}> {1} = Pop<List<{0}>>();", className, elementVariables[element]);
                             else
@@ -48,6 +51,7 @@ namespace SablePP.Compiler.Generate.Parsing
                         }
                         else
                             code.EmitLine("Pop<object>();");
+                    }
                 }
 
                 base.CaseAAlternative(node);
