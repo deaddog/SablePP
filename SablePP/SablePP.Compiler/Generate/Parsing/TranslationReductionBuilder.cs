@@ -41,14 +41,16 @@ namespace SablePP.Compiler.Generate.Parsing
                         string className = element.ClassName;
 
                         if (node.HasTranslation && (production == null || hasAstProduction(production)))
-                        {
-                            elementVariables[element] = GetVariable(element.IsList ? className + "list" : className);
-
-                            if (element.IsList)
+                            if (isList(element))
+                            {
+                                elementVariables[element] = GetVariable(className + "list");
                                 code.EmitLine("List<{0}> {1} = Pop<List<{0}>>();", className, elementVariables[element]);
+                            }
                             else
+                            {
+                                elementVariables[element] = GetVariable(className);
                                 code.EmitLine("{0} {1} = Pop<{0}>();", className, elementVariables[element]);
-                        }
+                            }
                         else
                             code.EmitLine("Pop<object>();");
                     }
@@ -205,6 +207,17 @@ namespace SablePP.Compiler.Generate.Parsing
             return getClassName(translation.Elements[0].Translation);
         }
 
+        private bool isList(PElement element)
+        {
+            if (!element.IsList)
+            {
+                var prod = element.Elementid.Identifier.AsPProduction;
+                if (prod != null && prod.HasProdtranslation)
+                    return prod.Prodtranslation is APlusProdtranslation || prod.Prodtranslation is AStarProdtranslation;
+            }
+
+            return element.IsList;
+        }
         private bool isList(PTranslation translation)
         {
             return isList((dynamic)translation);
@@ -220,31 +233,11 @@ namespace SablePP.Compiler.Generate.Parsing
         }
         private bool isList(AIdTranslation translation)
         {
-            switch (translation.Identifier.AsPElement.ElementType)
-            {
-                case ElementTypes.Simple:
-                case ElementTypes.Question:
-                    return false;
-                case ElementTypes.Plus:
-                case ElementTypes.Star:
-                    return true;
-                default:
-                    throw new System.NotImplementedException();
-            }
+            return isList(translation.Identifier.AsPElement);
         }
         private bool isList(AIddotidTranslation translation)
         {
-            switch (translation.Identifier.AsPElement.ElementType)
-            {
-                case ElementTypes.Simple:
-                case ElementTypes.Question:
-                    return false;
-                case ElementTypes.Plus:
-                case ElementTypes.Star:
-                    return true;
-                default:
-                    throw new System.NotImplementedException();
-            }
+            return isList(translation.Identifier.AsPElement);
         }
         private bool isList(AListTranslation translation)
         {
