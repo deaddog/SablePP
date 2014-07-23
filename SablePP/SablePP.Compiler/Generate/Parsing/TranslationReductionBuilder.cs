@@ -38,15 +38,16 @@ namespace SablePP.Compiler.Generate.Parsing
 
                     PProduction production = element.Elementid.Identifier.AsPProduction;
 
-                    if (node.HasTranslation && (production == null || hasAstProduction(production)))
-                    {
-                        if (element.IsList)
-                            code.EmitLine("List<{0}> {1} = Pop<List<{0}>>();", className, elementVariables[element]);
+                    if (IsOn(element))
+                        if (node.HasTranslation && (production == null || hasAstProduction(production)))
+                        {
+                            if (element.IsList)
+                                code.EmitLine("List<{0}> {1} = Pop<List<{0}>>();", className, elementVariables[element]);
+                            else
+                                code.EmitLine("{0} {1} = Pop<{0}>();", className, elementVariables[element]);
+                        }
                         else
-                            code.EmitLine("{0} {1} = Pop<{0}>();", className, elementVariables[element]);
-                    }
-                    else
-                        code.EmitLine("Pop<object>();");
+                            code.EmitLine("Pop<object>();");
                 }
 
                 base.CaseAAlternative(node);
@@ -56,6 +57,12 @@ namespace SablePP.Compiler.Generate.Parsing
                 else
                     code.EmitLine("Push({0}, new object());", GoTo);
             }
+        }
+
+        private bool IsOn(PElement node)
+        {
+            int index = optionalElements.IndexOf(node);
+            return !(index >= 0 && ((1 << index) & caseCounter) == 0);
         }
 
         private bool hasAstProduction(PProduction production)
@@ -96,22 +103,29 @@ namespace SablePP.Compiler.Generate.Parsing
                 var translation = node.Elements[i].Translation;
                 var translationName = translationVariables[translation];
 
-                if (isList(translation))
-                    code.EmitLine("{0}.AddRange({1});", varName, translationName);
-                else
-                    code.EmitLine("{0}.Add({1});", varName, translationName);
+                if (translationName != "null")
+                    if (isList(translation))
+                        code.EmitLine("{0}.AddRange({1});", varName, translationName);
+                    else
+                        code.EmitLine("{0}.Add({1});", varName, translationName);
             }
         }
 
         public override void CaseAIdTranslation(AIdTranslation node)
         {
             var element = node.Identifier.AsPElement;
-            translationVariables[node] = elementVariables[element];
+            if (IsOn(element))
+                translationVariables[node] = elementVariables[element];
+            else
+                translationVariables[node] = "null";
         }
         public override void CaseAIddotidTranslation(AIddotidTranslation node)
         {
             var element = node.Identifier.AsPElement;
-            translationVariables[node] = elementVariables[element];
+            if (IsOn(element))
+                translationVariables[node] = elementVariables[element];
+            else
+                translationVariables[node] = "null";
         }
 
         public override void CaseANewTranslation(ANewTranslation node)
