@@ -11,7 +11,10 @@ namespace SablePP.Compiler.Nodes
                 if (HasElementname)
                     return Elementname.Name.Text;
                 else
-                    return Elementid.Identifier.Text;
+                    if (IsList)
+                        return Elementid.Identifier.Text + "s";
+                    else
+                        return Elementid.Identifier.Text;
             }
         }
 
@@ -47,9 +50,10 @@ namespace SablePP.Compiler.Nodes
                 var id = Elementid.Identifier;
                 if (id.IsPToken)
                     return id.AsPToken.ClassName;
-                else if (id.IsPProduction){
+                else if (id.IsPProduction)
+                {
                     var prod = id.AsPProduction;
-                    if(prod.HasProdtranslation)
+                    if (prod.HasProdtranslation)
                         return prod.Prodtranslation.Identifier.AsPProduction.ClassName;
                     else
                         return prod.ClassName;
