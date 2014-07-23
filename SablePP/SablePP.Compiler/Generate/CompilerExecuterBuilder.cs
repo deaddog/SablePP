@@ -18,17 +18,12 @@ namespace SablePP.Compiler.Generate
             string rootProduction = root.Root.RootProduction;
 
             FileElement fileElement = new FileElement();
-            fileElement.Using.Add("System");
             fileElement.Using.Add("System.Drawing");
             fileElement.Using.Add("System.IO");
 
             fileElement.Using.EmitNewline();
 
-            fileElement.Using.Add(ToolsNamespace.Root);
-            fileElement.Using.Add(ToolsNamespace.Error);
-            fileElement.Using.Add(ToolsNamespace.Lexing);
             fileElement.Using.Add(ToolsNamespace.Nodes);
-            fileElement.Using.Add(ToolsNamespace.Parsing);
 
             fileElement.Using.EmitNewline();
 
@@ -67,7 +62,7 @@ namespace SablePP.Compiler.Generate
             NameSpaceElement name = new NameSpaceElement(packageName);
             fileElement.Add(name);
 
-            ClassElement executerClass = new ClassElement("public partial class CompilerExecuter : CompilerExecuter<" + rootProduction + ", Lexer, Parser>");
+            ClassElement executerClass = new ClassElement("public partial class CompilerExecuter : {1}.CompilerExecuter<{0}, Lexer, Parser>", rootProduction, ToolsNamespace.Root);
             name.Add(executerClass);
 
             return executerClass;
@@ -82,7 +77,7 @@ namespace SablePP.Compiler.Generate
         }
         private static void CreateParserMethod(ClassElement classElement)
         {
-            MethodElement imMethod = new MethodElement("public override Parser GetParser(ILexer lexer)");
+            MethodElement imMethod = new MethodElement("public override Parser GetParser(" + ToolsNamespace.Lexing + ".ILexer lexer)");
             imMethod.Body.EmitLine("return new Parser(lexer);");
 
             classElement.Add(imMethod);
@@ -137,14 +132,22 @@ namespace SablePP.Compiler.Generate
 
             temp.Emit("if (");
             temp.InsertElement(styleRulesElement);
-            Visit((dynamic)node.Tokens);
+
+            for (int i = 0; i < node.Tokens.Count; i++)
+            {
+                if (i > 0)
+                    styleRulesElement.Emit(" || ");
+
+                styleRulesElement.Emit("token is {0}", node.Tokens[i].Identifier.AsPToken.ClassName);
+            }
+
             temp.EmitLine(")");
             temp.IncreaseIndentation();
             temp.EmitLine("return {0};", currentStyle);
             temp.DecreaseIndentation();
             styleRulesElement = temp;
 
-            Visit((dynamic)node.List);
+            Visit(node.Styles);
 
             EmitNewBrush(textColor);
             styleField.Emit(", ");
@@ -165,23 +168,6 @@ namespace SablePP.Compiler.Generate
                         first = false;
                     }
             }
-        }
-
-        public override void CaseAIdentifierList(AIdentifierList node)
-        {
-            PListitem[] temp = new PListitem[node.Listitem.Count];
-            node.Listitem.CopyTo(temp, 0);
-            for (int i = 0; i < temp.Length; i++)
-            {
-                if (i > 0)
-                    styleRulesElement.Emit(" || ");
-                Visit((dynamic)temp[i]);
-            }
-        }
-
-        public override void CaseTIdentifier(TIdentifier node)
-        {
-            styleRulesElement.Emit("token is {0}", node.AsToken.GeneratedName);
         }
 
         private void EmitNewBrush(Color? color)

@@ -73,7 +73,7 @@ namespace SablePP.Compiler.Generate
             for (int i = namespaces.Length - 1; i >= 0; i--)
                 usingstring = "using " + namespaces[i] + ";\r\n" + usingstring;
 
-            code = Regex.Replace(code, "using .*namespace " + package + ".parser", usingstring, RegexOptions.Singleline);
+            code = Regex.Replace(code, "using .*namespace .*\\.parser {", usingstring + " {", RegexOptions.Singleline);
             code = code.Replace("private Lexer lexer;", "private ILexer lexer;");
             code = code.Replace("public Parser(Lexer lexer)", "public Parser(ILexer lexer)");
 
@@ -351,9 +351,6 @@ namespace SablePP.Compiler.Generate
                         Visit(node.Productions);
                 }
 
-                private DProduction currentProduction;
-                private DAlternativeName currentAlternative;
-
                 private string currentPname;
                 private string currentAname;
 
@@ -361,7 +358,6 @@ namespace SablePP.Compiler.Generate
                 {
                     currentPname = node.Identifier.Text;
                     currentPname = "P" + currentPname.ToCamelCase();
-                    currentProduction = node.Identifier.AsProduction;
                 }
 
                 public override void InAAlternative(AAlternative node)
@@ -369,16 +365,12 @@ namespace SablePP.Compiler.Generate
                     index = 0;
 
                     if (!node.HasAlternativename)
-                    {
-                        currentAlternative = null;
                         currentAname = 'A' + currentPname.Substring(1);
-                    }
                 }
                 public override void InAAlternativename(AAlternativename node)
                 {
                     currentAname = node.Name.Text;
                     currentAname = "A" + currentAname.ToCamelCase() + currentPname.Substring(1);
-                    currentAlternative = node.Name.AsAlternativeName;
                 }
                 public override void InAElements(AElements node)
                 {
@@ -386,9 +378,9 @@ namespace SablePP.Compiler.Generate
                 }
                 public override void InACleanElementid(ACleanElementid node)
                 {
-                    if (node.Identifier.IsToken)
+                    if (node.Identifier.IsPToken)
                         arguments[currentAname][index] = "T" + node.Identifier.Text.ToCamelCase();
-                    else if (node.Identifier.IsProduction)
+                    else if (node.Identifier.IsPProduction)
                         arguments[currentAname][index] = "P" + node.Identifier.Text.ToCamelCase();
                     index++;
                 }

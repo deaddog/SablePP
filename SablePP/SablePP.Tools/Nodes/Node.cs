@@ -18,6 +18,19 @@ namespace SablePP.Tools.Nodes
         }
 
         /// <summary>
+        /// Traverses the tree from this <see cref="Node"/> and up, until a <see cref="Production"/> of type <typeparamref name="T"/> is found.
+        /// </summary>
+        /// <typeparam name="T">The type of <see cref="Production"/> node to find.</typeparam>
+        /// <returns>The first <see cref="Production"/> node of type <typeparamref name="T"/> found in the search; or <c>null</c> is no node is found.</returns>
+        public T GetFirstParent<T>() where T : Production
+        {
+            if (parent == null || parent is T)
+                return parent as T;
+            else
+                return parent.GetFirstParent<T>();
+        }
+
+        /// <summary>
         /// Sets the parent <see cref="Production"/> of a <see cref="Node"/>.
         /// </summary>
         /// <param name="node">The node whose parent <see cref="Production"/> is set.</param>

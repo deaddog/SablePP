@@ -7,6 +7,7 @@ namespace SablePP.Compiler.Generate.Analysis
 {
     public class DepthFirstAdapterBuilder : GenerateVisitor
     {
+        private static readonly string typeParameter = "Value";
         private ClassElement adapterClass;
         private AGrammar grammar;
 
@@ -20,12 +21,15 @@ namespace SablePP.Compiler.Generate.Analysis
             string className = (reversed ? "Reverse" : "") + "DepthFirstAdapter";
 
             namespaceElement.Add(new ClassElement("public class {0} : {0}<object>", className));
-            namespaceElement.Add(adapterClass = new ClassElement("public class {0}<TValue> : AnalysisAdapter<TValue>", className));
+            namespaceElement.Add(adapterClass = new ClassElement("public class {0}<{1}> : AnalysisAdapter<{1}>", className, typeParameter));
         }
 
         public override void CaseAGrammar(AGrammar node)
         {
             this.grammar = node;
+
+            CreateGenericListMethod();
+            adapterClass.EmitNewline();
 
             CreateStartInOutMethods();
             CreateStartCaseMethod();
@@ -44,6 +48,23 @@ namespace SablePP.Compiler.Generate.Analysis
         }
 
         #region Default methods
+
+        public void CreateGenericListMethod()
+        {
+            MethodElement method;
+            adapterClass.Add(method = new MethodElement("public void Visit<Element>(Production.NodeList<Element> elements) where Element : Node"));
+            method.Body.EmitLine("Element[] temp = new Element[elements.Count];");
+            method.Body.EmitLine("elements.CopyTo(temp, 0);");
+
+            if(!reversed)
+                method.Body.EmitLine("for (int i = 0; i < temp.Length; i++)");
+            else
+                method.Body.EmitLine("for (int i = temp.Length - 1; i >= 0; i--)");
+
+            method.Body.IncreaseIndentation();
+            method.Body.EmitLine("Visit((dynamic)temp[i]);");
+            method.Body.DecreaseIndentation();
+        }
 
         public void CreateStartInOutMethods()
         {
@@ -97,7 +118,7 @@ namespace SablePP.Compiler.Generate.Analysis
             EmitInOut(node.ClassName);
 
             adapterClass.Add(method = new MethodElement("public override void Case{0}({0} node)", true, node.ClassName));
-            method.Body.EmitLine("In{0}(node);", node.ProductionName);
+            method.Body.EmitLine("In{0}(node);", node.Production.ClassName);
             method.Body.EmitLine("In{0}(node);", node.ClassName);
             method.Body.EmitNewLine();
 
@@ -105,7 +126,7 @@ namespace SablePP.Compiler.Generate.Analysis
 
             method.Body.EmitNewLine();
             method.Body.EmitLine("Out{0}(node);", node.ClassName);
-            method.Body.EmitLine("Out{0}(node);", node.ProductionName);
+            method.Body.EmitLine("Out{0}(node);", node.Production.ClassName);
         }
 
         public override void CaseAElements(AElements node)
@@ -142,52 +163,22 @@ namespace SablePP.Compiler.Generate.Analysis
 
         public override void CaseASimpleElement(ASimpleElement node)
         {
-            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.TIdentifier.IsProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
+            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.Identifier.IsPProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
         }
         public override void CaseAQuestionElement(AQuestionElement node)
         {
             method.Body.EmitLine("if (node.Has{0})", ToCamelCase(node.LowerName));
             method.Body.IncreaseIndentation();
-            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.TIdentifier.IsProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
+            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.Identifier.IsPProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
             method.Body.DecreaseIndentation();
         }
         public override void CaseAPlusElement(APlusElement node)
         {
-            TIdentifier typeId = node.Elementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = ToCamelCase(node.LowerName);
-
-            EmitListWalking(type, name, node);
+            method.Body.EmitLine("Visit(node.{0});", ToCamelCase(node.LowerName));
         }
         public override void CaseAStarElement(AStarElement node)
         {
-            TIdentifier typeId = node.Elementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = ToCamelCase(node.LowerName);
-
-            EmitListWalking(type, name, node);
+            method.Body.EmitLine("Visit(node.{0});", ToCamelCase(node.LowerName));
         }
-
-        private void EmitListWalking(string type, string name, PElement node)
-        {
-            method.Body.EmitLine("{");
-            method.Body.IncreaseIndentation();
-
-            method.Body.EmitLine("{0}[] temp = new {0}[node.{1}.Count];", type, name);
-            method.Body.EmitLine("node.{0}.CopyTo(temp, 0);", name);
-
-            if (!reversed)
-                method.Body.EmitLine("for (int i = 0; i < temp.Length; i++)");
-            else
-                method.Body.EmitLine("for (int i = temp.Length - 1; i >= 0; i--)");
-            method.Body.IncreaseIndentation();
-
-            method.Body.EmitLine("Visit({0}temp[i]);", node.PElementid.TIdentifier.IsProduction ? "(dynamic)" : "");
-            method.Body.DecreaseIndentation();
-
-            method.Body.DecreaseIndentation();
-            method.Body.EmitLine("}");
-        }
-
     }
 }

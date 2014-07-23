@@ -18,6 +18,7 @@ using SablePP.Tools;
 using SablePP.Tools.Error;
 using SablePP.Tools.Generate;
 using SablePP.Tools.Nodes;
+using SablePP.Compiler.Generate.Parsing;
 
 namespace SablePP.Compiler
 {
@@ -25,7 +26,6 @@ namespace SablePP.Compiler
     {
         private const int SABLE_MAX_WAIT = 500;
         private bool runSable;
-        private bool modificationsCompleted;
         private IdentifierHighlighter identifierHighlighter;
 
         public bool RunSable
@@ -37,7 +37,6 @@ namespace SablePP.Compiler
         public CompilerExecuter(bool runSable)
         {
             this.runSable = runSable;
-            this.modificationsCompleted = false;
             this.identifierHighlighter = new IdentifierHighlighter();
         }
 
@@ -53,39 +52,19 @@ namespace SablePP.Compiler
 
         private void ValidatePreSable(Start<PGrammar> root, ErrorManager errorManager)
         {
-            if (root.Root is AGrammar)
+            if (!root.Root.HasPackage)
+                errorManager.Register(ErrorType.Message, "When a SablePP does not have a Namespace definition, code is generated in the {0} namespace.", PGrammar.DefaultName);
+
+            if (!root.Root.HasTokens)
+                errorManager.Register("A SablePP grammar must contain a Tokens definition.");
+
+            if (!root.Root.HasProductions)
+                errorManager.Register("A SablePP grammar must contain a Productions definition.");
+            else
             {
-                AGrammar grammar = root.Root as AGrammar;
-                if (!grammar.HasPackage)
-                    errorManager.Register("A SablePP grammar must contain a Package/Namespace definition.");
-
-                if (!grammar.HasTokens)
-                {
-                    string message = "A SablePP grammar must contain a Tokens definition.";
-                    if (grammar.HasIgnoredtokens)
-                        errorManager.Register((grammar.Ignoredtokens as AIgnoredtokens).Ignoredtoken, message);
-                    else if (grammar.HasProductions)
-                        errorManager.Register((grammar.Productions as AProductions).Productionstoken, message);
-                    else if (grammar.HasAstproductions)
-                        errorManager.Register((grammar.Astproductions as AAstproductions).Asttoken, message);
-                    else
-                        errorManager.Register(message);
-                }
-
-                if (!grammar.HasProductions)
-                {
-                    string message = "A SablePP grammar must contain a Productions definition.";
-                    if (grammar.HasAstproductions)
-                        errorManager.Register((grammar.Astproductions as AAstproductions).Asttoken, message);
-                    else
-                        errorManager.Register(message);
-                }
-                else
-                {
-                    var prod = (grammar.Productions as AProductions).Productions.FirstOrDefault();
-                    if (prod != null && (prod as AProduction).Identifier.Text == "start")
-                        errorManager.Register((prod as AProduction).Identifier, "The root production of a SablePP grammar cannot be 'start'.");
-                }
+                var prod = root.Root.Productions.Productions.FirstOrDefault();
+                if (prod != null && prod.Identifier.Text == "start")
+                    errorManager.Register(prod.Identifier, "The root production of a SablePP grammar cannot be 'start'.");
             }
 
             var linktest = new Validation.SymbolLinking.DeclarationVisitor(errorManager);
@@ -115,10 +94,21 @@ namespace SablePP.Compiler
                         handleSableException(errorManager, text[i]);
                     }
                 }
+                else
+                {
+                    string lexerDestination = Path.Combine(PathInformation.SableOutputDirectory, "sablecc_lexer.cs");
+                    string parserDestination = Path.Combine(PathInformation.SableOutputDirectory, "sablecc_parser.cs");
+
+                    if (File.Exists(lexerDestination))
+                        File.Delete(lexerDestination);
+                    File.Move(Path.Combine(PathInformation.SableOutputDirectory, "lexer.cs"), lexerDestination);
+
+                    if (File.Exists(parserDestination))
+                        File.Delete(parserDestination);
+                    File.Move(Path.Combine(PathInformation.SableOutputDirectory, "parser.cs"), parserDestination);
+                }
                 proc.Close();
             }
-
-            modificationsCompleted = false;
         }
         private Process StartSableCC()
         {
@@ -178,23 +168,21 @@ namespace SablePP.Compiler
             if (manager.Count > 0)
                 return false;
 
-            TokenNodes.BuildCode(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "tokens.cs"));
-            ProductionNodes.BuildCode(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "prods.cs"));
-            AnalysisBuilder.BuildCode(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "analysis.cs"));
+            string output = PathInformation.SableOutputDirectory;
 
-            if (!modificationsCompleted)
-            {
-                modificationsCompleted = true;
-                ParserModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\parser.cs", root);
-                LexerModifier.ApplyToFile(PathInformation.SableOutputDirectory + "\\lexer.cs", root);
-            }
+            TokenNodes.BuildCode(root).ToFile(Path.Combine(output, "tokens.cs"));
+            ProductionNodes.BuildCode(root).ToFile(Path.Combine(output, "prods.cs"));
+            AnalysisBuilder.BuildCode(root).ToFile(Path.Combine(output, "analysis.cs"));
 
-            CompilerExecuterBuilder.Build(root).ToFile(Path.Combine(PathInformation.SableOutputDirectory, "CompilerExecuter.cs"));
+            LexerBuilder.BuildCode(Path.Combine(output, "sablecc_lexer.cs"), root).ToFile(Path.Combine(output, "lexer.cs"));
+            ParserBuilder.BuildCode(Path.Combine(output, "sablecc_parser.cs"), root).ToFile(Path.Combine(output, "parser.cs"));
+
+            CompilerExecuterBuilder.Build(root).ToFile(Path.Combine(output, "CompilerExecuter.cs"));
 
             directory = directory.TrimEnd('\\');
 
             foreach (var file in new[] { "tokens.cs", "prods.cs", "analysis.cs", "parser.cs", "lexer.cs", "CompilerExecuter.cs" })
-                File.Copy(PathInformation.SableOutputDirectory + "\\" + file, directory + "\\" + file, true);
+                File.Copy(Path.Combine(output, file), Path.Combine(directory, file), true);
 
             return true;
         }

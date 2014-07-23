@@ -18,7 +18,7 @@ Helpers
 
     blank = (' ' | tab | eol)+;
 
-    short_comment = '//' not_cr_lf* eol;
+    short_comment = '//' not_cr_lf*;
     long_comment = '/*' not_star* '*'+ (not_star_slash not_star* '*'+)* '/';
     comment = short_comment | long_comment;
 
@@ -126,15 +126,15 @@ Productions
         ;
 
     states
-        = statestoken id_list semicolon {-> New states(statestoken, New list.identifier([id_list.listitem]), semicolon)}
+        = statestoken id_list semicolon {-> New states(statestoken, [id_list.identifier_listitem], semicolon)}
         ;
 
-    id_list {-> listitem+}
-        = identifier [ids]:id_list_tail* {-> [New listitem.identifier(Null, identifier), ids.listitem]}
+    id_list {-> identifier_listitem+}
+        = identifier [ids]:id_list_tail* {-> [New identifier_listitem(Null, identifier), ids.identifier_listitem]}
         ;
 
-    id_list_tail {-> listitem}
-        = comma identifier {-> New listitem.identifier(comma, identifier)}
+    id_list_tail {-> identifier_listitem}
+        = comma identifier {-> New identifier_listitem(comma, identifier)}
         ;
 
     tokens
@@ -142,23 +142,23 @@ Productions
         ;
 
     token_def {-> token}
-        = state_list? identifier equal reg_exp look_ahead? semicolon {-> New token(state_list.list, identifier, equal, reg_exp.regex, look_ahead.tokenlookahead, semicolon)}
+        = state_list? identifier equal reg_exp look_ahead? semicolon {-> New token(state_list.tokenstate_list, identifier, equal, reg_exp.regex, look_ahead.tokenlookahead, semicolon)}
         ;
 
-    state_list {-> list}
+    state_list {-> tokenstate_list}
         = {notransition} l_brace identifier [state_lists]:state_list_tail* r_brace
-          {-> New list.tokenstate(l_brace, [New listitem.tokenstate(Null, identifier), state_lists.listitem], r_brace)}
+          {-> New tokenstate_list(l_brace, [New tokenstate_listitem(Null, identifier), state_lists.tokenstate_listitem], r_brace)}
         | {transition} l_brace [f]:identifier arrow [t]:identifier [state_lists]:state_list_tail* r_brace
-          {-> New list.tokenstate(l_brace, [New listitem.tokenstatetransition(Null, f, arrow, t), state_lists.listitem], r_brace)}
+          {-> New tokenstate_list(l_brace, [New tokenstate_listitem.transition(Null, f, arrow, t), state_lists.tokenstate_listitem], r_brace)}
         ;
 
-    state_list_tail {-> listitem}
-        = {notransition} comma identifier {-> New listitem.tokenstate(comma, identifier)}
-        | {transition} comma [f]:identifier arrow [t]:identifier {-> New listitem.tokenstatetransition(comma, f, arrow, t)}
+    state_list_tail {-> tokenstate_listitem}
+        = {notransition} comma identifier {-> New tokenstate_listitem(comma, identifier)}
+        | {transition} comma [f]:identifier arrow [t]:identifier {-> New tokenstate_listitem.transition(comma, f, arrow, t)}
         ;
 
     ign_tokens {-> ignoredtokens}
-        = ignoredtoken tokenstoken id_list semicolon {-> New ignoredtokens(ignoredtoken, tokenstoken, New list.identifier([id_list.listitem]), semicolon)}
+        = ignoredtoken tokenstoken id_list semicolon {-> New ignoredtokens(ignoredtoken, tokenstoken, [id_list.identifier_listitem], semicolon)}
         ;
 
     look_ahead {-> tokenlookahead}
@@ -225,16 +225,16 @@ Productions
         ;
     translation {-> translation}
         = {id} translationid {-> translationid.translation}
-        | {new} new identifier l_par translation_args? r_par {-> New translation.new(new, identifier, l_par, New list.translation([translation_args.listitem]), r_par)}
-        | {newalt} new [a]:identifier dot [b]:identifier l_par translation_args? r_par {-> New translation.newalternative(new, a, dot, b, l_par, New list.translation([translation_args.listitem]), r_par)}
+        | {new} new identifier l_par translation_args? r_par {-> New translation.new(new, identifier, l_par, [translation_args.translation_listitem], r_par)}
+        | {newalt} new [a]:identifier dot [b]:identifier l_par translation_args? r_par {-> New translation.newalternative(new, a, dot, b, l_par, [translation_args.translation_listitem], r_par)}
         | {null} null {-> New translation.null(null)}
-        | {list} l_bkt translation_args? r_bkt {-> New translation.list(l_bkt, New list.translation([translation_args.listitem]), r_bkt)}
+        | {list} l_bkt translation_args? r_bkt {-> New translation.list(l_bkt, [translation_args.translation_listitem], r_bkt)}
         ;
-    translation_args {-> listitem+}
-        = translation translation_args_tail* {-> [New listitem.translation(Null, translation.translation), translation_args_tail.listitem]}
+    translation_args {-> translation_listitem+}
+        = translation translation_args_tail* {-> [New translation_listitem(Null, translation.translation), translation_args_tail.translation_listitem]}
         ;
-    translation_args_tail {-> listitem}
-        = comma translation {-> New listitem.translation(comma, translation.translation)}
+    translation_args_tail {-> translation_listitem}
+        = comma translation {-> New translation_listitem(comma, translation.translation)}
         ;
     translationid {-> translation}
         = {single} identifier {-> New translation.id(identifier)}
@@ -280,15 +280,15 @@ Productions
         ;
     
     highlightrule {-> highlightrule }
-        = identifier l_brace id_list r_brace hlstyle_list semicolon {-> New highlightrule(identifier, l_brace, New list.identifier([id_list.listitem]), r_brace, New list.style([hlstyle_list.listitem]), semicolon)}
+        = identifier l_brace id_list r_brace hlstyle_list semicolon {-> New highlightrule(identifier, l_brace, [id_list.identifier_listitem], r_brace, [hlstyle_list.style_listitem], semicolon)}
         ;
     
-    hlstyle_list {-> listitem+ }
-        = hlstyle hlstyle_tail* {-> [New listitem.style(Null, hlstyle.highlight_style), hlstyle_tail.listitem]}
+    hlstyle_list {-> style_listitem+ }
+        = hlstyle hlstyle_tail* {-> [New style_listitem(Null, hlstyle.highlight_style), hlstyle_tail.style_listitem]}
         ;
     
-    hlstyle_tail {-> listitem }
-        = comma hlstyle {-> New listitem.style(comma, hlstyle.highlight_style)}
+    hlstyle_tail {-> style_listitem }
+        = comma hlstyle {-> New style_listitem(comma, hlstyle.highlight_style)}
         ;
         
     hlstyle {-> highlight_style}
@@ -312,7 +312,7 @@ Abstract Syntax Tree
     helper = identifier equal regex semicolon;
     
     tokens = tokenstoken [tokens]:token*;
-    token = [statelist]:list? identifier equal regex tokenlookahead? semicolon;
+    token = [statelist]:tokenstate_list? identifier equal regex tokenlookahead? semicolon;
     tokenlookahead = slash regex;
     
     regex
@@ -337,21 +337,19 @@ Abstract Syntax Tree
         | {parenthesis} [lpar]:l_par regex [rpar]:r_par
         ;
     
-    states = statestoken list semicolon;
-    ignoredtokens = ignoredtoken tokenstoken list semicolon;
-    list
-        = {identifier} listitem+
-        | {tokenstate} [lpar]:l_brace listitem+ [rpar]:r_brace
-        | {translation} listitem+
-        | {style} listitem+
+    states = statestoken [states]:identifier_listitem+ semicolon;
+    ignoredtokens = ignoredtoken tokenstoken [tokens]:identifier_listitem+ semicolon;
+    
+    identifier_listitem = comma? identifier;
+    
+    tokenstate_list = [lpar]:l_brace [states]:tokenstate_listitem+ [rpar]:r_brace;
+    tokenstate_listitem
+        = comma? identifier
+        | {transition} comma? [from]:identifier arrow [to]:identifier
         ;
-    listitem
-        = {identifier} comma? identifier
-        | {tokenstate} comma? identifier
-        | {tokenstatetransition} comma? [from]:identifier arrow [to]:identifier
-        | {translation} comma? translation
-        | {style} comma? highlight_style
-        ;
+    
+    translation_listitem = comma? translation;
+    style_listitem = comma? highlight_style;
 
     productions = productionstoken [productions]:production+;
     astproductions =      asttoken [productions]:production+;
@@ -366,9 +364,9 @@ Abstract Syntax Tree
     
     translation
         = {full} [lpar]:l_brace arrow translation [rpar]:r_brace
-        | {new} new [production]:identifier [lpar]:l_par [arguments]:list [rpar]:r_par
-        | {newalternative} new [production]:identifier dot [alternative]:identifier [lpar]:l_par [arguments]:list [rpar]:r_par
-        | {list} [lpar]:l_bkt [elements]:list [rpar]:r_bkt
+        | {new} new [production]:identifier [lpar]:l_par [arguments]:translation_listitem+ [rpar]:r_par
+        | {newalternative} new [production]:identifier dot [alternative]:identifier [lpar]:l_par [arguments]:translation_listitem+ [rpar]:r_par
+        | {list} [lpar]:l_bkt [elements]:translation_listitem+ [rpar]:r_bkt
         | {null} null
         | {id} identifier
         | {iddotid} identifier dot [production]:identifier
@@ -401,7 +399,7 @@ Abstract Syntax Tree
         = highlighttoken highlightrule+
         ;
     highlightrule
-        = [name]:identifier [lpar]:l_brace [tokens]:list [rpar]:r_brace list semicolon
+        = [name]:identifier [lpar]:l_brace [tokens]:identifier_listitem+ [rpar]:r_brace [styles]:style_listitem+ semicolon
         ;
     highlight_style
         = {italic} italic

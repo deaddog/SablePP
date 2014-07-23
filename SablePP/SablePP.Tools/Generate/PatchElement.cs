@@ -8,7 +8,7 @@ namespace SablePP.Tools.Generate
     /// <summary>
     /// A <see cref="CodeElement"/> that exposes the protected methods defined by <see cref="ComplexElement"/> as public methods.
     /// </summary>
-    public sealed class PatchElement : ComplexElement
+    public class PatchElement : ComplexElement
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PatchElement"/> class.
@@ -81,7 +81,7 @@ namespace SablePP.Tools.Generate
         /// <summary>
         /// Raises the <see cref="NewLineEmitted"/> event.
         /// </summary>
-        protected override void newLineEmitted()
+        protected sealed override void newLineEmitted()
         {
             if (NewLineEmitted != null)
                 NewLineEmitted();

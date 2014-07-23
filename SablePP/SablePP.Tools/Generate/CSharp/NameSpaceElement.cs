@@ -3,7 +3,7 @@
     /// <summary>
     /// Represent an object for handling code-generation of a C# namespace.
     /// </summary>
-    public sealed class NameSpaceElement : CSharpElement
+    public sealed class NameSpaceElement : CSharpElement<PatchElement>
     {
         private string name;
         /// <summary>
@@ -24,7 +24,6 @@
         }
 
         private bool hasClasses;
-        private PatchElement classes;
         /// <summary>
         /// Gets a value indicating whether the namespace contains any <see cref="ClassElement"/>s.
         /// </summary>
@@ -41,17 +40,17 @@
         /// </summary>
         /// <param name="name">The name of the namespace.</param>
         public NameSpaceElement(string name)
+            : base(new PatchElement())
         {
             this.name = name;
             this.usings = new UsingsElement();
-            this.classes = new PatchElement();
             this.hasClasses = false;
 
             emitLine("namespace {0}", name);
             emitLine("{");
             increaseIndentation();
             insertElement(usings);
-            insertElement(classes);
+            insertElement(content);
             decreaseIndentation();
             emitLine("}");
         }
@@ -62,7 +61,7 @@
         /// <param name="class">The class that is added to this <see cref="NameSpaceElement"/>.</param>
         public void Add(ClassElement @class)
         {
-            classes.InsertElement(@class);
+            content.InsertElement(@class);
             hasClasses = true;
         }
 
@@ -71,24 +70,7 @@
         /// </summary>
         public void EmitNewLine()
         {
-            classes.EmitNewLine();
-        }
-
-        /// <summary>
-        /// Emits the start of a region.
-        /// </summary>
-        /// <param name="text">The message displayed in the first line of the region.</param>
-        new public void EmitRegionStart(string text)
-        {
-            classes.EmitLine("#region {0}", text);
-        }
-
-        /// <summary>
-        /// Emits the end of a region.
-        /// </summary>
-        new public void EmitRegionEnd()
-        {
-            classes.EmitLine("#endregion");
+            content.EmitNewLine();
         }
     }
 }

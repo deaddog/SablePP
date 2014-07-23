@@ -12,7 +12,7 @@ using FastColoredTextBoxNS;
 namespace SablePP.Tools.Editor
 {
     /// <summary>
-    /// A form that handles opening, closing, save etc. of files and uses a <see cref="CodeTextBox"/> and a <see cref="ErrorTextBox"/> for displaying code, running compilation and displaying errors.
+    /// A form that handles opening, closing, save etc. of files and uses a <see cref="CodeTextBox"/> and a <see cref="ErrorView"/> for displaying code, running compilation and displaying errors.
     /// This form is not required to implement a compiler. It merely implements standard open/close functionality.
     /// </summary>
     public partial class EditorForm : Form

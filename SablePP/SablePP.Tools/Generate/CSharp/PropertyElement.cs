@@ -5,7 +5,7 @@ namespace SablePP.Tools.Generate.CSharp
     /// <summary>
     /// Represents an object for handling code-generation of a C# property.
     /// </summary>
-    public abstract class PropertyElement : CSharpElement, IProperty
+    public abstract class PropertyElement : ComplexElement, IProperty
     {
         private string name;
         private string type;

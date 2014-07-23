@@ -7,7 +7,7 @@ namespace SablePP.Compiler.Nodes
 {
     public partial class PGrammar
     {
-        private static readonly string defaultName = "SableCCPP";
+        public static readonly string DefaultName = "SableCCPP";
         private string packagename = null;
         public string PackageName
         {
@@ -15,20 +15,11 @@ namespace SablePP.Compiler.Nodes
             {
                 if (packagename == null)
                 {
-                    if (this is AGrammar)
-                    {
-                        AGrammar ag = this as AGrammar;
-                        if (ag.HasPackage && ag.Package is APackage)
-                        {
-                            APackage pack = ag.Package as APackage;
-                            packagename = pack.Packagename.Text;
-                        }
-                    }
-
-                    if (packagename == null)
-                        packagename = defaultName;
+                    if (HasPackage)
+                        packagename = Package.Packagename.Text;
+                    else
+                        packagename = DefaultName;
                 }
-
                 return packagename;
             }
         }
@@ -40,11 +31,8 @@ namespace SablePP.Compiler.Nodes
             {
                 if (rootProduction == null)
                 {
-                    var ast = (this as AGrammar).Astproductions as AAstproductions;
-                    var pro = (this as AGrammar).Productions as AProductions;
-
-                    AProduction prod = (ast == null ? pro.Productions : ast.Productions)[0] as AProduction;
-                    rootProduction = "P" + prod.Identifier.Text.ToCamelCase();
+                    var prod = HasAstproductions ? Astproductions.Productions : Productions.Productions;
+                    rootProduction = "P" + prod[0].Identifier.Text.ToCamelCase();
                 }
                 return rootProduction;
             }

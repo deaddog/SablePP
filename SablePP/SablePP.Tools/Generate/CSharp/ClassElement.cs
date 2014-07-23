@@ -6,7 +6,7 @@ namespace SablePP.Tools.Generate.CSharp
     /// <summary>
     /// Represents a C# class and exposes methods for emitting fields, methods, properties etc. within the class.
     /// </summary>
-    public class ClassElement : CSharpElement
+    public class ClassElement : CSharpElement<PatchElement>
     {
         private string name;
         /// <summary>
@@ -45,13 +45,12 @@ namespace SablePP.Tools.Generate.CSharp
             get { return typeParameters; }
         }
 
-        private PatchElement contents;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassElement"/> class from its signature.
         /// </summary>
         /// <param name="signature">The signature for the class.</param>
         public ClassElement(string signature)
+            : base(new PatchElement())
         {
             if (signature == null)
                 throw new ArgumentNullException("signature");
@@ -91,11 +90,10 @@ namespace SablePP.Tools.Generate.CSharp
             if (colonIndex >= 0)
                 emit(" : {0}", signature);
 
-            contents = new PatchElement();
             emitNewLine();
             emitLine("{");
             increaseIndentation();
-            insertElement(contents);
+            insertElement(content);
             decreaseIndentation();
             emitLine("}");
         }
@@ -114,7 +112,7 @@ namespace SablePP.Tools.Generate.CSharp
         /// </summary>
         public void EmitNewline()
         {
-            contents.EmitNewLine();
+            content.EmitNewLine();
         }
 
         /// <summary>
@@ -123,7 +121,7 @@ namespace SablePP.Tools.Generate.CSharp
         /// <param name="declaration">The field declaration that should be emitted.</param>
         public void EmitField(string declaration)
         {
-            contents.EmitLine("{0};", declaration.Trim());
+            content.EmitLine("{0};", declaration.Trim());
         }
 
         /// <summary>
@@ -133,20 +131,32 @@ namespace SablePP.Tools.Generate.CSharp
         /// <param name="value">The value that should be assigned to the field.</param>
         public void EmitField(string declaration, string value)
         {
-            contents.EmitLine("{0} = {1};", declaration.Trim(), value.Trim());
+            content.EmitLine("{0} = {1};", declaration.Trim(), value.Trim());
         }
 
         /// <summary>
         /// Emits a field to the <see cref="ClassElement"/>. The initial value is determined by emitting code to a <see cref="PatchElement"/>.
         /// </summary>
         /// <param name="declaration">The field declaration that should be emitted.</param>
-        /// <param name="valueElement">When the method returns, a <see cref="PatchElement"/> to which the initial value of the field can be emitted.</param>
+        /// <param name="valueElement">When the method returns, a <see cref="PatchElement"/> to which the initial value of the field should be emitted.</param>
         public void EmitField(string declaration, out PatchElement valueElement)
         {
             valueElement = new PatchElement();
-            contents.Emit("{0} = ", declaration.Trim());
-            contents.InsertElement(valueElement);
-            contents.EmitLine(";");
+            content.Emit("{0} = ", declaration.Trim());
+            content.InsertElement(valueElement);
+            content.EmitLine(";");
+        }
+
+        /// <summary>
+        /// Emits a field to the <see cref="ClassElement"/>. The initial value is determined by the code emitted to a <see cref="PatchElement"/>.
+        /// </summary>
+        /// <param name="declaration">The field declaration that should be emitted.</param>
+        /// <param name="valueElement">The <see cref="PatchElement"/> to which the initial value of the field should be emitted.</param>
+        public void EmitField(string declaration, PatchElement valueElement)
+        {
+            content.Emit("{0} = ", declaration.Trim());
+            content.InsertElement(valueElement);
+            content.EmitLine(";");
         }
 
         /// <summary>
@@ -155,7 +165,7 @@ namespace SablePP.Tools.Generate.CSharp
         /// <param name="method">The <see cref="MethodElement"/> that is added to the <see cref="ClassElement"/>.</param>
         public void Add(MethodElement method)
         {
-            contents.InsertElement(method);
+            content.InsertElement(method);
         }
         /// <summary>
         /// Adds a <see cref="PropertyElement"/> to the <see cref="ClassElement"/>.
@@ -163,7 +173,7 @@ namespace SablePP.Tools.Generate.CSharp
         /// <param name="property">The <see cref="PropertyElement"/> that is added to the <see cref="ClassElement"/>.</param>
         public void Add(PropertyElement property)
         {
-            contents.InsertElement(property);
+            content.InsertElement(property);
         }
         /// <summary>
         /// Adds a <see cref="IndexerElement"/> to the <see cref="ClassElement"/>.
@@ -171,7 +181,7 @@ namespace SablePP.Tools.Generate.CSharp
         /// <param name="indexer">The <see cref="IndexerElement"/> that is added to the <see cref="ClassElement"/>.</param>
         public void Add(IndexerElement indexer)
         {
-            contents.InsertElement(indexer);
+            content.InsertElement(indexer);
         }
     }
 }

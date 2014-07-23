@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SablePP.Compiler.Nodes.Identifiers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,174 +8,151 @@ namespace SablePP.Compiler.Nodes
 {
     public partial class TIdentifier
     {
-        private Declaration declaration;
-
         /// <summary>
-        /// Sets the declaration for this identifier.
-        /// </summary>
-        /// <param name="declaration">The declaration.</param>
-        public void SetDeclaration(Declaration declaration)
-        {
-            if (this.declaration != null)
-                throw new InvalidOperationException("Attempted to set declaration twice.");
-            else
-                this.declaration = declaration;
-        }
-
-        public bool HasDeclaration
-        {
-            get { return declaration != null; }
-        }
-        public Declaration Declaration
-        {
-            get { return declaration; }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="DHelper"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="PHelper"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="DHelper"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="PHelper"/>; otherwise, <c>false</c>.
         /// </value>
-        public bool IsHelper
+        public bool IsPHelper
         {
-            get { return declaration is DHelper; }
+            get { return this is DeclarationIdentifier<PHelper>; }
         }
         /// <summary>
-        /// Gets the declaration associated with this identifier, as a <see cref="DHelper"/>.
+        /// Gets the declaration associated with this identifier, as a <see cref="PHelper"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="DHelper"/> if this identifier refers to a <see cref="DHelper"/>; otherwise, <c>null</c>.
+        ///   A <see cref="PHelper"/> if this identifier refers to a <see cref="PHelper"/>; otherwise, <c>null</c>.
         /// </value>
-        public DHelper AsHelper
+        public PHelper AsPHelper
         {
-            get { return declaration as DHelper; }
+            get { return IsPToken ? (this as DeclarationIdentifier<PHelper>).Declaration : null; }
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="DState"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="StateIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="DState"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="StateIdentifier"/>; otherwise, <c>false</c>.
         /// </value>
         public bool IsState
         {
-            get { return declaration is DState; }
+            get { return this is StateIdentifier; }
         }
         /// <summary>
-        /// Gets the declaration associated with this identifier, as a <see cref="DState"/>.
+        /// Gets the declaration associated with this identifier, as a <see cref="StateIdentifier"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="DState"/> if this identifier refers to a <see cref="DState"/>; otherwise, <c>null</c>.
+        ///   A <see cref="StateIdentifier"/> if this identifier refers to a <see cref="StateIdentifier"/>; otherwise, <c>null</c>.
         /// </value>
-        public DState AsState
+        public StateIdentifier AsState
         {
-            get { return declaration as DState; }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="DToken"/>.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="DToken"/>; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsToken
-        {
-            get { return declaration is DToken; }
-        }
-        /// <summary>
-        /// Gets the declaration associated with this identifier, as a <see cref="DToken"/>.
-        /// </summary>
-        /// <value>
-        ///   A <see cref="DToken"/> if this identifier refers to a <see cref="DToken"/>; otherwise, <c>null</c>.
-        /// </value>
-        public DToken AsToken
-        {
-            get { return declaration as DToken; }
+            get { return this as StateIdentifier; }
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="DProduction"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="PToken"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="DProduction"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="PToken"/>; otherwise, <c>false</c>.
         /// </value>
-        public bool IsProduction
+        public bool IsPToken
         {
-            get { return declaration is DProduction; }
+            get { return this is DeclarationIdentifier<PToken>; }
         }
         /// <summary>
-        /// Gets the declaration associated with this identifier, as a <see cref="DProduction"/>.
+        /// Gets the declaration associated with this identifier, as a <see cref="PToken"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="DProduction"/> if this identifier refers to a <see cref="DProduction"/>; otherwise, <c>null</c>.
+        ///   A <see cref="PToken"/> if this identifier refers to a <see cref="PToken"/>; otherwise, <c>null</c>.
         /// </value>
-        public DProduction AsProduction
+        public PToken AsPToken
         {
-            get { return declaration as DProduction; }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="DAlternativeName"/>.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="DAlternativeName"/>; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsAlternativeName
-        {
-            get { return declaration is DAlternativeName; }
-        }
-        /// <summary>
-        /// Gets the alternative name associated with this identifier, as a <see cref="DAlternativeName"/>.
-        /// </summary>
-        /// <value>
-        ///   A <see cref="DAlternativeName"/> if this identifier refers to a <see cref="DAlternativeName"/>; otherwise, <c>null</c>.
-        /// </value>
-        public DAlternativeName AsAlternativeName
-        {
-            get { return declaration as DAlternativeName; }
+            get { return IsPToken ? (this as DeclarationIdentifier<PToken>).Declaration : null; }
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="DElementName"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="PProduction"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="DElementName"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="PProduction"/>; otherwise, <c>false</c>.
         /// </value>
-        public bool IsElementName
+        public bool IsPProduction
         {
-            get { return declaration is DElementName; }
+            get { return this is DeclarationIdentifier<PProduction>; }
         }
         /// <summary>
-        /// Gets the element name associated with this identifier, as a <see cref="DElementName"/>.
+        /// Gets the declaration associated with this identifier, as a <see cref="PProduction"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="DElementName"/> if this identifier refers to a <see cref="DElementName"/>; otherwise, <c>null</c>.
+        ///   A <see cref="PProduction"/> if this identifier refers to a <see cref="PProduction"/>; otherwise, <c>null</c>.
         /// </value>
-        public DElementName AsElementName
+        public PProduction AsPProduction
         {
-            get { return declaration as DElementName; }
+            get { return IsPProduction ? (this as DeclarationIdentifier<PProduction>).Declaration : null; }
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="DHighlightRule"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="PAlternative"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="DHighlightRule"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="PAlternative"/>; otherwise, <c>false</c>.
         /// </value>
-        public bool IsHighlightRule
+        public bool IsPAlternative
         {
-            get { return declaration is DHighlightRule; }
+            get { return this is DeclarationIdentifier<PAlternative>; }
         }
         /// <summary>
-        /// Gets the highlighter rule associated with this identifier, as a <see cref="DHighlightRule"/>.
+        /// Gets the alternative name associated with this identifier, as a <see cref="PAlternative"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="DAlternativeName"/> if this identifier refers to a <see cref="DHighlightRule"/>; otherwise, <c>null</c>.
+        ///   A <see cref="PAlternative"/> if this identifier refers to a <see cref="PAlternative"/>; otherwise, <c>null</c>.
         /// </value>
-        public DHighlightRule AsHighlightRule
+        public PAlternative AsPAlternative
         {
-            get { return declaration as DHighlightRule; }
+            get { return IsPAlternative ? (this as DeclarationIdentifier<PAlternative>).Declaration : null; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this identifier refers to a <see cref="PElement"/>.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this identifier refers to a <see cref="PElement"/>; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsPElement
+        {
+            get { return this is DeclarationIdentifier<PElement>; }
+        }
+        /// <summary>
+        /// Gets the element name associated with this identifier, as a <see cref="PElement"/>.
+        /// </summary>
+        /// <value>
+        ///   A <see cref="ElementNameIdentifier"/> if this identifier refers to a <see cref="PElement"/>; otherwise, <c>null</c>.
+        /// </value>
+        public PElement AsPElement
+        {
+            get { return IsPElement ? (this as DeclarationIdentifier<PElement>).Declaration : null; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this identifier refers to a <see cref="PHighlightrule"/>.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this identifier refers to a <see cref="PHighlightrule"/>; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsPHighlightrule
+        {
+            get { return this is DeclarationIdentifier<PHighlightrule>; }
+        }
+        /// <summary>
+        /// Gets the highlighter rule associated with this identifier, as a <see cref="PHighlightrule"/>.
+        /// </summary>
+        /// <value>
+        ///   A <see cref="PHighlightrule"/> if this identifier refers to a <see cref="PHighlightrule"/>; otherwise, <c>null</c>.
+        /// </value>
+        public PHighlightrule AsPHighlightrule
+        {
+            get { return IsPHighlightrule ? (this as DeclarationIdentifier<PHighlightrule>).Declaration : null; }
         }
     }
 }
