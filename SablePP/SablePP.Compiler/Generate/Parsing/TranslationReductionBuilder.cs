@@ -17,36 +17,45 @@ namespace SablePP.Compiler.Generate.Parsing
             this.elementVariables = new Dictionary<PElement, string>();
         }
 
+        private List<PElement> optionalElements;
+        private int caseCounter;
+
         public override void CaseAAlternative(Nodes.AAlternative node)
         {
-            CreateNewCase();
+            this.optionalElements = node.Elements.Element.Where(e => e.ElementType == ElementTypes.Question || e.ElementType == ElementTypes.Star).ToList();
 
-            var collection = node.Elements.Element;
-            for (int i = collection.Count - 1; i >= 0; i--)
+            int max = 1 << optionalElements.Count;
+            for (caseCounter = 0; caseCounter < max; caseCounter++)
             {
-                var element = collection[i];
-                string className = element.ClassName;
-                elementVariables[element] = GetVariable(className);
+                CreateNewCase();
 
-                PProduction production = element.Elementid.Identifier.AsPProduction;
-
-                if (node.HasTranslation && (production == null || hasAstProduction(production)))
+                var collection = node.Elements.Element;
+                for (int i = collection.Count - 1; i >= 0; i--)
                 {
-                    if (element.IsList)
-                        code.EmitLine("List<{0}> {1} = Pop<List<{0}>>();", className, elementVariables[element]);
+                    var element = collection[i];
+                    string className = element.ClassName;
+                    elementVariables[element] = GetVariable(className);
+
+                    PProduction production = element.Elementid.Identifier.AsPProduction;
+
+                    if (node.HasTranslation && (production == null || hasAstProduction(production)))
+                    {
+                        if (element.IsList)
+                            code.EmitLine("List<{0}> {1} = Pop<List<{0}>>();", className, elementVariables[element]);
+                        else
+                            code.EmitLine("{0} {1} = Pop<{0}>();", className, elementVariables[element]);
+                    }
                     else
-                        code.EmitLine("{0} {1} = Pop<{0}>();", className, elementVariables[element]);
+                        code.EmitLine("Pop<object>();");
                 }
+
+                base.CaseAAlternative(node);
+
+                if (node.HasTranslation)
+                    code.EmitLine("Push({0}, {1});", GoTo, translationVariables[node.Translation]);
                 else
-                    code.EmitLine("Pop<object>();");
+                    code.EmitLine("Push({0}, new object());", GoTo);
             }
-
-            base.CaseAAlternative(node);
-
-            if (node.HasTranslation)
-                code.EmitLine("Push({0}, {1});", GoTo, translationVariables[node.Translation]);
-            else
-                code.EmitLine("Push({0}, new object());", GoTo);
         }
 
         private bool hasAstProduction(PProduction production)
