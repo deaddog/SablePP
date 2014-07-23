@@ -2,6 +2,7 @@
 using SablePP.Compiler.Nodes;
 using SablePP.Tools.Generate;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SablePP.Compiler.Generate.Parsing
 {
@@ -12,15 +13,19 @@ namespace SablePP.Compiler.Generate.Parsing
         private List<string> namesInUse;
         protected string GetVariable(string name)
         {
-            int i = 1;
-            string variable;
+            string variable = (from n in getVariations(name.ToLower())
+                               where !namesInUse.Contains(n)
+                               select n).First();
 
-            name = name.ToLower();
-
-            do variable = name + (i++); while (namesInUse.Contains(variable));
             namesInUse.Add(variable);
-
             return variable;
+        }
+
+        private IEnumerable<string> getVariations(string name)
+        {
+            yield return name;
+            for (int i = 2; ; i++)
+                yield return name + i;
         }
 
         #endregion
