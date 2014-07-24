@@ -60,12 +60,6 @@ namespace SablePP.Compiler
 
             if (!root.Root.HasProductions)
                 errorManager.Register("A SablePP grammar must contain a Productions definition.");
-            else
-            {
-                var prod = root.Root.Productions.Productions.FirstOrDefault();
-                if (prod != null && prod.Identifier.Text == "start")
-                    errorManager.Register(prod.Identifier, "The root production of a SablePP grammar cannot be 'start'.");
-            }
 
             var linktest = new Validation.SymbolLinking.DeclarationVisitor(errorManager);
             linktest.Visit(root);
