@@ -35,13 +35,19 @@ Tokens
 {package}
     packagename = letter (letter | digit)* ('.' letter (letter | digit)*)*;
 
-{normal->package}
+{normal->package,highlight->package}
     packagetoken = 'Package'|'Namespace';
+{normal,highlight->normal}
     statestoken = 'States';
+{normal,highlight->normal}
     helperstoken = 'Helpers';
+{normal,highlight->normal}
     tokenstoken = 'Tokens';
+{normal,highlight->normal}
     ignoredtoken = 'Ignored';
+{normal,highlight->normal}
     productionstoken = 'Productions';
+{normal,highlight->normal}
     asttoken = 'Abstract' (' ' | tab)+ 'Syntax' (' ' | tab)+ 'Tree';
 {normal->highlight}
     highlighttoken = 'Token Syntax Highlight';
