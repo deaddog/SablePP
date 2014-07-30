@@ -56,6 +56,19 @@ namespace SablePP.Compiler
 
         private void Rebuild(Start<PGrammar> root, ErrorManager errorManager)
         {
+            var packages = sections<APackageSection>(root);
+            var helpers = sections<AHelpersSection>(root);
+            var states = sections<AStatesSection>(root);
+            var tokens = sections<ATokensSection>(root);
+            var ignored = sections<AIgnoreSection>(root);
+            var productions = sections<AProductionsSection>(root);
+            var astproductions = sections<AASTSection>(root);
+            var highlight = sections<AHighlightSection>(root);
+        }
+
+        private TSection[] sections<TSection>(Start<PGrammar> node) where TSection : PSection
+        {
+            return (from s in (node.Root as ASectionGrammar).Sections where s is TSection select s as TSection).ToArray();
         }
 
         private void ValidatePreSable(Start<PGrammar> root, ErrorManager errorManager)
