@@ -109,9 +109,16 @@ Ignored Tokens
     comment;
 
 Productions
-    grammar
-        = package? helpers? states? tokens? ign_tokens? productions? astproductions? highlightrules?
-        {-> New grammar(package.package, helpers.helpers, states.states, tokens.tokens, ign_tokens.ignoredtokens, productions.productions, astproductions.astproductions, highlightrules.highlightrules)}
+    grammar = section* { -> New grammar.section([section.section])};
+    section { -> section}
+        = {p} package { -> New section.package(package.package) }
+        | {h} helpers { -> New section.helpers(helpers.helpers) }
+        | {s} states { -> New section.states(states.states) }
+        | {t} tokens { -> New section.tokens(tokens.tokens) }
+        | {i} ign_tokens { -> New section.ignore(ign_tokens.ignoredtokens) }
+        | {pr} productions { -> New section.productions(productions.productions) }
+        | {a} astproductions { -> New section.a_s_t(astproductions.astproductions) }
+        | {hi} highlightrules { -> New section.highlight(highlightrules.highlightrules) }
         ;
 
     package = 
@@ -305,7 +312,21 @@ Productions
         ;
 
 Abstract Syntax Tree
-    grammar = package? helpers? states? tokens? ignoredtokens? productions? astproductions? highlightrules?;
+    grammar
+        = package? helpers? states? tokens? ignoredtokens? productions? astproductions? highlightrules?
+        | {section} section*
+        ;
+    section
+        = {package} package
+        | {helpers} helpers
+        | {states} states
+        | {tokens} tokens
+        | {ignore} ignoredtokens
+        | {productions} productions
+        | {a_s_t} astproductions
+        | {highlight} highlightrules
+        ;
+    
     package = packagetoken packagename semicolon;
     
     helpers = helperstoken [helpers]:helper*;
