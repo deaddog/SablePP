@@ -56,6 +56,8 @@ namespace SablePP.Compiler
 
         private void Rebuild(Start<PGrammar> root, ErrorManager errorManager)
         {
+            AGrammar grammar = new AGrammar(null, null, null, null, null, null, null, null);
+
             var packages = sections<APackageSection>(root);
             var helpers = sections<AHelpersSection>(root);
             var states = sections<AStatesSection>(root);
@@ -64,6 +66,8 @@ namespace SablePP.Compiler
             var productions = sections<AProductionsSection>(root);
             var astproductions = sections<AASTSection>(root);
             var highlight = sections<AHighlightSection>(root);
+
+            root.Root = grammar;
         }
 
         private TSection[] sections<TSection>(Start<PGrammar> node) where TSection : PSection
