@@ -42,12 +42,20 @@ namespace SablePP.Compiler
 
         public override void Validate(Start<PGrammar> root, CompilationOptions compilationOptions)
         {
+            Rebuild(root, compilationOptions.ErrorManager);
+            if (compilationOptions.ErrorManager.Errors.Count > 0)
+                return;
+
             ValidatePreSable(root, compilationOptions.ErrorManager);
 
             compilationOptions.Highlight(identifierHighlighter);
 
             if (compilationOptions.ErrorManager.Errors.Count == 0 && runSable)
                 ValidateWithSableCC(root, compilationOptions.ErrorManager);
+        }
+
+        private void Rebuild(Start<PGrammar> root, ErrorManager errorManager)
+        {
         }
 
         private void ValidatePreSable(Start<PGrammar> root, ErrorManager errorManager)
