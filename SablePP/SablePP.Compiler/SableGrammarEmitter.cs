@@ -4,6 +4,9 @@ using System.Text;
 
 using SablePP.Compiler.Analysis;
 using SablePP.Tools.Nodes;
+using SablePP.Tools.Error;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace SablePP.Compiler
 {
@@ -11,11 +14,24 @@ namespace SablePP.Compiler
     {
         private Stream stream;
         private Encoding encoding;
+        private Point currentPoint;
+        private Dictionary<Point, Position> positions;
+
+        public Position TranslatePosition(int line, int character)
+        {
+            Point p = new Point(character, line);
+            if (positions.ContainsKey(p))
+                return positions[p];
+            else
+                return new Position();
+        }
 
         public SableGrammarEmitter(Stream stream)
         {
             this.stream = stream;
             this.encoding = new System.Text.UTF8Encoding(false);
+            this.currentPoint = new System.Drawing.Point(1, 1);
+            this.positions = new Dictionary<Point, Position>();
         }
 
         public override void CaseAGrammar(Nodes.AGrammar node)
@@ -39,10 +55,15 @@ namespace SablePP.Compiler
         {
             byte[] buffer = encoding.GetBytes(text);
             stream.Write(buffer, 0, buffer.Length);
+
+            currentPoint.X += text.Length;
         }
         private void writeNewline()
         {
             write("\r\n");
+
+            currentPoint.X = 1;
+            currentPoint.Y++;
         }
 
         public override void CaseTPackagetoken(Nodes.TPackagetoken node)
@@ -53,7 +74,12 @@ namespace SablePP.Compiler
         public override void DefaultCase(Node node)
         {
             if (node is Token)
-                write((node as Token).Text  +  " ");
+            {
+                Token token = node as Token;
+                if (token.Position > 0 && token.Line > 0)
+                    positions[currentPoint] = new Position(token.Line, token.Position);
+                write(token.Text + " ");
+            }
             else
                 base.DefaultCase(node);
         }
