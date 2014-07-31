@@ -164,9 +164,10 @@ namespace SablePP.Compiler
         }
         private void ValidateWithSableCC(Start<PGrammar> root, ErrorManager errorManager)
         {
+            SableGrammarEmitter emitter;
             using (FileStream fss = new FileStream(PathInformation.TemporarySableGrammarPath, FileMode.Create))
             {
-                SableGrammarEmitter emitter = new SableGrammarEmitter(fss);
+                emitter = new SableGrammarEmitter(fss);
                 emitter.Visit(root);
             }
 
@@ -180,7 +181,7 @@ namespace SablePP.Compiler
                     {
                         if (text[i].StartsWith("\tat "))
                             break;
-                        handleSableException(errorManager, text[i]);
+                        handleSableException(errorManager, emitter, text[i]);
                     }
                 }
                 else
@@ -226,23 +227,22 @@ namespace SablePP.Compiler
 
             return proc;
         }
-        private void handleSableException(ErrorManager errorManager, string text)
+        private void handleSableException(ErrorManager errorManager, SableGrammarEmitter emitter, string text)
         {
             Match m = Regex.Match(text, "java.lang.RuntimeException: \\[(?<line>[0-9]+),(?<char>[0-9]+)\\] (?<text>.*)");
             if (m.Success)
             {
                 int eLine = int.Parse(m.Groups["line"].Value);
                 int eChar = int.Parse(m.Groups["char"].Value);
+
+                var position = emitter.TranslatePosition(eLine, eChar);
+
                 string eText = m.Groups["text"].Value;
 
                 if (eLine == 0 || eChar == 0)
                     errorManager.Register("SableCC: {2} at {{{0},{1}}}", eLine, eChar, eText);
                 else
-                {
-                    Position start = new Position(eLine, eChar);
-                    Position end = new Position(eLine, eChar);
-                    errorManager.Register(new CompilerError(ErrorType.Error, start, end, "SableCC: " + eText));
-                }
+                    errorManager.Register(new CompilerError(ErrorType.Error, position, position, "SableCC: " + eText));
             }
             else
                 errorManager.Register(text);
