@@ -7,6 +7,13 @@ namespace SablePP.Compiler.Nodes
 {
     public abstract partial class PGrammar : Production<PGrammar>
     {
+        public PGrammar()
+        {
+        }
+        
+    }
+    public partial class AGrammar : PGrammar
+    {
         private PPackage _package_;
         private PHelpers _helpers_;
         private PStates _states_;
@@ -16,7 +23,8 @@ namespace SablePP.Compiler.Nodes
         private PAstproductions _astproductions_;
         private PHighlightrules _highlightrules_;
         
-        public PGrammar(PPackage _package_, PHelpers _helpers_, PStates _states_, PTokens _tokens_, PIgnoredtokens _ignoredtokens_, PProductions _productions_, PAstproductions _astproductions_, PHighlightrules _highlightrules_)
+        public AGrammar(PPackage _package_, PHelpers _helpers_, PStates _states_, PTokens _tokens_, PIgnoredtokens _ignoredtokens_, PProductions _productions_, PAstproductions _astproductions_, PHighlightrules _highlightrules_)
+            : base()
         {
             this.Package = _package_;
             this.Helpers = _helpers_;
@@ -165,14 +173,6 @@ namespace SablePP.Compiler.Nodes
             get { return _highlightrules_ != null; }
         }
         
-    }
-    public partial class AGrammar : PGrammar
-    {
-        public AGrammar(PPackage _package_, PHelpers _helpers_, PStates _states_, PTokens _tokens_, PIgnoredtokens _ignoredtokens_, PProductions _productions_, PAstproductions _astproductions_, PHighlightrules _highlightrules_)
-            : base(_package_, _helpers_, _states_, _tokens_, _ignoredtokens_, _productions_, _astproductions_, _highlightrules_)
-        {
-        }
-        
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
             if (Package == oldChild)
@@ -253,6 +253,487 @@ namespace SablePP.Compiler.Nodes
         public override string ToString()
         {
             return string.Format("{0} {1} {2} {3} {4} {5} {6} {7}", Package, Helpers, States, Tokens, Ignoredtokens, Productions, Astproductions, Highlightrules);
+        }
+    }
+    public partial class ASectionGrammar : PGrammar
+    {
+        private NodeList<PSection> _sections_;
+        
+        public ASectionGrammar(IEnumerable<PSection> _sections_)
+            : base()
+        {
+            this._sections_ = new NodeList<PSection>(this, _sections_, true);
+        }
+        
+        public NodeList<PSection> Sections
+        {
+            get { return _sections_; }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (oldChild is PSection && Sections.Contains(oldChild as PSection))
+            {
+                if (!(newChild is PSection) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                
+                int index = Sections.IndexOf(oldChild as PSection);
+                if (newChild == null)
+                    Sections.RemoveAt(index);
+                else
+                    Sections[index] = newChild as PSection;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            {
+                PSection[] temp = new PSection[Sections.Count];
+                Sections.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
+        }
+        
+        public override PGrammar Clone()
+        {
+            return new ASectionGrammar(Sections);
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Sections);
+        }
+    }
+    public abstract partial class PSection : Production<PSection>
+    {
+        public PSection()
+        {
+        }
+        
+    }
+    public partial class APackageSection : PSection
+    {
+        private PPackage _package_;
+        
+        public APackageSection(PPackage _package_)
+            : base()
+        {
+            this.Package = _package_;
+        }
+        
+        public PPackage Package
+        {
+            get { return _package_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Package in APackageSection cannot be null.", "value");
+                
+                if (_package_ != null)
+                    SetParent(_package_, null);
+                SetParent(value, this);
+                
+                _package_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Package == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Package in APackageSection cannot be null.", "newChild");
+                if (!(newChild is PPackage) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Package = newChild as PPackage;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Package;
+        }
+        
+        public override PSection Clone()
+        {
+            return new APackageSection(Package.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Package);
+        }
+    }
+    public partial class AHelpersSection : PSection
+    {
+        private PHelpers _helpers_;
+        
+        public AHelpersSection(PHelpers _helpers_)
+            : base()
+        {
+            this.Helpers = _helpers_;
+        }
+        
+        public PHelpers Helpers
+        {
+            get { return _helpers_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Helpers in AHelpersSection cannot be null.", "value");
+                
+                if (_helpers_ != null)
+                    SetParent(_helpers_, null);
+                SetParent(value, this);
+                
+                _helpers_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Helpers == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Helpers in AHelpersSection cannot be null.", "newChild");
+                if (!(newChild is PHelpers) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Helpers = newChild as PHelpers;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Helpers;
+        }
+        
+        public override PSection Clone()
+        {
+            return new AHelpersSection(Helpers.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Helpers);
+        }
+    }
+    public partial class AStatesSection : PSection
+    {
+        private PStates _states_;
+        
+        public AStatesSection(PStates _states_)
+            : base()
+        {
+            this.States = _states_;
+        }
+        
+        public PStates States
+        {
+            get { return _states_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("States in AStatesSection cannot be null.", "value");
+                
+                if (_states_ != null)
+                    SetParent(_states_, null);
+                SetParent(value, this);
+                
+                _states_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (States == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("States in AStatesSection cannot be null.", "newChild");
+                if (!(newChild is PStates) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                States = newChild as PStates;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return States;
+        }
+        
+        public override PSection Clone()
+        {
+            return new AStatesSection(States.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", States);
+        }
+    }
+    public partial class ATokensSection : PSection
+    {
+        private PTokens _tokens_;
+        
+        public ATokensSection(PTokens _tokens_)
+            : base()
+        {
+            this.Tokens = _tokens_;
+        }
+        
+        public PTokens Tokens
+        {
+            get { return _tokens_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Tokens in ATokensSection cannot be null.", "value");
+                
+                if (_tokens_ != null)
+                    SetParent(_tokens_, null);
+                SetParent(value, this);
+                
+                _tokens_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Tokens == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Tokens in ATokensSection cannot be null.", "newChild");
+                if (!(newChild is PTokens) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Tokens = newChild as PTokens;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Tokens;
+        }
+        
+        public override PSection Clone()
+        {
+            return new ATokensSection(Tokens.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Tokens);
+        }
+    }
+    public partial class AIgnoreSection : PSection
+    {
+        private PIgnoredtokens _ignoredtokens_;
+        
+        public AIgnoreSection(PIgnoredtokens _ignoredtokens_)
+            : base()
+        {
+            this.Ignoredtokens = _ignoredtokens_;
+        }
+        
+        public PIgnoredtokens Ignoredtokens
+        {
+            get { return _ignoredtokens_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Ignoredtokens in AIgnoreSection cannot be null.", "value");
+                
+                if (_ignoredtokens_ != null)
+                    SetParent(_ignoredtokens_, null);
+                SetParent(value, this);
+                
+                _ignoredtokens_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Ignoredtokens == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Ignoredtokens in AIgnoreSection cannot be null.", "newChild");
+                if (!(newChild is PIgnoredtokens) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Ignoredtokens = newChild as PIgnoredtokens;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Ignoredtokens;
+        }
+        
+        public override PSection Clone()
+        {
+            return new AIgnoreSection(Ignoredtokens.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Ignoredtokens);
+        }
+    }
+    public partial class AProductionsSection : PSection
+    {
+        private PProductions _productions_;
+        
+        public AProductionsSection(PProductions _productions_)
+            : base()
+        {
+            this.Productions = _productions_;
+        }
+        
+        public PProductions Productions
+        {
+            get { return _productions_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Productions in AProductionsSection cannot be null.", "value");
+                
+                if (_productions_ != null)
+                    SetParent(_productions_, null);
+                SetParent(value, this);
+                
+                _productions_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Productions == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Productions in AProductionsSection cannot be null.", "newChild");
+                if (!(newChild is PProductions) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Productions = newChild as PProductions;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Productions;
+        }
+        
+        public override PSection Clone()
+        {
+            return new AProductionsSection(Productions.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Productions);
+        }
+    }
+    public partial class AASTSection : PSection
+    {
+        private PAstproductions _astproductions_;
+        
+        public AASTSection(PAstproductions _astproductions_)
+            : base()
+        {
+            this.Astproductions = _astproductions_;
+        }
+        
+        public PAstproductions Astproductions
+        {
+            get { return _astproductions_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Astproductions in AASTSection cannot be null.", "value");
+                
+                if (_astproductions_ != null)
+                    SetParent(_astproductions_, null);
+                SetParent(value, this);
+                
+                _astproductions_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Astproductions == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Astproductions in AASTSection cannot be null.", "newChild");
+                if (!(newChild is PAstproductions) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Astproductions = newChild as PAstproductions;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Astproductions;
+        }
+        
+        public override PSection Clone()
+        {
+            return new AASTSection(Astproductions.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Astproductions);
+        }
+    }
+    public partial class AHighlightSection : PSection
+    {
+        private PHighlightrules _highlightrules_;
+        
+        public AHighlightSection(PHighlightrules _highlightrules_)
+            : base()
+        {
+            this.Highlightrules = _highlightrules_;
+        }
+        
+        public PHighlightrules Highlightrules
+        {
+            get { return _highlightrules_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Highlightrules in AHighlightSection cannot be null.", "value");
+                
+                if (_highlightrules_ != null)
+                    SetParent(_highlightrules_, null);
+                SetParent(value, this);
+                
+                _highlightrules_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Highlightrules == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Highlightrules in AHighlightSection cannot be null.", "newChild");
+                if (!(newChild is PHighlightrules) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Highlightrules = newChild as PHighlightrules;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Highlightrules;
+        }
+        
+        public override PSection Clone()
+        {
+            return new AHighlightSection(Highlightrules.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Highlightrules);
         }
     }
     public abstract partial class PPackage : Production<PPackage>

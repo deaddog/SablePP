@@ -26,6 +26,78 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
+        public void Visit(ASectionGrammar node)
+        {
+            CaseASectionGrammar(node);
+        }
+        public virtual void CaseASectionGrammar(ASectionGrammar node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(APackageSection node)
+        {
+            CaseAPackageSection(node);
+        }
+        public virtual void CaseAPackageSection(APackageSection node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AHelpersSection node)
+        {
+            CaseAHelpersSection(node);
+        }
+        public virtual void CaseAHelpersSection(AHelpersSection node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AStatesSection node)
+        {
+            CaseAStatesSection(node);
+        }
+        public virtual void CaseAStatesSection(AStatesSection node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(ATokensSection node)
+        {
+            CaseATokensSection(node);
+        }
+        public virtual void CaseATokensSection(ATokensSection node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AIgnoreSection node)
+        {
+            CaseAIgnoreSection(node);
+        }
+        public virtual void CaseAIgnoreSection(AIgnoreSection node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AProductionsSection node)
+        {
+            CaseAProductionsSection(node);
+        }
+        public virtual void CaseAProductionsSection(AProductionsSection node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AASTSection node)
+        {
+            CaseAASTSection(node);
+        }
+        public virtual void CaseAASTSection(AASTSection node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AHighlightSection node)
+        {
+            CaseAHighlightSection(node);
+        }
+        public virtual void CaseAHighlightSection(AHighlightSection node)
+        {
+            DefaultCase(node);
+        }
         public void Visit(APackage node)
         {
             CaseAPackage(node);
@@ -982,6 +1054,177 @@ namespace SablePP.Compiler.Analysis
             
             OutAGrammar(node);
             OutPGrammar(node);
+        }
+        public virtual void InASectionGrammar(ASectionGrammar node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutASectionGrammar(ASectionGrammar node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseASectionGrammar(ASectionGrammar node)
+        {
+            InPGrammar(node);
+            InASectionGrammar(node);
+            
+            Visit(node.Sections);
+            
+            OutASectionGrammar(node);
+            OutPGrammar(node);
+        }
+        
+        public virtual void InPSection(PSection node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPSection(PSection node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAPackageSection(APackageSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAPackageSection(APackageSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAPackageSection(APackageSection node)
+        {
+            InPSection(node);
+            InAPackageSection(node);
+            
+            Visit((dynamic)node.Package);
+            
+            OutAPackageSection(node);
+            OutPSection(node);
+        }
+        public virtual void InAHelpersSection(AHelpersSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAHelpersSection(AHelpersSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAHelpersSection(AHelpersSection node)
+        {
+            InPSection(node);
+            InAHelpersSection(node);
+            
+            Visit((dynamic)node.Helpers);
+            
+            OutAHelpersSection(node);
+            OutPSection(node);
+        }
+        public virtual void InAStatesSection(AStatesSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAStatesSection(AStatesSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAStatesSection(AStatesSection node)
+        {
+            InPSection(node);
+            InAStatesSection(node);
+            
+            Visit((dynamic)node.States);
+            
+            OutAStatesSection(node);
+            OutPSection(node);
+        }
+        public virtual void InATokensSection(ATokensSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutATokensSection(ATokensSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseATokensSection(ATokensSection node)
+        {
+            InPSection(node);
+            InATokensSection(node);
+            
+            Visit((dynamic)node.Tokens);
+            
+            OutATokensSection(node);
+            OutPSection(node);
+        }
+        public virtual void InAIgnoreSection(AIgnoreSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAIgnoreSection(AIgnoreSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAIgnoreSection(AIgnoreSection node)
+        {
+            InPSection(node);
+            InAIgnoreSection(node);
+            
+            Visit((dynamic)node.Ignoredtokens);
+            
+            OutAIgnoreSection(node);
+            OutPSection(node);
+        }
+        public virtual void InAProductionsSection(AProductionsSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAProductionsSection(AProductionsSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAProductionsSection(AProductionsSection node)
+        {
+            InPSection(node);
+            InAProductionsSection(node);
+            
+            Visit((dynamic)node.Productions);
+            
+            OutAProductionsSection(node);
+            OutPSection(node);
+        }
+        public virtual void InAASTSection(AASTSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAASTSection(AASTSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAASTSection(AASTSection node)
+        {
+            InPSection(node);
+            InAASTSection(node);
+            
+            Visit((dynamic)node.Astproductions);
+            
+            OutAASTSection(node);
+            OutPSection(node);
+        }
+        public virtual void InAHighlightSection(AHighlightSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAHighlightSection(AHighlightSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAHighlightSection(AHighlightSection node)
+        {
+            InPSection(node);
+            InAHighlightSection(node);
+            
+            Visit((dynamic)node.Highlightrules);
+            
+            OutAHighlightSection(node);
+            OutPSection(node);
         }
         
         public virtual void InPPackage(PPackage node)
@@ -2632,6 +2875,177 @@ namespace SablePP.Compiler.Analysis
             OutAGrammar(node);
             OutPGrammar(node);
         }
+        public virtual void InASectionGrammar(ASectionGrammar node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutASectionGrammar(ASectionGrammar node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseASectionGrammar(ASectionGrammar node)
+        {
+            InPGrammar(node);
+            InASectionGrammar(node);
+            
+            Visit(node.Sections);
+            
+            OutASectionGrammar(node);
+            OutPGrammar(node);
+        }
+        
+        public virtual void InPSection(PSection node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPSection(PSection node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAPackageSection(APackageSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAPackageSection(APackageSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAPackageSection(APackageSection node)
+        {
+            InPSection(node);
+            InAPackageSection(node);
+            
+            Visit((dynamic)node.Package);
+            
+            OutAPackageSection(node);
+            OutPSection(node);
+        }
+        public virtual void InAHelpersSection(AHelpersSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAHelpersSection(AHelpersSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAHelpersSection(AHelpersSection node)
+        {
+            InPSection(node);
+            InAHelpersSection(node);
+            
+            Visit((dynamic)node.Helpers);
+            
+            OutAHelpersSection(node);
+            OutPSection(node);
+        }
+        public virtual void InAStatesSection(AStatesSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAStatesSection(AStatesSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAStatesSection(AStatesSection node)
+        {
+            InPSection(node);
+            InAStatesSection(node);
+            
+            Visit((dynamic)node.States);
+            
+            OutAStatesSection(node);
+            OutPSection(node);
+        }
+        public virtual void InATokensSection(ATokensSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutATokensSection(ATokensSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseATokensSection(ATokensSection node)
+        {
+            InPSection(node);
+            InATokensSection(node);
+            
+            Visit((dynamic)node.Tokens);
+            
+            OutATokensSection(node);
+            OutPSection(node);
+        }
+        public virtual void InAIgnoreSection(AIgnoreSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAIgnoreSection(AIgnoreSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAIgnoreSection(AIgnoreSection node)
+        {
+            InPSection(node);
+            InAIgnoreSection(node);
+            
+            Visit((dynamic)node.Ignoredtokens);
+            
+            OutAIgnoreSection(node);
+            OutPSection(node);
+        }
+        public virtual void InAProductionsSection(AProductionsSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAProductionsSection(AProductionsSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAProductionsSection(AProductionsSection node)
+        {
+            InPSection(node);
+            InAProductionsSection(node);
+            
+            Visit((dynamic)node.Productions);
+            
+            OutAProductionsSection(node);
+            OutPSection(node);
+        }
+        public virtual void InAASTSection(AASTSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAASTSection(AASTSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAASTSection(AASTSection node)
+        {
+            InPSection(node);
+            InAASTSection(node);
+            
+            Visit((dynamic)node.Astproductions);
+            
+            OutAASTSection(node);
+            OutPSection(node);
+        }
+        public virtual void InAHighlightSection(AHighlightSection node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAHighlightSection(AHighlightSection node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAHighlightSection(AHighlightSection node)
+        {
+            InPSection(node);
+            InAHighlightSection(node);
+            
+            Visit((dynamic)node.Highlightrules);
+            
+            OutAHighlightSection(node);
+            OutPSection(node);
+        }
         
         public virtual void InPPackage(PPackage node)
         {
@@ -4217,6 +4631,78 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
+        public Result Visit(ASectionGrammar node)
+        {
+            return CaseASectionGrammar(node);
+        }
+        public virtual Result CaseASectionGrammar(ASectionGrammar node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(APackageSection node)
+        {
+            return CaseAPackageSection(node);
+        }
+        public virtual Result CaseAPackageSection(APackageSection node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(AHelpersSection node)
+        {
+            return CaseAHelpersSection(node);
+        }
+        public virtual Result CaseAHelpersSection(AHelpersSection node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(AStatesSection node)
+        {
+            return CaseAStatesSection(node);
+        }
+        public virtual Result CaseAStatesSection(AStatesSection node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(ATokensSection node)
+        {
+            return CaseATokensSection(node);
+        }
+        public virtual Result CaseATokensSection(ATokensSection node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(AIgnoreSection node)
+        {
+            return CaseAIgnoreSection(node);
+        }
+        public virtual Result CaseAIgnoreSection(AIgnoreSection node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(AProductionsSection node)
+        {
+            return CaseAProductionsSection(node);
+        }
+        public virtual Result CaseAProductionsSection(AProductionsSection node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(AASTSection node)
+        {
+            return CaseAASTSection(node);
+        }
+        public virtual Result CaseAASTSection(AASTSection node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(AHighlightSection node)
+        {
+            return CaseAHighlightSection(node);
+        }
+        public virtual Result CaseAHighlightSection(AHighlightSection node)
+        {
+            return DefaultCase(node);
+        }
         public Result Visit(APackage node)
         {
             return CaseAPackage(node);
@@ -5102,6 +5588,78 @@ namespace SablePP.Compiler.Analysis
             return CaseAGrammar(node, arg1);
         }
         public virtual Result CaseAGrammar(AGrammar node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(ASectionGrammar node, T1 arg1)
+        {
+            return CaseASectionGrammar(node, arg1);
+        }
+        public virtual Result CaseASectionGrammar(ASectionGrammar node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(APackageSection node, T1 arg1)
+        {
+            return CaseAPackageSection(node, arg1);
+        }
+        public virtual Result CaseAPackageSection(APackageSection node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AHelpersSection node, T1 arg1)
+        {
+            return CaseAHelpersSection(node, arg1);
+        }
+        public virtual Result CaseAHelpersSection(AHelpersSection node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AStatesSection node, T1 arg1)
+        {
+            return CaseAStatesSection(node, arg1);
+        }
+        public virtual Result CaseAStatesSection(AStatesSection node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(ATokensSection node, T1 arg1)
+        {
+            return CaseATokensSection(node, arg1);
+        }
+        public virtual Result CaseATokensSection(ATokensSection node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AIgnoreSection node, T1 arg1)
+        {
+            return CaseAIgnoreSection(node, arg1);
+        }
+        public virtual Result CaseAIgnoreSection(AIgnoreSection node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AProductionsSection node, T1 arg1)
+        {
+            return CaseAProductionsSection(node, arg1);
+        }
+        public virtual Result CaseAProductionsSection(AProductionsSection node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AASTSection node, T1 arg1)
+        {
+            return CaseAASTSection(node, arg1);
+        }
+        public virtual Result CaseAASTSection(AASTSection node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AHighlightSection node, T1 arg1)
+        {
+            return CaseAHighlightSection(node, arg1);
+        }
+        public virtual Result CaseAHighlightSection(AHighlightSection node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -5993,6 +6551,78 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
+        public Result Visit(ASectionGrammar node, T1 arg1, T2 arg2)
+        {
+            return CaseASectionGrammar(node, arg1, arg2);
+        }
+        public virtual Result CaseASectionGrammar(ASectionGrammar node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(APackageSection node, T1 arg1, T2 arg2)
+        {
+            return CaseAPackageSection(node, arg1, arg2);
+        }
+        public virtual Result CaseAPackageSection(APackageSection node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(AHelpersSection node, T1 arg1, T2 arg2)
+        {
+            return CaseAHelpersSection(node, arg1, arg2);
+        }
+        public virtual Result CaseAHelpersSection(AHelpersSection node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(AStatesSection node, T1 arg1, T2 arg2)
+        {
+            return CaseAStatesSection(node, arg1, arg2);
+        }
+        public virtual Result CaseAStatesSection(AStatesSection node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(ATokensSection node, T1 arg1, T2 arg2)
+        {
+            return CaseATokensSection(node, arg1, arg2);
+        }
+        public virtual Result CaseATokensSection(ATokensSection node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(AIgnoreSection node, T1 arg1, T2 arg2)
+        {
+            return CaseAIgnoreSection(node, arg1, arg2);
+        }
+        public virtual Result CaseAIgnoreSection(AIgnoreSection node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(AProductionsSection node, T1 arg1, T2 arg2)
+        {
+            return CaseAProductionsSection(node, arg1, arg2);
+        }
+        public virtual Result CaseAProductionsSection(AProductionsSection node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(AASTSection node, T1 arg1, T2 arg2)
+        {
+            return CaseAASTSection(node, arg1, arg2);
+        }
+        public virtual Result CaseAASTSection(AASTSection node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(AHighlightSection node, T1 arg1, T2 arg2)
+        {
+            return CaseAHighlightSection(node, arg1, arg2);
+        }
+        public virtual Result CaseAHighlightSection(AHighlightSection node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
         public Result Visit(APackage node, T1 arg1, T2 arg2)
         {
             return CaseAPackage(node, arg1, arg2);
@@ -6878,6 +7508,78 @@ namespace SablePP.Compiler.Analysis
             return CaseAGrammar(node, arg1, arg2, arg3);
         }
         public virtual Result CaseAGrammar(AGrammar node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(ASectionGrammar node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseASectionGrammar(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseASectionGrammar(ASectionGrammar node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(APackageSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAPackageSection(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAPackageSection(APackageSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AHelpersSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAHelpersSection(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAHelpersSection(AHelpersSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AStatesSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAStatesSection(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAStatesSection(AStatesSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(ATokensSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseATokensSection(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseATokensSection(ATokensSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AIgnoreSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAIgnoreSection(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAIgnoreSection(AIgnoreSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AProductionsSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAProductionsSection(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAProductionsSection(AProductionsSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AASTSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAASTSection(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAASTSection(AASTSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AHighlightSection node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAHighlightSection(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAHighlightSection(AHighlightSection node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
