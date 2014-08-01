@@ -22,11 +22,10 @@ namespace SablePP.Compiler
             _executing_ = Path.GetDirectoryName(uri.LocalPath);
 
             // Sets temporary directory
-            string tempDir = Path.Combine(ExecutingDirectory, "tmp." + DateTime.Now.ToString("yyyyMMdd.HHmmss.fff"));
+            string tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName().Replace(".", ""));
 
-            DirectoryInfo dir = new DirectoryInfo(tempDir);
-            if (!dir.Exists)
-                dir.Create();
+            if(!Directory.Exists(tempDir))
+                Directory.CreateDirectory(tempDir);
 
             _temporary_ = tempDir;
         }
@@ -43,20 +42,11 @@ namespace SablePP.Compiler
                     return;
                 else
                 {
-                    DirectoryInfo dir = new DirectoryInfo(_temporary_);
-                    if (dir.Exists)
-                        DeleteRecursive(dir);
+                    if (Directory.Exists(_temporary_))
+                        Directory.Delete(_temporary_, true);
 
                     _temporary_ = null;
                 }
-        }
-        private static void DeleteRecursive(DirectoryInfo dir)
-        {
-            foreach (var f in dir.GetFiles())
-                f.Delete();
-            foreach (var d in dir.GetDirectories())
-                DeleteRecursive(d);
-            dir.Delete();
         }
 
         public static string TemporaryDirectory
