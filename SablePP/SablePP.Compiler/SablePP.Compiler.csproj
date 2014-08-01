@@ -99,6 +99,7 @@
     <Compile Include="Nodes\PToken.cs" />
     <Compile Include="Nodes\TDecChar.cs" />
     <Compile Include="PathInformation.cs" />
+    <Compile Include="SableCCLogger.cs" />
     <Compile Include="SableGrammarEmitter.cs" />
     <Compile Include="Validation\SymbolLinking\AlternativesTable.cs" />
     <Compile Include="Validation\SymbolLinking\DeclarationTable.cs" />
