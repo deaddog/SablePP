@@ -79,7 +79,13 @@ namespace SablePP.Compiler
             {
                 if (proc.ExitCode != 0)
                 {
-                    string[] text = proc.StandardError.ReadToEnd().Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                    string errorText = proc.StandardError.ReadToEnd();
+                    string sableCCgrammar;
+                    using (StreamReader reader = new StreamReader(PathInformation.TemporarySableGrammarPath))
+                        sableCCgrammar = reader.ReadToEnd();
+                    SableCCLogger.LogFromGrammar(compilationOptions.Input, sableCCgrammar, errorText);
+
+                    string[] text = errorText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
                     for (int i = 0; i < text.Length; i++)
                     {
