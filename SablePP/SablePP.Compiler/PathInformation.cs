@@ -14,18 +14,17 @@ namespace SablePP.Compiler
 
         private static object pathLock = new object();
 
+        static PathInformation()
+        {
+            // Sets executing directory
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            Uri uri = new Uri(assembly.CodeBase);
+            _executing_ = Path.GetDirectoryName(uri.LocalPath);
+        }
+
         public static string ExecutingDirectory
         {
-            get
-            {
-                if (_executing_ == null)
-                {
-                    var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                    Uri uri = new Uri(assembly.CodeBase);
-                    _executing_ = Path.GetDirectoryName(uri.LocalPath);
-                }
-                return _executing_;
-            }
+            get { return _executing_; }
         }
 
         public static void CleanTemporaryFiles()
