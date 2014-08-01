@@ -47,7 +47,7 @@ namespace SablePP.Compiler
             compilationOptions.Highlight(identifierHighlighter);
 
             if (compilationOptions.ErrorManager.Errors.Count == 0 && runSable)
-                ValidateWithSableCC(root, compilationOptions.ErrorManager);
+                ValidateWithSableCC(root, compilationOptions);
         }
 
         private void ValidatePreSable(Start<PGrammar> root, ErrorManager errorManager)
@@ -67,7 +67,7 @@ namespace SablePP.Compiler
             var syntaxtest = new SyntaxHighlightValidator(errorManager);
             syntaxtest.Visit(root);
         }
-        private void ValidateWithSableCC(Start<PGrammar> root, ErrorManager errorManager)
+        private void ValidateWithSableCC(Start<PGrammar> root, CompilationOptions compilationOptions)
         {
             using (FileStream fss = new FileStream(PathInformation.TemporarySableGrammarPath, FileMode.Create))
             {
@@ -85,7 +85,7 @@ namespace SablePP.Compiler
                     {
                         if (text[i].StartsWith("\tat "))
                             break;
-                        handleSableException(errorManager, text[i]);
+                        handleSableException(compilationOptions.ErrorManager, text[i]);
                     }
                 }
                 else
@@ -157,7 +157,7 @@ namespace SablePP.Compiler
         {
             ErrorManager manager = new ErrorManager();
             if (!runSable)
-                ValidateWithSableCC(root, manager);
+                ValidateWithSableCC(root, new CompilationOptions("", manager, null));
 
             if (manager.Count > 0)
                 return false;
