@@ -20,6 +20,15 @@ namespace SablePP.Compiler
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             Uri uri = new Uri(assembly.CodeBase);
             _executing_ = Path.GetDirectoryName(uri.LocalPath);
+
+            // Sets temporary directory
+            string tempDir = Path.Combine(ExecutingDirectory, "tmp." + DateTime.Now.ToString("yyyyMMdd.HHmmss.fff"));
+
+            DirectoryInfo dir = new DirectoryInfo(tempDir);
+            if (!dir.Exists)
+                dir.Create();
+
+            _temporary_ = tempDir;
         }
 
         public static string ExecutingDirectory
@@ -54,17 +63,8 @@ namespace SablePP.Compiler
         {
             get
             {
-                lock (pathLock)
-                    if (_temporary_ == null)
-                    {
-                        string tempDir = Path.Combine(ExecutingDirectory, "tmp." + DateTime.Now.ToString("yyyyMMdd.HHmmss.fff"));
-
-                        DirectoryInfo dir = new DirectoryInfo(tempDir);
-                        if (!dir.Exists)
-                            dir.Create();
-
-                        _temporary_ = tempDir;
-                    }
+                if (_temporary_ == null)
+                    throw new InvalidOperationException("TemporaryDirectory cannot be access after CleanTemporaryFiles has been called.");
 
                 return _temporary_;
             }
