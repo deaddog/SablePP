@@ -329,7 +329,7 @@ namespace SablePP.Tools.Editor
                     root = null;
                 }
 
-                CompilationOptions compilationOptions = new CompilationOptions(errorManager, (highlight) =>
+                CompilationOptions compilationOptions = new CompilationOptions(parent.Text, errorManager, (highlight) =>
                     {
                         if (ReferenceEquals(highlight, null))
                             throw new ArgumentNullException("highlight");
