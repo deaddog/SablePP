@@ -21,7 +21,7 @@ namespace SablePP.Compiler
             {
                 string s = time.ToString("yyyy-MM-dd HH:mm:ss.fff");
                 writer.WriteLine("### Date/Time ###");
-                writer.WriteLine("Date: {0:yyyy-MM-dd}");
+                writer.WriteLine("Date: {0:yyyy-MM-dd}", time);
                 writer.WriteLine("Time: {0:HH:mm:ss.fff}", time);
 
                 writer.WriteLine("### SablePP grammar ###");
