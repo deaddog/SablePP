@@ -290,7 +290,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             foreach (var item in node.Tokens)
             {
                 if (!tokens.Link(item.Identifier))
-                    RegisterError(node, "The token {0} has not been defined.", node);
+                    RegisterError(node, "The token {0} has not been defined.", item.Identifier);
                 else
                 {
                     var token = tokens[item.Identifier.Text];

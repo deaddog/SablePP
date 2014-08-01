@@ -9,20 +9,31 @@ namespace SablePP.Tools
     /// </summary>
     public class CompilationOptions
     {
+        private string input;
         private ErrorManager errorManager;
         private Action<IHighlighter> highlight;
         internal bool active;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CompilationOptions"/> class.
+        /// Initializes a new instance of the <see cref="CompilationOptions" /> class.
         /// </summary>
-        /// <param name="errorManager">An <see cref="ErrorManager"/> where all validation errors can be registered.</param>
-        /// <param name="highlight">A method for applying a token syntax highlight using a <see cref="IHighlighter"/>.</param>
-        public CompilationOptions(ErrorManager errorManager, Action<IHighlighter> highlight)
+        /// <param name="input">The code input for the compiler.</param>
+        /// <param name="errorManager">An <see cref="ErrorManager" /> where all validation errors can be registered.</param>
+        /// <param name="highlight">A method for applying a token syntax highlight using a <see cref="IHighlighter" />.</param>
+        public CompilationOptions(string input, ErrorManager errorManager, Action<IHighlighter> highlight)
         {
+            this.input = input;
             this.errorManager = errorManager;
             this.highlight = highlight;
             this.active = false;
+        }
+
+        /// <summary>
+        /// Gets the code input for the compiler.
+        /// </summary>
+        public string Input
+        {
+            get { return input; }
         }
 
         /// <summary>
