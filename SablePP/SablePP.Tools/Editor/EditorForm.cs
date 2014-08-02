@@ -517,6 +517,15 @@ namespace SablePP.Tools.Editor
             set { codeTextBox1.Executer = value; }
         }
 
+        /// <summary>
+        /// Gets the <see cref="CodeTextBox"/> contained by this form.
+        /// Use caution when accessing this control, as it handles all interaction with the compiler.
+        /// </summary>
+        public CodeTextBox CodeTextBox
+        {
+            get { return codeTextBox1; }
+        }
+
         private void codeTextBox1_SelectionChanged(object sender, EventArgs e)
         {
             string lineText = lineLabel.Text.Substring(0, lineLabel.Text.IndexOf(':') + 1) + " ";
