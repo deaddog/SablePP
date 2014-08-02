@@ -1,4 +1,5 @@
 ﻿using SablePP.Tools.Nodes;
+using System.Collections.Generic;
 
 namespace SablePP.Tools.Analysis
 {
@@ -22,6 +23,26 @@ namespace SablePP.Tools.Analysis
         {
             foreach (Node node in production.GetChildren())
                 Visit(node);
+        }
+
+        /// <summary>
+        /// Enumerates all tokens in a node depth-first.
+        /// </summary>
+        /// <param name="node">The node which tokens are visited.</param>
+        /// <returns>A collection of the tokens in <paramref name="node"/>.</returns>
+        public static IEnumerable<Token> GetTokens(Node node)
+        {
+            if (node is Token)
+                yield return node as Token;
+            else
+                foreach (var token in getTokensFromProduction(node as Production))
+                    yield return token;
+        }
+        private static IEnumerable<Token> getTokensFromProduction(Production production)
+        {
+            foreach (Node node in production.GetChildren())
+                foreach (var token in GetTokens(node))
+                    yield return token;
         }
     }
 }
