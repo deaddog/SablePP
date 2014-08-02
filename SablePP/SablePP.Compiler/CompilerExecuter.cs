@@ -9,16 +9,17 @@ using System.Text.RegularExpressions;
 using SablePP.Compiler.Execution;
 using SablePP.Compiler.Generate;
 using SablePP.Compiler.Generate.Analysis;
+using SablePP.Compiler.Generate.Parsing;
 using SablePP.Compiler.Generate.Productions;
 using SablePP.Compiler.Generate.Tokens;
 using SablePP.Compiler.Nodes;
 using SablePP.Compiler.Validation;
+using SablePP.Compiler.Validation.SymbolLinking;
 
 using SablePP.Tools;
 using SablePP.Tools.Error;
 using SablePP.Tools.Generate;
 using SablePP.Tools.Nodes;
-using SablePP.Compiler.Generate.Parsing;
 
 namespace SablePP.Compiler
 {
@@ -156,11 +157,10 @@ namespace SablePP.Compiler
             if (!root.Root.HasProductions)
                 errorManager.Register("A SablePP grammar must contain a Productions definition.");
 
-            var linktest = new Validation.SymbolLinking.DeclarationVisitor(errorManager);
-            linktest.Visit(root);
-
-            var syntaxtest = new SyntaxHighlightValidator(errorManager);
-            syntaxtest.Visit(root);
+            new DeclarationVisitor(errorManager).Visit(root);
+            new SyntaxHighlightValidator(errorManager).Visit(root);
+            if (errorManager.Errors.Count == 0)
+                new ExcessiveNodesVisitor(errorManager).Visit(root);
         }
         private void ValidateWithSableCC(Start<PGrammar> root, CompilationOptions compilationOptions)
         {
