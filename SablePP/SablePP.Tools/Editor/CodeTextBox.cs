@@ -100,9 +100,15 @@ namespace SablePP.Tools.Editor
         {
             if ((from s in Styles where s != null select s).Count() >= 16 && !Styles.Contains(style))
                 this.ClearStylesBuffer();
-            getRangeFromToken(token).SetStyle(style);
+            RangeFromToken(token).SetStyle(style);
         }
-        private Range getRangeFromToken(Token token)
+
+        /// <summary>
+        /// Gets the <see cref="Range"/> in this <see cref="CodeTextBox"/> of a <see cref="Token"/>.
+        /// </summary>
+        /// <param name="token">The <see cref="Token"/> from which <see cref="Range"/> should be retrieved..</param>
+        /// <returns>A <see cref="Range"/> representing the location of <paramref name="token"/> in this <see cref="CodeTextBox"/>.</returns>
+        public Range RangeFromToken(Token token)
         {
             string text = token.Text;
 
