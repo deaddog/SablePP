@@ -116,7 +116,7 @@ Ignored Tokens
 
 Productions
     grammar = section* { -> New grammar.section([section.section])};
-    section { -> section}
+    section
         = {p} package { -> New section.package(package.package) }
         | {h} helpers { -> New section.helpers(helpers.helpers) }
         | {s} states { -> New section.states(states.states) }
@@ -236,7 +236,7 @@ Productions
     alttrans {-> translation}
         = l_brace arrow translation r_brace {-> New translation.full(l_brace, arrow, translation.translation, r_brace)}
         ;
-    translation {-> translation}
+    translation
         = {id} translationid {-> translationid.translation}
         | {new} new identifier l_par translation_args? r_par {-> New translation.new(new, identifier, l_par, [translation_args.translation_listitem], r_par)}
         | {newalt} new [a]:identifier dot [b]:identifier l_par translation_args? r_par {-> New translation.newalternative(new, a, dot, b, l_par, [translation_args.translation_listitem], r_par)}
@@ -284,7 +284,7 @@ Productions
         | {production} production_specifier dot identifier {-> New elementid.production(production_specifier, dot, identifier)}
         ;
 
-    astproductions {-> astproductions}
+    astproductions
         = asttoken [prods]:prod+ {-> New astproductions(asttoken, [prods.production])}
         ;
     
@@ -292,7 +292,7 @@ Productions
         = highlighttoken highlightrule+
         ;
     
-    highlightrule {-> highlightrule }
+    highlightrule
         = identifier l_brace id_list r_brace hlstyle_list semicolon {-> New highlightrule(identifier, l_brace, [id_list.identifier_listitem], r_brace, [hlstyle_list.style_listitem], semicolon)}
         ;
     
