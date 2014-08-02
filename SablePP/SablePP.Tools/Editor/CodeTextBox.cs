@@ -126,6 +126,23 @@ namespace SablePP.Tools.Editor
             p2.iChar += len;
             return new Range(this, p1, p2);
         }
+        /// <summary>
+        /// Gets the <see cref="Token"/> located at <paramref name="place"/> in this <see cref="CodeTextBox"/>.
+        /// Tokens are found in the <see cref="LastResult"/> property.
+        /// </summary>
+        /// <param name="place">The place to look for a <see cref="Token"/>.</param>
+        /// <returns>The <see cref="Token"/> located at <paramref name="place"/>, if any; otherwise <c>null</c>.</returns>
+        public Token TokenFromPlace(Place place)
+        {
+            Result res = lastResult;
+            if(res == null || res.Tree == null)
+                return null;
+
+            foreach (var token in SablePP.Tools.Analysis.DepthFirstTreeWalker.GetTokens(res.Tree))
+                if (RangeFromToken(token).Contains(place))
+                    return token;
+            return null;
+        }
 
         private SquigglyStyle getSquigglyStyle(ErrorType errorType)
         {
