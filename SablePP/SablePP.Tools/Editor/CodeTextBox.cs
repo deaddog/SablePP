@@ -96,6 +96,8 @@ namespace SablePP.Tools.Editor
             return result;
         }
 
+        public event EventHandler CompilationCompleted;
+
         private void setStyle(Token token, Style style)
         {
             if ((from s in Styles where s != null select s).Count() >= 16 && !Styles.Contains(style))
@@ -389,6 +391,8 @@ namespace SablePP.Tools.Editor
                 }
 
                 parent.lastResult = new Result(node, errors);
+                if (parent.CompilationCompleted != null)
+                    parent.CompilationCompleted(parent, EventArgs.Empty);
                 waitFlag = false;
 
                 if (shouldStart)
