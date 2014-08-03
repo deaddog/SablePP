@@ -465,6 +465,22 @@ namespace SablePP.Tools.Editor
             this.menuStrip1.Items.Add(item);
         }
 
+        /// <summary>
+        /// Gets the File menu.
+        /// </summary>
+        public ToolStripMenuItem FileMenu
+        {
+            get { return fileToolStripMenuItem; }
+        }
+        /// <summary>
+        /// Gets the Edit menu.
+        /// </summary>
+        /// <value>
+        public ToolStripMenuItem EditMenu
+        {
+            get { return editToolStripMenuItem; }
+        }
+
         private bool filetoolsenabled = false;
         /// <summary>
         /// Gets a value indicating whether tool menu items, that are only available when a file is open, should be enabled.
