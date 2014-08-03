@@ -23,6 +23,8 @@ namespace SablePP.Compiler.Execution
         private ToolStripMenuItem outputButton = new ToolStripMenuItem("Set &Output Directory...");
         private ToolStripMenuItem generateButton = new ToolStripMenuItem("&Build");
 
+        private ToolStripMenuItem goToButton = new ToolStripMenuItem("Go to definition...");
+
         public SablePPEditor()
         {
             this.Executer = executer = new CompilerExecuter(true);
@@ -46,6 +48,13 @@ namespace SablePP.Compiler.Execution
             tools.DropDownItems.Add(outputButton);
             tools.DropDownItems.Add(generateButton);
 
+            goToButton.Click += goToButton_Click;
+            goToButton.Enabled = false;
+            goToButton.ShortcutKeys = Keys.F12;
+
+            EditMenu.DropDownItems.Add(new ToolStripSeparator());
+            EditMenu.DropDownItems.Add(goToButton);
+
             this.CodeTextBox.SelectionChanged += CodeTextBox_SelectionChanged;
             this.CodeTextBox.CompilationCompleted += CodeTextBox_SelectionChanged;
 
@@ -60,6 +69,7 @@ namespace SablePP.Compiler.Execution
             if (find != null && find is DeclarationIdentifier)
             {
                 var id = find as DeclarationIdentifier;
+                goToButton.Enabled = true;
 
                 foreach (var token in DepthFirstTreeWalker.GetTokens(CodeTextBox.LastResult.Tree).OfType<DeclarationIdentifier>())
                     if (id.Declaration == token.Declaration || (id.IsPElement && id.AsPElement.Elementid.Identifier == token))
@@ -73,6 +83,7 @@ namespace SablePP.Compiler.Execution
             else if (find != null && find is StateIdentifier)
             {
                 var id = find as StateIdentifier;
+                goToButton.Enabled = true;
 
                 foreach (var token in DepthFirstTreeWalker.GetTokens(CodeTextBox.LastResult.Tree).OfType<StateIdentifier>())
                     if (id.Declaration == token.Declaration)
@@ -83,6 +94,8 @@ namespace SablePP.Compiler.Execution
                         r.SetStyle(highlightstyle);
                     }
             }
+            else
+                goToButton.Enabled = false;
         }
 
         private void goToButton_Click(object sender, EventArgs e)
