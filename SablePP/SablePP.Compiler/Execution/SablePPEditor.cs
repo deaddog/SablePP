@@ -85,6 +85,49 @@ namespace SablePP.Compiler.Execution
             }
         }
 
+        private void goToButton_Click(object sender, EventArgs e)
+        {
+            var t = CodeTextBox.TokenFromPlace(CodeTextBox.Selection.Start);
+            if (t != null && t is SablePP.Compiler.Nodes.TIdentifier)
+            {
+                var id = t as SablePP.Compiler.Nodes.TIdentifier;
+                if (id.IsPAlternative)
+                {
+                    if (id.AsPAlternative.HasAlternativename)
+                        id = id.AsPAlternative.Alternativename.Name;
+                    else
+                        id = null;
+                }
+                else if (id.IsPElement)
+                {
+                    if (id.AsPElement.HasElementname)
+                        id = id.AsPElement.Elementname.Name;
+                    else
+                        id = id.AsPElement.Elementid.Identifier;
+                }
+                else if (id.IsPHelper)
+                    id = id.AsPHelper.Identifier;
+                else if (id.IsPHighlightrule)
+                    id = id.AsPHighlightrule.Name;
+                else if (id.IsPProduction)
+                    id = id.AsPProduction.Identifier;
+                else if (id.IsPToken)
+                    id = id.AsPToken.Identifier;
+                else if (id.IsState)
+                    id = id.AsState;
+                else
+                    id = null;
+
+                if (id != null)
+                {
+                    var range = CodeTextBox.RangeFromToken(id);
+                    CodeTextBox.Selection = range;
+                    if (!CodeTextBox.VisibleRange.Contains(range.Start) || !CodeTextBox.VisibleRange.Contains(range.End))
+                        CodeTextBox.DoSelectionVisible();
+                }
+            }
+        }
+
         protected override void OnFileChanged(EventArgs e)
         {
             outputButton.Enabled = File != null && File.Exists;
