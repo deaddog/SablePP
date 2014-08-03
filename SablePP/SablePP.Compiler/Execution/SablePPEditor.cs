@@ -1,7 +1,10 @@
-﻿using SablePP.Tools.Editor;
+﻿using FastColoredTextBoxNS;
+using SablePP.Compiler.Nodes.Identifiers;
+using SablePP.Tools.Analysis;
+using SablePP.Tools.Editor;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -13,6 +16,8 @@ namespace SablePP.Compiler.Execution
         private CompilerExecuter executer;
 
         private EditorSettings settings = EditorSettings.Default;
+
+        private Style highlightstyle = new SelectionStyle(new SolidBrush(Color.FromArgb(226, 230, 214)));
 
         private ToolStripMenuItem tools;
         private ToolStripMenuItem outputButton = new ToolStripMenuItem("Set &Output Directory...");
@@ -40,6 +45,44 @@ namespace SablePP.Compiler.Execution
 
             tools.DropDownItems.Add(outputButton);
             tools.DropDownItems.Add(generateButton);
+
+            this.CodeTextBox.SelectionChanged += CodeTextBox_SelectionChanged;
+            this.CodeTextBox.CompilationCompleted += CodeTextBox_SelectionChanged;
+
+            CodeTextBox.Styles[0] = highlightstyle;
+        }
+
+        private void CodeTextBox_SelectionChanged(object sender, EventArgs e)
+        {
+            CodeTextBox.Range.ClearStyle(highlightstyle);
+
+            var find = CodeTextBox.TokenFromPlace(CodeTextBox.Selection.Start);
+            if (find != null && find is DeclarationIdentifier)
+            {
+                var id = find as DeclarationIdentifier;
+
+                foreach (var token in DepthFirstTreeWalker.GetTokens(CodeTextBox.LastResult.Tree).OfType<DeclarationIdentifier>())
+                    if (id.Declaration == token.Declaration || (id.IsPElement && id.AsPElement.Elementid.Identifier == token))
+                    {
+                        var r = CodeTextBox.RangeFromToken(token);
+                        if (!CodeTextBox.Range.Contains(r.Start) || !(CodeTextBox.Range.Contains(r.End)))
+                            return;
+                        r.SetStyle(highlightstyle);
+                    }
+            }
+            else if (find != null && find is StateIdentifier)
+            {
+                var id = find as StateIdentifier;
+
+                foreach (var token in DepthFirstTreeWalker.GetTokens(CodeTextBox.LastResult.Tree).OfType<StateIdentifier>())
+                    if (id.Declaration == token.Declaration)
+                    {
+                        var r = CodeTextBox.RangeFromToken(token);
+                        if (!CodeTextBox.Range.Contains(r.Start) || !(CodeTextBox.Range.Contains(r.End)))
+                            return;
+                        r.SetStyle(highlightstyle);
+                    }
+            }
         }
 
         protected override void OnFileChanged(EventArgs e)
