@@ -190,12 +190,16 @@ Productions
     concat {-> regexpart+}
         = [un_exps]:un_exp+ {-> [un_exps.regexpart]}
         ;
-
+    
+    modifier
+        = {star} star
+        | {question} q_mark
+        | {plus} plus
+        ;
+    
     un_exp {-> regexpart}
         = {simple} basic {-> basic.regexpart}
-        | {star} basic star {-> New regexpart.unarystar(basic.regexpart, star)}
-        | {question} basic q_mark {-> New regexpart.unaryquestion(basic.regexpart, q_mark)}
-        | {plus} basic plus {-> New regexpart.unaryplus(basic.regexpart, plus)}
+        | {mod} basic modifier {-> New regexpart.unary(basic.regexpart, modifier)}
         ;
 
     basic {-> regexpart}
@@ -227,14 +231,8 @@ Productions
         ;
     
     prodtrans {-> prodtranslation}
-        = {clean} l_brace arrow identifier r_brace {-> New prodtranslation.clean(arrow, identifier)}
-        | {star} l_brace arrow identifier star r_brace {-> New prodtranslation.star(arrow, identifier, star)}
-        | {plus} l_brace arrow identifier plus r_brace {-> New prodtranslation.plus(arrow, identifier, plus)}
-        | {question} l_brace arrow identifier q_mark r_brace {-> New prodtranslation.question(arrow, identifier, q_mark)}
-        | {clean2} arrow identifier {-> New prodtranslation.clean(arrow, identifier)}
-        | {star2} arrow identifier star {-> New prodtranslation.star(arrow, identifier, star)}
-        | {plus2} arrow identifier plus {-> New prodtranslation.plus(arrow, identifier, plus)}
-        | {question2} arrow identifier q_mark {-> New prodtranslation.question(arrow, identifier, q_mark)}
+        = l_brace arrow identifier modifier? r_brace {-> New prodtranslation(arrow, identifier, modifier)}
+        | {nomod} arrow identifier modifier? {-> New prodtranslation(arrow, identifier, modifier)}
         ;
     
     alttrans {-> translation}
@@ -272,12 +270,7 @@ Productions
         = l_brace identifier r_brace {-> New alternativename(l_brace, identifier, r_brace)}
         ;
 
-    elem {-> element}
-        = {simple} elem_name? elem_id {-> New element.simple(elem_name.elementname, elem_id.elementid)}
-        | {star} elem_name? elem_id star {-> New element.star(elem_name.elementname, elem_id.elementid, star)}
-        | {question} elem_name? elem_id q_mark {-> New element.question(elem_name.elementname, elem_id.elementid, q_mark)}
-        | {plus} elem_name? elem_id plus {-> New element.plus(elem_name.elementname, elem_id.elementid, plus)}
-        ;
+    elem {-> element} = elem_name? elem_id modifier? {-> New element(elem_name.elementname, elem_id.elementid, modifier)};
 
     elem_name {-> elementname}
         = l_bkt identifier r_bkt colon {-> New elementname(l_bkt, identifier, r_bkt, colon)}
@@ -356,9 +349,7 @@ Abstract Syntax Tree
         | {dec} dec_char
         | {hex} hex_char
         
-        | {unarystar} regexpart star
-        | {unaryquestion} regexpart [question]:q_mark
-        | {unaryplus} regexpart plus
+        | {unary} regexpart modifier
         
         | {binaryplus} [lpar]:l_bkt [left]:regexpart plus [right]:regexpart [rpar]:r_bkt
         | {binaryminus} [lpar]:l_bkt [left]:regexpart minus [right]:regexpart [rpar]:r_bkt
@@ -367,6 +358,12 @@ Abstract Syntax Tree
         | {string} string
         | {identifier} identifier
         | {parenthesis} [lpar]:l_par regex [rpar]:r_par
+        ;
+    
+    modifier
+        = {star} star
+        | {question} q_mark
+        | {plus} plus
         ;
     
     states = statestoken [states]:identifier_listitem+ semicolon;
@@ -387,12 +384,7 @@ Abstract Syntax Tree
     astproductions =      asttoken [productions]:production+;
     production = identifier prodtranslation? equal productionrule semicolon;
     
-    prodtranslation
-        = {clean} arrow identifier
-        | {star} arrow identifier star
-        | {plus} arrow identifier plus
-        | {question} arrow identifier q_mark
-        ;
+    prodtranslation = arrow identifier modifier?;
     
     translation
         = {full} arrow translation
@@ -414,12 +406,7 @@ Abstract Syntax Tree
     elements
         = element+
         ;
-    element
-        = {simple} elementname? elementid
-        | {star} elementname? elementid star
-        | {question} elementname? elementid q_mark
-        | {plus} elementname? elementid plus
-        ;
+    element = elementname? elementid modifier?;
     elementname = [lpar]:l_bkt [name]:identifier [rpar]:r_bkt colon;
     elementid
         = {clean} identifier
