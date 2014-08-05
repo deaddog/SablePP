@@ -213,7 +213,10 @@ namespace SablePP.Compiler.Generate.Parsing
             {
                 var prod = element.Elementid.Identifier.AsPProduction;
                 if (prod != null && prod.HasProdtranslation)
-                    return prod.Prodtranslation is APlusProdtranslation || prod.Prodtranslation is AStarProdtranslation;
+                {
+                    var trans = prod.Prodtranslation;
+                    return trans.HasModifier && (trans.Modifier is APlusModifier || trans.Modifier is AStarModifier);
+                }
             }
 
             return element.IsList;
