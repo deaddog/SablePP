@@ -179,16 +179,16 @@ Productions
         ;
 
     reg_exp {-> regex}
-        = {single} concat {-> New regex([New orpart.regex(Null, [concat.regexpart])])}
-        | {multiple} concat [concats]:reg_exp_tail+ {-> New regex([New orpart.regex(Null, [concat.regexpart]), concats.orpart])}
+        = {single} concat {-> concat.regex}
+        | {multiple} concat [concats]:reg_exp_tail+ {-> New regex.or([concat.regex, concats.regex])}
         ;
 
-    reg_exp_tail {-> orpart}
-        = pipe concat {-> New orpart.regex(pipe, [concat.regexpart])}
+    reg_exp_tail {-> regex}
+        = pipe concat {-> concat.regex}
         ;
 
-    concat {-> regexpart+}
-        = [un_exps]:un_exp+ {-> [un_exps.regexpart]}
+    concat {-> regex}
+        = [un_exps]:un_exp+ {-> New regex.concatenated([un_exps.regex])}
         ;
     
     modifier
@@ -197,29 +197,29 @@ Productions
         | {plus} plus
         ;
     
-    un_exp {-> regexpart}
-        = {simple} basic {-> basic.regexpart}
-        | {mod} basic modifier {-> New regexpart.unary(basic.regexpart, modifier)}
+    un_exp {-> regex}
+        = {simple} basic {-> basic.regex}
+        | {mod} basic modifier {-> New regex.unary(basic.regex, modifier)}
         ;
 
-    basic {-> regexpart}
-        = {char} char {-> char.regexpart}
-        | {set} set {-> set.regexpart}
-        | {string} string {-> New regexpart.string(string)}
-        | {identifier} identifier {-> New regexpart.identifier(identifier)}
-        | {reg_exp} l_par reg_exp r_par {-> New regexpart.parenthesis(l_par, reg_exp.regex, r_par)}
+    basic {-> regex}
+        = {char} char {-> char.regex}
+        | {set} set {-> set.regex}
+        | {string} string {-> New regex.string(string)}
+        | {identifier} identifier {-> New regex.identifier(identifier)}
+        | {reg_exp} l_par reg_exp r_par {-> New regex.parenthesis(l_par, reg_exp.regex, r_par)}
         ;
 
-    char {-> regexpart}
-        = {char} character {-> New regexpart.char(character)}
-        | {dec}  dec_char {-> New regexpart.dec(dec_char)}
-        | {hex}  hex_char {-> New regexpart.hex(hex_char)}
+    char {-> regex}
+        = {char} character {-> New regex.char(character)}
+        | {dec}  dec_char {-> New regex.dec(dec_char)}
+        | {hex}  hex_char {-> New regex.hex(hex_char)}
         ;
 
-    set {-> regexpart}
-        = {plus} l_bkt [left]:basic plus [right]:basic r_bkt {-> New regexpart.binaryplus(l_bkt, left.regexpart, plus, right.regexpart, r_bkt)}
-        | {minus} l_bkt [left]:basic minus [right]:basic r_bkt {-> New regexpart.binaryminus(l_bkt, left.regexpart, minus, right.regexpart, r_bkt)}
-        | {interval} l_bkt [left]:char d_dot [right]:char r_bkt {-> New regexpart.interval(l_bkt, left.regexpart, d_dot, right.regexpart, r_bkt)}
+    set {-> regex}
+        = {plus} l_bkt [left]:basic plus [right]:basic r_bkt {-> New regex.binaryplus(l_bkt, left.regex, plus, right.regex, r_bkt)}
+        | {minus} l_bkt [left]:basic minus [right]:basic r_bkt {-> New regex.binaryminus(l_bkt, left.regex, minus, right.regex, r_bkt)}
+        | {interval} l_bkt [left]:char d_dot [right]:char r_bkt {-> New regex.interval(l_bkt, left.regex, d_dot, right.regex, r_bkt)}
         ;
 
     productions
@@ -341,23 +341,22 @@ Abstract Syntax Tree
     tokenlookahead = slash regex;
     
     regex
-        = [parts]:orpart+
-        ;
-    orpart = {regex} pipe? regexpart+;
-    regexpart
         = {char} character
         | {dec} dec_char
         | {hex} hex_char
         
-        | {unary} regexpart modifier
+        | {concatenated} regex+
+        | {unary} regex modifier
         
-        | {binaryplus} [lpar]:l_bkt [left]:regexpart plus [right]:regexpart [rpar]:r_bkt
-        | {binaryminus} [lpar]:l_bkt [left]:regexpart minus [right]:regexpart [rpar]:r_bkt
-        | {interval} [lpar]:l_bkt [left]:regexpart [dots]:d_dot [right]:regexpart [rpar]:r_bkt
+        | {binaryplus} [lpar]:l_bkt [left]:regex plus [right]:regex [rpar]:r_bkt
+        | {binaryminus} [lpar]:l_bkt [left]:regex minus [right]:regex [rpar]:r_bkt
+        | {interval} [lpar]:l_bkt [left]:regex [dots]:d_dot [right]:regex [rpar]:r_bkt
         
         | {string} string
         | {identifier} identifier
         | {parenthesis} [lpar]:l_par regex [rpar]:r_par
+        
+        | {or} regex+
         ;
     
     modifier
