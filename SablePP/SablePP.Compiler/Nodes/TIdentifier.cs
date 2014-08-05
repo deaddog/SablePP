@@ -47,7 +47,7 @@ namespace SablePP.Compiler.Nodes
         /// </value>
         public StateIdentifier AsState
         {
-            get { return this as StateIdentifier; }
+            get { return IsState ? (this as StateIdentifier).Declaration : null; }
         }
 
         /// <summary>
