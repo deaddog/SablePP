@@ -186,27 +186,11 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(AUnarystarRegexpart node)
+        public void Visit(AUnaryRegexpart node)
         {
-            CaseAUnarystarRegexpart(node);
+            CaseAUnaryRegexpart(node);
         }
-        public virtual void CaseAUnarystarRegexpart(AUnarystarRegexpart node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AUnaryquestionRegexpart node)
-        {
-            CaseAUnaryquestionRegexpart(node);
-        }
-        public virtual void CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AUnaryplusRegexpart node)
-        {
-            CaseAUnaryplusRegexpart(node);
-        }
-        public virtual void CaseAUnaryplusRegexpart(AUnaryplusRegexpart node)
+        public virtual void CaseAUnaryRegexpart(AUnaryRegexpart node)
         {
             DefaultCase(node);
         }
@@ -255,6 +239,30 @@ namespace SablePP.Compiler.Analysis
             CaseAParenthesisRegexpart(node);
         }
         public virtual void CaseAParenthesisRegexpart(AParenthesisRegexpart node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AStarModifier node)
+        {
+            CaseAStarModifier(node);
+        }
+        public virtual void CaseAStarModifier(AStarModifier node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AQuestionModifier node)
+        {
+            CaseAQuestionModifier(node);
+        }
+        public virtual void CaseAQuestionModifier(AQuestionModifier node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(APlusModifier node)
+        {
+            CaseAPlusModifier(node);
+        }
+        public virtual void CaseAPlusModifier(APlusModifier node)
         {
             DefaultCase(node);
         }
@@ -346,35 +354,11 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(ACleanProdtranslation node)
+        public void Visit(AProdtranslation node)
         {
-            CaseACleanProdtranslation(node);
+            CaseAProdtranslation(node);
         }
-        public virtual void CaseACleanProdtranslation(ACleanProdtranslation node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AStarProdtranslation node)
-        {
-            CaseAStarProdtranslation(node);
-        }
-        public virtual void CaseAStarProdtranslation(AStarProdtranslation node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(APlusProdtranslation node)
-        {
-            CaseAPlusProdtranslation(node);
-        }
-        public virtual void CaseAPlusProdtranslation(APlusProdtranslation node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AQuestionProdtranslation node)
-        {
-            CaseAQuestionProdtranslation(node);
-        }
-        public virtual void CaseAQuestionProdtranslation(AQuestionProdtranslation node)
+        public virtual void CaseAProdtranslation(AProdtranslation node)
         {
             DefaultCase(node);
         }
@@ -466,35 +450,11 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(ASimpleElement node)
+        public void Visit(AElement node)
         {
-            CaseASimpleElement(node);
+            CaseAElement(node);
         }
-        public virtual void CaseASimpleElement(ASimpleElement node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AStarElement node)
-        {
-            CaseAStarElement(node);
-        }
-        public virtual void CaseAStarElement(AStarElement node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AQuestionElement node)
-        {
-            CaseAQuestionElement(node);
-        }
-        public virtual void CaseAQuestionElement(AQuestionElement node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(APlusElement node)
-        {
-            CaseAPlusElement(node);
-        }
-        public virtual void CaseAPlusElement(APlusElement node)
+        public virtual void CaseAElement(AElement node)
         {
             DefaultCase(node);
         }
@@ -1522,61 +1482,23 @@ namespace SablePP.Compiler.Analysis
             OutAHexRegexpart(node);
             OutPRegexpart(node);
         }
-        public virtual void InAUnarystarRegexpart(AUnarystarRegexpart node)
+        public virtual void InAUnaryRegexpart(AUnaryRegexpart node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAUnarystarRegexpart(AUnarystarRegexpart node)
+        public virtual void OutAUnaryRegexpart(AUnaryRegexpart node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAUnarystarRegexpart(AUnarystarRegexpart node)
+        public override void CaseAUnaryRegexpart(AUnaryRegexpart node)
         {
             InPRegexpart(node);
-            InAUnarystarRegexpart(node);
+            InAUnaryRegexpart(node);
             
             Visit((dynamic)node.Regexpart);
-            Visit(node.Star);
+            Visit((dynamic)node.Modifier);
             
-            OutAUnarystarRegexpart(node);
-            OutPRegexpart(node);
-        }
-        public virtual void InAUnaryquestionRegexpart(AUnaryquestionRegexpart node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAUnaryquestionRegexpart(AUnaryquestionRegexpart node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node)
-        {
-            InPRegexpart(node);
-            InAUnaryquestionRegexpart(node);
-            
-            Visit((dynamic)node.Regexpart);
-            Visit(node.Question);
-            
-            OutAUnaryquestionRegexpart(node);
-            OutPRegexpart(node);
-        }
-        public virtual void InAUnaryplusRegexpart(AUnaryplusRegexpart node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAUnaryplusRegexpart(AUnaryplusRegexpart node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAUnaryplusRegexpart(AUnaryplusRegexpart node)
-        {
-            InPRegexpart(node);
-            InAUnaryplusRegexpart(node);
-            
-            Visit((dynamic)node.Regexpart);
-            Visit(node.Plus);
-            
-            OutAUnaryplusRegexpart(node);
+            OutAUnaryRegexpart(node);
             OutPRegexpart(node);
         }
         public virtual void InABinaryplusRegexpart(ABinaryplusRegexpart node)
@@ -1700,6 +1622,69 @@ namespace SablePP.Compiler.Analysis
             
             OutAParenthesisRegexpart(node);
             OutPRegexpart(node);
+        }
+        
+        public virtual void InPModifier(PModifier node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPModifier(PModifier node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAStarModifier(AStarModifier node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAStarModifier(AStarModifier node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAStarModifier(AStarModifier node)
+        {
+            InPModifier(node);
+            InAStarModifier(node);
+            
+            Visit(node.Star);
+            
+            OutAStarModifier(node);
+            OutPModifier(node);
+        }
+        public virtual void InAQuestionModifier(AQuestionModifier node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAQuestionModifier(AQuestionModifier node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAQuestionModifier(AQuestionModifier node)
+        {
+            InPModifier(node);
+            InAQuestionModifier(node);
+            
+            Visit(node.QMark);
+            
+            OutAQuestionModifier(node);
+            OutPModifier(node);
+        }
+        public virtual void InAPlusModifier(APlusModifier node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAPlusModifier(APlusModifier node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAPlusModifier(APlusModifier node)
+        {
+            InPModifier(node);
+            InAPlusModifier(node);
+            
+            Visit(node.Plus);
+            
+            OutAPlusModifier(node);
+            OutPModifier(node);
         }
         
         public virtual void InPStates(PStates node)
@@ -2024,83 +2009,25 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultPOut(node);
         }
-        public virtual void InACleanProdtranslation(ACleanProdtranslation node)
+        public virtual void InAProdtranslation(AProdtranslation node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutACleanProdtranslation(ACleanProdtranslation node)
+        public virtual void OutAProdtranslation(AProdtranslation node)
         {
             DefaultAOut(node);
         }
-        public override void CaseACleanProdtranslation(ACleanProdtranslation node)
+        public override void CaseAProdtranslation(AProdtranslation node)
         {
             InPProdtranslation(node);
-            InACleanProdtranslation(node);
+            InAProdtranslation(node);
             
             Visit(node.Arrow);
             Visit(node.Identifier);
+            if (node.HasModifier)
+                Visit((dynamic)node.Modifier);
             
-            OutACleanProdtranslation(node);
-            OutPProdtranslation(node);
-        }
-        public virtual void InAStarProdtranslation(AStarProdtranslation node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStarProdtranslation(AStarProdtranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStarProdtranslation(AStarProdtranslation node)
-        {
-            InPProdtranslation(node);
-            InAStarProdtranslation(node);
-            
-            Visit(node.Arrow);
-            Visit(node.Identifier);
-            Visit(node.Star);
-            
-            OutAStarProdtranslation(node);
-            OutPProdtranslation(node);
-        }
-        public virtual void InAPlusProdtranslation(APlusProdtranslation node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAPlusProdtranslation(APlusProdtranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAPlusProdtranslation(APlusProdtranslation node)
-        {
-            InPProdtranslation(node);
-            InAPlusProdtranslation(node);
-            
-            Visit(node.Arrow);
-            Visit(node.Identifier);
-            Visit(node.Plus);
-            
-            OutAPlusProdtranslation(node);
-            OutPProdtranslation(node);
-        }
-        public virtual void InAQuestionProdtranslation(AQuestionProdtranslation node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAQuestionProdtranslation(AQuestionProdtranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAQuestionProdtranslation(AQuestionProdtranslation node)
-        {
-            InPProdtranslation(node);
-            InAQuestionProdtranslation(node);
-            
-            Visit(node.Arrow);
-            Visit(node.Identifier);
-            Visit(node.QMark);
-            
-            OutAQuestionProdtranslation(node);
+            OutAProdtranslation(node);
             OutPProdtranslation(node);
         }
         
@@ -2378,87 +2305,26 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultPOut(node);
         }
-        public virtual void InASimpleElement(ASimpleElement node)
+        public virtual void InAElement(AElement node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutASimpleElement(ASimpleElement node)
+        public virtual void OutAElement(AElement node)
         {
             DefaultAOut(node);
         }
-        public override void CaseASimpleElement(ASimpleElement node)
+        public override void CaseAElement(AElement node)
         {
             InPElement(node);
-            InASimpleElement(node);
+            InAElement(node);
             
             if (node.HasElementname)
                 Visit((dynamic)node.Elementname);
             Visit((dynamic)node.Elementid);
+            if (node.HasModifier)
+                Visit((dynamic)node.Modifier);
             
-            OutASimpleElement(node);
-            OutPElement(node);
-        }
-        public virtual void InAStarElement(AStarElement node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStarElement(AStarElement node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStarElement(AStarElement node)
-        {
-            InPElement(node);
-            InAStarElement(node);
-            
-            if (node.HasElementname)
-                Visit((dynamic)node.Elementname);
-            Visit((dynamic)node.Elementid);
-            Visit(node.Star);
-            
-            OutAStarElement(node);
-            OutPElement(node);
-        }
-        public virtual void InAQuestionElement(AQuestionElement node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAQuestionElement(AQuestionElement node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAQuestionElement(AQuestionElement node)
-        {
-            InPElement(node);
-            InAQuestionElement(node);
-            
-            if (node.HasElementname)
-                Visit((dynamic)node.Elementname);
-            Visit((dynamic)node.Elementid);
-            Visit(node.QMark);
-            
-            OutAQuestionElement(node);
-            OutPElement(node);
-        }
-        public virtual void InAPlusElement(APlusElement node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAPlusElement(APlusElement node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAPlusElement(APlusElement node)
-        {
-            InPElement(node);
-            InAPlusElement(node);
-            
-            if (node.HasElementname)
-                Visit((dynamic)node.Elementname);
-            Visit((dynamic)node.Elementid);
-            Visit(node.Plus);
-            
-            OutAPlusElement(node);
+            OutAElement(node);
             OutPElement(node);
         }
         
@@ -3332,61 +3198,23 @@ namespace SablePP.Compiler.Analysis
             OutAHexRegexpart(node);
             OutPRegexpart(node);
         }
-        public virtual void InAUnarystarRegexpart(AUnarystarRegexpart node)
+        public virtual void InAUnaryRegexpart(AUnaryRegexpart node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAUnarystarRegexpart(AUnarystarRegexpart node)
+        public virtual void OutAUnaryRegexpart(AUnaryRegexpart node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAUnarystarRegexpart(AUnarystarRegexpart node)
+        public override void CaseAUnaryRegexpart(AUnaryRegexpart node)
         {
             InPRegexpart(node);
-            InAUnarystarRegexpart(node);
+            InAUnaryRegexpart(node);
             
-            Visit(node.Star);
+            Visit((dynamic)node.Modifier);
             Visit((dynamic)node.Regexpart);
             
-            OutAUnarystarRegexpart(node);
-            OutPRegexpart(node);
-        }
-        public virtual void InAUnaryquestionRegexpart(AUnaryquestionRegexpart node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAUnaryquestionRegexpart(AUnaryquestionRegexpart node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node)
-        {
-            InPRegexpart(node);
-            InAUnaryquestionRegexpart(node);
-            
-            Visit(node.Question);
-            Visit((dynamic)node.Regexpart);
-            
-            OutAUnaryquestionRegexpart(node);
-            OutPRegexpart(node);
-        }
-        public virtual void InAUnaryplusRegexpart(AUnaryplusRegexpart node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAUnaryplusRegexpart(AUnaryplusRegexpart node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAUnaryplusRegexpart(AUnaryplusRegexpart node)
-        {
-            InPRegexpart(node);
-            InAUnaryplusRegexpart(node);
-            
-            Visit(node.Plus);
-            Visit((dynamic)node.Regexpart);
-            
-            OutAUnaryplusRegexpart(node);
+            OutAUnaryRegexpart(node);
             OutPRegexpart(node);
         }
         public virtual void InABinaryplusRegexpart(ABinaryplusRegexpart node)
@@ -3510,6 +3338,69 @@ namespace SablePP.Compiler.Analysis
             
             OutAParenthesisRegexpart(node);
             OutPRegexpart(node);
+        }
+        
+        public virtual void InPModifier(PModifier node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPModifier(PModifier node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAStarModifier(AStarModifier node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAStarModifier(AStarModifier node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAStarModifier(AStarModifier node)
+        {
+            InPModifier(node);
+            InAStarModifier(node);
+            
+            Visit(node.Star);
+            
+            OutAStarModifier(node);
+            OutPModifier(node);
+        }
+        public virtual void InAQuestionModifier(AQuestionModifier node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAQuestionModifier(AQuestionModifier node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAQuestionModifier(AQuestionModifier node)
+        {
+            InPModifier(node);
+            InAQuestionModifier(node);
+            
+            Visit(node.QMark);
+            
+            OutAQuestionModifier(node);
+            OutPModifier(node);
+        }
+        public virtual void InAPlusModifier(APlusModifier node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAPlusModifier(APlusModifier node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAPlusModifier(APlusModifier node)
+        {
+            InPModifier(node);
+            InAPlusModifier(node);
+            
+            Visit(node.Plus);
+            
+            OutAPlusModifier(node);
+            OutPModifier(node);
         }
         
         public virtual void InPStates(PStates node)
@@ -3834,83 +3725,25 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultPOut(node);
         }
-        public virtual void InACleanProdtranslation(ACleanProdtranslation node)
+        public virtual void InAProdtranslation(AProdtranslation node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutACleanProdtranslation(ACleanProdtranslation node)
+        public virtual void OutAProdtranslation(AProdtranslation node)
         {
             DefaultAOut(node);
         }
-        public override void CaseACleanProdtranslation(ACleanProdtranslation node)
+        public override void CaseAProdtranslation(AProdtranslation node)
         {
             InPProdtranslation(node);
-            InACleanProdtranslation(node);
+            InAProdtranslation(node);
             
+            if (node.HasModifier)
+                Visit((dynamic)node.Modifier);
             Visit(node.Identifier);
             Visit(node.Arrow);
             
-            OutACleanProdtranslation(node);
-            OutPProdtranslation(node);
-        }
-        public virtual void InAStarProdtranslation(AStarProdtranslation node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStarProdtranslation(AStarProdtranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStarProdtranslation(AStarProdtranslation node)
-        {
-            InPProdtranslation(node);
-            InAStarProdtranslation(node);
-            
-            Visit(node.Star);
-            Visit(node.Identifier);
-            Visit(node.Arrow);
-            
-            OutAStarProdtranslation(node);
-            OutPProdtranslation(node);
-        }
-        public virtual void InAPlusProdtranslation(APlusProdtranslation node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAPlusProdtranslation(APlusProdtranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAPlusProdtranslation(APlusProdtranslation node)
-        {
-            InPProdtranslation(node);
-            InAPlusProdtranslation(node);
-            
-            Visit(node.Plus);
-            Visit(node.Identifier);
-            Visit(node.Arrow);
-            
-            OutAPlusProdtranslation(node);
-            OutPProdtranslation(node);
-        }
-        public virtual void InAQuestionProdtranslation(AQuestionProdtranslation node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAQuestionProdtranslation(AQuestionProdtranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAQuestionProdtranslation(AQuestionProdtranslation node)
-        {
-            InPProdtranslation(node);
-            InAQuestionProdtranslation(node);
-            
-            Visit(node.QMark);
-            Visit(node.Identifier);
-            Visit(node.Arrow);
-            
-            OutAQuestionProdtranslation(node);
+            OutAProdtranslation(node);
             OutPProdtranslation(node);
         }
         
@@ -4188,87 +4021,26 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultPOut(node);
         }
-        public virtual void InASimpleElement(ASimpleElement node)
+        public virtual void InAElement(AElement node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutASimpleElement(ASimpleElement node)
+        public virtual void OutAElement(AElement node)
         {
             DefaultAOut(node);
         }
-        public override void CaseASimpleElement(ASimpleElement node)
+        public override void CaseAElement(AElement node)
         {
             InPElement(node);
-            InASimpleElement(node);
+            InAElement(node);
             
+            if (node.HasModifier)
+                Visit((dynamic)node.Modifier);
             Visit((dynamic)node.Elementid);
             if (node.HasElementname)
                 Visit((dynamic)node.Elementname);
             
-            OutASimpleElement(node);
-            OutPElement(node);
-        }
-        public virtual void InAStarElement(AStarElement node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStarElement(AStarElement node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStarElement(AStarElement node)
-        {
-            InPElement(node);
-            InAStarElement(node);
-            
-            Visit(node.Star);
-            Visit((dynamic)node.Elementid);
-            if (node.HasElementname)
-                Visit((dynamic)node.Elementname);
-            
-            OutAStarElement(node);
-            OutPElement(node);
-        }
-        public virtual void InAQuestionElement(AQuestionElement node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAQuestionElement(AQuestionElement node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAQuestionElement(AQuestionElement node)
-        {
-            InPElement(node);
-            InAQuestionElement(node);
-            
-            Visit(node.QMark);
-            Visit((dynamic)node.Elementid);
-            if (node.HasElementname)
-                Visit((dynamic)node.Elementname);
-            
-            OutAQuestionElement(node);
-            OutPElement(node);
-        }
-        public virtual void InAPlusElement(APlusElement node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAPlusElement(APlusElement node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAPlusElement(APlusElement node)
-        {
-            InPElement(node);
-            InAPlusElement(node);
-            
-            Visit(node.Plus);
-            Visit((dynamic)node.Elementid);
-            if (node.HasElementname)
-                Visit((dynamic)node.Elementname);
-            
-            OutAPlusElement(node);
+            OutAElement(node);
             OutPElement(node);
         }
         
@@ -4771,27 +4543,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(AUnarystarRegexpart node)
+        public Result Visit(AUnaryRegexpart node)
         {
-            return CaseAUnarystarRegexpart(node);
+            return CaseAUnaryRegexpart(node);
         }
-        public virtual Result CaseAUnarystarRegexpart(AUnarystarRegexpart node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AUnaryquestionRegexpart node)
-        {
-            return CaseAUnaryquestionRegexpart(node);
-        }
-        public virtual Result CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AUnaryplusRegexpart node)
-        {
-            return CaseAUnaryplusRegexpart(node);
-        }
-        public virtual Result CaseAUnaryplusRegexpart(AUnaryplusRegexpart node)
+        public virtual Result CaseAUnaryRegexpart(AUnaryRegexpart node)
         {
             return DefaultCase(node);
         }
@@ -4840,6 +4596,30 @@ namespace SablePP.Compiler.Analysis
             return CaseAParenthesisRegexpart(node);
         }
         public virtual Result CaseAParenthesisRegexpart(AParenthesisRegexpart node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(AStarModifier node)
+        {
+            return CaseAStarModifier(node);
+        }
+        public virtual Result CaseAStarModifier(AStarModifier node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(AQuestionModifier node)
+        {
+            return CaseAQuestionModifier(node);
+        }
+        public virtual Result CaseAQuestionModifier(AQuestionModifier node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(APlusModifier node)
+        {
+            return CaseAPlusModifier(node);
+        }
+        public virtual Result CaseAPlusModifier(APlusModifier node)
         {
             return DefaultCase(node);
         }
@@ -4931,35 +4711,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(ACleanProdtranslation node)
+        public Result Visit(AProdtranslation node)
         {
-            return CaseACleanProdtranslation(node);
+            return CaseAProdtranslation(node);
         }
-        public virtual Result CaseACleanProdtranslation(ACleanProdtranslation node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AStarProdtranslation node)
-        {
-            return CaseAStarProdtranslation(node);
-        }
-        public virtual Result CaseAStarProdtranslation(AStarProdtranslation node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(APlusProdtranslation node)
-        {
-            return CaseAPlusProdtranslation(node);
-        }
-        public virtual Result CaseAPlusProdtranslation(APlusProdtranslation node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AQuestionProdtranslation node)
-        {
-            return CaseAQuestionProdtranslation(node);
-        }
-        public virtual Result CaseAQuestionProdtranslation(AQuestionProdtranslation node)
+        public virtual Result CaseAProdtranslation(AProdtranslation node)
         {
             return DefaultCase(node);
         }
@@ -5051,35 +4807,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(ASimpleElement node)
+        public Result Visit(AElement node)
         {
-            return CaseASimpleElement(node);
+            return CaseAElement(node);
         }
-        public virtual Result CaseASimpleElement(ASimpleElement node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AStarElement node)
-        {
-            return CaseAStarElement(node);
-        }
-        public virtual Result CaseAStarElement(AStarElement node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AQuestionElement node)
-        {
-            return CaseAQuestionElement(node);
-        }
-        public virtual Result CaseAQuestionElement(AQuestionElement node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(APlusElement node)
-        {
-            return CaseAPlusElement(node);
-        }
-        public virtual Result CaseAPlusElement(APlusElement node)
+        public virtual Result CaseAElement(AElement node)
         {
             return DefaultCase(node);
         }
@@ -5731,27 +5463,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(AUnarystarRegexpart node, T1 arg1)
+        public Result Visit(AUnaryRegexpart node, T1 arg1)
         {
-            return CaseAUnarystarRegexpart(node, arg1);
+            return CaseAUnaryRegexpart(node, arg1);
         }
-        public virtual Result CaseAUnarystarRegexpart(AUnarystarRegexpart node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AUnaryquestionRegexpart node, T1 arg1)
-        {
-            return CaseAUnaryquestionRegexpart(node, arg1);
-        }
-        public virtual Result CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AUnaryplusRegexpart node, T1 arg1)
-        {
-            return CaseAUnaryplusRegexpart(node, arg1);
-        }
-        public virtual Result CaseAUnaryplusRegexpart(AUnaryplusRegexpart node, T1 arg1)
+        public virtual Result CaseAUnaryRegexpart(AUnaryRegexpart node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -5800,6 +5516,30 @@ namespace SablePP.Compiler.Analysis
             return CaseAParenthesisRegexpart(node, arg1);
         }
         public virtual Result CaseAParenthesisRegexpart(AParenthesisRegexpart node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AStarModifier node, T1 arg1)
+        {
+            return CaseAStarModifier(node, arg1);
+        }
+        public virtual Result CaseAStarModifier(AStarModifier node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AQuestionModifier node, T1 arg1)
+        {
+            return CaseAQuestionModifier(node, arg1);
+        }
+        public virtual Result CaseAQuestionModifier(AQuestionModifier node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(APlusModifier node, T1 arg1)
+        {
+            return CaseAPlusModifier(node, arg1);
+        }
+        public virtual Result CaseAPlusModifier(APlusModifier node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -5891,35 +5631,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(ACleanProdtranslation node, T1 arg1)
+        public Result Visit(AProdtranslation node, T1 arg1)
         {
-            return CaseACleanProdtranslation(node, arg1);
+            return CaseAProdtranslation(node, arg1);
         }
-        public virtual Result CaseACleanProdtranslation(ACleanProdtranslation node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AStarProdtranslation node, T1 arg1)
-        {
-            return CaseAStarProdtranslation(node, arg1);
-        }
-        public virtual Result CaseAStarProdtranslation(AStarProdtranslation node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(APlusProdtranslation node, T1 arg1)
-        {
-            return CaseAPlusProdtranslation(node, arg1);
-        }
-        public virtual Result CaseAPlusProdtranslation(APlusProdtranslation node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AQuestionProdtranslation node, T1 arg1)
-        {
-            return CaseAQuestionProdtranslation(node, arg1);
-        }
-        public virtual Result CaseAQuestionProdtranslation(AQuestionProdtranslation node, T1 arg1)
+        public virtual Result CaseAProdtranslation(AProdtranslation node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -6011,35 +5727,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(ASimpleElement node, T1 arg1)
+        public Result Visit(AElement node, T1 arg1)
         {
-            return CaseASimpleElement(node, arg1);
+            return CaseAElement(node, arg1);
         }
-        public virtual Result CaseASimpleElement(ASimpleElement node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AStarElement node, T1 arg1)
-        {
-            return CaseAStarElement(node, arg1);
-        }
-        public virtual Result CaseAStarElement(AStarElement node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AQuestionElement node, T1 arg1)
-        {
-            return CaseAQuestionElement(node, arg1);
-        }
-        public virtual Result CaseAQuestionElement(AQuestionElement node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(APlusElement node, T1 arg1)
-        {
-            return CaseAPlusElement(node, arg1);
-        }
-        public virtual Result CaseAPlusElement(APlusElement node, T1 arg1)
+        public virtual Result CaseAElement(AElement node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -6691,27 +6383,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(AUnarystarRegexpart node, T1 arg1, T2 arg2)
+        public Result Visit(AUnaryRegexpart node, T1 arg1, T2 arg2)
         {
-            return CaseAUnarystarRegexpart(node, arg1, arg2);
+            return CaseAUnaryRegexpart(node, arg1, arg2);
         }
-        public virtual Result CaseAUnarystarRegexpart(AUnarystarRegexpart node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AUnaryquestionRegexpart node, T1 arg1, T2 arg2)
-        {
-            return CaseAUnaryquestionRegexpart(node, arg1, arg2);
-        }
-        public virtual Result CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AUnaryplusRegexpart node, T1 arg1, T2 arg2)
-        {
-            return CaseAUnaryplusRegexpart(node, arg1, arg2);
-        }
-        public virtual Result CaseAUnaryplusRegexpart(AUnaryplusRegexpart node, T1 arg1, T2 arg2)
+        public virtual Result CaseAUnaryRegexpart(AUnaryRegexpart node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -6760,6 +6436,30 @@ namespace SablePP.Compiler.Analysis
             return CaseAParenthesisRegexpart(node, arg1, arg2);
         }
         public virtual Result CaseAParenthesisRegexpart(AParenthesisRegexpart node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(AStarModifier node, T1 arg1, T2 arg2)
+        {
+            return CaseAStarModifier(node, arg1, arg2);
+        }
+        public virtual Result CaseAStarModifier(AStarModifier node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(AQuestionModifier node, T1 arg1, T2 arg2)
+        {
+            return CaseAQuestionModifier(node, arg1, arg2);
+        }
+        public virtual Result CaseAQuestionModifier(AQuestionModifier node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(APlusModifier node, T1 arg1, T2 arg2)
+        {
+            return CaseAPlusModifier(node, arg1, arg2);
+        }
+        public virtual Result CaseAPlusModifier(APlusModifier node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -6851,35 +6551,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(ACleanProdtranslation node, T1 arg1, T2 arg2)
+        public Result Visit(AProdtranslation node, T1 arg1, T2 arg2)
         {
-            return CaseACleanProdtranslation(node, arg1, arg2);
+            return CaseAProdtranslation(node, arg1, arg2);
         }
-        public virtual Result CaseACleanProdtranslation(ACleanProdtranslation node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AStarProdtranslation node, T1 arg1, T2 arg2)
-        {
-            return CaseAStarProdtranslation(node, arg1, arg2);
-        }
-        public virtual Result CaseAStarProdtranslation(AStarProdtranslation node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(APlusProdtranslation node, T1 arg1, T2 arg2)
-        {
-            return CaseAPlusProdtranslation(node, arg1, arg2);
-        }
-        public virtual Result CaseAPlusProdtranslation(APlusProdtranslation node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AQuestionProdtranslation node, T1 arg1, T2 arg2)
-        {
-            return CaseAQuestionProdtranslation(node, arg1, arg2);
-        }
-        public virtual Result CaseAQuestionProdtranslation(AQuestionProdtranslation node, T1 arg1, T2 arg2)
+        public virtual Result CaseAProdtranslation(AProdtranslation node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -6971,35 +6647,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(ASimpleElement node, T1 arg1, T2 arg2)
+        public Result Visit(AElement node, T1 arg1, T2 arg2)
         {
-            return CaseASimpleElement(node, arg1, arg2);
+            return CaseAElement(node, arg1, arg2);
         }
-        public virtual Result CaseASimpleElement(ASimpleElement node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AStarElement node, T1 arg1, T2 arg2)
-        {
-            return CaseAStarElement(node, arg1, arg2);
-        }
-        public virtual Result CaseAStarElement(AStarElement node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AQuestionElement node, T1 arg1, T2 arg2)
-        {
-            return CaseAQuestionElement(node, arg1, arg2);
-        }
-        public virtual Result CaseAQuestionElement(AQuestionElement node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(APlusElement node, T1 arg1, T2 arg2)
-        {
-            return CaseAPlusElement(node, arg1, arg2);
-        }
-        public virtual Result CaseAPlusElement(APlusElement node, T1 arg1, T2 arg2)
+        public virtual Result CaseAElement(AElement node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -7651,27 +7303,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(AUnarystarRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(AUnaryRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAUnarystarRegexpart(node, arg1, arg2, arg3);
+            return CaseAUnaryRegexpart(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAUnarystarRegexpart(AUnarystarRegexpart node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AUnaryquestionRegexpart node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAUnaryquestionRegexpart(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAUnaryquestionRegexpart(AUnaryquestionRegexpart node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AUnaryplusRegexpart node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAUnaryplusRegexpart(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAUnaryplusRegexpart(AUnaryplusRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseAUnaryRegexpart(AUnaryRegexpart node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
@@ -7720,6 +7356,30 @@ namespace SablePP.Compiler.Analysis
             return CaseAParenthesisRegexpart(node, arg1, arg2, arg3);
         }
         public virtual Result CaseAParenthesisRegexpart(AParenthesisRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AStarModifier node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAStarModifier(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAStarModifier(AStarModifier node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AQuestionModifier node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAQuestionModifier(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAQuestionModifier(AQuestionModifier node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(APlusModifier node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAPlusModifier(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAPlusModifier(APlusModifier node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
@@ -7811,35 +7471,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(ACleanProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(AProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseACleanProdtranslation(node, arg1, arg2, arg3);
+            return CaseAProdtranslation(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseACleanProdtranslation(ACleanProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AStarProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAStarProdtranslation(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAStarProdtranslation(AStarProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(APlusProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAPlusProdtranslation(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAPlusProdtranslation(APlusProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AQuestionProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAQuestionProdtranslation(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAQuestionProdtranslation(AQuestionProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseAProdtranslation(AProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
@@ -7931,35 +7567,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(ASimpleElement node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(AElement node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseASimpleElement(node, arg1, arg2, arg3);
+            return CaseAElement(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseASimpleElement(ASimpleElement node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AStarElement node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAStarElement(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAStarElement(AStarElement node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AQuestionElement node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAQuestionElement(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAQuestionElement(AQuestionElement node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(APlusElement node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAPlusElement(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAPlusElement(APlusElement node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseAElement(AElement node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
