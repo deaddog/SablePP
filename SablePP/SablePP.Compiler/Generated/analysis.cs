@@ -2037,10 +2037,8 @@ namespace SablePP.Compiler.Analysis
             InPProdtranslation(node);
             InACleanProdtranslation(node);
             
-            Visit(node.Lpar);
             Visit(node.Arrow);
             Visit(node.Identifier);
-            Visit(node.Rpar);
             
             OutACleanProdtranslation(node);
             OutPProdtranslation(node);
@@ -2058,11 +2056,9 @@ namespace SablePP.Compiler.Analysis
             InPProdtranslation(node);
             InAStarProdtranslation(node);
             
-            Visit(node.Lpar);
             Visit(node.Arrow);
             Visit(node.Identifier);
             Visit(node.Star);
-            Visit(node.Rpar);
             
             OutAStarProdtranslation(node);
             OutPProdtranslation(node);
@@ -2080,11 +2076,9 @@ namespace SablePP.Compiler.Analysis
             InPProdtranslation(node);
             InAPlusProdtranslation(node);
             
-            Visit(node.Lpar);
             Visit(node.Arrow);
             Visit(node.Identifier);
             Visit(node.Plus);
-            Visit(node.Rpar);
             
             OutAPlusProdtranslation(node);
             OutPProdtranslation(node);
@@ -2102,11 +2096,9 @@ namespace SablePP.Compiler.Analysis
             InPProdtranslation(node);
             InAQuestionProdtranslation(node);
             
-            Visit(node.Lpar);
             Visit(node.Arrow);
             Visit(node.Identifier);
             Visit(node.QMark);
-            Visit(node.Rpar);
             
             OutAQuestionProdtranslation(node);
             OutPProdtranslation(node);
@@ -2133,10 +2125,8 @@ namespace SablePP.Compiler.Analysis
             InPTranslation(node);
             InAFullTranslation(node);
             
-            Visit(node.Lpar);
             Visit(node.Arrow);
             Visit((dynamic)node.Translation);
-            Visit(node.Rpar);
             
             OutAFullTranslation(node);
             OutPTranslation(node);
@@ -3857,10 +3847,8 @@ namespace SablePP.Compiler.Analysis
             InPProdtranslation(node);
             InACleanProdtranslation(node);
             
-            Visit(node.Rpar);
             Visit(node.Identifier);
             Visit(node.Arrow);
-            Visit(node.Lpar);
             
             OutACleanProdtranslation(node);
             OutPProdtranslation(node);
@@ -3878,11 +3866,9 @@ namespace SablePP.Compiler.Analysis
             InPProdtranslation(node);
             InAStarProdtranslation(node);
             
-            Visit(node.Rpar);
             Visit(node.Star);
             Visit(node.Identifier);
             Visit(node.Arrow);
-            Visit(node.Lpar);
             
             OutAStarProdtranslation(node);
             OutPProdtranslation(node);
@@ -3900,11 +3886,9 @@ namespace SablePP.Compiler.Analysis
             InPProdtranslation(node);
             InAPlusProdtranslation(node);
             
-            Visit(node.Rpar);
             Visit(node.Plus);
             Visit(node.Identifier);
             Visit(node.Arrow);
-            Visit(node.Lpar);
             
             OutAPlusProdtranslation(node);
             OutPProdtranslation(node);
@@ -3922,11 +3906,9 @@ namespace SablePP.Compiler.Analysis
             InPProdtranslation(node);
             InAQuestionProdtranslation(node);
             
-            Visit(node.Rpar);
             Visit(node.QMark);
             Visit(node.Identifier);
             Visit(node.Arrow);
-            Visit(node.Lpar);
             
             OutAQuestionProdtranslation(node);
             OutPProdtranslation(node);
@@ -3953,10 +3935,8 @@ namespace SablePP.Compiler.Analysis
             InPTranslation(node);
             InAFullTranslation(node);
             
-            Visit(node.Rpar);
             Visit((dynamic)node.Translation);
             Visit(node.Arrow);
-            Visit(node.Lpar);
             
             OutAFullTranslation(node);
             OutPTranslation(node);

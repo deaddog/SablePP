@@ -3805,34 +3805,15 @@ namespace SablePP.Compiler.Nodes
     }
     public abstract partial class PProdtranslation : Production<PProdtranslation>
     {
-        private TLBrace _lpar_;
         private TArrow _arrow_;
         private TIdentifier _identifier_;
-        private TRBrace _rpar_;
         
-        public PProdtranslation(TLBrace _lpar_, TArrow _arrow_, TIdentifier _identifier_, TRBrace _rpar_)
+        public PProdtranslation(TArrow _arrow_, TIdentifier _identifier_)
         {
-            this.Lpar = _lpar_;
             this.Arrow = _arrow_;
             this.Identifier = _identifier_;
-            this.Rpar = _rpar_;
         }
         
-        public TLBrace Lpar
-        {
-            get { return _lpar_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Lpar in PProdtranslation cannot be null.", "value");
-                
-                if (_lpar_ != null)
-                    SetParent(_lpar_, null);
-                SetParent(value, this);
-                
-                _lpar_ = value;
-            }
-        }
         public TArrow Arrow
         {
             get { return _arrow_; }
@@ -3863,41 +3844,18 @@ namespace SablePP.Compiler.Nodes
                 _identifier_ = value;
             }
         }
-        public TRBrace Rpar
-        {
-            get { return _rpar_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Rpar in PProdtranslation cannot be null.", "value");
-                
-                if (_rpar_ != null)
-                    SetParent(_rpar_, null);
-                SetParent(value, this);
-                
-                _rpar_ = value;
-            }
-        }
         
     }
     public partial class ACleanProdtranslation : PProdtranslation
     {
-        public ACleanProdtranslation(TLBrace _lpar_, TArrow _arrow_, TIdentifier _identifier_, TRBrace _rpar_)
-            : base(_lpar_, _arrow_, _identifier_, _rpar_)
+        public ACleanProdtranslation(TArrow _arrow_, TIdentifier _identifier_)
+            : base(_arrow_, _identifier_)
         {
         }
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Lpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Lpar in ACleanProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TLBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Lpar = newChild as TLBrace;
-            }
-            else if (Arrow == oldChild)
+            if (Arrow == oldChild)
             {
                 if (newChild == null)
                     throw new ArgumentException("Arrow in ACleanProdtranslation cannot be null.", "newChild");
@@ -3913,40 +3871,30 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
-            else if (Rpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Rpar in ACleanProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TRBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Rpar = newChild as TRBrace;
-            }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            yield return Lpar;
             yield return Arrow;
             yield return Identifier;
-            yield return Rpar;
         }
         
         public override PProdtranslation Clone()
         {
-            return new ACleanProdtranslation(Lpar.Clone(), Arrow.Clone(), Identifier.Clone(), Rpar.Clone());
+            return new ACleanProdtranslation(Arrow.Clone(), Identifier.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3}", Lpar, Arrow, Identifier, Rpar);
+            return string.Format("{0} {1}", Arrow, Identifier);
         }
     }
     public partial class AStarProdtranslation : PProdtranslation
     {
         private TStar _star_;
         
-        public AStarProdtranslation(TLBrace _lpar_, TArrow _arrow_, TIdentifier _identifier_, TStar _star_, TRBrace _rpar_)
-            : base(_lpar_, _arrow_, _identifier_, _rpar_)
+        public AStarProdtranslation(TArrow _arrow_, TIdentifier _identifier_, TStar _star_)
+            : base(_arrow_, _identifier_)
         {
             this.Star = _star_;
         }
@@ -3969,15 +3917,7 @@ namespace SablePP.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Lpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Lpar in AStarProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TLBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Lpar = newChild as TLBrace;
-            }
-            else if (Arrow == oldChild)
+            if (Arrow == oldChild)
             {
                 if (newChild == null)
                     throw new ArgumentException("Arrow in AStarProdtranslation cannot be null.", "newChild");
@@ -4001,41 +3941,31 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Star = newChild as TStar;
             }
-            else if (Rpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Rpar in AStarProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TRBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Rpar = newChild as TRBrace;
-            }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            yield return Lpar;
             yield return Arrow;
             yield return Identifier;
             yield return Star;
-            yield return Rpar;
         }
         
         public override PProdtranslation Clone()
         {
-            return new AStarProdtranslation(Lpar.Clone(), Arrow.Clone(), Identifier.Clone(), Star.Clone(), Rpar.Clone());
+            return new AStarProdtranslation(Arrow.Clone(), Identifier.Clone(), Star.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3} {4}", Lpar, Arrow, Identifier, Star, Rpar);
+            return string.Format("{0} {1} {2}", Arrow, Identifier, Star);
         }
     }
     public partial class APlusProdtranslation : PProdtranslation
     {
         private TPlus _plus_;
         
-        public APlusProdtranslation(TLBrace _lpar_, TArrow _arrow_, TIdentifier _identifier_, TPlus _plus_, TRBrace _rpar_)
-            : base(_lpar_, _arrow_, _identifier_, _rpar_)
+        public APlusProdtranslation(TArrow _arrow_, TIdentifier _identifier_, TPlus _plus_)
+            : base(_arrow_, _identifier_)
         {
             this.Plus = _plus_;
         }
@@ -4058,15 +3988,7 @@ namespace SablePP.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Lpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Lpar in APlusProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TLBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Lpar = newChild as TLBrace;
-            }
-            else if (Arrow == oldChild)
+            if (Arrow == oldChild)
             {
                 if (newChild == null)
                     throw new ArgumentException("Arrow in APlusProdtranslation cannot be null.", "newChild");
@@ -4090,41 +4012,31 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Plus = newChild as TPlus;
             }
-            else if (Rpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Rpar in APlusProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TRBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Rpar = newChild as TRBrace;
-            }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            yield return Lpar;
             yield return Arrow;
             yield return Identifier;
             yield return Plus;
-            yield return Rpar;
         }
         
         public override PProdtranslation Clone()
         {
-            return new APlusProdtranslation(Lpar.Clone(), Arrow.Clone(), Identifier.Clone(), Plus.Clone(), Rpar.Clone());
+            return new APlusProdtranslation(Arrow.Clone(), Identifier.Clone(), Plus.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3} {4}", Lpar, Arrow, Identifier, Plus, Rpar);
+            return string.Format("{0} {1} {2}", Arrow, Identifier, Plus);
         }
     }
     public partial class AQuestionProdtranslation : PProdtranslation
     {
         private TQMark _q_mark_;
         
-        public AQuestionProdtranslation(TLBrace _lpar_, TArrow _arrow_, TIdentifier _identifier_, TQMark _q_mark_, TRBrace _rpar_)
-            : base(_lpar_, _arrow_, _identifier_, _rpar_)
+        public AQuestionProdtranslation(TArrow _arrow_, TIdentifier _identifier_, TQMark _q_mark_)
+            : base(_arrow_, _identifier_)
         {
             this.QMark = _q_mark_;
         }
@@ -4147,15 +4059,7 @@ namespace SablePP.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Lpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Lpar in AQuestionProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TLBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Lpar = newChild as TLBrace;
-            }
-            else if (Arrow == oldChild)
+            if (Arrow == oldChild)
             {
                 if (newChild == null)
                     throw new ArgumentException("Arrow in AQuestionProdtranslation cannot be null.", "newChild");
@@ -4179,33 +4083,23 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 QMark = newChild as TQMark;
             }
-            else if (Rpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Rpar in AQuestionProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TRBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Rpar = newChild as TRBrace;
-            }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            yield return Lpar;
             yield return Arrow;
             yield return Identifier;
             yield return QMark;
-            yield return Rpar;
         }
         
         public override PProdtranslation Clone()
         {
-            return new AQuestionProdtranslation(Lpar.Clone(), Arrow.Clone(), Identifier.Clone(), QMark.Clone(), Rpar.Clone());
+            return new AQuestionProdtranslation(Arrow.Clone(), Identifier.Clone(), QMark.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3} {4}", Lpar, Arrow, Identifier, QMark, Rpar);
+            return string.Format("{0} {1} {2}", Arrow, Identifier, QMark);
         }
     }
     public abstract partial class PTranslation : Production<PTranslation>
@@ -4217,35 +4111,16 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AFullTranslation : PTranslation
     {
-        private TLBrace _lpar_;
         private TArrow _arrow_;
         private PTranslation _translation_;
-        private TRBrace _rpar_;
         
-        public AFullTranslation(TLBrace _lpar_, TArrow _arrow_, PTranslation _translation_, TRBrace _rpar_)
+        public AFullTranslation(TArrow _arrow_, PTranslation _translation_)
             : base()
         {
-            this.Lpar = _lpar_;
             this.Arrow = _arrow_;
             this.Translation = _translation_;
-            this.Rpar = _rpar_;
         }
         
-        public TLBrace Lpar
-        {
-            get { return _lpar_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Lpar in AFullTranslation cannot be null.", "value");
-                
-                if (_lpar_ != null)
-                    SetParent(_lpar_, null);
-                SetParent(value, this);
-                
-                _lpar_ = value;
-            }
-        }
         public TArrow Arrow
         {
             get { return _arrow_; }
@@ -4276,33 +4151,10 @@ namespace SablePP.Compiler.Nodes
                 _translation_ = value;
             }
         }
-        public TRBrace Rpar
-        {
-            get { return _rpar_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Rpar in AFullTranslation cannot be null.", "value");
-                
-                if (_rpar_ != null)
-                    SetParent(_rpar_, null);
-                SetParent(value, this);
-                
-                _rpar_ = value;
-            }
-        }
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Lpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Lpar in AFullTranslation cannot be null.", "newChild");
-                if (!(newChild is TLBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Lpar = newChild as TLBrace;
-            }
-            else if (Arrow == oldChild)
+            if (Arrow == oldChild)
             {
                 if (newChild == null)
                     throw new ArgumentException("Arrow in AFullTranslation cannot be null.", "newChild");
@@ -4318,32 +4170,22 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Translation = newChild as PTranslation;
             }
-            else if (Rpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Rpar in AFullTranslation cannot be null.", "newChild");
-                if (!(newChild is TRBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Rpar = newChild as TRBrace;
-            }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            yield return Lpar;
             yield return Arrow;
             yield return Translation;
-            yield return Rpar;
         }
         
         public override PTranslation Clone()
         {
-            return new AFullTranslation(Lpar.Clone(), Arrow.Clone(), Translation.Clone(), Rpar.Clone());
+            return new AFullTranslation(Arrow.Clone(), Translation.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3}", Lpar, Arrow, Translation, Rpar);
+            return string.Format("{0} {1}", Arrow, Translation);
         }
     }
     public partial class ANewTranslation : PTranslation
