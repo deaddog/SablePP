@@ -100,7 +100,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             base.CaseAHelpers(node);
         }
-        public override void CaseAIdentifierRegexpart(AIdentifierRegexpart node)
+        public override void CaseAIdentifierRegex(AIdentifierRegex node)
         {
             if (!helpers.Link(node.Identifier))
                 RegisterError(node.Identifier, "The helper {0} has not been defined.", node.Identifier);
