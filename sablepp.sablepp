@@ -238,7 +238,8 @@ Productions
         ;
     
     alttrans {-> translation}
-        = l_brace arrow translation r_brace {-> New translation.full(l_brace, arrow, translation.translation, r_brace)}
+        = {braces} l_brace arrow translation r_brace {-> New translation.full(arrow, translation.translation)}
+        | arrow translation {-> New translation.full(arrow, translation.translation)}
         ;
     translation
         = {id} translationid {-> translationid.translation}
@@ -394,7 +395,7 @@ Abstract Syntax Tree
         ;
     
     translation
-        = {full} [lpar]:l_brace arrow translation [rpar]:r_brace
+        = {full} arrow translation
         | {new} new [production]:identifier [lpar]:l_par [arguments]:translation_listitem+ [rpar]:r_par
         | {newalternative} new [production]:identifier dot [alternative]:identifier [lpar]:l_par [arguments]:translation_listitem+ [rpar]:r_par
         | {list} [lpar]:l_bkt [elements]:translation_listitem+ [rpar]:r_bkt
