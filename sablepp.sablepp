@@ -1,7 +1,7 @@
 ﻿Namespace SablePP.Compiler;
 
 Helpers
-    all = [0 .. 0xFFFF];  
+    all = [0 .. 0xFFFF];
     lowercase = ['a' .. 'z'];
     uppercase = ['A' .. 'Z'];
     digit = ['0' .. '9'];
@@ -22,7 +22,7 @@ Helpers
     long_comment = '/*' not_star* '*'+ (not_star_slash not_star* '*'+)* '/';
     comment = short_comment | long_comment;
 
-    letter = lowercase | uppercase | '_' | '$'; 
+    letter = lowercase | uppercase | '_' | '$';
     id_part = lowercase (lowercase | digit)*;
 
 States
@@ -127,7 +127,7 @@ Productions
         | {hi} highlightrules { -> New section.highlight(highlightrules.highlightrules) }
         ;
 
-    package = 
+    package =
         packagetoken packagename semicolon;
 
     helpers
@@ -227,10 +227,14 @@ Productions
         ;
     
     prodtrans {-> prodtranslation}
-        = {clean} l_brace arrow identifier r_brace {-> New prodtranslation.clean(l_brace, arrow, identifier, r_brace)}
-        | {star} l_brace arrow identifier star r_brace {-> New prodtranslation.star(l_brace, arrow, identifier, star, r_brace)}
-        | {plus} l_brace arrow identifier plus r_brace {-> New prodtranslation.plus(l_brace, arrow, identifier, plus, r_brace)}
-        | {question} l_brace arrow identifier q_mark r_brace {-> New prodtranslation.question(l_brace, arrow, identifier, q_mark, r_brace)}
+        = {clean} l_brace arrow identifier r_brace {-> New prodtranslation.clean(arrow, identifier)}
+        | {star} l_brace arrow identifier star r_brace {-> New prodtranslation.star(arrow, identifier, star)}
+        | {plus} l_brace arrow identifier plus r_brace {-> New prodtranslation.plus(arrow, identifier, plus)}
+        | {question} l_brace arrow identifier q_mark r_brace {-> New prodtranslation.question(arrow, identifier, q_mark)}
+        | {clean2} arrow identifier {-> New prodtranslation.clean(arrow, identifier)}
+        | {star2} arrow identifier star {-> New prodtranslation.star(arrow, identifier, star)}
+        | {plus2} arrow identifier plus {-> New prodtranslation.plus(arrow, identifier, plus)}
+        | {question2} arrow identifier q_mark {-> New prodtranslation.question(arrow, identifier, q_mark)}
         ;
     
     alttrans {-> translation}
@@ -383,10 +387,10 @@ Abstract Syntax Tree
     production = identifier prodtranslation? equal productionrule semicolon;
     
     prodtranslation
-        = {clean} [lpar]:l_brace arrow identifier [rpar]:r_brace
-        | {star} [lpar]:l_brace arrow identifier star [rpar]:r_brace
-        | {plus} [lpar]:l_brace arrow identifier plus [rpar]:r_brace
-        | {question} [lpar]:l_brace arrow identifier q_mark [rpar]:r_brace
+        = {clean} arrow identifier
+        | {star} arrow identifier star
+        | {plus} arrow identifier plus
+        | {question} arrow identifier q_mark
         ;
     
     translation
