@@ -71,6 +71,23 @@ namespace SablePP.Compiler
             DefaultCase(new Nodes.TPackagetoken("Package", node.Line, node.Position));
         }
 
+        public override void CaseAFullTranslation(Nodes.AFullTranslation node)
+        {
+            write("{ ");
+            base.CaseAFullTranslation(node);
+            write("}");
+        }
+        public override void InPProdtranslation(Nodes.PProdtranslation node)
+        {
+            write("{");
+            base.InPProdtranslation(node);
+        }
+        public override void OutPProdtranslation(Nodes.PProdtranslation node)
+        {
+            base.OutPProdtranslation(node);
+            write("}");
+        }
+
         public override void DefaultCase(Node node)
         {
             if (node is Token)
