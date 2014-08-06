@@ -157,7 +157,7 @@ namespace SablePP.Compiler.Generate.Parsing
 
         private static string[] getListTypes(AGrammar grammar)
         {
-            List<string> types = new List<string>();
+            Dictionary<Node, string> translateTypes = new Dictionary<Node, string>();
 
             foreach (var p in grammar.Productions.Productions)
                 foreach (var a in p.Productionrule.Alternatives)
@@ -165,11 +165,14 @@ namespace SablePP.Compiler.Generate.Parsing
                     {
                         var t = e.ElementType;
                         if (t == ElementTypes.Plus || t == ElementTypes.Star)
-                            if (!types.Contains(e.ClassName))
-                                types.Add(e.ClassName);
+                        {
+                            var decl = e.Elementid.Identifier as SablePP.Compiler.Nodes.Identifiers.DeclarationIdentifier;
+                            if (!translateTypes.ContainsKey(decl.Declaration))
+                                translateTypes.Add(decl, e.ClassName);
+                        }
                     }
 
-            return types.ToArray();
+            return translateTypes.Values.ToArray();
         }
 
         private int reduceCase = 0;
