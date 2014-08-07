@@ -20,14 +20,20 @@ namespace SablePP.Compiler.Nodes.Identifiers
         private Node declaration;
 
         public DeclarationIdentifier(string text, int line, int position, Node declaration)
-            :base(text, line, position)
+            : base(text, line, position)
         {
             this.declaration = declaration;
+        }
+
+        public DeclarationIdentifier(string text, int line, int position)
+            : this(text, line, position, null)
+        {
         }
 
         public Node Declaration
         {
             get { return declaration; }
+            protected set { declaration = value; }
         }
     }
 }

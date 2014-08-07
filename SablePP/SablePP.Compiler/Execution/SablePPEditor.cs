@@ -80,20 +80,6 @@ namespace SablePP.Compiler.Execution
                         r.SetStyle(highlightstyle);
                     }
             }
-            else if (find != null && find is StateIdentifier)
-            {
-                var id = find as StateIdentifier;
-                goToButton.Enabled = true;
-
-                foreach (var token in DepthFirstTreeWalker.GetTokens(CodeTextBox.LastResult.Tree).OfType<StateIdentifier>())
-                    if (id.Declaration == token.Declaration)
-                    {
-                        var r = CodeTextBox.RangeFromToken(token);
-                        if (!CodeTextBox.Range.Contains(r.Start) || !(CodeTextBox.Range.Contains(r.End)))
-                            return;
-                        r.SetStyle(highlightstyle);
-                    }
-            }
             else
                 goToButton.Enabled = false;
         }
