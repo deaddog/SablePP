@@ -26,6 +26,7 @@ namespace SablePP.Compiler.Execution
         private ToolStripMenuItem livecodeButton = new ToolStripMenuItem("&LiveCode Tool");
 
         private ToolStripMenuItem goToButton = new ToolStripMenuItem("Go to definition...");
+        private ToolStripMenuItem renameButton = new ToolStripMenuItem("Rename \"{0}\"");
 
         public SablePPEditor()
         {
@@ -65,8 +66,13 @@ namespace SablePP.Compiler.Execution
             goToButton.Enabled = false;
             goToButton.ShortcutKeys = Keys.F12;
 
+            renameButton.Click += renameButton_Click;
+            renameButton.Enabled = false;
+            renameButton.ShortcutKeys = Keys.F11;
+
             EditMenu.DropDownItems.Add(new ToolStripSeparator());
             EditMenu.DropDownItems.Add(goToButton);
+            EditMenu.DropDownItems.Add(renameButton);
 
             codeTextBox1.Styles[0] = highlightstyle;
         }
@@ -149,7 +155,7 @@ namespace SablePP.Compiler.Execution
             if (find != null && find is DeclarationIdentifier)
             {
                 var id = find as DeclarationIdentifier;
-                goToButton.Enabled = true;
+                goToButton.Enabled = renameButton.Enabled = true;
 
                 foreach (var token in DepthFirstTreeWalker.GetTokens(codeTextBox1.LastResult.Tree).OfType<DeclarationIdentifier>())
                     if (id.Declaration == token.Declaration || (id.IsPElement && id.AsPElement.Elementid.Identifier == token))
@@ -161,7 +167,7 @@ namespace SablePP.Compiler.Execution
                     }
             }
             else
-                goToButton.Enabled = false;
+                goToButton.Enabled = renameButton.Enabled = false;
         }
         private void codeTextBox1_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -226,6 +232,10 @@ namespace SablePP.Compiler.Execution
                         codeTextBox1.DoSelectionVisible();
                 }
             }
+        }
+        private void renameButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         protected override void OnFileChanged(EventArgs e)
