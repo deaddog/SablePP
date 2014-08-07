@@ -98,6 +98,7 @@
             this.MaximumSize = new System.Drawing.Size(800, 138);
             this.MinimumSize = new System.Drawing.Size(300, 138);
             this.Name = "RenameForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Renaming {0}";
             this.ResumeLayout(false);
             this.PerformLayout();

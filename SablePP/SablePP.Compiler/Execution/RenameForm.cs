@@ -6,6 +6,9 @@ namespace SablePP.Compiler.Execution
 {
     public partial class RenameForm : Form
     {
+        private string type;
+        private string name;
+
         public static string GetDeclarationType(DeclarationIdentifier identifier)
         {
             if (identifier.IsPAlternative)
@@ -33,6 +36,22 @@ namespace SablePP.Compiler.Execution
         public RenameForm()
         {
             InitializeComponent();
+        }
+
+        public RenameForm(DeclarationIdentifier identifier)
+            : this()
+        {
+            this.type = GetDeclarationType(identifier);
+            this.name = identifier.Text;
+
+            this.Text = string.Format(this.Text, name);
+            this.label1.Text = string.Format(this.label1.Text, name, type);
+            this.textBox1.Text = name;
+        }
+
+        public string IdentifierName
+        {
+            get { return textBox1.Text; }
         }
     }
 }
