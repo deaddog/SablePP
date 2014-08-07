@@ -146,99 +146,99 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(ARegex node)
+        public void Visit(ACharRegex node)
         {
-            CaseARegex(node);
+            CaseACharRegex(node);
         }
-        public virtual void CaseARegex(ARegex node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(ARegexOrpart node)
-        {
-            CaseARegexOrpart(node);
-        }
-        public virtual void CaseARegexOrpart(ARegexOrpart node)
+        public virtual void CaseACharRegex(ACharRegex node)
         {
             DefaultCase(node);
         }
-        public void Visit(ACharRegexpart node)
+        public void Visit(ADecRegex node)
         {
-            CaseACharRegexpart(node);
+            CaseADecRegex(node);
         }
-        public virtual void CaseACharRegexpart(ACharRegexpart node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(ADecRegexpart node)
-        {
-            CaseADecRegexpart(node);
-        }
-        public virtual void CaseADecRegexpart(ADecRegexpart node)
+        public virtual void CaseADecRegex(ADecRegex node)
         {
             DefaultCase(node);
         }
-        public void Visit(AHexRegexpart node)
+        public void Visit(AHexRegex node)
         {
-            CaseAHexRegexpart(node);
+            CaseAHexRegex(node);
         }
-        public virtual void CaseAHexRegexpart(AHexRegexpart node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AUnaryRegexpart node)
-        {
-            CaseAUnaryRegexpart(node);
-        }
-        public virtual void CaseAUnaryRegexpart(AUnaryRegexpart node)
+        public virtual void CaseAHexRegex(AHexRegex node)
         {
             DefaultCase(node);
         }
-        public void Visit(ABinaryplusRegexpart node)
+        public void Visit(AConcatenatedRegex node)
         {
-            CaseABinaryplusRegexpart(node);
+            CaseAConcatenatedRegex(node);
         }
-        public virtual void CaseABinaryplusRegexpart(ABinaryplusRegexpart node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(ABinaryminusRegexpart node)
-        {
-            CaseABinaryminusRegexpart(node);
-        }
-        public virtual void CaseABinaryminusRegexpart(ABinaryminusRegexpart node)
+        public virtual void CaseAConcatenatedRegex(AConcatenatedRegex node)
         {
             DefaultCase(node);
         }
-        public void Visit(AIntervalRegexpart node)
+        public void Visit(AUnaryRegex node)
         {
-            CaseAIntervalRegexpart(node);
+            CaseAUnaryRegex(node);
         }
-        public virtual void CaseAIntervalRegexpart(AIntervalRegexpart node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AStringRegexpart node)
-        {
-            CaseAStringRegexpart(node);
-        }
-        public virtual void CaseAStringRegexpart(AStringRegexpart node)
+        public virtual void CaseAUnaryRegex(AUnaryRegex node)
         {
             DefaultCase(node);
         }
-        public void Visit(AIdentifierRegexpart node)
+        public void Visit(ABinaryplusRegex node)
         {
-            CaseAIdentifierRegexpart(node);
+            CaseABinaryplusRegex(node);
         }
-        public virtual void CaseAIdentifierRegexpart(AIdentifierRegexpart node)
+        public virtual void CaseABinaryplusRegex(ABinaryplusRegex node)
         {
             DefaultCase(node);
         }
-        public void Visit(AParenthesisRegexpart node)
+        public void Visit(ABinaryminusRegex node)
         {
-            CaseAParenthesisRegexpart(node);
+            CaseABinaryminusRegex(node);
         }
-        public virtual void CaseAParenthesisRegexpart(AParenthesisRegexpart node)
+        public virtual void CaseABinaryminusRegex(ABinaryminusRegex node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AIntervalRegex node)
+        {
+            CaseAIntervalRegex(node);
+        }
+        public virtual void CaseAIntervalRegex(AIntervalRegex node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AStringRegex node)
+        {
+            CaseAStringRegex(node);
+        }
+        public virtual void CaseAStringRegex(AStringRegex node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AIdentifierRegex node)
+        {
+            CaseAIdentifierRegex(node);
+        }
+        public virtual void CaseAIdentifierRegex(AIdentifierRegex node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AParenthesisRegex node)
+        {
+            CaseAParenthesisRegex(node);
+        }
+        public virtual void CaseAParenthesisRegex(AParenthesisRegex node)
+        {
+            DefaultCase(node);
+        }
+        public void Visit(AOrRegex node)
+        {
+            CaseAOrRegex(node);
+        }
+        public virtual void CaseAOrRegex(AOrRegex node)
         {
             DefaultCase(node);
         }
@@ -1372,147 +1372,109 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultPOut(node);
         }
-        public virtual void InARegex(ARegex node)
+        public virtual void InACharRegex(ACharRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutARegex(ARegex node)
+        public virtual void OutACharRegex(ACharRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseARegex(ARegex node)
+        public override void CaseACharRegex(ACharRegex node)
         {
             InPRegex(node);
-            InARegex(node);
-            
-            Visit(node.Parts);
-            
-            OutARegex(node);
-            OutPRegex(node);
-        }
-        
-        public virtual void InPOrpart(POrpart node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPOrpart(POrpart node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InARegexOrpart(ARegexOrpart node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutARegexOrpart(ARegexOrpart node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseARegexOrpart(ARegexOrpart node)
-        {
-            InPOrpart(node);
-            InARegexOrpart(node);
-            
-            if (node.HasPipe)
-                Visit(node.Pipe);
-            Visit(node.Regexparts);
-            
-            OutARegexOrpart(node);
-            OutPOrpart(node);
-        }
-        
-        public virtual void InPRegexpart(PRegexpart node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPRegexpart(PRegexpart node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InACharRegexpart(ACharRegexpart node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutACharRegexpart(ACharRegexpart node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseACharRegexpart(ACharRegexpart node)
-        {
-            InPRegexpart(node);
-            InACharRegexpart(node);
+            InACharRegex(node);
             
             Visit(node.Character);
             
-            OutACharRegexpart(node);
-            OutPRegexpart(node);
+            OutACharRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InADecRegexpart(ADecRegexpart node)
+        public virtual void InADecRegex(ADecRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutADecRegexpart(ADecRegexpart node)
+        public virtual void OutADecRegex(ADecRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseADecRegexpart(ADecRegexpart node)
+        public override void CaseADecRegex(ADecRegex node)
         {
-            InPRegexpart(node);
-            InADecRegexpart(node);
+            InPRegex(node);
+            InADecRegex(node);
             
             Visit(node.DecChar);
             
-            OutADecRegexpart(node);
-            OutPRegexpart(node);
+            OutADecRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InAHexRegexpart(AHexRegexpart node)
+        public virtual void InAHexRegex(AHexRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAHexRegexpart(AHexRegexpart node)
+        public virtual void OutAHexRegex(AHexRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAHexRegexpart(AHexRegexpart node)
+        public override void CaseAHexRegex(AHexRegex node)
         {
-            InPRegexpart(node);
-            InAHexRegexpart(node);
+            InPRegex(node);
+            InAHexRegex(node);
             
             Visit(node.HexChar);
             
-            OutAHexRegexpart(node);
-            OutPRegexpart(node);
+            OutAHexRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InAUnaryRegexpart(AUnaryRegexpart node)
+        public virtual void InAConcatenatedRegex(AConcatenatedRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAUnaryRegexpart(AUnaryRegexpart node)
+        public virtual void OutAConcatenatedRegex(AConcatenatedRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAUnaryRegexpart(AUnaryRegexpart node)
+        public override void CaseAConcatenatedRegex(AConcatenatedRegex node)
         {
-            InPRegexpart(node);
-            InAUnaryRegexpart(node);
+            InPRegex(node);
+            InAConcatenatedRegex(node);
             
-            Visit((dynamic)node.Regexpart);
+            Visit(node.Regexs);
+            
+            OutAConcatenatedRegex(node);
+            OutPRegex(node);
+        }
+        public virtual void InAUnaryRegex(AUnaryRegex node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAUnaryRegex(AUnaryRegex node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAUnaryRegex(AUnaryRegex node)
+        {
+            InPRegex(node);
+            InAUnaryRegex(node);
+            
+            Visit((dynamic)node.Regex);
             Visit((dynamic)node.Modifier);
             
-            OutAUnaryRegexpart(node);
-            OutPRegexpart(node);
+            OutAUnaryRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InABinaryplusRegexpart(ABinaryplusRegexpart node)
+        public virtual void InABinaryplusRegex(ABinaryplusRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutABinaryplusRegexpart(ABinaryplusRegexpart node)
+        public virtual void OutABinaryplusRegex(ABinaryplusRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseABinaryplusRegexpart(ABinaryplusRegexpart node)
+        public override void CaseABinaryplusRegex(ABinaryplusRegex node)
         {
-            InPRegexpart(node);
-            InABinaryplusRegexpart(node);
+            InPRegex(node);
+            InABinaryplusRegex(node);
             
             Visit(node.Lpar);
             Visit((dynamic)node.Left);
@@ -1520,21 +1482,21 @@ namespace SablePP.Compiler.Analysis
             Visit((dynamic)node.Right);
             Visit(node.Rpar);
             
-            OutABinaryplusRegexpart(node);
-            OutPRegexpart(node);
+            OutABinaryplusRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InABinaryminusRegexpart(ABinaryminusRegexpart node)
+        public virtual void InABinaryminusRegex(ABinaryminusRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutABinaryminusRegexpart(ABinaryminusRegexpart node)
+        public virtual void OutABinaryminusRegex(ABinaryminusRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseABinaryminusRegexpart(ABinaryminusRegexpart node)
+        public override void CaseABinaryminusRegex(ABinaryminusRegex node)
         {
-            InPRegexpart(node);
-            InABinaryminusRegexpart(node);
+            InPRegex(node);
+            InABinaryminusRegex(node);
             
             Visit(node.Lpar);
             Visit((dynamic)node.Left);
@@ -1542,21 +1504,21 @@ namespace SablePP.Compiler.Analysis
             Visit((dynamic)node.Right);
             Visit(node.Rpar);
             
-            OutABinaryminusRegexpart(node);
-            OutPRegexpart(node);
+            OutABinaryminusRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InAIntervalRegexpart(AIntervalRegexpart node)
+        public virtual void InAIntervalRegex(AIntervalRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAIntervalRegexpart(AIntervalRegexpart node)
+        public virtual void OutAIntervalRegex(AIntervalRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAIntervalRegexpart(AIntervalRegexpart node)
+        public override void CaseAIntervalRegex(AIntervalRegex node)
         {
-            InPRegexpart(node);
-            InAIntervalRegexpart(node);
+            InPRegex(node);
+            InAIntervalRegex(node);
             
             Visit(node.Lpar);
             Visit((dynamic)node.Left);
@@ -1564,64 +1526,82 @@ namespace SablePP.Compiler.Analysis
             Visit((dynamic)node.Right);
             Visit(node.Rpar);
             
-            OutAIntervalRegexpart(node);
-            OutPRegexpart(node);
+            OutAIntervalRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InAStringRegexpart(AStringRegexpart node)
+        public virtual void InAStringRegex(AStringRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAStringRegexpart(AStringRegexpart node)
+        public virtual void OutAStringRegex(AStringRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAStringRegexpart(AStringRegexpart node)
+        public override void CaseAStringRegex(AStringRegex node)
         {
-            InPRegexpart(node);
-            InAStringRegexpart(node);
+            InPRegex(node);
+            InAStringRegex(node);
             
             Visit(node.String);
             
-            OutAStringRegexpart(node);
-            OutPRegexpart(node);
+            OutAStringRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InAIdentifierRegexpart(AIdentifierRegexpart node)
+        public virtual void InAIdentifierRegex(AIdentifierRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAIdentifierRegexpart(AIdentifierRegexpart node)
+        public virtual void OutAIdentifierRegex(AIdentifierRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAIdentifierRegexpart(AIdentifierRegexpart node)
+        public override void CaseAIdentifierRegex(AIdentifierRegex node)
         {
-            InPRegexpart(node);
-            InAIdentifierRegexpart(node);
+            InPRegex(node);
+            InAIdentifierRegex(node);
             
             Visit(node.Identifier);
             
-            OutAIdentifierRegexpart(node);
-            OutPRegexpart(node);
+            OutAIdentifierRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InAParenthesisRegexpart(AParenthesisRegexpart node)
+        public virtual void InAParenthesisRegex(AParenthesisRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAParenthesisRegexpart(AParenthesisRegexpart node)
+        public virtual void OutAParenthesisRegex(AParenthesisRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAParenthesisRegexpart(AParenthesisRegexpart node)
+        public override void CaseAParenthesisRegex(AParenthesisRegex node)
         {
-            InPRegexpart(node);
-            InAParenthesisRegexpart(node);
+            InPRegex(node);
+            InAParenthesisRegex(node);
             
             Visit(node.Lpar);
             Visit((dynamic)node.Regex);
             Visit(node.Rpar);
             
-            OutAParenthesisRegexpart(node);
-            OutPRegexpart(node);
+            OutAParenthesisRegex(node);
+            OutPRegex(node);
+        }
+        public virtual void InAOrRegex(AOrRegex node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAOrRegex(AOrRegex node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAOrRegex(AOrRegex node)
+        {
+            InPRegex(node);
+            InAOrRegex(node);
+            
+            Visit(node.Regexs);
+            
+            OutAOrRegex(node);
+            OutPRegex(node);
         }
         
         public virtual void InPModifier(PModifier node)
@@ -3088,147 +3068,109 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultPOut(node);
         }
-        public virtual void InARegex(ARegex node)
+        public virtual void InACharRegex(ACharRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutARegex(ARegex node)
+        public virtual void OutACharRegex(ACharRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseARegex(ARegex node)
+        public override void CaseACharRegex(ACharRegex node)
         {
             InPRegex(node);
-            InARegex(node);
-            
-            Visit(node.Parts);
-            
-            OutARegex(node);
-            OutPRegex(node);
-        }
-        
-        public virtual void InPOrpart(POrpart node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPOrpart(POrpart node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InARegexOrpart(ARegexOrpart node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutARegexOrpart(ARegexOrpart node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseARegexOrpart(ARegexOrpart node)
-        {
-            InPOrpart(node);
-            InARegexOrpart(node);
-            
-            Visit(node.Regexparts);
-            if (node.HasPipe)
-                Visit(node.Pipe);
-            
-            OutARegexOrpart(node);
-            OutPOrpart(node);
-        }
-        
-        public virtual void InPRegexpart(PRegexpart node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPRegexpart(PRegexpart node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InACharRegexpart(ACharRegexpart node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutACharRegexpart(ACharRegexpart node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseACharRegexpart(ACharRegexpart node)
-        {
-            InPRegexpart(node);
-            InACharRegexpart(node);
+            InACharRegex(node);
             
             Visit(node.Character);
             
-            OutACharRegexpart(node);
-            OutPRegexpart(node);
+            OutACharRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InADecRegexpart(ADecRegexpart node)
+        public virtual void InADecRegex(ADecRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutADecRegexpart(ADecRegexpart node)
+        public virtual void OutADecRegex(ADecRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseADecRegexpart(ADecRegexpart node)
+        public override void CaseADecRegex(ADecRegex node)
         {
-            InPRegexpart(node);
-            InADecRegexpart(node);
+            InPRegex(node);
+            InADecRegex(node);
             
             Visit(node.DecChar);
             
-            OutADecRegexpart(node);
-            OutPRegexpart(node);
+            OutADecRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InAHexRegexpart(AHexRegexpart node)
+        public virtual void InAHexRegex(AHexRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAHexRegexpart(AHexRegexpart node)
+        public virtual void OutAHexRegex(AHexRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAHexRegexpart(AHexRegexpart node)
+        public override void CaseAHexRegex(AHexRegex node)
         {
-            InPRegexpart(node);
-            InAHexRegexpart(node);
+            InPRegex(node);
+            InAHexRegex(node);
             
             Visit(node.HexChar);
             
-            OutAHexRegexpart(node);
-            OutPRegexpart(node);
+            OutAHexRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InAUnaryRegexpart(AUnaryRegexpart node)
+        public virtual void InAConcatenatedRegex(AConcatenatedRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAUnaryRegexpart(AUnaryRegexpart node)
+        public virtual void OutAConcatenatedRegex(AConcatenatedRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAUnaryRegexpart(AUnaryRegexpart node)
+        public override void CaseAConcatenatedRegex(AConcatenatedRegex node)
         {
-            InPRegexpart(node);
-            InAUnaryRegexpart(node);
+            InPRegex(node);
+            InAConcatenatedRegex(node);
+            
+            Visit(node.Regexs);
+            
+            OutAConcatenatedRegex(node);
+            OutPRegex(node);
+        }
+        public virtual void InAUnaryRegex(AUnaryRegex node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAUnaryRegex(AUnaryRegex node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAUnaryRegex(AUnaryRegex node)
+        {
+            InPRegex(node);
+            InAUnaryRegex(node);
             
             Visit((dynamic)node.Modifier);
-            Visit((dynamic)node.Regexpart);
+            Visit((dynamic)node.Regex);
             
-            OutAUnaryRegexpart(node);
-            OutPRegexpart(node);
+            OutAUnaryRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InABinaryplusRegexpart(ABinaryplusRegexpart node)
+        public virtual void InABinaryplusRegex(ABinaryplusRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutABinaryplusRegexpart(ABinaryplusRegexpart node)
+        public virtual void OutABinaryplusRegex(ABinaryplusRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseABinaryplusRegexpart(ABinaryplusRegexpart node)
+        public override void CaseABinaryplusRegex(ABinaryplusRegex node)
         {
-            InPRegexpart(node);
-            InABinaryplusRegexpart(node);
+            InPRegex(node);
+            InABinaryplusRegex(node);
             
             Visit(node.Rpar);
             Visit((dynamic)node.Right);
@@ -3236,21 +3178,21 @@ namespace SablePP.Compiler.Analysis
             Visit((dynamic)node.Left);
             Visit(node.Lpar);
             
-            OutABinaryplusRegexpart(node);
-            OutPRegexpart(node);
+            OutABinaryplusRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InABinaryminusRegexpart(ABinaryminusRegexpart node)
+        public virtual void InABinaryminusRegex(ABinaryminusRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutABinaryminusRegexpart(ABinaryminusRegexpart node)
+        public virtual void OutABinaryminusRegex(ABinaryminusRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseABinaryminusRegexpart(ABinaryminusRegexpart node)
+        public override void CaseABinaryminusRegex(ABinaryminusRegex node)
         {
-            InPRegexpart(node);
-            InABinaryminusRegexpart(node);
+            InPRegex(node);
+            InABinaryminusRegex(node);
             
             Visit(node.Rpar);
             Visit((dynamic)node.Right);
@@ -3258,21 +3200,21 @@ namespace SablePP.Compiler.Analysis
             Visit((dynamic)node.Left);
             Visit(node.Lpar);
             
-            OutABinaryminusRegexpart(node);
-            OutPRegexpart(node);
+            OutABinaryminusRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InAIntervalRegexpart(AIntervalRegexpart node)
+        public virtual void InAIntervalRegex(AIntervalRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAIntervalRegexpart(AIntervalRegexpart node)
+        public virtual void OutAIntervalRegex(AIntervalRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAIntervalRegexpart(AIntervalRegexpart node)
+        public override void CaseAIntervalRegex(AIntervalRegex node)
         {
-            InPRegexpart(node);
-            InAIntervalRegexpart(node);
+            InPRegex(node);
+            InAIntervalRegex(node);
             
             Visit(node.Rpar);
             Visit((dynamic)node.Right);
@@ -3280,64 +3222,82 @@ namespace SablePP.Compiler.Analysis
             Visit((dynamic)node.Left);
             Visit(node.Lpar);
             
-            OutAIntervalRegexpart(node);
-            OutPRegexpart(node);
+            OutAIntervalRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InAStringRegexpart(AStringRegexpart node)
+        public virtual void InAStringRegex(AStringRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAStringRegexpart(AStringRegexpart node)
+        public virtual void OutAStringRegex(AStringRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAStringRegexpart(AStringRegexpart node)
+        public override void CaseAStringRegex(AStringRegex node)
         {
-            InPRegexpart(node);
-            InAStringRegexpart(node);
+            InPRegex(node);
+            InAStringRegex(node);
             
             Visit(node.String);
             
-            OutAStringRegexpart(node);
-            OutPRegexpart(node);
+            OutAStringRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InAIdentifierRegexpart(AIdentifierRegexpart node)
+        public virtual void InAIdentifierRegex(AIdentifierRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAIdentifierRegexpart(AIdentifierRegexpart node)
+        public virtual void OutAIdentifierRegex(AIdentifierRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAIdentifierRegexpart(AIdentifierRegexpart node)
+        public override void CaseAIdentifierRegex(AIdentifierRegex node)
         {
-            InPRegexpart(node);
-            InAIdentifierRegexpart(node);
+            InPRegex(node);
+            InAIdentifierRegex(node);
             
             Visit(node.Identifier);
             
-            OutAIdentifierRegexpart(node);
-            OutPRegexpart(node);
+            OutAIdentifierRegex(node);
+            OutPRegex(node);
         }
-        public virtual void InAParenthesisRegexpart(AParenthesisRegexpart node)
+        public virtual void InAParenthesisRegex(AParenthesisRegex node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAParenthesisRegexpart(AParenthesisRegexpart node)
+        public virtual void OutAParenthesisRegex(AParenthesisRegex node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAParenthesisRegexpart(AParenthesisRegexpart node)
+        public override void CaseAParenthesisRegex(AParenthesisRegex node)
         {
-            InPRegexpart(node);
-            InAParenthesisRegexpart(node);
+            InPRegex(node);
+            InAParenthesisRegex(node);
             
             Visit(node.Rpar);
             Visit((dynamic)node.Regex);
             Visit(node.Lpar);
             
-            OutAParenthesisRegexpart(node);
-            OutPRegexpart(node);
+            OutAParenthesisRegex(node);
+            OutPRegex(node);
+        }
+        public virtual void InAOrRegex(AOrRegex node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAOrRegex(AOrRegex node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAOrRegex(AOrRegex node)
+        {
+            InPRegex(node);
+            InAOrRegex(node);
+            
+            Visit(node.Regexs);
+            
+            OutAOrRegex(node);
+            OutPRegex(node);
         }
         
         public virtual void InPModifier(PModifier node)
@@ -4503,99 +4463,99 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(ARegex node)
+        public Result Visit(ACharRegex node)
         {
-            return CaseARegex(node);
+            return CaseACharRegex(node);
         }
-        public virtual Result CaseARegex(ARegex node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(ARegexOrpart node)
-        {
-            return CaseARegexOrpart(node);
-        }
-        public virtual Result CaseARegexOrpart(ARegexOrpart node)
+        public virtual Result CaseACharRegex(ACharRegex node)
         {
             return DefaultCase(node);
         }
-        public Result Visit(ACharRegexpart node)
+        public Result Visit(ADecRegex node)
         {
-            return CaseACharRegexpart(node);
+            return CaseADecRegex(node);
         }
-        public virtual Result CaseACharRegexpart(ACharRegexpart node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(ADecRegexpart node)
-        {
-            return CaseADecRegexpart(node);
-        }
-        public virtual Result CaseADecRegexpart(ADecRegexpart node)
+        public virtual Result CaseADecRegex(ADecRegex node)
         {
             return DefaultCase(node);
         }
-        public Result Visit(AHexRegexpart node)
+        public Result Visit(AHexRegex node)
         {
-            return CaseAHexRegexpart(node);
+            return CaseAHexRegex(node);
         }
-        public virtual Result CaseAHexRegexpart(AHexRegexpart node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AUnaryRegexpart node)
-        {
-            return CaseAUnaryRegexpart(node);
-        }
-        public virtual Result CaseAUnaryRegexpart(AUnaryRegexpart node)
+        public virtual Result CaseAHexRegex(AHexRegex node)
         {
             return DefaultCase(node);
         }
-        public Result Visit(ABinaryplusRegexpart node)
+        public Result Visit(AConcatenatedRegex node)
         {
-            return CaseABinaryplusRegexpart(node);
+            return CaseAConcatenatedRegex(node);
         }
-        public virtual Result CaseABinaryplusRegexpart(ABinaryplusRegexpart node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(ABinaryminusRegexpart node)
-        {
-            return CaseABinaryminusRegexpart(node);
-        }
-        public virtual Result CaseABinaryminusRegexpart(ABinaryminusRegexpart node)
+        public virtual Result CaseAConcatenatedRegex(AConcatenatedRegex node)
         {
             return DefaultCase(node);
         }
-        public Result Visit(AIntervalRegexpart node)
+        public Result Visit(AUnaryRegex node)
         {
-            return CaseAIntervalRegexpart(node);
+            return CaseAUnaryRegex(node);
         }
-        public virtual Result CaseAIntervalRegexpart(AIntervalRegexpart node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AStringRegexpart node)
-        {
-            return CaseAStringRegexpart(node);
-        }
-        public virtual Result CaseAStringRegexpart(AStringRegexpart node)
+        public virtual Result CaseAUnaryRegex(AUnaryRegex node)
         {
             return DefaultCase(node);
         }
-        public Result Visit(AIdentifierRegexpart node)
+        public Result Visit(ABinaryplusRegex node)
         {
-            return CaseAIdentifierRegexpart(node);
+            return CaseABinaryplusRegex(node);
         }
-        public virtual Result CaseAIdentifierRegexpart(AIdentifierRegexpart node)
+        public virtual Result CaseABinaryplusRegex(ABinaryplusRegex node)
         {
             return DefaultCase(node);
         }
-        public Result Visit(AParenthesisRegexpart node)
+        public Result Visit(ABinaryminusRegex node)
         {
-            return CaseAParenthesisRegexpart(node);
+            return CaseABinaryminusRegex(node);
         }
-        public virtual Result CaseAParenthesisRegexpart(AParenthesisRegexpart node)
+        public virtual Result CaseABinaryminusRegex(ABinaryminusRegex node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(AIntervalRegex node)
+        {
+            return CaseAIntervalRegex(node);
+        }
+        public virtual Result CaseAIntervalRegex(AIntervalRegex node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(AStringRegex node)
+        {
+            return CaseAStringRegex(node);
+        }
+        public virtual Result CaseAStringRegex(AStringRegex node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(AIdentifierRegex node)
+        {
+            return CaseAIdentifierRegex(node);
+        }
+        public virtual Result CaseAIdentifierRegex(AIdentifierRegex node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(AParenthesisRegex node)
+        {
+            return CaseAParenthesisRegex(node);
+        }
+        public virtual Result CaseAParenthesisRegex(AParenthesisRegex node)
+        {
+            return DefaultCase(node);
+        }
+        public Result Visit(AOrRegex node)
+        {
+            return CaseAOrRegex(node);
+        }
+        public virtual Result CaseAOrRegex(AOrRegex node)
         {
             return DefaultCase(node);
         }
@@ -5423,99 +5383,99 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(ARegex node, T1 arg1)
+        public Result Visit(ACharRegex node, T1 arg1)
         {
-            return CaseARegex(node, arg1);
+            return CaseACharRegex(node, arg1);
         }
-        public virtual Result CaseARegex(ARegex node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(ARegexOrpart node, T1 arg1)
-        {
-            return CaseARegexOrpart(node, arg1);
-        }
-        public virtual Result CaseARegexOrpart(ARegexOrpart node, T1 arg1)
+        public virtual Result CaseACharRegex(ACharRegex node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(ACharRegexpart node, T1 arg1)
+        public Result Visit(ADecRegex node, T1 arg1)
         {
-            return CaseACharRegexpart(node, arg1);
+            return CaseADecRegex(node, arg1);
         }
-        public virtual Result CaseACharRegexpart(ACharRegexpart node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(ADecRegexpart node, T1 arg1)
-        {
-            return CaseADecRegexpart(node, arg1);
-        }
-        public virtual Result CaseADecRegexpart(ADecRegexpart node, T1 arg1)
+        public virtual Result CaseADecRegex(ADecRegex node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(AHexRegexpart node, T1 arg1)
+        public Result Visit(AHexRegex node, T1 arg1)
         {
-            return CaseAHexRegexpart(node, arg1);
+            return CaseAHexRegex(node, arg1);
         }
-        public virtual Result CaseAHexRegexpart(AHexRegexpart node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AUnaryRegexpart node, T1 arg1)
-        {
-            return CaseAUnaryRegexpart(node, arg1);
-        }
-        public virtual Result CaseAUnaryRegexpart(AUnaryRegexpart node, T1 arg1)
+        public virtual Result CaseAHexRegex(AHexRegex node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(ABinaryplusRegexpart node, T1 arg1)
+        public Result Visit(AConcatenatedRegex node, T1 arg1)
         {
-            return CaseABinaryplusRegexpart(node, arg1);
+            return CaseAConcatenatedRegex(node, arg1);
         }
-        public virtual Result CaseABinaryplusRegexpart(ABinaryplusRegexpart node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(ABinaryminusRegexpart node, T1 arg1)
-        {
-            return CaseABinaryminusRegexpart(node, arg1);
-        }
-        public virtual Result CaseABinaryminusRegexpart(ABinaryminusRegexpart node, T1 arg1)
+        public virtual Result CaseAConcatenatedRegex(AConcatenatedRegex node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(AIntervalRegexpart node, T1 arg1)
+        public Result Visit(AUnaryRegex node, T1 arg1)
         {
-            return CaseAIntervalRegexpart(node, arg1);
+            return CaseAUnaryRegex(node, arg1);
         }
-        public virtual Result CaseAIntervalRegexpart(AIntervalRegexpart node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AStringRegexpart node, T1 arg1)
-        {
-            return CaseAStringRegexpart(node, arg1);
-        }
-        public virtual Result CaseAStringRegexpart(AStringRegexpart node, T1 arg1)
+        public virtual Result CaseAUnaryRegex(AUnaryRegex node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(AIdentifierRegexpart node, T1 arg1)
+        public Result Visit(ABinaryplusRegex node, T1 arg1)
         {
-            return CaseAIdentifierRegexpart(node, arg1);
+            return CaseABinaryplusRegex(node, arg1);
         }
-        public virtual Result CaseAIdentifierRegexpart(AIdentifierRegexpart node, T1 arg1)
+        public virtual Result CaseABinaryplusRegex(ABinaryplusRegex node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(AParenthesisRegexpart node, T1 arg1)
+        public Result Visit(ABinaryminusRegex node, T1 arg1)
         {
-            return CaseAParenthesisRegexpart(node, arg1);
+            return CaseABinaryminusRegex(node, arg1);
         }
-        public virtual Result CaseAParenthesisRegexpart(AParenthesisRegexpart node, T1 arg1)
+        public virtual Result CaseABinaryminusRegex(ABinaryminusRegex node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AIntervalRegex node, T1 arg1)
+        {
+            return CaseAIntervalRegex(node, arg1);
+        }
+        public virtual Result CaseAIntervalRegex(AIntervalRegex node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AStringRegex node, T1 arg1)
+        {
+            return CaseAStringRegex(node, arg1);
+        }
+        public virtual Result CaseAStringRegex(AStringRegex node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AIdentifierRegex node, T1 arg1)
+        {
+            return CaseAIdentifierRegex(node, arg1);
+        }
+        public virtual Result CaseAIdentifierRegex(AIdentifierRegex node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AParenthesisRegex node, T1 arg1)
+        {
+            return CaseAParenthesisRegex(node, arg1);
+        }
+        public virtual Result CaseAParenthesisRegex(AParenthesisRegex node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AOrRegex node, T1 arg1)
+        {
+            return CaseAOrRegex(node, arg1);
+        }
+        public virtual Result CaseAOrRegex(AOrRegex node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -6343,99 +6303,99 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(ARegex node, T1 arg1, T2 arg2)
+        public Result Visit(ACharRegex node, T1 arg1, T2 arg2)
         {
-            return CaseARegex(node, arg1, arg2);
+            return CaseACharRegex(node, arg1, arg2);
         }
-        public virtual Result CaseARegex(ARegex node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(ARegexOrpart node, T1 arg1, T2 arg2)
-        {
-            return CaseARegexOrpart(node, arg1, arg2);
-        }
-        public virtual Result CaseARegexOrpart(ARegexOrpart node, T1 arg1, T2 arg2)
+        public virtual Result CaseACharRegex(ACharRegex node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(ACharRegexpart node, T1 arg1, T2 arg2)
+        public Result Visit(ADecRegex node, T1 arg1, T2 arg2)
         {
-            return CaseACharRegexpart(node, arg1, arg2);
+            return CaseADecRegex(node, arg1, arg2);
         }
-        public virtual Result CaseACharRegexpart(ACharRegexpart node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(ADecRegexpart node, T1 arg1, T2 arg2)
-        {
-            return CaseADecRegexpart(node, arg1, arg2);
-        }
-        public virtual Result CaseADecRegexpart(ADecRegexpart node, T1 arg1, T2 arg2)
+        public virtual Result CaseADecRegex(ADecRegex node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(AHexRegexpart node, T1 arg1, T2 arg2)
+        public Result Visit(AHexRegex node, T1 arg1, T2 arg2)
         {
-            return CaseAHexRegexpart(node, arg1, arg2);
+            return CaseAHexRegex(node, arg1, arg2);
         }
-        public virtual Result CaseAHexRegexpart(AHexRegexpart node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AUnaryRegexpart node, T1 arg1, T2 arg2)
-        {
-            return CaseAUnaryRegexpart(node, arg1, arg2);
-        }
-        public virtual Result CaseAUnaryRegexpart(AUnaryRegexpart node, T1 arg1, T2 arg2)
+        public virtual Result CaseAHexRegex(AHexRegex node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(ABinaryplusRegexpart node, T1 arg1, T2 arg2)
+        public Result Visit(AConcatenatedRegex node, T1 arg1, T2 arg2)
         {
-            return CaseABinaryplusRegexpart(node, arg1, arg2);
+            return CaseAConcatenatedRegex(node, arg1, arg2);
         }
-        public virtual Result CaseABinaryplusRegexpart(ABinaryplusRegexpart node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(ABinaryminusRegexpart node, T1 arg1, T2 arg2)
-        {
-            return CaseABinaryminusRegexpart(node, arg1, arg2);
-        }
-        public virtual Result CaseABinaryminusRegexpart(ABinaryminusRegexpart node, T1 arg1, T2 arg2)
+        public virtual Result CaseAConcatenatedRegex(AConcatenatedRegex node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(AIntervalRegexpart node, T1 arg1, T2 arg2)
+        public Result Visit(AUnaryRegex node, T1 arg1, T2 arg2)
         {
-            return CaseAIntervalRegexpart(node, arg1, arg2);
+            return CaseAUnaryRegex(node, arg1, arg2);
         }
-        public virtual Result CaseAIntervalRegexpart(AIntervalRegexpart node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AStringRegexpart node, T1 arg1, T2 arg2)
-        {
-            return CaseAStringRegexpart(node, arg1, arg2);
-        }
-        public virtual Result CaseAStringRegexpart(AStringRegexpart node, T1 arg1, T2 arg2)
+        public virtual Result CaseAUnaryRegex(AUnaryRegex node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(AIdentifierRegexpart node, T1 arg1, T2 arg2)
+        public Result Visit(ABinaryplusRegex node, T1 arg1, T2 arg2)
         {
-            return CaseAIdentifierRegexpart(node, arg1, arg2);
+            return CaseABinaryplusRegex(node, arg1, arg2);
         }
-        public virtual Result CaseAIdentifierRegexpart(AIdentifierRegexpart node, T1 arg1, T2 arg2)
+        public virtual Result CaseABinaryplusRegex(ABinaryplusRegex node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(AParenthesisRegexpart node, T1 arg1, T2 arg2)
+        public Result Visit(ABinaryminusRegex node, T1 arg1, T2 arg2)
         {
-            return CaseAParenthesisRegexpart(node, arg1, arg2);
+            return CaseABinaryminusRegex(node, arg1, arg2);
         }
-        public virtual Result CaseAParenthesisRegexpart(AParenthesisRegexpart node, T1 arg1, T2 arg2)
+        public virtual Result CaseABinaryminusRegex(ABinaryminusRegex node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(AIntervalRegex node, T1 arg1, T2 arg2)
+        {
+            return CaseAIntervalRegex(node, arg1, arg2);
+        }
+        public virtual Result CaseAIntervalRegex(AIntervalRegex node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(AStringRegex node, T1 arg1, T2 arg2)
+        {
+            return CaseAStringRegex(node, arg1, arg2);
+        }
+        public virtual Result CaseAStringRegex(AStringRegex node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(AIdentifierRegex node, T1 arg1, T2 arg2)
+        {
+            return CaseAIdentifierRegex(node, arg1, arg2);
+        }
+        public virtual Result CaseAIdentifierRegex(AIdentifierRegex node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(AParenthesisRegex node, T1 arg1, T2 arg2)
+        {
+            return CaseAParenthesisRegex(node, arg1, arg2);
+        }
+        public virtual Result CaseAParenthesisRegex(AParenthesisRegex node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
+        public Result Visit(AOrRegex node, T1 arg1, T2 arg2)
+        {
+            return CaseAOrRegex(node, arg1, arg2);
+        }
+        public virtual Result CaseAOrRegex(AOrRegex node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -7263,99 +7223,99 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(ARegex node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(ACharRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseARegex(node, arg1, arg2, arg3);
+            return CaseACharRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseARegex(ARegex node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(ARegexOrpart node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseARegexOrpart(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseARegexOrpart(ARegexOrpart node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseACharRegex(ACharRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(ACharRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(ADecRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseACharRegexpart(node, arg1, arg2, arg3);
+            return CaseADecRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseACharRegexpart(ACharRegexpart node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(ADecRegexpart node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseADecRegexpart(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseADecRegexpart(ADecRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseADecRegex(ADecRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(AHexRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(AHexRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAHexRegexpart(node, arg1, arg2, arg3);
+            return CaseAHexRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAHexRegexpart(AHexRegexpart node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AUnaryRegexpart node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAUnaryRegexpart(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAUnaryRegexpart(AUnaryRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseAHexRegex(AHexRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(ABinaryplusRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(AConcatenatedRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseABinaryplusRegexpart(node, arg1, arg2, arg3);
+            return CaseAConcatenatedRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseABinaryplusRegexpart(ABinaryplusRegexpart node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(ABinaryminusRegexpart node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseABinaryminusRegexpart(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseABinaryminusRegexpart(ABinaryminusRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseAConcatenatedRegex(AConcatenatedRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(AIntervalRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(AUnaryRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAIntervalRegexpart(node, arg1, arg2, arg3);
+            return CaseAUnaryRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAIntervalRegexpart(AIntervalRegexpart node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AStringRegexpart node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAStringRegexpart(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAStringRegexpart(AStringRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseAUnaryRegex(AUnaryRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(AIdentifierRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(ABinaryplusRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAIdentifierRegexpart(node, arg1, arg2, arg3);
+            return CaseABinaryplusRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAIdentifierRegexpart(AIdentifierRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseABinaryplusRegex(ABinaryplusRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(AParenthesisRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(ABinaryminusRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAParenthesisRegexpart(node, arg1, arg2, arg3);
+            return CaseABinaryminusRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAParenthesisRegexpart(AParenthesisRegexpart node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseABinaryminusRegex(ABinaryminusRegex node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AIntervalRegex node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAIntervalRegex(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAIntervalRegex(AIntervalRegex node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AStringRegex node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAStringRegex(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAStringRegex(AStringRegex node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AIdentifierRegex node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAIdentifierRegex(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAIdentifierRegex(AIdentifierRegex node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AParenthesisRegex node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAParenthesisRegex(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAParenthesisRegex(AParenthesisRegex node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AOrRegex node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAOrRegex(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAOrRegex(AOrRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }

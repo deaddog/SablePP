@@ -625,59 +625,39 @@ namespace SablePP.Compiler.Parsing
                     break;
                 case 30:
                     {
-                        List<PRegexpart> pregexpartlist = Pop<List<PRegexpart>>();
-                        List<PRegexpart> pregexpartlist2 = new List<PRegexpart>();
-                        pregexpartlist2.AddRange(pregexpartlist);
-                        ARegexOrpart aregexorpart = new ARegexOrpart(
-                            null,
-                            pregexpartlist2
-                        );
-                        List<POrpart> porpartlist = new List<POrpart>();
-                        porpartlist.Add(aregexorpart);
-                        ARegex aregex = new ARegex(
-                            porpartlist
-                        );
-                        Push(14, aregex);
+                        PRegex pregex = Pop<PRegex>();
+                        Push(14, pregex);
                     }
                     break;
                 case 31:
                     {
-                        List<POrpart> porpartlist = Pop<List<POrpart>>();
-                        List<PRegexpart> pregexpartlist = Pop<List<PRegexpart>>();
-                        List<PRegexpart> pregexpartlist2 = new List<PRegexpart>();
-                        pregexpartlist2.AddRange(pregexpartlist);
-                        ARegexOrpart aregexorpart = new ARegexOrpart(
-                            null,
-                            pregexpartlist2
+                        List<PRegex> pregexlist = Pop<List<PRegex>>();
+                        PRegex pregex = Pop<PRegex>();
+                        List<PRegex> pregexlist2 = new List<PRegex>();
+                        pregexlist2.Add(pregex);
+                        pregexlist2.AddRange(pregexlist);
+                        AOrRegex aorregex = new AOrRegex(
+                            pregexlist2
                         );
-                        List<POrpart> porpartlist2 = new List<POrpart>();
-                        porpartlist2.Add(aregexorpart);
-                        porpartlist2.AddRange(porpartlist);
-                        ARegex aregex = new ARegex(
-                            porpartlist2
-                        );
-                        Push(14, aregex);
+                        Push(14, aorregex);
                     }
                     break;
                 case 32:
                     {
-                        List<PRegexpart> pregexpartlist = Pop<List<PRegexpart>>();
+                        PRegex pregex = Pop<PRegex>();
                         TPipe tpipe = Pop<TPipe>();
-                        List<PRegexpart> pregexpartlist2 = new List<PRegexpart>();
-                        pregexpartlist2.AddRange(pregexpartlist);
-                        ARegexOrpart aregexorpart = new ARegexOrpart(
-                            tpipe,
-                            pregexpartlist2
-                        );
-                        Push(15, aregexorpart);
+                        Push(15, pregex);
                     }
                     break;
                 case 33:
                     {
-                        List<PRegexpart> pregexpartlist = Pop<List<PRegexpart>>();
-                        List<PRegexpart> pregexpartlist2 = new List<PRegexpart>();
-                        pregexpartlist2.AddRange(pregexpartlist);
-                        Push(16, pregexpartlist2);
+                        List<PRegex> pregexlist = Pop<List<PRegex>>();
+                        List<PRegex> pregexlist2 = new List<PRegex>();
+                        pregexlist2.AddRange(pregexlist);
+                        AConcatenatedRegex aconcatenatedregex = new AConcatenatedRegex(
+                            pregexlist2
+                        );
+                        Push(16, aconcatenatedregex);
                     }
                     break;
                 case 34:
@@ -709,49 +689,49 @@ namespace SablePP.Compiler.Parsing
                     break;
                 case 37:
                     {
-                        PRegexpart pregexpart = Pop<PRegexpart>();
-                        Push(18, pregexpart);
+                        PRegex pregex = Pop<PRegex>();
+                        Push(18, pregex);
                     }
                     break;
                 case 38:
                     {
                         PModifier pmodifier = Pop<PModifier>();
-                        PRegexpart pregexpart = Pop<PRegexpart>();
-                        AUnaryRegexpart aunaryregexpart = new AUnaryRegexpart(
-                            pregexpart,
+                        PRegex pregex = Pop<PRegex>();
+                        AUnaryRegex aunaryregex = new AUnaryRegex(
+                            pregex,
                             pmodifier
                         );
-                        Push(18, aunaryregexpart);
+                        Push(18, aunaryregex);
                     }
                     break;
                 case 39:
                     {
-                        PRegexpart pregexpart = Pop<PRegexpart>();
-                        Push(19, pregexpart);
+                        PRegex pregex = Pop<PRegex>();
+                        Push(19, pregex);
                     }
                     break;
                 case 40:
                     {
-                        PRegexpart pregexpart = Pop<PRegexpart>();
-                        Push(19, pregexpart);
+                        PRegex pregex = Pop<PRegex>();
+                        Push(19, pregex);
                     }
                     break;
                 case 41:
                     {
                         TString tstring = Pop<TString>();
-                        AStringRegexpart astringregexpart = new AStringRegexpart(
+                        AStringRegex astringregex = new AStringRegex(
                             tstring
                         );
-                        Push(19, astringregexpart);
+                        Push(19, astringregex);
                     }
                     break;
                 case 42:
                     {
                         TIdentifier tidentifier = Pop<TIdentifier>();
-                        AIdentifierRegexpart aidentifierregexpart = new AIdentifierRegexpart(
+                        AIdentifierRegex aidentifierregex = new AIdentifierRegex(
                             tidentifier
                         );
-                        Push(19, aidentifierregexpart);
+                        Push(19, aidentifierregex);
                     }
                     break;
                 case 43:
@@ -759,90 +739,90 @@ namespace SablePP.Compiler.Parsing
                         TRPar trpar = Pop<TRPar>();
                         PRegex pregex = Pop<PRegex>();
                         TLPar tlpar = Pop<TLPar>();
-                        AParenthesisRegexpart aparenthesisregexpart = new AParenthesisRegexpart(
+                        AParenthesisRegex aparenthesisregex = new AParenthesisRegex(
                             tlpar,
                             pregex,
                             trpar
                         );
-                        Push(19, aparenthesisregexpart);
+                        Push(19, aparenthesisregex);
                     }
                     break;
                 case 44:
                     {
                         TCharacter tcharacter = Pop<TCharacter>();
-                        ACharRegexpart acharregexpart = new ACharRegexpart(
+                        ACharRegex acharregex = new ACharRegex(
                             tcharacter
                         );
-                        Push(20, acharregexpart);
+                        Push(20, acharregex);
                     }
                     break;
                 case 45:
                     {
                         TDecChar tdecchar = Pop<TDecChar>();
-                        ADecRegexpart adecregexpart = new ADecRegexpart(
+                        ADecRegex adecregex = new ADecRegex(
                             tdecchar
                         );
-                        Push(20, adecregexpart);
+                        Push(20, adecregex);
                     }
                     break;
                 case 46:
                     {
                         THexChar thexchar = Pop<THexChar>();
-                        AHexRegexpart ahexregexpart = new AHexRegexpart(
+                        AHexRegex ahexregex = new AHexRegex(
                             thexchar
                         );
-                        Push(20, ahexregexpart);
+                        Push(20, ahexregex);
                     }
                     break;
                 case 47:
                     {
                         TRBkt trbkt = Pop<TRBkt>();
-                        PRegexpart pregexpart = Pop<PRegexpart>();
+                        PRegex pregex = Pop<PRegex>();
                         TPlus tplus = Pop<TPlus>();
-                        PRegexpart pregexpart2 = Pop<PRegexpart>();
+                        PRegex pregex2 = Pop<PRegex>();
                         TLBkt tlbkt = Pop<TLBkt>();
-                        ABinaryplusRegexpart abinaryplusregexpart = new ABinaryplusRegexpart(
+                        ABinaryplusRegex abinaryplusregex = new ABinaryplusRegex(
                             tlbkt,
-                            pregexpart2,
+                            pregex2,
                             tplus,
-                            pregexpart,
+                            pregex,
                             trbkt
                         );
-                        Push(21, abinaryplusregexpart);
+                        Push(21, abinaryplusregex);
                     }
                     break;
                 case 48:
                     {
                         TRBkt trbkt = Pop<TRBkt>();
-                        PRegexpart pregexpart = Pop<PRegexpart>();
+                        PRegex pregex = Pop<PRegex>();
                         TMinus tminus = Pop<TMinus>();
-                        PRegexpart pregexpart2 = Pop<PRegexpart>();
+                        PRegex pregex2 = Pop<PRegex>();
                         TLBkt tlbkt = Pop<TLBkt>();
-                        ABinaryminusRegexpart abinaryminusregexpart = new ABinaryminusRegexpart(
+                        ABinaryminusRegex abinaryminusregex = new ABinaryminusRegex(
                             tlbkt,
-                            pregexpart2,
+                            pregex2,
                             tminus,
-                            pregexpart,
+                            pregex,
                             trbkt
                         );
-                        Push(21, abinaryminusregexpart);
+                        Push(21, abinaryminusregex);
                     }
                     break;
                 case 49:
                     {
                         TRBkt trbkt = Pop<TRBkt>();
-                        PRegexpart pregexpart = Pop<PRegexpart>();
+                        PRegex pregex = Pop<PRegex>();
                         TDDot tddot = Pop<TDDot>();
-                        PRegexpart pregexpart2 = Pop<PRegexpart>();
+                        PRegex pregex2 = Pop<PRegex>();
                         TLBkt tlbkt = Pop<TLBkt>();
-                        AIntervalRegexpart aintervalregexpart = new AIntervalRegexpart(
+                        AIntervalRegex aintervalregex = new AIntervalRegex(
                             tlbkt,
-                            pregexpart2,
+                            pregex2,
                             tddot,
-                            pregexpart,
+                            pregex,
                             trbkt
                         );
-                        Push(21, aintervalregexpart);
+                        Push(21, aintervalregex);
                     }
                     break;
                 case 50:
@@ -2013,23 +1993,23 @@ namespace SablePP.Compiler.Parsing
                     }
                     break;
                 case 128:
-                    Push(48, new List<POrpart>() { Pop<POrpart>() });
+                    Push(48, new List<PRegex>() { Pop<PRegex>() });
                     break;
                 case 129:
                     {
-                        POrpart item = Pop<POrpart>();
-                        List<POrpart> list = Pop<List<POrpart>>();
+                        PRegex item = Pop<PRegex>();
+                        List<PRegex> list = Pop<List<PRegex>>();
                         list.Add(item);
                         Push(48, list);
                     }
                     break;
                 case 130:
-                    Push(49, new List<PRegexpart>() { Pop<PRegexpart>() });
+                    Push(49, new List<PRegex>() { Pop<PRegex>() });
                     break;
                 case 131:
                     {
-                        PRegexpart item = Pop<PRegexpart>();
-                        List<PRegexpart> list = Pop<List<PRegexpart>>();
+                        PRegex item = Pop<PRegex>();
+                        List<PRegex> list = Pop<List<PRegex>>();
                         list.Add(item);
                         Push(49, list);
                     }

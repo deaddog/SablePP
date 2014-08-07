@@ -1432,157 +1432,16 @@ namespace SablePP.Compiler.Nodes
     }
     public abstract partial class PRegex : Production<PRegex>
     {
-        private NodeList<POrpart> _parts_;
-        
-        public PRegex(IEnumerable<POrpart> _parts_)
-        {
-            this._parts_ = new NodeList<POrpart>(this, _parts_, false);
-        }
-        
-        public NodeList<POrpart> Parts
-        {
-            get { return _parts_; }
-        }
-        
-    }
-    public partial class ARegex : PRegex
-    {
-        public ARegex(IEnumerable<POrpart> _parts_)
-            : base(_parts_)
-        {
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (oldChild is POrpart && Parts.Contains(oldChild as POrpart))
-            {
-                if (!(newChild is POrpart) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                
-                int index = Parts.IndexOf(oldChild as POrpart);
-                if (newChild == null)
-                    Parts.RemoveAt(index);
-                else
-                    Parts[index] = newChild as POrpart;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            {
-                POrpart[] temp = new POrpart[Parts.Count];
-                Parts.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    yield return temp[i];
-            }
-        }
-        
-        public override PRegex Clone()
-        {
-            return new ARegex(Parts);
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0}", Parts);
-        }
-    }
-    public abstract partial class POrpart : Production<POrpart>
-    {
-        private TPipe _pipe_;
-        private NodeList<PRegexpart> _regexparts_;
-        
-        public POrpart(TPipe _pipe_, IEnumerable<PRegexpart> _regexparts_)
-        {
-            this.Pipe = _pipe_;
-            this._regexparts_ = new NodeList<PRegexpart>(this, _regexparts_, false);
-        }
-        
-        public TPipe Pipe
-        {
-            get { return _pipe_; }
-            set
-            {
-                if (_pipe_ != null)
-                    SetParent(_pipe_, null);
-                if (value != null)
-                    SetParent(value, this);
-                
-                _pipe_ = value;
-            }
-        }
-        public bool HasPipe
-        {
-            get { return _pipe_ != null; }
-        }
-        public NodeList<PRegexpart> Regexparts
-        {
-            get { return _regexparts_; }
-        }
-        
-    }
-    public partial class ARegexOrpart : POrpart
-    {
-        public ARegexOrpart(TPipe _pipe_, IEnumerable<PRegexpart> _regexparts_)
-            : base(_pipe_, _regexparts_)
-        {
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Pipe == oldChild)
-            {
-                if (!(newChild is TPipe) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Pipe = newChild as TPipe;
-            }
-            else if (oldChild is PRegexpart && Regexparts.Contains(oldChild as PRegexpart))
-            {
-                if (!(newChild is PRegexpart) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                
-                int index = Regexparts.IndexOf(oldChild as PRegexpart);
-                if (newChild == null)
-                    Regexparts.RemoveAt(index);
-                else
-                    Regexparts[index] = newChild as PRegexpart;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            if (HasPipe)
-                yield return Pipe;
-            {
-                PRegexpart[] temp = new PRegexpart[Regexparts.Count];
-                Regexparts.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    yield return temp[i];
-            }
-        }
-        
-        public override POrpart Clone()
-        {
-            return new ARegexOrpart(Pipe.Clone(), Regexparts);
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1}", Pipe, Regexparts);
-        }
-    }
-    public abstract partial class PRegexpart : Production<PRegexpart>
-    {
-        public PRegexpart()
+        public PRegex()
         {
         }
         
     }
-    public partial class ACharRegexpart : PRegexpart
+    public partial class ACharRegex : PRegex
     {
         private TCharacter _character_;
         
-        public ACharRegexpart(TCharacter _character_)
+        public ACharRegex(TCharacter _character_)
             : base()
         {
             this.Character = _character_;
@@ -1594,7 +1453,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Character in ACharRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Character in ACharRegex cannot be null.", "value");
                 
                 if (_character_ != null)
                     SetParent(_character_, null);
@@ -1609,7 +1468,7 @@ namespace SablePP.Compiler.Nodes
             if (Character == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Character in ACharRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Character in ACharRegex cannot be null.", "newChild");
                 if (!(newChild is TCharacter) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Character = newChild as TCharacter;
@@ -1621,9 +1480,9 @@ namespace SablePP.Compiler.Nodes
             yield return Character;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new ACharRegexpart(Character.Clone());
+            return new ACharRegex(Character.Clone());
         }
         
         public override string ToString()
@@ -1631,11 +1490,11 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0}", Character);
         }
     }
-    public partial class ADecRegexpart : PRegexpart
+    public partial class ADecRegex : PRegex
     {
         private TDecChar _dec_char_;
         
-        public ADecRegexpart(TDecChar _dec_char_)
+        public ADecRegex(TDecChar _dec_char_)
             : base()
         {
             this.DecChar = _dec_char_;
@@ -1647,7 +1506,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("DecChar in ADecRegexpart cannot be null.", "value");
+                    throw new ArgumentException("DecChar in ADecRegex cannot be null.", "value");
                 
                 if (_dec_char_ != null)
                     SetParent(_dec_char_, null);
@@ -1662,7 +1521,7 @@ namespace SablePP.Compiler.Nodes
             if (DecChar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("DecChar in ADecRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("DecChar in ADecRegex cannot be null.", "newChild");
                 if (!(newChild is TDecChar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 DecChar = newChild as TDecChar;
@@ -1674,9 +1533,9 @@ namespace SablePP.Compiler.Nodes
             yield return DecChar;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new ADecRegexpart(DecChar.Clone());
+            return new ADecRegex(DecChar.Clone());
         }
         
         public override string ToString()
@@ -1684,11 +1543,11 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0}", DecChar);
         }
     }
-    public partial class AHexRegexpart : PRegexpart
+    public partial class AHexRegex : PRegex
     {
         private THexChar _hex_char_;
         
-        public AHexRegexpart(THexChar _hex_char_)
+        public AHexRegex(THexChar _hex_char_)
             : base()
         {
             this.HexChar = _hex_char_;
@@ -1700,7 +1559,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("HexChar in AHexRegexpart cannot be null.", "value");
+                    throw new ArgumentException("HexChar in AHexRegex cannot be null.", "value");
                 
                 if (_hex_char_ != null)
                     SetParent(_hex_char_, null);
@@ -1715,7 +1574,7 @@ namespace SablePP.Compiler.Nodes
             if (HexChar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("HexChar in AHexRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("HexChar in AHexRegex cannot be null.", "newChild");
                 if (!(newChild is THexChar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 HexChar = newChild as THexChar;
@@ -1727,9 +1586,9 @@ namespace SablePP.Compiler.Nodes
             yield return HexChar;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new AHexRegexpart(HexChar.Clone());
+            return new AHexRegex(HexChar.Clone());
         }
         
         public override string ToString()
@@ -1737,31 +1596,81 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0}", HexChar);
         }
     }
-    public partial class AUnaryRegexpart : PRegexpart
+    public partial class AConcatenatedRegex : PRegex
     {
-        private PRegexpart _regexpart_;
-        private PModifier _modifier_;
+        private NodeList<PRegex> _regexs_;
         
-        public AUnaryRegexpart(PRegexpart _regexpart_, PModifier _modifier_)
+        public AConcatenatedRegex(IEnumerable<PRegex> _regexs_)
             : base()
         {
-            this.Regexpart = _regexpart_;
+            this._regexs_ = new NodeList<PRegex>(this, _regexs_, false);
+        }
+        
+        public NodeList<PRegex> Regexs
+        {
+            get { return _regexs_; }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (oldChild is PRegex && Regexs.Contains(oldChild as PRegex))
+            {
+                if (!(newChild is PRegex) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                
+                int index = Regexs.IndexOf(oldChild as PRegex);
+                if (newChild == null)
+                    Regexs.RemoveAt(index);
+                else
+                    Regexs[index] = newChild as PRegex;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            {
+                PRegex[] temp = new PRegex[Regexs.Count];
+                Regexs.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
+        }
+        
+        public override PRegex Clone()
+        {
+            return new AConcatenatedRegex(Regexs);
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Regexs);
+        }
+    }
+    public partial class AUnaryRegex : PRegex
+    {
+        private PRegex _regex_;
+        private PModifier _modifier_;
+        
+        public AUnaryRegex(PRegex _regex_, PModifier _modifier_)
+            : base()
+        {
+            this.Regex = _regex_;
             this.Modifier = _modifier_;
         }
         
-        public PRegexpart Regexpart
+        public PRegex Regex
         {
-            get { return _regexpart_; }
+            get { return _regex_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Regexpart in AUnaryRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Regex in AUnaryRegex cannot be null.", "value");
                 
-                if (_regexpart_ != null)
-                    SetParent(_regexpart_, null);
+                if (_regex_ != null)
+                    SetParent(_regex_, null);
                 SetParent(value, this);
                 
-                _regexpart_ = value;
+                _regex_ = value;
             }
         }
         public PModifier Modifier
@@ -1770,7 +1679,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Modifier in AUnaryRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Modifier in AUnaryRegex cannot be null.", "value");
                 
                 if (_modifier_ != null)
                     SetParent(_modifier_, null);
@@ -1782,18 +1691,18 @@ namespace SablePP.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Regexpart == oldChild)
+            if (Regex == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Regexpart in AUnaryRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Regex in AUnaryRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Regexpart = newChild as PRegexpart;
+                Regex = newChild as PRegex;
             }
             else if (Modifier == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Modifier in AUnaryRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Modifier in AUnaryRegex cannot be null.", "newChild");
                 if (!(newChild is PModifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Modifier = newChild as PModifier;
@@ -1802,29 +1711,29 @@ namespace SablePP.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            yield return Regexpart;
+            yield return Regex;
             yield return Modifier;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new AUnaryRegexpart(Regexpart.Clone(), Modifier.Clone());
+            return new AUnaryRegex(Regex.Clone(), Modifier.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1}", Regexpart, Modifier);
+            return string.Format("{0} {1}", Regex, Modifier);
         }
     }
-    public partial class ABinaryplusRegexpart : PRegexpart
+    public partial class ABinaryplusRegex : PRegex
     {
         private TLBkt _lpar_;
-        private PRegexpart _left_;
+        private PRegex _left_;
         private TPlus _plus_;
-        private PRegexpart _right_;
+        private PRegex _right_;
         private TRBkt _rpar_;
         
-        public ABinaryplusRegexpart(TLBkt _lpar_, PRegexpart _left_, TPlus _plus_, PRegexpart _right_, TRBkt _rpar_)
+        public ABinaryplusRegex(TLBkt _lpar_, PRegex _left_, TPlus _plus_, PRegex _right_, TRBkt _rpar_)
             : base()
         {
             this.Lpar = _lpar_;
@@ -1840,7 +1749,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Lpar in ABinaryplusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Lpar in ABinaryplusRegex cannot be null.", "value");
                 
                 if (_lpar_ != null)
                     SetParent(_lpar_, null);
@@ -1849,13 +1758,13 @@ namespace SablePP.Compiler.Nodes
                 _lpar_ = value;
             }
         }
-        public PRegexpart Left
+        public PRegex Left
         {
             get { return _left_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Left in ABinaryplusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Left in ABinaryplusRegex cannot be null.", "value");
                 
                 if (_left_ != null)
                     SetParent(_left_, null);
@@ -1870,7 +1779,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Plus in ABinaryplusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Plus in ABinaryplusRegex cannot be null.", "value");
                 
                 if (_plus_ != null)
                     SetParent(_plus_, null);
@@ -1879,13 +1788,13 @@ namespace SablePP.Compiler.Nodes
                 _plus_ = value;
             }
         }
-        public PRegexpart Right
+        public PRegex Right
         {
             get { return _right_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Right in ABinaryplusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Right in ABinaryplusRegex cannot be null.", "value");
                 
                 if (_right_ != null)
                     SetParent(_right_, null);
@@ -1900,7 +1809,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Rpar in ABinaryplusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Rpar in ABinaryplusRegex cannot be null.", "value");
                 
                 if (_rpar_ != null)
                     SetParent(_rpar_, null);
@@ -1915,7 +1824,7 @@ namespace SablePP.Compiler.Nodes
             if (Lpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Lpar in ABinaryplusRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Lpar in ABinaryplusRegex cannot be null.", "newChild");
                 if (!(newChild is TLBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBkt;
@@ -1923,15 +1832,15 @@ namespace SablePP.Compiler.Nodes
             else if (Left == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Left in ABinaryplusRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Left in ABinaryplusRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Left = newChild as PRegexpart;
+                Left = newChild as PRegex;
             }
             else if (Plus == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Plus in ABinaryplusRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Plus in ABinaryplusRegex cannot be null.", "newChild");
                 if (!(newChild is TPlus) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Plus = newChild as TPlus;
@@ -1939,15 +1848,15 @@ namespace SablePP.Compiler.Nodes
             else if (Right == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Right in ABinaryplusRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Right in ABinaryplusRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Right = newChild as PRegexpart;
+                Right = newChild as PRegex;
             }
             else if (Rpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Rpar in ABinaryplusRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Rpar in ABinaryplusRegex cannot be null.", "newChild");
                 if (!(newChild is TRBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBkt;
@@ -1963,9 +1872,9 @@ namespace SablePP.Compiler.Nodes
             yield return Rpar;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new ABinaryplusRegexpart(Lpar.Clone(), Left.Clone(), Plus.Clone(), Right.Clone(), Rpar.Clone());
+            return new ABinaryplusRegex(Lpar.Clone(), Left.Clone(), Plus.Clone(), Right.Clone(), Rpar.Clone());
         }
         
         public override string ToString()
@@ -1973,15 +1882,15 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", Lpar, Left, Plus, Right, Rpar);
         }
     }
-    public partial class ABinaryminusRegexpart : PRegexpart
+    public partial class ABinaryminusRegex : PRegex
     {
         private TLBkt _lpar_;
-        private PRegexpart _left_;
+        private PRegex _left_;
         private TMinus _minus_;
-        private PRegexpart _right_;
+        private PRegex _right_;
         private TRBkt _rpar_;
         
-        public ABinaryminusRegexpart(TLBkt _lpar_, PRegexpart _left_, TMinus _minus_, PRegexpart _right_, TRBkt _rpar_)
+        public ABinaryminusRegex(TLBkt _lpar_, PRegex _left_, TMinus _minus_, PRegex _right_, TRBkt _rpar_)
             : base()
         {
             this.Lpar = _lpar_;
@@ -1997,7 +1906,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Lpar in ABinaryminusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Lpar in ABinaryminusRegex cannot be null.", "value");
                 
                 if (_lpar_ != null)
                     SetParent(_lpar_, null);
@@ -2006,13 +1915,13 @@ namespace SablePP.Compiler.Nodes
                 _lpar_ = value;
             }
         }
-        public PRegexpart Left
+        public PRegex Left
         {
             get { return _left_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Left in ABinaryminusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Left in ABinaryminusRegex cannot be null.", "value");
                 
                 if (_left_ != null)
                     SetParent(_left_, null);
@@ -2027,7 +1936,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Minus in ABinaryminusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Minus in ABinaryminusRegex cannot be null.", "value");
                 
                 if (_minus_ != null)
                     SetParent(_minus_, null);
@@ -2036,13 +1945,13 @@ namespace SablePP.Compiler.Nodes
                 _minus_ = value;
             }
         }
-        public PRegexpart Right
+        public PRegex Right
         {
             get { return _right_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Right in ABinaryminusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Right in ABinaryminusRegex cannot be null.", "value");
                 
                 if (_right_ != null)
                     SetParent(_right_, null);
@@ -2057,7 +1966,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Rpar in ABinaryminusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Rpar in ABinaryminusRegex cannot be null.", "value");
                 
                 if (_rpar_ != null)
                     SetParent(_rpar_, null);
@@ -2072,7 +1981,7 @@ namespace SablePP.Compiler.Nodes
             if (Lpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Lpar in ABinaryminusRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Lpar in ABinaryminusRegex cannot be null.", "newChild");
                 if (!(newChild is TLBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBkt;
@@ -2080,15 +1989,15 @@ namespace SablePP.Compiler.Nodes
             else if (Left == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Left in ABinaryminusRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Left in ABinaryminusRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Left = newChild as PRegexpart;
+                Left = newChild as PRegex;
             }
             else if (Minus == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Minus in ABinaryminusRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Minus in ABinaryminusRegex cannot be null.", "newChild");
                 if (!(newChild is TMinus) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Minus = newChild as TMinus;
@@ -2096,15 +2005,15 @@ namespace SablePP.Compiler.Nodes
             else if (Right == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Right in ABinaryminusRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Right in ABinaryminusRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Right = newChild as PRegexpart;
+                Right = newChild as PRegex;
             }
             else if (Rpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Rpar in ABinaryminusRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Rpar in ABinaryminusRegex cannot be null.", "newChild");
                 if (!(newChild is TRBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBkt;
@@ -2120,9 +2029,9 @@ namespace SablePP.Compiler.Nodes
             yield return Rpar;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new ABinaryminusRegexpart(Lpar.Clone(), Left.Clone(), Minus.Clone(), Right.Clone(), Rpar.Clone());
+            return new ABinaryminusRegex(Lpar.Clone(), Left.Clone(), Minus.Clone(), Right.Clone(), Rpar.Clone());
         }
         
         public override string ToString()
@@ -2130,15 +2039,15 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", Lpar, Left, Minus, Right, Rpar);
         }
     }
-    public partial class AIntervalRegexpart : PRegexpart
+    public partial class AIntervalRegex : PRegex
     {
         private TLBkt _lpar_;
-        private PRegexpart _left_;
+        private PRegex _left_;
         private TDDot _dots_;
-        private PRegexpart _right_;
+        private PRegex _right_;
         private TRBkt _rpar_;
         
-        public AIntervalRegexpart(TLBkt _lpar_, PRegexpart _left_, TDDot _dots_, PRegexpart _right_, TRBkt _rpar_)
+        public AIntervalRegex(TLBkt _lpar_, PRegex _left_, TDDot _dots_, PRegex _right_, TRBkt _rpar_)
             : base()
         {
             this.Lpar = _lpar_;
@@ -2154,7 +2063,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Lpar in AIntervalRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Lpar in AIntervalRegex cannot be null.", "value");
                 
                 if (_lpar_ != null)
                     SetParent(_lpar_, null);
@@ -2163,13 +2072,13 @@ namespace SablePP.Compiler.Nodes
                 _lpar_ = value;
             }
         }
-        public PRegexpart Left
+        public PRegex Left
         {
             get { return _left_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Left in AIntervalRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Left in AIntervalRegex cannot be null.", "value");
                 
                 if (_left_ != null)
                     SetParent(_left_, null);
@@ -2184,7 +2093,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Dots in AIntervalRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Dots in AIntervalRegex cannot be null.", "value");
                 
                 if (_dots_ != null)
                     SetParent(_dots_, null);
@@ -2193,13 +2102,13 @@ namespace SablePP.Compiler.Nodes
                 _dots_ = value;
             }
         }
-        public PRegexpart Right
+        public PRegex Right
         {
             get { return _right_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Right in AIntervalRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Right in AIntervalRegex cannot be null.", "value");
                 
                 if (_right_ != null)
                     SetParent(_right_, null);
@@ -2214,7 +2123,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Rpar in AIntervalRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Rpar in AIntervalRegex cannot be null.", "value");
                 
                 if (_rpar_ != null)
                     SetParent(_rpar_, null);
@@ -2229,7 +2138,7 @@ namespace SablePP.Compiler.Nodes
             if (Lpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Lpar in AIntervalRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Lpar in AIntervalRegex cannot be null.", "newChild");
                 if (!(newChild is TLBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBkt;
@@ -2237,15 +2146,15 @@ namespace SablePP.Compiler.Nodes
             else if (Left == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Left in AIntervalRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Left in AIntervalRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Left = newChild as PRegexpart;
+                Left = newChild as PRegex;
             }
             else if (Dots == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Dots in AIntervalRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Dots in AIntervalRegex cannot be null.", "newChild");
                 if (!(newChild is TDDot) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Dots = newChild as TDDot;
@@ -2253,15 +2162,15 @@ namespace SablePP.Compiler.Nodes
             else if (Right == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Right in AIntervalRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Right in AIntervalRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Right = newChild as PRegexpart;
+                Right = newChild as PRegex;
             }
             else if (Rpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Rpar in AIntervalRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Rpar in AIntervalRegex cannot be null.", "newChild");
                 if (!(newChild is TRBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBkt;
@@ -2277,9 +2186,9 @@ namespace SablePP.Compiler.Nodes
             yield return Rpar;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new AIntervalRegexpart(Lpar.Clone(), Left.Clone(), Dots.Clone(), Right.Clone(), Rpar.Clone());
+            return new AIntervalRegex(Lpar.Clone(), Left.Clone(), Dots.Clone(), Right.Clone(), Rpar.Clone());
         }
         
         public override string ToString()
@@ -2287,11 +2196,11 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", Lpar, Left, Dots, Right, Rpar);
         }
     }
-    public partial class AStringRegexpart : PRegexpart
+    public partial class AStringRegex : PRegex
     {
         private TString _string_;
         
-        public AStringRegexpart(TString _string_)
+        public AStringRegex(TString _string_)
             : base()
         {
             this.String = _string_;
@@ -2303,7 +2212,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("String in AStringRegexpart cannot be null.", "value");
+                    throw new ArgumentException("String in AStringRegex cannot be null.", "value");
                 
                 if (_string_ != null)
                     SetParent(_string_, null);
@@ -2318,7 +2227,7 @@ namespace SablePP.Compiler.Nodes
             if (String == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("String in AStringRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("String in AStringRegex cannot be null.", "newChild");
                 if (!(newChild is TString) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 String = newChild as TString;
@@ -2330,9 +2239,9 @@ namespace SablePP.Compiler.Nodes
             yield return String;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new AStringRegexpart(String.Clone());
+            return new AStringRegex(String.Clone());
         }
         
         public override string ToString()
@@ -2340,11 +2249,11 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0}", String);
         }
     }
-    public partial class AIdentifierRegexpart : PRegexpart
+    public partial class AIdentifierRegex : PRegex
     {
         private TIdentifier _identifier_;
         
-        public AIdentifierRegexpart(TIdentifier _identifier_)
+        public AIdentifierRegex(TIdentifier _identifier_)
             : base()
         {
             this.Identifier = _identifier_;
@@ -2356,7 +2265,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Identifier in AIdentifierRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Identifier in AIdentifierRegex cannot be null.", "value");
                 
                 if (_identifier_ != null)
                     SetParent(_identifier_, null);
@@ -2371,7 +2280,7 @@ namespace SablePP.Compiler.Nodes
             if (Identifier == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Identifier in AIdentifierRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Identifier in AIdentifierRegex cannot be null.", "newChild");
                 if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
@@ -2383,9 +2292,9 @@ namespace SablePP.Compiler.Nodes
             yield return Identifier;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new AIdentifierRegexpart(Identifier.Clone());
+            return new AIdentifierRegex(Identifier.Clone());
         }
         
         public override string ToString()
@@ -2393,13 +2302,13 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0}", Identifier);
         }
     }
-    public partial class AParenthesisRegexpart : PRegexpart
+    public partial class AParenthesisRegex : PRegex
     {
         private TLPar _lpar_;
         private PRegex _regex_;
         private TRPar _rpar_;
         
-        public AParenthesisRegexpart(TLPar _lpar_, PRegex _regex_, TRPar _rpar_)
+        public AParenthesisRegex(TLPar _lpar_, PRegex _regex_, TRPar _rpar_)
             : base()
         {
             this.Lpar = _lpar_;
@@ -2413,7 +2322,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Lpar in AParenthesisRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Lpar in AParenthesisRegex cannot be null.", "value");
                 
                 if (_lpar_ != null)
                     SetParent(_lpar_, null);
@@ -2428,7 +2337,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Regex in AParenthesisRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Regex in AParenthesisRegex cannot be null.", "value");
                 
                 if (_regex_ != null)
                     SetParent(_regex_, null);
@@ -2443,7 +2352,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Rpar in AParenthesisRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Rpar in AParenthesisRegex cannot be null.", "value");
                 
                 if (_rpar_ != null)
                     SetParent(_rpar_, null);
@@ -2458,7 +2367,7 @@ namespace SablePP.Compiler.Nodes
             if (Lpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Lpar in AParenthesisRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Lpar in AParenthesisRegex cannot be null.", "newChild");
                 if (!(newChild is TLPar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLPar;
@@ -2466,7 +2375,7 @@ namespace SablePP.Compiler.Nodes
             else if (Regex == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Regex in AParenthesisRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Regex in AParenthesisRegex cannot be null.", "newChild");
                 if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Regex = newChild as PRegex;
@@ -2474,7 +2383,7 @@ namespace SablePP.Compiler.Nodes
             else if (Rpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Rpar in AParenthesisRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Rpar in AParenthesisRegex cannot be null.", "newChild");
                 if (!(newChild is TRPar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRPar;
@@ -2488,14 +2397,64 @@ namespace SablePP.Compiler.Nodes
             yield return Rpar;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new AParenthesisRegexpart(Lpar.Clone(), Regex.Clone(), Rpar.Clone());
+            return new AParenthesisRegex(Lpar.Clone(), Regex.Clone(), Rpar.Clone());
         }
         
         public override string ToString()
         {
             return string.Format("{0} {1} {2}", Lpar, Regex, Rpar);
+        }
+    }
+    public partial class AOrRegex : PRegex
+    {
+        private NodeList<PRegex> _regexs_;
+        
+        public AOrRegex(IEnumerable<PRegex> _regexs_)
+            : base()
+        {
+            this._regexs_ = new NodeList<PRegex>(this, _regexs_, false);
+        }
+        
+        public NodeList<PRegex> Regexs
+        {
+            get { return _regexs_; }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (oldChild is PRegex && Regexs.Contains(oldChild as PRegex))
+            {
+                if (!(newChild is PRegex) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                
+                int index = Regexs.IndexOf(oldChild as PRegex);
+                if (newChild == null)
+                    Regexs.RemoveAt(index);
+                else
+                    Regexs[index] = newChild as PRegex;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            {
+                PRegex[] temp = new PRegex[Regexs.Count];
+                Regexs.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
+        }
+        
+        public override PRegex Clone()
+        {
+            return new AOrRegex(Regexs);
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Regexs);
         }
     }
     public abstract partial class PModifier : Production<PModifier>
