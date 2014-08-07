@@ -1,5 +1,6 @@
 ﻿using SablePP.Compiler.Nodes;
 using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SablePP.Compiler.Execution
@@ -8,6 +9,8 @@ namespace SablePP.Compiler.Execution
     {
         private string type;
         private string name;
+
+        private readonly Regex identifierRegex = new Regex("^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$");
 
         public static string GetDeclarationType(DeclarationIdentifier identifier)
         {
@@ -52,6 +55,16 @@ namespace SablePP.Compiler.Execution
         public string IdentifierName
         {
             get { return textBox1.Text; }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            renameButton.Enabled = identifierRegex.IsMatch(textBox1.Text);
+        }
+
+        private void renameButton_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = System.Windows.Forms.DialogResult.OK;
         }
     }
 }
