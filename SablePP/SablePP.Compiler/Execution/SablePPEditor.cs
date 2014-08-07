@@ -235,7 +235,13 @@ namespace SablePP.Compiler.Execution
         }
         private void renameButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var t = CodeTextBox.TokenFromPlace(CodeTextBox.Selection.Start);
+            if (t != null && t is SablePP.Compiler.Nodes.Identifiers.DeclarationIdentifier)
+                using (RenameForm form = new RenameForm(t as SablePP.Compiler.Nodes.Identifiers.DeclarationIdentifier))
+                    if (form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        throw new NotImplementedException();
+                    }
         }
 
         protected override void OnFileChanged(EventArgs e)
