@@ -7,6 +7,13 @@ namespace SablePP.Compiler.Nodes
 {
     public abstract partial class PGrammar : Production<PGrammar>
     {
+        public PGrammar()
+        {
+        }
+        
+    }
+    public partial class AGrammar : PGrammar
+    {
         private PPackage _package_;
         private PHelpers _helpers_;
         private PStates _states_;
@@ -16,7 +23,8 @@ namespace SablePP.Compiler.Nodes
         private PAstproductions _astproductions_;
         private PHighlightrules _highlightrules_;
         
-        public PGrammar(PPackage _package_, PHelpers _helpers_, PStates _states_, PTokens _tokens_, PIgnoredtokens _ignoredtokens_, PProductions _productions_, PAstproductions _astproductions_, PHighlightrules _highlightrules_)
+        public AGrammar(PPackage _package_, PHelpers _helpers_, PStates _states_, PTokens _tokens_, PIgnoredtokens _ignoredtokens_, PProductions _productions_, PAstproductions _astproductions_, PHighlightrules _highlightrules_)
+            : base()
         {
             this.Package = _package_;
             this.Helpers = _helpers_;
@@ -165,14 +173,6 @@ namespace SablePP.Compiler.Nodes
             get { return _highlightrules_ != null; }
         }
         
-    }
-    public partial class AGrammar : PGrammar
-    {
-        public AGrammar(PPackage _package_, PHelpers _helpers_, PStates _states_, PTokens _tokens_, PIgnoredtokens _ignoredtokens_, PProductions _productions_, PAstproductions _astproductions_, PHighlightrules _highlightrules_)
-            : base(_package_, _helpers_, _states_, _tokens_, _ignoredtokens_, _productions_, _astproductions_, _highlightrules_)
-        {
-        }
-        
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
             if (Package == oldChild)
@@ -253,6 +253,487 @@ namespace SablePP.Compiler.Nodes
         public override string ToString()
         {
             return string.Format("{0} {1} {2} {3} {4} {5} {6} {7}", Package, Helpers, States, Tokens, Ignoredtokens, Productions, Astproductions, Highlightrules);
+        }
+    }
+    public partial class ASectionGrammar : PGrammar
+    {
+        private NodeList<PSection> _sections_;
+        
+        public ASectionGrammar(IEnumerable<PSection> _sections_)
+            : base()
+        {
+            this._sections_ = new NodeList<PSection>(this, _sections_, true);
+        }
+        
+        public NodeList<PSection> Sections
+        {
+            get { return _sections_; }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (oldChild is PSection && Sections.Contains(oldChild as PSection))
+            {
+                if (!(newChild is PSection) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                
+                int index = Sections.IndexOf(oldChild as PSection);
+                if (newChild == null)
+                    Sections.RemoveAt(index);
+                else
+                    Sections[index] = newChild as PSection;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            {
+                PSection[] temp = new PSection[Sections.Count];
+                Sections.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
+        }
+        
+        public override PGrammar Clone()
+        {
+            return new ASectionGrammar(Sections);
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Sections);
+        }
+    }
+    public abstract partial class PSection : Production<PSection>
+    {
+        public PSection()
+        {
+        }
+        
+    }
+    public partial class APackageSection : PSection
+    {
+        private PPackage _package_;
+        
+        public APackageSection(PPackage _package_)
+            : base()
+        {
+            this.Package = _package_;
+        }
+        
+        public PPackage Package
+        {
+            get { return _package_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Package in APackageSection cannot be null.", "value");
+                
+                if (_package_ != null)
+                    SetParent(_package_, null);
+                SetParent(value, this);
+                
+                _package_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Package == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Package in APackageSection cannot be null.", "newChild");
+                if (!(newChild is PPackage) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Package = newChild as PPackage;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Package;
+        }
+        
+        public override PSection Clone()
+        {
+            return new APackageSection(Package.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Package);
+        }
+    }
+    public partial class AHelpersSection : PSection
+    {
+        private PHelpers _helpers_;
+        
+        public AHelpersSection(PHelpers _helpers_)
+            : base()
+        {
+            this.Helpers = _helpers_;
+        }
+        
+        public PHelpers Helpers
+        {
+            get { return _helpers_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Helpers in AHelpersSection cannot be null.", "value");
+                
+                if (_helpers_ != null)
+                    SetParent(_helpers_, null);
+                SetParent(value, this);
+                
+                _helpers_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Helpers == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Helpers in AHelpersSection cannot be null.", "newChild");
+                if (!(newChild is PHelpers) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Helpers = newChild as PHelpers;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Helpers;
+        }
+        
+        public override PSection Clone()
+        {
+            return new AHelpersSection(Helpers.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Helpers);
+        }
+    }
+    public partial class AStatesSection : PSection
+    {
+        private PStates _states_;
+        
+        public AStatesSection(PStates _states_)
+            : base()
+        {
+            this.States = _states_;
+        }
+        
+        public PStates States
+        {
+            get { return _states_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("States in AStatesSection cannot be null.", "value");
+                
+                if (_states_ != null)
+                    SetParent(_states_, null);
+                SetParent(value, this);
+                
+                _states_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (States == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("States in AStatesSection cannot be null.", "newChild");
+                if (!(newChild is PStates) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                States = newChild as PStates;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return States;
+        }
+        
+        public override PSection Clone()
+        {
+            return new AStatesSection(States.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", States);
+        }
+    }
+    public partial class ATokensSection : PSection
+    {
+        private PTokens _tokens_;
+        
+        public ATokensSection(PTokens _tokens_)
+            : base()
+        {
+            this.Tokens = _tokens_;
+        }
+        
+        public PTokens Tokens
+        {
+            get { return _tokens_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Tokens in ATokensSection cannot be null.", "value");
+                
+                if (_tokens_ != null)
+                    SetParent(_tokens_, null);
+                SetParent(value, this);
+                
+                _tokens_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Tokens == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Tokens in ATokensSection cannot be null.", "newChild");
+                if (!(newChild is PTokens) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Tokens = newChild as PTokens;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Tokens;
+        }
+        
+        public override PSection Clone()
+        {
+            return new ATokensSection(Tokens.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Tokens);
+        }
+    }
+    public partial class AIgnoreSection : PSection
+    {
+        private PIgnoredtokens _ignoredtokens_;
+        
+        public AIgnoreSection(PIgnoredtokens _ignoredtokens_)
+            : base()
+        {
+            this.Ignoredtokens = _ignoredtokens_;
+        }
+        
+        public PIgnoredtokens Ignoredtokens
+        {
+            get { return _ignoredtokens_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Ignoredtokens in AIgnoreSection cannot be null.", "value");
+                
+                if (_ignoredtokens_ != null)
+                    SetParent(_ignoredtokens_, null);
+                SetParent(value, this);
+                
+                _ignoredtokens_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Ignoredtokens == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Ignoredtokens in AIgnoreSection cannot be null.", "newChild");
+                if (!(newChild is PIgnoredtokens) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Ignoredtokens = newChild as PIgnoredtokens;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Ignoredtokens;
+        }
+        
+        public override PSection Clone()
+        {
+            return new AIgnoreSection(Ignoredtokens.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Ignoredtokens);
+        }
+    }
+    public partial class AProductionsSection : PSection
+    {
+        private PProductions _productions_;
+        
+        public AProductionsSection(PProductions _productions_)
+            : base()
+        {
+            this.Productions = _productions_;
+        }
+        
+        public PProductions Productions
+        {
+            get { return _productions_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Productions in AProductionsSection cannot be null.", "value");
+                
+                if (_productions_ != null)
+                    SetParent(_productions_, null);
+                SetParent(value, this);
+                
+                _productions_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Productions == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Productions in AProductionsSection cannot be null.", "newChild");
+                if (!(newChild is PProductions) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Productions = newChild as PProductions;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Productions;
+        }
+        
+        public override PSection Clone()
+        {
+            return new AProductionsSection(Productions.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Productions);
+        }
+    }
+    public partial class AASTSection : PSection
+    {
+        private PAstproductions _astproductions_;
+        
+        public AASTSection(PAstproductions _astproductions_)
+            : base()
+        {
+            this.Astproductions = _astproductions_;
+        }
+        
+        public PAstproductions Astproductions
+        {
+            get { return _astproductions_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Astproductions in AASTSection cannot be null.", "value");
+                
+                if (_astproductions_ != null)
+                    SetParent(_astproductions_, null);
+                SetParent(value, this);
+                
+                _astproductions_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Astproductions == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Astproductions in AASTSection cannot be null.", "newChild");
+                if (!(newChild is PAstproductions) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Astproductions = newChild as PAstproductions;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Astproductions;
+        }
+        
+        public override PSection Clone()
+        {
+            return new AASTSection(Astproductions.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Astproductions);
+        }
+    }
+    public partial class AHighlightSection : PSection
+    {
+        private PHighlightrules _highlightrules_;
+        
+        public AHighlightSection(PHighlightrules _highlightrules_)
+            : base()
+        {
+            this.Highlightrules = _highlightrules_;
+        }
+        
+        public PHighlightrules Highlightrules
+        {
+            get { return _highlightrules_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Highlightrules in AHighlightSection cannot be null.", "value");
+                
+                if (_highlightrules_ != null)
+                    SetParent(_highlightrules_, null);
+                SetParent(value, this);
+                
+                _highlightrules_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Highlightrules == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Highlightrules in AHighlightSection cannot be null.", "newChild");
+                if (!(newChild is PHighlightrules) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Highlightrules = newChild as PHighlightrules;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Highlightrules;
+        }
+        
+        public override PSection Clone()
+        {
+            return new AHighlightSection(Highlightrules.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Highlightrules);
         }
     }
     public abstract partial class PPackage : Production<PPackage>
@@ -951,157 +1432,16 @@ namespace SablePP.Compiler.Nodes
     }
     public abstract partial class PRegex : Production<PRegex>
     {
-        private NodeList<POrpart> _parts_;
-        
-        public PRegex(IEnumerable<POrpart> _parts_)
-        {
-            this._parts_ = new NodeList<POrpart>(this, _parts_, false);
-        }
-        
-        public NodeList<POrpart> Parts
-        {
-            get { return _parts_; }
-        }
-        
-    }
-    public partial class ARegex : PRegex
-    {
-        public ARegex(IEnumerable<POrpart> _parts_)
-            : base(_parts_)
-        {
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (oldChild is POrpart && Parts.Contains(oldChild as POrpart))
-            {
-                if (!(newChild is POrpart) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                
-                int index = Parts.IndexOf(oldChild as POrpart);
-                if (newChild == null)
-                    Parts.RemoveAt(index);
-                else
-                    Parts[index] = newChild as POrpart;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            {
-                POrpart[] temp = new POrpart[Parts.Count];
-                Parts.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    yield return temp[i];
-            }
-        }
-        
-        public override PRegex Clone()
-        {
-            return new ARegex(Parts);
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0}", Parts);
-        }
-    }
-    public abstract partial class POrpart : Production<POrpart>
-    {
-        private TPipe _pipe_;
-        private NodeList<PRegexpart> _regexpart_;
-        
-        public POrpart(TPipe _pipe_, IEnumerable<PRegexpart> _regexpart_)
-        {
-            this.Pipe = _pipe_;
-            this._regexpart_ = new NodeList<PRegexpart>(this, _regexpart_, false);
-        }
-        
-        public TPipe Pipe
-        {
-            get { return _pipe_; }
-            set
-            {
-                if (_pipe_ != null)
-                    SetParent(_pipe_, null);
-                if (value != null)
-                    SetParent(value, this);
-                
-                _pipe_ = value;
-            }
-        }
-        public bool HasPipe
-        {
-            get { return _pipe_ != null; }
-        }
-        public NodeList<PRegexpart> Regexpart
-        {
-            get { return _regexpart_; }
-        }
-        
-    }
-    public partial class ARegexOrpart : POrpart
-    {
-        public ARegexOrpart(TPipe _pipe_, IEnumerable<PRegexpart> _regexpart_)
-            : base(_pipe_, _regexpart_)
-        {
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Pipe == oldChild)
-            {
-                if (!(newChild is TPipe) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Pipe = newChild as TPipe;
-            }
-            else if (oldChild is PRegexpart && Regexpart.Contains(oldChild as PRegexpart))
-            {
-                if (!(newChild is PRegexpart) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                
-                int index = Regexpart.IndexOf(oldChild as PRegexpart);
-                if (newChild == null)
-                    Regexpart.RemoveAt(index);
-                else
-                    Regexpart[index] = newChild as PRegexpart;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            if (HasPipe)
-                yield return Pipe;
-            {
-                PRegexpart[] temp = new PRegexpart[Regexpart.Count];
-                Regexpart.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    yield return temp[i];
-            }
-        }
-        
-        public override POrpart Clone()
-        {
-            return new ARegexOrpart(Pipe.Clone(), Regexpart);
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1}", Pipe, Regexpart);
-        }
-    }
-    public abstract partial class PRegexpart : Production<PRegexpart>
-    {
-        public PRegexpart()
+        public PRegex()
         {
         }
         
     }
-    public partial class ACharRegexpart : PRegexpart
+    public partial class ACharRegex : PRegex
     {
         private TCharacter _character_;
         
-        public ACharRegexpart(TCharacter _character_)
+        public ACharRegex(TCharacter _character_)
             : base()
         {
             this.Character = _character_;
@@ -1113,7 +1453,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Character in ACharRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Character in ACharRegex cannot be null.", "value");
                 
                 if (_character_ != null)
                     SetParent(_character_, null);
@@ -1128,7 +1468,7 @@ namespace SablePP.Compiler.Nodes
             if (Character == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Character in ACharRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Character in ACharRegex cannot be null.", "newChild");
                 if (!(newChild is TCharacter) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Character = newChild as TCharacter;
@@ -1140,9 +1480,9 @@ namespace SablePP.Compiler.Nodes
             yield return Character;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new ACharRegexpart(Character.Clone());
+            return new ACharRegex(Character.Clone());
         }
         
         public override string ToString()
@@ -1150,11 +1490,11 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0}", Character);
         }
     }
-    public partial class ADecRegexpart : PRegexpart
+    public partial class ADecRegex : PRegex
     {
         private TDecChar _dec_char_;
         
-        public ADecRegexpart(TDecChar _dec_char_)
+        public ADecRegex(TDecChar _dec_char_)
             : base()
         {
             this.DecChar = _dec_char_;
@@ -1166,7 +1506,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("DecChar in ADecRegexpart cannot be null.", "value");
+                    throw new ArgumentException("DecChar in ADecRegex cannot be null.", "value");
                 
                 if (_dec_char_ != null)
                     SetParent(_dec_char_, null);
@@ -1181,7 +1521,7 @@ namespace SablePP.Compiler.Nodes
             if (DecChar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("DecChar in ADecRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("DecChar in ADecRegex cannot be null.", "newChild");
                 if (!(newChild is TDecChar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 DecChar = newChild as TDecChar;
@@ -1193,9 +1533,9 @@ namespace SablePP.Compiler.Nodes
             yield return DecChar;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new ADecRegexpart(DecChar.Clone());
+            return new ADecRegex(DecChar.Clone());
         }
         
         public override string ToString()
@@ -1203,11 +1543,11 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0}", DecChar);
         }
     }
-    public partial class AHexRegexpart : PRegexpart
+    public partial class AHexRegex : PRegex
     {
         private THexChar _hex_char_;
         
-        public AHexRegexpart(THexChar _hex_char_)
+        public AHexRegex(THexChar _hex_char_)
             : base()
         {
             this.HexChar = _hex_char_;
@@ -1219,7 +1559,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("HexChar in AHexRegexpart cannot be null.", "value");
+                    throw new ArgumentException("HexChar in AHexRegex cannot be null.", "value");
                 
                 if (_hex_char_ != null)
                     SetParent(_hex_char_, null);
@@ -1234,7 +1574,7 @@ namespace SablePP.Compiler.Nodes
             if (HexChar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("HexChar in AHexRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("HexChar in AHexRegex cannot be null.", "newChild");
                 if (!(newChild is THexChar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 HexChar = newChild as THexChar;
@@ -1246,9 +1586,9 @@ namespace SablePP.Compiler.Nodes
             yield return HexChar;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new AHexRegexpart(HexChar.Clone());
+            return new AHexRegex(HexChar.Clone());
         }
         
         public override string ToString()
@@ -1256,252 +1596,144 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0}", HexChar);
         }
     }
-    public partial class AUnarystarRegexpart : PRegexpart
+    public partial class AConcatenatedRegex : PRegex
     {
-        private PRegexpart _regexpart_;
-        private TStar _star_;
+        private NodeList<PRegex> _regexs_;
         
-        public AUnarystarRegexpart(PRegexpart _regexpart_, TStar _star_)
+        public AConcatenatedRegex(IEnumerable<PRegex> _regexs_)
             : base()
         {
-            this.Regexpart = _regexpart_;
-            this.Star = _star_;
+            this._regexs_ = new NodeList<PRegex>(this, _regexs_, false);
         }
         
-        public PRegexpart Regexpart
+        public NodeList<PRegex> Regexs
         {
-            get { return _regexpart_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Regexpart in AUnarystarRegexpart cannot be null.", "value");
-                
-                if (_regexpart_ != null)
-                    SetParent(_regexpart_, null);
-                SetParent(value, this);
-                
-                _regexpart_ = value;
-            }
-        }
-        public TStar Star
-        {
-            get { return _star_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Star in AUnarystarRegexpart cannot be null.", "value");
-                
-                if (_star_ != null)
-                    SetParent(_star_, null);
-                SetParent(value, this);
-                
-                _star_ = value;
-            }
+            get { return _regexs_; }
         }
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Regexpart == oldChild)
+            if (oldChild is PRegex && Regexs.Contains(oldChild as PRegex))
             {
-                if (newChild == null)
-                    throw new ArgumentException("Regexpart in AUnarystarRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Regexpart = newChild as PRegexpart;
-            }
-            else if (Star == oldChild)
-            {
+                
+                int index = Regexs.IndexOf(oldChild as PRegex);
                 if (newChild == null)
-                    throw new ArgumentException("Star in AUnarystarRegexpart cannot be null.", "newChild");
-                if (!(newChild is TStar) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Star = newChild as TStar;
+                    Regexs.RemoveAt(index);
+                else
+                    Regexs[index] = newChild as PRegex;
             }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            yield return Regexpart;
-            yield return Star;
+            {
+                PRegex[] temp = new PRegex[Regexs.Count];
+                Regexs.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new AUnarystarRegexpart(Regexpart.Clone(), Star.Clone());
+            return new AConcatenatedRegex(Regexs);
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1}", Regexpart, Star);
+            return string.Format("{0}", Regexs);
         }
     }
-    public partial class AUnaryquestionRegexpart : PRegexpart
+    public partial class AUnaryRegex : PRegex
     {
-        private PRegexpart _regexpart_;
-        private TQMark _question_;
+        private PRegex _regex_;
+        private PModifier _modifier_;
         
-        public AUnaryquestionRegexpart(PRegexpart _regexpart_, TQMark _question_)
+        public AUnaryRegex(PRegex _regex_, PModifier _modifier_)
             : base()
         {
-            this.Regexpart = _regexpart_;
-            this.Question = _question_;
+            this.Regex = _regex_;
+            this.Modifier = _modifier_;
         }
         
-        public PRegexpart Regexpart
+        public PRegex Regex
         {
-            get { return _regexpart_; }
+            get { return _regex_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Regexpart in AUnaryquestionRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Regex in AUnaryRegex cannot be null.", "value");
                 
-                if (_regexpart_ != null)
-                    SetParent(_regexpart_, null);
+                if (_regex_ != null)
+                    SetParent(_regex_, null);
                 SetParent(value, this);
                 
-                _regexpart_ = value;
+                _regex_ = value;
             }
         }
-        public TQMark Question
+        public PModifier Modifier
         {
-            get { return _question_; }
+            get { return _modifier_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Question in AUnaryquestionRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Modifier in AUnaryRegex cannot be null.", "value");
                 
-                if (_question_ != null)
-                    SetParent(_question_, null);
+                if (_modifier_ != null)
+                    SetParent(_modifier_, null);
                 SetParent(value, this);
                 
-                _question_ = value;
+                _modifier_ = value;
             }
         }
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Regexpart == oldChild)
+            if (Regex == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Regexpart in AUnaryquestionRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Regex in AUnaryRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Regexpart = newChild as PRegexpart;
+                Regex = newChild as PRegex;
             }
-            else if (Question == oldChild)
+            else if (Modifier == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Question in AUnaryquestionRegexpart cannot be null.", "newChild");
-                if (!(newChild is TQMark) && newChild != null)
+                    throw new ArgumentException("Modifier in AUnaryRegex cannot be null.", "newChild");
+                if (!(newChild is PModifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Question = newChild as TQMark;
+                Modifier = newChild as PModifier;
             }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            yield return Regexpart;
-            yield return Question;
+            yield return Regex;
+            yield return Modifier;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new AUnaryquestionRegexpart(Regexpart.Clone(), Question.Clone());
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1}", Regexpart, Question);
-        }
-    }
-    public partial class AUnaryplusRegexpart : PRegexpart
-    {
-        private PRegexpart _regexpart_;
-        private TPlus _plus_;
-        
-        public AUnaryplusRegexpart(PRegexpart _regexpart_, TPlus _plus_)
-            : base()
-        {
-            this.Regexpart = _regexpart_;
-            this.Plus = _plus_;
-        }
-        
-        public PRegexpart Regexpart
-        {
-            get { return _regexpart_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Regexpart in AUnaryplusRegexpart cannot be null.", "value");
-                
-                if (_regexpart_ != null)
-                    SetParent(_regexpart_, null);
-                SetParent(value, this);
-                
-                _regexpart_ = value;
-            }
-        }
-        public TPlus Plus
-        {
-            get { return _plus_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Plus in AUnaryplusRegexpart cannot be null.", "value");
-                
-                if (_plus_ != null)
-                    SetParent(_plus_, null);
-                SetParent(value, this);
-                
-                _plus_ = value;
-            }
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Regexpart == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Regexpart in AUnaryplusRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Regexpart = newChild as PRegexpart;
-            }
-            else if (Plus == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Plus in AUnaryplusRegexpart cannot be null.", "newChild");
-                if (!(newChild is TPlus) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Plus = newChild as TPlus;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            yield return Regexpart;
-            yield return Plus;
-        }
-        
-        public override PRegexpart Clone()
-        {
-            return new AUnaryplusRegexpart(Regexpart.Clone(), Plus.Clone());
+            return new AUnaryRegex(Regex.Clone(), Modifier.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1}", Regexpart, Plus);
+            return string.Format("{0} {1}", Regex, Modifier);
         }
     }
-    public partial class ABinaryplusRegexpart : PRegexpart
+    public partial class ABinaryplusRegex : PRegex
     {
         private TLBkt _lpar_;
-        private PRegexpart _left_;
+        private PRegex _left_;
         private TPlus _plus_;
-        private PRegexpart _right_;
+        private PRegex _right_;
         private TRBkt _rpar_;
         
-        public ABinaryplusRegexpart(TLBkt _lpar_, PRegexpart _left_, TPlus _plus_, PRegexpart _right_, TRBkt _rpar_)
+        public ABinaryplusRegex(TLBkt _lpar_, PRegex _left_, TPlus _plus_, PRegex _right_, TRBkt _rpar_)
             : base()
         {
             this.Lpar = _lpar_;
@@ -1517,7 +1749,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Lpar in ABinaryplusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Lpar in ABinaryplusRegex cannot be null.", "value");
                 
                 if (_lpar_ != null)
                     SetParent(_lpar_, null);
@@ -1526,13 +1758,13 @@ namespace SablePP.Compiler.Nodes
                 _lpar_ = value;
             }
         }
-        public PRegexpart Left
+        public PRegex Left
         {
             get { return _left_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Left in ABinaryplusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Left in ABinaryplusRegex cannot be null.", "value");
                 
                 if (_left_ != null)
                     SetParent(_left_, null);
@@ -1547,7 +1779,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Plus in ABinaryplusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Plus in ABinaryplusRegex cannot be null.", "value");
                 
                 if (_plus_ != null)
                     SetParent(_plus_, null);
@@ -1556,13 +1788,13 @@ namespace SablePP.Compiler.Nodes
                 _plus_ = value;
             }
         }
-        public PRegexpart Right
+        public PRegex Right
         {
             get { return _right_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Right in ABinaryplusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Right in ABinaryplusRegex cannot be null.", "value");
                 
                 if (_right_ != null)
                     SetParent(_right_, null);
@@ -1577,7 +1809,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Rpar in ABinaryplusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Rpar in ABinaryplusRegex cannot be null.", "value");
                 
                 if (_rpar_ != null)
                     SetParent(_rpar_, null);
@@ -1592,7 +1824,7 @@ namespace SablePP.Compiler.Nodes
             if (Lpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Lpar in ABinaryplusRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Lpar in ABinaryplusRegex cannot be null.", "newChild");
                 if (!(newChild is TLBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBkt;
@@ -1600,15 +1832,15 @@ namespace SablePP.Compiler.Nodes
             else if (Left == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Left in ABinaryplusRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Left in ABinaryplusRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Left = newChild as PRegexpart;
+                Left = newChild as PRegex;
             }
             else if (Plus == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Plus in ABinaryplusRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Plus in ABinaryplusRegex cannot be null.", "newChild");
                 if (!(newChild is TPlus) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Plus = newChild as TPlus;
@@ -1616,15 +1848,15 @@ namespace SablePP.Compiler.Nodes
             else if (Right == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Right in ABinaryplusRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Right in ABinaryplusRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Right = newChild as PRegexpart;
+                Right = newChild as PRegex;
             }
             else if (Rpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Rpar in ABinaryplusRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Rpar in ABinaryplusRegex cannot be null.", "newChild");
                 if (!(newChild is TRBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBkt;
@@ -1640,9 +1872,9 @@ namespace SablePP.Compiler.Nodes
             yield return Rpar;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new ABinaryplusRegexpart(Lpar.Clone(), Left.Clone(), Plus.Clone(), Right.Clone(), Rpar.Clone());
+            return new ABinaryplusRegex(Lpar.Clone(), Left.Clone(), Plus.Clone(), Right.Clone(), Rpar.Clone());
         }
         
         public override string ToString()
@@ -1650,15 +1882,15 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", Lpar, Left, Plus, Right, Rpar);
         }
     }
-    public partial class ABinaryminusRegexpart : PRegexpart
+    public partial class ABinaryminusRegex : PRegex
     {
         private TLBkt _lpar_;
-        private PRegexpart _left_;
+        private PRegex _left_;
         private TMinus _minus_;
-        private PRegexpart _right_;
+        private PRegex _right_;
         private TRBkt _rpar_;
         
-        public ABinaryminusRegexpart(TLBkt _lpar_, PRegexpart _left_, TMinus _minus_, PRegexpart _right_, TRBkt _rpar_)
+        public ABinaryminusRegex(TLBkt _lpar_, PRegex _left_, TMinus _minus_, PRegex _right_, TRBkt _rpar_)
             : base()
         {
             this.Lpar = _lpar_;
@@ -1674,7 +1906,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Lpar in ABinaryminusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Lpar in ABinaryminusRegex cannot be null.", "value");
                 
                 if (_lpar_ != null)
                     SetParent(_lpar_, null);
@@ -1683,13 +1915,13 @@ namespace SablePP.Compiler.Nodes
                 _lpar_ = value;
             }
         }
-        public PRegexpart Left
+        public PRegex Left
         {
             get { return _left_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Left in ABinaryminusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Left in ABinaryminusRegex cannot be null.", "value");
                 
                 if (_left_ != null)
                     SetParent(_left_, null);
@@ -1704,7 +1936,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Minus in ABinaryminusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Minus in ABinaryminusRegex cannot be null.", "value");
                 
                 if (_minus_ != null)
                     SetParent(_minus_, null);
@@ -1713,13 +1945,13 @@ namespace SablePP.Compiler.Nodes
                 _minus_ = value;
             }
         }
-        public PRegexpart Right
+        public PRegex Right
         {
             get { return _right_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Right in ABinaryminusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Right in ABinaryminusRegex cannot be null.", "value");
                 
                 if (_right_ != null)
                     SetParent(_right_, null);
@@ -1734,7 +1966,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Rpar in ABinaryminusRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Rpar in ABinaryminusRegex cannot be null.", "value");
                 
                 if (_rpar_ != null)
                     SetParent(_rpar_, null);
@@ -1749,7 +1981,7 @@ namespace SablePP.Compiler.Nodes
             if (Lpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Lpar in ABinaryminusRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Lpar in ABinaryminusRegex cannot be null.", "newChild");
                 if (!(newChild is TLBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBkt;
@@ -1757,15 +1989,15 @@ namespace SablePP.Compiler.Nodes
             else if (Left == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Left in ABinaryminusRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Left in ABinaryminusRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Left = newChild as PRegexpart;
+                Left = newChild as PRegex;
             }
             else if (Minus == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Minus in ABinaryminusRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Minus in ABinaryminusRegex cannot be null.", "newChild");
                 if (!(newChild is TMinus) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Minus = newChild as TMinus;
@@ -1773,15 +2005,15 @@ namespace SablePP.Compiler.Nodes
             else if (Right == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Right in ABinaryminusRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Right in ABinaryminusRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Right = newChild as PRegexpart;
+                Right = newChild as PRegex;
             }
             else if (Rpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Rpar in ABinaryminusRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Rpar in ABinaryminusRegex cannot be null.", "newChild");
                 if (!(newChild is TRBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBkt;
@@ -1797,9 +2029,9 @@ namespace SablePP.Compiler.Nodes
             yield return Rpar;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new ABinaryminusRegexpart(Lpar.Clone(), Left.Clone(), Minus.Clone(), Right.Clone(), Rpar.Clone());
+            return new ABinaryminusRegex(Lpar.Clone(), Left.Clone(), Minus.Clone(), Right.Clone(), Rpar.Clone());
         }
         
         public override string ToString()
@@ -1807,15 +2039,15 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", Lpar, Left, Minus, Right, Rpar);
         }
     }
-    public partial class AIntervalRegexpart : PRegexpart
+    public partial class AIntervalRegex : PRegex
     {
         private TLBkt _lpar_;
-        private PRegexpart _left_;
+        private PRegex _left_;
         private TDDot _dots_;
-        private PRegexpart _right_;
+        private PRegex _right_;
         private TRBkt _rpar_;
         
-        public AIntervalRegexpart(TLBkt _lpar_, PRegexpart _left_, TDDot _dots_, PRegexpart _right_, TRBkt _rpar_)
+        public AIntervalRegex(TLBkt _lpar_, PRegex _left_, TDDot _dots_, PRegex _right_, TRBkt _rpar_)
             : base()
         {
             this.Lpar = _lpar_;
@@ -1831,7 +2063,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Lpar in AIntervalRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Lpar in AIntervalRegex cannot be null.", "value");
                 
                 if (_lpar_ != null)
                     SetParent(_lpar_, null);
@@ -1840,13 +2072,13 @@ namespace SablePP.Compiler.Nodes
                 _lpar_ = value;
             }
         }
-        public PRegexpart Left
+        public PRegex Left
         {
             get { return _left_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Left in AIntervalRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Left in AIntervalRegex cannot be null.", "value");
                 
                 if (_left_ != null)
                     SetParent(_left_, null);
@@ -1861,7 +2093,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Dots in AIntervalRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Dots in AIntervalRegex cannot be null.", "value");
                 
                 if (_dots_ != null)
                     SetParent(_dots_, null);
@@ -1870,13 +2102,13 @@ namespace SablePP.Compiler.Nodes
                 _dots_ = value;
             }
         }
-        public PRegexpart Right
+        public PRegex Right
         {
             get { return _right_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Right in AIntervalRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Right in AIntervalRegex cannot be null.", "value");
                 
                 if (_right_ != null)
                     SetParent(_right_, null);
@@ -1891,7 +2123,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Rpar in AIntervalRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Rpar in AIntervalRegex cannot be null.", "value");
                 
                 if (_rpar_ != null)
                     SetParent(_rpar_, null);
@@ -1906,7 +2138,7 @@ namespace SablePP.Compiler.Nodes
             if (Lpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Lpar in AIntervalRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Lpar in AIntervalRegex cannot be null.", "newChild");
                 if (!(newChild is TLBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBkt;
@@ -1914,15 +2146,15 @@ namespace SablePP.Compiler.Nodes
             else if (Left == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Left in AIntervalRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Left in AIntervalRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Left = newChild as PRegexpart;
+                Left = newChild as PRegex;
             }
             else if (Dots == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Dots in AIntervalRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Dots in AIntervalRegex cannot be null.", "newChild");
                 if (!(newChild is TDDot) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Dots = newChild as TDDot;
@@ -1930,15 +2162,15 @@ namespace SablePP.Compiler.Nodes
             else if (Right == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Right in AIntervalRegexpart cannot be null.", "newChild");
-                if (!(newChild is PRegexpart) && newChild != null)
+                    throw new ArgumentException("Right in AIntervalRegex cannot be null.", "newChild");
+                if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Right = newChild as PRegexpart;
+                Right = newChild as PRegex;
             }
             else if (Rpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Rpar in AIntervalRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Rpar in AIntervalRegex cannot be null.", "newChild");
                 if (!(newChild is TRBkt) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBkt;
@@ -1954,9 +2186,9 @@ namespace SablePP.Compiler.Nodes
             yield return Rpar;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new AIntervalRegexpart(Lpar.Clone(), Left.Clone(), Dots.Clone(), Right.Clone(), Rpar.Clone());
+            return new AIntervalRegex(Lpar.Clone(), Left.Clone(), Dots.Clone(), Right.Clone(), Rpar.Clone());
         }
         
         public override string ToString()
@@ -1964,11 +2196,11 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0} {1} {2} {3} {4}", Lpar, Left, Dots, Right, Rpar);
         }
     }
-    public partial class AStringRegexpart : PRegexpart
+    public partial class AStringRegex : PRegex
     {
         private TString _string_;
         
-        public AStringRegexpart(TString _string_)
+        public AStringRegex(TString _string_)
             : base()
         {
             this.String = _string_;
@@ -1980,7 +2212,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("String in AStringRegexpart cannot be null.", "value");
+                    throw new ArgumentException("String in AStringRegex cannot be null.", "value");
                 
                 if (_string_ != null)
                     SetParent(_string_, null);
@@ -1995,7 +2227,7 @@ namespace SablePP.Compiler.Nodes
             if (String == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("String in AStringRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("String in AStringRegex cannot be null.", "newChild");
                 if (!(newChild is TString) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 String = newChild as TString;
@@ -2007,9 +2239,9 @@ namespace SablePP.Compiler.Nodes
             yield return String;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new AStringRegexpart(String.Clone());
+            return new AStringRegex(String.Clone());
         }
         
         public override string ToString()
@@ -2017,11 +2249,11 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0}", String);
         }
     }
-    public partial class AIdentifierRegexpart : PRegexpart
+    public partial class AIdentifierRegex : PRegex
     {
         private TIdentifier _identifier_;
         
-        public AIdentifierRegexpart(TIdentifier _identifier_)
+        public AIdentifierRegex(TIdentifier _identifier_)
             : base()
         {
             this.Identifier = _identifier_;
@@ -2033,7 +2265,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Identifier in AIdentifierRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Identifier in AIdentifierRegex cannot be null.", "value");
                 
                 if (_identifier_ != null)
                     SetParent(_identifier_, null);
@@ -2048,7 +2280,7 @@ namespace SablePP.Compiler.Nodes
             if (Identifier == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Identifier in AIdentifierRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Identifier in AIdentifierRegex cannot be null.", "newChild");
                 if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
@@ -2060,9 +2292,9 @@ namespace SablePP.Compiler.Nodes
             yield return Identifier;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new AIdentifierRegexpart(Identifier.Clone());
+            return new AIdentifierRegex(Identifier.Clone());
         }
         
         public override string ToString()
@@ -2070,13 +2302,13 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0}", Identifier);
         }
     }
-    public partial class AParenthesisRegexpart : PRegexpart
+    public partial class AParenthesisRegex : PRegex
     {
         private TLPar _lpar_;
         private PRegex _regex_;
         private TRPar _rpar_;
         
-        public AParenthesisRegexpart(TLPar _lpar_, PRegex _regex_, TRPar _rpar_)
+        public AParenthesisRegex(TLPar _lpar_, PRegex _regex_, TRPar _rpar_)
             : base()
         {
             this.Lpar = _lpar_;
@@ -2090,7 +2322,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Lpar in AParenthesisRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Lpar in AParenthesisRegex cannot be null.", "value");
                 
                 if (_lpar_ != null)
                     SetParent(_lpar_, null);
@@ -2105,7 +2337,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Regex in AParenthesisRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Regex in AParenthesisRegex cannot be null.", "value");
                 
                 if (_regex_ != null)
                     SetParent(_regex_, null);
@@ -2120,7 +2352,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Rpar in AParenthesisRegexpart cannot be null.", "value");
+                    throw new ArgumentException("Rpar in AParenthesisRegex cannot be null.", "value");
                 
                 if (_rpar_ != null)
                     SetParent(_rpar_, null);
@@ -2135,7 +2367,7 @@ namespace SablePP.Compiler.Nodes
             if (Lpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Lpar in AParenthesisRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Lpar in AParenthesisRegex cannot be null.", "newChild");
                 if (!(newChild is TLPar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLPar;
@@ -2143,7 +2375,7 @@ namespace SablePP.Compiler.Nodes
             else if (Regex == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Regex in AParenthesisRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Regex in AParenthesisRegex cannot be null.", "newChild");
                 if (!(newChild is PRegex) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Regex = newChild as PRegex;
@@ -2151,7 +2383,7 @@ namespace SablePP.Compiler.Nodes
             else if (Rpar == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Rpar in AParenthesisRegexpart cannot be null.", "newChild");
+                    throw new ArgumentException("Rpar in AParenthesisRegex cannot be null.", "newChild");
                 if (!(newChild is TRPar) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRPar;
@@ -2165,14 +2397,230 @@ namespace SablePP.Compiler.Nodes
             yield return Rpar;
         }
         
-        public override PRegexpart Clone()
+        public override PRegex Clone()
         {
-            return new AParenthesisRegexpart(Lpar.Clone(), Regex.Clone(), Rpar.Clone());
+            return new AParenthesisRegex(Lpar.Clone(), Regex.Clone(), Rpar.Clone());
         }
         
         public override string ToString()
         {
             return string.Format("{0} {1} {2}", Lpar, Regex, Rpar);
+        }
+    }
+    public partial class AOrRegex : PRegex
+    {
+        private NodeList<PRegex> _regexs_;
+        
+        public AOrRegex(IEnumerable<PRegex> _regexs_)
+            : base()
+        {
+            this._regexs_ = new NodeList<PRegex>(this, _regexs_, false);
+        }
+        
+        public NodeList<PRegex> Regexs
+        {
+            get { return _regexs_; }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (oldChild is PRegex && Regexs.Contains(oldChild as PRegex))
+            {
+                if (!(newChild is PRegex) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                
+                int index = Regexs.IndexOf(oldChild as PRegex);
+                if (newChild == null)
+                    Regexs.RemoveAt(index);
+                else
+                    Regexs[index] = newChild as PRegex;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            {
+                PRegex[] temp = new PRegex[Regexs.Count];
+                Regexs.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
+        }
+        
+        public override PRegex Clone()
+        {
+            return new AOrRegex(Regexs);
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Regexs);
+        }
+    }
+    public abstract partial class PModifier : Production<PModifier>
+    {
+        public PModifier()
+        {
+        }
+        
+    }
+    public partial class AStarModifier : PModifier
+    {
+        private TStar _star_;
+        
+        public AStarModifier(TStar _star_)
+            : base()
+        {
+            this.Star = _star_;
+        }
+        
+        public TStar Star
+        {
+            get { return _star_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Star in AStarModifier cannot be null.", "value");
+                
+                if (_star_ != null)
+                    SetParent(_star_, null);
+                SetParent(value, this);
+                
+                _star_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Star == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Star in AStarModifier cannot be null.", "newChild");
+                if (!(newChild is TStar) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Star = newChild as TStar;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Star;
+        }
+        
+        public override PModifier Clone()
+        {
+            return new AStarModifier(Star.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Star);
+        }
+    }
+    public partial class AQuestionModifier : PModifier
+    {
+        private TQMark _q_mark_;
+        
+        public AQuestionModifier(TQMark _q_mark_)
+            : base()
+        {
+            this.QMark = _q_mark_;
+        }
+        
+        public TQMark QMark
+        {
+            get { return _q_mark_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("QMark in AQuestionModifier cannot be null.", "value");
+                
+                if (_q_mark_ != null)
+                    SetParent(_q_mark_, null);
+                SetParent(value, this);
+                
+                _q_mark_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (QMark == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("QMark in AQuestionModifier cannot be null.", "newChild");
+                if (!(newChild is TQMark) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                QMark = newChild as TQMark;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return QMark;
+        }
+        
+        public override PModifier Clone()
+        {
+            return new AQuestionModifier(QMark.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", QMark);
+        }
+    }
+    public partial class APlusModifier : PModifier
+    {
+        private TPlus _plus_;
+        
+        public APlusModifier(TPlus _plus_)
+            : base()
+        {
+            this.Plus = _plus_;
+        }
+        
+        public TPlus Plus
+        {
+            get { return _plus_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Plus in APlusModifier cannot be null.", "value");
+                
+                if (_plus_ != null)
+                    SetParent(_plus_, null);
+                SetParent(value, this);
+                
+                _plus_ = value;
+            }
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Plus == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Plus in APlusModifier cannot be null.", "newChild");
+                if (!(newChild is TPlus) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Plus = newChild as TPlus;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Plus;
+        }
+        
+        public override PModifier Clone()
+        {
+            return new APlusModifier(Plus.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Plus);
         }
     }
     public abstract partial class PStates : Production<PStates>
@@ -3324,34 +3772,17 @@ namespace SablePP.Compiler.Nodes
     }
     public abstract partial class PProdtranslation : Production<PProdtranslation>
     {
-        private TLBrace _lpar_;
         private TArrow _arrow_;
         private TIdentifier _identifier_;
-        private TRBrace _rpar_;
+        private PModifier _modifier_;
         
-        public PProdtranslation(TLBrace _lpar_, TArrow _arrow_, TIdentifier _identifier_, TRBrace _rpar_)
+        public PProdtranslation(TArrow _arrow_, TIdentifier _identifier_, PModifier _modifier_)
         {
-            this.Lpar = _lpar_;
             this.Arrow = _arrow_;
             this.Identifier = _identifier_;
-            this.Rpar = _rpar_;
+            this.Modifier = _modifier_;
         }
         
-        public TLBrace Lpar
-        {
-            get { return _lpar_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Lpar in PProdtranslation cannot be null.", "value");
-                
-                if (_lpar_ != null)
-                    SetParent(_lpar_, null);
-                SetParent(value, this);
-                
-                _lpar_ = value;
-            }
-        }
         public TArrow Arrow
         {
             get { return _arrow_; }
@@ -3382,44 +3813,38 @@ namespace SablePP.Compiler.Nodes
                 _identifier_ = value;
             }
         }
-        public TRBrace Rpar
+        public PModifier Modifier
         {
-            get { return _rpar_; }
+            get { return _modifier_; }
             set
             {
-                if (value == null)
-                    throw new ArgumentException("Rpar in PProdtranslation cannot be null.", "value");
+                if (_modifier_ != null)
+                    SetParent(_modifier_, null);
+                if (value != null)
+                    SetParent(value, this);
                 
-                if (_rpar_ != null)
-                    SetParent(_rpar_, null);
-                SetParent(value, this);
-                
-                _rpar_ = value;
+                _modifier_ = value;
             }
+        }
+        public bool HasModifier
+        {
+            get { return _modifier_ != null; }
         }
         
     }
-    public partial class ACleanProdtranslation : PProdtranslation
+    public partial class AProdtranslation : PProdtranslation
     {
-        public ACleanProdtranslation(TLBrace _lpar_, TArrow _arrow_, TIdentifier _identifier_, TRBrace _rpar_)
-            : base(_lpar_, _arrow_, _identifier_, _rpar_)
+        public AProdtranslation(TArrow _arrow_, TIdentifier _identifier_, PModifier _modifier_)
+            : base(_arrow_, _identifier_, _modifier_)
         {
         }
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Lpar == oldChild)
+            if (Arrow == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Lpar in ACleanProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TLBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Lpar = newChild as TLBrace;
-            }
-            else if (Arrow == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Arrow in ACleanProdtranslation cannot be null.", "newChild");
+                    throw new ArgumentException("Arrow in AProdtranslation cannot be null.", "newChild");
                 if (!(newChild is TArrow) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Arrow = newChild as TArrow;
@@ -3427,304 +3852,35 @@ namespace SablePP.Compiler.Nodes
             else if (Identifier == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Identifier in ACleanProdtranslation cannot be null.", "newChild");
+                    throw new ArgumentException("Identifier in AProdtranslation cannot be null.", "newChild");
                 if (!(newChild is TIdentifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Identifier = newChild as TIdentifier;
             }
-            else if (Rpar == oldChild)
+            else if (Modifier == oldChild)
             {
-                if (newChild == null)
-                    throw new ArgumentException("Rpar in ACleanProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TRBrace) && newChild != null)
+                if (!(newChild is PModifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Rpar = newChild as TRBrace;
+                Modifier = newChild as PModifier;
             }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            yield return Lpar;
             yield return Arrow;
             yield return Identifier;
-            yield return Rpar;
+            if (HasModifier)
+                yield return Modifier;
         }
         
         public override PProdtranslation Clone()
         {
-            return new ACleanProdtranslation(Lpar.Clone(), Arrow.Clone(), Identifier.Clone(), Rpar.Clone());
+            return new AProdtranslation(Arrow.Clone(), Identifier.Clone(), Modifier.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3}", Lpar, Arrow, Identifier, Rpar);
-        }
-    }
-    public partial class AStarProdtranslation : PProdtranslation
-    {
-        private TStar _star_;
-        
-        public AStarProdtranslation(TLBrace _lpar_, TArrow _arrow_, TIdentifier _identifier_, TStar _star_, TRBrace _rpar_)
-            : base(_lpar_, _arrow_, _identifier_, _rpar_)
-        {
-            this.Star = _star_;
-        }
-        
-        public TStar Star
-        {
-            get { return _star_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Star in AStarProdtranslation cannot be null.", "value");
-                
-                if (_star_ != null)
-                    SetParent(_star_, null);
-                SetParent(value, this);
-                
-                _star_ = value;
-            }
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Lpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Lpar in AStarProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TLBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Lpar = newChild as TLBrace;
-            }
-            else if (Arrow == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Arrow in AStarProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TArrow) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Arrow = newChild as TArrow;
-            }
-            else if (Identifier == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Identifier in AStarProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TIdentifier) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Identifier = newChild as TIdentifier;
-            }
-            else if (Star == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Star in AStarProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TStar) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Star = newChild as TStar;
-            }
-            else if (Rpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Rpar in AStarProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TRBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Rpar = newChild as TRBrace;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            yield return Lpar;
-            yield return Arrow;
-            yield return Identifier;
-            yield return Star;
-            yield return Rpar;
-        }
-        
-        public override PProdtranslation Clone()
-        {
-            return new AStarProdtranslation(Lpar.Clone(), Arrow.Clone(), Identifier.Clone(), Star.Clone(), Rpar.Clone());
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1} {2} {3} {4}", Lpar, Arrow, Identifier, Star, Rpar);
-        }
-    }
-    public partial class APlusProdtranslation : PProdtranslation
-    {
-        private TPlus _plus_;
-        
-        public APlusProdtranslation(TLBrace _lpar_, TArrow _arrow_, TIdentifier _identifier_, TPlus _plus_, TRBrace _rpar_)
-            : base(_lpar_, _arrow_, _identifier_, _rpar_)
-        {
-            this.Plus = _plus_;
-        }
-        
-        public TPlus Plus
-        {
-            get { return _plus_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Plus in APlusProdtranslation cannot be null.", "value");
-                
-                if (_plus_ != null)
-                    SetParent(_plus_, null);
-                SetParent(value, this);
-                
-                _plus_ = value;
-            }
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Lpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Lpar in APlusProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TLBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Lpar = newChild as TLBrace;
-            }
-            else if (Arrow == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Arrow in APlusProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TArrow) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Arrow = newChild as TArrow;
-            }
-            else if (Identifier == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Identifier in APlusProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TIdentifier) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Identifier = newChild as TIdentifier;
-            }
-            else if (Plus == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Plus in APlusProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TPlus) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Plus = newChild as TPlus;
-            }
-            else if (Rpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Rpar in APlusProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TRBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Rpar = newChild as TRBrace;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            yield return Lpar;
-            yield return Arrow;
-            yield return Identifier;
-            yield return Plus;
-            yield return Rpar;
-        }
-        
-        public override PProdtranslation Clone()
-        {
-            return new APlusProdtranslation(Lpar.Clone(), Arrow.Clone(), Identifier.Clone(), Plus.Clone(), Rpar.Clone());
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1} {2} {3} {4}", Lpar, Arrow, Identifier, Plus, Rpar);
-        }
-    }
-    public partial class AQuestionProdtranslation : PProdtranslation
-    {
-        private TQMark _q_mark_;
-        
-        public AQuestionProdtranslation(TLBrace _lpar_, TArrow _arrow_, TIdentifier _identifier_, TQMark _q_mark_, TRBrace _rpar_)
-            : base(_lpar_, _arrow_, _identifier_, _rpar_)
-        {
-            this.QMark = _q_mark_;
-        }
-        
-        public TQMark QMark
-        {
-            get { return _q_mark_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("QMark in AQuestionProdtranslation cannot be null.", "value");
-                
-                if (_q_mark_ != null)
-                    SetParent(_q_mark_, null);
-                SetParent(value, this);
-                
-                _q_mark_ = value;
-            }
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Lpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Lpar in AQuestionProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TLBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Lpar = newChild as TLBrace;
-            }
-            else if (Arrow == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Arrow in AQuestionProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TArrow) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Arrow = newChild as TArrow;
-            }
-            else if (Identifier == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Identifier in AQuestionProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TIdentifier) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Identifier = newChild as TIdentifier;
-            }
-            else if (QMark == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("QMark in AQuestionProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TQMark) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                QMark = newChild as TQMark;
-            }
-            else if (Rpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Rpar in AQuestionProdtranslation cannot be null.", "newChild");
-                if (!(newChild is TRBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Rpar = newChild as TRBrace;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            yield return Lpar;
-            yield return Arrow;
-            yield return Identifier;
-            yield return QMark;
-            yield return Rpar;
-        }
-        
-        public override PProdtranslation Clone()
-        {
-            return new AQuestionProdtranslation(Lpar.Clone(), Arrow.Clone(), Identifier.Clone(), QMark.Clone(), Rpar.Clone());
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1} {2} {3} {4}", Lpar, Arrow, Identifier, QMark, Rpar);
+            return string.Format("{0} {1} {2}", Arrow, Identifier, Modifier);
         }
     }
     public abstract partial class PTranslation : Production<PTranslation>
@@ -3736,35 +3892,16 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AFullTranslation : PTranslation
     {
-        private TLBrace _lpar_;
         private TArrow _arrow_;
         private PTranslation _translation_;
-        private TRBrace _rpar_;
         
-        public AFullTranslation(TLBrace _lpar_, TArrow _arrow_, PTranslation _translation_, TRBrace _rpar_)
+        public AFullTranslation(TArrow _arrow_, PTranslation _translation_)
             : base()
         {
-            this.Lpar = _lpar_;
             this.Arrow = _arrow_;
             this.Translation = _translation_;
-            this.Rpar = _rpar_;
         }
         
-        public TLBrace Lpar
-        {
-            get { return _lpar_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Lpar in AFullTranslation cannot be null.", "value");
-                
-                if (_lpar_ != null)
-                    SetParent(_lpar_, null);
-                SetParent(value, this);
-                
-                _lpar_ = value;
-            }
-        }
         public TArrow Arrow
         {
             get { return _arrow_; }
@@ -3795,33 +3932,10 @@ namespace SablePP.Compiler.Nodes
                 _translation_ = value;
             }
         }
-        public TRBrace Rpar
-        {
-            get { return _rpar_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Rpar in AFullTranslation cannot be null.", "value");
-                
-                if (_rpar_ != null)
-                    SetParent(_rpar_, null);
-                SetParent(value, this);
-                
-                _rpar_ = value;
-            }
-        }
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Lpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Lpar in AFullTranslation cannot be null.", "newChild");
-                if (!(newChild is TLBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Lpar = newChild as TLBrace;
-            }
-            else if (Arrow == oldChild)
+            if (Arrow == oldChild)
             {
                 if (newChild == null)
                     throw new ArgumentException("Arrow in AFullTranslation cannot be null.", "newChild");
@@ -3837,32 +3951,22 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Translation = newChild as PTranslation;
             }
-            else if (Rpar == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Rpar in AFullTranslation cannot be null.", "newChild");
-                if (!(newChild is TRBrace) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Rpar = newChild as TRBrace;
-            }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            yield return Lpar;
             yield return Arrow;
             yield return Translation;
-            yield return Rpar;
         }
         
         public override PTranslation Clone()
         {
-            return new AFullTranslation(Lpar.Clone(), Arrow.Clone(), Translation.Clone(), Rpar.Clone());
+            return new AFullTranslation(Arrow.Clone(), Translation.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3}", Lpar, Arrow, Translation, Rpar);
+            return string.Format("{0} {1}", Arrow, Translation);
         }
     }
     public partial class ANewTranslation : PTranslation
@@ -4850,46 +4954,46 @@ namespace SablePP.Compiler.Nodes
     }
     public abstract partial class PElements : Production<PElements>
     {
-        private NodeList<PElement> _element_;
+        private NodeList<PElement> _elements_;
         
-        public PElements(IEnumerable<PElement> _element_)
+        public PElements(IEnumerable<PElement> _elements_)
         {
-            this._element_ = new NodeList<PElement>(this, _element_, false);
+            this._elements_ = new NodeList<PElement>(this, _elements_, false);
         }
         
-        public NodeList<PElement> Element
+        public NodeList<PElement> Elements
         {
-            get { return _element_; }
+            get { return _elements_; }
         }
         
     }
     public partial class AElements : PElements
     {
-        public AElements(IEnumerable<PElement> _element_)
-            : base(_element_)
+        public AElements(IEnumerable<PElement> _elements_)
+            : base(_elements_)
         {
         }
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (oldChild is PElement && Element.Contains(oldChild as PElement))
+            if (oldChild is PElement && Elements.Contains(oldChild as PElement))
             {
                 if (!(newChild is PElement) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
-                int index = Element.IndexOf(oldChild as PElement);
+                int index = Elements.IndexOf(oldChild as PElement);
                 if (newChild == null)
-                    Element.RemoveAt(index);
+                    Elements.RemoveAt(index);
                 else
-                    Element[index] = newChild as PElement;
+                    Elements[index] = newChild as PElement;
             }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
         protected override IEnumerable<Node> GetChildren()
         {
             {
-                PElement[] temp = new PElement[Element.Count];
-                Element.CopyTo(temp, 0);
+                PElement[] temp = new PElement[Elements.Count];
+                Elements.CopyTo(temp, 0);
                 for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
@@ -4897,23 +5001,25 @@ namespace SablePP.Compiler.Nodes
         
         public override PElements Clone()
         {
-            return new AElements(Element);
+            return new AElements(Elements);
         }
         
         public override string ToString()
         {
-            return string.Format("{0}", Element);
+            return string.Format("{0}", Elements);
         }
     }
     public abstract partial class PElement : Production<PElement>
     {
         private PElementname _elementname_;
         private PElementid _elementid_;
+        private PModifier _modifier_;
         
-        public PElement(PElementname _elementname_, PElementid _elementid_)
+        public PElement(PElementname _elementname_, PElementid _elementid_, PModifier _modifier_)
         {
             this.Elementname = _elementname_;
             this.Elementid = _elementid_;
+            this.Modifier = _modifier_;
         }
         
         public PElementname Elementname
@@ -4948,144 +5054,30 @@ namespace SablePP.Compiler.Nodes
                 _elementid_ = value;
             }
         }
-        
-    }
-    public partial class ASimpleElement : PElement
-    {
-        public ASimpleElement(PElementname _elementname_, PElementid _elementid_)
-            : base(_elementname_, _elementid_)
+        public PModifier Modifier
         {
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Elementname == oldChild)
-            {
-                if (!(newChild is PElementname) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Elementname = newChild as PElementname;
-            }
-            else if (Elementid == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Elementid in ASimpleElement cannot be null.", "newChild");
-                if (!(newChild is PElementid) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Elementid = newChild as PElementid;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            if (HasElementname)
-                yield return Elementname;
-            yield return Elementid;
-        }
-        
-        public override PElement Clone()
-        {
-            return new ASimpleElement(Elementname.Clone(), Elementid.Clone());
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1}", Elementname, Elementid);
-        }
-    }
-    public partial class AStarElement : PElement
-    {
-        private TStar _star_;
-        
-        public AStarElement(PElementname _elementname_, PElementid _elementid_, TStar _star_)
-            : base(_elementname_, _elementid_)
-        {
-            this.Star = _star_;
-        }
-        
-        public TStar Star
-        {
-            get { return _star_; }
+            get { return _modifier_; }
             set
             {
-                if (value == null)
-                    throw new ArgumentException("Star in AStarElement cannot be null.", "value");
+                if (_modifier_ != null)
+                    SetParent(_modifier_, null);
+                if (value != null)
+                    SetParent(value, this);
                 
-                if (_star_ != null)
-                    SetParent(_star_, null);
-                SetParent(value, this);
-                
-                _star_ = value;
+                _modifier_ = value;
             }
+        }
+        public bool HasModifier
+        {
+            get { return _modifier_ != null; }
         }
         
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Elementname == oldChild)
-            {
-                if (!(newChild is PElementname) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Elementname = newChild as PElementname;
-            }
-            else if (Elementid == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Elementid in AStarElement cannot be null.", "newChild");
-                if (!(newChild is PElementid) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Elementid = newChild as PElementid;
-            }
-            else if (Star == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Star in AStarElement cannot be null.", "newChild");
-                if (!(newChild is TStar) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Star = newChild as TStar;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            if (HasElementname)
-                yield return Elementname;
-            yield return Elementid;
-            yield return Star;
-        }
-        
-        public override PElement Clone()
-        {
-            return new AStarElement(Elementname.Clone(), Elementid.Clone(), Star.Clone());
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1} {2}", Elementname, Elementid, Star);
-        }
     }
-    public partial class AQuestionElement : PElement
+    public partial class AElement : PElement
     {
-        private TQMark _q_mark_;
-        
-        public AQuestionElement(PElementname _elementname_, PElementid _elementid_, TQMark _q_mark_)
-            : base(_elementname_, _elementid_)
+        public AElement(PElementname _elementname_, PElementid _elementid_, PModifier _modifier_)
+            : base(_elementname_, _elementid_, _modifier_)
         {
-            this.QMark = _q_mark_;
-        }
-        
-        public TQMark QMark
-        {
-            get { return _q_mark_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("QMark in AQuestionElement cannot be null.", "value");
-                
-                if (_q_mark_ != null)
-                    SetParent(_q_mark_, null);
-                SetParent(value, this);
-                
-                _q_mark_ = value;
-            }
         }
         
         public override void ReplaceChild(Node oldChild, Node newChild)
@@ -5099,18 +5091,16 @@ namespace SablePP.Compiler.Nodes
             else if (Elementid == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Elementid in AQuestionElement cannot be null.", "newChild");
+                    throw new ArgumentException("Elementid in AElement cannot be null.", "newChild");
                 if (!(newChild is PElementid) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Elementid = newChild as PElementid;
             }
-            else if (QMark == oldChild)
+            else if (Modifier == oldChild)
             {
-                if (newChild == null)
-                    throw new ArgumentException("QMark in AQuestionElement cannot be null.", "newChild");
-                if (!(newChild is TQMark) && newChild != null)
+                if (!(newChild is PModifier) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                QMark = newChild as TQMark;
+                Modifier = newChild as PModifier;
             }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
@@ -5119,87 +5109,18 @@ namespace SablePP.Compiler.Nodes
             if (HasElementname)
                 yield return Elementname;
             yield return Elementid;
-            yield return QMark;
+            if (HasModifier)
+                yield return Modifier;
         }
         
         public override PElement Clone()
         {
-            return new AQuestionElement(Elementname.Clone(), Elementid.Clone(), QMark.Clone());
+            return new AElement(Elementname.Clone(), Elementid.Clone(), Modifier.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2}", Elementname, Elementid, QMark);
-        }
-    }
-    public partial class APlusElement : PElement
-    {
-        private TPlus _plus_;
-        
-        public APlusElement(PElementname _elementname_, PElementid _elementid_, TPlus _plus_)
-            : base(_elementname_, _elementid_)
-        {
-            this.Plus = _plus_;
-        }
-        
-        public TPlus Plus
-        {
-            get { return _plus_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Plus in APlusElement cannot be null.", "value");
-                
-                if (_plus_ != null)
-                    SetParent(_plus_, null);
-                SetParent(value, this);
-                
-                _plus_ = value;
-            }
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Elementname == oldChild)
-            {
-                if (!(newChild is PElementname) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Elementname = newChild as PElementname;
-            }
-            else if (Elementid == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Elementid in APlusElement cannot be null.", "newChild");
-                if (!(newChild is PElementid) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Elementid = newChild as PElementid;
-            }
-            else if (Plus == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Plus in APlusElement cannot be null.", "newChild");
-                if (!(newChild is TPlus) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Plus = newChild as TPlus;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            if (HasElementname)
-                yield return Elementname;
-            yield return Elementid;
-            yield return Plus;
-        }
-        
-        public override PElement Clone()
-        {
-            return new APlusElement(Elementname.Clone(), Elementid.Clone(), Plus.Clone());
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1} {2}", Elementname, Elementid, Plus);
+            return string.Format("{0} {1} {2}", Elementname, Elementid, Modifier);
         }
     }
     public abstract partial class PElementname : Production<PElementname>
@@ -5579,12 +5500,12 @@ namespace SablePP.Compiler.Nodes
     public abstract partial class PHighlightrules : Production<PHighlightrules>
     {
         private THighlighttoken _highlighttoken_;
-        private NodeList<PHighlightrule> _highlightrule_;
+        private NodeList<PHighlightrule> _highlightrules_;
         
-        public PHighlightrules(THighlighttoken _highlighttoken_, IEnumerable<PHighlightrule> _highlightrule_)
+        public PHighlightrules(THighlighttoken _highlighttoken_, IEnumerable<PHighlightrule> _highlightrules_)
         {
             this.Highlighttoken = _highlighttoken_;
-            this._highlightrule_ = new NodeList<PHighlightrule>(this, _highlightrule_, false);
+            this._highlightrules_ = new NodeList<PHighlightrule>(this, _highlightrules_, false);
         }
         
         public THighlighttoken Highlighttoken
@@ -5602,16 +5523,16 @@ namespace SablePP.Compiler.Nodes
                 _highlighttoken_ = value;
             }
         }
-        public NodeList<PHighlightrule> Highlightrule
+        public NodeList<PHighlightrule> Highlightrules
         {
-            get { return _highlightrule_; }
+            get { return _highlightrules_; }
         }
         
     }
     public partial class AHighlightrules : PHighlightrules
     {
-        public AHighlightrules(THighlighttoken _highlighttoken_, IEnumerable<PHighlightrule> _highlightrule_)
-            : base(_highlighttoken_, _highlightrule_)
+        public AHighlightrules(THighlighttoken _highlighttoken_, IEnumerable<PHighlightrule> _highlightrules_)
+            : base(_highlighttoken_, _highlightrules_)
         {
         }
         
@@ -5625,16 +5546,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Highlighttoken = newChild as THighlighttoken;
             }
-            else if (oldChild is PHighlightrule && Highlightrule.Contains(oldChild as PHighlightrule))
+            else if (oldChild is PHighlightrule && Highlightrules.Contains(oldChild as PHighlightrule))
             {
                 if (!(newChild is PHighlightrule) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
-                int index = Highlightrule.IndexOf(oldChild as PHighlightrule);
+                int index = Highlightrules.IndexOf(oldChild as PHighlightrule);
                 if (newChild == null)
-                    Highlightrule.RemoveAt(index);
+                    Highlightrules.RemoveAt(index);
                 else
-                    Highlightrule[index] = newChild as PHighlightrule;
+                    Highlightrules[index] = newChild as PHighlightrule;
             }
             else throw new ArgumentException("Node to be replaced is not a child in this production.");
         }
@@ -5642,8 +5563,8 @@ namespace SablePP.Compiler.Nodes
         {
             yield return Highlighttoken;
             {
-                PHighlightrule[] temp = new PHighlightrule[Highlightrule.Count];
-                Highlightrule.CopyTo(temp, 0);
+                PHighlightrule[] temp = new PHighlightrule[Highlightrules.Count];
+                Highlightrules.CopyTo(temp, 0);
                 for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
             }
@@ -5651,12 +5572,12 @@ namespace SablePP.Compiler.Nodes
         
         public override PHighlightrules Clone()
         {
-            return new AHighlightrules(Highlighttoken.Clone(), Highlightrule);
+            return new AHighlightrules(Highlighttoken.Clone(), Highlightrules);
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1}", Highlighttoken, Highlightrule);
+            return string.Format("{0} {1}", Highlighttoken, Highlightrules);
         }
     }
     public abstract partial class PHighlightrule : Production<PHighlightrule>

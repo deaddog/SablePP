@@ -1,7 +1,10 @@
-﻿using SablePP.Tools.Editor;
+﻿using FastColoredTextBoxNS;
+using SablePP.Compiler.Nodes.Identifiers;
+using SablePP.Tools.Analysis;
+using SablePP.Tools.Editor;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -14,12 +17,16 @@ namespace SablePP.Compiler.Execution
 
         private EditorSettings settings = EditorSettings.Default;
 
+        private Style highlightstyle = new SelectionStyle(new SolidBrush(Color.FromArgb(226, 230, 214)));
+
         private ToolStripMenuItem tools;
         private ToolStripMenuItem outputButton = new ToolStripMenuItem("Set &Output Directory...");
         private ToolStripMenuItem generateButton = new ToolStripMenuItem("&Build");
         private ToolStripMenuItem livecodeButton = new ToolStripMenuItem("&LiveCode Tool");
 
         private LiveCodeEditor lce;
+
+        private ToolStripMenuItem goToButton = new ToolStripMenuItem("Go to definition...");
 
         public SablePPEditor()
         {
@@ -53,6 +60,84 @@ namespace SablePP.Compiler.Execution
                 ManagingForm = this
             };
             lce.VisibleChanged += (s, e) => livecodeButton.Checked = lce.Visible;
+
+            goToButton.Click += goToButton_Click;
+            goToButton.Enabled = false;
+            goToButton.ShortcutKeys = Keys.F12;
+
+            EditMenu.DropDownItems.Add(new ToolStripSeparator());
+            EditMenu.DropDownItems.Add(goToButton);
+
+            this.CodeTextBox.SelectionChanged += CodeTextBox_SelectionChanged;
+            this.CodeTextBox.CompilationCompleted += CodeTextBox_SelectionChanged;
+
+            CodeTextBox.Styles[0] = highlightstyle;
+        }
+
+        private void CodeTextBox_SelectionChanged(object sender, EventArgs e)
+        {
+            CodeTextBox.Range.ClearStyle(highlightstyle);
+
+            var find = CodeTextBox.TokenFromPlace(CodeTextBox.Selection.Start);
+            if (find != null && find is DeclarationIdentifier)
+            {
+                var id = find as DeclarationIdentifier;
+                goToButton.Enabled = true;
+
+                foreach (var token in DepthFirstTreeWalker.GetTokens(CodeTextBox.LastResult.Tree).OfType<DeclarationIdentifier>())
+                    if (id.Declaration == token.Declaration || (id.IsPElement && id.AsPElement.Elementid.Identifier == token))
+                    {
+                        var r = CodeTextBox.RangeFromToken(token);
+                        if (!CodeTextBox.Range.Contains(r.Start) || !(CodeTextBox.Range.Contains(r.End)))
+                            return;
+                        r.SetStyle(highlightstyle);
+                    }
+            }
+            else
+                goToButton.Enabled = false;
+        }
+
+        private void goToButton_Click(object sender, EventArgs e)
+        {
+            var t = CodeTextBox.TokenFromPlace(CodeTextBox.Selection.Start);
+            if (t != null && t is SablePP.Compiler.Nodes.TIdentifier)
+            {
+                var id = t as SablePP.Compiler.Nodes.TIdentifier;
+                if (id.IsPAlternative)
+                {
+                    if (id.AsPAlternative.HasAlternativename)
+                        id = id.AsPAlternative.Alternativename.Name;
+                    else
+                        id = null;
+                }
+                else if (id.IsPElement)
+                {
+                    if (id.AsPElement.HasElementname)
+                        id = id.AsPElement.Elementname.Name;
+                    else
+                        id = id.AsPElement.Elementid.Identifier;
+                }
+                else if (id.IsPHelper)
+                    id = id.AsPHelper.Identifier;
+                else if (id.IsPHighlightrule)
+                    id = id.AsPHighlightrule.Name;
+                else if (id.IsPProduction)
+                    id = id.AsPProduction.Identifier;
+                else if (id.IsPToken)
+                    id = id.AsPToken.Identifier;
+                else if (id.IsState)
+                    id = id.AsState;
+                else
+                    id = null;
+
+                if (id != null)
+                {
+                    var range = CodeTextBox.RangeFromToken(id);
+                    CodeTextBox.Selection = range;
+                    if (!CodeTextBox.VisibleRange.Contains(range.Start) || !CodeTextBox.VisibleRange.Contains(range.End))
+                        CodeTextBox.DoSelectionVisible();
+                }
+            }
         }
 
         protected override void OnFileChanged(EventArgs e)

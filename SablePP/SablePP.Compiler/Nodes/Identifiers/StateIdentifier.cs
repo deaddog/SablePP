@@ -1,32 +1,31 @@
 ﻿namespace SablePP.Compiler.Nodes.Identifiers
 {
-    public class StateIdentifier : TIdentifier
+    public class StateIdentifier : DeclarationIdentifier
     {
-        private StateIdentifier declaration;
         private bool first;
 
         public StateIdentifier(TIdentifier identifier, bool first)
             : base(identifier.Text, identifier.Line, identifier.Position)
         {
-            this.declaration = this;
+            base.Declaration = this;
             this.first = first;
         }
 
         public StateIdentifier(TIdentifier identifier, StateIdentifier declaration)
             : base(identifier.Text, identifier.Line, identifier.Position)
         {
-            this.declaration = declaration;
+            base.Declaration = declaration;
             this.first = declaration.first;
         }
 
         public bool IsDeclaration
         {
-            get { return this.declaration == this; }
+            get { return this.Declaration == this; }
         }
 
-        public StateIdentifier Declaration
+        new public StateIdentifier Declaration
         {
-            get { return declaration; }
+            get { return Declaration as StateIdentifier; }
         }
 
         public bool IsFirst

@@ -14,18 +14,25 @@ namespace SablePP.Compiler
 
         private static object pathLock = new object();
 
+        static PathInformation()
+        {
+            // Sets executing directory
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            Uri uri = new Uri(assembly.CodeBase);
+            _executing_ = Path.GetDirectoryName(uri.LocalPath);
+
+            // Sets temporary directory
+            string tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName().Replace(".", ""));
+
+            if(!Directory.Exists(tempDir))
+                Directory.CreateDirectory(tempDir);
+
+            _temporary_ = tempDir;
+        }
+
         public static string ExecutingDirectory
         {
-            get
-            {
-                if (_executing_ == null)
-                {
-                    var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                    Uri uri = new Uri(assembly.CodeBase);
-                    _executing_ = Path.GetDirectoryName(uri.LocalPath);
-                }
-                return _executing_;
-            }
+            get { return _executing_; }
         }
 
         public static void CleanTemporaryFiles()
@@ -35,37 +42,19 @@ namespace SablePP.Compiler
                     return;
                 else
                 {
-                    DirectoryInfo dir = new DirectoryInfo(_temporary_);
-                    if (dir.Exists)
-                        DeleteRecursive(dir);
+                    if (Directory.Exists(_temporary_))
+                        Directory.Delete(_temporary_, true);
 
                     _temporary_ = null;
                 }
-        }
-        private static void DeleteRecursive(DirectoryInfo dir)
-        {
-            foreach (var f in dir.GetFiles())
-                f.Delete();
-            foreach (var d in dir.GetDirectories())
-                DeleteRecursive(d);
-            dir.Delete();
         }
 
         public static string TemporaryDirectory
         {
             get
             {
-                lock (pathLock)
-                    if (_temporary_ == null)
-                    {
-                        string tempDir = Path.Combine(ExecutingDirectory, "tmp." + DateTime.Now.ToString("yyyyMMdd.HHmmss.fff"));
-
-                        DirectoryInfo dir = new DirectoryInfo(tempDir);
-                        if (!dir.Exists)
-                            dir.Create();
-
-                        _temporary_ = tempDir;
-                    }
+                if (_temporary_ == null)
+                    throw new InvalidOperationException("TemporaryDirectory cannot be access after CleanTemporaryFiles has been called.");
 
                 return _temporary_;
             }

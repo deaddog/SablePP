@@ -158,15 +158,22 @@ namespace SablePP.Compiler.Generate.Parsing
         private static string[] getListTypes(AGrammar grammar)
         {
             List<string> types = new List<string>();
+            List<Node> declarations = new List<Node>();
 
             foreach (var p in grammar.Productions.Productions)
                 foreach (var a in p.Productionrule.Alternatives)
-                    foreach (var e in a.Elements.Element)
+                    foreach (var e in a.Elements.Elements)
                     {
                         var t = e.ElementType;
                         if (t == ElementTypes.Plus || t == ElementTypes.Star)
-                            if (!types.Contains(e.ClassName))
+                        {
+                            var decl = (e.Elementid.Identifier as SablePP.Compiler.Nodes.Identifiers.DeclarationIdentifier).Declaration;
+                            if (!declarations.Contains(decl))
+                            {
                                 types.Add(e.ClassName);
+                                declarations.Add(decl);
+                            }
+                        }
                     }
 
             return types.ToArray();
@@ -186,9 +193,7 @@ namespace SablePP.Compiler.Generate.Parsing
 
         public override void CaseAAlternative(AAlternative node)
         {
-            ReductionBuilder builder = node.HasTranslation || !hasAstAlternative(node)
-                ? (ReductionBuilder)translation
-                : (ReductionBuilder)simple;
+            ReductionBuilder builder = node.HasTranslation ? (ReductionBuilder)translation : (ReductionBuilder)simple;
 
             foreach (var e in builder.GetElements(node, productionCase))
             {
@@ -206,22 +211,6 @@ namespace SablePP.Compiler.Generate.Parsing
 
                 reduceCase++;
             }
-        }
-
-        private bool hasAstAlternative(PAlternative productionAlternative)
-        {
-            PGrammar grammar = productionAlternative.GetFirstParent<PGrammar>();
-            PProduction production = productionAlternative.Production;
-
-            if (!grammar.HasAstproductions)
-                return false;
-
-            var astProduction = grammar.Astproductions.Productions.Where(p => p.ClassName == production.ClassName).FirstOrDefault();
-            if (astProduction == null)
-                return false;
-
-            var astAlternative = astProduction.Productionrule.Alternatives.Where(a => a.ClassName == productionAlternative.ClassName).FirstOrDefault();
-            return astAlternative != null;
         }
     }
 }

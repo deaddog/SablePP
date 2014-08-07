@@ -56,7 +56,7 @@ namespace SablePP.Compiler.Generate.Analysis
             method.Body.EmitLine("Element[] temp = new Element[elements.Count];");
             method.Body.EmitLine("elements.CopyTo(temp, 0);");
 
-            if(!reversed)
+            if (!reversed)
                 method.Body.EmitLine("for (int i = 0; i < temp.Length; i++)");
             else
                 method.Body.EmitLine("for (int i = temp.Length - 1; i >= 0; i--)");
@@ -138,10 +138,9 @@ namespace SablePP.Compiler.Generate.Analysis
                 InPElements(node);
                 InAElements(node);
 
-
                 {
-                    PElement[] temp = new PElement[node.Element.Count];
-                    node.Element.CopyTo(temp, 0);
+                    PElement[] temp = new PElement[node.Elements.Count];
+                    node.Elements.CopyTo(temp, 0);
                     for (int i = temp.Length - 1; i >= 0; i--)
                         Visit((dynamic)temp[i]);
                 }
@@ -161,24 +160,29 @@ namespace SablePP.Compiler.Generate.Analysis
             method.Body.EmitLine("Default{0}Out(node);", name[0]);
         }
 
-        public override void CaseASimpleElement(ASimpleElement node)
+        public override void CaseAElement(AElement node)
         {
-            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.Identifier.IsPProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
-        }
-        public override void CaseAQuestionElement(AQuestionElement node)
-        {
-            method.Body.EmitLine("if (node.Has{0})", ToCamelCase(node.LowerName));
-            method.Body.IncreaseIndentation();
-            method.Body.EmitLine("Visit({0}node.{1});", node.Elementid.Identifier.IsPProduction ? "(dynamic)" : "", ToCamelCase(node.LowerName));
-            method.Body.DecreaseIndentation();
-        }
-        public override void CaseAPlusElement(APlusElement node)
-        {
-            method.Body.EmitLine("Visit(node.{0});", ToCamelCase(node.LowerName));
-        }
-        public override void CaseAStarElement(AStarElement node)
-        {
-            method.Body.EmitLine("Visit(node.{0});", ToCamelCase(node.LowerName));
+            string dynamic = node.Elementid.Identifier.IsPProduction ? "(dynamic)" : "";
+            string name = ToCamelCase(node.LowerName);
+
+            switch (node.ElementType)
+            {
+                case ElementTypes.Simple:
+                    method.Body.EmitLine("Visit({0}node.{1});", dynamic, name);
+                    break;
+
+                case ElementTypes.Question:
+                    method.Body.EmitLine("if (node.Has{0})", name);
+                    method.Body.IncreaseIndentation();
+                    method.Body.EmitLine("Visit({0}node.{1});", dynamic, name);
+                    method.Body.DecreaseIndentation();
+                    break;
+
+                case ElementTypes.Plus:
+                case ElementTypes.Star:
+                    method.Body.EmitLine("Visit(node.{0});", name);
+                    break;
+            }
         }
     }
 }

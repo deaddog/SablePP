@@ -1,7 +1,7 @@
 ﻿Namespace SablePP.Compiler;
 
 Helpers
-    all = [0 .. 0xFFFF];  
+    all = [0 .. 0xFFFF];
     lowercase = ['a' .. 'z'];
     uppercase = ['A' .. 'Z'];
     digit = ['0' .. '9'];
@@ -22,7 +22,7 @@ Helpers
     long_comment = '/*' not_star* '*'+ (not_star_slash not_star* '*'+)* '/';
     comment = short_comment | long_comment;
 
-    letter = lowercase | uppercase | '_' | '$'; 
+    letter = lowercase | uppercase | '_' | '$';
     id_part = lowercase (lowercase | digit)*;
 
 States
@@ -35,13 +35,19 @@ Tokens
 {package}
     packagename = letter (letter | digit)* ('.' letter (letter | digit)*)*;
 
-{normal->package}
+{normal->package,highlight->package}
     packagetoken = 'Package'|'Namespace';
+{normal,highlight->normal}
     statestoken = 'States';
+{normal,highlight->normal}
     helperstoken = 'Helpers';
+{normal,highlight->normal}
     tokenstoken = 'Tokens';
+{normal,highlight->normal}
     ignoredtoken = 'Ignored';
+{normal,highlight->normal}
     productionstoken = 'Productions';
+{normal,highlight->normal}
     asttoken = 'Abstract' (' ' | tab)+ 'Syntax' (' ' | tab)+ 'Tree';
 {normal->highlight}
     highlighttoken = 'Token Syntax Highlight';
@@ -109,12 +115,19 @@ Ignored Tokens
     comment;
 
 Productions
-    grammar
-        = package? helpers? states? tokens? ign_tokens? productions? astproductions? highlightrules?
-        {-> New grammar(package.package, helpers.helpers, states.states, tokens.tokens, ign_tokens.ignoredtokens, productions.productions, astproductions.astproductions, highlightrules.highlightrules)}
+    grammar = section* { -> New grammar.section([section.section])};
+    section
+        = {p} package { -> New section.package(package.package) }
+        | {h} helpers { -> New section.helpers(helpers.helpers) }
+        | {s} states { -> New section.states(states.states) }
+        | {t} tokens { -> New section.tokens(tokens.tokens) }
+        | {i} ign_tokens { -> New section.ignore(ign_tokens.ignoredtokens) }
+        | {pr} productions { -> New section.productions(productions.productions) }
+        | {a} astproductions { -> New section.a_s_t(astproductions.astproductions) }
+        | {hi} highlightrules { -> New section.highlight(highlightrules.highlightrules) }
         ;
 
-    package = 
+    package =
         packagetoken packagename semicolon;
 
     helpers
@@ -166,43 +179,47 @@ Productions
         ;
 
     reg_exp {-> regex}
-        = {single} concat {-> New regex([New orpart.regex(Null, [concat.regexpart])])}
-        | {multiple} concat [concats]:reg_exp_tail+ {-> New regex([New orpart.regex(Null, [concat.regexpart]), concats.orpart])}
+        = {single} concat {-> concat.regex}
+        | {multiple} concat [concats]:reg_exp_tail+ {-> New regex.or([concat.regex, concats.regex])}
         ;
 
-    reg_exp_tail {-> orpart}
-        = pipe concat {-> New orpart.regex(pipe, [concat.regexpart])}
+    reg_exp_tail {-> regex}
+        = pipe concat {-> concat.regex}
         ;
 
-    concat {-> regexpart+}
-        = [un_exps]:un_exp+ {-> [un_exps.regexpart]}
+    concat {-> regex}
+        = [un_exps]:un_exp+ {-> New regex.concatenated([un_exps.regex])}
+        ;
+    
+    modifier
+        = {star} star
+        | {question} q_mark
+        | {plus} plus
+        ;
+    
+    un_exp {-> regex}
+        = {simple} basic {-> basic.regex}
+        | {mod} basic modifier {-> New regex.unary(basic.regex, modifier)}
         ;
 
-    un_exp {-> regexpart}
-        = {simple} basic {-> basic.regexpart}
-        | {star} basic star {-> New regexpart.unarystar(basic.regexpart, star)}
-        | {question} basic q_mark {-> New regexpart.unaryquestion(basic.regexpart, q_mark)}
-        | {plus} basic plus {-> New regexpart.unaryplus(basic.regexpart, plus)}
+    basic {-> regex}
+        = {char} char {-> char.regex}
+        | {set} set {-> set.regex}
+        | {string} string {-> New regex.string(string)}
+        | {identifier} identifier {-> New regex.identifier(identifier)}
+        | {reg_exp} l_par reg_exp r_par {-> New regex.parenthesis(l_par, reg_exp.regex, r_par)}
         ;
 
-    basic {-> regexpart}
-        = {char} char {-> char.regexpart}
-        | {set} set {-> set.regexpart}
-        | {string} string {-> New regexpart.string(string)}
-        | {identifier} identifier {-> New regexpart.identifier(identifier)}
-        | {reg_exp} l_par reg_exp r_par {-> New regexpart.parenthesis(l_par, reg_exp.regex, r_par)}
+    char {-> regex}
+        = {char} character {-> New regex.char(character)}
+        | {dec}  dec_char {-> New regex.dec(dec_char)}
+        | {hex}  hex_char {-> New regex.hex(hex_char)}
         ;
 
-    char {-> regexpart}
-        = {char} character {-> New regexpart.char(character)}
-        | {dec}  dec_char {-> New regexpart.dec(dec_char)}
-        | {hex}  hex_char {-> New regexpart.hex(hex_char)}
-        ;
-
-    set {-> regexpart}
-        = {plus} l_bkt [left]:basic plus [right]:basic r_bkt {-> New regexpart.binaryplus(l_bkt, left.regexpart, plus, right.regexpart, r_bkt)}
-        | {minus} l_bkt [left]:basic minus [right]:basic r_bkt {-> New regexpart.binaryminus(l_bkt, left.regexpart, minus, right.regexpart, r_bkt)}
-        | {interval} l_bkt [left]:char d_dot [right]:char r_bkt {-> New regexpart.interval(l_bkt, left.regexpart, d_dot, right.regexpart, r_bkt)}
+    set {-> regex}
+        = {plus} l_bkt [left]:basic plus [right]:basic r_bkt {-> New regex.binaryplus(l_bkt, left.regex, plus, right.regex, r_bkt)}
+        | {minus} l_bkt [left]:basic minus [right]:basic r_bkt {-> New regex.binaryminus(l_bkt, left.regex, minus, right.regex, r_bkt)}
+        | {interval} l_bkt [left]:char d_dot [right]:char r_bkt {-> New regex.interval(l_bkt, left.regex, d_dot, right.regex, r_bkt)}
         ;
 
     productions
@@ -214,16 +231,15 @@ Productions
         ;
     
     prodtrans {-> prodtranslation}
-        = {clean} l_brace arrow identifier r_brace {-> New prodtranslation.clean(l_brace, arrow, identifier, r_brace)}
-        | {star} l_brace arrow identifier star r_brace {-> New prodtranslation.star(l_brace, arrow, identifier, star, r_brace)}
-        | {plus} l_brace arrow identifier plus r_brace {-> New prodtranslation.plus(l_brace, arrow, identifier, plus, r_brace)}
-        | {question} l_brace arrow identifier q_mark r_brace {-> New prodtranslation.question(l_brace, arrow, identifier, q_mark, r_brace)}
+        = l_brace arrow identifier modifier? r_brace {-> New prodtranslation(arrow, identifier, modifier)}
+        | {nomod} arrow identifier modifier? {-> New prodtranslation(arrow, identifier, modifier)}
         ;
     
     alttrans {-> translation}
-        = l_brace arrow translation r_brace {-> New translation.full(l_brace, arrow, translation.translation, r_brace)}
+        = {braces} l_brace arrow translation r_brace {-> New translation.full(arrow, translation.translation)}
+        | arrow translation {-> New translation.full(arrow, translation.translation)}
         ;
-    translation {-> translation}
+    translation
         = {id} translationid {-> translationid.translation}
         | {new} new identifier l_par translation_args? r_par {-> New translation.new(new, identifier, l_par, [translation_args.translation_listitem], r_par)}
         | {newalt} new [a]:identifier dot [b]:identifier l_par translation_args? r_par {-> New translation.newalternative(new, a, dot, b, l_par, [translation_args.translation_listitem], r_par)}
@@ -254,12 +270,7 @@ Productions
         = l_brace identifier r_brace {-> New alternativename(l_brace, identifier, r_brace)}
         ;
 
-    elem {-> element}
-        = {simple} elem_name? elem_id {-> New element.simple(elem_name.elementname, elem_id.elementid)}
-        | {star} elem_name? elem_id star {-> New element.star(elem_name.elementname, elem_id.elementid, star)}
-        | {question} elem_name? elem_id q_mark {-> New element.question(elem_name.elementname, elem_id.elementid, q_mark)}
-        | {plus} elem_name? elem_id plus {-> New element.plus(elem_name.elementname, elem_id.elementid, plus)}
-        ;
+    elem {-> element} = elem_name? elem_id modifier? {-> New element(elem_name.elementname, elem_id.elementid, modifier)};
 
     elem_name {-> elementname}
         = l_bkt identifier r_bkt colon {-> New elementname(l_bkt, identifier, r_bkt, colon)}
@@ -271,7 +282,7 @@ Productions
         | {production} production_specifier dot identifier {-> New elementid.production(production_specifier, dot, identifier)}
         ;
 
-    astproductions {-> astproductions}
+    astproductions
         = asttoken [prods]:prod+ {-> New astproductions(asttoken, [prods.production])}
         ;
     
@@ -279,7 +290,7 @@ Productions
         = highlighttoken highlightrule+
         ;
     
-    highlightrule {-> highlightrule }
+    highlightrule
         = identifier l_brace id_list r_brace hlstyle_list semicolon {-> New highlightrule(identifier, l_brace, [id_list.identifier_listitem], r_brace, [hlstyle_list.style_listitem], semicolon)}
         ;
     
@@ -305,7 +316,21 @@ Productions
         ;
 
 Abstract Syntax Tree
-    grammar = package? helpers? states? tokens? ignoredtokens? productions? astproductions? highlightrules?;
+    grammar
+        = package? helpers? states? tokens? ignoredtokens? productions? astproductions? highlightrules?
+        | {section} section*
+        ;
+    section
+        = {package} package
+        | {helpers} helpers
+        | {states} states
+        | {tokens} tokens
+        | {ignore} ignoredtokens
+        | {productions} productions
+        | {a_s_t} astproductions
+        | {highlight} highlightrules
+        ;
+    
     package = packagetoken packagename semicolon;
     
     helpers = helperstoken [helpers]:helper*;
@@ -316,25 +341,28 @@ Abstract Syntax Tree
     tokenlookahead = slash regex;
     
     regex
-        = [parts]:orpart+
-        ;
-    orpart = {regex} pipe? regexpart+;
-    regexpart
         = {char} character
         | {dec} dec_char
         | {hex} hex_char
         
-        | {unarystar} regexpart star
-        | {unaryquestion} regexpart [question]:q_mark
-        | {unaryplus} regexpart plus
+        | {concatenated} regex+
+        | {unary} regex modifier
         
-        | {binaryplus} [lpar]:l_bkt [left]:regexpart plus [right]:regexpart [rpar]:r_bkt
-        | {binaryminus} [lpar]:l_bkt [left]:regexpart minus [right]:regexpart [rpar]:r_bkt
-        | {interval} [lpar]:l_bkt [left]:regexpart [dots]:d_dot [right]:regexpart [rpar]:r_bkt
+        | {binaryplus} [lpar]:l_bkt [left]:regex plus [right]:regex [rpar]:r_bkt
+        | {binaryminus} [lpar]:l_bkt [left]:regex minus [right]:regex [rpar]:r_bkt
+        | {interval} [lpar]:l_bkt [left]:regex [dots]:d_dot [right]:regex [rpar]:r_bkt
         
         | {string} string
         | {identifier} identifier
         | {parenthesis} [lpar]:l_par regex [rpar]:r_par
+        
+        | {or} regex+
+        ;
+    
+    modifier
+        = {star} star
+        | {question} q_mark
+        | {plus} plus
         ;
     
     states = statestoken [states]:identifier_listitem+ semicolon;
@@ -355,15 +383,10 @@ Abstract Syntax Tree
     astproductions =      asttoken [productions]:production+;
     production = identifier prodtranslation? equal productionrule semicolon;
     
-    prodtranslation
-        = {clean} [lpar]:l_brace arrow identifier [rpar]:r_brace
-        | {star} [lpar]:l_brace arrow identifier star [rpar]:r_brace
-        | {plus} [lpar]:l_brace arrow identifier plus [rpar]:r_brace
-        | {question} [lpar]:l_brace arrow identifier q_mark [rpar]:r_brace
-        ;
+    prodtranslation = arrow identifier modifier?;
     
     translation
-        = {full} [lpar]:l_brace arrow translation [rpar]:r_brace
+        = {full} arrow translation
         | {new} new [production]:identifier [lpar]:l_par [arguments]:translation_listitem+ [rpar]:r_par
         | {newalternative} new [production]:identifier dot [alternative]:identifier [lpar]:l_par [arguments]:translation_listitem+ [rpar]:r_par
         | {list} [lpar]:l_bkt [elements]:translation_listitem+ [rpar]:r_bkt
@@ -382,12 +405,7 @@ Abstract Syntax Tree
     elements
         = element+
         ;
-    element
-        = {simple} elementname? elementid
-        | {star} elementname? elementid star
-        | {question} elementname? elementid q_mark
-        | {plus} elementname? elementid plus
-        ;
+    element = elementname? elementid modifier?;
     elementname = [lpar]:l_bkt [name]:identifier [rpar]:r_bkt colon;
     elementid
         = {clean} identifier

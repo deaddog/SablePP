@@ -96,13 +96,21 @@ namespace SablePP.Tools.Editor
             return result;
         }
 
+        public event EventHandler CompilationCompleted;
+
         private void setStyle(Token token, Style style)
         {
             if ((from s in Styles where s != null select s).Count() >= 16 && !Styles.Contains(style))
                 this.ClearStylesBuffer();
-            getRangeFromToken(token).SetStyle(style);
+            RangeFromToken(token).SetStyle(style);
         }
-        private Range getRangeFromToken(Token token)
+
+        /// <summary>
+        /// Gets the <see cref="Range"/> in this <see cref="CodeTextBox"/> of a <see cref="Token"/>.
+        /// </summary>
+        /// <param name="token">The <see cref="Token"/> from which <see cref="Range"/> should be retrieved..</param>
+        /// <returns>A <see cref="Range"/> representing the location of <paramref name="token"/> in this <see cref="CodeTextBox"/>.</returns>
+        public Range RangeFromToken(Token token)
         {
             string text = token.Text;
 
@@ -119,6 +127,23 @@ namespace SablePP.Tools.Editor
             }
             p2.iChar += len;
             return new Range(this, p1, p2);
+        }
+        /// <summary>
+        /// Gets the <see cref="Token"/> located at <paramref name="place"/> in this <see cref="CodeTextBox"/>.
+        /// Tokens are found in the <see cref="LastResult"/> property.
+        /// </summary>
+        /// <param name="place">The place to look for a <see cref="Token"/>.</param>
+        /// <returns>The <see cref="Token"/> located at <paramref name="place"/>, if any; otherwise <c>null</c>.</returns>
+        public Token TokenFromPlace(Place place)
+        {
+            Result res = lastResult;
+            if(res == null || res.Tree == null)
+                return null;
+
+            foreach (var token in SablePP.Tools.Analysis.DepthFirstTreeWalker.GetTokens(res.Tree))
+                if (RangeFromToken(token).Contains(place))
+                    return token;
+            return null;
         }
 
         private SquigglyStyle getSquigglyStyle(ErrorType errorType)
@@ -329,7 +354,7 @@ namespace SablePP.Tools.Editor
                     root = null;
                 }
 
-                CompilationOptions compilationOptions = new CompilationOptions(errorManager, (highlight) =>
+                CompilationOptions compilationOptions = new CompilationOptions(parent.Text, errorManager, (highlight) =>
                     {
                         if (ReferenceEquals(highlight, null))
                             throw new ArgumentNullException("highlight");
@@ -366,6 +391,8 @@ namespace SablePP.Tools.Editor
                 }
 
                 parent.lastResult = new Result(node, errors);
+                if (parent.CompilationCompleted != null)
+                    parent.CompilationCompleted(parent, EventArgs.Empty);
                 waitFlag = false;
 
                 if (shouldStart)

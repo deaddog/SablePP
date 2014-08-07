@@ -11,26 +11,29 @@ namespace SablePP.Compiler.Nodes
                 if (HasElementname)
                     return Elementname.Name.Text;
                 else
-                    return Elementid.Identifier.Text;
+                    if (IsList)
+                        return Elementid.Identifier.Text + "s";
+                    else
+                        return Elementid.Identifier.Text;
             }
         }
 
         public bool IsList
         {
-            get { return this is AStarElement || this is APlusElement; }
+            get { return HasModifier && (Modifier is AStarModifier || Modifier is APlusModifier); }
         }
 
         public ElementTypes ElementType
         {
             get
             {
-                if (this is ASimpleElement)
+                if (!HasModifier)
                     return ElementTypes.Simple;
-                if (this is AQuestionElement)
+                if (Modifier is AQuestionModifier)
                     return ElementTypes.Question;
-                if (this is APlusElement)
+                if (Modifier is APlusModifier)
                     return ElementTypes.Plus;
-                if (this is AStarElement)
+                if (Modifier is AStarModifier)
                     return ElementTypes.Star;
 
                 throw new ArgumentException("Unknown element type; " + this.GetType().Name, "element");
@@ -47,9 +50,10 @@ namespace SablePP.Compiler.Nodes
                 var id = Elementid.Identifier;
                 if (id.IsPToken)
                     return id.AsPToken.ClassName;
-                else if (id.IsPProduction){
+                else if (id.IsPProduction)
+                {
                     var prod = id.AsPProduction;
-                    if(prod.HasProdtranslation)
+                    if (prod.HasProdtranslation)
                         return prod.Prodtranslation.Identifier.AsPProduction.ClassName;
                     else
                         return prod.ClassName;

@@ -157,7 +157,7 @@ namespace SablePP.Tools.Nodes
                 {
                     T obj = list[index];
                     SetParent(obj, null);
-                    RemoveAt(index);
+                    list.RemoveAt(index);
                 }
             }
 

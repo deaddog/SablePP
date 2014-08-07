@@ -22,14 +22,14 @@ namespace SablePP.Compiler.Generate.Parsing
 
         public override void CaseAAlternative(Nodes.AAlternative node)
         {
-            this.optionalElements = node.Elements.Element.Where(e => e.ElementType == ElementTypes.Question || e.ElementType == ElementTypes.Star).ToList();
+            this.optionalElements = node.Elements.Elements.Where(e => e.ElementType == ElementTypes.Question || e.ElementType == ElementTypes.Star).ToList();
 
             int max = 1 << optionalElements.Count;
             for (caseCounter = 0; caseCounter < max; caseCounter++)
             {
                 CreateNewCase();
 
-                var collection = node.Elements.Element;
+                var collection = node.Elements.Elements;
                 for (int i = collection.Count - 1; i >= 0; i--)
                 {
                     var element = collection[i];
@@ -213,7 +213,10 @@ namespace SablePP.Compiler.Generate.Parsing
             {
                 var prod = element.Elementid.Identifier.AsPProduction;
                 if (prod != null && prod.HasProdtranslation)
-                    return prod.Prodtranslation is APlusProdtranslation || prod.Prodtranslation is AStarProdtranslation;
+                {
+                    var trans = prod.Prodtranslation;
+                    return trans.HasModifier && (trans.Modifier is APlusModifier || trans.Modifier is AStarModifier);
+                }
             }
 
             return element.IsList;

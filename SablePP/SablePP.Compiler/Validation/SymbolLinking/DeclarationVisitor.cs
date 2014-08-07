@@ -100,7 +100,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             base.CaseAHelpers(node);
         }
-        public override void CaseAIdentifierRegexpart(AIdentifierRegexpart node)
+        public override void CaseAIdentifierRegex(AIdentifierRegex node)
         {
             if (!helpers.Link(node.Identifier))
                 RegisterError(node.Identifier, "The helper {0} has not been defined.", node.Identifier);
@@ -290,7 +290,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             foreach (var item in node.Tokens)
             {
                 if (!tokens.Link(item.Identifier))
-                    RegisterError(node, "The token {0} has not been defined.", node);
+                    RegisterError(node, "The token {0} has not been defined.", item.Identifier);
                 else
                 {
                     var token = tokens[item.Identifier.Text];

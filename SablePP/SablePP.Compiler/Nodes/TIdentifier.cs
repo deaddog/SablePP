@@ -26,7 +26,7 @@ namespace SablePP.Compiler.Nodes
         /// </value>
         public PHelper AsPHelper
         {
-            get { return IsPToken ? (this as DeclarationIdentifier<PHelper>).Declaration : null; }
+            get { return IsPHelper ? (this as DeclarationIdentifier<PHelper>).Declaration : null; }
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace SablePP.Compiler.Nodes
         /// </value>
         public StateIdentifier AsState
         {
-            get { return this as StateIdentifier; }
+            get { return IsState ? (this as StateIdentifier).Declaration : null; }
         }
 
         /// <summary>
