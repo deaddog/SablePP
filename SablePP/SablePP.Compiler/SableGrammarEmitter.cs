@@ -71,6 +71,17 @@ namespace SablePP.Compiler
             DefaultCase(new Nodes.TPackagetoken("Package", node.Line, node.Position));
         }
 
+        public override void InPRegex(Nodes.PRegex node)
+        {
+            var p = node.GetParent() as Nodes.AOrRegex;
+            if (p != null)
+            {
+                if (p.Regexs[0] != node)
+                    write(" | ");
+            }
+            base.InPRegex(node);
+        }
+
         public override void CaseAFullTranslation(Nodes.AFullTranslation node)
         {
             write("{ ");
