@@ -25,7 +25,7 @@
 
         new public StateIdentifier Declaration
         {
-            get { return Declaration as StateIdentifier; }
+            get { return base.Declaration as StateIdentifier; }
         }
 
         public bool IsFirst
