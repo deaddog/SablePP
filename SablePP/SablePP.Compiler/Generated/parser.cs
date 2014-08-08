@@ -1122,13 +1122,10 @@ namespace SablePP.Compiler.Parsing
                 case 72:
                     {
                         List<PElement> pelementlist = new List<PElement>();
-                        AElements aelements = new AElements(
-                            pelementlist
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             null,
-                            aelements,
+                            pelementlist,
                             null
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
@@ -1143,13 +1140,10 @@ namespace SablePP.Compiler.Parsing
                     {
                         PAlternativename palternativename = Pop<PAlternativename>();
                         List<PElement> pelementlist = new List<PElement>();
-                        AElements aelements = new AElements(
-                            pelementlist
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             palternativename,
-                            aelements,
+                            pelementlist,
                             null
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
@@ -1165,13 +1159,10 @@ namespace SablePP.Compiler.Parsing
                         List<PElement> pelementlist = Pop<List<PElement>>();
                         List<PElement> pelementlist2 = new List<PElement>();
                         pelementlist2.AddRange(pelementlist);
-                        AElements aelements = new AElements(
-                            pelementlist2
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             null,
-                            aelements,
+                            pelementlist2,
                             null
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
@@ -1188,13 +1179,10 @@ namespace SablePP.Compiler.Parsing
                         PAlternativename palternativename = Pop<PAlternativename>();
                         List<PElement> pelementlist2 = new List<PElement>();
                         pelementlist2.AddRange(pelementlist);
-                        AElements aelements = new AElements(
-                            pelementlist2
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             palternativename,
-                            aelements,
+                            pelementlist2,
                             null
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
@@ -1209,13 +1197,10 @@ namespace SablePP.Compiler.Parsing
                     {
                         PTranslation ptranslation = Pop<PTranslation>();
                         List<PElement> pelementlist = new List<PElement>();
-                        AElements aelements = new AElements(
-                            pelementlist
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             null,
-                            aelements,
+                            pelementlist,
                             ptranslation
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
@@ -1231,13 +1216,10 @@ namespace SablePP.Compiler.Parsing
                         PTranslation ptranslation = Pop<PTranslation>();
                         PAlternativename palternativename = Pop<PAlternativename>();
                         List<PElement> pelementlist = new List<PElement>();
-                        AElements aelements = new AElements(
-                            pelementlist
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             palternativename,
-                            aelements,
+                            pelementlist,
                             ptranslation
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
@@ -1254,13 +1236,10 @@ namespace SablePP.Compiler.Parsing
                         List<PElement> pelementlist = Pop<List<PElement>>();
                         List<PElement> pelementlist2 = new List<PElement>();
                         pelementlist2.AddRange(pelementlist);
-                        AElements aelements = new AElements(
-                            pelementlist2
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             null,
-                            aelements,
+                            pelementlist2,
                             ptranslation
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
@@ -1278,13 +1257,10 @@ namespace SablePP.Compiler.Parsing
                         PAlternativename palternativename = Pop<PAlternativename>();
                         List<PElement> pelementlist2 = new List<PElement>();
                         pelementlist2.AddRange(pelementlist);
-                        AElements aelements = new AElements(
-                            pelementlist2
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             palternativename,
-                            aelements,
+                            pelementlist2,
                             ptranslation
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
@@ -1299,13 +1275,10 @@ namespace SablePP.Compiler.Parsing
                     {
                         List<PAlternative> palternativelist = Pop<List<PAlternative>>();
                         List<PElement> pelementlist = new List<PElement>();
-                        AElements aelements = new AElements(
-                            pelementlist
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             null,
-                            aelements,
+                            pelementlist,
                             null
                         );
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
@@ -1322,13 +1295,10 @@ namespace SablePP.Compiler.Parsing
                         List<PAlternative> palternativelist = Pop<List<PAlternative>>();
                         PAlternativename palternativename = Pop<PAlternativename>();
                         List<PElement> pelementlist = new List<PElement>();
-                        AElements aelements = new AElements(
-                            pelementlist
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             palternativename,
-                            aelements,
+                            pelementlist,
                             null
                         );
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
@@ -1346,13 +1316,10 @@ namespace SablePP.Compiler.Parsing
                         List<PElement> pelementlist = Pop<List<PElement>>();
                         List<PElement> pelementlist2 = new List<PElement>();
                         pelementlist2.AddRange(pelementlist);
-                        AElements aelements = new AElements(
-                            pelementlist2
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             null,
-                            aelements,
+                            pelementlist2,
                             null
                         );
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
@@ -1371,13 +1338,10 @@ namespace SablePP.Compiler.Parsing
                         PAlternativename palternativename = Pop<PAlternativename>();
                         List<PElement> pelementlist2 = new List<PElement>();
                         pelementlist2.AddRange(pelementlist);
-                        AElements aelements = new AElements(
-                            pelementlist2
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             palternativename,
-                            aelements,
+                            pelementlist2,
                             null
                         );
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
@@ -1394,13 +1358,10 @@ namespace SablePP.Compiler.Parsing
                         List<PAlternative> palternativelist = Pop<List<PAlternative>>();
                         PTranslation ptranslation = Pop<PTranslation>();
                         List<PElement> pelementlist = new List<PElement>();
-                        AElements aelements = new AElements(
-                            pelementlist
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             null,
-                            aelements,
+                            pelementlist,
                             ptranslation
                         );
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
@@ -1418,13 +1379,10 @@ namespace SablePP.Compiler.Parsing
                         PTranslation ptranslation = Pop<PTranslation>();
                         PAlternativename palternativename = Pop<PAlternativename>();
                         List<PElement> pelementlist = new List<PElement>();
-                        AElements aelements = new AElements(
-                            pelementlist
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             palternativename,
-                            aelements,
+                            pelementlist,
                             ptranslation
                         );
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
@@ -1443,13 +1401,10 @@ namespace SablePP.Compiler.Parsing
                         List<PElement> pelementlist = Pop<List<PElement>>();
                         List<PElement> pelementlist2 = new List<PElement>();
                         pelementlist2.AddRange(pelementlist);
-                        AElements aelements = new AElements(
-                            pelementlist2
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             null,
-                            aelements,
+                            pelementlist2,
                             ptranslation
                         );
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
@@ -1469,13 +1424,10 @@ namespace SablePP.Compiler.Parsing
                         PAlternativename palternativename = Pop<PAlternativename>();
                         List<PElement> pelementlist2 = new List<PElement>();
                         pelementlist2.AddRange(pelementlist);
-                        AElements aelements = new AElements(
-                            pelementlist2
-                        );
                         AAlternative aalternative = new AAlternative(
                             null,
                             palternativename,
-                            aelements,
+                            pelementlist2,
                             ptranslation
                         );
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
@@ -1491,13 +1443,10 @@ namespace SablePP.Compiler.Parsing
                     {
                         TPipe tpipe = Pop<TPipe>();
                         List<PElement> pelementlist = new List<PElement>();
-                        AElements aelements = new AElements(
-                            pelementlist
-                        );
                         AAlternative aalternative = new AAlternative(
                             tpipe,
                             null,
-                            aelements,
+                            pelementlist,
                             null
                         );
                         Push(31, aalternative);
@@ -1508,13 +1457,10 @@ namespace SablePP.Compiler.Parsing
                         PAlternativename palternativename = Pop<PAlternativename>();
                         TPipe tpipe = Pop<TPipe>();
                         List<PElement> pelementlist = new List<PElement>();
-                        AElements aelements = new AElements(
-                            pelementlist
-                        );
                         AAlternative aalternative = new AAlternative(
                             tpipe,
                             palternativename,
-                            aelements,
+                            pelementlist,
                             null
                         );
                         Push(31, aalternative);
@@ -1526,13 +1472,10 @@ namespace SablePP.Compiler.Parsing
                         TPipe tpipe = Pop<TPipe>();
                         List<PElement> pelementlist2 = new List<PElement>();
                         pelementlist2.AddRange(pelementlist);
-                        AElements aelements = new AElements(
-                            pelementlist2
-                        );
                         AAlternative aalternative = new AAlternative(
                             tpipe,
                             null,
-                            aelements,
+                            pelementlist2,
                             null
                         );
                         Push(31, aalternative);
@@ -1545,13 +1488,10 @@ namespace SablePP.Compiler.Parsing
                         TPipe tpipe = Pop<TPipe>();
                         List<PElement> pelementlist2 = new List<PElement>();
                         pelementlist2.AddRange(pelementlist);
-                        AElements aelements = new AElements(
-                            pelementlist2
-                        );
                         AAlternative aalternative = new AAlternative(
                             tpipe,
                             palternativename,
-                            aelements,
+                            pelementlist2,
                             null
                         );
                         Push(31, aalternative);
@@ -1562,13 +1502,10 @@ namespace SablePP.Compiler.Parsing
                         PTranslation ptranslation = Pop<PTranslation>();
                         TPipe tpipe = Pop<TPipe>();
                         List<PElement> pelementlist = new List<PElement>();
-                        AElements aelements = new AElements(
-                            pelementlist
-                        );
                         AAlternative aalternative = new AAlternative(
                             tpipe,
                             null,
-                            aelements,
+                            pelementlist,
                             ptranslation
                         );
                         Push(31, aalternative);
@@ -1580,13 +1517,10 @@ namespace SablePP.Compiler.Parsing
                         PAlternativename palternativename = Pop<PAlternativename>();
                         TPipe tpipe = Pop<TPipe>();
                         List<PElement> pelementlist = new List<PElement>();
-                        AElements aelements = new AElements(
-                            pelementlist
-                        );
                         AAlternative aalternative = new AAlternative(
                             tpipe,
                             palternativename,
-                            aelements,
+                            pelementlist,
                             ptranslation
                         );
                         Push(31, aalternative);
@@ -1599,13 +1533,10 @@ namespace SablePP.Compiler.Parsing
                         TPipe tpipe = Pop<TPipe>();
                         List<PElement> pelementlist2 = new List<PElement>();
                         pelementlist2.AddRange(pelementlist);
-                        AElements aelements = new AElements(
-                            pelementlist2
-                        );
                         AAlternative aalternative = new AAlternative(
                             tpipe,
                             null,
-                            aelements,
+                            pelementlist2,
                             ptranslation
                         );
                         Push(31, aalternative);
@@ -1619,13 +1550,10 @@ namespace SablePP.Compiler.Parsing
                         TPipe tpipe = Pop<TPipe>();
                         List<PElement> pelementlist2 = new List<PElement>();
                         pelementlist2.AddRange(pelementlist);
-                        AElements aelements = new AElements(
-                            pelementlist2
-                        );
                         AAlternative aalternative = new AAlternative(
                             tpipe,
                             palternativename,
-                            aelements,
+                            pelementlist2,
                             ptranslation
                         );
                         Push(31, aalternative);

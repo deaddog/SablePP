@@ -4529,14 +4529,14 @@ namespace SablePP.Compiler.Nodes
     {
         private TPipe _pipe_;
         private PAlternativename _alternativename_;
-        private PElements _elements_;
+        private NodeList<PElement> _elements_;
         private PTranslation _translation_;
         
-        public PAlternative(TPipe _pipe_, PAlternativename _alternativename_, PElements _elements_, PTranslation _translation_)
+        public PAlternative(TPipe _pipe_, PAlternativename _alternativename_, IEnumerable<PElement> _elements_, PTranslation _translation_)
         {
             this.Pipe = _pipe_;
             this.Alternativename = _alternativename_;
-            this.Elements = _elements_;
+            this._elements_ = new NodeList<PElement>(this, _elements_, false);
             this.Translation = _translation_;
         }
         
@@ -4574,20 +4574,9 @@ namespace SablePP.Compiler.Nodes
         {
             get { return _alternativename_ != null; }
         }
-        public PElements Elements
+        public NodeList<PElement> Elements
         {
             get { return _elements_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Elements in PAlternative cannot be null.", "value");
-                
-                if (_elements_ != null)
-                    SetParent(_elements_, null);
-                SetParent(value, this);
-                
-                _elements_ = value;
-            }
         }
         public PTranslation Translation
         {
@@ -4610,7 +4599,7 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AAlternative : PAlternative
     {
-        public AAlternative(TPipe _pipe_, PAlternativename _alternativename_, PElements _elements_, PTranslation _translation_)
+        public AAlternative(TPipe _pipe_, PAlternativename _alternativename_, IEnumerable<PElement> _elements_, PTranslation _translation_)
             : base(_pipe_, _alternativename_, _elements_, _translation_)
         {
         }
@@ -4629,13 +4618,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Alternativename = newChild as PAlternativename;
             }
-            else if (Elements == oldChild)
+            else if (oldChild is PElement && Elements.Contains(oldChild as PElement))
             {
-                if (newChild == null)
-                    throw new ArgumentException("Elements in AAlternative cannot be null.", "newChild");
-                if (!(newChild is PElements) && newChild != null)
+                if (!(newChild is PElement) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Elements = newChild as PElements;
+                
+                int index = Elements.IndexOf(oldChild as PElement);
+                if (newChild == null)
+                    Elements.RemoveAt(index);
+                else
+                    Elements[index] = newChild as PElement;
             }
             else if (Translation == oldChild)
             {
@@ -4651,14 +4643,19 @@ namespace SablePP.Compiler.Nodes
                 yield return Pipe;
             if (HasAlternativename)
                 yield return Alternativename;
-            yield return Elements;
+            {
+                PElement[] temp = new PElement[Elements.Count];
+                Elements.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
             if (HasTranslation)
                 yield return Translation;
         }
         
         public override PAlternative Clone()
         {
-            return new AAlternative(Pipe.Clone(), Alternativename.Clone(), Elements.Clone(), Translation.Clone());
+            return new AAlternative(Pipe.Clone(), Alternativename.Clone(), Elements, Translation.Clone());
         }
         
         public override string ToString()
@@ -4776,63 +4773,6 @@ namespace SablePP.Compiler.Nodes
         public override string ToString()
         {
             return string.Format("{0} {1} {2}", Lpar, Name, Rpar);
-        }
-    }
-    public abstract partial class PElements : Production<PElements>
-    {
-        private NodeList<PElement> _elements_;
-        
-        public PElements(IEnumerable<PElement> _elements_)
-        {
-            this._elements_ = new NodeList<PElement>(this, _elements_, false);
-        }
-        
-        public NodeList<PElement> Elements
-        {
-            get { return _elements_; }
-        }
-        
-    }
-    public partial class AElements : PElements
-    {
-        public AElements(IEnumerable<PElement> _elements_)
-            : base(_elements_)
-        {
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (oldChild is PElement && Elements.Contains(oldChild as PElement))
-            {
-                if (!(newChild is PElement) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                
-                int index = Elements.IndexOf(oldChild as PElement);
-                if (newChild == null)
-                    Elements.RemoveAt(index);
-                else
-                    Elements[index] = newChild as PElement;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            {
-                PElement[] temp = new PElement[Elements.Count];
-                Elements.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    yield return temp[i];
-            }
-        }
-        
-        public override PElements Clone()
-        {
-            return new AElements(Elements);
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0}", Elements);
         }
     }
     public abstract partial class PElement : Production<PElement>

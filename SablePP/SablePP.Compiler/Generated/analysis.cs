@@ -426,14 +426,6 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(AElements node)
-        {
-            CaseAElements(node);
-        }
-        public virtual void CaseAElements(AElements node)
-        {
-            DefaultCase(node);
-        }
         public void Visit(AElement node)
         {
             CaseAElement(node);
@@ -2139,7 +2131,7 @@ namespace SablePP.Compiler.Analysis
                 Visit(node.Pipe);
             if (node.HasAlternativename)
                 Visit((dynamic)node.Alternativename);
-            Visit((dynamic)node.Elements);
+            Visit(node.Elements);
             if (node.HasTranslation)
                 Visit((dynamic)node.Translation);
             
@@ -2174,33 +2166,6 @@ namespace SablePP.Compiler.Analysis
             
             OutAAlternativename(node);
             OutPAlternativename(node);
-        }
-        
-        public virtual void InPElements(PElements node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPElements(PElements node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAElements(AElements node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAElements(AElements node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAElements(AElements node)
-        {
-            InPElements(node);
-            InAElements(node);
-            
-            Visit(node.Elements);
-            
-            OutAElements(node);
-            OutPElements(node);
         }
         
         public virtual void InPElement(PElement node)
@@ -3775,7 +3740,7 @@ namespace SablePP.Compiler.Analysis
             
             if (node.HasTranslation)
                 Visit((dynamic)node.Translation);
-            Visit((dynamic)node.Elements);
+            Visit(node.Elements);
             if (node.HasAlternativename)
                 Visit((dynamic)node.Alternativename);
             if (node.HasPipe)
@@ -3812,33 +3777,6 @@ namespace SablePP.Compiler.Analysis
             
             OutAAlternativename(node);
             OutPAlternativename(node);
-        }
-        
-        public virtual void InPElements(PElements node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPElements(PElements node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAElements(AElements node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAElements(AElements node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAElements(AElements node)
-        {
-            InPElements(node);
-            InAElements(node);
-            
-            Visit(node.Elements);
-            
-            OutAElements(node);
-            OutPElements(node);
         }
         
         public virtual void InPElement(PElement node)
@@ -4608,14 +4546,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAAlternativename(node);
         }
         public virtual Result CaseAAlternativename(AAlternativename node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AElements node)
-        {
-            return CaseAElements(node);
-        }
-        public virtual Result CaseAElements(AElements node)
         {
             return DefaultCase(node);
         }
@@ -5515,14 +5445,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(AElements node, T1 arg1)
-        {
-            return CaseAElements(node, arg1);
-        }
-        public virtual Result CaseAElements(AElements node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
         public Result Visit(AElement node, T1 arg1)
         {
             return CaseAElement(node, arg1);
@@ -6419,14 +6341,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(AElements node, T1 arg1, T2 arg2)
-        {
-            return CaseAElements(node, arg1, arg2);
-        }
-        public virtual Result CaseAElements(AElements node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
         public Result Visit(AElement node, T1 arg1, T2 arg2)
         {
             return CaseAElement(node, arg1, arg2);
@@ -7320,14 +7234,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAAlternativename(node, arg1, arg2, arg3);
         }
         public virtual Result CaseAAlternativename(AAlternativename node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AElements node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAElements(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAElements(AElements node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
