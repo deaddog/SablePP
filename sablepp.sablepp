@@ -227,7 +227,7 @@ Productions
         ;
 
     prod {-> production}
-        = identifier prodtrans? equal alts semicolon {-> New production(identifier, prodtrans, equal, alts, semicolon)}
+        = identifier prodtrans? equal alts semicolon {-> New production(identifier, prodtrans, equal, [alts], semicolon)}
         ;
     
     prodtrans {-> prodtranslation}
@@ -257,9 +257,9 @@ Productions
         | {double} [a]:identifier dot [b]:identifier {-> New translation.iddotid(a,dot,b)}
         ;
 
-    alts {-> productionrule}
-        = {simple} alt_name? [elems]:elem* alttrans? {-> New productionrule([New alternative(Null, alt_name, [elems], alttrans)])}
-        | {multiple} alt_name? [elems]:elem* alttrans? [alts]:alts_tail+ {-> New productionrule([New alternative(Null, alt_name, [elems], alttrans), alts])}
+    alts {-> alternative+}
+        = {simple} alt_name? [elems]:elem* alttrans? {-> [New alternative(Null, alt_name, [elems], alttrans)]}
+        | {multiple} alt_name? [elems]:elem* alttrans? [alts]:alts_tail+ {-> [New alternative(Null, alt_name, [elems], alttrans), alts]}
         ;
 
     alts_tail {-> alternative}
@@ -378,7 +378,7 @@ Abstract Syntax Tree
 
     productions = productionstoken [productions]:production+;
     astproductions =      asttoken [productions]:production+;
-    production = identifier prodtranslation? equal productionrule semicolon;
+    production = identifier prodtranslation? equal alternative+ semicolon;
     
     prodtranslation = arrow identifier modifier?;
     
@@ -392,9 +392,6 @@ Abstract Syntax Tree
         | {iddotid} identifier dot [production]:identifier
         ;
     
-    productionrule
-        = [alternatives]:alternative+
-        ;
     alternative = pipe? alternativename? element+ translation?;
     
     alternativename = [lpar]:l_brace [name]:identifier [rpar]:r_brace;
