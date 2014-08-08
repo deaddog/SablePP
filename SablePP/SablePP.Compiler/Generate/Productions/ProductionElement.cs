@@ -91,10 +91,8 @@ namespace SablePP.Compiler.Generate.Productions
             ProductionElement[] temp;
             if (!elementsDictionary.TryGetValue(node, out temp))
             {
-                var eP = (node.Elements as AElements).Elements;
-
-                PElement[] elements = new PElement[eP.Count];
-                eP.CopyTo(elements, 0);
+                PElement[] elements = new PElement[node.Elements.Count];
+                node.Elements.CopyTo(elements, 0);
 
                 temp = (from e in elements select new ProductionElement(e)).ToArray();
                 elementsDictionary.Add(node, temp);
