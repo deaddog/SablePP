@@ -79,27 +79,22 @@ namespace SablePP.Tools.Editor
         }
 #pragma warning restore
 
-        /// <summary>
-        /// Adds a <see cref="CompilerError"/> error to the <see cref="ErrorView"/>.
-        /// </summary>
-        /// <param name="error">The error that should be added to the <see cref="ErrorView"/>.</param>
-        public void AddError(CompilerError error)
+        private void addError(object sender, ErrorEventArgs e)
         {
+            CompilerError error = e.Error;
+
             ListViewItem item = new ListViewItem(
                 new string[] {
                     "",
                     error.ErrorMessage,
-                    error.Start.Line.ToString(),
-                    error.Start.Character.ToString()
+                    error.Start.Line < 1 ? string.Empty : error.Start.Line.ToString(),
+                    error.Start.Character < 1 ? string.Empty : error.Start.Character.ToString()
                 },
                 getImageKey(error.ErrorType)
             );
             this.Items.Add(item);
         }
-        /// <summary>
-        /// Clears all errors from the <see cref="ErrorView"/>.
-        /// </summary>
-        public void ClearErrors()
+        private void clearErrors(object sender, EventArgs e)
         {
             this.Items.Clear();
         }
@@ -115,14 +110,30 @@ namespace SablePP.Tools.Editor
             }
         }
 
-        [DefaultValue(null)]
         /// <summary>
         /// Gets or sets the <see cref="CodeTextBox"/> associated where errors should be located.
         /// </summary>
+        [DefaultValue(null)]
         public CodeTextBox CodeTextBox
         {
             get { return this.codeTextBox; }
-            set { this.codeTextBox = value; }
+            set
+            {
+                if (!DesignMode)
+                {
+                    if (this.codeTextBox != null)
+                    {
+                        this.codeTextBox.ErrorAdded -= addError;
+                        this.codeTextBox.ErrorsCleared -= clearErrors;
+                    }
+                    if (value != null)
+                    {
+                        value.ErrorAdded += addError;
+                        value.ErrorsCleared += clearErrors;
+                    }
+                }
+                this.codeTextBox = value;
+            }
         }
 
 #pragma warning disable 1591

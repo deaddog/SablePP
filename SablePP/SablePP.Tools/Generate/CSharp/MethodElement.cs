@@ -3,169 +3,169 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools.Generate.CSharp
 {
-    public class MethodElement : ExecutableElement
+    /// <summary>
+    /// Represents an object for handling code-generation of a C# method.
+    /// </summary>
+    public class MethodElement : ComplexElement
     {
         private string name;
-        private string returnType;
-
+        /// <summary>
+        /// Gets the name of the method.
+        /// </summary>
         public string Name
         {
             get { return name; }
         }
-        public string ReturnType
-        {
-            get { return returnType; }
-        }
-        public bool IsConstructor
-        {
-            get { return returnType == null; }
-        }
 
-        private AccessModifiers modifiers;
+        private AccessModifierElement modifiers;
+        /// <summary>
+        /// Gets or sets the access modifiers associated with the method.
+        /// </summary>
         public AccessModifiers Modifiers
         {
-            get { return modifiers; }
+            get { return modifiers.Modifiers; }
+            set { modifiers.Modifiers = value; }
         }
 
         private ParametersElement parameters;
+        /// <summary>
+        /// Gets the methods collection of parameters.
+        /// </summary>
         public ParametersElement Parameters
         {
             get { return parameters; }
         }
 
         private TypeParametersElement typeParameters;
+        /// <summary>
+        /// Gets the methods collection of type parameters.
+        /// </summary>
         public TypeParametersElement TypeParameters
         {
             get { return typeParameters; }
         }
 
-        private PatchElement chainInsert;
-        public bool HasChain
+        private PatchElement body;
+        /// <summary>
+        /// Gets a <see cref="PatchElement"/> that represents the body of the method. Executed code should be emitted to this element.
+        /// Note that this can have value <c>null</c> if the method has no body (such as an abstract method).
+        /// </summary>
+        public PatchElement Body
         {
-            get { return chainElement != null; }
-        }
-        private ChainElement chainElement;
-        public ChainElement Chain
-        {
-            get { return chainElement; }
+            get { return body; }
         }
 
-        public MethodElement(AccessModifiers modifiers, string name, bool? baseChain = null)
-            : this(modifiers, name, null as string)
+        /// <summary>
+        /// Gets a value indicating whether the method has a body.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the method has a body; otherwise, <c>false</c>.
+        /// </value>
+        public bool HasBody
         {
-            if (baseChain.HasValue)
+            get { return body != null; }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodElement"/> class from its signature.
+        /// </summary>
+        /// <param name="signature">The signature of the method.</param>
+        /// <param name="hasBody">if set to <c>true</c> the method will have a body element to which code can be written.</param>
+        public MethodElement(string signature, bool hasBody = true)
+            : this(signature, null, hasBody)
+        {
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodElement"/> class from its signature.
+        /// </summary>
+        /// <param name="signature">The signature of the method.</param>
+        /// <param name="chaincall">A <see cref="String"/> that specifies a chain call to a baseclass (for constructors). Specify <c>null</c> for no chaining.</param>
+        /// <param name="hasBody">if set to <c>true</c> the method will have a body element to which code can be written.</param>
+        public MethodElement(string signature, string chaincall, bool hasBody)
+        {
+            if (signature == null)
+                throw new ArgumentNullException("signature");
+            signature = signature.Trim();
+            int start, length;
+
+            // Parse the modifiers
+            this.modifiers = AccessModifierElement.Parse(signature, out start, out length);
+            emit(signature.Substring(0, start));
+            insertElement(modifiers);
+            signature = signature.Substring(start + length).TrimStart();
+
+            // Find the parameters
+            int parIndex = signature.IndexOf('(');
+            name = signature.Substring(0, parIndex).TrimEnd();
+
+            // Find the type parameters
+            if (name.EndsWith(">"))
             {
-                chainElement = new ChainElement(baseChain.Value);
-                chainInsert.InsertElement(chainElement);
+                int typesStart = name.LastIndexOf('<');
+                string types = name.Substring(typesStart + 1, name.Length - typesStart - 2);
+                typeParameters = TypeParametersElement.Parse(types);
+                name = name.Substring(0, typesStart).TrimEnd();
             }
-        }
-        public MethodElement(AccessModifiers modifiers, string name, string returnType)
-        {
-            if (name == null)
-                throw new ArgumentNullException("name");
-            if (name == string.Empty)
-                throw new ArgumentException("Method must have a name.", "name");
+            else
+                typeParameters = TypeParametersElement.Parse(string.Empty);
 
-            this.modifiers = modifiers;
-            this.name = name.Trim();
-            this.returnType = returnType != null ? returnType.Trim() : null;
-            if (this.returnType == string.Empty)
-                this.returnType = null;
-
-            this.parameters = new ParametersElement();
-            this.typeParameters = new TypeParametersElement();
-
-            modifiers.Emit(emit);
-            if (this.returnType != null)
-                emit(returnType, UseSpace.NotPreferred, UseSpace.Always);
-            emit(name, UseSpace.NotPreferred, UseSpace.Never);
+            // Parse the name
+            emit(name);
             insertElement(typeParameters);
-            emit("(", UseSpace.Never, UseSpace.Never);
+            if (name.Contains(" "))
+                name = name.Substring(name.LastIndexOf(' ') + 1);
+            signature = signature.Substring(parIndex + 1);
+
+            // Parse the parameters
+            int parEnd = signature.IndexOf(')');
+            this.parameters = ParametersElement.Parse(signature.Substring(0, parEnd));
+            emit("(");
             insertElement(parameters);
-            emit(")", UseSpace.Never, UseSpace.Never);
+            emit(")");
+            signature = signature.Substring(parEnd + 1);
 
-            emitNewLine();
-            chainInsert = new PatchElement();
-            insertElement(chainInsert);
-            emit("{", UseSpace.Never, UseSpace.Never);
-            emitNewLine();
-            increaseIndentation();
-            InsertContents();
-            emitBlockEnd();
-        }
+            emitLine(signature);
 
-        public class ChainElement : ExecutableElement
-        {
-            private bool isbase;
-
-            public bool IsBase
+            if (chaincall != null && (chaincall = chaincall.Trim(' ', '\t', ':')).Length > 0)
             {
-                get { return isbase; }
-            }
-            public bool IsThis
-            {
-                get { return !isbase; }
-            }
-
-            public ChainElement(bool isbase)
-            {
-                this.isbase = isbase;
-
                 increaseIndentation();
-                emit(":", UseSpace.Never, UseSpace.Always);
-                emit(isbase ? "base" : "this", UseSpace.Always, UseSpace.Never);
-                emit("(", UseSpace.Never, UseSpace.Never);
-                InsertContents();
-                emit(")", UseSpace.Never, UseSpace.Never);
-                emitNewLine();
+                emitLine(": " + chaincall);
                 decreaseIndentation();
             }
+
+            if (hasBody)
+            {
+                this.body = new PatchElement();
+                emitLine("{");
+                increaseIndentation();
+                insertElement(body);
+                decreaseIndentation();
+                emitLine("}");
+            }
+            else
+                this.body = null;
         }
 
-        public class ParametersElement : ComplexElement
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodElement"/> class from its signature.
+        /// </summary>
+        /// <param name="signature">The signature of the method.</param>
+        /// <param name="hasBody">if set to <c>true</c> the method will have a body element to which code can be written.</param>
+        /// <param name="args">A collection of arguments that are inserted into <paramref name="signature"/> using <see cref="String.Format(String, Object[])"/>.</param>
+        public MethodElement(string signature, bool hasBody, params object[] args)
+            : this(signature, null, hasBody, args)
         {
-            private List<Parameter> parameters;
-
-            public ParametersElement()
-            {
-                this.parameters = new List<Parameter>();
-            }
-
-            public Parameter Add(string name, string type)
-            {
-                Parameter par = new Parameter(name, type);
-                parameters.Add(par);
-                if (parameters.Count > 1)
-                    emit(",", UseSpace.Never, UseSpace.Always);
-                emit(type, UseSpace.NotPreferred, UseSpace.Always);
-                emit(name, UseSpace.NotPreferred, UseSpace.NotPreferred);
-                return par;
-            }
-            public Parameter this[int index]
-            {
-                get { return parameters[index]; }
-            }
         }
-
-        public class Parameter
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodElement"/> class from its signature.
+        /// </summary>
+        /// <param name="signature">The signature of the method.</param>
+        /// <param name="chaincall">A <see cref="String"/> that specifies a chain call to a baseclass (for constructors). Specify <c>null</c> for no chaining.</param>
+        /// <param name="hasBody">if set to <c>true</c> the method will have a body element to which code can be written.</param>
+        /// <param name="args">A collection of arguments that are inserted into <paramref name="signature"/> using <see cref="String.Format(String, Object[])"/>.</param>
+        public MethodElement(string signature, string chaincall, bool hasBody, params object[] args)
+            : this(string.Format(signature, args), chaincall, hasBody)
         {
-            private string name;
-            private string type;
-
-            public Parameter(string name, string type)
-            {
-                this.name = name;
-                this.type = type;
-            }
-
-            public string Name
-            {
-                get { return name; }
-            }
-            public string Type
-            {
-                get { return type; }
-            }
         }
     }
 }

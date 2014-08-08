@@ -1,4 +1,6 @@
-﻿namespace SablePP.Compiler.Nodes
+﻿using System;
+
+namespace SablePP.Compiler.Nodes
 {
     public partial class PElement
     {
@@ -6,22 +8,61 @@
         {
             get
             {
-                PElementname name = PElementname;
-                PElementid id = PElementid;
-                if (name != null && name is AElementname)
-                    return (name as AElementname).Name.Text;
+                if (HasElementname)
+                    return Elementname.Name.Text;
                 else
-                    return id.TIdentifier.Text;
+                    if (IsList)
+                        return Elementid.Identifier.Text + "s";
+                    else
+                        return Elementid.Identifier.Text;
             }
         }
 
-        public PElementid PElementid
+        public bool IsList
         {
-            get { return ((dynamic)this).Elementid; }
+            get { return HasModifier && (Modifier is AStarModifier || Modifier is APlusModifier); }
         }
-        public PElementname PElementname
+
+        public ElementTypes ElementType
         {
-            get { return ((dynamic)this).Elementname; }
+            get
+            {
+                if (!HasModifier)
+                    return ElementTypes.Simple;
+                if (Modifier is AQuestionModifier)
+                    return ElementTypes.Question;
+                if (Modifier is APlusModifier)
+                    return ElementTypes.Plus;
+                if (Modifier is AStarModifier)
+                    return ElementTypes.Star;
+
+                throw new ArgumentException("Unknown element type; " + this.GetType().Name, "element");
+            }
+        }
+
+        /// <summary>
+        /// Gets the name of the generated class that this <see cref="PElement"/> refers to.
+        /// </summary>
+        public string ClassName
+        {
+            get
+            {
+                var id = Elementid.Identifier;
+                if (id.IsPToken)
+                    return id.AsPToken.ClassName;
+                else if (id.IsPProduction)
+                {
+                    var prod = id.AsPProduction;
+                    if (prod.HasProdtranslation)
+                        return prod.Prodtranslation.Identifier.AsPProduction.ClassName;
+                    else
+                        return prod.ClassName;
+                }
+                else if (id.IsPAlternative)
+                    return id.AsPAlternative.ClassName;
+                else
+                    throw new InvalidOperationException();
+            }
         }
     }
 }

@@ -1,18 +1,23 @@
-﻿namespace SablePP.Tools.Generate.CSharp
+﻿using System;
+using System.Collections.Generic;
+
+namespace SablePP.Tools.Generate.CSharp
 {
     /// <summary>
     /// Represents a C# file and exposes methods for emitting namespaces and using statements.
     /// </summary>
-    public sealed class FileElement : CSharpElement
+    public sealed class FileElement : ComplexElement, IEnumerable<NameSpaceElement>
     {
         private UsingsElement usings;
         /// <summary>
-        /// Gets a <see cref="UsingElement"/> describing the using statements included in this <see cref="FileElement"/>.
+        /// Gets a <see cref="UsingsElement"/> describing the using statements included in this <see cref="FileElement"/>.
         /// </summary>
         public UsingsElement Using
         {
             get { return usings; }
         }
+
+        private List<NameSpaceElement> namespaces;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileElement"/> class.
@@ -21,18 +26,32 @@
         {
             this.usings = new UsingsElement();
             this.insertElement(usings);
+
+            this.namespaces = new List<NameSpaceElement>();
         }
 
         /// <summary>
-        /// Creates the a new <see cref="NameSpaceElement"/> and inserts it into this <see cref="FileElement"/>.
+        /// Adds a <see cref="NameSpaceElement"/> to this <see cref="FileElement"/>.
         /// </summary>
-        /// <param name="name">The name of the namespace that is created.</param>
-        /// <returns>A new <see cref="NameSpaceElement"/>.</returns>
-        public NameSpaceElement CreateNamespace(string name)
+        /// <param name="namespace">The namespace that should be inserted.</param>
+        public void Add(NameSpaceElement @namespace)
         {
-            NameSpaceElement element = new NameSpaceElement(name);
-            insertElement(element);
-            return element;
+            if (@namespace == null)
+                throw new ArgumentNullException("namespace");
+
+            namespaces.Add(@namespace);
+            insertElement(@namespace);
+        }
+
+        IEnumerator<NameSpaceElement> IEnumerable<NameSpaceElement>.GetEnumerator()
+        {
+            foreach (var n in namespaces)
+                yield return n;
+        }
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            foreach (var n in namespaces)
+                yield return n;
         }
     }
 }

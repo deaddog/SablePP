@@ -34,6 +34,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openRecentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,11 +59,11 @@
             this.lineLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.positionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.codeTextBox1 = new SablePP.Tools.Editor.CodeTextBox();
+            this.errorView1 = new SablePP.Tools.Editor.ErrorView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.messageTimer = new System.Windows.Forms.Timer(this.components);
-            this.codeTextBox1 = new SablePP.Tools.Editor.CodeTextBox();
-            this.errorView1 = new SablePP.Tools.Editor.ErrorView();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -88,6 +89,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.openRecentToolStripMenuItem,
             this.toolStripSeparator,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
@@ -101,6 +103,7 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
+            this.fileToolStripMenuItem.DropDownOpening += new System.EventHandler(this.fileToolStripMenuItem_DropDownOpening);
             // 
             // newToolStripMenuItem
             // 
@@ -119,6 +122,12 @@
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.openToolStripMenuItem.Text = "&Open";
+            // 
+            // openRecentToolStripMenuItem
+            // 
+            this.openRecentToolStripMenuItem.Name = "openRecentToolStripMenuItem";
+            this.openRecentToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.openRecentToolStripMenuItem.Text = "Open &Recent";
             // 
             // toolStripSeparator
             // 
@@ -325,23 +334,6 @@
             this.splitContainer1.SplitterDistance = 225;
             this.splitContainer1.TabIndex = 2;
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.Filter = "Code files|*.file";
-            this.openFileDialog1.InitialDirectory = "%userprofile%\\Documents";
-            this.openFileDialog1.SupportMultiDottedExtensions = true;
-            // 
-            // saveFileDialog1
-            // 
-            this.saveFileDialog1.Filter = "Code files|*.file";
-            this.saveFileDialog1.InitialDirectory = "%userprofile%\\Documents";
-            this.saveFileDialog1.SupportMultiDottedExtensions = true;
-            // 
-            // messageTimer
-            // 
-            this.messageTimer.Interval = 3000;
-            this.messageTimer.Tick += new System.EventHandler(this.messageTimer_Tick);
-            // 
             // codeTextBox1
             // 
             this.codeTextBox1.AutoScrollMinSize = new System.Drawing.Size(27, 14);
@@ -362,6 +354,8 @@
             this.codeTextBox1.Zoom = 100;
             this.codeTextBox1.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.codeTextBox1_TextChanged);
             this.codeTextBox1.SelectionChanged += new System.EventHandler(this.codeTextBox1_SelectionChanged);
+            this.codeTextBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.EditorForm_DragDrop);
+            this.codeTextBox1.DragEnter += new System.Windows.Forms.DragEventHandler(this.EditorForm_DragEnter);
             // 
             // errorView1
             // 
@@ -392,10 +386,12 @@
             // 
             // messageTimer
             // 
+            this.messageTimer.Interval = 3000;
             this.messageTimer.Tick += new System.EventHandler(this.messageTimer_Tick);
             // 
             // EditorForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 408);
@@ -405,6 +401,8 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "EditorForm";
             this.Text = "EditorForm";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.EditorForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.EditorForm_DragEnter);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -425,6 +423,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openRecentToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;

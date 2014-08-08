@@ -1,65 +1,41 @@
-﻿using System;
-
+﻿using SablePP.Compiler.Nodes;
 using SablePP.Tools.Generate.CSharp;
-using SablePP.Compiler.Nodes;
 
 namespace SablePP.Compiler.Generate.Productions
 {
     public class CloneMethodBuilder : ProductionVisitor
     {
-        private ClassElement classElement;
         private MethodElement method;
-        private ParenthesisElement parenthesis;
-        private bool first = true;
 
-        public CloneMethodBuilder(ClassElement classElement)
+        public static void Emit(ClassElement classElement, AAlternative node)
         {
-            this.classElement = classElement;
-        }
+            var elements = ProductionElement.GetAllElements(node);
 
-        public override void InAAlternative(AAlternative node)
-        {
-            method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Clone", classElement.Implements);
+            CloneMethodBuilder builder = new CloneMethodBuilder();
+            classElement.Add(builder.method = new MethodElement("public override {0} Clone()", true, node.Production.ClassName));
 
-            method.EmitReturn();
-            method.EmitNew();
-            method.EmitIdentifier(classElement.Name);
-            parenthesis = method.EmitParenthesis();
-            method.EmitSemicolon(true);
-
-            base.InAAlternative(node);
-        }
-
-        public override void CaseASimpleElement(ASimpleElement node)
-        {
-            Emit(node, false);
-        }
-        public override void CaseAStarElement(AStarElement node)
-        {
-            Emit(node, true);
-        }
-        public override void CaseAPlusElement(APlusElement node)
-        {
-            Emit(node, true);
-        }
-        public override void CaseAQuestionElement(AQuestionElement node)
-        {
-            Emit(node, false);
-        }
-
-        private void Emit(PElement node, bool list)
-        {
-            if (!first)
-                parenthesis.EmitComma();
-            else
-                first = false;
-
-            parenthesis.EmitIdentifier(GetFieldName(node));
-            if (!list)
+            builder.method.Body.Emit("return new {0}(", classElement.Name);
+            for (int i = 0; i < elements.Length; i++)
             {
-                parenthesis.EmitPeriod();
-                parenthesis.EmitIdentifier("Clone");
-                parenthesis.EmitParenthesis();
+                if (i > 0)
+                    builder.method.Body.Emit(", ");
+                builder.emitElement(elements[i]);
+            }
+            builder.method.Body.EmitLine(");");
+
+            classElement.EmitNewline();
+        }
+
+        private void emitElement(ProductionElement node)
+        {
+            method.Body.Emit(node.PropertyName);
+
+            switch (node.ElementType)
+            {
+                case ElementTypes.Simple:
+                case ElementTypes.Question:
+                    method.Body.Emit(".Clone()");
+                    break;
             }
         }
     }

@@ -1,0 +1,441 @@
+﻿Namespace SablePP.Compiler;
+
+Helpers
+    all = [0 .. 0xFFFF];
+    lowercase = ['a' .. 'z'];
+    uppercase = ['A' .. 'Z'];
+    digit = ['0' .. '9'];
+    hex_digit = [digit + [['a' .. 'f'] + ['A' .. 'F']]];
+
+    tab = 9;
+    cr = 13;
+    lf = 10;
+    eol = cr lf | cr | lf;        // This takes care of different platforms
+
+    not_cr_lf = [all - [cr + lf]];
+    not_star = [all - '*'];
+    not_star_slash = [not_star - '/'];
+
+    blank = (' ' | tab | eol)+;
+
+    short_comment = '//' not_cr_lf*;
+    long_comment = '/*' not_star* '*'+ (not_star_slash not_star* '*'+)* '/';
+    comment = short_comment | long_comment;
+
+    letter = lowercase | uppercase | '_' | '$';
+    id_part = lowercase (lowercase | digit)*;
+
+States
+    normal,
+    package,
+    highlight,
+    highlightstyles;
+
+Tokens
+{package}
+    packagename = letter (letter | digit)* ('.' letter (letter | digit)*)*;
+
+{normal->package,highlight->package}
+    packagetoken = 'Package'|'Namespace';
+{normal,highlight->normal}
+    statestoken = 'States';
+{normal,highlight->normal}
+    helperstoken = 'Helpers';
+{normal,highlight->normal}
+    tokenstoken = 'Tokens';
+{normal,highlight->normal}
+    ignoredtoken = 'Ignored';
+{normal,highlight->normal}
+    productionstoken = 'Productions';
+{normal,highlight->normal}
+    asttoken = 'Abstract' (' ' | tab)+ 'Syntax' (' ' | tab)+ 'Tree';
+{normal->highlight}
+    highlighttoken = 'Token Syntax Highlight';
+    
+    new = 'New';
+    null = 'Null';
+
+    token_specifier = 'T';
+    production_specifier = 'P';
+
+    dot = '.';
+    d_dot = '..';
+
+{normal, package->normal, highlightstyles->highlight}
+    semicolon = ';';
+
+    equal = '=';
+    l_bkt = '[';
+    r_bkt = ']';
+    l_par = '(';
+    r_par = ')';
+    l_brace =  '{';
+{normal, highlight->highlightstyles}
+    r_brace =  '}';
+    plus = '+';
+    minus = '-';
+    q_mark = '?';
+    star = '*';
+    pipe = '|';
+    comma = ',';
+    slash = '/';
+    arrow = '->';
+    colon = ':';
+
+{normal, highlight}
+    identifier = id_part ('_' id_part)*;
+
+    character = ''' not_cr_lf ''';
+{normal, highlightstyles}
+    dec_char = digit+;
+    hex_char = '0' ('x' | 'X') hex_digit+;
+
+    string = ''' [not_cr_lf - ''']+ ''';
+
+    blank = blank;
+    comment = comment;
+    
+{highlightstyles}
+    italic = 'italic';
+{highlightstyles}
+    bold = 'bold';
+{highlightstyles}
+    text = 'text';
+{highlightstyles}
+    background = 'background';
+{highlightstyles}
+    rgb = 'rgb';
+{highlightstyles}
+    hsv = 'hsv'|'hsb';
+{highlightstyles}
+    hex_color = '#' hex_digit+;
+
+Ignored Tokens
+    blank,
+    comment;
+
+Productions
+    grammar = section* { -> New grammar.section([section])};
+    section
+        = {p} package { -> New section.package(package) }
+        | {h} helpers { -> New section.helpers(helpers) }
+        | {s} states { -> New section.states(states) }
+        | {t} tokens { -> New section.tokens(tokens) }
+        | {i} ign_tokens { -> New section.ignore(ign_tokens) }
+        | {pr} productions { -> New section.productions(productions) }
+        | {a} astproductions { -> New section.a_s_t(astproductions) }
+        | {hi} highlightrules { -> New section.highlight(highlightrules) }
+        ;
+
+    package =
+        packagetoken packagename semicolon;
+
+    helpers
+        = helperstoken [helper_defs]:helper_def+ {-> New helpers(helperstoken, [helper_defs])}
+        ;
+
+    helper_def {-> helper}
+        = identifier equal reg_exp semicolon {-> New helper(identifier, equal, reg_exp, semicolon)}
+        ;
+
+    states
+        = statestoken id_list semicolon {-> New states(statestoken, [id_list], semicolon)}
+        ;
+
+    id_list {-> identifier_listitem+}
+        = identifier [ids]:id_list_tail* {-> [New identifier_listitem(Null, identifier), ids]}
+        ;
+
+    id_list_tail {-> identifier_listitem}
+        = comma identifier {-> New identifier_listitem(comma, identifier)}
+        ;
+
+    tokens
+        = tokenstoken [token_defs]:token_def+ {-> New tokens(tokenstoken, [token_defs])}
+        ;
+
+    token_def {-> token}
+        = state_list? identifier equal reg_exp look_ahead? semicolon {-> New token(state_list, identifier, equal, reg_exp, look_ahead, semicolon)}
+        ;
+
+    state_list {-> tokenstate_list}
+        = {notransition} l_brace identifier [state_lists]:state_list_tail* r_brace
+          {-> New tokenstate_list(l_brace, [New tokenstate_listitem(Null, identifier), state_lists], r_brace)}
+        | {transition} l_brace [f]:identifier arrow [t]:identifier [state_lists]:state_list_tail* r_brace
+          {-> New tokenstate_list(l_brace, [New tokenstate_listitem.transition(Null, f, arrow, t), state_lists], r_brace)}
+        ;
+
+    state_list_tail {-> tokenstate_listitem}
+        = {notransition} comma identifier {-> New tokenstate_listitem(comma, identifier)}
+        | {transition} comma [f]:identifier arrow [t]:identifier {-> New tokenstate_listitem.transition(comma, f, arrow, t)}
+        ;
+
+    ign_tokens {-> ignoredtokens}
+        = ignoredtoken tokenstoken id_list semicolon {-> New ignoredtokens(ignoredtoken, tokenstoken, [id_list], semicolon)}
+        ;
+
+    look_ahead {-> tokenlookahead}
+        = slash reg_exp {-> New tokenlookahead(slash, reg_exp)}
+        ;
+
+    reg_exp {-> regex}
+        = {single} concat {-> concat}
+        | {multiple} concat [concats]:reg_exp_tail+ {-> New regex.or([concat, concats])}
+        ;
+
+    reg_exp_tail {-> regex}
+        = pipe concat {-> concat}
+        ;
+
+    concat {-> regex}
+        = [un_exps]:un_exp+ {-> New regex.concatenated([un_exps])}
+        ;
+    
+    modifier
+        = {star} star
+        | {question} q_mark
+        | {plus} plus
+        ;
+    
+    un_exp {-> regex}
+        = {simple} basic {-> basic}
+        | {mod} basic modifier {-> New regex.unary(basic, modifier)}
+        ;
+
+    basic {-> regex}
+        = {char} char {-> char}
+        | {set} set {-> set}
+        | {string} string {-> New regex.string(string)}
+        | {identifier} identifier {-> New regex.identifier(identifier)}
+        | {reg_exp} l_par reg_exp r_par {-> New regex.parenthesis(l_par, reg_exp, r_par)}
+        ;
+
+    char {-> regex}
+        = {char} character {-> New regex.char(character)}
+        | {dec}  dec_char {-> New regex.dec(dec_char)}
+        | {hex}  hex_char {-> New regex.hex(hex_char)}
+        ;
+
+    set {-> regex}
+        = {plus} l_bkt [left]:basic plus [right]:basic r_bkt {-> New regex.binaryplus(l_bkt, left, plus, right, r_bkt)}
+        | {minus} l_bkt [left]:basic minus [right]:basic r_bkt {-> New regex.binaryminus(l_bkt, left, minus, right, r_bkt)}
+        | {interval} l_bkt [left]:char d_dot [right]:char r_bkt {-> New regex.interval(l_bkt, left, d_dot, right, r_bkt)}
+        ;
+
+    productions
+        = productionstoken [prods]:prod+ {-> New productions(productionstoken, [prods])}
+        ;
+
+    prod {-> production}
+        = identifier prodtrans? equal alts semicolon {-> New production(identifier, prodtrans, equal, alts, semicolon)}
+        ;
+    
+    prodtrans {-> prodtranslation}
+        = l_brace arrow identifier modifier? r_brace {-> New prodtranslation(arrow, identifier, modifier)}
+        | {nomod} arrow identifier modifier? {-> New prodtranslation(arrow, identifier, modifier)}
+        ;
+    
+    alttrans {-> translation}
+        = {braces} l_brace arrow translation r_brace {-> New translation.full(arrow, translation)}
+        | arrow translation {-> New translation.full(arrow, translation)}
+        ;
+    translation
+        = {id} translationid {-> translationid}
+        | {new} new identifier l_par translation_args? r_par {-> New translation.new(new, identifier, l_par, [translation_args], r_par)}
+        | {newalt} new [a]:identifier dot [b]:identifier l_par translation_args? r_par {-> New translation.newalternative(new, a, dot, b, l_par, [translation_args], r_par)}
+        | {null} null {-> New translation.null(null)}
+        | {list} l_bkt translation_args? r_bkt {-> New translation.list(l_bkt, [translation_args], r_bkt)}
+        ;
+    translation_args {-> translation_listitem+}
+        = translation translation_args_tail* {-> [New translation_listitem(Null, translation), translation_args_tail]}
+        ;
+    translation_args_tail {-> translation_listitem}
+        = comma translation {-> New translation_listitem(comma, translation)}
+        ;
+    translationid {-> translation}
+        = {single} identifier {-> New translation.id(identifier)}
+        | {double} [a]:identifier dot [b]:identifier {-> New translation.iddotid(a,dot,b)}
+        ;
+
+    alts {-> productionrule}
+        = {simple} alt_name? [elems]:elem* alttrans? {-> New productionrule([New alternative(Null, alt_name, New elements([elems]), alttrans)])}
+        | {multiple} alt_name? [elems]:elem* alttrans? [alts]:alts_tail+ {-> New productionrule([New alternative(Null, alt_name, New elements([elems]), alttrans), alts])}
+        ;
+
+    alts_tail {-> alternative}
+        = pipe alt_name? [elems]:elem* alttrans? {-> New alternative(pipe, alt_name, New elements([elems]), alttrans)}
+        ;
+        
+    alt_name {-> alternativename}
+        = l_brace identifier r_brace {-> New alternativename(l_brace, identifier, r_brace)}
+        ;
+
+    elem {-> element} = elem_name? elem_id modifier? {-> New element(elem_name, elem_id, modifier)};
+
+    elem_name {-> elementname}
+        = l_bkt identifier r_bkt colon {-> New elementname(l_bkt, identifier, r_bkt, colon)}
+        ;
+    
+    elem_id {-> elementid}
+        = {clean} identifier {-> New elementid.clean(identifier)}
+        | {token} token_specifier dot identifier {-> New elementid.token(token_specifier, dot, identifier)}
+        | {production} production_specifier dot identifier {-> New elementid.production(production_specifier, dot, identifier)}
+        ;
+
+    astproductions
+        = asttoken [prods]:prod+ {-> New astproductions(asttoken, [prods])}
+        ;
+    
+    highlightrules
+        = highlighttoken highlightrule+
+        ;
+    
+    highlightrule
+        = identifier l_brace id_list r_brace hlstyle_list semicolon {-> New highlightrule(identifier, l_brace, [id_list], r_brace, [hlstyle_list], semicolon)}
+        ;
+    
+    hlstyle_list {-> style_listitem+ }
+        = hlstyle hlstyle_tail* {-> [New style_listitem(Null, hlstyle), hlstyle_tail]}
+        ;
+    
+    hlstyle_tail {-> style_listitem }
+        = comma hlstyle {-> New style_listitem(comma, hlstyle)}
+        ;
+        
+    hlstyle {-> highlight_style}
+        = {italic} italic {-> New highlight_style.italic(italic)}
+        | {bold} bold {-> New highlight_style.bold(bold)}
+        | {text} text colon color {-> New highlight_style.text(text, colon, color) }
+        | {background} background colon color {-> New highlight_style.background(background, colon, color) }
+        ;
+    
+    color
+        = {rgb} rgb l_par [red]:dec_char [comma1]:comma [green]:dec_char [comma2]:comma [blue]:dec_char r_par
+        | {hsv} hsv l_par [hue]:dec_char [comma1]:comma [sat]:dec_char [comma2]:comma [bri]:dec_char r_par
+        | {hex} hex_color
+        ;
+
+Abstract Syntax Tree
+    grammar
+        = package? helpers? states? tokens? ignoredtokens? productions? astproductions? highlightrules?
+        | {section} section*
+        ;
+    section
+        = {package} package
+        | {helpers} helpers
+        | {states} states
+        | {tokens} tokens
+        | {ignore} ignoredtokens
+        | {productions} productions
+        | {a_s_t} astproductions
+        | {highlight} highlightrules
+        ;
+    
+    package = packagetoken packagename semicolon;
+    
+    helpers = helperstoken [helpers]:helper*;
+    helper = identifier equal regex semicolon;
+    
+    tokens = tokenstoken [tokens]:token*;
+    token = [statelist]:tokenstate_list? identifier equal regex tokenlookahead? semicolon;
+    tokenlookahead = slash regex;
+    
+    regex
+        = {char} character
+        | {dec} dec_char
+        | {hex} hex_char
+        
+        | {concatenated} regex+
+        | {unary} regex modifier
+        
+        | {binaryplus} [lpar]:l_bkt [left]:regex plus [right]:regex [rpar]:r_bkt
+        | {binaryminus} [lpar]:l_bkt [left]:regex minus [right]:regex [rpar]:r_bkt
+        | {interval} [lpar]:l_bkt [left]:regex [dots]:d_dot [right]:regex [rpar]:r_bkt
+        
+        | {string} string
+        | {identifier} identifier
+        | {parenthesis} [lpar]:l_par regex [rpar]:r_par
+        
+        | {or} regex+
+        ;
+    
+    modifier
+        = {star} star
+        | {question} q_mark
+        | {plus} plus
+        ;
+    
+    states = statestoken [states]:identifier_listitem+ semicolon;
+    ignoredtokens = ignoredtoken tokenstoken [tokens]:identifier_listitem+ semicolon;
+    
+    identifier_listitem = comma? identifier;
+    
+    tokenstate_list = [lpar]:l_brace [states]:tokenstate_listitem+ [rpar]:r_brace;
+    tokenstate_listitem
+        = comma? identifier
+        | {transition} comma? [from]:identifier arrow [to]:identifier
+        ;
+    
+    translation_listitem = comma? translation;
+    style_listitem = comma? highlight_style;
+
+    productions = productionstoken [productions]:production+;
+    astproductions =      asttoken [productions]:production+;
+    production = identifier prodtranslation? equal productionrule semicolon;
+    
+    prodtranslation = arrow identifier modifier?;
+    
+    translation
+        = {full} arrow translation
+        | {new} new [production]:identifier [lpar]:l_par [arguments]:translation_listitem+ [rpar]:r_par
+        | {newalternative} new [production]:identifier dot [alternative]:identifier [lpar]:l_par [arguments]:translation_listitem+ [rpar]:r_par
+        | {list} [lpar]:l_bkt [elements]:translation_listitem+ [rpar]:r_bkt
+        | {null} null
+        | {id} identifier
+        | {iddotid} identifier dot [production]:identifier
+        ;
+    
+    productionrule
+        = [alternatives]:alternative+
+        ;
+    alternative = pipe? alternativename? elements translation?;
+    
+    alternativename = [lpar]:l_brace [name]:identifier [rpar]:r_brace;
+    
+    elements
+        = element+
+        ;
+    element = elementname? elementid modifier?;
+    elementname = [lpar]:l_bkt [name]:identifier [rpar]:r_bkt colon;
+    elementid
+        = {clean} identifier
+        | {token} token_specifier dot identifier
+        | {production} production_specifier dot identifier
+        ;
+    
+    highlightrules
+        = highlighttoken highlightrule+
+        ;
+    highlightrule
+        = [name]:identifier [lpar]:l_brace [tokens]:identifier_listitem+ [rpar]:r_brace [styles]:style_listitem+ semicolon
+        ;
+    highlight_style
+        = {italic} italic
+        | {bold} bold
+        | {text} text colon color
+        | {background} background colon color
+        ;
+    
+    color
+        = {rgb} rgb l_par [red]:dec_char [comma1]:comma [green]:dec_char [comma2]:comma [blue]:dec_char r_par
+        | {hsv} hsv l_par [hue]:dec_char [comma1]:comma [saturation]:dec_char [comma2]:comma [brightness]:dec_char r_par
+        | {hex} [color]:hex_color
+        ;
+        
+Token Syntax Highlight
+    comment {comment} text:#008000;
+    string {character, string} text:rgb(163, 21, 21);
+    heading {packagename, packagetoken, helperstoken, tokenstoken, ignoredtoken, statestoken, productionstoken, asttoken, highlighttoken} text:hsv(0, 0, 30), bold;
+    bold {bold} bold;
+    italic {italic} italic;
+    

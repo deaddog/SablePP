@@ -3,8 +3,14 @@ using System.Text;
 
 namespace SablePP.Tools.Generate
 {
-    internal sealed class NewLineElement : CodeElement
+    /// <summary>
+    /// Represents a leaf element, indicating that a there should be a line change in the generated code.
+    /// </summary>
+    public sealed class NewLineElement : CodeElement
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NewLineElement"/> class.
+        /// </summary>
         public NewLineElement()
         {
         }
@@ -20,10 +26,12 @@ namespace SablePP.Tools.Generate
 
         internal override void Generate(CodeStreamWriter streamwriter)
         {
-            streamwriter.WriteString("\r\n".PadRight(2 + streamwriter.Indentation * streamwriter.IndentationSize));
-            streamwriter.LastElement = this;
+            streamwriter.WriteNewline();
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance internally.
+        /// </summary>
         public override string ToString()
         {
             return "[New line]";

@@ -1,80 +1,35 @@
 ﻿using System;
 
-using SablePP.Tools.Generate.CSharp;
 using SablePP.Compiler.Nodes;
+using SablePP.Tools.Generate;
+using SablePP.Tools.Generate.CSharp;
 
 namespace SablePP.Compiler.Generate.Productions
 {
-    public class ToStringMethodBuilder : ProductionVisitor
+    public class ToStringMethodBuilder
     {
-        private ClassElement classElement;
-        private MethodElement method;
-        private ParenthesisElement parenthesis;
-        private bool first = true;
-
-        private string buildingString = "";
-        private int count = 0;
-
-        public ToStringMethodBuilder(ClassElement classElement)
+        public static void Emit(ClassElement classElement, AAlternative node)
         {
-            this.classElement = classElement;
-        }
+            var elements = ProductionElement.GetAllElements(node);
 
-        public override void CaseAAlternative(AAlternative node)
-        {
-            method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "ToString", "string");
+            MethodElement method;
+            classElement.Add(method = new MethodElement("public override string ToString()"));
 
-            method.EmitReturn();
-            method.EmitIdentifier("string");
-            method.EmitPeriod();
-            method.EmitIdentifier("Format");
-            parenthesis = method.EmitParenthesis();
-            method.EmitSemicolon(true);
+            PatchElement formatString = new PatchElement();
+            method.Body.Emit("return string.Format(\"");
+            method.Body.InsertElement(formatString);
+            method.Body.Emit("\"");
 
-            base.CaseAAlternative(node);
-            parenthesis.EmitStringValue(buildingString);
-
-            buildingString = null;
-            first = true;
-            count = 0;
-
-            base.CaseAAlternative(node);
-        }
-
-        public override void CaseASimpleElement(ASimpleElement node)
-        {
-            Emit(node, false);
-        }
-        public override void CaseAStarElement(AStarElement node)
-        {
-            Emit(node, true);
-        }
-        public override void CaseAPlusElement(APlusElement node)
-        {
-            Emit(node, true);
-        }
-        public override void CaseAQuestionElement(AQuestionElement node)
-        {
-            Emit(node, false);
-        }
-
-        private void Emit(PElement node, bool list)
-        {
-            if (buildingString != null)
+            for (int i = 0; i < elements.Length; i++)
             {
-                if (!first)
-                    buildingString += " ";
-                else
-                    first = false;
-                buildingString += "{" + count + "}";
-            }
-            else
-            {
-                parenthesis.EmitComma();
-                parenthesis.EmitIdentifier(GetFieldName(node));
+                if (i > 0)
+                    formatString.Emit(" ");
+
+                formatString.Emit("{{{0}}}", i);
+                method.Body.Emit(", {0}", elements[i].PropertyName);
             }
 
-            count++;
+            method.Body.EmitLine(");");
         }
     }
 }

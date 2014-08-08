@@ -7,6 +7,7 @@ namespace SablePP.Compiler.Generate.Analysis
 {
     public class DepthFirstAdapterBuilder : GenerateVisitor
     {
+        private static readonly string typeParameter = "Value";
         private ClassElement adapterClass;
         private AGrammar grammar;
 
@@ -19,21 +20,20 @@ namespace SablePP.Compiler.Generate.Analysis
 
             string className = (reversed ? "Reverse" : "") + "DepthFirstAdapter";
 
-            namespaceElement.CreateClass(className, AccessModifiers.@public, className + "<object>");
-            adapterClass = namespaceElement.CreateClass(className, AccessModifiers.@public, "AnalysisAdapter<TValue>");
-            adapterClass.TypeParameters.Add("TValue");
+            namespaceElement.Add(new ClassElement("public class {0} : {0}<object>", className));
+            namespaceElement.Add(adapterClass = new ClassElement("public class {0}<{1}> : AnalysisAdapter<{1}>", className, typeParameter));
         }
 
         public override void CaseAGrammar(AGrammar node)
         {
             this.grammar = node;
 
-            CreateVisitNodeMethod();
-            adapterClass.EmitNewLine();
+            CreateGenericListMethod();
+            adapterClass.EmitNewline();
 
             CreateStartInOutMethods();
             CreateStartCaseMethod();
-            adapterClass.EmitNewLine();
+            adapterClass.EmitNewline();
 
             CreateDefaultProductionMethods();
             CreateDefaultAlternativeMethods();
@@ -49,100 +49,67 @@ namespace SablePP.Compiler.Generate.Analysis
 
         #region Default methods
 
-        public void CreateVisitNodeMethod()
+        public void CreateGenericListMethod()
         {
-            var method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Visit", "void");
-            method.Parameters.Add("node", "Node");
-            method.EmitIdentifier("Visit");
-            using (var par = method.EmitParenthesis())
-            {
-                par.EmitDynamic(true);
-                par.EmitIdentifier("node");
-            }
-            method.EmitSemicolon(true);
+            MethodElement method;
+            adapterClass.Add(method = new MethodElement("public void Visit<Element>(Production.NodeList<Element> elements) where Element : Node"));
+            method.Body.EmitLine("Element[] temp = new Element[elements.Count];");
+            method.Body.EmitLine("elements.CopyTo(temp, 0);");
+
+            if (!reversed)
+                method.Body.EmitLine("for (int i = 0; i < temp.Length; i++)");
+            else
+                method.Body.EmitLine("for (int i = temp.Length - 1; i >= 0; i--)");
+
+            method.Body.IncreaseIndentation();
+            method.Body.EmitLine("Visit((dynamic)temp[i]);");
+            method.Body.DecreaseIndentation();
         }
 
         public void CreateStartInOutMethods()
         {
-            var inMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "InStart", "void");
-            inMethod.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
-
-            var outMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "OutStart", "void");
-            outMethod.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
+            adapterClass.Add(new MethodElement("public virtual void InStart(Start<{0}> node)", true, grammar.RootProduction));
+            adapterClass.Add(new MethodElement("public virtual void OutStart(Start<{0}> node)", true, grammar.RootProduction));
         }
         public void CreateStartCaseMethod()
         {
-            var method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "CaseStart", "void");
-            method.Parameters.Add("node", "Start<" + grammar.RootProduction + ">");
+            MethodElement method;
+            adapterClass.Add(method = new MethodElement("public override void CaseStart(Start<{0}> node)", true, grammar.RootProduction));
 
-            method.EmitIdentifier("InStart");
-            using (var par = method.EmitParenthesis())
-                par.EmitIdentifier("node");
-            method.EmitSemicolon(true);
-            method.EmitNewLine();
+            method.Body.EmitLine("InStart(node);");
+            method.Body.EmitNewLine();
 
             if (!reversed)
             {
-                EmitVisitStartMethodCall(method);
-                EmitVisitEOFMethodCall(method);
+                method.Body.EmitLine("Visit((dynamic)node.Root);");
+                method.Body.EmitLine("Visit(node.EOF);");
             }
             else
             {
-                EmitVisitEOFMethodCall(method);
-                EmitVisitStartMethodCall(method);
+                method.Body.EmitLine("Visit(node.EOF);");
+                method.Body.EmitLine("Visit((dynamic)node.Root);");
             }
-            method.EmitNewLine();
 
-            method.EmitIdentifier("OutStart");
-            using (var par = method.EmitParenthesis())
-                par.EmitIdentifier("node");
-            method.EmitSemicolon(true);
-        }
-        public void EmitVisitStartMethodCall(MethodElement method)
-        {
-            method.EmitIdentifier("Visit");
-            using (var par = method.EmitParenthesis())
-            {
-                using (var par2 = par.EmitParenthesis())
-                    par2.EmitIdentifier("dynamic");
-                par.EmitIdentifier("node");
-                par.EmitPeriod();
-                par.EmitIdentifier("Root");
-            }
-            method.EmitSemicolon(true);
-        }
-        public void EmitVisitEOFMethodCall(MethodElement method)
-        {
-            method.EmitIdentifier("Visit");
-            using (var par = method.EmitParenthesis())
-            {
-                par.EmitIdentifier("node");
-                par.EmitPeriod();
-                par.EmitIdentifier("EOF");
-            }
-            method.EmitSemicolon(true);
+            method.Body.EmitNewLine();
+            method.Body.EmitLine("OutStart(node);");
         }
 
         public void CreateDefaultProductionMethods()
         {
-            var inMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultPIn", "void");
-            inMethod.Parameters.Add("node", "Node");
-            var outMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultPOut", "void");
-            outMethod.Parameters.Add("node", "Node");
+            adapterClass.Add(new MethodElement("public virtual void DefaultPIn(Node node)"));
+            adapterClass.Add(new MethodElement("public virtual void DefaultPOut(Node node)"));
         }
         public void CreateDefaultAlternativeMethods()
         {
-            var inMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultAIn", "void");
-            inMethod.Parameters.Add("node", "Node");
-            var outMethod = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "DefaultAOut", "void");
-            outMethod.Parameters.Add("node", "Node");
+            adapterClass.Add(new MethodElement("public virtual void DefaultAIn(Node node)"));
+            adapterClass.Add(new MethodElement("public virtual void DefaultAOut(Node node)"));
         }
 
         #endregion
 
         public override void InAProduction(AProduction node)
         {
-            adapterClass.EmitNewLine();
+            adapterClass.EmitNewline();
             EmitInOut("P" + node.Identifier.Text.ToCamelCase());
         }
 
@@ -150,32 +117,16 @@ namespace SablePP.Compiler.Generate.Analysis
         {
             EmitInOut(node.ClassName);
 
-            method = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Case" + node.ClassName, "void");
-            method.Parameters.Add("node", node.ClassName);
-
-            method.EmitIdentifier("In" + node.ProductionName);
-            using (var par = method.EmitParenthesis())
-                par.EmitIdentifier("node");
-            method.EmitSemicolon(true);
-
-            method.EmitIdentifier("In" + node.ClassName);
-            using (var par = method.EmitParenthesis())
-                par.EmitIdentifier("node");
-            method.EmitSemicolon(true);
-            method.EmitNewLine();
+            adapterClass.Add(method = new MethodElement("public override void Case{0}({0} node)", true, node.ClassName));
+            method.Body.EmitLine("In{0}(node);", node.Production.ClassName);
+            method.Body.EmitLine("In{0}(node);", node.ClassName);
+            method.Body.EmitNewLine();
 
             Visit(node.Elements);
 
-            method.EmitNewLine();
-            method.EmitIdentifier("Out" + node.ClassName);
-            using (var par = method.EmitParenthesis())
-                par.EmitIdentifier("node");
-            method.EmitSemicolon(true);
-
-            method.EmitIdentifier("Out" + node.ProductionName);
-            using (var par = method.EmitParenthesis())
-                par.EmitIdentifier("node");
-            method.EmitSemicolon(true);
+            method.Body.EmitNewLine();
+            method.Body.EmitLine("Out{0}(node);", node.ClassName);
+            method.Body.EmitLine("Out{0}(node);", node.Production.ClassName);
         }
 
         public override void CaseAElements(AElements node)
@@ -187,10 +138,9 @@ namespace SablePP.Compiler.Generate.Analysis
                 InPElements(node);
                 InAElements(node);
 
-
                 {
-                    PElement[] temp = new PElement[node.Element.Count];
-                    node.Element.CopyTo(temp, 0);
+                    PElement[] temp = new PElement[node.Elements.Count];
+                    node.Elements.CopyTo(temp, 0);
                     for (int i = temp.Length - 1; i >= 0; i--)
                         Visit((dynamic)temp[i]);
                 }
@@ -202,163 +152,37 @@ namespace SablePP.Compiler.Generate.Analysis
 
         private void EmitInOut(string name)
         {
-            var methodIn = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "In" + name, "void");
-            methodIn.Parameters.Add("node", name);
-            methodIn.EmitIdentifier("Default" + name[0] + "In");
-            using (var par = methodIn.EmitParenthesis())
-                par.EmitIdentifier("node");
-            methodIn.EmitSemicolon(true);
+            MethodElement method;
+            adapterClass.Add(method = new MethodElement("public virtual void In{0}({0} node)", true, name));
+            method.Body.EmitLine("Default{0}In(node);", name[0]);
 
-            var methodOut = adapterClass.CreateMethod(AccessModifiers.@public | AccessModifiers.@virtual, "Out" + name, "void");
-            methodOut.Parameters.Add("node", name);
-            methodOut.EmitIdentifier("Default" + name[0] + "Out");
-            using (var par = methodOut.EmitParenthesis())
-                par.EmitIdentifier("node");
-            methodOut.EmitSemicolon(true);
+            adapterClass.Add(method = new MethodElement("public virtual void Out{0}({0} node)", true, name));
+            method.Body.EmitLine("Default{0}Out(node);", name[0]);
         }
 
-        public override void CaseASimpleElement(ASimpleElement node)
+        public override void CaseAElement(AElement node)
         {
-            method.EmitIdentifier("Visit");
-            using (var par = method.EmitParenthesis())
-            {
-                if (node.Elementid.TIdentifier.IsProduction)
-                    par.EmitDynamic(true);
-                par.EmitIdentifier("node");
-                par.EmitPeriod();
-                par.EmitIdentifier(ToCamelCase(node.LowerName));
-            }
-            method.EmitSemicolon(true);
-        }
-        public override void CaseAQuestionElement(AQuestionElement node)
-        {
-            using (var @if = method.EmitIf())
-            {
-                @if.EmitIdentifier("node");
-                @if.EmitPeriod();
-                @if.EmitIdentifier("Has" + ToCamelCase(node.LowerName));
-            }
-            method.EmitNewLine();
-            method.IncreaseIndentation();
-            method.EmitIdentifier("Visit");
-            using (var par = method.EmitParenthesis())
-            {
-                if (node.Elementid.TIdentifier.IsProduction)
-                    par.EmitDynamic(true);
-                par.EmitIdentifier("node");
-                par.EmitPeriod();
-                par.EmitIdentifier(ToCamelCase(node.LowerName));
-            }
-            method.EmitSemicolon(true);
-            method.DecreaseIndentation();
-        }
-        public override void CaseAPlusElement(APlusElement node)
-        {
-            TIdentifier typeId = node.Elementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
+            string dynamic = node.Elementid.Identifier.IsPProduction ? "(dynamic)" : "";
             string name = ToCamelCase(node.LowerName);
 
-            EmitListWalking(type, name, node);
-        }
-        public override void CaseAStarElement(AStarElement node)
-        {
-            TIdentifier typeId = node.Elementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = ToCamelCase(node.LowerName);
-
-            EmitListWalking(type, name, node);
-        }
-
-        private void EmitListWalking(string type, string name, PElement node)
-        {
-            method.EmitBlockStart();
-
-            //PAssignment[] temp = new PAssignment[node.Assignment.Count];
-            method.EmitIdentifier(type + "[]");
-            method.EmitIdentifier("temp");
-            method.EmitAssignment();
-            method.EmitNew();
-            method.EmitIdentifier(type);
-            using (var par = method.EmitParenthesis(ParenthesisElement.Types.Square))
+            switch (node.ElementType)
             {
-                par.EmitIdentifier("node");
-                par.EmitPeriod();
-                par.EmitIdentifier(name);
-                par.EmitPeriod();
-                par.EmitIdentifier("Count");
+                case ElementTypes.Simple:
+                    method.Body.EmitLine("Visit({0}node.{1});", dynamic, name);
+                    break;
+
+                case ElementTypes.Question:
+                    method.Body.EmitLine("if (node.Has{0})", name);
+                    method.Body.IncreaseIndentation();
+                    method.Body.EmitLine("Visit({0}node.{1});", dynamic, name);
+                    method.Body.DecreaseIndentation();
+                    break;
+
+                case ElementTypes.Plus:
+                case ElementTypes.Star:
+                    method.Body.EmitLine("Visit(node.{0});", name);
+                    break;
             }
-            method.EmitSemicolon(true);
-
-            //node.Assignment.CopyTo(temp, 0);
-            method.EmitIdentifier("node");
-            method.EmitPeriod();
-            method.EmitIdentifier(name);
-            method.EmitPeriod();
-            method.EmitIdentifier("CopyTo");
-            using (var par = method.EmitParenthesis())
-            {
-                par.EmitIdentifier("temp");
-                par.EmitComma();
-                par.EmitIntValue(0);
-            }
-            method.EmitSemicolon(true);
-
-            if (!reversed)
-                //for (int i = 0; i < temp.Length; i++)
-                using (var par = method.EmitFor())
-                {
-                    par.EmitInt();
-                    par.EmitIdentifier("i");
-                    par.EmitAssignment();
-                    par.EmitIntValue(0);
-                    par.EmitSemicolon(false);
-                    par.EmitIdentifier("i");
-                    par.EmitLessThan();
-                    par.EmitIdentifier("temp");
-                    par.EmitPeriod();
-                    par.EmitIdentifier("Length");
-                    par.EmitSemicolon(false);
-                    par.EmitIdentifier("i");
-                    par.EmitPlusPlus();
-                }
-            else
-                //for (int i = temp.Length - 1; i >= 0; i--)
-                using (var par = method.EmitFor())
-                {
-                    par.EmitInt();
-                    par.EmitIdentifier("i");
-                    par.EmitAssignment();
-                    par.EmitIdentifier("temp");
-                    par.EmitPeriod();
-                    par.EmitIdentifier("Length");
-                    par.EmitMinus();
-                    par.EmitIntValue(1);
-                    par.EmitSemicolon(false);
-                    par.EmitIdentifier("i");
-                    par.EmitGreaterThanOrEqual();
-                    par.EmitIntValue(0);
-                    par.EmitSemicolon(false);
-                    par.EmitIdentifier("i");
-                    par.EmitMinusMinus();
-                }
-            method.EmitNewLine();
-
-            //    Visit(temp[i]);
-            method.IncreaseIndentation();
-            method.EmitIdentifier("Visit");
-            using (var par = method.EmitParenthesis())
-            {
-                if (node.PElementid.TIdentifier.IsProduction)
-                    par.EmitDynamic(true);
-                par.EmitIdentifier("temp");
-                using (var square = par.EmitParenthesis(ParenthesisElement.Types.Square))
-                    square.EmitIdentifier("i");
-            }
-            method.EmitSemicolon(true);
-            method.DecreaseIndentation();
-
-            method.EmitBlockEnd();
         }
-
     }
 }

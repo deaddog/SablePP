@@ -16,15 +16,25 @@ namespace SablePP.Compiler.Validation
 
         public ErrorVisitor(ErrorManager errorManager)
         {
+            if (errorManager == null)
+                throw new ArgumentNullException("errorManager");
+
             this.errorManager = errorManager;
         }
 
         protected void RegisterError(Node node, string errorMessage, params object[] args)
         {
-            if (errorManager == null)
-                throw new InvalidOperationException("An ErrorVisitor must always be started using the StartVisitor-method.");
-
             errorManager.Register(node, errorMessage, args);
+        }
+
+        protected void RegisterWarning(Node node, string errorMessage, params object[] args)
+        {
+            errorManager.Register(node, ErrorType.Warning, errorMessage, args);
+        }
+
+        protected void RegisterMessage(Node node, string errorMessage, params object[] args)
+        {
+            errorManager.Register(node, ErrorType.Message, errorMessage, args);
         }
     }
 }

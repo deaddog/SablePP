@@ -5,7 +5,7 @@ using SablePP.Compiler.Nodes;
 
 namespace SablePP.Compiler.Generate.Productions
 {
-    public class ReplaceMethodBuilder : ProductionVisitor
+    public class ReplaceMethodBuilder
     {
         private static readonly string newChild = "newChild";
         private static readonly string oldChild = "oldChild";
@@ -13,250 +13,80 @@ namespace SablePP.Compiler.Generate.Productions
         private ClassElement classElement;
         private MethodElement method;
 
-        public ReplaceMethodBuilder(ClassElement classElement)
+        public static void Emit(ClassElement classElement, AAlternative node)
         {
-            this.classElement = classElement;
+            var elements = ProductionElement.GetAllElements(node);
+
+            ReplaceMethodBuilder builder = new ReplaceMethodBuilder() { classElement = classElement };
+            classElement.Add(builder.method = new MethodElement("public override void ReplaceChild(Node {0}, Node {1})", true, oldChild, newChild));
+
+            foreach (var e in elements)
+                builder.emitElement(e);
+
+            builder.method.Body.EmitLine("throw new ArgumentException(\"Node to be replaced is not a child in this production.\");");
         }
 
-        public override void InAAlternative(AAlternative node)
+        private void emitElement(ProductionElement node)
         {
-            method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "ReplaceChild", "void");
-            method.Parameters.Add(oldChild, "Node");
-            method.Parameters.Add(newChild, "Node");
-
-            base.InAAlternative(node);
-        }
-        public override void OutAAlternative(AAlternative node)
-        {
-            base.OutAAlternative(node);
-            method.EmitThrow();
-            method.EmitNew();
-            method.EmitIdentifier("ArgumentException");
-            using (var par = method.EmitParenthesis())
-                par.EmitStringValue("Node to be replaced is not a child in this production.");
-            method.EmitSemicolon(true);
-        }
-
-        public override void CaseASimpleElement(ASimpleElement node)
-        {
-            TIdentifier typeId = node.Elementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-
-            using (var par = method.EmitIf())
+            switch (node.ElementType)
             {
-                par.EmitIdentifier(GetPropertyName(node));
-                par.EmitEqual();
-                par.EmitIdentifier(oldChild);
+                case ElementTypes.Simple:
+                case ElementTypes.Question:
+                    {
+                        method.Body.EmitLine("if ({0} == {1})", node.PropertyName, oldChild);
+                        method.Body.EmitLine("{");
+                        method.Body.IncreaseIndentation();
+
+                        if (node.ElementType == ElementTypes.Simple)
+                        {
+                            method.Body.EmitLine("if ({0} == null)", newChild);
+                            method.Body.IncreaseIndentation();
+                            method.Body.EmitLine("throw new ArgumentException(\"{0} in {1} cannot be null.\", \"{2}\");", node.PropertyName, classElement.Name, newChild);
+                            method.Body.DecreaseIndentation();
+                        }
+
+                        method.Body.EmitLine("if (!({0} is {1}) && {0} != null)", newChild, node.ProductionOrTokenClass);
+                        method.Body.IncreaseIndentation();
+                        method.Body.EmitLine("throw new ArgumentException(\"Child replaced must be of same type as child being replaced with.\");");
+                        method.Body.DecreaseIndentation();
+
+                        method.Body.EmitLine("{0} = {1} as {2};", node.PropertyName, newChild, node.ProductionOrTokenClass);
+
+                        method.Body.DecreaseIndentation();
+                        method.Body.EmitLine("}");
+                        method.Body.Emit("else ");
+                    }
+                    break;
+
+                case ElementTypes.Plus:
+                case ElementTypes.Star:
+                    {
+                        method.Body.EmitLine("if ({0} is {1} && {2}.Contains({0} as {1}))", oldChild, node.ProductionOrTokenClass, node.PropertyName);
+                        method.Body.EmitLine("{");
+                        method.Body.IncreaseIndentation();
+
+                        method.Body.EmitLine("if (!({0} is {1}) && {0} != null)", newChild, node.ProductionOrTokenClass);
+                        method.Body.IncreaseIndentation();
+                        method.Body.EmitLine("throw new ArgumentException(\"Child replaced must be of same type as child being replaced with.\");");
+                        method.Body.DecreaseIndentation();
+                        method.Body.EmitNewLine();
+
+                        method.Body.EmitLine("int index = {0}.IndexOf({1} as {2});", node.PropertyName, oldChild, node.ProductionOrTokenClass);
+                        method.Body.EmitLine("if ({0} == null)", newChild);
+                        method.Body.IncreaseIndentation();
+                        method.Body.EmitLine("{0}.RemoveAt(index);", node.PropertyName);
+                        method.Body.DecreaseIndentation();
+                        method.Body.EmitLine("else");
+                        method.Body.IncreaseIndentation();
+                        method.Body.EmitLine("{0}[index] = {1} as {2};", node.PropertyName, newChild, node.ProductionOrTokenClass);
+                        method.Body.DecreaseIndentation();
+
+                        method.Body.DecreaseIndentation();
+                        method.Body.EmitLine("}");
+                        method.Body.Emit("else ");
+                    }
+                    break;
             }
-            method.EmitNewLine();
-            method.EmitBlockStart();
-            /*
-                if (newChild == null)
-                    throw new ArgumentException("Assign in assignment cannot be null.");*/
-            using (var par = method.EmitIf())
-            {
-                par.EmitIdentifier(newChild);
-                par.EmitEqual();
-                par.EmitNull();
-            }
-            method.EmitNewLine();
-            method.IncreaseIndentation();
-            method.EmitThrow();
-            method.EmitNew();
-            method.EmitIdentifier("ArgumentException");
-            using (var par = method.EmitParenthesis())
-            {
-                par.EmitStringValue(GetPropertyName(node) + " in " + classElement.Name + " cannot be null.");
-                par.EmitComma();
-                par.EmitStringValue(newChild);
-            }
-            method.EmitSemicolon(true);
-            method.DecreaseIndentation();
-
-            using (var ifPar = method.EmitIf())
-            {
-                ifPar.EmitLogicNot();
-                using (var par = ifPar.EmitParenthesis())
-                {
-                    par.EmitIdentifier(newChild);
-                    par.EmitIs();
-                    par.EmitIdentifier(type);
-                }
-                ifPar.EmitLogicAnd();
-                ifPar.EmitIdentifier(newChild);
-                ifPar.EmitNotEqual();
-                ifPar.EmitNull();
-            }
-            method.EmitNewLine();
-            method.IncreaseIndentation();
-            method.EmitThrow();
-            method.EmitNew();
-            method.EmitIdentifier("ArgumentException");
-            using (var par = method.EmitParenthesis())
-                par.EmitStringValue("Child replaced must be of same type as child being replaced with.");
-            method.EmitSemicolon(true);
-            method.DecreaseIndentation();
-            method.EmitIdentifier(GetPropertyName(node));
-            method.EmitAssignment();
-            method.EmitIdentifier(newChild);
-            method.EmitAs();
-            method.EmitIdentifier(type);
-            method.EmitSemicolon(true);
-
-            method.EmitBlockEnd();
-            method.EmitElse();
-        }
-        public override void CaseAQuestionElement(AQuestionElement node)
-        {
-            TIdentifier typeId = node.Elementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-
-            using (var par = method.EmitIf())
-            {
-                par.EmitIdentifier(GetPropertyName(node));
-                par.EmitEqual();
-                par.EmitIdentifier(oldChild);
-            }
-            method.EmitNewLine();
-            method.EmitBlockStart();
-            using (var ifPar = method.EmitIf())
-            {
-                ifPar.EmitLogicNot();
-                using (var par = ifPar.EmitParenthesis())
-                {
-                    par.EmitIdentifier(newChild);
-                    par.EmitIs();
-                    par.EmitIdentifier(type);
-                }
-                ifPar.EmitLogicAnd();
-                ifPar.EmitIdentifier(newChild);
-                ifPar.EmitNotEqual();
-                ifPar.EmitNull();
-            }
-            method.EmitNewLine();
-            method.IncreaseIndentation();
-            method.EmitThrow();
-            method.EmitNew();
-            method.EmitIdentifier("ArgumentException");
-            using (var par = method.EmitParenthesis())
-                par.EmitStringValue("Child replaced must be of same type as child being replaced with.");
-            method.EmitSemicolon(true);
-            method.DecreaseIndentation();
-            method.EmitIdentifier(GetPropertyName(node));
-            method.EmitAssignment();
-            method.EmitIdentifier(newChild);
-            method.EmitAs();
-            method.EmitIdentifier(type);
-            method.EmitSemicolon(true);
-
-            method.EmitBlockEnd();
-            method.EmitElse();
-        }
-
-        public override void CaseAStarElement(AStarElement node)
-        {
-            EmitListElement(node);
-        }
-        public override void CaseAPlusElement(APlusElement node)
-        {
-            EmitListElement(node);
-        }
-
-        private void EmitListElement(PElement node)
-        {
-            TIdentifier typeId = node.PElementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-
-            using (var par = method.EmitIf())
-            {
-                par.EmitIdentifier(oldChild);
-                par.EmitIs();
-                par.EmitIdentifier(type);
-                par.EmitLogicAnd();
-                par.EmitIdentifier(GetFieldName(node));
-                par.EmitPeriod();
-                par.EmitIdentifier("Contains");
-                using (var argpar = par.EmitParenthesis())
-                {
-                    argpar.EmitIdentifier(oldChild);
-                    argpar.EmitAs();
-                    argpar.EmitIdentifier(type);
-                }
-            }
-            method.EmitNewLine();
-            method.EmitBlockStart();
-
-            using (var ifPar = method.EmitIf())
-            {
-                ifPar.EmitLogicNot();
-                using (var par = ifPar.EmitParenthesis())
-                {
-                    par.EmitIdentifier(newChild);
-                    par.EmitIs();
-                    par.EmitIdentifier(type);
-                }
-                ifPar.EmitLogicAnd();
-                ifPar.EmitIdentifier(newChild);
-                ifPar.EmitNotEqual();
-                ifPar.EmitNull();
-            }
-            method.EmitNewLine();
-            method.IncreaseIndentation();
-            method.EmitThrow();
-            method.EmitNew();
-            method.EmitIdentifier("ArgumentException");
-            using (var par = method.EmitParenthesis())
-                par.EmitStringValue("Child replaced must be of same type as child being replaced with.");
-            method.EmitSemicolon(true);
-            method.DecreaseIndentation();
-            method.EmitNewLine();
-
-            method.EmitInt();
-            method.EmitIdentifier("index");
-            method.EmitAssignment();
-            method.EmitIdentifier(GetFieldName(node));
-            method.EmitPeriod();
-            method.EmitIdentifier("IndexOf");
-            using (var par = method.EmitParenthesis())
-            {
-                par.EmitIdentifier(oldChild);
-                par.EmitAs();
-                par.EmitIdentifier(type);
-            }
-            method.EmitSemicolon(true);
-            using (var par = method.EmitIf())
-            {
-                par.EmitIdentifier(newChild);
-                par.EmitEqual();
-                par.EmitNull();
-            }
-            method.EmitNewLine();
-            method.IncreaseIndentation();
-
-            method.EmitIdentifier(GetFieldName(node));
-            method.EmitPeriod();
-            method.EmitIdentifier("RemoveAt");
-            using (var par = method.EmitParenthesis())
-                par.EmitIdentifier("index");
-            method.EmitSemicolon(true);
-            method.DecreaseIndentation();
-
-            method.EmitElse();
-            method.EmitNewLine();
-            method.IncreaseIndentation();
-
-            method.EmitIdentifier(GetFieldName(node));
-            using (var par = method.EmitParenthesis(ParenthesisElement.Types.Square))
-                par.EmitIdentifier("index");
-            method.EmitAssignment();
-            method.EmitIdentifier(newChild);
-            method.EmitAs();
-            method.EmitIdentifier(type);
-            method.EmitSemicolon(true);
-            method.DecreaseIndentation();
-
-            method.EmitBlockEnd();
-            method.EmitElse();
         }
     }
 }

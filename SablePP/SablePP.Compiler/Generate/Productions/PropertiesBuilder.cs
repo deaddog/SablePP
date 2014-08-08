@@ -1,157 +1,114 @@
-﻿using System;
-
-using SablePP.Tools.Generate.CSharp;
+﻿using SablePP.Tools.Generate.CSharp;
 using SablePP.Compiler.Nodes;
+using System.Collections.Generic;
 
 namespace SablePP.Compiler.Generate.Productions
 {
-    public class PropertiesBuilder : ProductionVisitor
+    public class PropertiesBuilder
     {
         private ClassElement classElement;
 
-        public PropertiesBuilder(ClassElement classElement)
+        public static void Emit(ClassElement classElement, AProduction node)
         {
-            this.classElement = classElement;
+            var fields = ProductionElement.GetSharedElements(node);
+            if (fields.Length > 0)
+            {
+                emit(classElement, fields);
+                classElement.EmitNewline();
+            }
+        }
+        public static void Emit(ClassElement classElement, AAlternative node)
+        {
+            var fields = ProductionElement.GetUniqueElements(node);
+            if (fields.Length > 0)
+            {
+                emit(classElement, fields);
+                classElement.EmitNewline();
+            }
         }
 
-        public override void CaseASimpleElement(ASimpleElement node)
+        private static void emit(ClassElement classElement, IEnumerable<ProductionElement> elements)
         {
-            string field = GetFieldName(node);
+            PropertiesBuilder builder = new PropertiesBuilder() { classElement = classElement };
+            foreach (var e in elements)
+                builder.emitElement(e);
+        }
 
-            PropertyElement property = CreateProperty(node);
+        private void emitElement(ProductionElement node)
+        {
+            switch (node.ElementType)
+            {
+                case ElementTypes.Simple:
+                    emitSimpleElement(node);
+                    break;
+                case ElementTypes.Question:
+                    emitQuestionElement(node);
+                    break;
+                case ElementTypes.Plus:
+                case ElementTypes.Star:
+                    GetPropertyElement property;
+                    classElement.Add(property = new GetPropertyElement(AccessModifiers.@public, node.PropertyName, "NodeList<" + node.ProductionOrTokenClass + ">"));
+                    EmitGet(node, property);
+                    break;
+            }
+        }
+
+        private void emitSimpleElement(ProductionElement node)
+        {
+            GetSetPropertyElement property;
+            classElement.Add(property = new GetSetPropertyElement(AccessModifiers.@public, node.PropertyName, node.ProductionOrTokenClass));
             EmitGet(node, property);
 
-            //if (value == null)
-            using (var par = property.Set.EmitIf())
-            {
-                par.EmitIdentifier("value");
-                par.EmitEqual();
-                par.EmitNull();
-            }
-            property.Set.EmitNewLine();
-            property.Set.IncreaseIndentation();
+            property.Set.EmitLine("if (value == null)");
 
-            //throw new ArgumentException("Identifier in AAssignment cannot be null.", "value");
-            property.Set.EmitThrow();
-            property.Set.EmitNew();
-            property.Set.EmitIdentifier("ArgumentException");
-            using (var par = property.Set.EmitParenthesis())
-            {
-                par.EmitStringValue(GetPropertyName(node) + " in " + classElement.Name + " cannot be null.");
-                par.EmitComma();
-                par.EmitStringValue("value");
-            }
-            property.Set.EmitSemicolon(true);
+            property.Set.IncreaseIndentation();
+            property.Set.EmitLine("throw new ArgumentException(\"{0} in {1} cannot be null.\", \"value\");", node.PropertyName, classElement.Name);
             property.Set.DecreaseIndentation();
 
-            //SetParent(value, this);
-            property.Set.EmitIdentifier("SetParent");
-            using (var par = property.Set.EmitParenthesis())
-            {
-                par.EmitIdentifier("value");
-                par.EmitComma();
-                par.EmitThis();
-            }
-            property.Set.EmitSemicolon(true);
-
-            // _identifier_ = value;
             property.Set.EmitNewLine();
-            property.Set.EmitIdentifier(field);
-            property.Set.EmitAssignment();
-            property.Set.EmitIdentifier("value");
-            property.Set.EmitSemicolon(true);
-        }
-        public override void CaseAStarElement(AStarElement node)
-        {
-            PropertyElement property = CreateProperty(node);
-            EmitGet(node, property);
-        }
-        public override void CaseAPlusElement(APlusElement node)
-        {
-            PropertyElement property = CreateProperty(node);
-            EmitGet(node, property);
-        }
-        public override void CaseAQuestionElement(AQuestionElement node)
-        {
-            string field = GetFieldName(node);
 
-            PropertyElement property = CreateProperty(node);
-            EmitGet(node, property);
+            property.Set.EmitLine("if ({0} != null)", node.FieldName);
 
-            //if (_identifier_ != null)
-            using (var par = property.Set.EmitIf())
-            {
-                par.EmitIdentifier(field);
-                par.EmitNotEqual();
-                par.EmitNull();
-            }
-            property.Set.EmitNewLine();
             property.Set.IncreaseIndentation();
-
-            //SetParent(_identifier_, null);
-            property.Set.EmitIdentifier("SetParent");
-            using (var par = property.Set.EmitParenthesis())
-            {
-                par.EmitIdentifier(field);
-                par.EmitComma();
-                par.EmitNull();
-            }
-            property.Set.EmitSemicolon(true);
+            property.Set.EmitLine("SetParent({0}, null);", node.FieldName);
             property.Set.DecreaseIndentation();
 
-            //if (value != null)
-            using (var par = property.Set.EmitIf())
-            {
-                par.EmitIdentifier("value");
-                par.EmitNotEqual();
-                par.EmitNull();
-            }
-            property.Set.EmitNewLine();
-            property.Set.IncreaseIndentation();
+            property.Set.EmitLine("SetParent(value, this);");
 
-            //SetParent(value, this);
-            property.Set.EmitIdentifier("SetParent");
-            using (var par = property.Set.EmitParenthesis())
-            {
-                par.EmitIdentifier("value");
-                par.EmitComma();
-                par.EmitThis();
-            }
-            property.Set.EmitSemicolon(true);
+            property.Set.EmitNewLine();
+
+            property.Set.Emit("{0} = value;", node.FieldName);
+        }
+        private void emitQuestionElement(ProductionElement node)
+        {
+            GetSetPropertyElement property;
+            classElement.Add(property = new GetSetPropertyElement(AccessModifiers.@public, node.PropertyName, node.ProductionOrTokenClass));
+            EmitGet(node, property);
+
+            property.Set.EmitLine("if ({0} != null)", node.FieldName);
+
+            property.Set.IncreaseIndentation();
+            property.Set.EmitLine("SetParent({0}, null);", node.FieldName);
             property.Set.DecreaseIndentation();
 
-            // _identifier_ = value;
+            property.Set.EmitLine("if (value != null)");
+
+            property.Set.IncreaseIndentation();
+            property.Set.EmitLine("SetParent(value, this);");
+            property.Set.DecreaseIndentation();
+
             property.Set.EmitNewLine();
-            property.Set.EmitIdentifier(field);
-            property.Set.EmitAssignment();
-            property.Set.EmitIdentifier("value");
-            property.Set.EmitSemicolon(true);
 
-            PropertyElement hasProperty = classElement.CreateGetProperty(AccessModifiers.@public, "Has" + GetPropertyName(node), "bool");
-            hasProperty.Get.EmitReturn();
-            hasProperty.Get.EmitIdentifier(GetFieldName(node));
-            hasProperty.Get.EmitNotEqual();
-            hasProperty.Get.EmitNull();
-            hasProperty.Get.EmitSemicolon(false);
+            property.Set.Emit("{0} = value;", node.FieldName);
+
+            GetPropertyElement hasProperty;
+            classElement.Add(hasProperty = new GetPropertyElement(AccessModifiers.@public, "Has" + node.PropertyName, "bool"));
+            hasProperty.Get.Emit("return {0} != null;", node.FieldName);
         }
 
-        private PropertyElement CreateProperty(PElement node)
+        private void EmitGet(ProductionElement node, IGetProperty property)
         {
-            TIdentifier typeId = node.PElementid.TIdentifier;
-            string type = (typeId.IsToken ? "T" + ToCamelCase(typeId.AsToken.Name) : "P" + ToCamelCase(typeId.AsProduction.Name));
-            string name = GetPropertyName(node);
-
-            if (node is AStarElement || node is APlusElement)
-                return classElement.CreateGetProperty(AccessModifiers.@public, name, "NodeList<" + type + ">");
-            else
-                return classElement.CreateProperty(AccessModifiers.@public, name, type);
-        }
-
-        private void EmitGet(PElement node, PropertyElement property)
-        {
-            property.Get.EmitReturn();
-            property.Get.EmitIdentifier(GetFieldName(node));
-            property.Get.EmitSemicolon(false);
+            property.Get.Emit("return {0};", node.FieldName);
         }
     }
 }

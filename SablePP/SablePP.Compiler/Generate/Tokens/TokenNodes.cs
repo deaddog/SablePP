@@ -46,7 +46,7 @@ namespace SablePP.Compiler.Generate.Tokens
 
             string packageName = node.PackageName;
 
-            nameElement = fileElement.CreateNamespace(packageName + ".Nodes");
+            fileElement.Add(nameElement = new NameSpaceElement(packageName + ".Nodes"));
             fileElement.Using.Add(packageName + ".Analysis");
 
             if (node.HasTokens)
@@ -57,53 +57,29 @@ namespace SablePP.Compiler.Generate.Tokens
         {
             string name = GetTokenName(node);
 
-            classElement = nameElement.CreateClass(name, AccessModifiers.@public | AccessModifiers.partial, "Token<" + name + ">");
+            nameElement.Add(classElement = new ClassElement("public partial class {0} : Token<{0}>", name));
 
             EmitConstructor1();
             EmitConstructor2();
-            classElement.EmitNewLine();
+            classElement.EmitNewline();
             EmitCloneMethod();
         }
 
         private void EmitConstructor1()
         {
-            MethodElement construct = classElement.CreateConstructor(AccessModifiers.@public, true);
-
-            construct.Parameters.Add("text", "string");
-
-            construct.Chain.EmitIdentifier("text");
+            classElement.Add(new MethodElement("public {0}(string text)", "base(text)", true, classElement.Name));
         }
         private void EmitConstructor2()
         {
-            MethodElement construct = classElement.CreateConstructor(AccessModifiers.@public, true);
-
-            construct.Parameters.Add("text", "string");
-            construct.Parameters.Add("line", "int");
-            construct.Parameters.Add("pos", "int");
-
-            construct.Chain.EmitIdentifier("text");
-            construct.Chain.EmitComma();
-            construct.Chain.EmitIdentifier("line");
-            construct.Chain.EmitComma();
-            construct.Chain.EmitIdentifier("pos");
+            classElement.Add(new MethodElement("public {0}(string text, int line, int pos)", "base(text, line, pos)", true, classElement.Name));
         }
 
         private void EmitCloneMethod()
         {
-            MethodElement method = classElement.CreateMethod(AccessModifiers.@public | AccessModifiers.@override, "Clone", classElement.Name);
+            MethodElement method = new MethodElement("public override {0} Clone()", true, classElement.Name);
+            method.Body.EmitLine("return new {0}(Text, Line, Position);", classElement.Name);
 
-            method.EmitReturn();
-            method.EmitNew();
-            method.EmitIdentifier(classElement.Name);
-            using (var par = method.EmitParenthesis())
-            {
-                par.EmitIdentifier("Text");
-                par.EmitComma();
-                par.EmitIdentifier("Line");
-                par.EmitComma();
-                par.EmitIdentifier("Position");
-            }
-            method.EmitSemicolon(true);
+            classElement.Add(method);
         }
     }
 }

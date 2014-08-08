@@ -19,9 +19,9 @@ namespace SablePP.Tools.Editor
     /// </summary>
     public class CodeTextBox : FastColoredTextBox
     {
-        private SquigglyStyle errorStyle;
+        private SquigglyStyle errorStyle, warningStyle, messageStyle;
         private Dictionary<Range, string> tooltipMessages;
-        private List<Range> directDrawErrors;
+        private Dictionary<Range, SquigglyStyle> directDrawErrors;
 
         private ICompilerExecuter executer;
         private ResetableLexer lexer;
@@ -40,8 +40,10 @@ namespace SablePP.Tools.Editor
             : base()
         {
             errorStyle = new SquigglyStyle(Pens.Red);
+            warningStyle = new SquigglyStyle(new Pen(Color.FromArgb(48, 150, 49)));
+            messageStyle = new SquigglyStyle(Pens.DodgerBlue);
             tooltipMessages = new Dictionary<Range, string>();
-            directDrawErrors = new List<Range>();
+            directDrawErrors = new Dictionary<Range, SquigglyStyle>();
 
             this.executer = null;
             this.lexer = null;
@@ -94,11 +96,21 @@ namespace SablePP.Tools.Editor
             return result;
         }
 
+        public event EventHandler CompilationCompleted;
+
         private void setStyle(Token token, Style style)
         {
-            getRangeFromToken(token).SetStyle(style);
+            if ((from s in Styles where s != null select s).Count() >= 16 && !Styles.Contains(style))
+                this.ClearStylesBuffer();
+            RangeFromToken(token).SetStyle(style);
         }
-        private Range getRangeFromToken(Token token)
+
+        /// <summary>
+        /// Gets the <see cref="Range"/> in this <see cref="CodeTextBox"/> of a <see cref="Token"/>.
+        /// </summary>
+        /// <param name="token">The <see cref="Token"/> from which <see cref="Range"/> should be retrieved..</param>
+        /// <returns>A <see cref="Range"/> representing the location of <paramref name="token"/> in this <see cref="CodeTextBox"/>.</returns>
+        public Range RangeFromToken(Token token)
         {
             string text = token.Text;
 
@@ -116,6 +128,34 @@ namespace SablePP.Tools.Editor
             p2.iChar += len;
             return new Range(this, p1, p2);
         }
+        /// <summary>
+        /// Gets the <see cref="Token"/> located at <paramref name="place"/> in this <see cref="CodeTextBox"/>.
+        /// Tokens are found in the <see cref="LastResult"/> property.
+        /// </summary>
+        /// <param name="place">The place to look for a <see cref="Token"/>.</param>
+        /// <returns>The <see cref="Token"/> located at <paramref name="place"/>, if any; otherwise <c>null</c>.</returns>
+        public Token TokenFromPlace(Place place)
+        {
+            Result res = lastResult;
+            if(res == null || res.Tree == null)
+                return null;
+
+            foreach (var token in SablePP.Tools.Analysis.DepthFirstTreeWalker.GetTokens(res.Tree))
+                if (RangeFromToken(token).Contains(place))
+                    return token;
+            return null;
+        }
+
+        private SquigglyStyle getSquigglyStyle(ErrorType errorType)
+        {
+            switch (errorType)
+            {
+                case ErrorType.Error: return errorStyle;
+                case ErrorType.Warning: return warningStyle;
+                case ErrorType.Message: return messageStyle;
+                default: throw new ArgumentException("Unknown error type.");
+            }
+        }
 
         private void addError(CompilerError error)
         {
@@ -125,10 +165,11 @@ namespace SablePP.Tools.Editor
 
             if (!(range.Start.iChar < 1 && range.Start.iLine < 1 && range.End.iChar < 1 && range.End.iLine < 1))
             {
+                var style = getSquigglyStyle(error.ErrorType);
                 if (range.GetIntersectionWith(this.Range).IsEmpty)
-                    directDrawErrors.Add(range);
+                    directDrawErrors.Add(range, style);
                 else
-                    range.SetStyle(errorStyle);
+                    range.SetStyle(style);
                 tooltipMessages.Add(range, error.ErrorMessage);
             }
 
@@ -138,7 +179,7 @@ namespace SablePP.Tools.Editor
         private void clearErrors()
         {
             directDrawErrors.Clear();
-            this.Range.ClearStyle(errorStyle);
+            this.Range.ClearStyle(errorStyle, warningStyle, messageStyle);
             this.tooltipMessages.Clear();
 
             if (ErrorsCleared != null)
@@ -154,7 +195,43 @@ namespace SablePP.Tools.Editor
         /// </summary>
         public event ErrorEventHandler ErrorAdded;
 
+        private bool useSmartPar = true;
+        /// <summary>
+        /// Gets or sets a value indicating whether the <see cref="CodeTextBox"/> should use smart parenthesis (inserting of '(' when text is selected will enclose the text with '(...)'.
+        /// </summary>
+        [DefaultValue(true)]
+        public bool UseSmartParenthesis
+        {
+            get { return useSmartPar; }
+            set { this.useSmartPar = value; }
+        }
+
 #pragma warning disable 1591
+        protected sealed override void OnEnabledChanged(EventArgs e)
+        {
+            if (!this.Enabled)
+                this.clearErrors();
+            base.OnEnabledChanged(e);
+        }
+
+        public sealed override bool ProcessKey(char c, System.Windows.Forms.Keys modifiers)
+        {
+            if (useSmartPar)
+            {
+                char end = c == '(' ? ')' : c == '{' ? '}' : c == '[' ? ']' : c == '<' ? '>' : '\0';
+                if (end != '\0')
+                {
+                    int s = this.SelectionStart;
+                    int l = this.SelectionLength;
+                    this.InsertText(c + this.Text.Substring(s, l) + end);
+                    this.SelectionStart = s + 1;
+                    this.SelectionLength = l;
+                    return true;
+                }
+            }
+            return base.ProcessKey(c, modifiers);
+        }
+
         public sealed override void OnTextChangedDelayed(Range changedRange)
         {
             if (executer != null && this.Enabled)
@@ -197,7 +274,7 @@ namespace SablePP.Tools.Editor
         {
             base.OnPaint(e);
             foreach (var r in directDrawErrors)
-                errorStyle.Draw(e.Graphics, PlaceToPoint(r.Start), r);
+                r.Value.Draw(e.Graphics, PlaceToPoint(r.Key.Start), r.Key);
         }
 #pragma warning restore
 
@@ -277,7 +354,7 @@ namespace SablePP.Tools.Editor
                     root = null;
                 }
 
-                CompilationOptions compilationOptions = new CompilationOptions(errorManager, (highlight) =>
+                CompilationOptions compilationOptions = new CompilationOptions(parent.Text, errorManager, (highlight) =>
                     {
                         if (ReferenceEquals(highlight, null))
                             throw new ArgumentNullException("highlight");
@@ -314,6 +391,8 @@ namespace SablePP.Tools.Editor
                 }
 
                 parent.lastResult = new Result(node, errors);
+                if (parent.CompilationCompleted != null)
+                    parent.CompilationCompleted(parent, EventArgs.Empty);
                 waitFlag = false;
 
                 if (shouldStart)

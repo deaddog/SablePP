@@ -6,7 +6,7 @@ namespace SablePP.Tools.Generate.CSharp
     /// <summary>
     /// Represents a C# class and exposes methods for emitting fields, methods, properties etc. within the class.
     /// </summary>
-    public class ClassElement : ComplexElement
+    public class ClassElement : CSharpElement<PatchElement>
     {
         private string name;
         /// <summary>
@@ -17,13 +17,23 @@ namespace SablePP.Tools.Generate.CSharp
             get { return name; }
         }
 
-        private AccessModifiers modifiers;
+        private string classType;
         /// <summary>
-        /// Gets the access modifiers associated with the class.
+        /// Gets the 'class-type' of this element. That is; either 'class', 'struct' or 'interface'.
+        /// </summary>
+        public string ClassType
+        {
+            get { return classType; }
+        }
+
+        private AccessModifierElement modifiers;
+        /// <summary>
+        /// Gets or sets the access modifiers associated with the class.
         /// </summary>
         public AccessModifiers Modifiers
         {
-            get { return modifiers; }
+            get { return modifiers.Modifiers; }
+            set { modifiers.Modifiers = value; }
         }
 
         private TypeParametersElement typeParameters;
@@ -35,138 +45,143 @@ namespace SablePP.Tools.Generate.CSharp
             get { return typeParameters; }
         }
 
-        private string implements;
         /// <summary>
-        /// Gets a string describing the types this class inherits.
+        /// Initializes a new instance of the <see cref="ClassElement"/> class from its signature.
         /// </summary>
-        public string Implements
+        /// <param name="signature">The signature for the class.</param>
+        public ClassElement(string signature)
+            : base(new PatchElement())
         {
-            get { return implements; }
-        }
+            if (signature == null)
+                throw new ArgumentNullException("signature");
+            signature = signature.Trim();
+            int start, length;
 
-        private PatchElement contents;
+            // Parse the modifiers
+            this.modifiers = AccessModifierElement.Parse(signature, out start, out length);
+            emit(signature.Substring(0, start));
+            insertElement(modifiers);
+            signature = signature.Substring(start + length).TrimStart();
 
-        public ClassElement(string name, AccessModifiers modifiers, string implements)
-        {
-            this.name = name;
-            this.modifiers = modifiers;
+            // Read class-type
+            this.classType = signature.Substring(0, signature.IndexOf(' '));
+            signature = signature.Substring(classType.Length).TrimStart();
+            emit("{0} ", classType);
 
-            this.typeParameters = new TypeParametersElement();
+            // Find the colon
+            int colonIndex = signature.IndexOf(':');
+            this.name = colonIndex >= 0 ? signature.Substring(0, colonIndex).TrimEnd() : signature;
+            signature = colonIndex >= 0 ? signature.Substring(colonIndex + 1).TrimStart() : string.Empty;
 
-            if (implements != null)
+            // Find the type parameters
+            if (name.EndsWith(">"))
             {
-                implements = implements.Trim();
-                if (implements.Length == 0)
-                    implements = null;
+                int typesStart = name.LastIndexOf('<');
+                string types = name.Substring(typesStart + 1, name.Length - typesStart - 2);
+                typeParameters = TypeParametersElement.Parse(types);
+                name = name.Substring(0, typesStart).TrimEnd();
             }
+            else
+                typeParameters = TypeParametersElement.Parse(string.Empty);
 
-            this.implements = implements;
-            this.contents = new PatchElement();
-
-            modifiers.Emit(emit);
-            emit("class", UseSpace.Always, UseSpace.Always);
-            emit(name, UseSpace.Always, UseSpace.NotPreferred);
+            // Emit the remainder
+            emit(name);
             insertElement(typeParameters);
-
-            if (implements != null)
-            {
-                emit(":", UseSpace.Always, UseSpace.Always);
-                emit(implements, UseSpace.Preferred, UseSpace.NotPreferred);
-            }
+            if (colonIndex >= 0)
+                emit(" : {0}", signature);
 
             emitNewLine();
-            emit("{", UseSpace.Never, UseSpace.Never);
-            emitNewLine();
+            emitLine("{");
             increaseIndentation();
-            insertElement(contents);
+            insertElement(content);
             decreaseIndentation();
-            emit("}", UseSpace.Never, UseSpace.Never);
-            emitNewLine();
+            emitLine("}");
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClassElement"/> class from its signature.
+        /// </summary>
+        /// <param name="signature">The signature for the class.</param>
+        /// <param name="args">A collection of arguments that are inserted into <paramref name="signature"/>.</param>
+        public ClassElement(string signature, params object[] args)
+            : this(string.Format(signature, args))
+        {
         }
 
-        public void EmitNewLine()
+        /// <summary>
+        /// Emits a newline to the <see cref="ClassElement"/>. This can be used to separate class members.
+        /// </summary>
+        public void EmitNewline()
         {
-            contents.EmitNewLine();
+            content.EmitNewLine();
         }
 
-        public void EmitField(string name, string type, AccessModifiers modifiers)
+        /// <summary>
+        /// Emits a field (uninitialized) to the <see cref="ClassElement"/>.
+        /// </summary>
+        /// <param name="declaration">The field declaration that should be emitted.</param>
+        public void EmitField(string declaration)
         {
-            modifiers.Emit(contents.Emit);
-            contents.Emit(type, UseSpace.NotPreferred, UseSpace.Preferred);
-            contents.Emit(name, UseSpace.NotPreferred, UseSpace.Preferred);
-            contents.Emit(";", UseSpace.Never, UseSpace.Never);
-            contents.EmitNewLine();
+            content.EmitLine("{0};", declaration.Trim());
         }
 
-        public void EmitField(string name, string type, AccessModifiers modifiers, out InlineElement valueElement)
+        /// <summary>
+        /// Emits a field, initialized to a value, to the <see cref="ClassElement"/>.
+        /// </summary>
+        /// <param name="declaration">The field declaration that should be emitted.</param>
+        /// <param name="value">The value that should be assigned to the field.</param>
+        public void EmitField(string declaration, string value)
         {
-            valueElement = new InlineElement();
-
-            modifiers.Emit(contents.Emit);
-            contents.Emit(type, UseSpace.NotPreferred, UseSpace.Preferred);
-            contents.Emit(name, UseSpace.NotPreferred, UseSpace.Preferred);
-            contents.Emit("=", UseSpace.Always, UseSpace.Always);
-            contents.InsertElement(valueElement);
-            contents.Emit(";", UseSpace.Never, UseSpace.Never);
-            contents.EmitNewLine();
+            content.EmitLine("{0} = {1};", declaration.Trim(), value.Trim());
         }
 
-        public MethodElement CreateMethod(AccessModifiers modifiers, string name, string returnType)
+        /// <summary>
+        /// Emits a field to the <see cref="ClassElement"/>. The initial value is determined by emitting code to a <see cref="PatchElement"/>.
+        /// </summary>
+        /// <param name="declaration">The field declaration that should be emitted.</param>
+        /// <param name="valueElement">When the method returns, a <see cref="PatchElement"/> to which the initial value of the field should be emitted.</param>
+        public void EmitField(string declaration, out PatchElement valueElement)
         {
-            MethodElement method = new MethodElement(modifiers, name, returnType);
-            contents.InsertElement(method);
-            return method;
-        }
-        public PartialMethodElement CreatePartialMethod(string name, string returnType)
-        {
-            PartialMethodElement method = new PartialMethodElement(name, returnType);
-            contents.InsertElement(method);
-            return method;
-        }
-        public MethodElement CreateConstructor(AccessModifiers modifiers, bool? baseChain = null)
-        {
-            MethodElement method = new MethodElement(modifiers, this.name, baseChain);
-            contents.InsertElement(method);
-            return method;
+            valueElement = new PatchElement();
+            content.Emit("{0} = ", declaration.Trim());
+            content.InsertElement(valueElement);
+            content.EmitLine(";");
         }
 
-        public PropertyElement CreateProperty(AccessModifiers modifiers, string name, string type)
+        /// <summary>
+        /// Emits a field to the <see cref="ClassElement"/>. The initial value is determined by the code emitted to a <see cref="PatchElement"/>.
+        /// </summary>
+        /// <param name="declaration">The field declaration that should be emitted.</param>
+        /// <param name="valueElement">The <see cref="PatchElement"/> to which the initial value of the field should be emitted.</param>
+        public void EmitField(string declaration, PatchElement valueElement)
         {
-            return _createProperty(modifiers, name, type, true, true);
-        }
-        public PropertyElement CreateSetProperty(AccessModifiers modifiers, string name, string type)
-        {
-            return _createProperty(modifiers, name, type, false, true);
-        }
-        public PropertyElement CreateGetProperty(AccessModifiers modifiers, string name, string type)
-        {
-            return _createProperty(modifiers, name, type, true, false);
-        }
-        private PropertyElement _createProperty(AccessModifiers modifiers, string name, string type, bool hasGetter, bool hasSetter)
-        {
-            PropertyElement element = new PropertyElement(modifiers, name, type, hasGetter, hasSetter);
-            contents.InsertElement(element);
-            return element;
+            content.Emit("{0} = ", declaration.Trim());
+            content.InsertElement(valueElement);
+            content.EmitLine(";");
         }
 
-        public IndexerElement CreateIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
+        /// <summary>
+        /// Adds a <see cref="MethodElement"/> to the <see cref="ClassElement"/>.
+        /// </summary>
+        /// <param name="method">The <see cref="MethodElement"/> that is added to the <see cref="ClassElement"/>.</param>
+        public void Add(MethodElement method)
         {
-            return _createIndexer(modifiers, type, arg1name, arg1type, true, true);
+            content.InsertElement(method);
         }
-        public IndexerElement CreateSetIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
+        /// <summary>
+        /// Adds a <see cref="PropertyElement"/> to the <see cref="ClassElement"/>.
+        /// </summary>
+        /// <param name="property">The <see cref="PropertyElement"/> that is added to the <see cref="ClassElement"/>.</param>
+        public void Add(PropertyElement property)
         {
-            return _createIndexer(modifiers, type, arg1name, arg1type, false, true);
+            content.InsertElement(property);
         }
-        public IndexerElement CreateGetIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type)
+        /// <summary>
+        /// Adds a <see cref="IndexerElement"/> to the <see cref="ClassElement"/>.
+        /// </summary>
+        /// <param name="indexer">The <see cref="IndexerElement"/> that is added to the <see cref="ClassElement"/>.</param>
+        public void Add(IndexerElement indexer)
         {
-            return _createIndexer(modifiers, type, arg1name, arg1type, true, false);
-        }
-        private IndexerElement _createIndexer(AccessModifiers modifiers, string type, string arg1name, string arg1type, bool hasGetter, bool hasSetter)
-        {
-            IndexerElement element = new IndexerElement(modifiers, type, hasGetter, hasSetter);
-            element.Parameters.Add(arg1name, arg1type);
-            contents.InsertElement(element);
-            return element;
+            content.InsertElement(indexer);
         }
     }
 }

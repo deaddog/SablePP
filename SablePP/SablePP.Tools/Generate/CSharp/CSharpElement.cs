@@ -1,28 +1,43 @@
 ﻿namespace SablePP.Tools.Generate.CSharp
 {
     /// <summary>
-    /// The base element for C# code generation.
+    /// Provides an extension to the <see cref="ContentElement{Content}"/> specific to C#.
     /// </summary>
-    public abstract class CSharpElement : ComplexElement
+    public abstract class CSharpElement<Content> : ContentElement<Content> where Content : PatchElement
     {
         /// <summary>
-        /// Emits newline, curly bracket, newline and increases indentation
+        /// Initializes a new instance of the <see cref="CSharpElement{Content}"/> class.
         /// </summary>
-        protected void emitBlockStart()
+        /// <param name="content">The element that should contain the exposed content contained in the element.</param>
+        public CSharpElement(Content content)
+            :base(content)
         {
-            emitNewLine();
-            emit("{", UseSpace.Never, UseSpace.Never);
-            emitNewLine();
-            increaseIndentation();
+        }
+
+        /// <summary>
+        /// Emits the start of a region.
+        /// </summary>
+        /// <param name="text">The message displayed in the first line of the region.</param>
+        /// <param name="addSpacers">if set to <c>true</c> a blank line is inserted before and after the start of the region.</param>
+        public void EmitRegionStart(string text, bool addSpacers = true)
+        {
+            if (addSpacers)
+                content.EmitNewLine();
+            content.EmitLine("#region {0}", text);
+            if (addSpacers)
+                content.EmitNewLine();
         }
         /// <summary>
-        /// Decreases indentation, and emits curly bracket and newline
+        /// Emits the end of a region.
         /// </summary>
-        protected void emitBlockEnd()
+        /// <param name="addSpacers">if set to <c>true</c> a blank line is inserted before and after the end of the region.</param>
+        public void EmitRegionEnd(bool addSpacers = true)
         {
-            decreaseIndentation();
-            emit("}", UseSpace.Never, UseSpace.Never);
-            emitNewLine();
+            if (addSpacers)
+                content.EmitNewLine();
+            content.EmitLine("#endregion");
+            if (addSpacers)
+                content.EmitNewLine();
         }
     }
 }

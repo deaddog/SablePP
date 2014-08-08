@@ -10,6 +10,8 @@ namespace SablePP.Compiler.Generate.Analysis
 {
     public class AnalysisBuilder : GenerateVisitor
     {
+        private const byte TYPEARGSCOUNT_RETURN = 3;
+
         private FileElement fileElement;
         private NameSpaceElement nameElement;
 
@@ -35,13 +37,12 @@ namespace SablePP.Compiler.Generate.Analysis
                 Visit(node.Package);
 
             string packageName = node.PackageName;
-
-            nameElement = fileElement.CreateNamespace(packageName + ".Analysis");
+            fileElement.Add(nameElement = new NameSpaceElement(packageName + ".Analysis"));
             fileElement.Using.Add(packageName + ".Nodes");
 
             List<DepthFirstAdapter> adapters = new List<DepthFirstAdapter>();
 
-            nameElement.EmitRegionStart("Analysis adapters");
+            nameElement.EmitRegionStart("Analysis adapters", false);
             nameElement.EmitNewLine();
 
             adapters.Add(new AnalysisAdapterBuilder(nameElement, node));
@@ -50,19 +51,15 @@ namespace SablePP.Compiler.Generate.Analysis
             nameElement.EmitNewLine();
             adapters.Add(new DepthFirstAdapterBuilder(nameElement, true));
 
-            nameElement.EmitNewLine();
             nameElement.EmitRegionEnd();
-            nameElement.EmitNewLine();
-            nameElement.EmitRegionStart("Return analysis adapters");
+            nameElement.EmitRegionStart("Return analysis adapters", false);
             nameElement.EmitNewLine();
 
-            adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 0, node));
-            adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 1, node));
-            adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 2, node));
-            adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, 3, node));
+            for (byte i = 0; i <= TYPEARGSCOUNT_RETURN; i++)
+                adapters.Add(new ReturnAnalysisAdapterBuilder(nameElement, i, node));
 
             nameElement.EmitNewLine();
-            nameElement.EmitRegionEnd();
+            nameElement.EmitRegionEnd(false);
 
             VisitInParallel(node, adapters.ToArray());
         }

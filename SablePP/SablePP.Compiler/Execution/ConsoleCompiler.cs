@@ -24,7 +24,7 @@ namespace SablePP.Compiler.Execution
             Start<PGrammar> ast = Parse(ReadFile(PathInformation.TemporaryGrammarPath), executer);
 
             ErrorManager errorManager = new ErrorManager();
-            executer.Validate(ast, new SablePP.Tools.CompilationOptions(errorManager, (h) => { }));
+            executer.Validate(ast, new SablePP.Tools.CompilationOptions(inputGrammar, errorManager, (h) => { }));
 
             if (errorManager.Count > 0)
             {

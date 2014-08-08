@@ -2,38 +2,46 @@
 
 namespace SablePP.Tools.Generate.CSharp
 {
-    public class PropertyElement : CSharpElement
+    /// <summary>
+    /// Represents an object for handling code-generation of a C# property.
+    /// </summary>
+    public abstract class PropertyElement : ComplexElement, IProperty
     {
         private string name;
         private string type;
 
+        /// <summary>
+        /// Gets the name of the property.
+        /// </summary>
         public string Name
         {
             get { return name; }
         }
+        /// <summary>
+        /// Gets the return type of the property.
+        /// </summary>
         public string Type
         {
             get { return type; }
         }
 
-        private AccessModifiers modifiers;
+        private AccessModifierElement modifiers;
+        /// <summary>
+        /// Gets or sets the access modifiers of the property.
+        /// </summary>
         public AccessModifiers Modifiers
         {
-            get { return modifiers; }
+            get { return modifiers.Modifiers; }
+            set { modifiers.Modifiers = value; }
         }
 
-        private PropertyGetter getter;
-        public PropertyGetter Get
-        {
-            get { return getter; }
-        }
-        private PropertySetter setter;
-        public PropertySetter Set
-        {
-            get { return setter; }
-        }
-
-        public PropertyElement(AccessModifiers modifiers, string name, string type, bool hasGetter, bool hasSetter)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyElement"/> class.
+        /// </summary>
+        /// <param name="modifiers">The access modifiers of the property.</param>
+        /// <param name="name">The name of the property.</param>
+        /// <param name="type">The return type of the property.</param>
+        internal PropertyElement(AccessModifiers modifiers, string name, string type)
         {
             if (name == null)
                 throw new ArgumentNullException("name");
@@ -45,92 +53,162 @@ namespace SablePP.Tools.Generate.CSharp
             if (type == string.Empty)
                 throw new ArgumentException("Property must have a type.", "type");
 
-            this.modifiers = modifiers;
+            this.modifiers = new AccessModifierElement(modifiers);
             this.name = name.Trim();
             this.type = type.Trim();
 
-            if (hasGetter)
-                this.getter = new PropertyGetter();
-            if (hasSetter)
-                this.setter = new PropertySetter();
-
-            modifiers.Emit(emit);
+            insertElement(this.modifiers);
             emit(type, UseSpace.NotPreferred, UseSpace.Always);
             emit(name, UseSpace.NotPreferred, UseSpace.Never);
+        }
+    }
+    
+    /// <summary>
+    /// Represents an object for handling code-generation of a C# property with a getter.
+    /// </summary>
+    public class GetPropertyElement : PropertyElement, IGetProperty
+    {
+        private GetSetHandle handle;
 
-            emitBlockStart();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GetPropertyElement"/> class.
+        /// </summary>
+        /// <param name="modifiers">The access modifiers of the property.</param>
+        /// <param name="name">The name of the property.</param>
+        /// <param name="type">The return type of the property.</param>
+        public GetPropertyElement(AccessModifiers modifiers, string name, string type)
+            : base(modifiers, name, type)
+        {
+            handle = new GetSetHandle("get");
 
-            if (hasGetter) 
-                insertElement(getter);
-            if (hasSetter)
-                insertElement(setter);
-
-            emitBlockEnd();
+            emitNewLine();
+            emitLine("{");
+            increaseIndentation();
+            insertElement(handle);
+            decreaseIndentation();
+            emitLine("}");
         }
 
-        public class PropertyGetter : ExecutableElement
+        /// <summary>
+        /// Gets a <see cref="PatchElement" /> to which the code for properties getter method should be emitted.
+        /// </summary>
+        public PatchElement Get
         {
-            private PatchElement break1 = new PatchElement(), break2 = new PatchElement(), break3 = new PatchElement();
-            private bool hasbreak = false;
-
-            public PropertyGetter()
-            {
-                emit("get", UseSpace.Never, UseSpace.Preferred);
-                insertElement(break1);
-                emit("{", UseSpace.NotPreferred, UseSpace.Preferred);
-                insertElement(break2);
-                InsertContents();
-                insertElement(break3);
-                emit("}", UseSpace.NotPreferred, UseSpace.NotPreferred);
-                emitNewLine();
-            }
-
-            protected override void OnNewLineEmitted()
-            {
-                if (!hasbreak)
-                {
-                    hasbreak = true;
-                    break1.EmitNewLine();
-                    break2.EmitNewLine();
-                    break2.IncreaseIndentation();
-                    break3.DecreaseIndentation();
-                }
-            }
+            get { return handle.Content; }
         }
 
-        public class PropertySetter : ExecutableElement
+        /// <summary>
+        /// Gets or sets the access modifiers specific to the properties getter method.
+        /// </summary>
+        public AccessModifiers GetModifiers
         {
-            private PatchElement break1 = new PatchElement(), break2 = new PatchElement(), break3 = new PatchElement();
-            private bool hasbreak = false;
+            get { return handle.Access; }
+            set { handle.Access = value; }
+        }
+    }
 
-            public PropertySetter()
-            {
-                emit("set", UseSpace.Never, UseSpace.Preferred);
-                insertElement(break1);
-                emit("{", UseSpace.NotPreferred, UseSpace.Preferred);
-                insertElement(break2);
-                InsertContents();
-                insertElement(break3);
-                emit("}", UseSpace.NotPreferred, UseSpace.NotPreferred);
-                emitNewLine();
-            }
+    /// <summary>
+    /// Represents an object for handling code-generation of a C# property with a setter.
+    /// </summary>
+    public class SetPropertyElement : PropertyElement, ISetProperty
+    {
+        private GetSetHandle handle;
 
-            protected override void OnNewLineEmitted()
-            {
-                if (!hasbreak)
-                {
-                    hasbreak = true;
-                    break1.EmitNewLine();
-                    break2.EmitNewLine();
-                    break2.IncreaseIndentation();
-                    break3.DecreaseIndentation();
-                }
-            }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SetPropertyElement"/> class.
+        /// </summary>
+        /// <param name="modifiers">The access modifiers of the property.</param>
+        /// <param name="name">The name of the property.</param>
+        /// <param name="type">The return type of the property.</param>
+        public SetPropertyElement(AccessModifiers modifiers, string name, string type)
+            : base(modifiers, name, type)
+        {
+            handle = new GetSetHandle("set");
 
-            public void EmitValueIdentifier()
-            {
-                EmitIdentifier("value");
-            }
+            emitNewLine();
+            emitLine("{");
+            increaseIndentation();
+            insertElement(handle);
+            decreaseIndentation();
+            emitLine("}");
+        }
+
+        /// <summary>
+        /// Gets a <see cref="PatchElement" /> to which the code for properties setter method should be emitted.
+        /// </summary>
+        public PatchElement Set
+        {
+            get { return handle.Content; }
+        }
+
+        /// <summary>
+        /// Gets or sets the access modifiers specific to the properties setter method.
+        /// </summary>
+        public AccessModifiers SetModifiers
+        {
+            get { return handle.Access; }
+            set { handle.Access = value; }
+        }
+    }
+
+    /// <summary>
+    /// Represents an object for handling code-generation of a C# property with a getter and a setter.
+    /// </summary>
+    public class GetSetPropertyElement : PropertyElement, IGetProperty, ISetProperty
+    {
+        private GetSetHandle getter, setter;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GetSetPropertyElement"/> class.
+        /// </summary>
+        /// <param name="modifiers">The access modifiers of the property.</param>
+        /// <param name="name">The name of the property.</param>
+        /// <param name="type">The return type of the property.</param>
+        public GetSetPropertyElement(AccessModifiers modifiers, string name, string type)
+            : base(modifiers, name, type)
+        {
+            getter = new GetSetHandle("get");
+            setter = new GetSetHandle("set");
+
+            emitNewLine();
+            emitLine("{");
+            increaseIndentation();
+            insertElement(getter);
+            insertElement(setter);
+            decreaseIndentation();
+            emitLine("}");
+        }
+
+        /// <summary>
+        /// Gets a <see cref="PatchElement" /> to which the code for properties getter method should be emitted.
+        /// </summary>
+        public PatchElement Get
+        {
+            get { return getter.Content; }
+        }
+        /// <summary>
+        /// Gets a <see cref="PatchElement" /> to which the code for properties setter method should be emitted.
+        /// </summary>
+        public PatchElement Set
+        {
+            get { return setter.Content; }
+        }
+
+        /// <summary>
+        /// Gets or sets the access modifiers specific to the properties getter method.
+        /// </summary>
+        public AccessModifiers GetModifiers
+        {
+            get { return getter.Access; }
+            set { getter.Access = value; }
+        }
+        /// <summary>
+        /// Gets or sets the access modifiers specific to the properties setter method.
+        /// </summary>
+        public AccessModifiers SetModifiers
+        {
+            get { return setter.Access; }
+            set { setter.Access = value; }
         }
     }
 }
