@@ -258,12 +258,12 @@ Productions
         ;
 
     alts {-> productionrule}
-        = {simple} alt_name? [elems]:elem* alttrans? {-> New productionrule([New alternative(Null, alt_name, New elements([elems]), alttrans)])}
-        | {multiple} alt_name? [elems]:elem* alttrans? [alts]:alts_tail+ {-> New productionrule([New alternative(Null, alt_name, New elements([elems]), alttrans), alts])}
+        = {simple} alt_name? [elems]:elem* alttrans? {-> New productionrule([New alternative(Null, alt_name, [elems], alttrans)])}
+        | {multiple} alt_name? [elems]:elem* alttrans? [alts]:alts_tail+ {-> New productionrule([New alternative(Null, alt_name, [elems], alttrans), alts])}
         ;
 
     alts_tail {-> alternative}
-        = pipe alt_name? [elems]:elem* alttrans? {-> New alternative(pipe, alt_name, New elements([elems]), alttrans)}
+        = pipe alt_name? [elems]:elem* alttrans? {-> New alternative(pipe, alt_name, [elems], alttrans)}
         ;
         
     alt_name {-> alternativename}
@@ -395,13 +395,10 @@ Abstract Syntax Tree
     productionrule
         = [alternatives]:alternative+
         ;
-    alternative = pipe? alternativename? elements translation?;
+    alternative = pipe? alternativename? element+ translation?;
     
     alternativename = [lpar]:l_brace [name]:identifier [rpar]:r_brace;
     
-    elements
-        = element+
-        ;
     element = elementname? elementid modifier?;
     elementname = [lpar]:l_bkt [name]:identifier [rpar]:r_bkt colon;
     elementid
