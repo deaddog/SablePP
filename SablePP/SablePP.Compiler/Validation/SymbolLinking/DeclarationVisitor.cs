@@ -114,7 +114,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseAToken(AToken node)
         {
-            if (node.HasStatelist)
+            if (node.Statelist.Count > 0)
                 Visit(node.Statelist);
 
             if (!tokens.Declare(node))
@@ -125,12 +125,12 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 Visit(node.Tokenlookahead);
         }
 
-        public override void CaseATokenstateListitem(ATokenstateListitem node)
+        public override void CaseATokenState(ATokenState node)
         {
             if (!states.Link(node.Identifier))
                 RegisterError(node.Identifier, "The state {0} has not been defined.", node.Identifier);
         }
-        public override void CaseATransitionTokenstateListitem(ATransitionTokenstateListitem node)
+        public override void CaseATransitionTokenState(ATransitionTokenState node)
         {
             if (!states.Link(node.From))
                 RegisterError(node.From, "The state {0} has not been defined.", node.From);

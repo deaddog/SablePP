@@ -118,33 +118,29 @@ namespace SablePP.Compiler.Generate
         {
             getTokenMethod.EmitLine("case {1}: return new {0}(text, line, position);", node.ClassName, tokenIndex);
 
-            base.CaseAToken(node);
+            if(node.Statelist.Any(item=>item is ATransitionTokenState))
+            {
+                getNextStateMethod.EmitLine("case {0}:", tokenIndex);
+                getNextStateMethod.IncreaseIndentation();
+                getNextStateMethod.EmitLine("switch (currentState)");
+                getNextStateMethod.EmitLine("{");
+                getNextStateMethod.IncreaseIndentation();
+
+                Visit(node.Statelist);
+
+                getNextStateMethod.EmitLine("default: return -1;");
+                getNextStateMethod.DecreaseIndentation();
+                getNextStateMethod.EmitLine("}");
+                getNextStateMethod.DecreaseIndentation();
+            }
 
             tokenIndex++;
         }
 
-        public override void CaseATokenstateList(ATokenstateList node)
-        {
-            if (!node.States.Any(item => item is ATransitionTokenstateListitem))
-                return;
-
-            getNextStateMethod.EmitLine("case {0}:", tokenIndex);
-            getNextStateMethod.IncreaseIndentation();
-            getNextStateMethod.EmitLine("switch (currentState)");
-            getNextStateMethod.EmitLine("{");
-            getNextStateMethod.IncreaseIndentation();
-
-            base.CaseATokenstateList(node);
-
-            getNextStateMethod.EmitLine("default: return -1;");
-            getNextStateMethod.DecreaseIndentation();
-            getNextStateMethod.EmitLine("}");
-            getNextStateMethod.DecreaseIndentation();
-        }
-        public override void CaseATokenstateListitem(ATokenstateListitem node)
+        public override void CaseATokenState(ATokenState node)
         {
         }
-        public override void CaseATransitionTokenstateListitem(ATransitionTokenstateListitem node)
+        public override void CaseATransitionTokenState(ATransitionTokenState node)
         {
             getNextStateMethod.EmitLine("case {0}: return {1};", node.From.AsState.Text.ToUpper(), node.To.AsState.Text.ToUpper());
         }
