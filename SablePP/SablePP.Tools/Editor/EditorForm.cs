@@ -169,6 +169,8 @@ namespace SablePP.Tools.Editor
             if (codeTextBox1.Text == string.Empty)
                 codeTextBox1.OnTextChangedDelayed(codeTextBox1.Range);
 
+            codeTextBox1.ClearUndo();
+
             return DialogResult.OK;
 
         }
@@ -213,6 +215,7 @@ namespace SablePP.Tools.Editor
             {
                 codeTextBox1.Text = reader.ReadToEnd();
                 this.encoding = reader.CurrentEncoding;
+                codeTextBox1.ClearUndo();
             }
             changed = false;
 
