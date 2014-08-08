@@ -403,8 +403,9 @@ namespace SablePP.Compiler.Parsing
                         PRegex pregex = Pop<PRegex>();
                         TEqual tequal = Pop<TEqual>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
+                        List<PTokenState> ptokenstatelist = new List<PTokenState>();
                         AToken atoken = new AToken(
-                            null,
+                            ptokenstatelist,
                             tidentifier,
                             tequal,
                             pregex,
@@ -417,16 +418,17 @@ namespace SablePP.Compiler.Parsing
                 case 19:
                     {
                         TSemicolon tsemicolon = Pop<TSemicolon>();
+                        PTokenlookahead ptokenlookahead = Pop<PTokenlookahead>();
                         PRegex pregex = Pop<PRegex>();
                         TEqual tequal = Pop<TEqual>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
-                        PTokenstateList ptokenstatelist = Pop<PTokenstateList>();
+                        List<PTokenState> ptokenstatelist = new List<PTokenState>();
                         AToken atoken = new AToken(
                             ptokenstatelist,
                             tidentifier,
                             tequal,
                             pregex,
-                            null,
+                            ptokenlookahead,
                             tsemicolon
                         );
                         Push(9, atoken);
@@ -435,16 +437,18 @@ namespace SablePP.Compiler.Parsing
                 case 20:
                     {
                         TSemicolon tsemicolon = Pop<TSemicolon>();
-                        PTokenlookahead ptokenlookahead = Pop<PTokenlookahead>();
                         PRegex pregex = Pop<PRegex>();
                         TEqual tequal = Pop<TEqual>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
+                        List<PTokenState> ptokenstatelist = Pop<List<PTokenState>>();
+                        List<PTokenState> ptokenstatelist2 = new List<PTokenState>();
+                        ptokenstatelist2.AddRange(ptokenstatelist);
                         AToken atoken = new AToken(
-                            null,
+                            ptokenstatelist2,
                             tidentifier,
                             tequal,
                             pregex,
-                            ptokenlookahead,
+                            null,
                             tsemicolon
                         );
                         Push(9, atoken);
@@ -457,9 +461,11 @@ namespace SablePP.Compiler.Parsing
                         PRegex pregex = Pop<PRegex>();
                         TEqual tequal = Pop<TEqual>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
-                        PTokenstateList ptokenstatelist = Pop<PTokenstateList>();
+                        List<PTokenState> ptokenstatelist = Pop<List<PTokenState>>();
+                        List<PTokenState> ptokenstatelist2 = new List<PTokenState>();
+                        ptokenstatelist2.AddRange(ptokenstatelist);
                         AToken atoken = new AToken(
-                            ptokenstatelist,
+                            ptokenstatelist2,
                             tidentifier,
                             tequal,
                             pregex,
@@ -474,39 +480,29 @@ namespace SablePP.Compiler.Parsing
                         TRBrace trbrace = Pop<TRBrace>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
                         TLBrace tlbrace = Pop<TLBrace>();
-                        ATokenstateListitem atokenstatelistitem = new ATokenstateListitem(
+                        ATokenState atokenstate = new ATokenState(
                             null,
                             tidentifier
                         );
-                        List<PTokenstateListitem> ptokenstatelistitemlist = new List<PTokenstateListitem>();
-                        ptokenstatelistitemlist.Add(atokenstatelistitem);
-                        ATokenstateList atokenstatelist = new ATokenstateList(
-                            tlbrace,
-                            ptokenstatelistitemlist,
-                            trbrace
-                        );
-                        Push(10, atokenstatelist);
+                        List<PTokenState> ptokenstatelist = new List<PTokenState>();
+                        ptokenstatelist.Add(atokenstate);
+                        Push(10, ptokenstatelist);
                     }
                     break;
                 case 23:
                     {
                         TRBrace trbrace = Pop<TRBrace>();
-                        List<PTokenstateListitem> ptokenstatelistitemlist = Pop<List<PTokenstateListitem>>();
+                        List<PTokenState> ptokenstatelist = Pop<List<PTokenState>>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
                         TLBrace tlbrace = Pop<TLBrace>();
-                        ATokenstateListitem atokenstatelistitem = new ATokenstateListitem(
+                        ATokenState atokenstate = new ATokenState(
                             null,
                             tidentifier
                         );
-                        List<PTokenstateListitem> ptokenstatelistitemlist2 = new List<PTokenstateListitem>();
-                        ptokenstatelistitemlist2.Add(atokenstatelistitem);
-                        ptokenstatelistitemlist2.AddRange(ptokenstatelistitemlist);
-                        ATokenstateList atokenstatelist = new ATokenstateList(
-                            tlbrace,
-                            ptokenstatelistitemlist2,
-                            trbrace
-                        );
-                        Push(10, atokenstatelist);
+                        List<PTokenState> ptokenstatelist2 = new List<PTokenState>();
+                        ptokenstatelist2.Add(atokenstate);
+                        ptokenstatelist2.AddRange(ptokenstatelist);
+                        Push(10, ptokenstatelist2);
                     }
                     break;
                 case 24:
@@ -516,56 +512,46 @@ namespace SablePP.Compiler.Parsing
                         TArrow tarrow = Pop<TArrow>();
                         TIdentifier tidentifier2 = Pop<TIdentifier>();
                         TLBrace tlbrace = Pop<TLBrace>();
-                        ATransitionTokenstateListitem atransitiontokenstatelistitem = new ATransitionTokenstateListitem(
+                        ATransitionTokenState atransitiontokenstate = new ATransitionTokenState(
                             null,
                             tidentifier2,
                             tarrow,
                             tidentifier
                         );
-                        List<PTokenstateListitem> ptokenstatelistitemlist = new List<PTokenstateListitem>();
-                        ptokenstatelistitemlist.Add(atransitiontokenstatelistitem);
-                        ATokenstateList atokenstatelist = new ATokenstateList(
-                            tlbrace,
-                            ptokenstatelistitemlist,
-                            trbrace
-                        );
-                        Push(10, atokenstatelist);
+                        List<PTokenState> ptokenstatelist = new List<PTokenState>();
+                        ptokenstatelist.Add(atransitiontokenstate);
+                        Push(10, ptokenstatelist);
                     }
                     break;
                 case 25:
                     {
                         TRBrace trbrace = Pop<TRBrace>();
-                        List<PTokenstateListitem> ptokenstatelistitemlist = Pop<List<PTokenstateListitem>>();
+                        List<PTokenState> ptokenstatelist = Pop<List<PTokenState>>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
                         TArrow tarrow = Pop<TArrow>();
                         TIdentifier tidentifier2 = Pop<TIdentifier>();
                         TLBrace tlbrace = Pop<TLBrace>();
-                        ATransitionTokenstateListitem atransitiontokenstatelistitem = new ATransitionTokenstateListitem(
+                        ATransitionTokenState atransitiontokenstate = new ATransitionTokenState(
                             null,
                             tidentifier2,
                             tarrow,
                             tidentifier
                         );
-                        List<PTokenstateListitem> ptokenstatelistitemlist2 = new List<PTokenstateListitem>();
-                        ptokenstatelistitemlist2.Add(atransitiontokenstatelistitem);
-                        ptokenstatelistitemlist2.AddRange(ptokenstatelistitemlist);
-                        ATokenstateList atokenstatelist = new ATokenstateList(
-                            tlbrace,
-                            ptokenstatelistitemlist2,
-                            trbrace
-                        );
-                        Push(10, atokenstatelist);
+                        List<PTokenState> ptokenstatelist2 = new List<PTokenState>();
+                        ptokenstatelist2.Add(atransitiontokenstate);
+                        ptokenstatelist2.AddRange(ptokenstatelist);
+                        Push(10, ptokenstatelist2);
                     }
                     break;
                 case 26:
                     {
                         TIdentifier tidentifier = Pop<TIdentifier>();
                         TComma tcomma = Pop<TComma>();
-                        ATokenstateListitem atokenstatelistitem = new ATokenstateListitem(
+                        ATokenState atokenstate = new ATokenState(
                             tcomma,
                             tidentifier
                         );
-                        Push(11, atokenstatelistitem);
+                        Push(11, atokenstate);
                     }
                     break;
                 case 27:
@@ -574,13 +560,13 @@ namespace SablePP.Compiler.Parsing
                         TArrow tarrow = Pop<TArrow>();
                         TIdentifier tidentifier2 = Pop<TIdentifier>();
                         TComma tcomma = Pop<TComma>();
-                        ATransitionTokenstateListitem atransitiontokenstatelistitem = new ATransitionTokenstateListitem(
+                        ATransitionTokenState atransitiontokenstate = new ATransitionTokenState(
                             tcomma,
                             tidentifier2,
                             tarrow,
                             tidentifier
                         );
-                        Push(11, atransitiontokenstatelistitem);
+                        Push(11, atransitiontokenstate);
                     }
                     break;
                 case 28:
@@ -1830,12 +1816,12 @@ namespace SablePP.Compiler.Parsing
                     }
                     break;
                 case 126:
-                    Push(47, new List<PTokenstateListitem>() { Pop<PTokenstateListitem>() });
+                    Push(47, new List<PTokenState>() { Pop<PTokenState>() });
                     break;
                 case 127:
                     {
-                        PTokenstateListitem item = Pop<PTokenstateListitem>();
-                        List<PTokenstateListitem> list = Pop<List<PTokenstateListitem>>();
+                        PTokenState item = Pop<PTokenState>();
+                        List<PTokenState> list = Pop<List<PTokenState>>();
                         list.Add(item);
                         Push(47, list);
                     }
@@ -2684,10 +2670,10 @@ namespace SablePP.Compiler.Parsing
                 new int[] {-1, 1, 29},
             },
             new int[][] {
-                new int[] {-1, 1, 20},
+                new int[] {-1, 1, 19},
             },
             new int[][] {
-                new int[] {-1, 1, 19},
+                new int[] {-1, 1, 20},
             },
             new int[][] {
                 new int[] {-1, 3, 165},
