@@ -23,6 +23,24 @@ namespace SablePP.Compiler.Nodes
             get { return HasModifier && (Modifier is AStarModifier || Modifier is APlusModifier); }
         }
 
+        public bool GeneratesAsList
+        {
+            get
+            {
+                if (!IsList)
+                {
+                    var prod = Elementid.Identifier.AsPProduction;
+                    if (prod != null && prod.HasProdtranslation)
+                    {
+                        var trans = prod.Prodtranslation;
+                        return trans.HasModifier && (trans.Modifier is APlusModifier || trans.Modifier is AStarModifier);
+                    }
+                }
+
+                return IsList;
+            }
+        }
+
         public ElementTypes ElementType
         {
             get

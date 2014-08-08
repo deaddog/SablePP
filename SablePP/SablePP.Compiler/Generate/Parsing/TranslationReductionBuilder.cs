@@ -42,7 +42,7 @@ namespace SablePP.Compiler.Generate.Parsing
                         string className = element.ClassName;
 
                         if (node.HasTranslation && (production == null || hasAstProduction(production)))
-                            if (isList(element))
+                            if (element.GeneratesAsList)
                             {
                                 elementVariables[element] = GetVariable(className + "list");
                                 code.EmitLine("List<{0}> {1} = Pop<List<{0}>>();", className, elementVariables[element]);
@@ -222,20 +222,6 @@ namespace SablePP.Compiler.Generate.Parsing
             return getClassName(translation.Elements[0]);
         }
 
-        private bool isList(PElement element)
-        {
-            if (!element.IsList)
-            {
-                var prod = element.Elementid.Identifier.AsPProduction;
-                if (prod != null && prod.HasProdtranslation)
-                {
-                    var trans = prod.Prodtranslation;
-                    return trans.HasModifier && (trans.Modifier is APlusModifier || trans.Modifier is AStarModifier);
-                }
-            }
-
-            return element.IsList;
-        }
         private bool isList(PTranslation translation)
         {
             return isList((dynamic)translation);
@@ -251,11 +237,11 @@ namespace SablePP.Compiler.Generate.Parsing
         }
         private bool isList(AIdTranslation translation)
         {
-            return isList(translation.Identifier.AsPElement);
+            return translation.Identifier.AsPElement.GeneratesAsList;
         }
         private bool isList(AIddotidTranslation translation)
         {
-            return isList(translation.Identifier.AsPElement);
+            return translation.Identifier.AsPElement.GeneratesAsList;
         }
         private bool isList(AListTranslation translation)
         {
