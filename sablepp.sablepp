@@ -246,11 +246,11 @@ Productions
         | {null} null {-> New translation.null(null)}
         | {list} l_bkt translation_args? r_bkt {-> New translation.list(l_bkt, [translation_args], r_bkt)}
         ;
-    translation_args {-> translation_listitem+}
-        = translation translation_args_tail* {-> [New translation_listitem(Null, translation), translation_args_tail]}
+    translation_args {-> translation+}
+        = translation translation_args_tail* {-> [translation, translation_args_tail]}
         ;
-    translation_args_tail {-> translation_listitem}
-        = comma translation {-> New translation_listitem(comma, translation)}
+    translation_args_tail {-> translation}
+        = comma translation {-> translation}
         ;
     translationid {-> translation}
         = {single} identifier {-> New translation.id(identifier)}
@@ -373,8 +373,6 @@ Abstract Syntax Tree
         = comma? identifier
         | {transition} comma? [from]:identifier arrow [to]:identifier
         ;
-    
-    translation_listitem = comma? translation;
 
     productions = productionstoken [productions]:production+;
     astproductions =      asttoken [productions]:production+;
@@ -384,9 +382,9 @@ Abstract Syntax Tree
     
     translation
         = {full} arrow translation
-        | {new} new [production]:identifier [lpar]:l_par [arguments]:translation_listitem+ [rpar]:r_par
-        | {newalternative} new [production]:identifier dot [alternative]:identifier [lpar]:l_par [arguments]:translation_listitem+ [rpar]:r_par
-        | {list} [lpar]:l_bkt [elements]:translation_listitem+ [rpar]:r_bkt
+        | {new} new [production]:identifier [lpar]:l_par [arguments]:translation+ [rpar]:r_par
+        | {newalternative} new [production]:identifier dot [alternative]:identifier [lpar]:l_par [arguments]:translation+ [rpar]:r_par
+        | {list} [lpar]:l_bkt [elements]:translation+ [rpar]:r_bkt
         | {null} null
         | {id} identifier
         | {iddotid} identifier dot [production]:identifier
