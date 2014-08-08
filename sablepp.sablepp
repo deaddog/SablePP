@@ -294,12 +294,12 @@ Productions
         = identifier l_brace id_list r_brace hlstyle_list semicolon {-> New highlightrule(identifier, l_brace, [id_list], r_brace, [hlstyle_list], semicolon)}
         ;
     
-    hlstyle_list {-> style_listitem+ }
-        = hlstyle hlstyle_tail* {-> [New style_listitem(Null, hlstyle), hlstyle_tail]}
+    hlstyle_list {-> highlight_style+ }
+    = hlstyle hlstyle_tail* {-> [hlstyle, hlstyle_tail]}
         ;
     
-    hlstyle_tail {-> style_listitem }
-        = comma hlstyle {-> New style_listitem(comma, hlstyle)}
+    hlstyle_tail {-> highlight_style }
+        = comma hlstyle {-> hlstyle}
         ;
         
     hlstyle {-> highlight_style}
@@ -377,7 +377,6 @@ Abstract Syntax Tree
         ;
     
     translation_listitem = comma? translation;
-    style_listitem = comma? highlight_style;
 
     productions = productionstoken [productions]:production+;
     astproductions =      asttoken [productions]:production+;
@@ -417,7 +416,7 @@ Abstract Syntax Tree
         = highlighttoken highlightrule+
         ;
     highlightrule
-        = [name]:identifier [lpar]:l_brace [tokens]:identifier_listitem+ [rpar]:r_brace [styles]:style_listitem+ semicolon
+        = [name]:identifier [lpar]:l_brace [tokens]:identifier_listitem+ [rpar]:r_brace [styles]:highlight_style+ semicolon
         ;
     highlight_style
         = {italic} italic
