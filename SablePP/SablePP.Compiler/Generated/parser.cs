@@ -953,12 +953,12 @@ namespace SablePP.Compiler.Parsing
                         TLPar tlpar = Pop<TLPar>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
                         TNew tnew = Pop<TNew>();
-                        List<PTranslationListitem> ptranslationlistitemlist = new List<PTranslationListitem>();
+                        List<PTranslation> ptranslationlist = new List<PTranslation>();
                         ANewTranslation anewtranslation = new ANewTranslation(
                             tnew,
                             tidentifier,
                             tlpar,
-                            ptranslationlistitemlist,
+                            ptranslationlist,
                             trpar
                         );
                         Push(26, anewtranslation);
@@ -967,17 +967,17 @@ namespace SablePP.Compiler.Parsing
                 case 61:
                     {
                         TRPar trpar = Pop<TRPar>();
-                        List<PTranslationListitem> ptranslationlistitemlist = Pop<List<PTranslationListitem>>();
+                        List<PTranslation> ptranslationlist = Pop<List<PTranslation>>();
                         TLPar tlpar = Pop<TLPar>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
                         TNew tnew = Pop<TNew>();
-                        List<PTranslationListitem> ptranslationlistitemlist2 = new List<PTranslationListitem>();
-                        ptranslationlistitemlist2.AddRange(ptranslationlistitemlist);
+                        List<PTranslation> ptranslationlist2 = new List<PTranslation>();
+                        ptranslationlist2.AddRange(ptranslationlist);
                         ANewTranslation anewtranslation = new ANewTranslation(
                             tnew,
                             tidentifier,
                             tlpar,
-                            ptranslationlistitemlist2,
+                            ptranslationlist2,
                             trpar
                         );
                         Push(26, anewtranslation);
@@ -991,14 +991,14 @@ namespace SablePP.Compiler.Parsing
                         TDot tdot = Pop<TDot>();
                         TIdentifier tidentifier2 = Pop<TIdentifier>();
                         TNew tnew = Pop<TNew>();
-                        List<PTranslationListitem> ptranslationlistitemlist = new List<PTranslationListitem>();
+                        List<PTranslation> ptranslationlist = new List<PTranslation>();
                         ANewalternativeTranslation anewalternativetranslation = new ANewalternativeTranslation(
                             tnew,
                             tidentifier2,
                             tdot,
                             tidentifier,
                             tlpar,
-                            ptranslationlistitemlist,
+                            ptranslationlist,
                             trpar
                         );
                         Push(26, anewalternativetranslation);
@@ -1007,21 +1007,21 @@ namespace SablePP.Compiler.Parsing
                 case 63:
                     {
                         TRPar trpar = Pop<TRPar>();
-                        List<PTranslationListitem> ptranslationlistitemlist = Pop<List<PTranslationListitem>>();
+                        List<PTranslation> ptranslationlist = Pop<List<PTranslation>>();
                         TLPar tlpar = Pop<TLPar>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
                         TDot tdot = Pop<TDot>();
                         TIdentifier tidentifier2 = Pop<TIdentifier>();
                         TNew tnew = Pop<TNew>();
-                        List<PTranslationListitem> ptranslationlistitemlist2 = new List<PTranslationListitem>();
-                        ptranslationlistitemlist2.AddRange(ptranslationlistitemlist);
+                        List<PTranslation> ptranslationlist2 = new List<PTranslation>();
+                        ptranslationlist2.AddRange(ptranslationlist);
                         ANewalternativeTranslation anewalternativetranslation = new ANewalternativeTranslation(
                             tnew,
                             tidentifier2,
                             tdot,
                             tidentifier,
                             tlpar,
-                            ptranslationlistitemlist2,
+                            ptranslationlist2,
                             trpar
                         );
                         Push(26, anewalternativetranslation);
@@ -1040,10 +1040,10 @@ namespace SablePP.Compiler.Parsing
                     {
                         TRBkt trbkt = Pop<TRBkt>();
                         TLBkt tlbkt = Pop<TLBkt>();
-                        List<PTranslationListitem> ptranslationlistitemlist = new List<PTranslationListitem>();
+                        List<PTranslation> ptranslationlist = new List<PTranslation>();
                         AListTranslation alisttranslation = new AListTranslation(
                             tlbkt,
-                            ptranslationlistitemlist,
+                            ptranslationlist,
                             trbkt
                         );
                         Push(26, alisttranslation);
@@ -1052,13 +1052,13 @@ namespace SablePP.Compiler.Parsing
                 case 66:
                     {
                         TRBkt trbkt = Pop<TRBkt>();
-                        List<PTranslationListitem> ptranslationlistitemlist = Pop<List<PTranslationListitem>>();
+                        List<PTranslation> ptranslationlist = Pop<List<PTranslation>>();
                         TLBkt tlbkt = Pop<TLBkt>();
-                        List<PTranslationListitem> ptranslationlistitemlist2 = new List<PTranslationListitem>();
-                        ptranslationlistitemlist2.AddRange(ptranslationlistitemlist);
+                        List<PTranslation> ptranslationlist2 = new List<PTranslation>();
+                        ptranslationlist2.AddRange(ptranslationlist);
                         AListTranslation alisttranslation = new AListTranslation(
                             tlbkt,
-                            ptranslationlistitemlist2,
+                            ptranslationlist2,
                             trbkt
                         );
                         Push(26, alisttranslation);
@@ -1067,38 +1067,26 @@ namespace SablePP.Compiler.Parsing
                 case 67:
                     {
                         PTranslation ptranslation = Pop<PTranslation>();
-                        ATranslationListitem atranslationlistitem = new ATranslationListitem(
-                            null,
-                            ptranslation
-                        );
-                        List<PTranslationListitem> ptranslationlistitemlist = new List<PTranslationListitem>();
-                        ptranslationlistitemlist.Add(atranslationlistitem);
-                        Push(27, ptranslationlistitemlist);
+                        List<PTranslation> ptranslationlist = new List<PTranslation>();
+                        ptranslationlist.Add(ptranslation);
+                        Push(27, ptranslationlist);
                     }
                     break;
                 case 68:
                     {
-                        List<PTranslationListitem> ptranslationlistitemlist = Pop<List<PTranslationListitem>>();
+                        List<PTranslation> ptranslationlist = Pop<List<PTranslation>>();
                         PTranslation ptranslation = Pop<PTranslation>();
-                        ATranslationListitem atranslationlistitem = new ATranslationListitem(
-                            null,
-                            ptranslation
-                        );
-                        List<PTranslationListitem> ptranslationlistitemlist2 = new List<PTranslationListitem>();
-                        ptranslationlistitemlist2.Add(atranslationlistitem);
-                        ptranslationlistitemlist2.AddRange(ptranslationlistitemlist);
-                        Push(27, ptranslationlistitemlist2);
+                        List<PTranslation> ptranslationlist2 = new List<PTranslation>();
+                        ptranslationlist2.Add(ptranslation);
+                        ptranslationlist2.AddRange(ptranslationlist);
+                        Push(27, ptranslationlist2);
                     }
                     break;
                 case 69:
                     {
                         PTranslation ptranslation = Pop<PTranslation>();
                         TComma tcomma = Pop<TComma>();
-                        ATranslationListitem atranslationlistitem = new ATranslationListitem(
-                            tcomma,
-                            ptranslation
-                        );
-                        Push(28, atranslationlistitem);
+                        Push(28, ptranslation);
                     }
                     break;
                 case 70:
@@ -1886,12 +1874,12 @@ namespace SablePP.Compiler.Parsing
                     }
                     break;
                 case 134:
-                    Push(51, new List<PTranslationListitem>() { Pop<PTranslationListitem>() });
+                    Push(51, new List<PTranslation>() { Pop<PTranslation>() });
                     break;
                 case 135:
                     {
-                        PTranslationListitem item = Pop<PTranslationListitem>();
-                        List<PTranslationListitem> list = Pop<List<PTranslationListitem>>();
+                        PTranslation item = Pop<PTranslation>();
+                        List<PTranslation> list = Pop<List<PTranslation>>();
                         list.Add(item);
                         Push(51, list);
                     }

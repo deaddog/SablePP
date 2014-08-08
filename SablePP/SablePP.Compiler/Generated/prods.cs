@@ -3178,93 +3178,6 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0} {1} {2} {3}", Comma, From, Arrow, To);
         }
     }
-    public abstract partial class PTranslationListitem : Production<PTranslationListitem>
-    {
-        private TComma _comma_;
-        private PTranslation _translation_;
-        
-        public PTranslationListitem(TComma _comma_, PTranslation _translation_)
-        {
-            this.Comma = _comma_;
-            this.Translation = _translation_;
-        }
-        
-        public TComma Comma
-        {
-            get { return _comma_; }
-            set
-            {
-                if (_comma_ != null)
-                    SetParent(_comma_, null);
-                if (value != null)
-                    SetParent(value, this);
-                
-                _comma_ = value;
-            }
-        }
-        public bool HasComma
-        {
-            get { return _comma_ != null; }
-        }
-        public PTranslation Translation
-        {
-            get { return _translation_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Translation in PTranslationListitem cannot be null.", "value");
-                
-                if (_translation_ != null)
-                    SetParent(_translation_, null);
-                SetParent(value, this);
-                
-                _translation_ = value;
-            }
-        }
-        
-    }
-    public partial class ATranslationListitem : PTranslationListitem
-    {
-        public ATranslationListitem(TComma _comma_, PTranslation _translation_)
-            : base(_comma_, _translation_)
-        {
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Comma == oldChild)
-            {
-                if (!(newChild is TComma) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Comma = newChild as TComma;
-            }
-            else if (Translation == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Translation in ATranslationListitem cannot be null.", "newChild");
-                if (!(newChild is PTranslation) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Translation = newChild as PTranslation;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            if (HasComma)
-                yield return Comma;
-            yield return Translation;
-        }
-        
-        public override PTranslationListitem Clone()
-        {
-            return new ATranslationListitem(Comma.Clone(), Translation.Clone());
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1}", Comma, Translation);
-        }
-    }
     public abstract partial class PProductions : Production<PProductions>
     {
         private TProductionstoken _productionstoken_;
@@ -3797,16 +3710,16 @@ namespace SablePP.Compiler.Nodes
         private TNew _new_;
         private TIdentifier _production_;
         private TLPar _lpar_;
-        private NodeList<PTranslationListitem> _arguments_;
+        private NodeList<PTranslation> _arguments_;
         private TRPar _rpar_;
         
-        public ANewTranslation(TNew _new_, TIdentifier _production_, TLPar _lpar_, IEnumerable<PTranslationListitem> _arguments_, TRPar _rpar_)
+        public ANewTranslation(TNew _new_, TIdentifier _production_, TLPar _lpar_, IEnumerable<PTranslation> _arguments_, TRPar _rpar_)
             : base()
         {
             this.New = _new_;
             this.Production = _production_;
             this.Lpar = _lpar_;
-            this._arguments_ = new NodeList<PTranslationListitem>(this, _arguments_, false);
+            this._arguments_ = new NodeList<PTranslation>(this, _arguments_, false);
             this.Rpar = _rpar_;
         }
         
@@ -3855,7 +3768,7 @@ namespace SablePP.Compiler.Nodes
                 _lpar_ = value;
             }
         }
-        public NodeList<PTranslationListitem> Arguments
+        public NodeList<PTranslation> Arguments
         {
             get { return _arguments_; }
         }
@@ -3901,16 +3814,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLPar;
             }
-            else if (oldChild is PTranslationListitem && Arguments.Contains(oldChild as PTranslationListitem))
+            else if (oldChild is PTranslation && Arguments.Contains(oldChild as PTranslation))
             {
-                if (!(newChild is PTranslationListitem) && newChild != null)
+                if (!(newChild is PTranslation) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
-                int index = Arguments.IndexOf(oldChild as PTranslationListitem);
+                int index = Arguments.IndexOf(oldChild as PTranslation);
                 if (newChild == null)
                     Arguments.RemoveAt(index);
                 else
-                    Arguments[index] = newChild as PTranslationListitem;
+                    Arguments[index] = newChild as PTranslation;
             }
             else if (Rpar == oldChild)
             {
@@ -3928,7 +3841,7 @@ namespace SablePP.Compiler.Nodes
             yield return Production;
             yield return Lpar;
             {
-                PTranslationListitem[] temp = new PTranslationListitem[Arguments.Count];
+                PTranslation[] temp = new PTranslation[Arguments.Count];
                 Arguments.CopyTo(temp, 0);
                 for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
@@ -3953,10 +3866,10 @@ namespace SablePP.Compiler.Nodes
         private TDot _dot_;
         private TIdentifier _alternative_;
         private TLPar _lpar_;
-        private NodeList<PTranslationListitem> _arguments_;
+        private NodeList<PTranslation> _arguments_;
         private TRPar _rpar_;
         
-        public ANewalternativeTranslation(TNew _new_, TIdentifier _production_, TDot _dot_, TIdentifier _alternative_, TLPar _lpar_, IEnumerable<PTranslationListitem> _arguments_, TRPar _rpar_)
+        public ANewalternativeTranslation(TNew _new_, TIdentifier _production_, TDot _dot_, TIdentifier _alternative_, TLPar _lpar_, IEnumerable<PTranslation> _arguments_, TRPar _rpar_)
             : base()
         {
             this.New = _new_;
@@ -3964,7 +3877,7 @@ namespace SablePP.Compiler.Nodes
             this.Dot = _dot_;
             this.Alternative = _alternative_;
             this.Lpar = _lpar_;
-            this._arguments_ = new NodeList<PTranslationListitem>(this, _arguments_, false);
+            this._arguments_ = new NodeList<PTranslation>(this, _arguments_, false);
             this.Rpar = _rpar_;
         }
         
@@ -4043,7 +3956,7 @@ namespace SablePP.Compiler.Nodes
                 _lpar_ = value;
             }
         }
-        public NodeList<PTranslationListitem> Arguments
+        public NodeList<PTranslation> Arguments
         {
             get { return _arguments_; }
         }
@@ -4105,16 +4018,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLPar;
             }
-            else if (oldChild is PTranslationListitem && Arguments.Contains(oldChild as PTranslationListitem))
+            else if (oldChild is PTranslation && Arguments.Contains(oldChild as PTranslation))
             {
-                if (!(newChild is PTranslationListitem) && newChild != null)
+                if (!(newChild is PTranslation) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
-                int index = Arguments.IndexOf(oldChild as PTranslationListitem);
+                int index = Arguments.IndexOf(oldChild as PTranslation);
                 if (newChild == null)
                     Arguments.RemoveAt(index);
                 else
-                    Arguments[index] = newChild as PTranslationListitem;
+                    Arguments[index] = newChild as PTranslation;
             }
             else if (Rpar == oldChild)
             {
@@ -4134,7 +4047,7 @@ namespace SablePP.Compiler.Nodes
             yield return Alternative;
             yield return Lpar;
             {
-                PTranslationListitem[] temp = new PTranslationListitem[Arguments.Count];
+                PTranslation[] temp = new PTranslation[Arguments.Count];
                 Arguments.CopyTo(temp, 0);
                 for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
@@ -4155,14 +4068,14 @@ namespace SablePP.Compiler.Nodes
     public partial class AListTranslation : PTranslation
     {
         private TLBkt _lpar_;
-        private NodeList<PTranslationListitem> _elements_;
+        private NodeList<PTranslation> _elements_;
         private TRBkt _rpar_;
         
-        public AListTranslation(TLBkt _lpar_, IEnumerable<PTranslationListitem> _elements_, TRBkt _rpar_)
+        public AListTranslation(TLBkt _lpar_, IEnumerable<PTranslation> _elements_, TRBkt _rpar_)
             : base()
         {
             this.Lpar = _lpar_;
-            this._elements_ = new NodeList<PTranslationListitem>(this, _elements_, false);
+            this._elements_ = new NodeList<PTranslation>(this, _elements_, false);
             this.Rpar = _rpar_;
         }
         
@@ -4181,7 +4094,7 @@ namespace SablePP.Compiler.Nodes
                 _lpar_ = value;
             }
         }
-        public NodeList<PTranslationListitem> Elements
+        public NodeList<PTranslation> Elements
         {
             get { return _elements_; }
         }
@@ -4211,16 +4124,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Lpar = newChild as TLBkt;
             }
-            else if (oldChild is PTranslationListitem && Elements.Contains(oldChild as PTranslationListitem))
+            else if (oldChild is PTranslation && Elements.Contains(oldChild as PTranslation))
             {
-                if (!(newChild is PTranslationListitem) && newChild != null)
+                if (!(newChild is PTranslation) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
-                int index = Elements.IndexOf(oldChild as PTranslationListitem);
+                int index = Elements.IndexOf(oldChild as PTranslation);
                 if (newChild == null)
                     Elements.RemoveAt(index);
                 else
-                    Elements[index] = newChild as PTranslationListitem;
+                    Elements[index] = newChild as PTranslation;
             }
             else if (Rpar == oldChild)
             {
@@ -4236,7 +4149,7 @@ namespace SablePP.Compiler.Nodes
         {
             yield return Lpar;
             {
-                PTranslationListitem[] temp = new PTranslationListitem[Elements.Count];
+                PTranslation[] temp = new PTranslation[Elements.Count];
                 Elements.CopyTo(temp, 0);
                 for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
