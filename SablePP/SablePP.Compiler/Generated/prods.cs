@@ -3352,93 +3352,6 @@ namespace SablePP.Compiler.Nodes
             return string.Format("{0} {1}", Comma, Translation);
         }
     }
-    public abstract partial class PStyleListitem : Production<PStyleListitem>
-    {
-        private TComma _comma_;
-        private PHighlightStyle _highlight_style_;
-        
-        public PStyleListitem(TComma _comma_, PHighlightStyle _highlight_style_)
-        {
-            this.Comma = _comma_;
-            this.HighlightStyle = _highlight_style_;
-        }
-        
-        public TComma Comma
-        {
-            get { return _comma_; }
-            set
-            {
-                if (_comma_ != null)
-                    SetParent(_comma_, null);
-                if (value != null)
-                    SetParent(value, this);
-                
-                _comma_ = value;
-            }
-        }
-        public bool HasComma
-        {
-            get { return _comma_ != null; }
-        }
-        public PHighlightStyle HighlightStyle
-        {
-            get { return _highlight_style_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("HighlightStyle in PStyleListitem cannot be null.", "value");
-                
-                if (_highlight_style_ != null)
-                    SetParent(_highlight_style_, null);
-                SetParent(value, this);
-                
-                _highlight_style_ = value;
-            }
-        }
-        
-    }
-    public partial class AStyleListitem : PStyleListitem
-    {
-        public AStyleListitem(TComma _comma_, PHighlightStyle _highlight_style_)
-            : base(_comma_, _highlight_style_)
-        {
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (Comma == oldChild)
-            {
-                if (!(newChild is TComma) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Comma = newChild as TComma;
-            }
-            else if (HighlightStyle == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("HighlightStyle in AStyleListitem cannot be null.", "newChild");
-                if (!(newChild is PHighlightStyle) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                HighlightStyle = newChild as PHighlightStyle;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            if (HasComma)
-                yield return Comma;
-            yield return HighlightStyle;
-        }
-        
-        public override PStyleListitem Clone()
-        {
-            return new AStyleListitem(Comma.Clone(), HighlightStyle.Clone());
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0} {1}", Comma, HighlightStyle);
-        }
-    }
     public abstract partial class PProductions : Production<PProductions>
     {
         private TProductionstoken _productionstoken_;
@@ -5586,16 +5499,16 @@ namespace SablePP.Compiler.Nodes
         private TLBrace _lpar_;
         private NodeList<PIdentifierListitem> _tokens_;
         private TRBrace _rpar_;
-        private NodeList<PStyleListitem> _styles_;
+        private NodeList<PHighlightStyle> _styles_;
         private TSemicolon _semicolon_;
         
-        public PHighlightrule(TIdentifier _name_, TLBrace _lpar_, IEnumerable<PIdentifierListitem> _tokens_, TRBrace _rpar_, IEnumerable<PStyleListitem> _styles_, TSemicolon _semicolon_)
+        public PHighlightrule(TIdentifier _name_, TLBrace _lpar_, IEnumerable<PIdentifierListitem> _tokens_, TRBrace _rpar_, IEnumerable<PHighlightStyle> _styles_, TSemicolon _semicolon_)
         {
             this.Name = _name_;
             this.Lpar = _lpar_;
             this._tokens_ = new NodeList<PIdentifierListitem>(this, _tokens_, false);
             this.Rpar = _rpar_;
-            this._styles_ = new NodeList<PStyleListitem>(this, _styles_, false);
+            this._styles_ = new NodeList<PHighlightStyle>(this, _styles_, false);
             this.Semicolon = _semicolon_;
         }
         
@@ -5648,7 +5561,7 @@ namespace SablePP.Compiler.Nodes
                 _rpar_ = value;
             }
         }
-        public NodeList<PStyleListitem> Styles
+        public NodeList<PHighlightStyle> Styles
         {
             get { return _styles_; }
         }
@@ -5671,7 +5584,7 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AHighlightrule : PHighlightrule
     {
-        public AHighlightrule(TIdentifier _name_, TLBrace _lpar_, IEnumerable<PIdentifierListitem> _tokens_, TRBrace _rpar_, IEnumerable<PStyleListitem> _styles_, TSemicolon _semicolon_)
+        public AHighlightrule(TIdentifier _name_, TLBrace _lpar_, IEnumerable<PIdentifierListitem> _tokens_, TRBrace _rpar_, IEnumerable<PHighlightStyle> _styles_, TSemicolon _semicolon_)
             : base(_name_, _lpar_, _tokens_, _rpar_, _styles_, _semicolon_)
         {
         }
@@ -5713,16 +5626,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Rpar = newChild as TRBrace;
             }
-            else if (oldChild is PStyleListitem && Styles.Contains(oldChild as PStyleListitem))
+            else if (oldChild is PHighlightStyle && Styles.Contains(oldChild as PHighlightStyle))
             {
-                if (!(newChild is PStyleListitem) && newChild != null)
+                if (!(newChild is PHighlightStyle) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
-                int index = Styles.IndexOf(oldChild as PStyleListitem);
+                int index = Styles.IndexOf(oldChild as PHighlightStyle);
                 if (newChild == null)
                     Styles.RemoveAt(index);
                 else
-                    Styles[index] = newChild as PStyleListitem;
+                    Styles[index] = newChild as PHighlightStyle;
             }
             else if (Semicolon == oldChild)
             {
@@ -5746,7 +5659,7 @@ namespace SablePP.Compiler.Nodes
             }
             yield return Rpar;
             {
-                PStyleListitem[] temp = new PStyleListitem[Styles.Count];
+                PHighlightStyle[] temp = new PHighlightStyle[Styles.Count];
                 Styles.CopyTo(temp, 0);
                 for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];

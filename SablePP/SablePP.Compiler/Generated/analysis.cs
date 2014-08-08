@@ -322,14 +322,6 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(AStyleListitem node)
-        {
-            CaseAStyleListitem(node);
-        }
-        public virtual void CaseAStyleListitem(AStyleListitem node)
-        {
-            DefaultCase(node);
-        }
         public void Visit(AProductions node)
         {
             CaseAProductions(node);
@@ -1862,35 +1854,6 @@ namespace SablePP.Compiler.Analysis
             
             OutATranslationListitem(node);
             OutPTranslationListitem(node);
-        }
-        
-        public virtual void InPStyleListitem(PStyleListitem node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPStyleListitem(PStyleListitem node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAStyleListitem(AStyleListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStyleListitem(AStyleListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStyleListitem(AStyleListitem node)
-        {
-            InPStyleListitem(node);
-            InAStyleListitem(node);
-            
-            if (node.HasComma)
-                Visit(node.Comma);
-            Visit((dynamic)node.HighlightStyle);
-            
-            OutAStyleListitem(node);
-            OutPStyleListitem(node);
         }
         
         public virtual void InPProductions(PProductions node)
@@ -3560,35 +3523,6 @@ namespace SablePP.Compiler.Analysis
             OutPTranslationListitem(node);
         }
         
-        public virtual void InPStyleListitem(PStyleListitem node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPStyleListitem(PStyleListitem node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAStyleListitem(AStyleListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStyleListitem(AStyleListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStyleListitem(AStyleListitem node)
-        {
-            InPStyleListitem(node);
-            InAStyleListitem(node);
-            
-            Visit((dynamic)node.HighlightStyle);
-            if (node.HasComma)
-                Visit(node.Comma);
-            
-            OutAStyleListitem(node);
-            OutPStyleListitem(node);
-        }
-        
         public virtual void InPProductions(PProductions node)
         {
             DefaultPIn(node);
@@ -4639,14 +4573,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(AStyleListitem node)
-        {
-            return CaseAStyleListitem(node);
-        }
-        public virtual Result CaseAStyleListitem(AStyleListitem node)
-        {
-            return DefaultCase(node);
-        }
         public Result Visit(AProductions node)
         {
             return CaseAProductions(node);
@@ -5556,14 +5482,6 @@ namespace SablePP.Compiler.Analysis
             return CaseATranslationListitem(node, arg1);
         }
         public virtual Result CaseATranslationListitem(ATranslationListitem node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AStyleListitem node, T1 arg1)
-        {
-            return CaseAStyleListitem(node, arg1);
-        }
-        public virtual Result CaseAStyleListitem(AStyleListitem node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -6479,14 +6397,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(AStyleListitem node, T1 arg1, T2 arg2)
-        {
-            return CaseAStyleListitem(node, arg1, arg2);
-        }
-        public virtual Result CaseAStyleListitem(AStyleListitem node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
         public Result Visit(AProductions node, T1 arg1, T2 arg2)
         {
             return CaseAProductions(node, arg1, arg2);
@@ -7396,14 +7306,6 @@ namespace SablePP.Compiler.Analysis
             return CaseATranslationListitem(node, arg1, arg2, arg3);
         }
         public virtual Result CaseATranslationListitem(ATranslationListitem node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AStyleListitem node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAStyleListitem(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAStyleListitem(AStyleListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }

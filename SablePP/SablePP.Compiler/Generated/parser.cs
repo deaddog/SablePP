@@ -1781,21 +1781,21 @@ namespace SablePP.Compiler.Parsing
                 case 107:
                     {
                         TSemicolon tsemicolon = Pop<TSemicolon>();
-                        List<PStyleListitem> pstylelistitemlist = Pop<List<PStyleListitem>>();
+                        List<PHighlightStyle> phighlightstylelist = Pop<List<PHighlightStyle>>();
                         TRBrace trbrace = Pop<TRBrace>();
                         List<PIdentifierListitem> pidentifierlistitemlist = Pop<List<PIdentifierListitem>>();
                         TLBrace tlbrace = Pop<TLBrace>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
                         List<PIdentifierListitem> pidentifierlistitemlist2 = new List<PIdentifierListitem>();
                         pidentifierlistitemlist2.AddRange(pidentifierlistitemlist);
-                        List<PStyleListitem> pstylelistitemlist2 = new List<PStyleListitem>();
-                        pstylelistitemlist2.AddRange(pstylelistitemlist);
+                        List<PHighlightStyle> phighlightstylelist2 = new List<PHighlightStyle>();
+                        phighlightstylelist2.AddRange(phighlightstylelist);
                         AHighlightrule ahighlightrule = new AHighlightrule(
                             tidentifier,
                             tlbrace,
                             pidentifierlistitemlist2,
                             trbrace,
-                            pstylelistitemlist2,
+                            phighlightstylelist2,
                             tsemicolon
                         );
                         Push(38, ahighlightrule);
@@ -1804,38 +1804,26 @@ namespace SablePP.Compiler.Parsing
                 case 108:
                     {
                         PHighlightStyle phighlightstyle = Pop<PHighlightStyle>();
-                        AStyleListitem astylelistitem = new AStyleListitem(
-                            null,
-                            phighlightstyle
-                        );
-                        List<PStyleListitem> pstylelistitemlist = new List<PStyleListitem>();
-                        pstylelistitemlist.Add(astylelistitem);
-                        Push(39, pstylelistitemlist);
+                        List<PHighlightStyle> phighlightstylelist = new List<PHighlightStyle>();
+                        phighlightstylelist.Add(phighlightstyle);
+                        Push(39, phighlightstylelist);
                     }
                     break;
                 case 109:
                     {
-                        List<PStyleListitem> pstylelistitemlist = Pop<List<PStyleListitem>>();
+                        List<PHighlightStyle> phighlightstylelist = Pop<List<PHighlightStyle>>();
                         PHighlightStyle phighlightstyle = Pop<PHighlightStyle>();
-                        AStyleListitem astylelistitem = new AStyleListitem(
-                            null,
-                            phighlightstyle
-                        );
-                        List<PStyleListitem> pstylelistitemlist2 = new List<PStyleListitem>();
-                        pstylelistitemlist2.Add(astylelistitem);
-                        pstylelistitemlist2.AddRange(pstylelistitemlist);
-                        Push(39, pstylelistitemlist2);
+                        List<PHighlightStyle> phighlightstylelist2 = new List<PHighlightStyle>();
+                        phighlightstylelist2.Add(phighlightstyle);
+                        phighlightstylelist2.AddRange(phighlightstylelist);
+                        Push(39, phighlightstylelist2);
                     }
                     break;
                 case 110:
                     {
                         PHighlightStyle phighlightstyle = Pop<PHighlightStyle>();
                         TComma tcomma = Pop<TComma>();
-                        AStyleListitem astylelistitem = new AStyleListitem(
-                            tcomma,
-                            phighlightstyle
-                        );
-                        Push(40, astylelistitem);
+                        Push(40, phighlightstyle);
                     }
                     break;
                 case 111:
@@ -2070,12 +2058,12 @@ namespace SablePP.Compiler.Parsing
                     }
                     break;
                 case 142:
-                    Push(55, new List<PStyleListitem>() { Pop<PStyleListitem>() });
+                    Push(55, new List<PHighlightStyle>() { Pop<PHighlightStyle>() });
                     break;
                 case 143:
                     {
-                        PStyleListitem item = Pop<PStyleListitem>();
-                        List<PStyleListitem> list = Pop<List<PStyleListitem>>();
+                        PHighlightStyle item = Pop<PHighlightStyle>();
+                        List<PHighlightStyle> list = Pop<List<PHighlightStyle>>();
                         list.Add(item);
                         Push(55, list);
                     }
