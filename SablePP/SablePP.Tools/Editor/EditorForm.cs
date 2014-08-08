@@ -548,6 +548,31 @@ namespace SablePP.Tools.Editor
             get { return codeTextBox1; }
         }
 
+        private static string[] getDraggedFiles(DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                return e.Data.GetData(DataFormats.FileDrop) as string[];
+            else
+                return new string[0];
+        }
+
+        private void EditorForm_DragEnter(object sender, DragEventArgs e)
+        {
+            var files = getDraggedFiles(e);
+            if (files.Length != 1)
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
+            string ext = Path.GetExtension(files[0]);
+            e.Effect = (ext == ".sablecc" || ext == ".sablepp") ? DragDropEffects.Move : DragDropEffects.None;
+        }
+
+        private void EditorForm_DragDrop(object sender, DragEventArgs e)
+        {
+            OpenFile(getDraggedFiles(e)[0]);
+        }
+
         private void codeTextBox1_SelectionChanged(object sender, EventArgs e)
         {
             string lineText = lineLabel.Text.Substring(0, lineLabel.Text.IndexOf(':') + 1) + " ";
