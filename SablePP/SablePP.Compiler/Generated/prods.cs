@@ -3436,15 +3436,15 @@ namespace SablePP.Compiler.Nodes
         private TIdentifier _identifier_;
         private PProdtranslation _prodtranslation_;
         private TEqual _equal_;
-        private PProductionrule _productionrule_;
+        private NodeList<PAlternative> _alternatives_;
         private TSemicolon _semicolon_;
         
-        public PProduction(TIdentifier _identifier_, PProdtranslation _prodtranslation_, TEqual _equal_, PProductionrule _productionrule_, TSemicolon _semicolon_)
+        public PProduction(TIdentifier _identifier_, PProdtranslation _prodtranslation_, TEqual _equal_, IEnumerable<PAlternative> _alternatives_, TSemicolon _semicolon_)
         {
             this.Identifier = _identifier_;
             this.Prodtranslation = _prodtranslation_;
             this.Equal = _equal_;
-            this.Productionrule = _productionrule_;
+            this._alternatives_ = new NodeList<PAlternative>(this, _alternatives_, false);
             this.Semicolon = _semicolon_;
         }
         
@@ -3495,20 +3495,9 @@ namespace SablePP.Compiler.Nodes
                 _equal_ = value;
             }
         }
-        public PProductionrule Productionrule
+        public NodeList<PAlternative> Alternatives
         {
-            get { return _productionrule_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Productionrule in PProduction cannot be null.", "value");
-                
-                if (_productionrule_ != null)
-                    SetParent(_productionrule_, null);
-                SetParent(value, this);
-                
-                _productionrule_ = value;
-            }
+            get { return _alternatives_; }
         }
         public TSemicolon Semicolon
         {
@@ -3529,8 +3518,8 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AProduction : PProduction
     {
-        public AProduction(TIdentifier _identifier_, PProdtranslation _prodtranslation_, TEqual _equal_, PProductionrule _productionrule_, TSemicolon _semicolon_)
-            : base(_identifier_, _prodtranslation_, _equal_, _productionrule_, _semicolon_)
+        public AProduction(TIdentifier _identifier_, PProdtranslation _prodtranslation_, TEqual _equal_, IEnumerable<PAlternative> _alternatives_, TSemicolon _semicolon_)
+            : base(_identifier_, _prodtranslation_, _equal_, _alternatives_, _semicolon_)
         {
         }
         
@@ -3558,13 +3547,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Equal = newChild as TEqual;
             }
-            else if (Productionrule == oldChild)
+            else if (oldChild is PAlternative && Alternatives.Contains(oldChild as PAlternative))
             {
-                if (newChild == null)
-                    throw new ArgumentException("Productionrule in AProduction cannot be null.", "newChild");
-                if (!(newChild is PProductionrule) && newChild != null)
+                if (!(newChild is PAlternative) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Productionrule = newChild as PProductionrule;
+                
+                int index = Alternatives.IndexOf(oldChild as PAlternative);
+                if (newChild == null)
+                    Alternatives.RemoveAt(index);
+                else
+                    Alternatives[index] = newChild as PAlternative;
             }
             else if (Semicolon == oldChild)
             {
@@ -3582,18 +3574,23 @@ namespace SablePP.Compiler.Nodes
             if (HasProdtranslation)
                 yield return Prodtranslation;
             yield return Equal;
-            yield return Productionrule;
+            {
+                PAlternative[] temp = new PAlternative[Alternatives.Count];
+                Alternatives.CopyTo(temp, 0);
+                for (int i = 0; i < temp.Length; i++)
+                    yield return temp[i];
+            }
             yield return Semicolon;
         }
         
         public override PProduction Clone()
         {
-            return new AProduction(Identifier.Clone(), Prodtranslation.Clone(), Equal.Clone(), Productionrule.Clone(), Semicolon.Clone());
+            return new AProduction(Identifier.Clone(), Prodtranslation.Clone(), Equal.Clone(), Alternatives, Semicolon.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3} {4}", Identifier, Prodtranslation, Equal, Productionrule, Semicolon);
+            return string.Format("{0} {1} {2} {3} {4}", Identifier, Prodtranslation, Equal, Alternatives, Semicolon);
         }
     }
     public abstract partial class PProdtranslation : Production<PProdtranslation>
@@ -4466,63 +4463,6 @@ namespace SablePP.Compiler.Nodes
         public override string ToString()
         {
             return string.Format("{0} {1} {2}", Identifier, Dot, Production);
-        }
-    }
-    public abstract partial class PProductionrule : Production<PProductionrule>
-    {
-        private NodeList<PAlternative> _alternatives_;
-        
-        public PProductionrule(IEnumerable<PAlternative> _alternatives_)
-        {
-            this._alternatives_ = new NodeList<PAlternative>(this, _alternatives_, false);
-        }
-        
-        public NodeList<PAlternative> Alternatives
-        {
-            get { return _alternatives_; }
-        }
-        
-    }
-    public partial class AProductionrule : PProductionrule
-    {
-        public AProductionrule(IEnumerable<PAlternative> _alternatives_)
-            : base(_alternatives_)
-        {
-        }
-        
-        public override void ReplaceChild(Node oldChild, Node newChild)
-        {
-            if (oldChild is PAlternative && Alternatives.Contains(oldChild as PAlternative))
-            {
-                if (!(newChild is PAlternative) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                
-                int index = Alternatives.IndexOf(oldChild as PAlternative);
-                if (newChild == null)
-                    Alternatives.RemoveAt(index);
-                else
-                    Alternatives[index] = newChild as PAlternative;
-            }
-            else throw new ArgumentException("Node to be replaced is not a child in this production.");
-        }
-        protected override IEnumerable<Node> GetChildren()
-        {
-            {
-                PAlternative[] temp = new PAlternative[Alternatives.Count];
-                Alternatives.CopyTo(temp, 0);
-                for (int i = 0; i < temp.Length; i++)
-                    yield return temp[i];
-            }
-        }
-        
-        public override PProductionrule Clone()
-        {
-            return new AProductionrule(Alternatives);
-        }
-        
-        public override string ToString()
-        {
-            return string.Format("{0}", Alternatives);
         }
     }
     public abstract partial class PAlternative : Production<PAlternative>

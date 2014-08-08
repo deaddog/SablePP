@@ -402,14 +402,6 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(AProductionrule node)
-        {
-            CaseAProductionrule(node);
-        }
-        public virtual void CaseAProductionrule(AProductionrule node)
-        {
-            DefaultCase(node);
-        }
         public void Visit(AAlternative node)
         {
             CaseAAlternative(node);
@@ -1892,7 +1884,7 @@ namespace SablePP.Compiler.Analysis
             if (node.HasProdtranslation)
                 Visit((dynamic)node.Prodtranslation);
             Visit(node.Equal);
-            Visit((dynamic)node.Productionrule);
+            Visit(node.Alternatives);
             Visit(node.Semicolon);
             
             OutAProduction(node);
@@ -2077,33 +2069,6 @@ namespace SablePP.Compiler.Analysis
             
             OutAIddotidTranslation(node);
             OutPTranslation(node);
-        }
-        
-        public virtual void InPProductionrule(PProductionrule node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPProductionrule(PProductionrule node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAProductionrule(AProductionrule node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProductionrule(AProductionrule node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProductionrule(AProductionrule node)
-        {
-            InPProductionrule(node);
-            InAProductionrule(node);
-            
-            Visit(node.Alternatives);
-            
-            OutAProductionrule(node);
-            OutPProductionrule(node);
         }
         
         public virtual void InPAlternative(PAlternative node)
@@ -3500,7 +3465,7 @@ namespace SablePP.Compiler.Analysis
             InAProduction(node);
             
             Visit(node.Semicolon);
-            Visit((dynamic)node.Productionrule);
+            Visit(node.Alternatives);
             Visit(node.Equal);
             if (node.HasProdtranslation)
                 Visit((dynamic)node.Prodtranslation);
@@ -3688,33 +3653,6 @@ namespace SablePP.Compiler.Analysis
             
             OutAIddotidTranslation(node);
             OutPTranslation(node);
-        }
-        
-        public virtual void InPProductionrule(PProductionrule node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPProductionrule(PProductionrule node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAProductionrule(AProductionrule node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProductionrule(AProductionrule node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProductionrule(AProductionrule node)
-        {
-            InPProductionrule(node);
-            InAProductionrule(node);
-            
-            Visit(node.Alternatives);
-            
-            OutAProductionrule(node);
-            OutPProductionrule(node);
         }
         
         public virtual void InPAlternative(PAlternative node)
@@ -4522,14 +4460,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAIddotidTranslation(node);
         }
         public virtual Result CaseAIddotidTranslation(AIddotidTranslation node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AProductionrule node)
-        {
-            return CaseAProductionrule(node);
-        }
-        public virtual Result CaseAProductionrule(AProductionrule node)
         {
             return DefaultCase(node);
         }
@@ -5421,14 +5351,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(AProductionrule node, T1 arg1)
-        {
-            return CaseAProductionrule(node, arg1);
-        }
-        public virtual Result CaseAProductionrule(AProductionrule node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
         public Result Visit(AAlternative node, T1 arg1)
         {
             return CaseAAlternative(node, arg1);
@@ -6317,14 +6239,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(AProductionrule node, T1 arg1, T2 arg2)
-        {
-            return CaseAProductionrule(node, arg1, arg2);
-        }
-        public virtual Result CaseAProductionrule(AProductionrule node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
         public Result Visit(AAlternative node, T1 arg1, T2 arg2)
         {
             return CaseAAlternative(node, arg1, arg2);
@@ -7210,14 +7124,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAIddotidTranslation(node, arg1, arg2, arg3);
         }
         public virtual Result CaseAIddotidTranslation(AIddotidTranslation node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AProductionrule node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAProductionrule(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAProductionrule(AProductionrule node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }

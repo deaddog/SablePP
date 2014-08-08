@@ -829,14 +829,16 @@ namespace SablePP.Compiler.Parsing
                 case 51:
                     {
                         TSemicolon tsemicolon = Pop<TSemicolon>();
-                        PProductionrule pproductionrule = Pop<PProductionrule>();
+                        List<PAlternative> palternativelist = Pop<List<PAlternative>>();
                         TEqual tequal = Pop<TEqual>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
+                        List<PAlternative> palternativelist2 = new List<PAlternative>();
+                        palternativelist2.AddRange(palternativelist);
                         AProduction aproduction = new AProduction(
                             tidentifier,
                             null,
                             tequal,
-                            pproductionrule,
+                            palternativelist2,
                             tsemicolon
                         );
                         Push(23, aproduction);
@@ -845,15 +847,17 @@ namespace SablePP.Compiler.Parsing
                 case 52:
                     {
                         TSemicolon tsemicolon = Pop<TSemicolon>();
-                        PProductionrule pproductionrule = Pop<PProductionrule>();
+                        List<PAlternative> palternativelist = Pop<List<PAlternative>>();
                         TEqual tequal = Pop<TEqual>();
                         PProdtranslation pprodtranslation = Pop<PProdtranslation>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
+                        List<PAlternative> palternativelist2 = new List<PAlternative>();
+                        palternativelist2.AddRange(palternativelist);
                         AProduction aproduction = new AProduction(
                             tidentifier,
                             pprodtranslation,
                             tequal,
-                            pproductionrule,
+                            palternativelist2,
                             tsemicolon
                         );
                         Push(23, aproduction);
@@ -1130,10 +1134,7 @@ namespace SablePP.Compiler.Parsing
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
                         palternativelist.Add(aalternative);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist);
                     }
                     break;
                 case 73:
@@ -1148,10 +1149,7 @@ namespace SablePP.Compiler.Parsing
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
                         palternativelist.Add(aalternative);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist);
                     }
                     break;
                 case 74:
@@ -1167,10 +1165,7 @@ namespace SablePP.Compiler.Parsing
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
                         palternativelist.Add(aalternative);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist);
                     }
                     break;
                 case 75:
@@ -1187,10 +1182,7 @@ namespace SablePP.Compiler.Parsing
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
                         palternativelist.Add(aalternative);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist);
                     }
                     break;
                 case 76:
@@ -1205,10 +1197,7 @@ namespace SablePP.Compiler.Parsing
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
                         palternativelist.Add(aalternative);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist);
                     }
                     break;
                 case 77:
@@ -1224,10 +1213,7 @@ namespace SablePP.Compiler.Parsing
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
                         palternativelist.Add(aalternative);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist);
                     }
                     break;
                 case 78:
@@ -1244,10 +1230,7 @@ namespace SablePP.Compiler.Parsing
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
                         palternativelist.Add(aalternative);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist);
                     }
                     break;
                 case 79:
@@ -1265,10 +1248,7 @@ namespace SablePP.Compiler.Parsing
                         );
                         List<PAlternative> palternativelist = new List<PAlternative>();
                         palternativelist.Add(aalternative);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist);
                     }
                     break;
                 case 80:
@@ -1284,10 +1264,7 @@ namespace SablePP.Compiler.Parsing
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
                         palternativelist2.Add(aalternative);
                         palternativelist2.AddRange(palternativelist);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist2
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist2);
                     }
                     break;
                 case 81:
@@ -1304,10 +1281,7 @@ namespace SablePP.Compiler.Parsing
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
                         palternativelist2.Add(aalternative);
                         palternativelist2.AddRange(palternativelist);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist2
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist2);
                     }
                     break;
                 case 82:
@@ -1325,10 +1299,7 @@ namespace SablePP.Compiler.Parsing
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
                         palternativelist2.Add(aalternative);
                         palternativelist2.AddRange(palternativelist);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist2
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist2);
                     }
                     break;
                 case 83:
@@ -1347,10 +1318,7 @@ namespace SablePP.Compiler.Parsing
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
                         palternativelist2.Add(aalternative);
                         palternativelist2.AddRange(palternativelist);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist2
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist2);
                     }
                     break;
                 case 84:
@@ -1367,10 +1335,7 @@ namespace SablePP.Compiler.Parsing
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
                         palternativelist2.Add(aalternative);
                         palternativelist2.AddRange(palternativelist);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist2
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist2);
                     }
                     break;
                 case 85:
@@ -1388,10 +1353,7 @@ namespace SablePP.Compiler.Parsing
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
                         palternativelist2.Add(aalternative);
                         palternativelist2.AddRange(palternativelist);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist2
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist2);
                     }
                     break;
                 case 86:
@@ -1410,10 +1372,7 @@ namespace SablePP.Compiler.Parsing
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
                         palternativelist2.Add(aalternative);
                         palternativelist2.AddRange(palternativelist);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist2
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist2);
                     }
                     break;
                 case 87:
@@ -1433,10 +1392,7 @@ namespace SablePP.Compiler.Parsing
                         List<PAlternative> palternativelist2 = new List<PAlternative>();
                         palternativelist2.Add(aalternative);
                         palternativelist2.AddRange(palternativelist);
-                        AProductionrule aproductionrule = new AProductionrule(
-                            palternativelist2
-                        );
-                        Push(30, aproductionrule);
+                        Push(30, palternativelist2);
                     }
                     break;
                 case 88:
