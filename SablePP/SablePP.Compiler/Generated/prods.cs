@@ -2865,29 +2865,8 @@ namespace SablePP.Compiler.Nodes
     }
     public abstract partial class PTokenState : Production<PTokenState>
     {
-        private TComma _comma_;
-        
-        public PTokenState(TComma _comma_)
+        public PTokenState()
         {
-            this.Comma = _comma_;
-        }
-        
-        public TComma Comma
-        {
-            get { return _comma_; }
-            set
-            {
-                if (_comma_ != null)
-                    SetParent(_comma_, null);
-                if (value != null)
-                    SetParent(value, this);
-                
-                _comma_ = value;
-            }
-        }
-        public bool HasComma
-        {
-            get { return _comma_ != null; }
         }
         
     }
@@ -2895,8 +2874,8 @@ namespace SablePP.Compiler.Nodes
     {
         private TIdentifier _identifier_;
         
-        public ATokenState(TComma _comma_, TIdentifier _identifier_)
-            : base(_comma_)
+        public ATokenState(TIdentifier _identifier_)
+            : base()
         {
             this.Identifier = _identifier_;
         }
@@ -2919,13 +2898,7 @@ namespace SablePP.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Comma == oldChild)
-            {
-                if (!(newChild is TComma) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Comma = newChild as TComma;
-            }
-            else if (Identifier == oldChild)
+            if (Identifier == oldChild)
             {
                 if (newChild == null)
                     throw new ArgumentException("Identifier in ATokenState cannot be null.", "newChild");
@@ -2937,19 +2910,17 @@ namespace SablePP.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if (HasComma)
-                yield return Comma;
             yield return Identifier;
         }
         
         public override PTokenState Clone()
         {
-            return new ATokenState(Comma.Clone(), Identifier.Clone());
+            return new ATokenState(Identifier.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1}", Comma, Identifier);
+            return string.Format("{0}", Identifier);
         }
     }
     public partial class ATransitionTokenState : PTokenState
@@ -2958,8 +2929,8 @@ namespace SablePP.Compiler.Nodes
         private TArrow _arrow_;
         private TIdentifier _to_;
         
-        public ATransitionTokenState(TComma _comma_, TIdentifier _from_, TArrow _arrow_, TIdentifier _to_)
-            : base(_comma_)
+        public ATransitionTokenState(TIdentifier _from_, TArrow _arrow_, TIdentifier _to_)
+            : base()
         {
             this.From = _from_;
             this.Arrow = _arrow_;
@@ -3014,13 +2985,7 @@ namespace SablePP.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Comma == oldChild)
-            {
-                if (!(newChild is TComma) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Comma = newChild as TComma;
-            }
-            else if (From == oldChild)
+            if (From == oldChild)
             {
                 if (newChild == null)
                     throw new ArgumentException("From in ATransitionTokenState cannot be null.", "newChild");
@@ -3048,8 +3013,6 @@ namespace SablePP.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if (HasComma)
-                yield return Comma;
             yield return From;
             yield return Arrow;
             yield return To;
@@ -3057,12 +3020,12 @@ namespace SablePP.Compiler.Nodes
         
         public override PTokenState Clone()
         {
-            return new ATransitionTokenState(Comma.Clone(), From.Clone(), Arrow.Clone(), To.Clone());
+            return new ATransitionTokenState(From.Clone(), Arrow.Clone(), To.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3}", Comma, From, Arrow, To);
+            return string.Format("{0} {1} {2}", From, Arrow, To);
         }
     }
     public abstract partial class PProductions : Production<PProductions>

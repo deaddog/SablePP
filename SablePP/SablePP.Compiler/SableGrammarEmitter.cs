@@ -168,7 +168,7 @@ namespace SablePP.Compiler
             if (node.Statelist.Count > 0)
             {
                 write("{ ");
-                Visit(node.Statelist);
+                writeList(node.Statelist, ", ");
                 write("} ");
             }
             Visit(node.Identifier);

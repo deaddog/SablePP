@@ -481,7 +481,6 @@ namespace SablePP.Compiler.Parsing
                         TIdentifier tidentifier = Pop<TIdentifier>();
                         TLBrace tlbrace = Pop<TLBrace>();
                         ATokenState atokenstate = new ATokenState(
-                            null,
                             tidentifier
                         );
                         List<PTokenState> ptokenstatelist = new List<PTokenState>();
@@ -496,7 +495,6 @@ namespace SablePP.Compiler.Parsing
                         TIdentifier tidentifier = Pop<TIdentifier>();
                         TLBrace tlbrace = Pop<TLBrace>();
                         ATokenState atokenstate = new ATokenState(
-                            null,
                             tidentifier
                         );
                         List<PTokenState> ptokenstatelist2 = new List<PTokenState>();
@@ -513,7 +511,6 @@ namespace SablePP.Compiler.Parsing
                         TIdentifier tidentifier2 = Pop<TIdentifier>();
                         TLBrace tlbrace = Pop<TLBrace>();
                         ATransitionTokenState atransitiontokenstate = new ATransitionTokenState(
-                            null,
                             tidentifier2,
                             tarrow,
                             tidentifier
@@ -532,7 +529,6 @@ namespace SablePP.Compiler.Parsing
                         TIdentifier tidentifier2 = Pop<TIdentifier>();
                         TLBrace tlbrace = Pop<TLBrace>();
                         ATransitionTokenState atransitiontokenstate = new ATransitionTokenState(
-                            null,
                             tidentifier2,
                             tarrow,
                             tidentifier
@@ -548,7 +544,6 @@ namespace SablePP.Compiler.Parsing
                         TIdentifier tidentifier = Pop<TIdentifier>();
                         TComma tcomma = Pop<TComma>();
                         ATokenState atokenstate = new ATokenState(
-                            tcomma,
                             tidentifier
                         );
                         Push(11, atokenstate);
@@ -561,7 +556,6 @@ namespace SablePP.Compiler.Parsing
                         TIdentifier tidentifier2 = Pop<TIdentifier>();
                         TComma tcomma = Pop<TComma>();
                         ATransitionTokenState atransitiontokenstate = new ATransitionTokenState(
-                            tcomma,
                             tidentifier2,
                             tarrow,
                             tidentifier

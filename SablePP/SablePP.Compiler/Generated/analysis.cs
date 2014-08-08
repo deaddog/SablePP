@@ -1698,8 +1698,6 @@ namespace SablePP.Compiler.Analysis
             InPTokenState(node);
             InATokenState(node);
             
-            if (node.HasComma)
-                Visit(node.Comma);
             Visit(node.Identifier);
             
             OutATokenState(node);
@@ -1718,8 +1716,6 @@ namespace SablePP.Compiler.Analysis
             InPTokenState(node);
             InATransitionTokenState(node);
             
-            if (node.HasComma)
-                Visit(node.Comma);
             Visit(node.From);
             Visit(node.Arrow);
             Visit(node.To);
@@ -3224,8 +3220,6 @@ namespace SablePP.Compiler.Analysis
             InATokenState(node);
             
             Visit(node.Identifier);
-            if (node.HasComma)
-                Visit(node.Comma);
             
             OutATokenState(node);
             OutPTokenState(node);
@@ -3246,8 +3240,6 @@ namespace SablePP.Compiler.Analysis
             Visit(node.To);
             Visit(node.Arrow);
             Visit(node.From);
-            if (node.HasComma)
-                Visit(node.Comma);
             
             OutATransitionTokenState(node);
             OutPTokenState(node);

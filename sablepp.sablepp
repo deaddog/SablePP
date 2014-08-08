@@ -161,14 +161,14 @@ Productions
 
     state_list {-> token_state+}
         = {notransition} l_brace identifier [state_lists]:state_list_tail* r_brace
-          {-> [New token_state(Null, identifier), state_lists]}
+          {-> [New token_state(identifier), state_lists]}
         | {transition} l_brace [f]:identifier arrow [t]:identifier [state_lists]:state_list_tail* r_brace
-          {-> [New token_state.transition(Null, f, arrow, t), state_lists]}
+          {-> [New token_state.transition(f, arrow, t), state_lists]}
         ;
 
     state_list_tail {-> token_state}
-        = {notransition} comma identifier {-> New token_state(comma, identifier)}
-        | {transition} comma [f]:identifier arrow [t]:identifier {-> New token_state.transition(comma, f, arrow, t)}
+        = {notransition} comma identifier {-> New token_state(identifier)}
+        | {transition} comma [f]:identifier arrow [t]:identifier {-> New token_state.transition(f, arrow, t)}
         ;
 
     ign_tokens {-> ignoredtokens}
@@ -370,8 +370,8 @@ Abstract Syntax Tree
     ignoredtokens = ignoredtoken tokenstoken [tokens]:identifier+ semicolon;
     
     token_state
-        = comma? identifier
-        | {transition} comma? [from]:identifier arrow [to]:identifier
+        = identifier
+        | {transition} [from]:identifier arrow [to]:identifier
         ;
 
     productions = productionstoken [productions]:production+;
