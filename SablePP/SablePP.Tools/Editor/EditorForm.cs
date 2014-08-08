@@ -245,6 +245,8 @@ namespace SablePP.Tools.Editor
                 writer.Write(codeTextBox1.Text);
             changed = false;
 
+            recentFiles.AddRecent(File.FullName);
+
             return DialogResult.OK;
         }
         /// <summary>
@@ -269,6 +271,7 @@ namespace SablePP.Tools.Editor
             File = f;
             changed = false;
 
+            recentFiles.AddRecent(File.FullName);
 
             return DialogResult.OK;
         }
