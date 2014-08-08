@@ -194,6 +194,31 @@ namespace SablePP.Compiler
             writeNewline();
         }
 
+        public override void CaseANewTranslation(Nodes.ANewTranslation node)
+        {
+            Visit(node.New);
+            Visit(node.Production);
+            Visit(node.Lpar);
+            writeList(node.Arguments, ", ");
+            Visit(node.Rpar);
+        }
+        public override void CaseANewalternativeTranslation(Nodes.ANewalternativeTranslation node)
+        {
+            Visit(node.New);
+            Visit(node.Production);
+            Visit(node.Dot);
+            Visit(node.Alternative);
+            Visit(node.Lpar);
+            writeList(node.Arguments, ", ");
+            Visit(node.Rpar);
+        }
+        public override void CaseAListTranslation(Nodes.AListTranslation node)
+        {
+            Visit(node.Lpar);
+            writeList(node.Elements, ", ");
+            Visit(node.Rpar);
+        }
+
         public override void CaseAHighlightrule(Nodes.AHighlightrule node)
         {
             Visit(node.Name);
