@@ -282,14 +282,6 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(AIdentifierListitem node)
-        {
-            CaseAIdentifierListitem(node);
-        }
-        public virtual void CaseAIdentifierListitem(AIdentifierListitem node)
-        {
-            DefaultCase(node);
-        }
         public void Visit(ATokenstateList node)
         {
             CaseATokenstateList(node);
@@ -1716,35 +1708,6 @@ namespace SablePP.Compiler.Analysis
             
             OutAIgnoredtokens(node);
             OutPIgnoredtokens(node);
-        }
-        
-        public virtual void InPIdentifierListitem(PIdentifierListitem node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPIdentifierListitem(PIdentifierListitem node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAIdentifierListitem(AIdentifierListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIdentifierListitem(AIdentifierListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIdentifierListitem(AIdentifierListitem node)
-        {
-            InPIdentifierListitem(node);
-            InAIdentifierListitem(node);
-            
-            if (node.HasComma)
-                Visit(node.Comma);
-            Visit(node.Identifier);
-            
-            OutAIdentifierListitem(node);
-            OutPIdentifierListitem(node);
         }
         
         public virtual void InPTokenstateList(PTokenstateList node)
@@ -3385,35 +3348,6 @@ namespace SablePP.Compiler.Analysis
             OutPIgnoredtokens(node);
         }
         
-        public virtual void InPIdentifierListitem(PIdentifierListitem node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPIdentifierListitem(PIdentifierListitem node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAIdentifierListitem(AIdentifierListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIdentifierListitem(AIdentifierListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIdentifierListitem(AIdentifierListitem node)
-        {
-            InPIdentifierListitem(node);
-            InAIdentifierListitem(node);
-            
-            Visit(node.Identifier);
-            if (node.HasComma)
-                Visit(node.Comma);
-            
-            OutAIdentifierListitem(node);
-            OutPIdentifierListitem(node);
-        }
-        
         public virtual void InPTokenstateList(PTokenstateList node)
         {
             DefaultPIn(node);
@@ -4533,14 +4467,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(AIdentifierListitem node)
-        {
-            return CaseAIdentifierListitem(node);
-        }
-        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node)
-        {
-            return DefaultCase(node);
-        }
         public Result Visit(ATokenstateList node)
         {
             return CaseATokenstateList(node);
@@ -5442,14 +5368,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAIgnoredtokens(node, arg1);
         }
         public virtual Result CaseAIgnoredtokens(AIgnoredtokens node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AIdentifierListitem node, T1 arg1)
-        {
-            return CaseAIdentifierListitem(node, arg1);
-        }
-        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -6357,14 +6275,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(AIdentifierListitem node, T1 arg1, T2 arg2)
-        {
-            return CaseAIdentifierListitem(node, arg1, arg2);
-        }
-        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
         public Result Visit(ATokenstateList node, T1 arg1, T2 arg2)
         {
             return CaseATokenstateList(node, arg1, arg2);
@@ -7266,14 +7176,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAIgnoredtokens(node, arg1, arg2, arg3);
         }
         public virtual Result CaseAIgnoredtokens(AIgnoredtokens node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AIdentifierListitem node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAIdentifierListitem(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }

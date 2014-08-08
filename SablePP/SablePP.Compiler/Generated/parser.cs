@@ -347,13 +347,13 @@ namespace SablePP.Compiler.Parsing
                 case 13:
                     {
                         TSemicolon tsemicolon = Pop<TSemicolon>();
-                        List<PIdentifierListitem> pidentifierlistitemlist = Pop<List<PIdentifierListitem>>();
+                        List<TIdentifier> tidentifierlist = Pop<List<TIdentifier>>();
                         TStatestoken tstatestoken = Pop<TStatestoken>();
-                        List<PIdentifierListitem> pidentifierlistitemlist2 = new List<PIdentifierListitem>();
-                        pidentifierlistitemlist2.AddRange(pidentifierlistitemlist);
+                        List<TIdentifier> tidentifierlist2 = new List<TIdentifier>();
+                        tidentifierlist2.AddRange(tidentifierlist);
                         AStates astates = new AStates(
                             tstatestoken,
-                            pidentifierlistitemlist2,
+                            tidentifierlist2,
                             tsemicolon
                         );
                         Push(5, astates);
@@ -362,38 +362,26 @@ namespace SablePP.Compiler.Parsing
                 case 14:
                     {
                         TIdentifier tidentifier = Pop<TIdentifier>();
-                        AIdentifierListitem aidentifierlistitem = new AIdentifierListitem(
-                            null,
-                            tidentifier
-                        );
-                        List<PIdentifierListitem> pidentifierlistitemlist = new List<PIdentifierListitem>();
-                        pidentifierlistitemlist.Add(aidentifierlistitem);
-                        Push(6, pidentifierlistitemlist);
+                        List<TIdentifier> tidentifierlist = new List<TIdentifier>();
+                        tidentifierlist.Add(tidentifier);
+                        Push(6, tidentifierlist);
                     }
                     break;
                 case 15:
                     {
-                        List<PIdentifierListitem> pidentifierlistitemlist = Pop<List<PIdentifierListitem>>();
+                        List<TIdentifier> tidentifierlist = Pop<List<TIdentifier>>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
-                        AIdentifierListitem aidentifierlistitem = new AIdentifierListitem(
-                            null,
-                            tidentifier
-                        );
-                        List<PIdentifierListitem> pidentifierlistitemlist2 = new List<PIdentifierListitem>();
-                        pidentifierlistitemlist2.Add(aidentifierlistitem);
-                        pidentifierlistitemlist2.AddRange(pidentifierlistitemlist);
-                        Push(6, pidentifierlistitemlist2);
+                        List<TIdentifier> tidentifierlist2 = new List<TIdentifier>();
+                        tidentifierlist2.Add(tidentifier);
+                        tidentifierlist2.AddRange(tidentifierlist);
+                        Push(6, tidentifierlist2);
                     }
                     break;
                 case 16:
                     {
                         TIdentifier tidentifier = Pop<TIdentifier>();
                         TComma tcomma = Pop<TComma>();
-                        AIdentifierListitem aidentifierlistitem = new AIdentifierListitem(
-                            tcomma,
-                            tidentifier
-                        );
-                        Push(7, aidentifierlistitem);
+                        Push(7, tidentifier);
                     }
                     break;
                 case 17:
@@ -598,15 +586,15 @@ namespace SablePP.Compiler.Parsing
                 case 28:
                     {
                         TSemicolon tsemicolon = Pop<TSemicolon>();
-                        List<PIdentifierListitem> pidentifierlistitemlist = Pop<List<PIdentifierListitem>>();
+                        List<TIdentifier> tidentifierlist = Pop<List<TIdentifier>>();
                         TTokenstoken ttokenstoken = Pop<TTokenstoken>();
                         TIgnoredtoken tignoredtoken = Pop<TIgnoredtoken>();
-                        List<PIdentifierListitem> pidentifierlistitemlist2 = new List<PIdentifierListitem>();
-                        pidentifierlistitemlist2.AddRange(pidentifierlistitemlist);
+                        List<TIdentifier> tidentifierlist2 = new List<TIdentifier>();
+                        tidentifierlist2.AddRange(tidentifierlist);
                         AIgnoredtokens aignoredtokens = new AIgnoredtokens(
                             tignoredtoken,
                             ttokenstoken,
-                            pidentifierlistitemlist2,
+                            tidentifierlist2,
                             tsemicolon
                         );
                         Push(12, aignoredtokens);
@@ -1783,17 +1771,17 @@ namespace SablePP.Compiler.Parsing
                         TSemicolon tsemicolon = Pop<TSemicolon>();
                         List<PHighlightStyle> phighlightstylelist = Pop<List<PHighlightStyle>>();
                         TRBrace trbrace = Pop<TRBrace>();
-                        List<PIdentifierListitem> pidentifierlistitemlist = Pop<List<PIdentifierListitem>>();
+                        List<TIdentifier> tidentifierlist = Pop<List<TIdentifier>>();
                         TLBrace tlbrace = Pop<TLBrace>();
                         TIdentifier tidentifier = Pop<TIdentifier>();
-                        List<PIdentifierListitem> pidentifierlistitemlist2 = new List<PIdentifierListitem>();
-                        pidentifierlistitemlist2.AddRange(pidentifierlistitemlist);
+                        List<TIdentifier> tidentifierlist2 = new List<TIdentifier>();
+                        tidentifierlist2.AddRange(tidentifierlist);
                         List<PHighlightStyle> phighlightstylelist2 = new List<PHighlightStyle>();
                         phighlightstylelist2.AddRange(phighlightstylelist);
                         AHighlightrule ahighlightrule = new AHighlightrule(
                             tidentifier,
                             tlbrace,
-                            pidentifierlistitemlist2,
+                            tidentifierlist2,
                             trbrace,
                             phighlightstylelist2,
                             tsemicolon
@@ -1948,12 +1936,12 @@ namespace SablePP.Compiler.Parsing
                     }
                     break;
                 case 122:
-                    Push(45, new List<PIdentifierListitem>() { Pop<PIdentifierListitem>() });
+                    Push(45, new List<TIdentifier>() { Pop<TIdentifier>() });
                     break;
                 case 123:
                     {
-                        PIdentifierListitem item = Pop<PIdentifierListitem>();
-                        List<PIdentifierListitem> list = Pop<List<PIdentifierListitem>>();
+                        TIdentifier item = Pop<TIdentifier>();
+                        List<TIdentifier> list = Pop<List<TIdentifier>>();
                         list.Add(item);
                         Push(45, list);
                     }
