@@ -138,7 +138,7 @@ namespace SablePP.Compiler.Generate
                 if (i > 0)
                     styleRulesElement.Emit(" || ");
 
-                styleRulesElement.Emit("token is {0}", node.Tokens[i].Identifier.AsPToken.ClassName);
+                styleRulesElement.Emit("token is {0}", node.Tokens[i].AsPToken.ClassName);
             }
 
             temp.EmitLine(")");

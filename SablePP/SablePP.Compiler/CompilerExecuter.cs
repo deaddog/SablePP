@@ -80,7 +80,7 @@ namespace SablePP.Compiler
 
             { // States
                 var states = sections<AStatesSection>(root);
-                var list = new List<PIdentifierListitem>();
+                var list = new List<TIdentifier>();
                 for (int i = 0; i < states.Length; i++)
                     list.AddRange(states[i].States.States);
 
@@ -100,7 +100,7 @@ namespace SablePP.Compiler
 
             { // Ignored
                 var ignored = sections<AIgnoreSection>(root);
-                var list = new List<PIdentifierListitem>();
+                var list = new List<TIdentifier>();
                 for (int i = 0; i < ignored.Length; i++)
                     list.AddRange(ignored[i].Ignoredtokens.Tokens);
 

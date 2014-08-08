@@ -109,7 +109,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         public override void CaseAStates(AStates node)
         {
             foreach (var s in node.States)
-                states.Declare(s.Identifier);
+                states.Declare(s);
         }
 
         public override void CaseAToken(AToken node)
@@ -142,10 +142,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             foreach (var item in node.Tokens)
             {
-                if (!tokens.Link(item.Identifier))
-                    RegisterError(item.Identifier, "The token {0} has not been defined.", item.Identifier);
+                if (!tokens.Link(item))
+                    RegisterError(item, "The token {0} has not been defined.", item);
                 else
-                    tokens[item.Identifier.Text].IsIgnored = true;
+                    tokens[item.Text].IsIgnored = true;
             }
         }
 
@@ -291,13 +291,13 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             foreach (var item in node.Tokens)
             {
-                if (!tokens.Link(item.Identifier))
-                    RegisterError(node, "The token {0} has not been defined.", item.Identifier);
+                if (!tokens.Link(item))
+                    RegisterError(node, "The token {0} has not been defined.", item);
                 else
                 {
-                    var token = tokens[item.Identifier.Text];
+                    var token = tokens[item.Text];
                     if (token.HasHighlighting)
-                        RegisterError(item.Identifier, "The style of {0} has already been defined as {1} (line {2}).", item.Identifier, token.Highlighting.Name, token.Highlighting.Name.Line);
+                        RegisterError(item, "The style of {0} has already been defined as {1} (line {2}).", item, token.Highlighting.Name, token.Highlighting.Name.Line);
                     else
                         token.Highlighting = node;
                 }
