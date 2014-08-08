@@ -51,6 +51,16 @@ namespace SablePP.Compiler
             if (node.HasAstproductions)
                 Visit((dynamic)node.Astproductions);
         }
+
+        private void writeList<T>(Production.NodeList<T> list, string separator) where T : Node
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (i > 0)
+                    write(separator);
+                Visit(list[i]);
+            }
+        }
         private void write(string text)
         {
             byte[] buffer = encoding.GetBytes(text);
@@ -142,7 +152,9 @@ namespace SablePP.Compiler
 
         public override void CaseAStates(Nodes.AStates node)
         {
-            base.CaseAStates(node);
+            Visit(node.Statestoken);
+            writeList(node.States, ", ");
+            Visit(node.Semicolon);
             writeNewline();
         }
 
@@ -159,7 +171,10 @@ namespace SablePP.Compiler
 
         public override void CaseAIgnoredtokens(Nodes.AIgnoredtokens node)
         {
-            base.CaseAIgnoredtokens(node);
+            Visit(node.Ignoredtoken);
+            Visit(node.Tokenstoken);
+            writeList(node.Tokens, ", ");
+            Visit(node.Semicolon);
             writeNewline();
         }
 
@@ -177,6 +192,16 @@ namespace SablePP.Compiler
         {
             base.CaseAProduction(node);
             writeNewline();
+        }
+
+        public override void CaseAHighlightrule(Nodes.AHighlightrule node)
+        {
+            Visit(node.Name);
+            Visit(node.Lpar);
+            writeList(node.Tokens, ", ");
+            Visit(node.Rpar);
+            Visit(node.Styles);
+            Visit(node.Semicolon);
         }
     }
 }
