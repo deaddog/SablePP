@@ -55,7 +55,7 @@ namespace SablePP.Compiler.Generate.Productions
             ProductionElement[] temp;
             if (!sharedDictionary.TryGetValue(node, out temp))
             {
-                var alternatives = (node.Productionrule as AProductionrule).Alternatives;
+                var alternatives = node.Alternatives;
 
                 var shared = GetAllElements(alternatives[0] as AAlternative).ToList();
 

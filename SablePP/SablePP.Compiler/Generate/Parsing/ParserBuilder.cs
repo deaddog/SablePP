@@ -161,7 +161,7 @@ namespace SablePP.Compiler.Generate.Parsing
             List<Node> declarations = new List<Node>();
 
             foreach (var p in grammar.Productions.Productions)
-                foreach (var a in p.Productionrule.Alternatives)
+                foreach (var a in p.Alternatives)
                     foreach (var e in a.Elements)
                     {
                         var t = e.ElementType;
