@@ -100,14 +100,14 @@ namespace SablePP.Compiler.Generate.Parsing
         {
             Visit(node.Elements);
 
-            string className = getClassName(node.Elements[0].Translation);
+            string className = getClassName(node.Elements[0]);
             string varName = translationVariables[node] = GetVariable(className + "list");
 
             code.EmitLine("List<{0}> {1} = new List<{0}>();", className, varName);
 
             for (int i = 0; i < node.Elements.Count; i++)
             {
-                var translation = node.Elements[i].Translation;
+                var translation = node.Elements[i];
                 var translationName = translationVariables[translation];
 
                 if (translationName != "null")
@@ -147,7 +147,7 @@ namespace SablePP.Compiler.Generate.Parsing
 
             for (int i = 0; i < node.Arguments.Count; i++)
             {
-                string arg = translationVariables[node.Arguments[i].Translation];
+                string arg = translationVariables[node.Arguments[i]];
                 code.EmitLine("{0}{1}", arg, i < node.Arguments.Count - 1 ? "," : "");
             }
 
@@ -166,7 +166,7 @@ namespace SablePP.Compiler.Generate.Parsing
 
             for (int i = 0; i < node.Arguments.Count; i++)
             {
-                string arg = translationVariables[node.Arguments[i].Translation];
+                string arg = translationVariables[node.Arguments[i]];
                 code.EmitLine("{0}{1}", arg, i < node.Arguments.Count - 1 ? "," : "");
             }
 
@@ -219,7 +219,7 @@ namespace SablePP.Compiler.Generate.Parsing
         }
         private string getClassName(AListTranslation translation)
         {
-            return getClassName(translation.Elements[0].Translation);
+            return getClassName(translation.Elements[0]);
         }
 
         private bool isList(PElement element)
