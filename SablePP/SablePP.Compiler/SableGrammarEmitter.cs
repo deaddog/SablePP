@@ -165,7 +165,16 @@ namespace SablePP.Compiler
         }
         public override void CaseAToken(Nodes.AToken node)
         {
-            base.CaseAToken(node);
+            if (node.Statelist.Count > 0)
+            {
+                write("{ ");
+                Visit(node.Statelist);
+                write("} ");
+            }
+            Visit(node.Identifier);
+            Visit(node.Equal);
+            Visit((dynamic)node.Regex);
+            Visit(node.Semicolon);
             writeNewline();
         }
 
