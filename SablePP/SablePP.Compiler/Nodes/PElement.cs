@@ -54,7 +54,15 @@ namespace SablePP.Compiler.Nodes
                 {
                     var prod = id.AsPProduction;
                     if (prod.HasProdtranslation)
-                        return prod.Prodtranslation.Identifier.AsPProduction.ClassName;
+                    {
+                        id = prod.Prodtranslation.Identifier;
+                        if (id.IsPProduction)
+                            return id.AsPProduction.ClassName;
+                        else if (id.IsPToken)
+                            return id.AsPToken.ClassName;
+                        else
+                            throw new InvalidOperationException();
+                    }
                     else
                         return prod.ClassName;
                 }

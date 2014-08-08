@@ -242,8 +242,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void InPProdtranslation(PProdtranslation node)
         {
-            if (!astProd.Link(node.Identifier))
-                RegisterError(node.Identifier, "The AST production {0} has not been defined.", node.Identifier);
+            if (astProd.Contains(node.Identifier.Text) && tokens.Contains(node.Identifier.Text))
+                RegisterError(node.Identifier, "Unable to determine if {0} refers to an AST production or a token.", node.Identifier.Text);
+            if (!astProd.Link(node.Identifier) && !tokens.Link(node.Identifier))
+                RegisterError(node.Identifier, "The production translation target {0} has not been defined as neither an AST production or a token.", node.Identifier);
         }
 
         public override void CaseANewTranslation(ANewTranslation node)

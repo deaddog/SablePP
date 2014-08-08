@@ -1,6 +1,7 @@
 ﻿using SablePP.Compiler.Analysis;
 using SablePP.Compiler.Nodes;
 using SablePP.Tools.Generate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -195,7 +196,15 @@ namespace SablePP.Compiler.Generate.Parsing
             {
                 var p = element.Elementid.Identifier.AsPProduction;
                 if (p != null && p.HasProdtranslation)
-                    return p.Prodtranslation.Identifier.AsPProduction.ClassName;
+                    {
+                        var id = p.Prodtranslation.Identifier;
+                        if (id.IsPProduction)
+                            return id.AsPProduction.ClassName;
+                        else if (id.IsPToken)
+                            return id.AsPToken.ClassName;
+                        else
+                            throw new InvalidOperationException();
+                    }
                 else
                     return element.Elementid.Identifier.AsPProduction.ClassName;
             }

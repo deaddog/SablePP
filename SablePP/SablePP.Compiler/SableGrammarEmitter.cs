@@ -104,11 +104,8 @@ namespace SablePP.Compiler
             var p = node.Identifier.AsPElement.Elementid.Identifier.AsPProduction;
 
             base.CaseAIdTranslation(node);
-            if (p != null)
-            {
-                if (p.HasProdtranslation)
-                    write("." + p.Prodtranslation.Identifier.Text);
-            }
+            if (p != null && p.HasProdtranslation)
+                write("." + p.Prodtranslation.Identifier.Text);
         }
 
         public override void DefaultCase(Node node)
