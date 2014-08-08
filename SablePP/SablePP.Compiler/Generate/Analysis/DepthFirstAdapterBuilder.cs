@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using SablePP.Compiler.Nodes;
 using SablePP.Tools.Generate.CSharp;
@@ -122,32 +123,13 @@ namespace SablePP.Compiler.Generate.Analysis
             method.Body.EmitLine("In{0}(node);", node.ClassName);
             method.Body.EmitNewLine();
 
-            Visit(node.Elements);
+            var elements = reversed ? node.Elements.Reverse() : node.Elements;
+            foreach (var e in elements)
+                Visit(e);
 
             method.Body.EmitNewLine();
             method.Body.EmitLine("Out{0}(node);", node.ClassName);
             method.Body.EmitLine("Out{0}(node);", node.Production.ClassName);
-        }
-
-        public override void CaseAElements(AElements node)
-        {
-            if (!reversed)
-                base.CaseAElements(node);
-            else
-            {
-                InPElements(node);
-                InAElements(node);
-
-                {
-                    PElement[] temp = new PElement[node.Elements.Count];
-                    node.Elements.CopyTo(temp, 0);
-                    for (int i = temp.Length - 1; i >= 0; i--)
-                        Visit((dynamic)temp[i]);
-                }
-
-                OutAElements(node);
-                OutPElements(node);
-            }
         }
 
         private void EmitInOut(string name)
