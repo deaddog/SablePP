@@ -99,6 +99,18 @@ namespace SablePP.Compiler
             write("}");
         }
 
+        public override void CaseAIdTranslation(Nodes.AIdTranslation node)
+        {
+            var p = node.Identifier.AsPElement.Elementid.Identifier.AsPProduction;
+
+            base.CaseAIdTranslation(node);
+            if (p != null)
+            {
+                if (p.HasProdtranslation)
+                    write("." + p.Prodtranslation.Identifier.Text);
+            }
+        }
+
         public override void DefaultCase(Node node)
         {
             if (node is Token)
