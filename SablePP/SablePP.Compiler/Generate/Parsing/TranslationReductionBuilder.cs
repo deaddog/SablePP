@@ -100,7 +100,7 @@ namespace SablePP.Compiler.Generate.Parsing
         {
             Visit(node.Elements);
 
-            string className = getClassName(node.Elements[0]);
+            string className = node.ClassName;
             string varName = translationVariables[node] = GetVariable(className + "list");
 
             code.EmitLine("List<{0}> {1} = new List<{0}>();", className, varName);
@@ -111,7 +111,7 @@ namespace SablePP.Compiler.Generate.Parsing
                 var translationName = translationVariables[translation];
 
                 if (translationName != "null")
-                    if (isList(translation))
+                    if (translation.IsList)
                         code.EmitLine("{0}.AddRange({1});", varName, translationName);
                     else
                         code.EmitLine("{0}.Add({1});", varName, translationName);
@@ -172,84 +172,6 @@ namespace SablePP.Compiler.Generate.Parsing
 
             code.DecreaseIndentation();
             code.EmitLine(");");
-        }
-
-        private string getClassName(PTranslation translation)
-        {
-            return getClassName((dynamic)translation);
-        }
-
-        private string getClassName(ANewTranslation translation)
-        {
-            return translation.Production.AsPProduction.ClassName;
-        }
-        private string getClassName(ANewalternativeTranslation translation)
-        {
-            return translation.Alternative.AsPAlternative.Production.ClassName;
-        }
-        private string getClassName(AIdTranslation translation)
-        {
-            var element = translation.Identifier.AsPElement;
-            if (element.Elementid.Identifier.IsPAlternative)
-                return element.Elementid.Identifier.AsPAlternative.Production.ClassName;
-            else if (element.Elementid.Identifier.IsPProduction)
-            {
-                var p = element.Elementid.Identifier.AsPProduction;
-                if (p != null && p.HasProdtranslation)
-                    {
-                        var id = p.Prodtranslation.Identifier;
-                        if (id.IsPProduction)
-                            return id.AsPProduction.ClassName;
-                        else if (id.IsPToken)
-                            return id.AsPToken.ClassName;
-                        else
-                            throw new InvalidOperationException();
-                    }
-                else
-                    return element.Elementid.Identifier.AsPProduction.ClassName;
-            }
-            else if (element.Elementid.Identifier.IsPToken)
-                return element.Elementid.Identifier.AsPToken.ClassName;
-            else
-                throw new System.NotImplementedException();
-        }
-        private string getClassName(AIddotidTranslation translation)
-        {
-            return translation.Production.AsPProduction.ClassName;
-        }
-        private string getClassName(AListTranslation translation)
-        {
-            return getClassName(translation.Elements[0]);
-        }
-
-        private bool isList(PTranslation translation)
-        {
-            return isList((dynamic)translation);
-        }
-
-        private bool isList(ANewTranslation translation)
-        {
-            return false;
-        }
-        private bool isList(ANewalternativeTranslation translation)
-        {
-            return false;
-        }
-        private bool isList(AIdTranslation translation)
-        {
-            return translation.Identifier.AsPElement.GeneratesAsList;
-        }
-        private bool isList(AIddotidTranslation translation)
-        {
-            return translation.Identifier.AsPElement.GeneratesAsList;
-        }
-        private bool isList(AListTranslation translation)
-        {
-            return true;
-        }
-        private bool isList(ANullTranslation translation)
-        {
-            return false;
         }
     }
 }
