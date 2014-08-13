@@ -57,6 +57,9 @@ namespace SablePP.Tools
             T t = default(T);
             foreach (var k in collection)
             {
+                if (k == null)
+                    continue;
+
                 int cdiff = editDistance(translate(k), key);
                 if (cdiff < diff)
                 {
