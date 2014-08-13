@@ -18,6 +18,9 @@ namespace SablePP.Tools
         /// <returns>The value associated with the key that has the closest edit distance to <paramref name="key"/>.</returns>
         public static T GetNearest<T>(this IDictionary<string, T> dict, string key)
         {
+            if (key == null)
+                throw new ArgumentNullException("key");
+
             if (dict.ContainsKey(key))
                 return dict[key];
 
@@ -47,6 +50,9 @@ namespace SablePP.Tools
         /// <returns>The value associated with the key (translated from objects) that has the closest edit distance to <paramref name="key"/>.</returns>
         public static T GetNearest<T>(this IEnumerable<T> collection, string key, Func<T, string> translate)
         {
+            if (key == null)
+                throw new ArgumentNullException("key");
+
             int diff = int.MaxValue;
             T t = default(T);
             foreach (var k in collection)
