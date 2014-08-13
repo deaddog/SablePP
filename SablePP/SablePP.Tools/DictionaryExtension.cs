@@ -12,13 +12,13 @@ namespace SablePP.Tools
         /// Gets the value whose key is closest to <paramref name="key"/>.
         /// This method always return a value, if the dictionary is not empty.
         /// </summary>
-        /// <typeparam name="T">The type of the values contained by the dictionary.</typeparam>
+        /// <typeparam name="TValue">The type of the values contained by the dictionary.</typeparam>
         /// <param name="dict">The dictionary form which a value is extracted.</param>
         /// <param name="key">The key to look for in the dictionary.</param>
         /// <param name="maxDistance">The maximum "distance" allowed when comparing keys.</param>
         /// <returns>The value associated with the key that has the closest edit distance to <paramref name="key"/>.
-        /// If the dictionary is empty; <c>default(T)</c>.</returns>
-        public static T GetNearest<T>(this IDictionary<string, T> dict, string key, int maxDistance = int.MaxValue)
+        /// If the dictionary is empty; <c>default(<typeparamref name="TValue"/>)</c>.</returns>
+        public static TValue GetNearest<TValue>(this IDictionary<string, TValue> dict, string key, int maxDistance = int.MaxValue)
         {
             if (key == null)
                 throw new ArgumentNullException("key");
@@ -27,7 +27,7 @@ namespace SablePP.Tools
                 return dict[key];
 
             int diff = int.MaxValue;
-            T t = default(T);
+            TValue t = default(TValue);
             foreach (var k in dict.Keys)
             {
                 int cdiff = editDistance(k, key);
@@ -39,7 +39,7 @@ namespace SablePP.Tools
             }
 
             if (diff > maxDistance)
-                return default(T);
+                return default(TValue);
             else
                 return t;
         }
