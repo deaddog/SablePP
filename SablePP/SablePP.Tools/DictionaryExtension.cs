@@ -51,14 +51,18 @@ namespace SablePP.Tools
         /// <typeparam name="T">The type of elements in the collection.</typeparam>
         /// <param name="collection">The collection from which a value is extracted.</param>
         /// <param name="key">The key to look for in the collection.</param>
-        /// <param name="translate">A method that translates an object of type <typeparamref name="T"/> into a key string..</param>
+        /// <param name="translate">A method that translates an object of type <typeparamref name="T"/> into a key string.
+        /// Wehn set to <c>null</c>, the objects ToString method is used instead.</param>
         /// <param name="maxDistance">The maximum "distance" allowed when comparing keys.</param>
         /// <returns>The value associated with the key (translated from objects) that has the closest edit distance to <paramref name="key"/>.
         /// If the collection is empty; <c>default(T)</c>.</returns>
-        public static T GetNearest<T>(this IEnumerable<T> collection, string key, Func<T, string> translate, int maxDistance = int.MaxValue)
+        public static T GetNearest<T>(this IEnumerable<T> collection, string key, Func<T, string> translate = null, int maxDistance = int.MaxValue)
         {
             if (key == null)
                 throw new ArgumentNullException("key");
+
+            if (translate == null)
+                translate = v => v.ToString();
 
             int diff = int.MaxValue;
             T t = default(T);
