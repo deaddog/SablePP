@@ -12,13 +12,16 @@ namespace SablePP.Tools
         /// Gets the value whose key is closest to <paramref name="key"/>.
         /// This method always return a value, if the dictionary is not empty.
         /// </summary>
+        /// <typeparam name="TKey">The type of the keys contained by the dictionary.</typeparam>
         /// <typeparam name="TValue">The type of the values contained by the dictionary.</typeparam>
         /// <param name="dict">The dictionary form which a value is extracted.</param>
         /// <param name="key">The key to look for in the dictionary.</param>
+        /// <param name="translate">A method that translates an object of type <typeparamref name="TKey"/> into a key string.
+        /// Wehn set to <c>null</c>, the objects ToString method is used instead.</param>
         /// <param name="maxDistance">The maximum "distance" allowed when comparing keys.</param>
         /// <returns>The value associated with the key that has the closest edit distance to <paramref name="key"/>.
         /// If the dictionary is empty; <c>default(<typeparamref name="TValue"/>)</c>.</returns>
-        public static TValue GetNearest<TValue>(this IDictionary<string, TValue> dict, string key, int maxDistance = int.MaxValue)
+        public static TValue GetNearest<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, Func<TKey, string> translate = null, int maxDistance = int.MaxValue)
         {
             if (key == null)
                 throw new ArgumentNullException("key");
@@ -26,11 +29,13 @@ namespace SablePP.Tools
             if (dict.ContainsKey(key))
                 return dict[key];
 
+            string kStr = translate(key);
+
             int diff = int.MaxValue;
             TValue t = default(TValue);
             foreach (var k in dict.Keys)
             {
-                int cdiff = editDistance(k, key);
+                int cdiff = editDistance(translate(k), kStr);
                 if (cdiff < diff)
                 {
                     diff = cdiff;
@@ -43,7 +48,7 @@ namespace SablePP.Tools
             else
                 return t;
         }
-
+        
         /// <summary>
         /// Gets the element that is closest to <paramref name="key"/>.
         /// This method always return a value, if the collection is not empty.
