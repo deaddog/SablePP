@@ -52,6 +52,7 @@
     <Compile Include="Analysis\DepthFirstTreeWalker.cs" />
     <Compile Include="CompilationOptions.cs" />
     <Compile Include="CompilerExecuter.cs" />
+    <Compile Include="DictionaryExtension.cs" />
     <Compile Include="Editor\ErrorEventArgs.cs" />
     <Compile Include="Editor\ErrorEventHandler.cs" />
     <Compile Include="Editor\ErrorView.cs">
