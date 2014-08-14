@@ -158,7 +158,7 @@ namespace SablePP.Compiler.Generate.Parsing
         private static string[] getListTypes(AGrammar grammar)
         {
             List<string> types = new List<string>();
-            List<Node> declarations = new List<Node>();
+            List<IDeclaration> declarations = new List<IDeclaration>();
 
             foreach (var p in grammar.Productions.Productions)
                 foreach (var a in p.Alternatives)
