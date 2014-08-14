@@ -2622,13 +2622,13 @@ namespace SablePP.Compiler.Nodes
     public abstract partial class PStates : Production<PStates>
     {
         private TStatestoken _statestoken_;
-        private NodeList<TIdentifier> _states_;
+        private NodeList<PState> _states_;
         private TSemicolon _semicolon_;
         
-        public PStates(TStatestoken _statestoken_, IEnumerable<TIdentifier> _states_, TSemicolon _semicolon_)
+        public PStates(TStatestoken _statestoken_, IEnumerable<PState> _states_, TSemicolon _semicolon_)
         {
             this.Statestoken = _statestoken_;
-            this._states_ = new NodeList<TIdentifier>(this, _states_, false);
+            this._states_ = new NodeList<PState>(this, _states_, false);
             this.Semicolon = _semicolon_;
         }
         
@@ -2647,7 +2647,7 @@ namespace SablePP.Compiler.Nodes
                 _statestoken_ = value;
             }
         }
-        public NodeList<TIdentifier> States
+        public NodeList<PState> States
         {
             get { return _states_; }
         }
@@ -2670,7 +2670,7 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AStates : PStates
     {
-        public AStates(TStatestoken _statestoken_, IEnumerable<TIdentifier> _states_, TSemicolon _semicolon_)
+        public AStates(TStatestoken _statestoken_, IEnumerable<PState> _states_, TSemicolon _semicolon_)
             : base(_statestoken_, _states_, _semicolon_)
         {
         }
@@ -2685,16 +2685,16 @@ namespace SablePP.Compiler.Nodes
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Statestoken = newChild as TStatestoken;
             }
-            else if (oldChild is TIdentifier && States.Contains(oldChild as TIdentifier))
+            else if (oldChild is PState && States.Contains(oldChild as PState))
             {
-                if (!(newChild is TIdentifier) && newChild != null)
+                if (!(newChild is PState) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 
-                int index = States.IndexOf(oldChild as TIdentifier);
+                int index = States.IndexOf(oldChild as PState);
                 if (newChild == null)
                     States.RemoveAt(index);
                 else
-                    States[index] = newChild as TIdentifier;
+                    States[index] = newChild as PState;
             }
             else if (Semicolon == oldChild)
             {
@@ -2710,7 +2710,7 @@ namespace SablePP.Compiler.Nodes
         {
             yield return Statestoken;
             {
-                TIdentifier[] temp = new TIdentifier[States.Count];
+                PState[] temp = new PState[States.Count];
                 States.CopyTo(temp, 0);
                 for (int i = 0; i < temp.Length; i++)
                     yield return temp[i];
@@ -2726,6 +2726,66 @@ namespace SablePP.Compiler.Nodes
         public override string ToString()
         {
             return string.Format("{0} {1} {2}", Statestoken, States, Semicolon);
+        }
+    }
+    public abstract partial class PState : Production<PState>
+    {
+        private TIdentifier _identifier_;
+        
+        public PState(TIdentifier _identifier_)
+        {
+            this.Identifier = _identifier_;
+        }
+        
+        public TIdentifier Identifier
+        {
+            get { return _identifier_; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentException("Identifier in PState cannot be null.", "value");
+                
+                if (_identifier_ != null)
+                    SetParent(_identifier_, null);
+                SetParent(value, this);
+                
+                _identifier_ = value;
+            }
+        }
+        
+    }
+    public partial class AState : PState
+    {
+        public AState(TIdentifier _identifier_)
+            : base(_identifier_)
+        {
+        }
+        
+        public override void ReplaceChild(Node oldChild, Node newChild)
+        {
+            if (Identifier == oldChild)
+            {
+                if (newChild == null)
+                    throw new ArgumentException("Identifier in AState cannot be null.", "newChild");
+                if (!(newChild is TIdentifier) && newChild != null)
+                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
+                Identifier = newChild as TIdentifier;
+            }
+            else throw new ArgumentException("Node to be replaced is not a child in this production.");
+        }
+        protected override IEnumerable<Node> GetChildren()
+        {
+            yield return Identifier;
+        }
+        
+        public override PState Clone()
+        {
+            return new AState(Identifier.Clone());
+        }
+        
+        public override string ToString()
+        {
+            return string.Format("{0}", Identifier);
         }
     }
     public abstract partial class PIgnoredtokens : Production<PIgnoredtokens>

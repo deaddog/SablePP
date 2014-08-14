@@ -274,6 +274,14 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
+        public void Visit(AState node)
+        {
+            CaseAState(node);
+        }
+        public virtual void CaseAState(AState node)
+        {
+            DefaultCase(node);
+        }
         public void Visit(AIgnoredtokens node)
         {
             CaseAIgnoredtokens(node);
@@ -1645,6 +1653,33 @@ namespace SablePP.Compiler.Analysis
             
             OutAStates(node);
             OutPStates(node);
+        }
+        
+        public virtual void InPState(PState node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPState(PState node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAState(AState node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAState(AState node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAState(AState node)
+        {
+            InPState(node);
+            InAState(node);
+            
+            Visit(node.Identifier);
+            
+            OutAState(node);
+            OutPState(node);
         }
         
         public virtual void InPIgnoredtokens(PIgnoredtokens node)
@@ -3168,6 +3203,33 @@ namespace SablePP.Compiler.Analysis
             OutPStates(node);
         }
         
+        public virtual void InPState(PState node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPState(PState node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAState(AState node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAState(AState node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAState(AState node)
+        {
+            InPState(node);
+            InAState(node);
+            
+            Visit(node.Identifier);
+            
+            OutAState(node);
+            OutPState(node);
+        }
+        
         public virtual void InPIgnoredtokens(PIgnoredtokens node)
         {
             DefaultPIn(node);
@@ -4193,6 +4255,14 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
+        public Result Visit(AState node)
+        {
+            return CaseAState(node);
+        }
+        public virtual Result CaseAState(AState node)
+        {
+            return DefaultCase(node);
+        }
         public Result Visit(AIgnoredtokens node)
         {
             return CaseAIgnoredtokens(node);
@@ -5062,6 +5132,14 @@ namespace SablePP.Compiler.Analysis
             return CaseAStates(node, arg1);
         }
         public virtual Result CaseAStates(AStates node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
+        public Result Visit(AState node, T1 arg1)
+        {
+            return CaseAState(node, arg1);
+        }
+        public virtual Result CaseAState(AState node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -5937,6 +6015,14 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
+        public Result Visit(AState node, T1 arg1, T2 arg2)
+        {
+            return CaseAState(node, arg1, arg2);
+        }
+        public virtual Result CaseAState(AState node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
         public Result Visit(AIgnoredtokens node, T1 arg1, T2 arg2)
         {
             return CaseAIgnoredtokens(node, arg1, arg2);
@@ -6806,6 +6892,14 @@ namespace SablePP.Compiler.Analysis
             return CaseAStates(node, arg1, arg2, arg3);
         }
         public virtual Result CaseAStates(AStates node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
+        public Result Visit(AState node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAState(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAState(AState node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
