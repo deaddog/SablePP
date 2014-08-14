@@ -92,11 +92,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             foreach (var h in node.Helpers)
                 if (!helpers.Declare(h))
-                {
-                    RegisterError(h.Identifier, "Helper {0} has already been defined (line {1}).",
-                        h.Identifier,
-                        helpers[h.Identifier.Text].Identifier.Line);
-                }
+                    RegisterError(h.Identifier, "Helper {0} has already been defined (line {1}).", h.Identifier, helpers[h.Identifier.Text].Identifier.Line);
 
             base.CaseAHelpers(node);
         }
@@ -108,8 +104,9 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseAStates(AStates node)
         {
-            for (int i = 0; i < node.States.Count; i++)
-                states.Declare(node.States[i]);
+            foreach (var s in node.States)
+                if (!states.Declare(s))
+                    RegisterError(s.Identifier, "State {0} has already been defined (line {1}).", s.Identifier, states[s.Identifier.Text].Identifier.Line);
         }
 
         public override void CaseAToken(AToken node)
