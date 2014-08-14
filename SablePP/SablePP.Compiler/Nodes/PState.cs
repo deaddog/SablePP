@@ -10,5 +10,10 @@
                 return ReferenceEquals(par.States[0], this);
             }
         }
+
+        public string LexerName
+        {
+            get { return _identifier_.Text.ToUpper(); }
+        }
     }
 }

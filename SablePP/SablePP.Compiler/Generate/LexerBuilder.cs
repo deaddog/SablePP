@@ -142,7 +142,7 @@ namespace SablePP.Compiler.Generate
         }
         public override void CaseATransitionTokenState(ATransitionTokenState node)
         {
-            getNextStateMethod.EmitLine("case {0}: return {1};", node.From.AsState.Text.ToUpper(), node.To.AsState.Text.ToUpper());
+            getNextStateMethod.EmitLine("case {0}: return {1};", node.From.AsState.LexerName, node.To.AsState.LexerName);
         }
 
         public override void CaseAStates(AStates node)
@@ -150,9 +150,8 @@ namespace SablePP.Compiler.Generate
             int index = 0;
             foreach (var state in node.States)
             {
-                string name = state.AsState.Text.ToUpper();
-                states.Add(name, index);
-                classElement.EmitField("private const int " + name, index.ToString());
+                states.Add(state.LexerName, index);
+                classElement.EmitField("private const int " + state.LexerName, index.ToString());
 
                 index++;
             }
