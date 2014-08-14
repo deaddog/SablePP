@@ -112,19 +112,12 @@
     <Compile Include="SableCCLogger.cs" />
     <Compile Include="SableGrammarEmitter.cs" />
     <Compile Include="Validation\ExcessiveNodesVisitor.cs" />
-    <Compile Include="Validation\SymbolLinking\AlternativesTable.cs" />
     <Compile Include="Validation\SymbolLinking\DeclarationTable.cs" />
     <Compile Include="Validation\SymbolLinking\DeclarationVisitor.cs" />
     <Compile Include="Validation\ErrorVisitor.cs" />
     <Compile Include="Nodes\TIdentifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Validation\SymbolLinking\ElementsTable.cs" />
-    <Compile Include="Validation\SymbolLinking\HelpersTable.cs" />
-    <Compile Include="Validation\SymbolLinking\HighlightrulesTable.cs" />
-    <Compile Include="Validation\SymbolLinking\ProductionsTable.cs" />
-    <Compile Include="Validation\SymbolLinking\StatesTable.cs" />
-    <Compile Include="Validation\SymbolLinking\TokensTable.cs" />
     <Compile Include="Validation\SyntaxHighlightValidator.cs" />
   </ItemGroup>
   <ItemGroup>
