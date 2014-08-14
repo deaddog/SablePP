@@ -113,7 +113,7 @@ namespace SablePP.Compiler.Execution
                 else if (id.IsPToken)
                     id = id.AsPToken.Identifier;
                 else if (id.IsState)
-                    id = id.AsState;
+                    id = id.AsState.Identifier;
                 else
                     id = null;
 

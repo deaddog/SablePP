@@ -80,7 +80,7 @@ namespace SablePP.Compiler
 
             { // States
                 var states = sections<AStatesSection>(root);
-                var list = new List<TIdentifier>();
+                var list = new List<PState>();
                 for (int i = 0; i < states.Length; i++)
                     list.AddRange(states[i].States.States);
 
