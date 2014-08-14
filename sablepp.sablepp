@@ -139,7 +139,13 @@ Productions
         ;
 
     states
-        = statestoken id_list semicolon {-> New states(statestoken, [id_list], semicolon)}
+        = statestoken s_list semicolon {-> New states(statestoken, [s_list], semicolon)}
+        ;
+    s_list -> state+
+    = identifier s_list_tail* -> [New state(identifier), s_list_tail]
+        ;
+    s_list_tail -> state
+        = comma identifier -> New state(identifier)
         ;
 
     id_list {-> identifier+}
@@ -366,7 +372,8 @@ Abstract Syntax Tree
         | {plus} plus
         ;
     
-    states = statestoken [states]:identifier+ semicolon;
+    states = statestoken state+ semicolon;
+    state = identifier;
     ignoredtokens = ignoredtoken tokenstoken [tokens]:identifier+ semicolon;
     
     token_state
