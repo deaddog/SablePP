@@ -2,7 +2,7 @@
 
 namespace SablePP.Compiler.Nodes
 {
-    public class DeclarationIdentifier<T> : DeclarationIdentifier where T : Production
+    public class DeclarationIdentifier<T> : DeclarationIdentifier where T : Production, IDeclaration
     {
         public DeclarationIdentifier(TIdentifier identifier, T declaration)
             : base(identifier.Text, identifier.Line, identifier.Position, declaration)
@@ -17,15 +17,15 @@ namespace SablePP.Compiler.Nodes
 
     public class DeclarationIdentifier : TIdentifier
     {
-        private Node declaration;
+        private IDeclaration declaration;
 
-        public DeclarationIdentifier(string text, int line, int position, Node declaration)
+        public DeclarationIdentifier(string text, int line, int position, IDeclaration declaration)
             : base(text, line, position)
         {
             this.declaration = declaration;
         }
 
-        public Node Declaration
+        public IDeclaration Declaration
         {
             get { return declaration; }
             protected set { declaration = value; }
