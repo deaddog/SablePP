@@ -6,13 +6,7 @@ using System.Text;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
-    public abstract class DeclarationTable<TDeclaration> : DeclarationTable<DeclarationIdentifier<TDeclaration>, TDeclaration>
-        where TDeclaration : SablePP.Tools.Nodes.Production
-    {
-    }
-
-    public abstract class DeclarationTable<TID, TDeclaration>
-        where TID : DeclarationIdentifier<TDeclaration>
+    public abstract class DeclarationTable<TDeclaration>
         where TDeclaration : SablePP.Tools.Nodes.Production
     {
         private Dictionary<string, TDeclaration> declarations;
@@ -29,7 +23,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             get { return declarations[text]; }
         }
 
-        protected abstract TID construct(TIdentifier identifier, TDeclaration declaration);
+        protected abstract DeclarationIdentifier<TDeclaration> construct(TIdentifier identifier, TDeclaration declaration);
         protected abstract TIdentifier getIdentifier(TDeclaration declaration);
 
         public void Clear()
@@ -51,7 +45,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 return false;
             else
             {
-                TID reference = construct(identifier, declaration);
+                var reference = construct(identifier, declaration);
                 identifier.ReplaceBy(reference);
                 declarations.Add(text, declaration);
 
@@ -66,7 +60,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             TDeclaration declaration = null;
             if (declarations.TryGetValue(identifier.Text, out declaration))
             {
-                TID reference = construct(identifier, declaration);
+                var reference = construct(identifier, declaration);
                 identifier.ReplaceBy(reference);
                 unusedList.Remove(declaration);
 
