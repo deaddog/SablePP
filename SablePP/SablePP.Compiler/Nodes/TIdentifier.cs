@@ -30,24 +30,24 @@ namespace SablePP.Compiler.Nodes
         }
 
         /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="StateIdentifier"/>.
+        /// Gets a value indicating whether this identifier refers to a <see cref="PState"/>.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="StateIdentifier"/>; otherwise, <c>false</c>.
+        ///   <c>true</c> if this identifier refers to a <see cref="PState"/>; otherwise, <c>false</c>.
         /// </value>
         public bool IsState
         {
-            get { return this is StateIdentifier; }
+            get { return this is DeclarationIdentifier<PState>; }
         }
         /// <summary>
-        /// Gets the declaration associated with this identifier, as a <see cref="StateIdentifier"/>.
+        /// Gets the declaration associated with this identifier, as a <see cref="PState"/>.
         /// </summary>
         /// <value>
-        ///   A <see cref="StateIdentifier"/> if this identifier refers to a <see cref="StateIdentifier"/>; otherwise, <c>null</c>.
+        ///   A <see cref="PState"/> if this identifier refers to a <see cref="PState"/>; otherwise, <c>null</c>.
         /// </value>
-        public StateIdentifier AsState
+        public PState AsState
         {
-            get { return IsState ? (this as StateIdentifier).Declaration : null; }
+            get { return IsState ? (this as DeclarationIdentifier<PState>).Declaration : null; }
         }
 
         /// <summary>
