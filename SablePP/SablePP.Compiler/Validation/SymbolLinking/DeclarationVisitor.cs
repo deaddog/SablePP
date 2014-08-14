@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-using SablePP.Compiler.Nodes;
-
+﻿using SablePP.Compiler.Nodes;
 using SablePP.Tools.Error;
-using SablePP.Compiler.Nodes.Identifiers;
+using System.Collections.Generic;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {

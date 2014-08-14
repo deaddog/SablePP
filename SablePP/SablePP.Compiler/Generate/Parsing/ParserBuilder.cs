@@ -167,7 +167,7 @@ namespace SablePP.Compiler.Generate.Parsing
                         var t = e.ElementType;
                         if (t == ElementTypes.Plus || t == ElementTypes.Star)
                         {
-                            var decl = (e.Elementid.Identifier as SablePP.Compiler.Nodes.Identifiers.DeclarationIdentifier).Declaration;
+                            var decl = (e.Elementid.Identifier as DeclarationIdentifier).Declaration;
                             if (!declarations.Contains(decl))
                             {
                                 types.Add(e.ClassName);

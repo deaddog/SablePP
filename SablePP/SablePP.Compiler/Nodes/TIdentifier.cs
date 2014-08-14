@@ -1,10 +1,4 @@
-﻿using SablePP.Compiler.Nodes.Identifiers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SablePP.Compiler.Nodes
+﻿namespace SablePP.Compiler.Nodes
 {
     public partial class TIdentifier
     {

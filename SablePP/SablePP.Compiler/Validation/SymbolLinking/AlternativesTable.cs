@@ -1,5 +1,4 @@
 ﻿using SablePP.Compiler.Nodes;
-using SablePP.Compiler.Nodes.Identifiers;
 using System;
 
 namespace SablePP.Compiler.Validation.SymbolLinking

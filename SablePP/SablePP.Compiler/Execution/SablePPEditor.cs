@@ -1,5 +1,5 @@
 ﻿using FastColoredTextBoxNS;
-using SablePP.Compiler.Nodes.Identifiers;
+using SablePP.Compiler.Nodes;
 using SablePP.Tools.Analysis;
 using SablePP.Tools.Editor;
 using System;

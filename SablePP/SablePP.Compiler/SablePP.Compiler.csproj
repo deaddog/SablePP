@@ -97,7 +97,7 @@
     <Compile Include="Generate\GenerateVisitor.cs" />
     <Compile Include="Generate\Productions\ProductionNodes.cs" />
     <Compile Include="Nodes\PAlternative.cs" />
-    <Compile Include="Nodes\Identifiers\DeclarationIdentifier.cs" />
+    <Compile Include="Nodes\DeclarationIdentifier.cs" />
     <Compile Include="Nodes\PElement.cs" />
     <Compile Include="Nodes\PGrammar.cs" />
     <Compile Include="Nodes\PProduction.cs" />

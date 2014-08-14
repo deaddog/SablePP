@@ -1,6 +1,6 @@
 ﻿using SablePP.Tools.Nodes;
 
-namespace SablePP.Compiler.Nodes.Identifiers
+namespace SablePP.Compiler.Nodes
 {
     public class DeclarationIdentifier<T> : DeclarationIdentifier where T : Production
     {

@@ -1,7 +1,4 @@
 ﻿using SablePP.Compiler.Nodes;
-using SablePP.Compiler.Nodes.Identifiers;
-using System.Collections.Generic;
-
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class StatesTable : DeclarationTable<PState>
