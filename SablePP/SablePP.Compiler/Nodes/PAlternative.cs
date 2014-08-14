@@ -27,7 +27,7 @@ namespace SablePP.Compiler.Nodes
             if (HasAlternativename)
                 return Alternativename.Name;
             else
-                throw new ArgumentException("Alternative has no name.", "declaration");
+                return null;
         }
     }
 }
