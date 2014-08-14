@@ -2,7 +2,7 @@
 
 namespace SablePP.Compiler.Nodes
 {
-    public partial class PAlternative
+    public partial class PAlternative : IDeclaration
     {
         public PProduction Production
         {
@@ -20,6 +20,14 @@ namespace SablePP.Compiler.Nodes
                 else
                     return "A" + productionName;
             }
+        }
+
+        public TIdentifier GetIdentifier()
+        {
+            if (HasAlternativename)
+                return Alternativename.Name;
+            else
+                throw new ArgumentException("Alternative has no name.", "declaration");
         }
     }
 }

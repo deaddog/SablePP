@@ -7,7 +7,7 @@ using System.Text;
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public abstract class DeclarationTable<TDeclaration>
-        where TDeclaration : SablePP.Tools.Nodes.Production
+        where TDeclaration : SablePP.Tools.Nodes.Production, IDeclaration
     {
         private Dictionary<string, TDeclaration> declarations;
         private List<TDeclaration> unusedList;
@@ -24,7 +24,6 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         }
 
         protected abstract DeclarationIdentifier<TDeclaration> construct(TIdentifier identifier, TDeclaration declaration);
-        protected abstract TIdentifier getIdentifier(TDeclaration declaration);
 
         public void Clear()
         {
@@ -38,7 +37,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public bool Declare(TDeclaration declaration)
         {
-            TIdentifier identifier = getIdentifier(declaration);
+            TIdentifier identifier = declaration.GetIdentifier();
             string text = identifier.Text;
 
             if (declarations.ContainsKey(text))

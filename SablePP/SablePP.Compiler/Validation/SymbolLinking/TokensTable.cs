@@ -8,10 +8,5 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             return new DeclarationIdentifier<PToken>(identifier, declaration);
         }
-
-        protected override TIdentifier getIdentifier(PToken declaration)
-        {
-            return declaration.Identifier;
-        }
     }
 }

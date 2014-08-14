@@ -7,10 +7,5 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             return new DeclarationIdentifier<PState>(identifier, declaration);
         }
-
-        protected override TIdentifier getIdentifier(PState declaration)
-        {
-            return declaration.Identifier;
-        }
     }
 }

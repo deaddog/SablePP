@@ -8,10 +8,5 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             return new DeclarationIdentifier<PHighlightrule>(identifier, declaration);
         }
-
-        protected override TIdentifier getIdentifier(PHighlightrule declaration)
-        {
-            return declaration.Name;
-        }
     }
 }

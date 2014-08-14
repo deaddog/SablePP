@@ -9,13 +9,5 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             return new DeclarationIdentifier<PAlternative>(identifier, declaration);
         }
-
-        protected override TIdentifier getIdentifier(PAlternative declaration)
-        {
-            if (declaration.HasAlternativename)
-                return declaration.Alternativename.Name;
-            else
-                throw new ArgumentException("Alternative has no name.", "declaration");
-        }
     }
 }

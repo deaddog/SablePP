@@ -1,6 +1,6 @@
 ﻿namespace SablePP.Compiler.Nodes
 {
-    public partial class PToken
+    public partial class PToken : IDeclaration
     {
         private bool? ignored = null;
         public bool IsIgnored
@@ -23,6 +23,11 @@
         public string ClassName
         {
             get { return "T" + this.Identifier.Text.ToCamelCase(); }
+        }
+
+        public TIdentifier GetIdentifier()
+        {
+            return Identifier;
         }
     }
 }

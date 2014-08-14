@@ -2,7 +2,7 @@
 
 namespace SablePP.Compiler.Nodes
 {
-    public partial class PElement
+    public partial class PElement : IDeclaration
     {
         public string LowerName
         {
@@ -89,6 +89,14 @@ namespace SablePP.Compiler.Nodes
                 else
                     throw new InvalidOperationException();
             }
+        }
+
+        public TIdentifier GetIdentifier()
+        {
+            if (HasElementname)
+                return Elementname.Name;
+            else
+                return Elementid.Identifier;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace SablePP.Compiler.Nodes
 {
-    public partial class PState
+    public partial class PState : IDeclaration
     {
         public bool IsFirst
         {
@@ -14,6 +14,11 @@
         public string LexerName
         {
             get { return _identifier_.Text.ToUpper(); }
+        }
+
+        public TIdentifier GetIdentifier()
+        {
+            return Identifier;
         }
     }
 }

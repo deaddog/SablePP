@@ -2,7 +2,7 @@
 
 namespace SablePP.Compiler.Nodes
 {
-    public partial class PProduction
+    public partial class PProduction : IDeclaration
     {
         public bool IsFirst
         {
@@ -25,6 +25,11 @@ namespace SablePP.Compiler.Nodes
         public PAlternative UnnamedAlternative
         {
             get { return (from a in _alternatives_ where !a.HasAlternativename select a).FirstOrDefault(); }
+        }
+
+        public TIdentifier GetIdentifier()
+        {
+            return Identifier;
         }
     }
 }

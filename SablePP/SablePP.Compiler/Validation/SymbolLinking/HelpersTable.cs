@@ -8,10 +8,5 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             return new DeclarationIdentifier<PHelper>(identifier, declaration);
         }
-
-        protected override TIdentifier getIdentifier(PHelper declaration)
-        {
-            return declaration.Identifier;
-        }
     }
 }
