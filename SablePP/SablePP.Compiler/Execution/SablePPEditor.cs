@@ -2,6 +2,7 @@
 using SablePP.Compiler.Nodes;
 using SablePP.Tools.Analysis;
 using SablePP.Tools.Editor;
+using SablePP.Tools.Nodes;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -139,6 +140,8 @@ namespace SablePP.Compiler.Execution
             base.OnFileClosed(e);
         }
 
+        private Token selectedToken = null;
+
         private void codeTextBox1_SelectionChanged(object sender, EventArgs e)
         {
             // Update the position labels in the bottom right corner
@@ -151,10 +154,10 @@ namespace SablePP.Compiler.Execution
             // Update the highlighting style to mark all related tokens
             codeTextBox1.Range.ClearStyle(highlightstyle);
 
-            var find = codeTextBox1.TokenFromPlace(codeTextBox1.Selection.Start);
-            if (find != null && find is DeclarationIdentifier)
+            selectedToken = codeTextBox1.TokenFromPlace(codeTextBox1.Selection.Start);
+            if (selectedToken != null && selectedToken is DeclarationIdentifier)
             {
-                var id = find as DeclarationIdentifier;
+                var id = selectedToken as DeclarationIdentifier;
                 goToButton.Enabled = renameButton.Enabled = true;
 
                 foreach (var token in DepthFirstTreeWalker.GetTokens(codeTextBox1.LastResult.Tree).OfType<DeclarationIdentifier>())
@@ -195,12 +198,11 @@ namespace SablePP.Compiler.Execution
 
         private void goToButton_Click(object sender, EventArgs e)
         {
-            var t = codeTextBox1.TokenFromPlace(codeTextBox1.Selection.Start);
-            if (t != null && t is SablePP.Compiler.Nodes.TIdentifier)
+            if (selectedToken != null && selectedToken is TIdentifier)
             {
                 TIdentifier id;
-                if (t is SablePP.Compiler.Nodes.DeclarationIdentifier)
-                    id = (t as SablePP.Compiler.Nodes.DeclarationIdentifier).Declaration.GetIdentifier();
+                if (selectedToken is DeclarationIdentifier)
+                    id = (selectedToken as DeclarationIdentifier).Declaration.GetIdentifier();
                 else
                     id = null;
 
@@ -215,9 +217,8 @@ namespace SablePP.Compiler.Execution
         }
         private void renameButton_Click(object sender, EventArgs e)
         {
-            var t = CodeTextBox.TokenFromPlace(CodeTextBox.Selection.Start);
-            if (t != null && t is SablePP.Compiler.Nodes.Identifiers.DeclarationIdentifier)
-                using (RenameForm form = new RenameForm(t as SablePP.Compiler.Nodes.Identifiers.DeclarationIdentifier))
+            if (selectedToken != null && selectedToken is DeclarationIdentifier)
+                using (RenameForm form = new RenameForm(selectedToken as DeclarationIdentifier))
                     if (form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
                         throw new NotImplementedException();
