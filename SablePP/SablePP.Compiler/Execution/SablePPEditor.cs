@@ -198,29 +198,9 @@ namespace SablePP.Compiler.Execution
             var t = codeTextBox1.TokenFromPlace(codeTextBox1.Selection.Start);
             if (t != null && t is SablePP.Compiler.Nodes.TIdentifier)
             {
-                var id = t as SablePP.Compiler.Nodes.TIdentifier;
-                if (id.IsPAlternative)
-                {
-                    if (id.AsPAlternative.HasAlternativename)
-                        id = id.AsPAlternative.Alternativename.Name;
-                    else
-                        id = null;
-                }
-                else if (id.IsPElement)
-                {
-                    if (id.AsPElement.HasElementname)
-                        id = id.AsPElement.Elementname.Name;
-                    else
-                        id = id.AsPElement.Elementid.Identifier;
-                }
-                else if (id.IsPHelper)
-                    id = id.AsPHelper.Identifier;
-                else if (id.IsPProduction)
-                    id = id.AsPProduction.Identifier;
-                else if (id.IsPToken)
-                    id = id.AsPToken.Identifier;
-                else if (id.IsState)
-                    id = id.AsState.Identifier;
+                TIdentifier id;
+                if (t is SablePP.Compiler.Nodes.DeclarationIdentifier)
+                    id = (t as SablePP.Compiler.Nodes.DeclarationIdentifier).Declaration.GetIdentifier();
                 else
                     id = null;
 
