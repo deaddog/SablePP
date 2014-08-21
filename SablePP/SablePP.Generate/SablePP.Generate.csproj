@@ -44,6 +44,7 @@
     <Compile Include="LiteralRegularExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegularExpression.cs" />
+    <Compile Include="SetRegularExpression.cs" />
     <Compile Include="State.cs" />
     <Compile Include="Token.cs" />
   </ItemGroup>
