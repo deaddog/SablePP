@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SablePP.Compiler", "SablePP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SablePP.Tools", "SablePP.Tools\SablePP.Tools.csproj", "{3A7BF5F0-3346-4653-A3C3-443C5311971B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SablePP.Generate", "SablePP.Generate\SablePP.Generate.csproj", "{DDC52F3A-F031-4414-89FD-61077C631DD4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug (console)|Any CPU = Debug (console)|Any CPU
@@ -69,6 +71,26 @@ Global
 		{3A7BF5F0-3346-4653-A3C3-443C5311971B}.Release (win)|Mixed Platforms.Build.0 = Release|Any CPU
 		{3A7BF5F0-3346-4653-A3C3-443C5311971B}.Release (win)|x86.ActiveCfg = Release|Any CPU
 		{3A7BF5F0-3346-4653-A3C3-443C5311971B}.Release (win)|x86.Build.0 = Release|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Debug (console)|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Debug (console)|Any CPU.Build.0 = Debug|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Debug (console)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Debug (console)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Debug (console)|x86.ActiveCfg = Debug|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Debug (win)|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Debug (win)|Any CPU.Build.0 = Debug|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Debug (win)|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Debug (win)|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Debug (win)|x86.ActiveCfg = Debug|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Release (console)|Any CPU.ActiveCfg = Release|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Release (console)|Any CPU.Build.0 = Release|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Release (console)|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Release (console)|Mixed Platforms.Build.0 = Release|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Release (console)|x86.ActiveCfg = Release|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Release (win)|Any CPU.ActiveCfg = Release|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Release (win)|Any CPU.Build.0 = Release|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Release (win)|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Release (win)|Mixed Platforms.Build.0 = Release|Any CPU
+		{DDC52F3A-F031-4414-89FD-61077C631DD4}.Release (win)|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
