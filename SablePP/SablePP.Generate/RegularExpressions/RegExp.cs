@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SablePP.Generate
+namespace SablePP.Generate.RegularExpressions
 {
     public abstract class RegExp
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SablePP.Generate
+namespace SablePP.Generate.RegularExpressions
 {
     public class SetRegExp : RegExp
     {

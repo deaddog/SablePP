@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SablePP.Generate
+namespace SablePP.Generate.RegularExpressions
 {
-    class ModifiedRegExp : RegExp
+    public class ModifiedRegExp : RegExp
     {
         private RegExp expression;
         private Modifiers modifier;

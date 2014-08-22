@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SablePP.Generate
+namespace SablePP.Generate.RegularExpressions
 {
     public class ConcatenatedRegExp : RegExp
     {
