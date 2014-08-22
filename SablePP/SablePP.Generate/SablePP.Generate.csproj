@@ -40,8 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConcatenatedRegularExpression.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="LiteralRegularExpression.cs" />
+    <Compile Include="OrRegularExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegularExpression.cs" />
     <Compile Include="SetRegularExpression.cs" />
