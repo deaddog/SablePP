@@ -2,40 +2,40 @@
 
 namespace SablePP.Generate
 {
-    public class SetRegularExpression : RegularExpression
+    public class SetRegExp : RegExp
     {
-        private RegularExpression from, to;
+        private RegExp from, to;
         private SetTypes type;
 
-        public SetRegularExpression(char from, char to, SetTypes setType)
+        public SetRegExp(char from, char to, SetTypes setType)
         {
-            this.from = new LiteralRegularExpression(from);
-            this.to = new LiteralRegularExpression(to);
+            this.from = new LiteralRegExp(from);
+            this.to = new LiteralRegExp(to);
 
             this.type = setType;
         }
 
-        public SetRegularExpression(SetRegularExpression from, char to, SetTypes setType)
+        public SetRegExp(SetRegExp from, char to, SetTypes setType)
         {
             if (from == null)
                 throw new ArgumentNullException("from");
 
             this.from = from;
-            this.to = new LiteralRegularExpression(to);
+            this.to = new LiteralRegExp(to);
             this.type = setType;
         }
 
-        public SetRegularExpression(char from, SetRegularExpression to, SetTypes setType)
+        public SetRegExp(char from, SetRegExp to, SetTypes setType)
         {
             if (to == null)
                 throw new ArgumentNullException("to");
 
-            this.from = new LiteralRegularExpression(from);
+            this.from = new LiteralRegExp(from);
             this.to = to;
             this.type = setType;
         }
 
-        public SetRegularExpression(SetRegularExpression from, SetRegularExpression to, SetTypes setType)
+        public SetRegExp(SetRegExp from, SetRegExp to, SetTypes setType)
         {
             if (from == null)
                 throw new ArgumentNullException("from");
@@ -48,11 +48,11 @@ namespace SablePP.Generate
             this.type = setType;
         }
 
-        public RegularExpression From
+        public RegExp From
         {
             get { return from; }
         }
-        public RegularExpression To
+        public RegExp To
         {
             get { return to; }
         }

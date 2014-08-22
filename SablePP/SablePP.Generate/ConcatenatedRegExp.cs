@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace SablePP.Generate
 {
-    public class ConcatenatedRegularExpression : RegularExpression
+    public class ConcatenatedRegExp : RegExp
     {
-        private RegularExpression[] expressions;
+        private RegExp[] expressions;
 
-        public ConcatenatedRegularExpression(IEnumerable<RegularExpression> expressions)
+        public ConcatenatedRegExp(IEnumerable<RegExp> expressions)
         {
             if (expressions == null)
                 throw new ArgumentNullException("expressions");
@@ -19,7 +19,7 @@ namespace SablePP.Generate
                 throw new ArgumentOutOfRangeException("A concatenated-regular-expression cannot consist of one regular expression.");
         }
 
-        public RegularExpression[] Expressions
+        public RegExp[] Expressions
         {
             get { return expressions; }
         }

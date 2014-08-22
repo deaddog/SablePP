@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace SablePP.Generate
 {
-    public class LiteralRegularExpression : RegularExpression
+    public class LiteralRegExp : RegExp
     {
         private string content;
 
-        public LiteralRegularExpression(char content)
+        public LiteralRegExp(char content)
         {
             this.content = content.ToString();
         }
-        public LiteralRegularExpression(string content)
+        public LiteralRegExp(string content)
         {
             if (content == null)
                 throw new ArgumentNullException("content");

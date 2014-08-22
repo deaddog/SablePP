@@ -2,12 +2,12 @@
 
 namespace SablePP.Generate
 {
-    class ModifiedRegularExpression : RegularExpression
+    class ModifiedRegExp : RegExp
     {
-        private RegularExpression expression;
+        private RegExp expression;
         private Modifiers modifier;
 
-        public ModifiedRegularExpression(RegularExpression expression, Modifiers modifier)
+        public ModifiedRegExp(RegExp expression, Modifiers modifier)
         {
             if (expression == null)
                 throw new ArgumentNullException("expression");
@@ -19,7 +19,7 @@ namespace SablePP.Generate
             this.modifier = modifier;
         }
 
-        public RegularExpression Expression
+        public RegExp Expression
         {
             get { return expression; }
         }

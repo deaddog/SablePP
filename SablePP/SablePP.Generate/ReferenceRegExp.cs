@@ -2,11 +2,11 @@
 
 namespace SablePP.Generate
 {
-    public class ReferenceRegularExpression : RegularExpression
+    public class ReferenceRegExp : RegExp
     {
         private Helper reference;
 
-        public ReferenceRegularExpression(Helper reference)
+        public ReferenceRegExp(Helper reference)
         {
             if (reference == null)
                 throw new ArgumentNullException("reference");

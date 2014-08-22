@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace SablePP.Generate
 {
-    public class OrRegularExpression : RegularExpression
+    public class OrRegExp : RegExp
     {
-        private RegularExpression[] expressions;
+        private RegExp[] expressions;
 
-        public OrRegularExpression(IEnumerable<RegularExpression> expressions)
+        public OrRegExp(IEnumerable<RegExp> expressions)
         {
             if (expressions == null)
                 throw new ArgumentNullException("expressions");
@@ -19,7 +19,7 @@ namespace SablePP.Generate
                 throw new ArgumentOutOfRangeException("An or-regular-expression cannot consist of one regular expression.");
         }
 
-        public RegularExpression[] Expressions
+        public RegExp[] Expressions
         {
             get { return expressions; }
         }

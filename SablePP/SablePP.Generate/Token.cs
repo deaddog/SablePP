@@ -8,13 +8,13 @@ namespace SablePP.Generate
     {
         private string name;
         private TokenState[] states;
-        private RegularExpression expression;
+        private RegExp expression;
 
-        public Token(string name, RegularExpression expression)
+        public Token(string name, RegExp expression)
             : this(name, expression, null)
         {
         }
-        public Token(string name, RegularExpression expression, IEnumerable<TokenState> states)
+        public Token(string name, RegExp expression, IEnumerable<TokenState> states)
         {
             if (name == null)
                 throw new ArgumentNullException("name");
@@ -40,7 +40,7 @@ namespace SablePP.Generate
             get { return states; }
         }
 
-        public RegularExpression Expression
+        public RegExp Expression
         {
             get { return expression; }
         }

@@ -9,9 +9,9 @@ namespace SablePP.Generate
    public class Helper
     {
         private string name;
-        private RegularExpression expression;
+        private RegExp expression;
 
-        public Helper(string name, RegularExpression expression)
+        public Helper(string name, RegExp expression)
         {
             if (name == null)
                 throw new ArgumentNullException("name");
@@ -28,7 +28,7 @@ namespace SablePP.Generate
             get { return name; }
         }
 
-        public RegularExpression Expression
+        public RegExp Expression
         {
             get { return expression; }
         }
