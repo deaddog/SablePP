@@ -87,7 +87,7 @@ namespace SablePP.Tools
             if (name == null)
                 throw new ArgumentNullException("name");
 
-            if(!names.Contains(name))
+            if (yieldInitial && !names.Contains(name))
             {
                 names.Add(name);
                 return name;
