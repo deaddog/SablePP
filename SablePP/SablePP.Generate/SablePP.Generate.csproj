@@ -43,6 +43,7 @@
     <Compile Include="ConcatenatedRegularExpression.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="LiteralRegularExpression.cs" />
+    <Compile Include="ModifiedRegularExpression.cs" />
     <Compile Include="Modifiers.cs" />
     <Compile Include="OrRegularExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
