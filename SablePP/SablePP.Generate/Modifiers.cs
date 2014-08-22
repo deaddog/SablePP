@@ -26,5 +26,18 @@ namespace SablePP.Generate
                     throw new ArgumentOutOfRangeException("modifier", "Unknown modifier.");
             }
         }
+
+        public static bool Exists(this Modifiers modifier)
+        {
+            switch (modifier)
+            {
+                case Modifiers.Optional:
+                case Modifiers.ZeroOrMany:
+                case Modifiers.OneOrMany:
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
 }

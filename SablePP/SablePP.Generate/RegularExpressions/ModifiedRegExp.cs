@@ -12,7 +12,7 @@ namespace SablePP.Generate.RegularExpressions
             if (expression == null)
                 throw new ArgumentNullException("expression");
 
-            if (modifier != Modifiers.Optional && modifier != Modifiers.OneOrMany && modifier != Modifiers.ZeroOrMany)
+            if (!modifier.Exists())
                 throw new ArgumentOutOfRangeException("modifier", "Unknown modifier.");
 
             this.expression = expression;
