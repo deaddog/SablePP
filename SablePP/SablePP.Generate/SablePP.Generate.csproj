@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="AbstractAlternative.cs" />
     <Compile Include="AbstractProduction.cs" />
+    <Compile Include="Alternative.cs" />
+    <Compile Include="Production.cs" />
     <Compile Include="RegularExpressions\ConcatenatedRegExp.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="RegularExpressions\LiteralRegExp.cs" />
