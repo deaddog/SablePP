@@ -11,6 +11,24 @@ namespace SablePP.Generate
         private TokenState[] states;
         private RegExp expression;
 
+        public Token(RegExp expression)
+            : this(expression, null)
+        {
+        }
+        public Token(RegExp expression, IEnumerable<TokenState> states)
+        {
+            this.name = null;
+
+            if (expression == null)
+                throw new ArgumentNullException("expression");
+
+            this.expression = expression;
+            if (states == null)
+                this.states = new TokenState[0];
+            else
+                this.states = states.ToArray();
+        }
+
         public Token(string name, RegExp expression)
             : this(name, expression, null)
         {
@@ -29,6 +47,11 @@ namespace SablePP.Generate
                 this.states = new TokenState[0];
             else
                 this.states = states.ToArray();
+        }
+
+        public bool Ignored
+        {
+            get { return name == null; }
         }
 
         public string Name
