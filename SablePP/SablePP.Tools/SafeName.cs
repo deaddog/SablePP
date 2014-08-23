@@ -62,6 +62,9 @@ namespace SablePP.Tools
         /// <param name="getTestNames">Specifies a method that generates variable names from an input string. Infinite collections of distinct elements are allowed.</param>
         public SafeName(Func<string, IEnumerable<string>> getTestNames)
         {
+            if (getTestNames == null)
+                throw new ArgumentNullException("getTestNames");
+
             this.names = new List<string>();
             this.testnames = getTestNames;
         }
@@ -73,6 +76,9 @@ namespace SablePP.Tools
         /// <param name="existingNames">The collection of existing names that are copied to the new <see cref="SafeName"/> instance.</param>
         public SafeName(Func<string, IEnumerable<string>> getTestNames, IEnumerable<string> existingNames)
         {
+            if (getTestNames == null)
+                throw new ArgumentNullException("getTestNames");
+
             this.names = new List<string>(existingNames);
             this.testnames = getTestNames;
         }
