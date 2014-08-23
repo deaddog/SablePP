@@ -63,20 +63,20 @@ namespace SablePP.Generate
 
         public class ProductionElement : Element
         {
-            private AbstractProduction production;
+            private Production production;
 
-            public ProductionElement(AbstractProduction production)
+            public ProductionElement(Production production)
                 : base(null)
             {
                 this.production = production;
             }
-            public ProductionElement(AbstractProduction production, Modifiers modifier)
+            public ProductionElement(Production production, Modifiers modifier)
                 : base(modifier)
             {
                 this.production = production;
             }
 
-            public AbstractProduction Production
+            public Production Production
             {
                 get { return production; }
             }
