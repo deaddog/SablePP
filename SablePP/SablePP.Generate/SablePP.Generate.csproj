@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractAlternative.cs" />
+    <Compile Include="AbstractProduction.cs" />
     <Compile Include="RegularExpressions\ConcatenatedRegExp.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="RegularExpressions\LiteralRegExp.cs" />
