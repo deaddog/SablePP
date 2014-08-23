@@ -1,6 +1,6 @@
 ﻿namespace SablePP.Generate.Translations
 {
-    public abstract class Translation
+    public class NullTranslation : Translation
     {
     }
 }
