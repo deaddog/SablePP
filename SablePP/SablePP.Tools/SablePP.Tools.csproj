@@ -97,6 +97,7 @@
     <Compile Include="Parsing\IParser.cs" />
     <Compile Include="Parsing\Parser.cs" />
     <Compile Include="SafeName.cs" />
+    <Compile Include="SafeNameDictionary.cs" />
     <Compile Include="SafeNameList.cs" />
     <Compile Include="SimplePrinter.cs" />
     <Compile Include="Error\CompilerError.cs" />

@@ -66,7 +66,7 @@ namespace SablePP.Tools
             throw new InvalidOperationException("Unable to determine a safe name.");
         }
         /// <summary>
-        /// Determines whether <paramref name="name"/> is contained by the collection that this <see cref="SafeName"/>governs.
+        /// Determines whether <paramref name="name"/> is contained by the collection that this <see cref="SafeName"/> manages.
         /// This method determines if names are available or not (if they are already in use).
         /// </summary>
         /// <param name="name">The name to check for.</param>
