@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SablePP.Tools
 {
     /// <summary>
     /// Defines methods for retrieving unused (variable) names.
     /// </summary>
-    public class SafeName
+    public abstract class SafeName
     {
-        private List<string> names;
         private Func<string, IEnumerable<string>> testnames;
 
         /// <summary>
@@ -39,25 +36,6 @@ namespace SablePP.Tools
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SafeName"/> class with no pre-known names.
-        /// Names are generated using the <see cref="SafeName.GetNumberedNames"/> method.
-        /// </summary>
-        public SafeName()
-            : this(GetNumberedNames)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SafeName"/> class that contains all the names copied from the specified collection.
-        /// Names are generated using the <see cref="SafeName.GetNumberedNames"/> method.
-        /// </summary>
-        /// <param name="existingNames">The collection of existing names that are copied to the new <see cref="SafeName"/> instance.</param>
-        public SafeName(IEnumerable<string> existingNames)
-            : this(GetNumberedNames, existingNames)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SafeName"/> class with no pre-known names.
         /// </summary>
         /// <param name="getTestNames">Specifies a method that generates variable names from an input string. Infinite collections of distinct elements are allowed.</param>
         public SafeName(Func<string, IEnumerable<string>> getTestNames)
@@ -65,21 +43,6 @@ namespace SablePP.Tools
             if (getTestNames == null)
                 throw new ArgumentNullException("getTestNames");
 
-            this.names = new List<string>();
-            this.testnames = getTestNames;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SafeName"/> class that contains all the names copied from the specified collection.
-        /// </summary>
-        /// <param name="getTestNames">Specifies a method that generates variable names from an input string. Infinite collections of distinct elements are allowed.</param>
-        /// <param name="existingNames">The collection of existing names that are copied to the new <see cref="SafeName"/> instance.</param>
-        public SafeName(Func<string, IEnumerable<string>> getTestNames, IEnumerable<string> existingNames)
-        {
-            if (getTestNames == null)
-                throw new ArgumentNullException("getTestNames");
-
-            this.names = new List<string>(existingNames);
             this.testnames = getTestNames;
         }
 
@@ -93,20 +56,21 @@ namespace SablePP.Tools
             if (name == null)
                 throw new ArgumentNullException("name");
 
-            if (yieldInitial && !names.Contains(name))
-            {
-                names.Add(name);
+            if (yieldInitial && !Contains(name))
                 return name;
-            }
 
             foreach (var n in testnames(name))
-                if (!names.Contains(n))
-                {
-                    names.Add(n);
+                if (!Contains(n))
                     return n;
-                }
 
             throw new InvalidOperationException("Unable to determine a safe name.");
         }
+        /// <summary>
+        /// Determines whether <paramref name="name"/> is contained by the collection that this <see cref="SafeName"/>governs.
+        /// This method determines if names are available or not (if they are already in use).
+        /// </summary>
+        /// <param name="name">The name to check for.</param>
+        /// <returns><c>true</c>, if <paramref name="name"/> is already in use; otherwise <c>false</c>.</returns>
+        public abstract bool Contains(string name);
     }
 }
