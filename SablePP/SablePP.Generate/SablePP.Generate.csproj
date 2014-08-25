@@ -63,6 +63,12 @@
     <Compile Include="Translations\NullTranslation.cs" />
     <Compile Include="Translations\Translation.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SablePP.Tools\SablePP.Tools.csproj">
+      <Project>{3a7bf5f0-3346-4653-a3c3-443c5311971b}</Project>
+      <Name>SablePP.Tools</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
