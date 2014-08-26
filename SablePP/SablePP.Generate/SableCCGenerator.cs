@@ -1,9 +1,5 @@
-﻿using SablePP.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SablePP.Generate.RegularExpressions;
+using SablePP.Generate.Translations;
 
 namespace SablePP.Generate
 {
@@ -15,50 +11,50 @@ namespace SablePP.Generate
         public void Generate(Grammar grammar)
         { }
 
-        private void Visit(Grammar node)
+        public virtual void Visit(Grammar node)
         { }
 
-        private void Visit(Helper node)
+        public virtual void Visit(Helper node)
         { }
 
-        private void Visit(State node)
+        public virtual void Visit(State node)
         { }
 
-        private void Visit(Token node)
+        public virtual void Visit(Token node)
         { }
 
-        private void Visit(Production node)
+        public virtual void Visit(Production node)
         { }
 
-        private void Visit(Alternative node)
+        public virtual void Visit(Alternative node)
         { }
 
-        private void Visit(AbstractProduction node)
+        public virtual void Visit(AbstractProduction node)
         { }
 
-        private void Visit(AbstractAlternative node)
+        public virtual void Visit(AbstractAlternative node)
         { }
 
-        private void Visit(RegularExpressions.ConcatenatedRegExp node)
+        public virtual void Visit(ConcatenatedRegExp node)
         { }
-        private void Visit(RegularExpressions.LiteralRegExp node)
+        public virtual void Visit(LiteralRegExp node)
         { }
-        private void Visit(RegularExpressions.ModifiedRegExp node)
+        public virtual void Visit(ModifiedRegExp node)
         { }
-        private void Visit(RegularExpressions.OrRegExp node)
+        public virtual void Visit(OrRegExp node)
         { }
-        private void Visit(RegularExpressions.ReferenceRegExp node)
+        public virtual void Visit(ReferenceRegExp node)
         { }
-        private void Visit(RegularExpressions.SetRegExp node)
+        public virtual void Visit(SetRegExp node)
         { }
 
-        private void Visit(Translations.ElementTranslation node)
+        public virtual void Visit(ElementTranslation node)
         { }
-        private void Visit(Translations.ListTranslation node)
+        public virtual void Visit(ListTranslation node)
         { }
-        private void Visit(Translations.NewTranslation node)
+        public virtual void Visit(NewTranslation node)
         { }
-        private void Visit(Translations.NullTranslation node)
+        public virtual void Visit(NullTranslation node)
         { }
     }
 }
