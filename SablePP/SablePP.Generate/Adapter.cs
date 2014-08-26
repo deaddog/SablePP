@@ -3,14 +3,8 @@ using SablePP.Generate.Translations;
 
 namespace SablePP.Generate
 {
-    public class SableCCGenerator
+    public class Adapter
     {
-        public SableCCGenerator()
-        { }
-
-        public void Generate(Grammar grammar)
-        { }
-
         public virtual void Visit(Grammar node)
         { }
 

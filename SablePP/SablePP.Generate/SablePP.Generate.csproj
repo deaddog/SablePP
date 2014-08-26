@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="AbstractAlternative.cs" />
     <Compile Include="AbstractProduction.cs" />
+    <Compile Include="Adapter.cs" />
     <Compile Include="Alternative.cs" />
     <Compile Include="Grammar.cs" />
     <Compile Include="Production.cs" />
@@ -55,7 +56,6 @@
     <Compile Include="RegularExpressions\ReferenceRegExp.cs" />
     <Compile Include="RegularExpressions\RegExp.cs" />
     <Compile Include="RegularExpressions\SetRegExp.cs" />
-    <Compile Include="SableCCGenerator.cs" />
     <Compile Include="State.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="Translations\ElementTranslation.cs" />
