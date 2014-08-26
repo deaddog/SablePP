@@ -29,6 +29,10 @@ namespace SablePP.Generate
         public virtual void Visit(AbstractAlternative node)
         { }
 
+        public void Visit(RegExp node)
+        {
+            Visit((dynamic)node);
+        }
         public virtual void Visit(ConcatenatedRegExp node)
         { }
         public virtual void Visit(LiteralRegExp node)
@@ -42,6 +46,10 @@ namespace SablePP.Generate
         public virtual void Visit(SetRegExp node)
         { }
 
+        public void Visit(Translation node)
+        {
+            Visit((dynamic)node);
+        }
         public virtual void Visit(ElementTranslation node)
         { }
         public virtual void Visit(ListTranslation node)
