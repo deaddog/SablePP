@@ -11,17 +11,8 @@ namespace SablePP.Generate
         private ProductionTranslation translation;
         private AddOnlyList<Alternative> alternatives;
 
-        public Production()
-            : this(null, null)
-        {
-        }
         public Production(ProductionTranslation translation)
             : this(translation, null)
-        {
-        }
-
-        public Production(IEnumerable<Alternative> alternatives)
-            : this(null, alternatives)
         {
         }
 
