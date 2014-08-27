@@ -12,11 +12,15 @@ namespace SablePP.Compiler
         private Dictionary<PHelper, Helper> helpers;
         private Dictionary<PState, State> states;
         private Dictionary<PToken, Token> tokens;
+        private Dictionary<PProduction, Production> productions;
+        private Dictionary<PProduction, AbstractProduction> abstractProductions;
         private GrammarBuilder()
         {
             this.helpers = new Dictionary<PHelper, Helper>();
             this.states = new Dictionary<PState, State>();
             this.tokens = new Dictionary<PToken, Token>();
+            this.productions = new Dictionary<PProduction, Production>();
+            this.abstractProductions = new Dictionary<PProduction, AbstractProduction>();
         }
 
         public static Grammar BuildSableCCGrammar(SablePP.Tools.Nodes.Start<PGrammar> grammar)
@@ -31,7 +35,45 @@ namespace SablePP.Compiler
             var helpers = Visit(node.Helpers).ToArray();
             var states = Visit(node.States).ToArray();
             var tokens = Visit(node.Tokens).ToArray();
+
+            foreach (var p in node.Astproductions.Productions)
+            {
+                string name = "P" + p.Identifier.Text.ToCamelCase();
+                AbstractProduction prod = new AbstractProduction(name);
+                abstractProductions.Add(p, prod);
+            }
+
+            foreach (var p in node.Productions.Productions)
+            {
+                Production prod;
+                if (p.HasProdtranslation)
+                    prod = new Production(Visit(p.Prodtranslation));
+                else
+                    throw new NotImplementedException();
+                productions.Add(p, prod);
+            }
+
             throw new NotImplementedException();
+        }
+
+        public Production.ProductionTranslation Visit(PProdtranslation node)
+        {
+            var absProd = abstractProductions[node.Identifier.AsPProduction];
+            Modifiers? mod = null;
+
+            if (node.HasModifier)
+            {
+                if (node.Modifier is AQuestionModifier)
+                    mod = Modifiers.Optional;
+                else if (node.Modifier is AStarModifier)
+                    mod = Modifiers.ZeroOrMany;
+                else if (node.Modifier is APlusModifier)
+                    mod = Modifiers.OneOrMany;
+                else
+                    throw new ArgumentException("Unknown modifier: " + node.Modifier);
+            }
+
+            return new Production.ProductionTranslation(absProd, mod);
         }
 
         public IEnumerable<Helper> Visit(PHelpers node)
