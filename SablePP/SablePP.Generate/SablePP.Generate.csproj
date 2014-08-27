@@ -44,6 +44,7 @@
     <Compile Include="AbstractAlternative.cs" />
     <Compile Include="AbstractProduction.cs" />
     <Compile Include="Adapter.cs" />
+    <Compile Include="AddOnlyList.cs" />
     <Compile Include="Alternative.cs" />
     <Compile Include="Grammar.cs" />
     <Compile Include="Production.cs" />
