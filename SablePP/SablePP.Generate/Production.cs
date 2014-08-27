@@ -9,7 +9,16 @@ namespace SablePP.Generate
     public class Production
     {
         private ProductionTranslation translation;
-        private Alternative[] alternatives;
+        private AddOnlyList<Alternative> alternatives;
+
+        public Production()
+            : this(null, null)
+        {
+        }
+        public Production(ProductionTranslation translation)
+            : this(translation, null)
+        {
+        }
 
         public Production(IEnumerable<Alternative> alternatives)
             : this(null, alternatives)
@@ -18,14 +27,11 @@ namespace SablePP.Generate
 
         public Production(ProductionTranslation translation, IEnumerable<Alternative> alternatives)
         {
-            if (alternatives == null)
-                throw new ArgumentNullException("alternatives");
-
             this.translation = translation;
-            this.alternatives = alternatives.ToArray();
-
-            if (this.alternatives.Length == 0)
-                throw new ArgumentOutOfRangeException("alternatives", "A production must contain at least one alternative.");
+            if (alternatives == null)
+                this.alternatives = new AddOnlyList<Alternative>();
+            else
+                this.alternatives = new AddOnlyList<Alternative>(alternatives);
         }
 
         public ProductionTranslation Translation
@@ -33,7 +39,7 @@ namespace SablePP.Generate
             get { return translation; }
         }
 
-        public Alternative[] Alternatives
+        public AddOnlyList<Alternative> Alternatives
         {
             get { return alternatives; }
         }
