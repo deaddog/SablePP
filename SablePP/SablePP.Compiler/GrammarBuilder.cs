@@ -11,10 +11,12 @@ namespace SablePP.Compiler
     {
         private Dictionary<PHelper, Helper> helpers;
         private Dictionary<PState, State> states;
+        private Dictionary<PToken, Token> tokens;
         private GrammarBuilder()
         {
             this.helpers = new Dictionary<PHelper, Helper>();
             this.states = new Dictionary<PState, State>();
+            this.tokens = new Dictionary<PToken, Token>();
         }
 
         public static Grammar BuildSableCCGrammar(SablePP.Tools.Nodes.Start<PGrammar> grammar)
@@ -28,6 +30,7 @@ namespace SablePP.Compiler
             var package = node.PackageName;
             var helpers = Visit(node.Helpers).ToArray();
             var states = Visit(node.States).ToArray();
+            var tokens = Visit(node.Tokens).ToArray();
             throw new NotImplementedException();
         }
 
@@ -51,6 +54,37 @@ namespace SablePP.Compiler
             var state = new State();
             states.Add(node, state);
             return state;
+        }
+
+        public IEnumerable<Token> Visit(PTokens node)
+        {
+            return from t in node.Tokens select Visit(t);
+        }
+        public Token Visit(PToken node)
+        {
+            Token token;
+
+            string name = "T" + node.Identifier.Text.ToCamelCase();
+
+            if (node.Statelist.Count == 0)
+                token = new Token(name, Visit(node.Regex));
+            else
+                token = new Token(name, Visit(node.Regex), from s in node.Statelist select Visit(s));
+
+            tokens.Add(node, token);
+            return token;
+        }
+        public Token.TokenState Visit(PTokenState node)
+        {
+            return Visit((dynamic)node);
+        }
+        public Token.TokenState Visit(ATokenState node)
+        {
+            return new Token.TokenState(states[node.Identifier.AsState]);
+        }
+        public Token.TokenState Visit(ATransitionTokenState node)
+        {
+            return new Token.TokenState(states[node.From.AsState], states[node.To.AsState]);
         }
 
         #region Regular Exrpressions
