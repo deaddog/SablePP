@@ -11,9 +11,11 @@ namespace SablePP.Compiler
     public class GrammarBuilder
     {
         private Dictionary<PHelper, Helper> helpers;
+        private Dictionary<PState, State> states;
         private GrammarBuilder()
         {
             this.helpers = new Dictionary<PHelper, Helper>();
+            this.states = new Dictionary<PState, State>();
         }
 
         public static Grammar BuildSableCCGrammar(Start<PGrammar> grammar)
@@ -26,6 +28,7 @@ namespace SablePP.Compiler
         {
             var package = node.PackageName;
             var helpers = Visit(node.Helpers).ToArray();
+            var states = Visit(node.States).ToArray();
             throw new NotImplementedException();
         }
 
@@ -33,12 +36,22 @@ namespace SablePP.Compiler
         {
             return from h in node.Helpers select Visit(h);
         }
-
         public Helper Visit(PHelper node)
         {
             var helper = new Helper(Visit(node.Regex));
             helpers.Add(node, helper);
             return helper;
+        }
+
+        public IEnumerable<State> Visit(PStates node)
+        {
+            return from s in node.States select Visit(s);
+        }
+        public State Visit(PState node)
+        {
+            var state = new State();
+            states.Add(node, state);
+            return state;
         }
 
         #region Regular Exrpressions
