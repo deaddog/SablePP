@@ -139,6 +139,10 @@
     <Compile Include="Validation\SyntaxHighlightValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SablePP.Generate\SablePP.Generate.csproj">
+      <Project>{ddc52f3a-f031-4414-89fd-61077c631dd4}</Project>
+      <Name>SablePP.Generate</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SablePP.Tools\SablePP.Tools.csproj">
       <Project>{3A7BF5F0-3346-4653-A3C3-443C5311971B}</Project>
       <Name>SablePP.Tools</Name>
