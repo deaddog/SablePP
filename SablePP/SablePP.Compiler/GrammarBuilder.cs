@@ -1,7 +1,6 @@
 ﻿using SablePP.Compiler.Nodes;
 using SablePP.Generate;
 using SablePP.Generate.RegularExpressions;
-using SablePP.Tools.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace SablePP.Compiler
             this.states = new Dictionary<PState, State>();
         }
 
-        public static Grammar BuildSableCCGrammar(Start<PGrammar> grammar)
+        public static Grammar BuildSableCCGrammar(SablePP.Tools.Nodes.Start<PGrammar> grammar)
         {
             GrammarBuilder builder = new GrammarBuilder();
             return builder.Visit(grammar.Root as AGrammar);
