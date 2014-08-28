@@ -43,6 +43,8 @@ namespace SablePP.Compiler
                 abstractProductions.Add(p, prod);
             }
 
+            var absProds = VisitAbstract(node.Astproductions).ToArray();
+
             foreach (var p in node.Productions.Productions)
             {
                 Production prod;
@@ -56,6 +58,7 @@ namespace SablePP.Compiler
                 productions.Add(p, prod);
             }
 
+            var prods = Visit(node.Productions).ToArray();
             throw new NotImplementedException();
         }
 
@@ -208,5 +211,41 @@ namespace SablePP.Compiler
         }
 
         #endregion
+
+        public IEnumerable<AbstractProduction> VisitAbstract(PAstproductions node)
+        {
+            return from p in node.Productions select VisitAbstract(p);
+        }
+        public AbstractProduction VisitAbstract(PProduction node)
+        {
+            var prod = abstractProductions[node];
+
+            prod.Alternatives.AddRange(from a in node.Alternatives select VisitAbstract(a));
+
+            return prod;
+        }
+
+        public AbstractAlternative VisitAbstract(PAlternative node)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Production> Visit(PProductions node)
+        {
+            return from p in node.Productions select Visit(p);
+        }
+        public Production Visit(PProduction node)
+        {
+            var prod = productions[node];
+
+            prod.Alternatives.AddRange(from a in node.Alternatives select Visit(a));
+
+            return prod;
+        }
+
+        public Alternative Visit(PAlternative node)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
