@@ -49,7 +49,10 @@ namespace SablePP.Compiler
                 if (p.HasProdtranslation)
                     prod = new Production(Visit(p.Prodtranslation));
                 else
-                    throw new NotImplementedException();
+                {
+                    AbstractProduction absProd = abstractProductions.FirstOrDefault(a => a.Key.Identifier.Text == p.Identifier.Text).Value;
+                    prod = new Production(new Production.ProductionTranslation(absProd, null));
+                }
                 productions.Add(p, prod);
             }
 
