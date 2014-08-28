@@ -67,16 +67,7 @@ namespace SablePP.Compiler
             Modifiers mod = Modifiers.Single;
 
             if (node.HasModifier)
-            {
-                if (node.Modifier is AQuestionModifier)
-                    mod = Modifiers.Optional;
-                else if (node.Modifier is AStarModifier)
-                    mod = Modifiers.ZeroOrMany;
-                else if (node.Modifier is APlusModifier)
-                    mod = Modifiers.OneOrMany;
-                else
-                    throw new ArgumentException("Unknown modifier: " + node.Modifier);
-            }
+                mod = Visit(node.Modifier);
 
             if (node.Identifier.IsPProduction)
                 return new Production.ProductionTranslation(abstractProductions[node.Identifier.AsPProduction], mod);
@@ -168,14 +159,7 @@ namespace SablePP.Compiler
         }
         public RegExp Visit(AUnaryRegex node)
         {
-            if (node.Modifier is AQuestionModifier)
-                return new ModifiedRegExp(Visit(node.Regex), Modifiers.Optional);
-            else if (node.Modifier is AStarModifier)
-                return new ModifiedRegExp(Visit(node.Regex), Modifiers.ZeroOrMany);
-            else if (node.Modifier is APlusModifier)
-                return new ModifiedRegExp(Visit(node.Regex), Modifiers.OneOrMany);
-            else
-                throw new ArgumentException("Unknown modifier: " + node.Modifier);
+            return new ModifiedRegExp(Visit(node.Regex), Visit(node.Modifier));
         }
         public RegExp Visit(ABinaryplusRegex node)
         {
@@ -211,6 +195,18 @@ namespace SablePP.Compiler
         }
 
         #endregion
+
+        public Modifiers Visit(PModifier node)
+        {
+            if (node is AQuestionModifier)
+                return Modifiers.Optional;
+            else if (node is AStarModifier)
+                return Modifiers.ZeroOrMany;
+            else if (node is APlusModifier)
+                return Modifiers.OneOrMany;
+            else
+                throw new ArgumentException("Unknown modifier: " + node);
+        }
 
         public IEnumerable<AbstractProduction> VisitAbstract(PAstproductions node)
         {
