@@ -58,7 +58,6 @@ namespace SablePP.Compiler
 
         public Production.ProductionTranslation Visit(PProdtranslation node)
         {
-            var absProd = abstractProductions[node.Identifier.AsPProduction];
             Modifiers? mod = null;
 
             if (node.HasModifier)
@@ -73,7 +72,12 @@ namespace SablePP.Compiler
                     throw new ArgumentException("Unknown modifier: " + node.Modifier);
             }
 
-            return new Production.ProductionTranslation(absProd, mod);
+            if (node.Identifier.IsPProduction)
+                return new Production.ProductionTranslation(abstractProductions[node.Identifier.AsPProduction], mod);
+            else if (node.Identifier.IsPToken)
+                return new Production.ProductionTranslation(tokens[node.Identifier.AsPToken], mod);
+            else
+                throw new ArgumentException("Production translation must be to either an ast node or a token.");
         }
 
         public IEnumerable<Helper> Visit(PHelpers node)
