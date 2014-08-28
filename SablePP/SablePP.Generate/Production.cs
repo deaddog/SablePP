@@ -39,9 +39,9 @@ namespace SablePP.Generate
         {
             private AbstractProduction production;
             private Token token;
-            private Modifiers? modifier;
+            private Modifiers modifier;
 
-            public ProductionTranslation(Token token, Modifiers? modifier)
+            public ProductionTranslation(Token token, Modifiers modifier)
             {
                 if (token == null)
                     throw new ArgumentNullException("token");
@@ -50,7 +50,7 @@ namespace SablePP.Generate
                 this.token = token;
                 this.modifier = modifier;
             }
-            public ProductionTranslation(AbstractProduction production, Modifiers? modifier)
+            public ProductionTranslation(AbstractProduction production, Modifiers modifier)
             {
                 if (production == null)
                     throw new ArgumentNullException("production");
@@ -78,7 +78,7 @@ namespace SablePP.Generate
                 get { return token; }
             }
 
-            public Modifiers? Modifier
+            public Modifiers Modifier
             {
                 get { return modifier; }
             }

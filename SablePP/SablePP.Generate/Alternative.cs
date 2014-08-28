@@ -27,14 +27,14 @@ namespace SablePP.Generate
 
         public abstract class Element
         {
-            private Modifiers? modifier;
+            private Modifiers modifier;
 
-            public Element(Modifiers? modifier)
+            public Element(Modifiers modifier)
             {
                 this.modifier = modifier;
             }
 
-            public Modifiers? Modifier
+            public Modifiers Modifier
             {
                 get { return modifier; }
             }
@@ -44,11 +44,6 @@ namespace SablePP.Generate
         {
             private Token token;
 
-            public TokenElement(Token token)
-                : base(null)
-            {
-                this.token = token;
-            }
             public TokenElement(Token token, Modifiers modifier)
                 : base(modifier)
             {
@@ -65,11 +60,6 @@ namespace SablePP.Generate
         {
             private Production production;
 
-            public ProductionElement(Production production)
-                : base(null)
-            {
-                this.production = production;
-            }
             public ProductionElement(Production production, Modifiers modifier)
                 : base(modifier)
             {

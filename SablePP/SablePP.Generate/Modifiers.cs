@@ -4,6 +4,7 @@ namespace SablePP.Generate
 {
     public enum Modifiers
     {
+        Single,
         Optional,
         ZeroOrMany,
         OneOrMany
@@ -15,6 +16,8 @@ namespace SablePP.Generate
         {
             switch (modifier)
             {
+                case Modifiers.Single:
+                    throw new InvalidOperationException("A Modifiers.Single value has no character representation.");
                 case Modifiers.Optional:
                     return '?';
                 case Modifiers.ZeroOrMany:
@@ -31,6 +34,7 @@ namespace SablePP.Generate
         {
             switch (modifier)
             {
+                case Modifiers.Single:
                 case Modifiers.Optional:
                 case Modifiers.ZeroOrMany:
                 case Modifiers.OneOrMany:

@@ -53,7 +53,7 @@ namespace SablePP.Compiler
                 else
                 {
                     AbstractProduction absProd = abstractProductions.FirstOrDefault(a => a.Key.Identifier.Text == p.Identifier.Text).Value;
-                    prod = new Production(new Production.ProductionTranslation(absProd, null));
+                    prod = new Production(new Production.ProductionTranslation(absProd, Modifiers.Single));
                 }
                 productions.Add(p, prod);
             }
@@ -64,7 +64,7 @@ namespace SablePP.Compiler
 
         public Production.ProductionTranslation Visit(PProdtranslation node)
         {
-            Modifiers? mod = null;
+            Modifiers mod = Modifiers.Single;
 
             if (node.HasModifier)
             {
