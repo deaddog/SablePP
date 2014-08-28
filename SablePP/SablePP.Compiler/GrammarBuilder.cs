@@ -223,7 +223,32 @@ namespace SablePP.Compiler
 
         public AbstractAlternative VisitAbstract(PAlternative node)
         {
-            throw new NotImplementedException();
+            string name = node.Production.Identifier.Text.ToCamelCase();
+            if (node.HasAlternativename)
+                name = node.Alternativename.Name.Text.ToCamelCase() + name;
+            name = "A" + name;
+
+            return new AbstractAlternative(name, from e in node.Elements select VisitAbstract(e));
+        }
+
+        public AbstractAlternative.Element VisitAbstract(PElement node)
+        {
+            string name = node.Elementid.Identifier.Text.ToCamelCase();
+
+            if (node.HasElementname)
+                name = node.Elementname.Name.Text;
+            else if (node.IsList)
+                name += "s";
+
+            var mod = node.HasModifier ? Visit(node.Modifier) : Modifiers.Single;
+            var id = node.Elementid.Identifier;
+
+            if (id.IsPProduction)
+                return new AbstractAlternative.ProductionElement(name, abstractProductions[id.AsPProduction], mod);
+            else if (id.IsPToken)
+                return new AbstractAlternative.TokenElement(name, tokens[id.AsPToken], mod);
+            else
+                throw new ArgumentException("Element must must refer to either an ast node or a token.");
         }
 
         public IEnumerable<Production> Visit(PProductions node)
