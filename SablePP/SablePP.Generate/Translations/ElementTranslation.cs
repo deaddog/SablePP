@@ -2,7 +2,7 @@
 
 namespace SablePP.Generate.Translations
 {
-    public class ElementTranslation
+    public class ElementTranslation : Translation
     {
         private Alternative.Element element;
 

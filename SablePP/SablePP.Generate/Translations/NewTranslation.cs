@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SablePP.Generate.Translations
 {
-    public class NewTranslation
+    public class NewTranslation : Translation
     {
         private AbstractAlternative alternative;
         private Translation[] arguments;
