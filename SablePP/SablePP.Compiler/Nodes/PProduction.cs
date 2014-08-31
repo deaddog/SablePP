@@ -33,15 +33,66 @@ namespace SablePP.Compiler.Nodes
             return Identifier;
         }
 
-        private PProduction astTarget;
-        public PProduction AstTarget
+        private Target astTarget;
+        public Target AstTarget
         {
             get { return astTarget; }
             set
             {
                 if (astTarget != null)
-                    throw new InvalidOperationException("Cannot set target production twice.");
+                    throw new InvalidOperationException("Cannot set production target twice.");
+
                 astTarget = value;
+            }
+        }
+
+        public class Target
+        {
+            private PProduction production;
+            private PToken token;
+
+            private Modifiers modifier;
+
+            public Target(PProduction production, Modifiers modifier)
+            {
+                if (production == null)
+                    throw new ArgumentNullException("production");
+
+                this.production = production;
+                this.token = null;
+                this.modifier = modifier;
+            }
+            public Target(PToken token, Modifiers modifier)
+            {
+                if (token == null)
+                    throw new ArgumentNullException("token");
+
+                this.production = null;
+                this.token = token;
+                this.modifier = modifier;
+            }
+
+            public bool IsProduction
+            {
+                get { return production != null; }
+            }
+            public bool IsToken
+            {
+                get { return token != null; }
+            }
+
+            public PProduction Production
+            {
+                get { return production; }
+            }
+            public PToken Token
+            {
+                get { return token; }
+            }
+
+            public Modifiers Modifier
+            {
+                get { return modifier; }
             }
         }
     }
