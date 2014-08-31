@@ -265,12 +265,12 @@ Productions
         ;
 
     alts {-> alternative+}
-        = {simple} alt_name? [elems]:elem* alttrans? {-> [New alternative(Null, alt_name, [elems], alttrans)]}
-        | {multiple} alt_name? [elems]:elem* alttrans? [alts]:alts_tail+ {-> [New alternative(Null, alt_name, [elems], alttrans), alts]}
+        = {simple} alt_name? [elems]:elem* alttrans? {-> [New alternative(alt_name, [elems], alttrans)]}
+        | {multiple} alt_name? [elems]:elem* alttrans? [alts]:alts_tail+ {-> [New alternative(alt_name, [elems], alttrans), alts]}
         ;
 
     alts_tail {-> alternative}
-        = pipe alt_name? [elems]:elem* alttrans? {-> New alternative(pipe, alt_name, [elems], alttrans)}
+        = pipe alt_name? [elems]:elem* alttrans? {-> New alternative(alt_name, [elems], alttrans)}
         ;
         
     alt_name {-> alternativename}
@@ -397,7 +397,7 @@ Abstract Syntax Tree
         | {iddotid} identifier dot [production]:identifier
         ;
     
-    alternative = pipe? alternativename? element+ translation?;
+    alternative = alternativename? element+ translation?;
     
     alternativename = [lpar]:l_brace [name]:identifier [rpar]:r_brace;
     
