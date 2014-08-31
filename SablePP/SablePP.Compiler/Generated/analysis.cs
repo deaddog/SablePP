@@ -2048,8 +2048,6 @@ namespace SablePP.Compiler.Analysis
             InPAlternative(node);
             InAAlternative(node);
             
-            if (node.HasPipe)
-                Visit(node.Pipe);
             if (node.HasAlternativename)
                 Visit((dynamic)node.Alternativename);
             Visit(node.Elements);
@@ -3601,8 +3599,6 @@ namespace SablePP.Compiler.Analysis
             Visit(node.Elements);
             if (node.HasAlternativename)
                 Visit((dynamic)node.Alternativename);
-            if (node.HasPipe)
-                Visit(node.Pipe);
             
             OutAAlternative(node);
             OutPAlternative(node);

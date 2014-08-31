@@ -4290,36 +4290,17 @@ namespace SablePP.Compiler.Nodes
     }
     public abstract partial class PAlternative : Production<PAlternative>
     {
-        private TPipe _pipe_;
         private PAlternativename _alternativename_;
         private NodeList<PElement> _elements_;
         private PTranslation _translation_;
         
-        public PAlternative(TPipe _pipe_, PAlternativename _alternativename_, IEnumerable<PElement> _elements_, PTranslation _translation_)
+        public PAlternative(PAlternativename _alternativename_, IEnumerable<PElement> _elements_, PTranslation _translation_)
         {
-            this.Pipe = _pipe_;
             this.Alternativename = _alternativename_;
             this._elements_ = new NodeList<PElement>(this, _elements_, false);
             this.Translation = _translation_;
         }
         
-        public TPipe Pipe
-        {
-            get { return _pipe_; }
-            set
-            {
-                if (_pipe_ != null)
-                    SetParent(_pipe_, null);
-                if (value != null)
-                    SetParent(value, this);
-                
-                _pipe_ = value;
-            }
-        }
-        public bool HasPipe
-        {
-            get { return _pipe_ != null; }
-        }
         public PAlternativename Alternativename
         {
             get { return _alternativename_; }
@@ -4362,20 +4343,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AAlternative : PAlternative
     {
-        public AAlternative(TPipe _pipe_, PAlternativename _alternativename_, IEnumerable<PElement> _elements_, PTranslation _translation_)
-            : base(_pipe_, _alternativename_, _elements_, _translation_)
+        public AAlternative(PAlternativename _alternativename_, IEnumerable<PElement> _elements_, PTranslation _translation_)
+            : base(_alternativename_, _elements_, _translation_)
         {
         }
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Pipe == oldChild)
-            {
-                if (!(newChild is TPipe) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Pipe = newChild as TPipe;
-            }
-            else if (Alternativename == oldChild)
+            if (Alternativename == oldChild)
             {
                 if (!(newChild is PAlternativename) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
@@ -4402,8 +4377,6 @@ namespace SablePP.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            if (HasPipe)
-                yield return Pipe;
             if (HasAlternativename)
                 yield return Alternativename;
             {
@@ -4418,12 +4391,12 @@ namespace SablePP.Compiler.Nodes
         
         public override PAlternative Clone()
         {
-            return new AAlternative(Pipe.Clone(), Alternativename.Clone(), Elements, Translation.Clone());
+            return new AAlternative(Alternativename.Clone(), Elements, Translation.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3}", Pipe, Alternativename, Elements, Translation);
+            return string.Format("{0} {1} {2}", Alternativename, Elements, Translation);
         }
     }
     public abstract partial class PAlternativename : Production<PAlternativename>
