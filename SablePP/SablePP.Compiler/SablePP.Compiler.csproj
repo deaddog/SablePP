@@ -97,6 +97,7 @@
     <Compile Include="Generate\Parsing\TranslationReductionBuilder.cs" />
     <Compile Include="Generate\Productions\CloneMethodBuilder.cs" />
     <Compile Include="Generate\Productions\ConstructorBuilder.cs" />
+    <Compile Include="Modifiers.cs" />
     <Compile Include="Nodes\AFullTranslation.cs" />
     <Compile Include="Nodes\AIddotidTranslation.cs" />
     <Compile Include="Nodes\AIdTranslation.cs" />
