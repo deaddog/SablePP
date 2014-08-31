@@ -199,7 +199,20 @@ namespace SablePP.Compiler
         }
         public override void CaseAProduction(Nodes.AProduction node)
         {
-            base.CaseAProduction(node);
+            Visit(node.Identifier);
+            if (node.HasProdtranslation)
+                Visit(node.Prodtranslation);
+
+            Visit(node.Equal);
+
+            for (int i = 0; i < node.Alternatives.Count; i++)
+            {
+                if (i > 0) write(" | ");
+                Visit(node.Alternatives[i]);
+            }
+
+            Visit(node.Semicolon);
+
             writeNewline();
         }
 
