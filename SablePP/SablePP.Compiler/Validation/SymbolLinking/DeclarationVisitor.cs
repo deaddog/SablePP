@@ -1,4 +1,5 @@
-﻿using SablePP.Compiler.Nodes;
+﻿using SablePP.Compiler;
+using SablePP.Compiler.Nodes;
 using SablePP.Tools.Error;
 using System.Collections.Generic;
 
@@ -176,7 +177,34 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         public override void CaseAProduction(AProduction node)
         {
             alternatives = new DeclarationTable<PAlternative>();
-            base.CaseAProduction(node);
+            
+            Visit(node.Identifier);
+
+            if (node.HasProdtranslation)
+            {
+                Visit(node.Prodtranslation);
+
+                var id = node.Prodtranslation.Identifier;
+                var mod = node.Prodtranslation.Modifier.GetModifier();
+
+                if (id.IsPProduction)
+                    node.AstTarget = new PProduction.Target(id.AsPProduction, mod);
+                else if (id.IsPToken)
+                    node.AstTarget = new PProduction.Target(id.AsPToken, mod);
+            }
+            else
+            {
+                PProduction abs;
+                if (astProd.TryGetValue(node.Identifier.Text, out abs))
+                    node.AstTarget = new PProduction.Target(abs, Modifiers.Single);
+                else
+                    RegisterError(node.Identifier,
+                        "Resulting AST node could not be inferred from production. No \"{0}\" ast-production was found.", node.Identifier.Text);
+
+            }
+
+            Visit(node.Alternatives);
+
             allAlternatives[node] = alternatives;
         }
         public override void CaseAAlternative(AAlternative node)
