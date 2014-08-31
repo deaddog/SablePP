@@ -23,6 +23,11 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             get { return declarations[text]; }
         }
 
+        public bool TryGetValue(string text, out TDeclaration declaration)
+        {
+            return declarations.TryGetValue(text, out declaration);
+        }
+
         public void Clear()
         {
             this.declarations.Clear();
