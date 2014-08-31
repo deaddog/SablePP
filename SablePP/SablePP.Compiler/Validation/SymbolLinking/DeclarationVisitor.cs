@@ -21,6 +21,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         private DeclarationTable<PHighlightrule> highlightrules;
 
+        private bool astSubTree;
+
         public DeclarationVisitor(ErrorManager errorManager)
             : base(errorManager)
         {
@@ -57,8 +59,12 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (node.HasIgnoredtokens)
                 Visit(node.Ignoredtokens);
 
+            astSubTree = true;
+
             if (node.HasAstproductions)
                 Visit(node.Astproductions);
+
+            astSubTree = false;
 
             if (node.HasProductions)
                 Visit(node.Productions);
