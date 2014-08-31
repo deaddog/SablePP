@@ -29,5 +29,17 @@ namespace SablePP.Compiler.Nodes
             else
                 return null;
         }
+
+        private AAlternative astTarget;
+        public AAlternative AstTarget
+        {
+            get { return astTarget; }
+            set
+            {
+                if (astTarget != null)
+                    throw new InvalidOperationException("Cannot set target alternative twice.");
+                astTarget = value;
+            }
+        }
     }
 }

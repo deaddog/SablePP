@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace SablePP.Compiler.Nodes
 {
@@ -30,6 +31,18 @@ namespace SablePP.Compiler.Nodes
         public TIdentifier GetIdentifier()
         {
             return Identifier;
+        }
+
+        private PProduction astTarget;
+        public PProduction AstTarget
+        {
+            get { return astTarget; }
+            set
+            {
+                if (astTarget != null)
+                    throw new InvalidOperationException("Cannot set target production twice.");
+                astTarget = value;
+            }
         }
     }
 }
