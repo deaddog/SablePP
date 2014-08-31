@@ -2,6 +2,7 @@
 using SablePP.Compiler.Nodes;
 using SablePP.Tools.Error;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
@@ -177,7 +178,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         public override void CaseAProduction(AProduction node)
         {
             alternatives = new DeclarationTable<PAlternative>();
-            
+
             Visit(node.Identifier);
 
             if (node.HasProdtranslation)
@@ -200,10 +201,11 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 else
                     RegisterError(node.Identifier,
                         "Resulting AST node could not be inferred from production. No \"{0}\" ast-production was found.", node.Identifier.Text);
-
             }
 
             Visit(node.Alternatives);
+            if (node.Alternatives.Where(a => !a.HasAlternativename).Count() > 1)
+                RegisterError(node.Identifier, "A production can only have 1 unnamed alternative.");
 
             allAlternatives[node] = alternatives;
         }
