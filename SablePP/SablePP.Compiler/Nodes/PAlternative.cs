@@ -50,6 +50,13 @@ namespace SablePP.Compiler.Nodes
             private PToken token;
 
             private Modifiers modifier;
+
+            private static Target empty = new Target();
+            public static Target Empty
+            {
+                get { return empty; }
+            }
+
             private static Target unknown = new Target();
             public static Target Unknown
             {
@@ -111,6 +118,11 @@ namespace SablePP.Compiler.Nodes
             public bool IsUnknown
             {
                 get { return ReferenceEquals(this, unknown); }
+            }
+
+            public bool IsEmpty
+            {
+                get { return ReferenceEquals(this, empty); }
             }
 
             public PProduction Production
