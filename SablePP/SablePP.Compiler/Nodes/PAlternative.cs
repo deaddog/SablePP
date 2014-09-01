@@ -45,16 +45,28 @@ namespace SablePP.Compiler.Nodes
 
         public class Target
         {
+            private PProduction production;
             private PAlternative alternative;
             private PToken token;
 
             private Modifiers modifier;
 
+            public Target(PProduction production, Modifiers modifier)
+            {
+                if (production == null)
+                    throw new ArgumentNullException("production");
+
+                this.production = production;
+                this.alternative = null;
+                this.token = null;
+                this.modifier = modifier;
+            }
             public Target(PAlternative alternative, Modifiers modifier)
             {
                 if (alternative == null)
                     throw new ArgumentNullException("alternative");
 
+                this.production = null;
                 this.alternative = alternative;
                 this.token = null;
                 this.modifier = modifier;
@@ -64,11 +76,16 @@ namespace SablePP.Compiler.Nodes
                 if (token == null)
                     throw new ArgumentNullException("token");
 
+                this.production = null;
                 this.alternative = null;
                 this.token = token;
                 this.modifier = modifier;
             }
 
+            public bool IsProduction
+            {
+                get { return production != null; }
+            }
             public bool IsAlternative
             {
                 get { return alternative != null; }
@@ -78,6 +95,10 @@ namespace SablePP.Compiler.Nodes
                 get { return token != null; }
             }
 
+            public PProduction Production
+            {
+                get { return production; }
+            }
             public PAlternative Alternative
             {
                 get { return alternative; }
