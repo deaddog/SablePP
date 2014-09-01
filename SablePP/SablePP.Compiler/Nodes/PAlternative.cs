@@ -50,6 +50,19 @@ namespace SablePP.Compiler.Nodes
             private PToken token;
 
             private Modifiers modifier;
+            private static Target unknown = new Target();
+            public static Target Unknown
+            {
+                get { return unknown; }
+            }
+
+            private Target()
+            {
+                this.production = null;
+                this.alternative = null;
+                this.token = null;
+                this.modifier = Modifiers.Single;
+            }
 
             public Target(PProduction production, Modifiers modifier)
             {
