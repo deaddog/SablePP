@@ -108,6 +108,11 @@ namespace SablePP.Compiler.Nodes
                 get { return token != null; }
             }
 
+            public bool IsUnknown
+            {
+                get { return ReferenceEquals(this, unknown); }
+            }
+
             public PProduction Production
             {
                 get { return production; }
