@@ -51,24 +51,30 @@ namespace SablePP.Compiler.Nodes
 
             private Modifiers modifier;
 
-            private static Target empty = new Target();
-            public static Target Empty
+            private static Target _null = new Target(Modifiers.Optional);
+            public static Target Null
             {
-                get { return empty; }
+                get { return _null; }
             }
 
-            private static Target unknown = new Target();
+            private static Target emptyList = new Target(Modifiers.ZeroOrMany);
+            public static Target EmptyList
+            {
+                get { return emptyList; }
+            }
+
+            private static Target unknown = new Target(Modifiers.Single);
             public static Target Unknown
             {
                 get { return unknown; }
             }
 
-            private Target()
+            private Target(Modifiers modifiers)
             {
                 this.production = null;
                 this.alternative = null;
                 this.token = null;
-                this.modifier = Modifiers.Single;
+                this.modifier = modifiers;
             }
 
             public Target(PProduction production, Modifiers modifier)
@@ -119,10 +125,13 @@ namespace SablePP.Compiler.Nodes
             {
                 get { return ReferenceEquals(this, unknown); }
             }
-
-            public bool IsEmpty
+            public bool IsNull
             {
-                get { return ReferenceEquals(this, empty); }
+                get { return ReferenceEquals(this, _null); }
+            }
+            public bool IsEmptyList
+            {
+                get { return ReferenceEquals(this, emptyList); }
             }
 
             public PProduction Production
