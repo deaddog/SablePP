@@ -31,7 +31,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         }
         public PAlternative.Target GetTarget(AFullTranslation node)
         {
-            throw new NotImplementedException();
+            return GetTarget(node.Translation);
         }
         public PAlternative.Target GetTarget(ANewTranslation node)
         {
