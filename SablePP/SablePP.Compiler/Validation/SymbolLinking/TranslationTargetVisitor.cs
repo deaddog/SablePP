@@ -22,6 +22,9 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public PAlternative.Target GetTarget(PTranslation node)
         {
+            if (node.Target != null)
+                return node.Target;
+
             var target = GetTarget((dynamic)node);
             node.Target = target;
             return target;
