@@ -33,6 +33,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             return GetTarget(node.Translation);
         }
+
         public PAlternative.Target GetTarget(ANewTranslation node)
         {
             throw new NotImplementedException();
@@ -41,10 +42,112 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             throw new NotImplementedException();
         }
+
         public PAlternative.Target GetTarget(AListTranslation node)
         {
-            throw new NotImplementedException();
+            if (node.Elements.Count == 0)
+                return PAlternative.Target.Unknown;
+
+            var targetElement = node.Elements.FirstOrDefault(t => !GetTarget(t).IsUnknown);
+            if (targetElement == null)
+                return PAlternative.Target.Unknown;
+
+            Modifiers mod = Modifiers.ZeroOrMany;
+            for (int i = 0; i < node.Elements.Count; i++)
+            {
+                var target = GetTarget(node.Elements[i]);
+                if (!target.IsUnknown && (target.Modifier == Modifiers.Single || target.Modifier == Modifiers.OneOrMany))
+                {
+                    mod = Modifiers.OneOrMany;
+                    break;
+                }
+            }
+
+            var tempTarget = GetTarget(targetElement);
+            if (tempTarget.IsToken)
+            {
+                if (TestTokenTarget(node, tempTarget.Token))
+                    return new PAlternative.Target(tempTarget.Token, mod);
+                else
+                    return PAlternative.Target.Unknown;
+            }
+
+            else if (tempTarget.IsAlternative)
+            {
+                if (TestProductionTarget(node, tempTarget.Alternative.Production))
+                    return new PAlternative.Target(tempTarget.Alternative.Production, mod);
+                else
+                    return PAlternative.Target.Unknown;
+            }
+
+            else if (tempTarget.IsProduction)
+            {
+                if (TestProductionTarget(node, tempTarget.Production))
+                    return new PAlternative.Target(tempTarget.Production, mod);
+                else
+                    return PAlternative.Target.Unknown;
+            }
+            else
+                throw new InvalidOperationException("Unknown translation target.");
         }
+        private bool TestTokenTarget(AListTranslation node, PToken token)
+        {
+            bool ok = true;
+            for (int i = 0; i < node.Elements.Count; i++)
+            {
+                var target = GetTarget(node.Elements[i]);
+                if (target.IsToken)
+                {
+                    if (target.Token != token)
+                    {
+                        RegisterError(node.Elements[i],
+                            "All elements in a list translation must be translated to the same element type. A {0} token cannot be part of a {1} list.",
+                            target.Token.Identifier,
+                            token.Identifier);
+                        ok = false;
+                    }
+                }
+
+                else if (!target.IsUnknown)
+                {
+                    RegisterError(node.Elements[i],
+                        "All elements in a list translation must be translated to the same element type.");
+                    ok = false;
+                }
+            }
+
+            return ok;
+        }
+        private bool TestProductionTarget(AListTranslation node, PProduction production)
+        {
+            bool ok = true;
+            for (int i = 0; i < node.Elements.Count; i++)
+            {
+                var target = GetTarget(node.Elements[i]);
+                var prod = target.IsAlternative ? target.Alternative.Production : target.Production;
+                if (prod != null)
+                {
+                    if (prod != production)
+                    {
+                        RegisterError(node.Elements[i],
+                            "All elements in a list translation must be translated to the same element type. A {0} production cannot be part of a {1} list.",
+                            prod.Identifier,
+                            production.Identifier);
+                        ok = false;
+                    }
+                }
+
+                else if (!target.IsUnknown)
+                {
+                    RegisterError(node.Elements[i],
+                        "All elements in a list translation must be translated to the same element type.");
+                    ok = false;
+                }
+            }
+
+            return ok;
+        }
+
         public PAlternative.Target GetTarget(ANullTranslation node)
         {
             throw new NotImplementedException();
