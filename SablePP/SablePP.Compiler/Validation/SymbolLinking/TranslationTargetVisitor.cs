@@ -46,22 +46,13 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         public PAlternative.Target GetTarget(AListTranslation node)
         {
             if (node.Elements.Count == 0)
-                return PAlternative.Target.Unknown;
+                return PAlternative.Target.EmptyList;
 
-            var targetElement = node.Elements.FirstOrDefault(t => !GetTarget(t).IsUnknown);
+            var targetElement = node.Elements.FirstOrDefault(t => !GetTarget(t).IsUnknown && !GetTarget(t).IsNull && !GetTarget(t).IsEmptyList);
             if (targetElement == null)
-                return PAlternative.Target.Unknown;
+                return PAlternative.Target.EmptyList;
 
-            Modifiers mod = Modifiers.ZeroOrMany;
-            for (int i = 0; i < node.Elements.Count; i++)
-            {
-                var target = GetTarget(node.Elements[i]);
-                if (!target.IsUnknown && (target.Modifier == Modifiers.Single || target.Modifier == Modifiers.OneOrMany))
-                {
-                    mod = Modifiers.OneOrMany;
-                    break;
-                }
-            }
+            Modifiers mod = GetListModifier(node.Elements);
 
             var tempTarget = GetTarget(targetElement);
             if (tempTarget.IsToken)
@@ -89,6 +80,16 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             }
             else
                 throw new InvalidOperationException("Unknown translation target.");
+        }
+        private Modifiers GetListModifier(IEnumerable<PTranslation> collection)
+        {
+            foreach (var t in collection)
+            {
+                var target = GetTarget(t);
+                if (!target.IsUnknown && !target.IsNull && !target.IsEmptyList && (target.Modifier == Modifiers.Single || target.Modifier == Modifiers.OneOrMany))
+                    return Modifiers.OneOrMany;
+            }
+            return Modifiers.ZeroOrMany;
         }
         private bool TestTokenTarget(AListTranslation node, PToken token)
         {
