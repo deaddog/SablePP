@@ -51,11 +51,22 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         }
         public PAlternative.Target GetTarget(AIdTranslation node)
         {
-            throw new NotImplementedException();
+            var element = node.Identifier.AsPElement;
+            var id = element.Elementid.Identifier;
+            var mod = element.Modifier.GetModifier();
+
+            if (id.IsPProduction)
+                return new PAlternative.Target(id.AsPProduction, mod);
+            else if (id.IsPAlternative)
+                return new PAlternative.Target(id.AsPAlternative, mod);
+            else if (id.IsPToken)
+                return new PAlternative.Target(id.AsPToken, mod);
+            else
+                return PAlternative.Target.Unknown;
         }
         public PAlternative.Target GetTarget(AIddotidTranslation node)
         {
-            throw new NotImplementedException();
+            return new PAlternative.Target(node.Production.AsPProduction, node.Identifier.AsPElement.Modifier.GetModifier());
         }
     }
 }
