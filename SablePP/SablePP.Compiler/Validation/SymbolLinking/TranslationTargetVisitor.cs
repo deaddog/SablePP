@@ -151,7 +151,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public PAlternative.Target GetTarget(ANullTranslation node)
         {
-            throw new NotImplementedException();
+            return PAlternative.Target.Null;
         }
         public PAlternative.Target GetTarget(AIdTranslation node)
         {
