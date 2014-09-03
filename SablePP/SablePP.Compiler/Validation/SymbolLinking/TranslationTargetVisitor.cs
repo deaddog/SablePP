@@ -67,7 +67,120 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         private bool ValidateArgument(PElement parameter, PTranslation argument, string alternativeName, int argumentNum)
         {
-            throw new NotImplementedException();
+            var argumentTarget = GetTarget(argument);
+            var parTarget = parameter.Elementid.Identifier.IsPToken ?
+                new PAlternative.Target(parameter.Elementid.Identifier.AsPToken, parameter.Modifier.GetModifier()) :
+                new PAlternative.Target(parameter.Elementid.Identifier.AsPProduction, parameter.Modifier.GetModifier());
+
+            if (argumentTarget.IsUnknown)
+                return true;
+
+            if (argumentTarget.IsNull)
+            {
+                if (parTarget.Modifier == Modifiers.Optional)
+                    return true;
+                else
+                {
+                    RegisterError(argument, "Null can only be used as an argument for optional elements.");
+                    return false;
+                }
+            }
+
+            if (argumentTarget.IsEmptyList)
+            {
+                if (parTarget.Modifier == Modifiers.ZeroOrMany)
+                    return true;
+                else
+                {
+                    RegisterError(argument, "An empty list can only be used as an argument for zero-or-many (*) elements.");
+                    return false;
+                }
+            }
+
+            var argMod = argumentTarget.Modifier;
+            bool orderMatch =
+                (argMod == Modifiers.Single && parTarget.Modifier == Modifiers.Optional) ||
+                (argMod == Modifiers.OneOrMany && parTarget.Modifier == Modifiers.ZeroOrMany) ||
+                argMod == parTarget.Modifier;
+
+            if (!orderMatch)
+            {
+                RegisterError(argument, "Argument {2} for alternative {3} must be {0}. {1} was found.",
+                    parTarget.Modifier, argMod,
+                    argumentNum, alternativeName);
+                return false;
+            }
+
+            if (parTarget.IsToken)
+            {
+                if (argumentTarget.IsAlternative)
+                {
+                    RegisterError(argument, "Argument {2} for alternative {3} must be a {0} token. A production ({1}) was found.",
+                        parTarget.Token.Identifier, argumentTarget.Alternative.Production.Identifier,
+                        argumentNum, alternativeName);
+                    return false;
+                }
+                else if (argumentTarget.IsProduction)
+                {
+                    RegisterError(argument, "Argument {2} for alternative {3} must be a {0} token. A production ({1}) was found.",
+                        parTarget.Token.Identifier, argumentTarget.Production.Identifier,
+                        argumentNum, alternativeName);
+                    return false;
+                }
+                else if (argumentTarget.IsToken)
+                {
+                    if (argumentTarget.Token != parTarget.Token)
+                    {
+                        RegisterError(argument, "Argument {2} for alternative {3} must be a {0} token - a {1} token was found.",
+                            parTarget.Token.Identifier, argumentTarget.Token.Identifier,
+                            argumentNum, alternativeName);
+                        return false;
+                    }
+                    else
+                        return true;
+                }
+                else
+                    throw new InvalidOperationException();
+            }
+
+            if (parTarget.IsProduction)
+            {
+                if (argumentTarget.IsAlternative)
+                {
+                    if (argumentTarget.Alternative.Production != parTarget.Production)
+                    {
+                        RegisterError(argument, "Argument {2} for alternative {3} must be a {0} production - a {1} production was found.",
+                            parTarget.Production.Identifier, argumentTarget.Alternative.Production.Identifier,
+                            argumentNum, alternativeName);
+                        return false;
+                    }
+                    else
+                        return true;
+                }
+                else if (argumentTarget.IsProduction)
+                {
+                    if (argumentTarget.Production != parTarget.Production)
+                    {
+                        RegisterError(argument, "Argument {2} for alternative {3} must be a {0} production - a {1} production was found.",
+                            parTarget.Production.Identifier, argumentTarget.Production.Identifier,
+                            argumentNum, alternativeName);
+                        return false;
+                    }
+                    else
+                        return true;
+                }
+                else if (argumentTarget.IsToken)
+                {
+                    RegisterError(argument, "Argument {2} for alternative {3} must be a {0} production. A token ({1}) was found.",
+                        parTarget.Production.Identifier, argumentTarget.Token.Identifier,
+                        argumentNum, alternativeName);
+                    return false;
+                }
+                else
+                    throw new InvalidOperationException();
+            }
+
+            throw new InvalidOperationException();
         }
 
         public PAlternative.Target GetTarget(AListTranslation node)
