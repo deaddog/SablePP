@@ -17,7 +17,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseAAlternative(AAlternative node)
         {
-            base.CaseAAlternative(node);
+            if (node.HasTranslation)
+                node.AstTarget = GetTarget(node.Translation);
+            else
+                throw new NotImplementedException();
         }
 
         public PAlternative.Target GetTarget(PTranslation node)
