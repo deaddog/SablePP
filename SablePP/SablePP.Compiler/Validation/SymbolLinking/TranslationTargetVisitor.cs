@@ -20,7 +20,111 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (node.HasTranslation)
                 node.AstTarget = GetTarget(node.Translation);
             else
-                throw new NotImplementedException();
+            {
+                PProduction prod = (node.GetParent() as PProduction);
+                if (!prod.AstTarget.IsProduction)
+                {
+                    RegisterError(prod, "An implicit production translation must be translated into an ast production.");
+                    node.AstTarget = PAlternative.Target.Unknown;
+                    return;
+                }
+                PProduction astprod = prod.AstTarget.Production;
+
+                PAlternative astalt;
+
+                string nameForMessage;
+                if (node.HasAlternativename)
+                {
+                    string name = node.Alternativename.Name.Text;
+                    nameForMessage = name + " alternative";
+                    astalt = astprod.Alternatives.FirstOrDefault(a => a.Alternativename.Name.Text == name);
+                }
+                else
+                {
+                    nameForMessage = "unnamed alternative";
+                    astalt = astprod.UnnamedAlternative;
+                }
+
+                if (astalt.Elements.Count != node.Elements.Count)
+                {
+                    RegisterError(node.Production, "A alternative in the {0} production could not be implicitly translated to its ast-counterpart. They do not have the same number of elements.",
+                        node.Production);
+                }
+                else
+                    for (int i = 0; i < node.Elements.Count; i++)
+                    {
+                        var cE = node.Elements[i];
+                        var aE = astalt.Elements[i];
+
+                        bool ok =
+                            TypeMatches(cE, aE, nameForMessage, i + 1) &&
+                            ModifierMatches(cE, aE, nameForMessage, i + 1);
+                    }
+
+                node.AstTarget = new PAlternative.Target(astalt, Modifiers.Single);
+            }
+        }
+
+        private bool TypeMatches(PElement concreteElement, PElement abstractElement, string alternativeName, int argumentNum)
+        {
+            PToken cToken = concreteElement.Elementid.Identifier.IsPToken ?
+                concreteElement.Elementid.Identifier.AsPToken : concreteElement.Elementid.Identifier.IsPProduction ?
+                concreteElement.Elementid.Identifier.AsPProduction.AstTarget.Token : null;
+            PToken aToken = abstractElement.Elementid.Identifier.AsPToken;
+
+            PProduction cProduction = concreteElement.Elementid.Identifier.IsPToken ?
+                null : concreteElement.Elementid.Identifier.IsPProduction ?
+                concreteElement.Elementid.Identifier.AsPProduction.AstTarget.Production : null;
+            PProduction aProduction = abstractElement.Elementid.Identifier.AsPProduction;
+
+            if (cToken != null && aToken == null)
+            {
+                RegisterError(concreteElement, "Element {1} in {0} is a token, but element {1} in its ast counter-part is not.", alternativeName, argumentNum);
+                return false;
+            }
+            else if (cToken == null && aToken != null)
+            {
+                RegisterError(concreteElement, "Element {1} in {0} is not a token, but element {1} in its ast counter-part is.", alternativeName, argumentNum);
+                return false;
+            }
+            else if (cProduction != null && aProduction == null)
+            {
+                RegisterError(concreteElement, "Element {1} in {0} is a production, but element {1} in its ast counter-part is not.", alternativeName, argumentNum);
+                return false;
+            }
+            else if (cProduction == null && aProduction != null)
+            {
+                RegisterError(concreteElement, "Element {1} in {0} is not a production, but element {1} in its ast counter-part is.", alternativeName, argumentNum);
+                return false;
+            }
+
+            else if (cToken != null && aToken != null)
+            {
+                if (cToken != aToken)
+                {
+                    RegisterError(concreteElement, "Element {1} in {0} and its ast counter-part do not refer to the same token.", alternativeName, argumentNum);
+                    return false;
+                }
+            }
+            else if (cProduction != null && aProduction != null)
+            {
+                if (cProduction != aProduction)
+                {
+                    RegisterError(concreteElement, "Element {1} in {0} and its ast counter-part do not refer to the same production.", alternativeName, argumentNum);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        private bool ModifierMatches(PElement concreteElement, PElement abstractElement, string alternativeName, int argumentNum)
+        {
+            if (concreteElement.Modifier.GetModifier() != abstractElement.Modifier.GetModifier())
+            {
+                RegisterError(concreteElement, "Modifier for element {1} in {0} does not match the modifier for its ast-counterpart.", alternativeName, argumentNum);
+                return false;
+            }
+            return true;
         }
 
         public PAlternative.Target GetTarget(PTranslation node)
@@ -46,9 +150,9 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 RegisterError(node.Production, "The number of arguments for {0} did not match its definition ({1} parameter(s)).",
                     node.Production, alt.Elements.Count);
             }
-
-            for (int i = 0; i < node.Arguments.Count; i++)
-                ValidateArgument(alt.Elements[i], node.Arguments[i], node.Production.Text, i + 1);
+            else
+                for (int i = 0; i < node.Arguments.Count; i++)
+                    ValidateArgument(alt.Elements[i], node.Arguments[i], node.Production.Text, i + 1);
 
             return new PAlternative.Target(alt, Modifiers.Single);
         }
@@ -61,9 +165,9 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 RegisterError(node.Alternative, "The number of arguments for {0}.{1} did not match its definition ({2} parameter(s)).",
                     node.Production, node.Alternative, alt.Elements.Count);
             }
-
-            for (int i = 0; i < node.Arguments.Count; i++)
-                ValidateArgument(alt.Elements[i], node.Arguments[i], string.Format("{0}.{1}", node.Production.Text, node.Alternative.Text), i + 1);
+            else
+                for (int i = 0; i < node.Arguments.Count; i++)
+                    ValidateArgument(alt.Elements[i], node.Arguments[i], string.Format("{0}.{1}", node.Production.Text, node.Alternative.Text), i + 1);
 
             return new PAlternative.Target(alt, Modifiers.Single);
         }
