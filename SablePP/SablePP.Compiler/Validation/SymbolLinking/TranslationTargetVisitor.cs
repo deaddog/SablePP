@@ -188,8 +188,6 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             if (id.IsPProduction)
                 return new PAlternative.Target(id.AsPProduction, mod);
-            else if (id.IsPAlternative)
-                return new PAlternative.Target(id.AsPAlternative, mod);
             else if (id.IsPToken)
                 return new PAlternative.Target(id.AsPToken, mod);
             else
