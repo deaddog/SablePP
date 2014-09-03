@@ -36,9 +36,36 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public PAlternative.Target GetTarget(ANewTranslation node)
         {
-            throw new NotImplementedException();
+            var alt = node.Production.AsPProduction.UnnamedAlternative;
+
+            if (alt.Elements.Count != node.Arguments.Count)
+            {
+                RegisterError(node.Production, "The number of arguments for {0} did not match its definition ({1} parameter(s)).",
+                    node.Production, alt.Elements.Count);
+            }
+
+            for (int i = 0; i < node.Arguments.Count; i++)
+                ValidateArgument(alt.Elements[i], node.Arguments[i], node.Production.Text, i + 1);
+
+            return new PAlternative.Target(alt, Modifiers.Single);
         }
         public PAlternative.Target GetTarget(ANewalternativeTranslation node)
+        {
+            var alt = node.Alternative.AsPAlternative;
+
+            if (alt.Elements.Count != node.Arguments.Count)
+            {
+                RegisterError(node.Alternative, "The number of arguments for {0}.{1} did not match its definition ({2} parameter(s)).",
+                    node.Production, node.Alternative, alt.Elements.Count);
+            }
+
+            for (int i = 0; i < node.Arguments.Count; i++)
+                ValidateArgument(alt.Elements[i], node.Arguments[i], string.Format("{0}.{1}", node.Production.Text, node.Alternative.Text), i + 1);
+
+            return new PAlternative.Target(alt, Modifiers.Single);
+        }
+
+        private bool ValidateArgument(PElement parameter, PTranslation argument, string alternativeName, int argumentNum)
         {
             throw new NotImplementedException();
         }
