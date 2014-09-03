@@ -389,15 +389,15 @@ Abstract Syntax Tree
     
     translation
         = {full} arrow translation
-        | {new} new [production]:identifier [lpar]:l_par [arguments]:translation+ [rpar]:r_par
-        | {newalternative} new [production]:identifier dot [alternative]:identifier [lpar]:l_par [arguments]:translation+ [rpar]:r_par
-        | {list} [lpar]:l_bkt [elements]:translation+ [rpar]:r_bkt
+        | {new} new [production]:identifier [lpar]:l_par [arguments]:translation* [rpar]:r_par
+        | {newalternative} new [production]:identifier dot [alternative]:identifier [lpar]:l_par [arguments]:translation* [rpar]:r_par
+        | {list} [lpar]:l_bkt [elements]:translation* [rpar]:r_bkt
         | {null} null
         | {id} identifier
         | {iddotid} identifier dot [production]:identifier
         ;
     
-    alternative = alternativename? element+ translation?;
+    alternative = alternativename? element* translation?;
     
     alternativename = [lpar]:l_brace [name]:identifier [rpar]:r_brace;
     

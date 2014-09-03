@@ -3629,7 +3629,7 @@ namespace SablePP.Compiler.Nodes
             this.New = _new_;
             this.Production = _production_;
             this.Lpar = _lpar_;
-            this._arguments_ = new NodeList<PTranslation>(this, _arguments_, false);
+            this._arguments_ = new NodeList<PTranslation>(this, _arguments_, true);
             this.Rpar = _rpar_;
         }
         
@@ -3787,7 +3787,7 @@ namespace SablePP.Compiler.Nodes
             this.Dot = _dot_;
             this.Alternative = _alternative_;
             this.Lpar = _lpar_;
-            this._arguments_ = new NodeList<PTranslation>(this, _arguments_, false);
+            this._arguments_ = new NodeList<PTranslation>(this, _arguments_, true);
             this.Rpar = _rpar_;
         }
         
@@ -3985,7 +3985,7 @@ namespace SablePP.Compiler.Nodes
             : base()
         {
             this.Lpar = _lpar_;
-            this._elements_ = new NodeList<PTranslation>(this, _elements_, false);
+            this._elements_ = new NodeList<PTranslation>(this, _elements_, true);
             this.Rpar = _rpar_;
         }
         
@@ -4297,7 +4297,7 @@ namespace SablePP.Compiler.Nodes
         public PAlternative(PAlternativename _alternativename_, IEnumerable<PElement> _elements_, PTranslation _translation_)
         {
             this.Alternativename = _alternativename_;
-            this._elements_ = new NodeList<PElement>(this, _elements_, false);
+            this._elements_ = new NodeList<PElement>(this, _elements_, true);
             this.Translation = _translation_;
         }
         
