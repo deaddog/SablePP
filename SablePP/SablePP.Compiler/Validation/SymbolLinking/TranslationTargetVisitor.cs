@@ -187,6 +187,16 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             var mod = element.Modifier.GetModifier();
 
             if (id.IsPProduction)
+            {
+                if (id.AsPProduction.AstTarget.IsProduction)
+                    id = id.AsPProduction.AstTarget.Production.Identifier;
+                else if (id.AsPProduction.AstTarget.IsToken)
+                    id = id.AsPProduction.AstTarget.Token.Identifier;
+                else
+                    return PAlternative.Target.Unknown;
+            }
+
+            if (id.IsPProduction)
                 return new PAlternative.Target(id.AsPProduction, mod);
             else if (id.IsPToken)
                 return new PAlternative.Target(id.AsPToken, mod);
