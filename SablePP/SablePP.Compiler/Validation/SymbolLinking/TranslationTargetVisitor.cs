@@ -25,7 +25,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 if (!prod.AstTarget.IsProduction)
                 {
                     RegisterError(prod, "An implicit production translation must be translated into an ast production.");
-                    node.AstTarget = PAlternative.Target.Unknown;
+                    node.AstTarget = TranslationTarget.Unknown;
                     return;
                 }
                 PProduction astprod = prod.AstTarget.Production;
@@ -61,7 +61,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                             ModifierMatches(cE, aE, nameForMessage, i + 1);
                     }
 
-                node.AstTarget = new PAlternative.Target(astalt, Modifiers.Single);
+                node.AstTarget = new TranslationTarget(astalt, Modifiers.Single);
             }
         }
 
@@ -127,7 +127,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             return true;
         }
 
-        public PAlternative.Target GetTarget(PTranslation node)
+        public TranslationTarget GetTarget(PTranslation node)
         {
             if (node.Target != null)
                 return node.Target;
@@ -136,12 +136,12 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             node.Target = target;
             return target;
         }
-        public PAlternative.Target GetTarget(AFullTranslation node)
+        public TranslationTarget GetTarget(AFullTranslation node)
         {
             return GetTarget(node.Translation);
         }
 
-        public PAlternative.Target GetTarget(ANewTranslation node)
+        public TranslationTarget GetTarget(ANewTranslation node)
         {
             var alt = node.Production.AsPProduction.UnnamedAlternative;
 
@@ -154,9 +154,9 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 for (int i = 0; i < node.Arguments.Count; i++)
                     ValidateArgument(alt.Elements[i], node.Arguments[i], node.Production.Text, i + 1);
 
-            return new PAlternative.Target(alt, Modifiers.Single);
+            return new TranslationTarget(alt, Modifiers.Single);
         }
-        public PAlternative.Target GetTarget(ANewalternativeTranslation node)
+        public TranslationTarget GetTarget(ANewalternativeTranslation node)
         {
             var alt = node.Alternative.AsPAlternative;
 
@@ -169,15 +169,15 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 for (int i = 0; i < node.Arguments.Count; i++)
                     ValidateArgument(alt.Elements[i], node.Arguments[i], string.Format("{0}.{1}", node.Production.Text, node.Alternative.Text), i + 1);
 
-            return new PAlternative.Target(alt, Modifiers.Single);
+            return new TranslationTarget(alt, Modifiers.Single);
         }
 
         private bool ValidateArgument(PElement parameter, PTranslation argument, string alternativeName, int argumentNum)
         {
             var argumentTarget = GetTarget(argument);
             var parTarget = parameter.Elementid.Identifier.IsPToken ?
-                new PAlternative.Target(parameter.Elementid.Identifier.AsPToken, parameter.Modifier.GetModifier()) :
-                new PAlternative.Target(parameter.Elementid.Identifier.AsPProduction, parameter.Modifier.GetModifier());
+                new TranslationTarget(parameter.Elementid.Identifier.AsPToken, parameter.Modifier.GetModifier()) :
+                new TranslationTarget(parameter.Elementid.Identifier.AsPProduction, parameter.Modifier.GetModifier());
 
             if (argumentTarget.IsUnknown)
                 return true;
@@ -290,14 +290,14 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             throw new InvalidOperationException();
         }
 
-        public PAlternative.Target GetTarget(AListTranslation node)
+        public TranslationTarget GetTarget(AListTranslation node)
         {
             if (node.Elements.Count == 0)
-                return PAlternative.Target.EmptyList;
+                return TranslationTarget.EmptyList;
 
             var targetElement = node.Elements.FirstOrDefault(t => !GetTarget(t).IsUnknown && !GetTarget(t).IsNull && !GetTarget(t).IsEmptyList);
             if (targetElement == null)
-                return PAlternative.Target.EmptyList;
+                return TranslationTarget.EmptyList;
 
             Modifiers mod = GetListModifier(node.Elements);
 
@@ -305,25 +305,25 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (tempTarget.IsToken)
             {
                 if (TestTokenTarget(node, tempTarget.Token))
-                    return new PAlternative.Target(tempTarget.Token, mod);
+                    return new TranslationTarget(tempTarget.Token, mod);
                 else
-                    return PAlternative.Target.Unknown;
+                    return TranslationTarget.Unknown;
             }
 
             else if (tempTarget.IsAlternative)
             {
                 if (TestProductionTarget(node, tempTarget.Alternative.Production))
-                    return new PAlternative.Target(tempTarget.Alternative.Production, mod);
+                    return new TranslationTarget(tempTarget.Alternative.Production, mod);
                 else
-                    return PAlternative.Target.Unknown;
+                    return TranslationTarget.Unknown;
             }
 
             else if (tempTarget.IsProduction)
             {
                 if (TestProductionTarget(node, tempTarget.Production))
-                    return new PAlternative.Target(tempTarget.Production, mod);
+                    return new TranslationTarget(tempTarget.Production, mod);
                 else
-                    return PAlternative.Target.Unknown;
+                    return TranslationTarget.Unknown;
             }
             else
                 throw new InvalidOperationException("Unknown translation target.");
@@ -396,11 +396,11 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             return ok;
         }
 
-        public PAlternative.Target GetTarget(ANullTranslation node)
+        public TranslationTarget GetTarget(ANullTranslation node)
         {
-            return PAlternative.Target.Null;
+            return TranslationTarget.Null;
         }
-        public PAlternative.Target GetTarget(AIdTranslation node)
+        public TranslationTarget GetTarget(AIdTranslation node)
         {
             var element = node.Identifier.AsPElement;
             var id = element.Elementid.Identifier;
@@ -413,19 +413,19 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 else if (id.AsPProduction.AstTarget.IsToken)
                     id = id.AsPProduction.AstTarget.Token.Identifier;
                 else
-                    return PAlternative.Target.Unknown;
+                    return TranslationTarget.Unknown;
             }
 
             if (id.IsPProduction)
-                return new PAlternative.Target(id.AsPProduction, mod);
+                return new TranslationTarget(id.AsPProduction, mod);
             else if (id.IsPToken)
-                return new PAlternative.Target(id.AsPToken, mod);
+                return new TranslationTarget(id.AsPToken, mod);
             else
-                return PAlternative.Target.Unknown;
+                return TranslationTarget.Unknown;
         }
-        public PAlternative.Target GetTarget(AIddotidTranslation node)
+        public TranslationTarget GetTarget(AIddotidTranslation node)
         {
-            return new PAlternative.Target(node.Production.AsPProduction, node.Identifier.AsPElement.Modifier.GetModifier());
+            return new TranslationTarget(node.Production.AsPProduction, node.Identifier.AsPElement.Modifier.GetModifier());
         }
     }
 }

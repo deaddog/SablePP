@@ -4,8 +4,8 @@ namespace SablePP.Compiler.Nodes
 {
     public partial class PTranslation
     {
-        private PAlternative.Target target;
-        public PAlternative.Target Target
+        private TranslationTarget target;
+        public TranslationTarget Target
         {
             get { return target; }
             set
