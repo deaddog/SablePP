@@ -186,15 +186,15 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 var mod = node.Prodtranslation.Modifier.GetModifier();
 
                 if (id.IsPProduction)
-                    node.AstTarget = new PProduction.Target(id.AsPProduction, mod);
+                    node.AstTarget = new TranslationTarget(id.AsPProduction, mod);
                 else if (id.IsPToken)
-                    node.AstTarget = new PProduction.Target(id.AsPToken, mod);
+                    node.AstTarget = new TranslationTarget(id.AsPToken, mod);
             }
             else
             {
                 PProduction abs;
                 if (astProd.TryGetValue(node.Identifier.Text, out abs))
-                    node.AstTarget = new PProduction.Target(abs, Modifiers.Single);
+                    node.AstTarget = new TranslationTarget(abs, Modifiers.Single);
                 else
                     RegisterError(node.Identifier,
                         "Resulting AST node could not be inferred from production. No \"{0}\" ast-production was found.", node.Identifier.Text);
