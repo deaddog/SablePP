@@ -64,10 +64,7 @@ namespace SablePP.Compiler
 
         public Production.ProductionTranslation Visit(PProdtranslation node)
         {
-            Modifiers mod = Modifiers.Single;
-
-            if (node.HasModifier)
-                mod = node.Modifier.GetModifier();
+            Modifiers mod = node.Modifier.GetModifier();
 
             if (node.Identifier.IsPProduction)
                 return new Production.ProductionTranslation(abstractProductions[node.Identifier.AsPProduction], mod);
@@ -228,7 +225,7 @@ namespace SablePP.Compiler
             else if (node.IsList)
                 name += "s";
 
-            var mod = node.HasModifier ? node.Modifier.GetModifier() : Modifiers.Single;
+            var mod = node.Modifier.GetModifier();
             var id = node.Elementid.Identifier;
 
             if (id.IsPProduction)
