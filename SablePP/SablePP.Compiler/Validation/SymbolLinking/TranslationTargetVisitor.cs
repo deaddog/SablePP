@@ -1,5 +1,6 @@
 ﻿using SablePP.Compiler.Analysis;
 using SablePP.Compiler.Nodes;
+using SablePP.Generate;
 using SablePP.Tools.Error;
 using System;
 using System.Collections.Generic;

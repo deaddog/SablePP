@@ -1,17 +1,10 @@
 ﻿using SablePP.Compiler.Nodes;
+using SablePP.Generate;
 using System;
 
 namespace SablePP.Compiler
 {
-    public enum Modifiers
-    {
-        Single,
-        Optional,
-        OneOrMany,
-        ZeroOrMany
-    }
-
-    public static class ModifiersExtension
+    internal static class ModifiersExtension
     {
         public static Modifiers GetModifier(this PModifier node)
         {
