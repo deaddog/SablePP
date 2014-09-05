@@ -18,6 +18,8 @@ namespace SablePP.Compiler
         private Dictionary<PElement, Alternative.Element> elements;
 
         private Dictionary<PProduction, AbstractProduction> abstractProductions;
+        private Dictionary<PAlternative, AbstractAlternative> abstractAlternatives;
+
         private GrammarBuilder()
         {
             this.helpers = new Dictionary<PHelper, Helper>();
@@ -28,6 +30,7 @@ namespace SablePP.Compiler
             this.elements = new Dictionary<PElement, Alternative.Element>();
 
             this.abstractProductions = new Dictionary<PProduction, AbstractProduction>();
+            this.abstractAlternatives = new Dictionary<PAlternative, AbstractAlternative>();
         }
 
         public static Grammar BuildSableCCGrammar(SablePP.Tools.Nodes.Start<PGrammar> grammar)
@@ -225,7 +228,9 @@ namespace SablePP.Compiler
                 name = node.Alternativename.Name.Text.ToCamelCase() + name;
             name = "A" + name;
 
-            return new AbstractAlternative(name, from e in node.Elements select VisitAbstract(e));
+            AbstractAlternative alt = new AbstractAlternative(name, from e in node.Elements select VisitAbstract(e));
+            abstractAlternatives.Add(node, alt);
+            return alt;
         }
         public AbstractAlternative.Element VisitAbstract(PElement node)
         {
