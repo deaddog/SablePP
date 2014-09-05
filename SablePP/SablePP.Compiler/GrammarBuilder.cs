@@ -1,6 +1,7 @@
 ﻿using SablePP.Compiler.Nodes;
 using SablePP.Generate;
 using SablePP.Generate.RegularExpressions;
+using SablePP.Generate.Translations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -220,7 +221,6 @@ namespace SablePP.Compiler
 
             return new AbstractAlternative(name, from e in node.Elements select VisitAbstract(e));
         }
-
         public AbstractAlternative.Element VisitAbstract(PElement node)
         {
             string name = node.Elementid.Identifier.Text.ToCamelCase();
@@ -256,7 +256,49 @@ namespace SablePP.Compiler
 
         public Alternative Visit(PAlternative node)
         {
+            return new Alternative(from e in node.Elements select Visit(e), Visit(node.Translation));
+        }
+        public Alternative.Element Visit(PElement node)
+        {
             throw new NotImplementedException();
         }
+
+        #region Translations
+
+        public Translation Visit(PTranslation node)
+        {
+            return Visit((dynamic)node);
+        }
+
+        public Translation Visit(AFullTranslation node)
+        {
+            throw new NotImplementedException();
+        }
+        public Translation Visit(ANewTranslation node)
+        {
+            throw new NotImplementedException();
+        }
+        public Translation Visit(ANewalternativeTranslation node)
+        {
+            throw new NotImplementedException();
+        }
+        public Translation Visit(AListTranslation node)
+        {
+            throw new NotImplementedException();
+        }
+        public Translation Visit(ANullTranslation node)
+        {
+            throw new NotImplementedException();
+        }
+        public Translation Visit(AIdTranslation node)
+        {
+            throw new NotImplementedException();
+        }
+        public Translation Visit(AIddotidTranslation node)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
