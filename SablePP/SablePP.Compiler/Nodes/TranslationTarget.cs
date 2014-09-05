@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SablePP.Compiler.Nodes
 {
-    public struct TranslationTarget
+    public struct TranslationTarget : IEquatable<TranslationTarget>
     {
         private PProduction production;
         private PAlternative alternative;
@@ -68,6 +68,46 @@ namespace SablePP.Compiler.Nodes
             this.alternative = null;
             this.token = token;
             this.modifier = modifier;
+        }
+
+        public static bool operator ==(TranslationTarget t1, TranslationTarget t2)
+        {
+            return t1.Equals(t2);
+        }
+        public static bool operator !=(TranslationTarget t1, TranslationTarget t2)
+        {
+            return !t1.Equals(t2);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+            else if (!(obj is TranslationTarget))
+                return false;
+            else
+                return Equals((TranslationTarget)obj);
+        }
+        public bool Equals(TranslationTarget obj)
+        {
+            return this.production == obj.production
+                && this.alternative == obj.alternative
+                && this.token == obj.token
+                && this.modifier == obj.modifier;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = modifier.GetHashCode();
+
+            if (production != null)
+                hash ^= production.GetHashCode();
+            if (alternative != null)
+                hash ^= alternative.GetHashCode();
+            if (token != null)
+                hash ^= token.GetHashCode();
+
+            return hash;
         }
 
         public bool IsProduction
