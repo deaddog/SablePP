@@ -13,14 +13,20 @@ namespace SablePP.Compiler
         private Dictionary<PHelper, Helper> helpers;
         private Dictionary<PState, State> states;
         private Dictionary<PToken, Token> tokens;
+
         private Dictionary<PProduction, Production> productions;
+        private Dictionary<PElement, Alternative.Element> elements;
+
         private Dictionary<PProduction, AbstractProduction> abstractProductions;
         private GrammarBuilder()
         {
             this.helpers = new Dictionary<PHelper, Helper>();
             this.states = new Dictionary<PState, State>();
             this.tokens = new Dictionary<PToken, Token>();
+
             this.productions = new Dictionary<PProduction, Production>();
+            this.elements = new Dictionary<PElement, Alternative.Element>();
+
             this.abstractProductions = new Dictionary<PProduction, AbstractProduction>();
         }
 
@@ -256,7 +262,19 @@ namespace SablePP.Compiler
 
         public Alternative Visit(PAlternative node)
         {
-            return new Alternative(from e in node.Elements select Visit(e), Visit(node.Translation));
+            var elements = new Alternative.Element[node.Elements.Count];
+
+            for (int i = 0; i < elements.Length; i++)
+            {
+                var e = node.Elements[i];
+                elements[i] = Visit(e);
+                this.elements.Add(e, elements[i]);
+            }
+
+            if (node.HasTranslation)
+                return new Alternative(elements, Visit(node.Translation));
+            else
+                throw new NotImplementedException();
         }
         public Alternative.Element Visit(PElement node)
         {
