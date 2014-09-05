@@ -283,7 +283,20 @@ namespace SablePP.Compiler
         }
         public Alternative.Element Visit(PElement node)
         {
-            throw new NotImplementedException();
+            var mod = node.Modifier.GetModifier();
+
+            if (node.Elementid.Identifier.IsPToken)
+            {
+                var token = tokens[node.Elementid.Identifier.AsPToken];
+                return new Alternative.TokenElement(token, mod);
+            }
+            else if (node.Elementid.Identifier.IsPProduction)
+            {
+                var prod = productions[node.Elementid.Identifier.AsPProduction];
+                return new Alternative.ProductionElement(prod, mod);
+            }
+            else
+                throw new InvalidOperationException("Unknown element target.");
         }
 
         #region Translations
