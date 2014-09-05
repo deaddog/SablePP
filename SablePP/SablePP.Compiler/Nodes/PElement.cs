@@ -98,29 +98,5 @@ namespace SablePP.Compiler.Nodes
             else
                 return Elementid.Identifier;
         }
-
-        public TranslationTarget AstTarget
-        {
-            get
-            {
-                var id = Elementid.Identifier;
-                var mod = Modifier.GetModifier();
-
-                if (id.IsPToken)
-                    return new TranslationTarget(id.AsPToken, mod);
-
-                else if (id.IsPProduction)
-                {
-                    var target = id.AsPProduction.AstTarget;
-
-                    if (target == null)
-                        return TranslationTarget.Unknown;
-                    else
-                        return target;
-                }
-                else
-                    return TranslationTarget.Unknown;
-            }
-        }
     }
 }
