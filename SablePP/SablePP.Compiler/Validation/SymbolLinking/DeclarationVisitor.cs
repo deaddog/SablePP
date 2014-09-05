@@ -63,10 +63,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 Visit(node.Astproductions);
 
             if (node.HasProductions)
-            {
                 Visit(node.Productions);
+
+            if (node.HasProductions && node.HasAstproductions)
                 new TranslationTargetVisitor(this.ErrorManager).Visit(node.Productions);
-            }
 
             if (node.HasHighlightrules)
                 Visit(node.Highlightrules);
