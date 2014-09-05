@@ -1,6 +1,8 @@
-﻿using SablePP.Compiler.Nodes;
+﻿using SablePP.Compiler;
+using SablePP.Compiler.Nodes;
 using SablePP.Tools.Error;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
@@ -62,6 +64,9 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             if (node.HasProductions)
                 Visit(node.Productions);
+
+            if (node.HasProductions && node.HasAstproductions)
+                new TranslationTargetVisitor(this.ErrorManager).Visit(node.Productions);
 
             if (node.HasHighlightrules)
                 Visit(node.Highlightrules);
@@ -170,7 +175,35 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         public override void CaseAProduction(AProduction node)
         {
             alternatives = new DeclarationTable<PAlternative>();
-            base.CaseAProduction(node);
+
+            Visit(node.Identifier);
+
+            if (node.HasProdtranslation)
+            {
+                Visit(node.Prodtranslation);
+
+                var id = node.Prodtranslation.Identifier;
+                var mod = node.Prodtranslation.Modifier.GetModifier();
+
+                if (id.IsPProduction)
+                    node.AstTarget = new TranslationTarget(id.AsPProduction, mod);
+                else if (id.IsPToken)
+                    node.AstTarget = new TranslationTarget(id.AsPToken, mod);
+            }
+            else
+            {
+                PProduction abs;
+                if (astProd.TryGetValue(node.Identifier.Text, out abs))
+                    node.AstTarget = new TranslationTarget(abs, Modifiers.Single);
+                else
+                    RegisterError(node.Identifier,
+                        "Resulting AST node could not be inferred from production. No \"{0}\" ast-production was found.", node.Identifier.Text);
+            }
+
+            Visit(node.Alternatives);
+            if (node.Alternatives.Where(a => !a.HasAlternativename).Count() > 1)
+                RegisterError(node.Identifier, "A production can only have 1 unnamed alternative.");
+
             allAlternatives[node] = alternatives;
         }
         public override void CaseAAlternative(AAlternative node)

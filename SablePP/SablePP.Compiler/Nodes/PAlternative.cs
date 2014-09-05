@@ -29,5 +29,18 @@ namespace SablePP.Compiler.Nodes
             else
                 return null;
         }
+
+        private TranslationTarget? astTarget;
+        public TranslationTarget AstTarget
+        {
+            get { return astTarget.HasValue ? astTarget.Value : TranslationTarget.Unknown; }
+            set
+            {
+                if (astTarget != null)
+                    throw new InvalidOperationException("Cannot set production target twice.");
+
+                astTarget = value;
+            }
+        }
     }
 }
