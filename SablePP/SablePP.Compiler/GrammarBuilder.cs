@@ -308,31 +308,31 @@ namespace SablePP.Compiler
 
         public Translation Visit(AFullTranslation node)
         {
-            throw new NotImplementedException();
+            return Visit(node.Translation);
         }
         public Translation Visit(ANewTranslation node)
         {
-            throw new NotImplementedException();
+            return new NewTranslation(abstractAlternatives[node.Target.Alternative], from t in node.Arguments select Visit(t));
         }
         public Translation Visit(ANewalternativeTranslation node)
         {
-            throw new NotImplementedException();
+            return new NewTranslation(abstractAlternatives[node.Target.Alternative], from t in node.Arguments select Visit(t));
         }
         public Translation Visit(AListTranslation node)
         {
-            throw new NotImplementedException();
+            return new ListTranslation(from t in node.Elements select Visit(t));
         }
         public Translation Visit(ANullTranslation node)
         {
-            throw new NotImplementedException();
+            return new NullTranslation();
         }
         public Translation Visit(AIdTranslation node)
         {
-            throw new NotImplementedException();
+            return new ElementTranslation(elements[node.Identifier.AsPElement]);
         }
         public Translation Visit(AIddotidTranslation node)
         {
-            throw new NotImplementedException();
+            return new ElementTranslation(elements[node.Identifier.AsPElement]);
         }
 
         #endregion
