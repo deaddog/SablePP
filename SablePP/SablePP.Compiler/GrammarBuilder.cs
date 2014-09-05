@@ -31,10 +31,10 @@ namespace SablePP.Compiler
 
         public Grammar Visit(AGrammar node)
         {
-            var package = node.PackageName;
-            var helpers = Visit(node.Helpers).ToArray();
-            var states = Visit(node.States).ToArray();
-            var tokens = Visit(node.Tokens).ToArray();
+            var _package = node.PackageName;
+            var _helpers = Visit(node.Helpers).ToArray();
+            var _states = Visit(node.States).ToArray();
+            var _tokens = Visit(node.Tokens).ToArray();
 
             foreach (var p in node.Astproductions.Productions)
             {
@@ -43,7 +43,7 @@ namespace SablePP.Compiler
                 abstractProductions.Add(p, prod);
             }
 
-            var absProds = VisitAbstract(node.Astproductions).ToArray();
+            var _absProds = VisitAbstract(node.Astproductions).ToArray();
 
             foreach (var p in node.Productions.Productions)
             {
@@ -58,7 +58,7 @@ namespace SablePP.Compiler
                 productions.Add(p, prod);
             }
 
-            var prods = Visit(node.Productions).ToArray();
+            var _productions = Visit(node.Productions).ToArray();
             throw new NotImplementedException();
         }
 
