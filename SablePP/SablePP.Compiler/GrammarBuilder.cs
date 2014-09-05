@@ -52,8 +52,13 @@ namespace SablePP.Compiler
                     prod = new Production(Visit(p.Prodtranslation));
                 else
                 {
-                    AbstractProduction absProd = abstractProductions.FirstOrDefault(a => a.Key.Identifier.Text == p.Identifier.Text).Value;
-                    prod = new Production(new Production.ProductionTranslation(absProd, Modifiers.Single));
+                    var target = p.AstTarget;
+                    if (target.IsToken)
+                        prod = new Production(new Production.ProductionTranslation(tokens[target.Token], target.Modifier));
+                    else if (target.IsProduction)
+                        prod = new Production(new Production.ProductionTranslation(abstractProductions[target.Production], target.Modifier));
+                    else
+                        throw new InvalidOperationException("Invalid production target.");
                 }
                 productions.Add(p, prod);
             }
