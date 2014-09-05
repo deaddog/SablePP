@@ -33,10 +33,10 @@ namespace SablePP.Compiler.Nodes
             return Identifier;
         }
 
-        private TranslationTarget astTarget;
+        private TranslationTarget? astTarget;
         public TranslationTarget AstTarget
         {
-            get { return astTarget; }
+            get { return astTarget.HasValue ? astTarget.Value : TranslationTarget.Unknown; }
             set
             {
                 if (astTarget != null)

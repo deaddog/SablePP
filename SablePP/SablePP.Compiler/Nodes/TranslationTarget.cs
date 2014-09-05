@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SablePP.Compiler.Nodes
 {
-    public class TranslationTarget
+    public struct TranslationTarget
     {
         private PProduction production;
         private PAlternative alternative;
@@ -85,15 +85,15 @@ namespace SablePP.Compiler.Nodes
 
         public bool IsUnknown
         {
-            get { return ReferenceEquals(this, unknown); }
+            get { return this == unknown; }
         }
         public bool IsNull
         {
-            get { return ReferenceEquals(this, _null); }
+            get { return this == _null; }
         }
         public bool IsEmptyList
         {
-            get { return ReferenceEquals(this, emptyList); }
+            get { return this == emptyList; }
         }
 
         public PProduction Production
