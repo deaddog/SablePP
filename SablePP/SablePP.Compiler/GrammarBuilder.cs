@@ -67,7 +67,7 @@ namespace SablePP.Compiler
             Modifiers mod = Modifiers.Single;
 
             if (node.HasModifier)
-                mod = Visit(node.Modifier);
+                mod = node.Modifier.GetModifier();
 
             if (node.Identifier.IsPProduction)
                 return new Production.ProductionTranslation(abstractProductions[node.Identifier.AsPProduction], mod);
@@ -159,7 +159,7 @@ namespace SablePP.Compiler
         }
         public RegExp Visit(AUnaryRegex node)
         {
-            return new ModifiedRegExp(Visit(node.Regex), Visit(node.Modifier));
+            return new ModifiedRegExp(Visit(node.Regex), node.Modifier.GetModifier());
         }
         public RegExp Visit(ABinaryplusRegex node)
         {
@@ -196,18 +196,6 @@ namespace SablePP.Compiler
 
         #endregion
 
-        public Modifiers Visit(PModifier node)
-        {
-            if (node is AQuestionModifier)
-                return Modifiers.Optional;
-            else if (node is AStarModifier)
-                return Modifiers.ZeroOrMany;
-            else if (node is APlusModifier)
-                return Modifiers.OneOrMany;
-            else
-                throw new ArgumentException("Unknown modifier: " + node);
-        }
-
         public IEnumerable<AbstractProduction> VisitAbstract(PAstproductions node)
         {
             return from p in node.Productions select VisitAbstract(p);
@@ -240,7 +228,7 @@ namespace SablePP.Compiler
             else if (node.IsList)
                 name += "s";
 
-            var mod = node.HasModifier ? Visit(node.Modifier) : Modifiers.Single;
+            var mod = node.HasModifier ? node.Modifier.GetModifier() : Modifiers.Single;
             var id = node.Elementid.Identifier;
 
             if (id.IsPProduction)
