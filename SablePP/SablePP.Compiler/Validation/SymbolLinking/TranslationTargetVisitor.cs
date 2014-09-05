@@ -129,7 +129,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public TranslationTarget GetTarget(PTranslation node)
         {
-            if (node.Target != null)
+            if (node.IsTargetSet)
                 return node.Target;
 
             var target = GetTarget((dynamic)node);

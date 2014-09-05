@@ -4,10 +4,10 @@ namespace SablePP.Compiler.Nodes
 {
     public partial class PTranslation
     {
-        private TranslationTarget target;
+        private TranslationTarget? target;
         public TranslationTarget Target
         {
-            get { return target; }
+            get { return target.HasValue ? target.Value : TranslationTarget.Unknown; }
             set
             {
                 if (target != null)
@@ -15,6 +15,11 @@ namespace SablePP.Compiler.Nodes
 
                 target = value;
             }
+        }
+
+        public bool IsTargetSet
+        {
+            get { return target.HasValue; }
         }
 
         public abstract string ClassName
