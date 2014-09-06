@@ -7,10 +7,10 @@ namespace SablePP.Generate
     public class Highlighting
     {
         private Token[] tokens;
-        private Color foreground, background;
+        private Color? foreground, background;
         private bool italic, bold;
 
-        public Highlighting(IEnumerable<Token> tokens, bool italic, bool bold, Color foreground, Color background)
+        public Highlighting(IEnumerable<Token> tokens, bool italic, bool bold, Color? foreground, Color? background)
         {
             this.tokens = tokens.ToArray();
             this.italic = italic;
@@ -24,11 +24,11 @@ namespace SablePP.Generate
             get { return tokens; }
         }
 
-        public Color Foreground
+        public Color? Foreground
         {
             get { return foreground; }
         }
-        public Color Background
+        public Color? Background
         {
             get { return background; }
         }
