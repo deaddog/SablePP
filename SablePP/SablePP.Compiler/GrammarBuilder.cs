@@ -4,6 +4,7 @@ using SablePP.Generate.RegularExpressions;
 using SablePP.Generate.Translations;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace SablePP.Compiler
@@ -74,6 +75,8 @@ namespace SablePP.Compiler
             }
 
             var _productions = Visit(node.Productions).ToArray();
+            var _styles = Visit(node.Highlightrules).ToArray();
+
             throw new NotImplementedException();
         }
 
@@ -349,5 +352,47 @@ namespace SablePP.Compiler
         }
 
         #endregion
+
+        public IEnumerable<Highlighting> Visit(PHighlightrules node)
+        {
+            return from h in node.Highlightrules select Visit(h);
+        }
+
+        public Highlighting Visit(PHighlightrule node)
+        {
+            bool bold = node.Styles.OfType<ABoldHighlightStyle>().Any();
+            bool italic = node.Styles.OfType<AItalicHighlightStyle>().Any();
+            
+            var foreground = node.Styles.OfType<ATextHighlightStyle>().FirstOrDefault();
+            var background = node.Styles.OfType<ABackgroundHighlightStyle>().FirstOrDefault();
+
+            Color? foreColor = null;
+            if (foreground != null)
+                foreColor = Visit(foreground.Color);
+
+            Color? backColor = null;
+            if (background != null)
+                backColor = Visit(background.Color);
+
+            return new Highlighting(from t in node.Tokens select tokens[t.AsPToken], italic, bold, foreColor, backColor);
+        }
+
+        public Color Visit(PColor node)
+        {
+            return Visit((dynamic)node);
+        }
+
+        public Color Visit(AHexColor node)
+        {
+            throw new NotImplementedException();
+        }
+        public Color Visit(AHsvColor node)
+        {
+            throw new NotImplementedException();
+        }
+        public Color Visit(ARgbColor node)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
