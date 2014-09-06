@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +48,7 @@
     <Compile Include="AddOnlyList.cs" />
     <Compile Include="Alternative.cs" />
     <Compile Include="Grammar.cs" />
+    <Compile Include="Highlighting.cs" />
     <Compile Include="Production.cs" />
     <Compile Include="RegularExpressions\ConcatenatedRegExp.cs" />
     <Compile Include="Helper.cs" />

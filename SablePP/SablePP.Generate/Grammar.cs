@@ -14,8 +14,15 @@ namespace SablePP.Generate
         private Token[] tokens;
         private Production[] productions;
         private AbstractProduction[] abstractProductions;
+        private Highlighting[] highlighting;
 
-        public Grammar(string packageName, IEnumerable<Helper> helpers, IEnumerable<State> states, IEnumerable<Token> tokens, IEnumerable<Production> productions, IEnumerable<AbstractProduction> abstractProductions)
+        public Grammar(string packageName,
+            IEnumerable<Helper> helpers,
+            IEnumerable<State> states,
+            IEnumerable<Token> tokens,
+            IEnumerable<Production> productions,
+            IEnumerable<AbstractProduction> abstractProductions,
+            IEnumerable<Highlighting> highlighting)
         {
             this.packageName = packageName;
             this.helpers = helpers.ToArray();
@@ -23,6 +30,7 @@ namespace SablePP.Generate
             this.tokens = tokens.ToArray();
             this.productions = productions.ToArray();
             this.abstractProductions = abstractProductions.ToArray();
+            this.highlighting = highlighting.ToArray();
         }
 
         public string PackageName
@@ -48,6 +56,10 @@ namespace SablePP.Generate
         public AbstractProduction[] AbstractProductions
         {
             get { return abstractProductions; }
+        }
+        public Highlighting[] HighlightingRules
+        {
+            get { return highlighting; }
         }
     }
 }
