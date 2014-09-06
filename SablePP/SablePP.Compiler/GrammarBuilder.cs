@@ -279,7 +279,20 @@ namespace SablePP.Compiler
             if (node.HasTranslation)
                 return new Alternative(elements, Visit(node.Translation));
             else
-                throw new NotImplementedException();
+            {
+                var translations = new Translation[elements.Length];
+
+                for (int i = 0; i < translations.Length; i++)
+                {
+                    translations[i] = new ElementTranslation(elements[i]);
+                    if (elements[i].Modifier == Modifiers.OneOrMany || elements[i].Modifier == Modifiers.ZeroOrMany)
+                        translations[i] = new ListTranslation(new Translation[] { translations[i] });
+                }
+
+                var newTranslation = new NewTranslation(abstractAlternatives[node.AstTarget.Alternative], translations);
+
+                return new Alternative(elements, newTranslation);
+            }
         }
         public Alternative.Element Visit(PElement node)
         {
