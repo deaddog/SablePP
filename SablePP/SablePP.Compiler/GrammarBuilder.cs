@@ -77,7 +77,7 @@ namespace SablePP.Compiler
             var _productions = Visit(node.Productions).ToArray();
             var _styles = Visit(node.Highlightrules).ToArray();
 
-            throw new NotImplementedException();
+            return new Grammar(_package, _helpers, _states, _tokens, _productions, _absProds, _styles);
         }
 
         public Production.ProductionTranslation Visit(PProdtranslation node)
