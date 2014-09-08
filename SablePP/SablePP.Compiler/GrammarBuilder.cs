@@ -145,7 +145,7 @@ namespace SablePP.Compiler
             return new Token.TokenState(states[node.From.AsState], states[node.To.AsState]);
         }
 
-        #region Regular Exrpressions
+        #region Regular Expressions
 
         public RegExp Visit(PRegex node)
         {
@@ -154,7 +154,7 @@ namespace SablePP.Compiler
 
         public RegExp Visit(ACharRegex node)
         {
-            return new LiteralRegExp(node.Character.Text[0]);
+            return new LiteralRegExp(node.Character.Text[1]);
         }
         public RegExp Visit(ADecRegex node)
         {
@@ -190,7 +190,7 @@ namespace SablePP.Compiler
         }
         public RegExp Visit(AStringRegex node)
         {
-            return new LiteralRegExp(node.String.Text);
+            return new LiteralRegExp(node.String.Text.Substring(1, node.String.Text.Length - 2));
         }
         public RegExp Visit(AIdentifierRegex node)
         {
