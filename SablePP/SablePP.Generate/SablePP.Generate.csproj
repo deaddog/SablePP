@@ -60,6 +60,7 @@
     <Compile Include="RegularExpressions\ReferenceRegExp.cs" />
     <Compile Include="RegularExpressions\RegExp.cs" />
     <Compile Include="RegularExpressions\SetRegExp.cs" />
+    <Compile Include="SableCC\Builder.cs" />
     <Compile Include="State.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="Translations\ElementTranslation.cs" />
