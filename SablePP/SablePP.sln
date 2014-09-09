@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SablePP.Compiler", "SablePP.Compiler\SablePP.Compiler.csproj", "{5441C1D8-4091-4B8F-A2E6-50C65666324F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DDC52F3A-F031-4414-89FD-61077C631DD4} = {DDC52F3A-F031-4414-89FD-61077C631DD4}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SablePP.Tools", "SablePP.Tools\SablePP.Tools.csproj", "{3A7BF5F0-3346-4653-A3C3-443C5311971B}"
 EndProject
