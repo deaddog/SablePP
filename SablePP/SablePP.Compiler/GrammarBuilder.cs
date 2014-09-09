@@ -125,9 +125,9 @@ namespace SablePP.Compiler
             string name = "T" + node.Identifier.Text.ToCamelCase();
 
             if (node.Statelist.Count == 0)
-                token = new Token(name, Visit(node.Regex));
+                token = new Token(name, node.IsIgnored, Visit(node.Regex));
             else
-                token = new Token(name, Visit(node.Regex), from s in node.Statelist select Visit(s));
+                token = new Token(name, node.IsIgnored, Visit(node.Regex), from s in node.Statelist select Visit(s));
 
             tokens.Add(node, token);
             return token;

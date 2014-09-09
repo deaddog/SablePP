@@ -8,32 +8,15 @@ namespace SablePP.Generate
     public class Token
     {
         private string name;
+        private bool ignored;
         private TokenState[] states;
         private RegExp expression;
 
-        public Token(RegExp expression)
-            : this(expression, null)
+        public Token(string name, bool ignored, RegExp expression)
+            : this(name, ignored, expression, null)
         {
         }
-        public Token(RegExp expression, IEnumerable<TokenState> states)
-        {
-            this.name = null;
-
-            if (expression == null)
-                throw new ArgumentNullException("expression");
-
-            this.expression = expression;
-            if (states == null)
-                this.states = new TokenState[0];
-            else
-                this.states = states.ToArray();
-        }
-
-        public Token(string name, RegExp expression)
-            : this(name, expression, null)
-        {
-        }
-        public Token(string name, RegExp expression, IEnumerable<TokenState> states)
+        public Token(string name, bool ignored, RegExp expression, IEnumerable<TokenState> states)
         {
             if (name == null)
                 throw new ArgumentNullException("name");
@@ -42,6 +25,7 @@ namespace SablePP.Generate
                 throw new ArgumentNullException("expression");
 
             this.name = name;
+            this.ignored = ignored;
             this.expression = expression;
             if (states == null)
                 this.states = new TokenState[0];
@@ -51,7 +35,7 @@ namespace SablePP.Generate
 
         public bool Ignored
         {
-            get { return name == null; }
+            get { return ignored; }
         }
 
         public string Name
