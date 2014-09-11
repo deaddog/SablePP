@@ -8,6 +8,7 @@ namespace SablePP.Generate
     {
         private Element[] elements;
         private Translation translation;
+        private Production production;
 
         public Alternative(IEnumerable<Element> elements, Translation translation)
         {
@@ -19,10 +20,14 @@ namespace SablePP.Generate
         {
             get { return elements; }
         }
-
         public Translation Translation
         {
             get { return translation; }
+        }
+        public Production Production
+        {
+            get { return production; }
+            internal set { production = value; }
         }
 
         public abstract class Element

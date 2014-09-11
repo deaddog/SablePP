@@ -19,10 +19,12 @@ namespace SablePP.Generate
         public Production(ProductionTranslation translation, IEnumerable<Alternative> alternatives)
         {
             this.translation = translation;
-            if (alternatives == null)
-                this.alternatives = new AddOnlyList<Alternative>();
-            else
-                this.alternatives = new AddOnlyList<Alternative>(alternatives);
+
+            this.alternatives = new AddOnlyList<Alternative>();
+            this.alternatives.ItemAdded += (s, e) => e.Item.Production = this;
+
+            if (alternatives != null)
+                this.alternatives.AddRange(alternatives);
         }
 
         public ProductionTranslation Translation

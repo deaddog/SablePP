@@ -7,6 +7,7 @@ namespace SablePP.Generate
     {
         private string name;
         private Element[] elements;
+        private AbstractProduction production;
 
         public AbstractAlternative(string name, IEnumerable<Element> elements)
         {
@@ -21,6 +22,11 @@ namespace SablePP.Generate
         public Element[] Elements
         {
             get { return elements; }
+        }
+        public AbstractProduction Production
+        {
+            get { return production; }
+            internal set { production = value; }
         }
 
         public abstract class Element

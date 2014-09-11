@@ -13,11 +13,12 @@ namespace SablePP.Generate
         {
             this.innerList = new List<T>();
         }
-
         public AddOnlyList(IEnumerable<T> items)
         {
             this.innerList = new List<T>(items);
         }
+
+        internal event EventHandler<AddEventArgs> ItemAdded;
 
         public int Count
         {
@@ -32,14 +33,41 @@ namespace SablePP.Generate
         public void Add(T item)
         {
             innerList.Add(item);
+
+            if (ItemAdded != null)
+                ItemAdded(this, new AddEventArgs(item));
         }
         public void AddRange(IEnumerable<T> items)
         {
-            innerList.AddRange(items);
+            foreach (var e in items)
+                Add(e);
         }
         public void Insert(int index, T item)
         {
             innerList.Insert(index, item);
+
+            if (ItemAdded != null)
+                ItemAdded(this, new AddEventArgs(item));
+        }
+        public void InsertRange(int index, IEnumerable<T> items)
+        {
+            foreach (var e in items)
+                Insert(index++, e);
+        }
+
+        internal class AddEventArgs : EventArgs
+        {
+            private T item;
+
+            public AddEventArgs(T item)
+            {
+                this.item = item;
+            }
+
+            public T Item
+            {
+                get { return item; }
+            }
         }
     }
 }

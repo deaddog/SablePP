@@ -21,10 +21,12 @@ namespace SablePP.Generate
                 throw new ArgumentNullException("name");
 
             this.name = name;
-            if (alternatives == null)
-                this.alternatives = new AddOnlyList<AbstractAlternative>();
-            else
-                this.alternatives = new AddOnlyList<AbstractAlternative>(alternatives);
+
+            this.alternatives = new AddOnlyList<AbstractAlternative>();
+            this.alternatives.ItemAdded += (s, e) => e.Item.Production = this;
+
+            if (alternatives != null)
+                this.alternatives.AddRange(alternatives);
         }
 
         public string Name
