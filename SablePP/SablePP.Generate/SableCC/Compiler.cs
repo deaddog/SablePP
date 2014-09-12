@@ -98,7 +98,6 @@ namespace SablePP.Generate.SableCC
             _temporary_ = tempDir;
             _grammarPath = Path.Combine(_temporary_, "grammar.sablecc");
         }
-
         void IDisposable.Dispose()
         {
             if (_temporary_ == null)
@@ -110,9 +109,15 @@ namespace SablePP.Generate.SableCC
             }
         }
 
+        public static void ValidateWithSableCC(Grammar grammar)
+        {
+            using (Compiler cp = new Compiler())
+                cp.PerformValidation(grammar);
+        }
+
         private const int SABLE_MAX_WAIT = 500;
 
-        private void ValidateWithSableCC(Grammar grammar)
+        private void PerformValidation(Grammar grammar)
         {
             Builder.BuildToFile(grammar, _grammarPath);
 
@@ -143,7 +148,6 @@ namespace SablePP.Generate.SableCC
                 File.Move(Path.Combine(_temporary_, "parser.cs"), parserDestination);
             }
         }
-
         private Process StartSableCC()
         {
             var processInfo = new ProcessStartInfo(
