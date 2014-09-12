@@ -8,26 +8,9 @@ namespace SablePP.Generate.SableCC
 {
     internal class Compiler : IDisposable
     {
-        #region TempPath
-
         private readonly string _executing_ = null;
         private readonly string _temporary_ = null;
-
-        public string ExecutingDirectory
-        {
-            get { return _executing_; }
-        }
-
-        public string TemporaryDirectory
-        {
-            get { return _temporary_; }
-        }
-        public string TemporaryGrammarPath
-        {
-            get { return TemporaryDirectory + "\\grammar.sablecc"; }
-        }
-
-        #endregion
+        private readonly string _grammarPath = null;
 
         #region Java
 
@@ -113,6 +96,7 @@ namespace SablePP.Generate.SableCC
                 Directory.CreateDirectory(tempDir);
 
             _temporary_ = tempDir;
+            _grammarPath = Path.Combine(_temporary_, "grammar.sablecc");
         }
 
         void IDisposable.Dispose()
@@ -130,7 +114,7 @@ namespace SablePP.Generate.SableCC
 
         private void ValidateWithSableCC(Grammar grammar)
         {
-            Builder.BuildToFile(grammar, TemporaryGrammarPath);
+            Builder.BuildToFile(grammar, _grammarPath);
 
             int exitCode;
             string standardError;
@@ -147,16 +131,16 @@ namespace SablePP.Generate.SableCC
                 handleSableException(standardError);
             else
             {
-                string lexerDestination = Path.Combine(TemporaryDirectory, "sablecc_lexer.cs");
-                string parserDestination = Path.Combine(TemporaryDirectory, "sablecc_parser.cs");
+                string lexerDestination = Path.Combine(_temporary_, "sablecc_lexer.cs");
+                string parserDestination = Path.Combine(_temporary_, "sablecc_parser.cs");
 
                 if (File.Exists(lexerDestination))
                     File.Delete(lexerDestination);
-                File.Move(Path.Combine(TemporaryDirectory, "lexer.cs"), lexerDestination);
+                File.Move(Path.Combine(_temporary_, "lexer.cs"), lexerDestination);
 
                 if (File.Exists(parserDestination))
                     File.Delete(parserDestination);
-                File.Move(Path.Combine(TemporaryDirectory, "parser.cs"), parserDestination);
+                File.Move(Path.Combine(_temporary_, "parser.cs"), parserDestination);
             }
         }
 
@@ -164,12 +148,12 @@ namespace SablePP.Generate.SableCC
         {
             var processInfo = new ProcessStartInfo(
                 JavaExecutable,
-                "-jar sablecc.jar -d \"" + TemporaryDirectory + "\" -t csharp \"" + TemporaryGrammarPath + "\"")
+                "-jar sablecc.jar -d \"" + _temporary_ + "\" -t csharp \"" + _grammarPath + "\"")
             {
                 CreateNoWindow = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
-                WorkingDirectory = ExecutingDirectory
+                WorkingDirectory = _executing_
             };
 
             int wait = 0;
