@@ -6,51 +6,19 @@ using System.Text.RegularExpressions;
 
 namespace SablePP.Generate.SableCC
 {
-    internal static class Compiler
+    internal class Compiler : IDisposable
     {
         #region TempPath
 
-        private static string _executing_ = null;
-        private static string _temporary_ = null;
+        private string _executing_ = null;
+        private string _temporary_ = null;
 
-        private static object pathLock = new object();
-
-        static Compiler()
-        {
-            // Sets executing directory
-            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            Uri uri = new Uri(assembly.CodeBase);
-            _executing_ = Path.GetDirectoryName(uri.LocalPath);
-
-            // Sets temporary directory
-            string tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName().Replace(".", ""));
-
-            if (!Directory.Exists(tempDir))
-                Directory.CreateDirectory(tempDir);
-
-            _temporary_ = tempDir;
-        }
-
-        public static string ExecutingDirectory
+        public string ExecutingDirectory
         {
             get { return _executing_; }
         }
 
-        public static void CleanTemporaryFiles()
-        {
-            lock (pathLock)
-                if (_temporary_ == null)
-                    return;
-                else
-                {
-                    if (Directory.Exists(_temporary_))
-                        Directory.Delete(_temporary_, true);
-
-                    _temporary_ = null;
-                }
-        }
-
-        public static string TemporaryDirectory
+        public string TemporaryDirectory
         {
             get
             {
@@ -60,7 +28,7 @@ namespace SablePP.Generate.SableCC
                 return _temporary_;
             }
         }
-        public static string SableOutputDirectory
+        public string SableOutputDirectory
         {
             get
             {
@@ -74,11 +42,11 @@ namespace SablePP.Generate.SableCC
             }
         }
 
-        public static string TemporaryGrammarPath
+        public string TemporaryGrammarPath
         {
             get { return TemporaryDirectory + "\\grammar.sablecc"; }
         }
-        public static string TemporarySableGrammarPath
+        public string TemporarySableGrammarPath
         {
             get { return SableOutputDirectory + "\\grammar.sablecc"; }
         }
@@ -154,6 +122,35 @@ namespace SablePP.Generate.SableCC
         }
 
         #endregion
+
+        private Compiler()
+        {
+            // Sets executing directory
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            Uri uri = new Uri(assembly.CodeBase);
+            _executing_ = Path.GetDirectoryName(uri.LocalPath);
+
+            // Sets temporary directory
+            string tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName().Replace(".", ""));
+
+            if (!Directory.Exists(tempDir))
+                Directory.CreateDirectory(tempDir);
+
+            _temporary_ = tempDir;
+        }
+
+        void IDisposable.Dispose()
+        {
+            if (_temporary_ == null)
+                return;
+            else
+            {
+                if (Directory.Exists(_temporary_))
+                    Directory.Delete(_temporary_, true);
+
+                _temporary_ = null;
+            }
+        }
 
         private const int SABLE_MAX_WAIT = 500;
 
