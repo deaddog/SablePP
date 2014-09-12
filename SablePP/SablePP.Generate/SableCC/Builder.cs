@@ -29,7 +29,7 @@ namespace SablePP.Generate.SableCC
         {
             Builder builder = new Builder();
             builder.Start(grammar);
-            builder.root.ToFile(filepath, Encoding.Unicode, "  ");
+            builder.root.ToFile(filepath, Encoding.UTF8, "  ");
         }
 
         private void Start(Grammar grammar)
