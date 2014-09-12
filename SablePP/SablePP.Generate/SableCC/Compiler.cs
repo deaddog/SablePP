@@ -160,7 +160,7 @@ namespace SablePP.Generate.SableCC
         private void ValidateWithSableCC(Start<PGrammar> root, CompilationOptions compilationOptions)
         {
             SableGrammarEmitter emitter;
-            using (FileStream fss = new FileStream(PathInformation.TemporarySableGrammarPath, FileMode.Create))
+            using (FileStream fss = new FileStream(TemporarySableGrammarPath, FileMode.Create))
             {
                 emitter = new SableGrammarEmitter(fss);
                 emitter.Visit(root);
@@ -172,7 +172,7 @@ namespace SablePP.Generate.SableCC
                 {
                     string errorText = proc.StandardError.ReadToEnd();
                     string sableCCgrammar;
-                    using (StreamReader reader = new StreamReader(PathInformation.TemporarySableGrammarPath))
+                    using (StreamReader reader = new StreamReader(TemporarySableGrammarPath))
                         sableCCgrammar = reader.ReadToEnd();
                     SableCCLogger.LogFromGrammar(compilationOptions.Input, sableCCgrammar, errorText);
 
@@ -187,16 +187,16 @@ namespace SablePP.Generate.SableCC
                 }
                 else
                 {
-                    string lexerDestination = Path.Combine(PathInformation.SableOutputDirectory, "sablecc_lexer.cs");
-                    string parserDestination = Path.Combine(PathInformation.SableOutputDirectory, "sablecc_parser.cs");
+                    string lexerDestination = Path.Combine(SableOutputDirectory, "sablecc_lexer.cs");
+                    string parserDestination = Path.Combine(SableOutputDirectory, "sablecc_parser.cs");
 
                     if (File.Exists(lexerDestination))
                         File.Delete(lexerDestination);
-                    File.Move(Path.Combine(PathInformation.SableOutputDirectory, "lexer.cs"), lexerDestination);
+                    File.Move(Path.Combine(SableOutputDirectory, "lexer.cs"), lexerDestination);
 
                     if (File.Exists(parserDestination))
                         File.Delete(parserDestination);
-                    File.Move(Path.Combine(PathInformation.SableOutputDirectory, "parser.cs"), parserDestination);
+                    File.Move(Path.Combine(SableOutputDirectory, "parser.cs"), parserDestination);
                 }
                 proc.Close();
             }
@@ -205,13 +205,13 @@ namespace SablePP.Generate.SableCC
         private Process StartSableCC()
         {
             var processInfo = new ProcessStartInfo(
-                PathInformation.JavaExecutable,
-                "-jar sablecc.jar -d \"" + PathInformation.SableOutputDirectory + "\" -t csharp \"" + PathInformation.TemporarySableGrammarPath + "\"")
+                JavaExecutable,
+                "-jar sablecc.jar -d \"" + SableOutputDirectory + "\" -t csharp \"" + TemporarySableGrammarPath + "\"")
             {
                 CreateNoWindow = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
-                WorkingDirectory = PathInformation.ExecutingDirectory
+                WorkingDirectory = ExecutingDirectory
             };
 
             int wait = 0;
