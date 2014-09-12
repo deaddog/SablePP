@@ -34,7 +34,7 @@ namespace SablePP.Generate.SableCC
 
         private void Start(Grammar grammar)
         {
-            root.EmitLine("Package " + grammar.PackageName);
+            root.EmitLine("Package {0};", grammar.PackageName);
             root.EmitLine();
 
             if (grammar.Helpers.Length > 0)
@@ -264,6 +264,7 @@ namespace SablePP.Generate.SableCC
                 Emit(production.Alternatives[i]);
                 root.EmitLine();
             }
+            root.EmitLine(";");
             root.DecreaseIndentation();
             elements.CloseScope();
         }
@@ -292,7 +293,7 @@ namespace SablePP.Generate.SableCC
             EmitEach(alternative.Elements, e => Emit(e), " ");
             Emit(" { -> ");
             Emit(alternative.Translation);
-            Emit(" };");
+            Emit(" }");
             elements.CloseScope();
         }
         private void Emit(Alternative.Element element)
@@ -340,6 +341,7 @@ namespace SablePP.Generate.SableCC
                 Emit(production.Alternatives[i]);
                 root.EmitLine();
             }
+            root.EmitLine(";");
             root.DecreaseIndentation();
             elements.CloseScope();
         }
@@ -348,7 +350,6 @@ namespace SablePP.Generate.SableCC
             elements.OpenScope();
             Emit("{{{0}}} ", names[alternative]);
             EmitEach(alternative.Elements, e => Emit(e), " ");
-            Emit(";");
             elements.CloseScope();
         }
         private void Emit(AbstractAlternative.Element element)
