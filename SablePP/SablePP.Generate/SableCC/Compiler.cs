@@ -157,14 +157,9 @@ namespace SablePP.Generate.SableCC
 
         private const int SABLE_MAX_WAIT = 500;
 
-        private void ValidateWithSableCC(Start<PGrammar> root, CompilationOptions compilationOptions)
+        private void ValidateWithSableCC(Grammar grammar)
         {
-            SableGrammarEmitter emitter;
-            using (FileStream fss = new FileStream(TemporarySableGrammarPath, FileMode.Create))
-            {
-                emitter = new SableGrammarEmitter(fss);
-                emitter.Visit(root);
-            }
+            Builder.BuildToFile(grammar, TemporarySableGrammarPath);
 
             using (Process proc = StartSableCC())
             {
