@@ -389,6 +389,15 @@ namespace SablePP.Generate.SableCC
         private void Emit(ElementTranslation translation)
         {
             Emit("{0}", names[translation.Element]);
+            if (translation.Element is Alternative.ProductionElement)
+            {
+                var prod = translation.Element as Alternative.ProductionElement;
+                var trans = prod.Production.Translation;
+                if (trans.HasToken)
+                    Emit(".{0}", names[trans.Token]);
+                else
+                    Emit(".{0}", names[trans.Production]);
+            }
         }
         private void Emit(ListTranslation translation)
         {
