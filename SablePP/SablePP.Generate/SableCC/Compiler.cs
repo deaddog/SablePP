@@ -166,10 +166,6 @@ namespace SablePP.Generate.SableCC
                 if (proc.ExitCode != 0)
                 {
                     string errorText = proc.StandardError.ReadToEnd();
-                    string sableCCgrammar;
-                    using (StreamReader reader = new StreamReader(TemporarySableGrammarPath))
-                        sableCCgrammar = reader.ReadToEnd();
-                    SableCCLogger.LogFromGrammar(compilationOptions.Input, sableCCgrammar, errorText);
 
                     string[] text = errorText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
