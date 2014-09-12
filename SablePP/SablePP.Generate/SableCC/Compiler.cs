@@ -25,7 +25,7 @@ namespace SablePP.Generate.SableCC
             // Sets temporary directory
             string tempDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName().Replace(".", ""));
 
-            if(!Directory.Exists(tempDir))
+            if (!Directory.Exists(tempDir))
                 Directory.CreateDirectory(tempDir);
 
             _temporary_ = tempDir;
@@ -161,35 +161,40 @@ namespace SablePP.Generate.SableCC
         {
             Builder.BuildToFile(grammar, TemporarySableGrammarPath);
 
+            int exitCode;
+            string standardError;
+
             using (Process proc = StartSableCC())
             {
-                if (proc.ExitCode != 0)
-                {
-                    string errorText = proc.StandardError.ReadToEnd();
+                exitCode = proc.ExitCode;
+                standardError = proc.StandardError.ReadToEnd();
 
-                    string[] text = errorText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-
-                    for (int i = 0; i < text.Length; i++)
-                    {
-                        if (text[i].StartsWith("\tat "))
-                            break;
-                        handleSableException(compilationOptions.ErrorManager, emitter, text[i]);
-                    }
-                }
-                else
-                {
-                    string lexerDestination = Path.Combine(SableOutputDirectory, "sablecc_lexer.cs");
-                    string parserDestination = Path.Combine(SableOutputDirectory, "sablecc_parser.cs");
-
-                    if (File.Exists(lexerDestination))
-                        File.Delete(lexerDestination);
-                    File.Move(Path.Combine(SableOutputDirectory, "lexer.cs"), lexerDestination);
-
-                    if (File.Exists(parserDestination))
-                        File.Delete(parserDestination);
-                    File.Move(Path.Combine(SableOutputDirectory, "parser.cs"), parserDestination);
-                }
                 proc.Close();
+            }
+
+            if (exitCode != 0)
+            {
+                string[] text = standardError.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+                for (int i = 0; i < text.Length; i++)
+                {
+                    if (text[i].StartsWith("\tat "))
+                        break;
+                    handleSableException(compilationOptions.ErrorManager, emitter, text[i]);
+                }
+            }
+            else
+            {
+                string lexerDestination = Path.Combine(SableOutputDirectory, "sablecc_lexer.cs");
+                string parserDestination = Path.Combine(SableOutputDirectory, "sablecc_parser.cs");
+
+                if (File.Exists(lexerDestination))
+                    File.Delete(lexerDestination);
+                File.Move(Path.Combine(SableOutputDirectory, "lexer.cs"), lexerDestination);
+
+                if (File.Exists(parserDestination))
+                    File.Delete(parserDestination);
+                File.Move(Path.Combine(SableOutputDirectory, "parser.cs"), parserDestination);
             }
         }
 
