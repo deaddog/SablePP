@@ -173,16 +173,7 @@ namespace SablePP.Generate.SableCC
             }
 
             if (exitCode != 0)
-            {
-                string[] text = standardError.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-
-                for (int i = 0; i < text.Length; i++)
-                {
-                    if (text[i].StartsWith("\tat "))
-                        break;
-                    handleSableException(compilationOptions.ErrorManager, emitter, text[i]);
-                }
-            }
+                handleSableException(standardError);
             else
             {
                 string lexerDestination = Path.Combine(SableOutputDirectory, "sablecc_lexer.cs");
@@ -225,25 +216,8 @@ namespace SablePP.Generate.SableCC
 
             return proc;
         }
-        private void handleSableException(ErrorManager errorManager, SableGrammarEmitter emitter, string text)
+        private void handleSableException(string standardError)
         {
-            Match m = Regex.Match(text, "java.lang.RuntimeException: \\[(?<line>[0-9]+),(?<char>[0-9]+)\\] (?<text>.*)");
-            if (m.Success)
-            {
-                int eLine = int.Parse(m.Groups["line"].Value);
-                int eChar = int.Parse(m.Groups["char"].Value);
-
-                var position = emitter.TranslatePosition(eLine, eChar);
-
-                string eText = m.Groups["text"].Value;
-
-                if (eLine == 0 || eChar == 0)
-                    errorManager.Register("SableCC: {2} at {{{0},{1}}}", eLine, eChar, eText);
-                else
-                    errorManager.Register(new CompilerError(ErrorType.Error, position, position, "SableCC: " + eText));
-            }
-            else
-                errorManager.Register(text);
         }
     }
 }
