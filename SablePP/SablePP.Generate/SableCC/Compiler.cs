@@ -10,8 +10,8 @@ namespace SablePP.Generate.SableCC
     {
         #region TempPath
 
-        private string _executing_ = null;
-        private string _temporary_ = null;
+        private readonly string _executing_ = null;
+        private readonly string _temporary_ = null;
 
         public string ExecutingDirectory
         {
@@ -20,35 +20,11 @@ namespace SablePP.Generate.SableCC
 
         public string TemporaryDirectory
         {
-            get
-            {
-                if (_temporary_ == null)
-                    throw new InvalidOperationException("TemporaryDirectory cannot be access after CleanTemporaryFiles has been called.");
-
-                return _temporary_;
-            }
+            get { return _temporary_; }
         }
-        public string SableOutputDirectory
-        {
-            get
-            {
-                string sableDir = Path.Combine(TemporaryDirectory, "sable");
-
-                DirectoryInfo dir = new DirectoryInfo(sableDir);
-                if (!dir.Exists)
-                    dir.Create();
-
-                return sableDir;
-            }
-        }
-
         public string TemporaryGrammarPath
         {
             get { return TemporaryDirectory + "\\grammar.sablecc"; }
-        }
-        public string TemporarySableGrammarPath
-        {
-            get { return SableOutputDirectory + "\\grammar.sablecc"; }
         }
 
         #endregion
@@ -147,8 +123,6 @@ namespace SablePP.Generate.SableCC
             {
                 if (Directory.Exists(_temporary_))
                     Directory.Delete(_temporary_, true);
-
-                _temporary_ = null;
             }
         }
 
@@ -156,7 +130,7 @@ namespace SablePP.Generate.SableCC
 
         private void ValidateWithSableCC(Grammar grammar)
         {
-            Builder.BuildToFile(grammar, TemporarySableGrammarPath);
+            Builder.BuildToFile(grammar, TemporaryGrammarPath);
 
             int exitCode;
             string standardError;
@@ -173,16 +147,16 @@ namespace SablePP.Generate.SableCC
                 handleSableException(standardError);
             else
             {
-                string lexerDestination = Path.Combine(SableOutputDirectory, "sablecc_lexer.cs");
-                string parserDestination = Path.Combine(SableOutputDirectory, "sablecc_parser.cs");
+                string lexerDestination = Path.Combine(TemporaryDirectory, "sablecc_lexer.cs");
+                string parserDestination = Path.Combine(TemporaryDirectory, "sablecc_parser.cs");
 
                 if (File.Exists(lexerDestination))
                     File.Delete(lexerDestination);
-                File.Move(Path.Combine(SableOutputDirectory, "lexer.cs"), lexerDestination);
+                File.Move(Path.Combine(TemporaryDirectory, "lexer.cs"), lexerDestination);
 
                 if (File.Exists(parserDestination))
                     File.Delete(parserDestination);
-                File.Move(Path.Combine(SableOutputDirectory, "parser.cs"), parserDestination);
+                File.Move(Path.Combine(TemporaryDirectory, "parser.cs"), parserDestination);
             }
         }
 
@@ -190,7 +164,7 @@ namespace SablePP.Generate.SableCC
         {
             var processInfo = new ProcessStartInfo(
                 JavaExecutable,
-                "-jar sablecc.jar -d \"" + SableOutputDirectory + "\" -t csharp \"" + TemporarySableGrammarPath + "\"")
+                "-jar sablecc.jar -d \"" + TemporaryDirectory + "\" -t csharp \"" + TemporaryGrammarPath + "\"")
             {
                 CreateNoWindow = true,
                 RedirectStandardError = true,
