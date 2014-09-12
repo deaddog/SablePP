@@ -191,9 +191,9 @@ namespace SablePP.Generate.SableCC
         private void Emit(LiteralRegExp expression)
         {
             if (expression.IsChar)
-                Emit(@"'\{0}'", (int)expression.Char.Value);
+                Emit(@"{0}", (int)expression.Char.Value);
             else
-                Emit("\"{0}\"", expression.Content);
+                Emit("\'{0}\'", expression.Content);
         }
         private void Emit(ModifiedRegExp expression)
         {
