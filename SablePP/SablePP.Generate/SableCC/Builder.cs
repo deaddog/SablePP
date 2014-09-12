@@ -251,8 +251,9 @@ namespace SablePP.Generate.SableCC
             for (int i = 0; i < production.Alternatives.Count; i++)
                 names.Add(production.Alternatives[i], safename.Add("alt", production.Alternatives[i]));
 
+            Emit("{0} ", names[production]);
             Emit(production.Translation);
-            root.EmitLine(" {0}", names[production]);
+            root.EmitLine();
             root.IncreaseIndentation();
             root.Emit("= ");
             Emit(production.Alternatives[0]);
