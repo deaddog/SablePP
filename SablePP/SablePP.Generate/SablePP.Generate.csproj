@@ -62,7 +62,7 @@
     <Compile Include="GrammarStructure\RegularExpressions\SetRegExp.cs" />
     <Compile Include="SableCC\Builder.cs" />
     <Compile Include="SableCC\Compiler.cs" />
-    <Compile Include="SableCC\UnhandledGrammarErrorException.cs" />
+    <Compile Include="UnhandledGrammarErrorException.cs" />
     <Compile Include="GrammarStructure\State.cs" />
     <Compile Include="GrammarStructure\Token.cs" />
     <Compile Include="GrammarStructure\Translations\ElementTranslation.cs" />
