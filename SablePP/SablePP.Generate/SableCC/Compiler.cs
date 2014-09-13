@@ -177,6 +177,19 @@ namespace SablePP.Generate.SableCC
         }
         private void handleSableException(string standardError)
         {
+            var reduces = Regex.Matches(standardError, @"reduce/reduce conflict in state[^}]+\}");
+            var shifts = Regex.Matches(standardError, @"shift/reduce conflict in state[^}]+\}");
+
+            if (reduces.Count > 0)
+            {
+                throw new NotImplementedException();
+            }
+            else if (shifts.Count > 0)
+            {
+                throw new NotImplementedException();
+            }
+            else
+                throw new UnhandledGrammarErrorException(standardError);
         }
     }
 }
