@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -109,45 +110,43 @@ namespace SablePP.Generate.SableCC
             }
         }
 
-        public static void ValidateWithSableCC(Grammar grammar)
+        public static CompilationResult ValidateWithSableCC(Grammar grammar)
         {
             using (Compiler cp = new Compiler())
-                cp.PerformValidation(grammar);
+            {
+                Builder.BuildToFile(grammar, cp._grammarPath);
+
+                int exitCode;
+                string standardError;
+
+                using (Process proc = cp.StartSableCC())
+                {
+                    exitCode = proc.ExitCode;
+                    standardError = proc.StandardError.ReadToEnd();
+
+                    proc.Close();
+                }
+
+                if (exitCode != 0)
+                    return new CompilationResult(cp.handleSableException(standardError));
+                else
+                {
+                    string lexerDestination = Path.Combine(cp._temporary_, "sablecc_lexer.cs");
+                    string parserDestination = Path.Combine(cp._temporary_, "sablecc_parser.cs");
+
+                    if (File.Exists(lexerDestination))
+                        File.Delete(lexerDestination);
+                    File.Move(Path.Combine(cp._temporary_, "lexer.cs"), lexerDestination);
+
+                    if (File.Exists(parserDestination))
+                        File.Delete(parserDestination);
+                    File.Move(Path.Combine(cp._temporary_, "parser.cs"), parserDestination);
+                }
+            }
         }
 
         private const int SABLE_MAX_WAIT = 500;
 
-        private void PerformValidation(Grammar grammar)
-        {
-            Builder.BuildToFile(grammar, _grammarPath);
-
-            int exitCode;
-            string standardError;
-
-            using (Process proc = StartSableCC())
-            {
-                exitCode = proc.ExitCode;
-                standardError = proc.StandardError.ReadToEnd();
-
-                proc.Close();
-            }
-
-            if (exitCode != 0)
-                handleSableException(standardError);
-            else
-            {
-                string lexerDestination = Path.Combine(_temporary_, "sablecc_lexer.cs");
-                string parserDestination = Path.Combine(_temporary_, "sablecc_parser.cs");
-
-                if (File.Exists(lexerDestination))
-                    File.Delete(lexerDestination);
-                File.Move(Path.Combine(_temporary_, "lexer.cs"), lexerDestination);
-
-                if (File.Exists(parserDestination))
-                    File.Delete(parserDestination);
-                File.Move(Path.Combine(_temporary_, "parser.cs"), parserDestination);
-            }
-        }
         private Process StartSableCC()
         {
             var processInfo = new ProcessStartInfo(
@@ -175,21 +174,17 @@ namespace SablePP.Generate.SableCC
 
             return proc;
         }
-        private void handleSableException(string standardError)
+        private CompilationError handleSableException(string standardError)
         {
-            var reduces = Regex.Matches(standardError, @"reduce/reduce conflict in state[^}]+\}");
-            var shifts = Regex.Matches(standardError, @"shift/reduce conflict in state[^}]+\}");
+            Regex errorRegex = new Regex(@"(?<type>shift|reduce)/reduce conflict in state");
 
-            if (reduces.Count > 0)
-            {
-                throw new NotImplementedException();
-            }
-            else if (shifts.Count > 0)
-            {
-                throw new NotImplementedException();
-            }
-            else
+            Match m = errorRegex.Match(standardError);
+            if(!m.Success)
                 throw new UnhandledGrammarErrorException(standardError);
+
+            ErrorTypes type = m.Groups["type"].Value == "shift" ? ErrorTypes.ShiftReduce : ErrorTypes.ReduceReduce;
+
+            return new CompilationError(type, standardError);
         }
     }
 }
