@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace SablePP.Generate.SableCC
@@ -131,18 +132,22 @@ namespace SablePP.Generate.SableCC
                     return new CompilationResult(cp.handleSableException(standardError));
                 else
                 {
-                    string lexerDestination = Path.Combine(cp._temporary_, "sablecc_lexer.cs");
-                    string parserDestination = Path.Combine(cp._temporary_, "sablecc_parser.cs");
+                    CompilationResult result = new CompilationResult();
 
-                    if (File.Exists(lexerDestination))
-                        File.Delete(lexerDestination);
-                    File.Move(Path.Combine(cp._temporary_, "lexer.cs"), lexerDestination);
+                    result.SetLexerTables(readFile(Path.Combine(cp._temporary_, "lexer.cs")));
+                    result.SetParserTables(readFile(Path.Combine(cp._temporary_, "parser.cs")));
 
-                    if (File.Exists(parserDestination))
-                        File.Delete(parserDestination);
-                    File.Move(Path.Combine(cp._temporary_, "parser.cs"), parserDestination);
+                    return result;
                 }
             }
+        }
+
+        private static string readFile(string filepath)
+        {
+            string content = null;
+            using (StreamReader reader = new StreamReader(filepath))
+                content = reader.ReadToEnd();
+            return content;
         }
 
         private const int SABLE_MAX_WAIT = 500;
