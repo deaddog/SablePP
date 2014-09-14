@@ -2,6 +2,7 @@
 {
     public enum ErrorTypes
     {
+        Unknown,
         ShiftReduce,
         ReduceReduce
     }

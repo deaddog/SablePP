@@ -179,10 +179,12 @@ namespace SablePP.Generate.SableCC
             Regex errorRegex = new Regex(@"(?<type>shift|reduce)/reduce conflict in state");
 
             Match m = errorRegex.Match(standardError);
-            if(!m.Success)
-                throw new UnhandledGrammarErrorException(standardError);
+            ErrorTypes type;
 
-            ErrorTypes type = m.Groups["type"].Value == "shift" ? ErrorTypes.ShiftReduce : ErrorTypes.ReduceReduce;
+            if (!m.Success)
+                type = ErrorTypes.Unknown;
+            else
+                type = m.Groups["type"].Value == "shift" ? ErrorTypes.ShiftReduce : ErrorTypes.ReduceReduce;
 
             return new CompilationError(type, standardError);
         }
