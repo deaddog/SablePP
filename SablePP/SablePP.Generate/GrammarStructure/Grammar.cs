@@ -33,6 +33,11 @@ namespace SablePP.Generate
             this.highlighting = highlighting.ToArray();
         }
 
+        public CompilationResult Compile()
+        {
+            return SablePP.Generate.SableCC.Compiler.ValidateWithSableCC(this);
+        }
+
         public string PackageName
         {
             get { return packageName; }

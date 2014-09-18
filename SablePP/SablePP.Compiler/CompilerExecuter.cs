@@ -28,10 +28,14 @@ namespace SablePP.Compiler
         private const int SABLE_MAX_WAIT = 500;
         private IdentifierHighlighter identifierHighlighter;
 
+        private SablePP.Generate.Grammar lastGrammar;
+        private SablePP.Generate.CompilationResult lastResult;
 
         public CompilerExecuter()
         {
             this.identifierHighlighter = new IdentifierHighlighter();
+            this.lastGrammar = null;
+            this.lastResult = null;
         }
 
         public override void Validate(Start<PGrammar> root, CompilationOptions compilationOptions)
@@ -45,7 +49,18 @@ namespace SablePP.Compiler
             compilationOptions.Highlight(identifierHighlighter);
 
             if (compilationOptions.ErrorManager.Errors.Count == 0)
-                ValidateWithSableCC(root, compilationOptions);
+            {
+                this.lastGrammar = GrammarBuilder.BuildSableCCGrammar(root);
+                this.lastResult = lastGrammar.Compile();
+
+                if (lastResult.Error != null)
+                    compilationOptions.ErrorManager.Register(ErrorType.Error, "Failed to compile grammar, see details below:\r\n{0}", lastResult.Error.Message);
+            }
+            else
+            {
+                this.lastGrammar = null;
+                this.lastResult = null;
+            }
         }
 
         private void Rebuild(Start<PGrammar> root, ErrorManager errorManager)
