@@ -26,18 +26,11 @@ namespace SablePP.Compiler
     public partial class CompilerExecuter
     {
         private const int SABLE_MAX_WAIT = 500;
-        private bool runSable;
         private IdentifierHighlighter identifierHighlighter;
 
-        public bool RunSable
-        {
-            get { return runSable; }
-            set { runSable = value; }
-        }
 
-        public CompilerExecuter(bool runSable)
+        public CompilerExecuter()
         {
-            this.runSable = runSable;
             this.identifierHighlighter = new IdentifierHighlighter();
         }
 
@@ -51,7 +44,7 @@ namespace SablePP.Compiler
 
             compilationOptions.Highlight(identifierHighlighter);
 
-            if (compilationOptions.ErrorManager.Errors.Count == 0 && runSable)
+            if (compilationOptions.ErrorManager.Errors.Count == 0)
                 ValidateWithSableCC(root, compilationOptions);
         }
 
@@ -256,13 +249,6 @@ namespace SablePP.Compiler
 
         public bool Generate(Start<PGrammar> root, string directory)
         {
-            ErrorManager manager = new ErrorManager();
-            if (!runSable)
-                ValidateWithSableCC(root, new CompilationOptions("", manager, null));
-
-            if (manager.Count > 0)
-                return false;
-
             string output = PathInformation.SableOutputDirectory;
 
             TokenNodes.BuildCode(root).ToFile(Path.Combine(output, "tokens.cs"));

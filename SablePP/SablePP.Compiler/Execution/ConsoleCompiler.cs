@@ -18,7 +18,7 @@ namespace SablePP.Compiler.Execution
             string outputDirectory = Arguments["out"][0];
             outputDirectory = outputDirectory.TrimEnd('\\');
 
-            CompilerExecuter executer = new CompilerExecuter(true);
+            CompilerExecuter executer = new CompilerExecuter();
 
             Console.WriteLine("Input:\n" + inputGrammar + "\n\nValidating grammar.");
             Start<PGrammar> ast = Parse(ReadFile(PathInformation.TemporaryGrammarPath), executer);
