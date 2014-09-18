@@ -66,6 +66,9 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (node.HasProductions)
                 Visit(node.Productions);
 
+            if (ErrorManager.Errors.Count > 0)
+                return;
+
             if (node.HasProductions && node.HasAstproductions)
                 new TranslationTargetVisitor(this.ErrorManager).Visit(node.Productions);
 
