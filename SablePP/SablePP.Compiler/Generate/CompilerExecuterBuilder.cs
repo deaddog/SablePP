@@ -23,7 +23,7 @@ namespace SablePP.Compiler.Generate
 
             fileElement.Using.EmitNewline();
 
-            fileElement.Using.Add(ToolsNamespace.Nodes);
+            fileElement.Using.Add(SablePP.Generate.Namespaces.Nodes);
 
             fileElement.Using.EmitNewline();
 
@@ -62,7 +62,7 @@ namespace SablePP.Compiler.Generate
             NameSpaceElement name = new NameSpaceElement(packageName);
             fileElement.Add(name);
 
-            ClassElement executerClass = new ClassElement("public partial class CompilerExecuter : {1}.CompilerExecuter<{0}, Lexer, Parser>", rootProduction, ToolsNamespace.Root);
+            ClassElement executerClass = new ClassElement("public partial class CompilerExecuter : {1}.CompilerExecuter<{0}, Lexer, Parser>", rootProduction, SablePP.Generate.Namespaces.Root);
             name.Add(executerClass);
 
             return executerClass;
@@ -77,7 +77,7 @@ namespace SablePP.Compiler.Generate
         }
         private static void CreateParserMethod(ClassElement classElement)
         {
-            MethodElement imMethod = new MethodElement("public override Parser GetParser(" + ToolsNamespace.Lexing + ".ILexer lexer)");
+            MethodElement imMethod = new MethodElement("public override Parser GetParser(" + SablePP.Generate.Namespaces.Lexing + ".ILexer lexer)");
             imMethod.Body.EmitLine("return new Parser(lexer);");
 
             classElement.Add(imMethod);

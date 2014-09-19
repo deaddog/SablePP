@@ -20,8 +20,8 @@ namespace SablePP.Compiler.Generate.Analysis
             fileElement = new FileElement();
             fileElement.Using.Add("System");
             fileElement.Using.Add("System.Collections.Generic");
-            fileElement.Using.Add(ToolsNamespace.Analysis);
-            fileElement.Using.Add(ToolsNamespace.Nodes);
+            fileElement.Using.Add(SablePP.Generate.Namespaces.Analysis);
+            fileElement.Using.Add(SablePP.Generate.Namespaces.Nodes);
         }
 
         public static FileElement BuildCode(Start<PGrammar> astRoot)

@@ -60,6 +60,7 @@
     <Compile Include="GrammarStructure\RegularExpressions\ModifiedRegExp.cs" />
     <Compile Include="GrammarStructure\Modifiers.cs" />
     <Compile Include="GrammarStructure\RegularExpressions\OrRegExp.cs" />
+    <Compile Include="Namespaces.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GrammarStructure\RegularExpressions\ReferenceRegExp.cs" />
     <Compile Include="GrammarStructure\RegularExpressions\RegExp.cs" />
