@@ -25,11 +25,16 @@ namespace SablePP.Generate.Building
 
         private Lexer(Grammar grammar, CompilationResult tables)
         {
+            fileElement = new FileElement();
+            fileElement.Using.Add("System");
+
             this.grammar = grammar;
             this.tables = tables;
+
+            this.states = new Dictionary<string, int>();
         }
 
-        public override void CaseAGrammar(AGrammar node)
+        private void Visit(Grammar node)
         {
             if (node.HasPackage)
                 Visit(node.Package);
@@ -111,7 +116,7 @@ namespace SablePP.Generate.Building
             return method;
         }
 
-        public override void CaseAToken(AToken node)
+        private void Visit(Token node)
         {
             getTokenMethod.EmitLine("case {1}: return new {0}(text, line, position);", node.ClassName, tokenIndex);
 
@@ -134,15 +139,12 @@ namespace SablePP.Generate.Building
             tokenIndex++;
         }
 
-        public override void CaseATokenState(ATokenState node)
-        {
-        }
-        public override void CaseATransitionTokenState(ATransitionTokenState node)
+        private void Visit(Token.TokenState node)
         {
             getNextStateMethod.EmitLine("case {0}: return {1};", node.From.AsState.LexerName, node.To.AsState.LexerName);
         }
 
-        public override void CaseAStates(AStates node)
+        private void Visit(State[] node)
         {
             int index = 0;
             foreach (var state in node.States)
