@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Building\Lexer.cs" />
     <Compile Include="CompilationError.cs" />
     <Compile Include="CompilationResult.cs" />
     <Compile Include="ErrorTypes.cs" />
