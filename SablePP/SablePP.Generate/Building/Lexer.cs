@@ -19,7 +19,6 @@ namespace SablePP.Generate.Building
         private NameSpaceElement nameElement;
         private ClassElement classElement;
 
-        private Dictionary<string, int> states;
         private int tokenIndex = 0;
 
         private PatchElement getTokenMethod, getNextStateMethod;
@@ -35,8 +34,6 @@ namespace SablePP.Generate.Building
 
             this.grammar = grammar;
             this.tables = tables;
-
-            this.states = new Dictionary<string, int>();
 
             this.objects = new Dictionary<string, object>();
             this.names = new Dictionary<object, string>();
@@ -57,20 +54,16 @@ namespace SablePP.Generate.Building
 
             nameElement.Add(classElement = new ClassElement("public class Lexer : {0}.Lexer", SablePP.Generate.Namespaces.Lexing));
 
-            if (node.HasStates)
-                Visit(node.States);
+            Visit(node.States);
 
-            if (node.HasStates)
-                classElement.EmitNewline();
-
-            string initialState = node.HasStates ? states.Keys.Where(s => states[s] == 0).First() : "0";
+            string initialState = node.States.Length > 0 ? names[node.States[0]] : "0";
             classElement.Add(new MethodElement(
                 "public Lexer(System.IO.TextReader input)",
                 "base(input, " + initialState + ", gotoTable, acceptTable)", true));
 
             classElement.EmitNewline();
             classElement.Add(emitGetToken());
-            if (node.HasStates)
+            if (node.States.Length > 0)
                 classElement.Add(emitGetNextState());
 
             if (node.HasTokens)
@@ -131,7 +124,7 @@ namespace SablePP.Generate.Building
         {
             getTokenMethod.EmitLine("case {1}: return new {0}(text, line, position);", node.ClassName, tokenIndex);
 
-            if(node.Statelist.Any(item=>item is ATransitionTokenState))
+            if (node.Statelist.Any(item => item is ATransitionTokenState))
             {
                 getNextStateMethod.EmitLine("case {0}:", tokenIndex);
                 getNextStateMethod.IncreaseIndentation();
@@ -155,16 +148,16 @@ namespace SablePP.Generate.Building
             getNextStateMethod.EmitLine("case {0}: return {1};", node.From.AsState.LexerName, node.To.AsState.LexerName);
         }
 
-        private void Visit(State[] node)
+        private void Visit(State[] states)
         {
-            int index = 0;
-            foreach (var state in node.States)
+            for (int index = 0; index < states.Length; index++)
             {
-                states.Add(state.LexerName, index);
-                classElement.EmitField("private const int " + state.LexerName, index.ToString());
+                string name = addName("STATE", states[index]);
 
-                index++;
+                classElement.EmitField("private const int " + name, index.ToString());
             }
+            if (states.Length > 0)
+                classElement.EmitNewline();
         }
 
         public static FileElement BuildCode(string originalFile, Start<PGrammar> astRoot)
