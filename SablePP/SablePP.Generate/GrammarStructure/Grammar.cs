@@ -8,7 +8,7 @@ namespace SablePP.Generate
 {
     public class Grammar
     {
-        private string packageName;
+        private string @namespace;
         private Helper[] helpers;
         private State[] states;
         private Token[] tokens;
@@ -16,7 +16,7 @@ namespace SablePP.Generate
         private AbstractProduction[] abstractProductions;
         private Highlighting[] highlighting;
 
-        public Grammar(string packageName,
+        public Grammar(string @namespace,
             IEnumerable<Helper> helpers,
             IEnumerable<State> states,
             IEnumerable<Token> tokens,
@@ -24,7 +24,7 @@ namespace SablePP.Generate
             IEnumerable<AbstractProduction> abstractProductions,
             IEnumerable<Highlighting> highlighting)
         {
-            this.packageName = packageName;
+            this.@namespace = @namespace;
             this.helpers = helpers.ToArray();
             this.states = states.ToArray();
             this.tokens = tokens.ToArray();
@@ -38,9 +38,9 @@ namespace SablePP.Generate
             return SablePP.Generate.SableCC.Compiler.ValidateWithSableCC(this);
         }
 
-        public string PackageName
+        public string Namespace
         {
-            get { return packageName; }
+            get { return @namespace; }
         }
         public Helper[] Helpers
         {

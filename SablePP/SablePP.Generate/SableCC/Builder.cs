@@ -34,7 +34,7 @@ namespace SablePP.Generate.SableCC
 
         private void Start(Grammar grammar)
         {
-            root.EmitLine("Package {0};", grammar.PackageName);
+            root.EmitLine("Package {0};", grammar.Namespace);
             root.EmitLine();
 
             if (grammar.Helpers.Length > 0)

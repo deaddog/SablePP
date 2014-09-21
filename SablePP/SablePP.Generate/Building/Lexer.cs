@@ -52,8 +52,8 @@ namespace SablePP.Generate.Building
 
         private void Visit(Grammar node)
         {
-            fileElement.Add(nameElement = new NameSpaceElement(node.PackageName + ".Lexing"));
-            fileElement.Using.Add(node.PackageName + ".Nodes");
+            fileElement.Add(nameElement = new NameSpaceElement(node.Namespace + ".Lexing"));
+            fileElement.Using.Add(node.Namespace + ".Nodes");
 
             nameElement.Add(classElement = new ClassElement("public class Lexer : {0}.Lexer", SablePP.Generate.Namespaces.Lexing));
 
