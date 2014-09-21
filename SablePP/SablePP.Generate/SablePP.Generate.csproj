@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Building\Lexer.cs" />
+    <Compile Include="Building\NameTable.cs" />
     <Compile Include="CompilationError.cs" />
     <Compile Include="CompilationResult.cs" />
     <Compile Include="ErrorTypes.cs" />
