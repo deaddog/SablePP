@@ -21,9 +21,7 @@ namespace SablePP.Generate.Building
 
         private PatchElement getTokenMethod, getNextStateMethod;
 
-        private Dictionary<string, object> objects;
-        private Dictionary<object, string> names;
-        private SafeNameDictionary<object> safe;
+        private NameTable<State> names;
 
         private Lexer(Grammar grammar, CompilationResult tables)
         {
@@ -33,16 +31,7 @@ namespace SablePP.Generate.Building
             this.grammar = grammar;
             this.tables = tables;
 
-            this.objects = new Dictionary<string, object>();
-            this.names = new Dictionary<object, string>();
-            this.safe = new SafeNameDictionary<object>(this.objects);
-        }
-
-        private string addName(string name, object obj)
-        {
-            name = safe.Add(name, obj);
-            names.Add(obj, name);
-            return name;
+            this.names = new NameTable<State>();
         }
 
         private void Visit(Grammar node)
@@ -152,7 +141,7 @@ namespace SablePP.Generate.Building
         {
             for (int index = 0; index < states.Length; index++)
             {
-                string name = addName("STATE", states[index]);
+                string name = names.Add("STATE", states[index]);
 
                 classElement.EmitField("private const int " + name, index.ToString());
             }
