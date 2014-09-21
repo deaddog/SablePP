@@ -60,7 +60,7 @@ namespace SablePP.Generate.Building
             fileElement.Add(nameElement = new NameSpaceElement(packageName + ".Lexing"));
             fileElement.Using.Add(packageName + ".Nodes");
 
-            nameElement.Add(classElement = new ClassElement("public class Lexer : {0}.Lexer", ToolsNamespace.Lexing));
+            nameElement.Add(classElement = new ClassElement("public class Lexer : {0}.Lexer", SablePP.Generate.Namespaces.Lexing));
 
             if (node.HasStates)
                 Visit(node.States);
