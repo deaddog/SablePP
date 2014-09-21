@@ -188,42 +188,5 @@ namespace SablePP.Generate.Building
 
             return n.fileElement;
         }
-
-        private static void getGotoTable(string lexerCode, PatchElement element)
-        {
-            getTable(Regex.Match(lexerCode, @"int\[\]\[\]\[\]\[\] gotoTable[^{]+(?<table>{[^;]*);").Groups["table"].Value, element);
-        }
-        private static void getAcceptTable(string lexerCode, PatchElement element)
-        {
-            getTable(Regex.Match(lexerCode, @"int\[\]\[\] accept[^{]+(?<table>{[^;]*);").Groups["table"].Value, element);
-        }
-
-        private static void getTable(string code, PatchElement element)
-        {
-            string[] strings = getNonEmpty(code.Split(new char[] { '\r', '\n' })).ToArray();
-
-            for (int i = 0; i < strings.Length; i++)
-            {
-                if (strings[i].StartsWith("}"))
-                    element.DecreaseIndentation();
-
-                element.Emit(strings[i]);
-                if (i < strings.Length - 1)
-                    element.EmitNewLine();
-
-                if (strings[i].EndsWith("{"))
-                    element.IncreaseIndentation();
-            }
-        }
-
-        private static IEnumerable<string> getNonEmpty(IEnumerable<string> collection)
-        {
-            foreach (var s in collection)
-            {
-                var t = s.Trim();
-                if (t.Length > 0)
-                    yield return t;
-            }
-        }
     }
 }
