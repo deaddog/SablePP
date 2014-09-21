@@ -1,4 +1,5 @@
-﻿using SablePP.Tools.Generate;
+﻿using SablePP.Tools;
+using SablePP.Tools.Generate;
 using SablePP.Tools.Generate.CSharp;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,10 @@ namespace SablePP.Generate.Building
 
         private PatchElement getTokenMethod, getNextStateMethod;
 
+        private Dictionary<string, object> objects;
+        private Dictionary<object, string> names;
+        private SafeNameDictionary<object> safe;
+
         private Lexer(Grammar grammar, CompilationResult tables)
         {
             fileElement = new FileElement();
@@ -32,6 +37,17 @@ namespace SablePP.Generate.Building
             this.tables = tables;
 
             this.states = new Dictionary<string, int>();
+
+            this.objects = new Dictionary<string, object>();
+            this.names = new Dictionary<object, string>();
+            this.safe = new SafeNameDictionary<object>(this.objects);
+        }
+
+        private string addName(string name, object obj)
+        {
+            name = safe.Add(name, obj);
+            names.Add(obj, name);
+            return name;
         }
 
         private void Visit(Grammar node)
