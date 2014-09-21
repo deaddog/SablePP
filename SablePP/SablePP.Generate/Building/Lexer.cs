@@ -19,8 +19,6 @@ namespace SablePP.Generate.Building
         private NameSpaceElement nameElement;
         private ClassElement classElement;
 
-        private int tokenIndex = 0;
-
         private PatchElement getTokenMethod, getNextStateMethod;
 
         private Dictionary<string, object> objects;
@@ -66,7 +64,7 @@ namespace SablePP.Generate.Building
             if (node.States.Length > 0)
                 classElement.Add(emitGetNextState());
 
-            if (node.HasTokens)
+            if (node.Tokens.Length > 0)
                 Visit(node.Tokens);
 
             classElement.EmitNewline();
@@ -120,32 +118,34 @@ namespace SablePP.Generate.Building
             return method;
         }
 
-        private void Visit(Token node)
+        private void Visit(Token[] node)
         {
-            getTokenMethod.EmitLine("case {1}: return new {0}(text, line, position);", node.ClassName, tokenIndex);
-
-            if (node.Statelist.Any(item => item is ATransitionTokenState))
+            for (int tokenIndex = 0; tokenIndex < node.Length; tokenIndex++)
             {
-                getNextStateMethod.EmitLine("case {0}:", tokenIndex);
-                getNextStateMethod.IncreaseIndentation();
-                getNextStateMethod.EmitLine("switch (currentState)");
-                getNextStateMethod.EmitLine("{");
-                getNextStateMethod.IncreaseIndentation();
+                getTokenMethod.EmitLine("case {1}: return new {0}(text, line, position);", node[tokenIndex].Name, tokenIndex);
 
-                Visit(node.Statelist);
+                if (node[tokenIndex].States.Any(item => item.To != null))
+                {
+                    getNextStateMethod.EmitLine("case {0}:", tokenIndex);
+                    getNextStateMethod.IncreaseIndentation();
+                    getNextStateMethod.EmitLine("switch (currentState)");
+                    getNextStateMethod.EmitLine("{");
+                    getNextStateMethod.IncreaseIndentation();
 
-                getNextStateMethod.EmitLine("default: return -1;");
-                getNextStateMethod.DecreaseIndentation();
-                getNextStateMethod.EmitLine("}");
-                getNextStateMethod.DecreaseIndentation();
+                    Visit(node[tokenIndex].States);
+
+                    getNextStateMethod.EmitLine("default: return -1;");
+                    getNextStateMethod.DecreaseIndentation();
+                    getNextStateMethod.EmitLine("}");
+                    getNextStateMethod.DecreaseIndentation();
+                }
             }
-
-            tokenIndex++;
         }
 
-        private void Visit(Token.TokenState node)
+        private void Visit(Token.TokenState[] node)
         {
-            getNextStateMethod.EmitLine("case {0}: return {1};", node.From.AsState.LexerName, node.To.AsState.LexerName);
+            foreach (var state in node)
+                getNextStateMethod.EmitLine("case {0}: return {1};", names[state.From], names[state.To]);
         }
 
         private void Visit(State[] states)
