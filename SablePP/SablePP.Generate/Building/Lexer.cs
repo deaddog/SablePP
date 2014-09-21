@@ -70,14 +70,14 @@ namespace SablePP.Generate.Building
             classElement.EmitNewline();
             classElement.EmitRegionStart("Goto Table");
             classElement.EmitNewline();
-            classElement.EmitField("private static int[][][][] gotoTable", gotoElement);
+            classElement.EmitField("private static int[][][][] gotoTable", tables.LexerGotoTable);
             classElement.EmitNewline();
             classElement.EmitRegionEnd();
 
             classElement.EmitNewline();
             classElement.EmitRegionStart("Accept Table");
             classElement.EmitNewline();
-            classElement.EmitField("private static int[][] acceptTable", acceptElement);
+            classElement.EmitField("private static int[][] acceptTable", tables.LexerAcceptTable);
             classElement.EmitNewline();
             classElement.EmitRegionEnd();
         }
@@ -118,13 +118,13 @@ namespace SablePP.Generate.Building
             return method;
         }
 
-        private void Visit(Token[] node)
+        private void Visit(Token[] tokens)
         {
-            for (int tokenIndex = 0; tokenIndex < node.Length; tokenIndex++)
+            for (int tokenIndex = 0; tokenIndex < tokens.Length; tokenIndex++)
             {
-                getTokenMethod.EmitLine("case {1}: return new {0}(text, line, position);", node[tokenIndex].Name, tokenIndex);
+                getTokenMethod.EmitLine("case {1}: return new {0}(text, line, position);", tokens[tokenIndex].Name, tokenIndex);
 
-                if (node[tokenIndex].States.Any(item => item.To != null))
+                if (tokens[tokenIndex].States.Any(item => item.To != null))
                 {
                     getNextStateMethod.EmitLine("case {0}:", tokenIndex);
                     getNextStateMethod.IncreaseIndentation();
@@ -132,7 +132,7 @@ namespace SablePP.Generate.Building
                     getNextStateMethod.EmitLine("{");
                     getNextStateMethod.IncreaseIndentation();
 
-                    Visit(node[tokenIndex].States);
+                    Visit(tokens[tokenIndex].States);
 
                     getNextStateMethod.EmitLine("default: return -1;");
                     getNextStateMethod.DecreaseIndentation();
@@ -142,9 +142,9 @@ namespace SablePP.Generate.Building
             }
         }
 
-        private void Visit(Token.TokenState[] node)
+        private void Visit(Token.TokenState[] states)
         {
-            foreach (var state in node)
+            foreach (var state in states)
                 getNextStateMethod.EmitLine("case {0}: return {1};", names[state.From], names[state.To]);
         }
 
@@ -160,21 +160,12 @@ namespace SablePP.Generate.Building
                 classElement.EmitNewline();
         }
 
-        public static FileElement BuildCode(string originalFile, Start<PGrammar> astRoot)
+        public static FileElement BuildCode(Grammar grammar, CompilationResult result)
         {
-            string code;
-            using (StreamReader reader = new StreamReader(originalFile))
-                code = reader.ReadToEnd();
+            Lexer lexer = new Lexer(grammar, result);
+            lexer.Visit(grammar);
 
-            PatchElement gotoElement = new PatchElement(), acceptElement = new PatchElement();
-
-            getGotoTable(code, gotoElement);
-            getAcceptTable(code, acceptElement);
-
-            LexerBuilder n = new LexerBuilder(gotoElement, acceptElement);
-            n.Visit(astRoot);
-
-            return n.fileElement;
+            return lexer.fileElement;
         }
     }
 }
