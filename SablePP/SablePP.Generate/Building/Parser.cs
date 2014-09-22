@@ -37,7 +37,7 @@ namespace SablePP.Generate.Building
             return n.fileElement;
         }
 
-        public override void Visit(Token[] node)
+        public void Visit(Token[] node)
         {
             this.classElement.EmitRegionStart("Token Index", false);
             this.classElement.EmitNewline();
@@ -70,7 +70,7 @@ namespace SablePP.Generate.Building
 
             this.classElement.EmitRegionEnd();
         }
-        public override void CaseAGrammar(AGrammar node)
+        public void CaseAGrammar(AGrammar node)
         {
             if (node.HasPackage)
                 Visit(node.Package);
@@ -156,12 +156,12 @@ namespace SablePP.Generate.Building
         private SimpleReductionBuilder simple = new SimpleReductionBuilder();
         private TranslationReductionBuilder translation = new TranslationReductionBuilder();
 
-        public override void OutAProduction(AProduction node)
+        public void OutAProduction(AProduction node)
         {
             productionCase++;
         }
 
-        public override void CaseAAlternative(AAlternative node)
+        public void CaseAAlternative(AAlternative node)
         {
             ReductionBuilder builder = node.HasTranslation ? (ReductionBuilder)translation : (ReductionBuilder)simple;
 
