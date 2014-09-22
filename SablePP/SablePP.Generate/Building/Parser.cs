@@ -70,15 +70,10 @@ namespace SablePP.Generate.Building
 
             this.classElement.EmitRegionEnd();
         }
-        public void CaseAGrammar(AGrammar node)
+        public void Visit(Grammar node)
         {
-            if (node.HasPackage)
-                Visit(node.Package);
-
-            string packageName = node.PackageName;
-
-            fileElement.Add(nameElement = new NameSpaceElement(packageName + ".Parsing"));
-            fileElement.Using.Add(packageName + ".Nodes");
+            fileElement.Add(nameElement = new NameSpaceElement(node.Namespace + ".Parsing"));
+            fileElement.Using.Add(node.Namespace + ".Nodes");
             fileElement.Using.Add(SablePP.Generate.Namespaces.Nodes);
 
             nameElement.Add(classElement = new ClassElement("public class Parser : {0}.Parser<{1}>", SablePP.Generate.Namespaces.Parsing, node.RootProduction));
