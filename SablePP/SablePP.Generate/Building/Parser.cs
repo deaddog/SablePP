@@ -87,6 +87,41 @@ namespace SablePP.Generate.Building
 
             Visit(node.Productions);
 
+            reduceMethod.Body.DecreaseIndentation();
+            reduceMethod.Body.EmitLine("}");
+        }
+
+        private static IEnumerable<object> getListTypes(Production[] productions)
+        {
+            List<object> declarations = new List<object>();
+
+            foreach (var p in productions)
+                foreach (var a in p.Alternatives)
+                    foreach (var e in a.Elements)
+                    {
+                        if (e.Modifier == Modifiers.OneOrMany || e.Modifier == Modifiers.ZeroOrMany)
+                        {
+                            object decl = e is Alternative.TokenElement ?
+                                (object)(e as Alternative.TokenElement).Token :
+                                (object)(e as Alternative.ProductionElement).Production;
+
+                            if (!declarations.Contains(decl))
+                            {
+                                declarations.Add(decl);
+                                yield return decl;
+                            }
+                        }
+                    }
+        }
+
+        private void Visit(Production[] node)
+        {
+            int productionCase = 0;
+            for (; productionCase < node.Length; productionCase++)
+            {
+
+            }
+
             foreach (var type in getListTypes(node))
             {
                 reduceMethod.Body.EmitLine("case {0}:", reduceCase++);
@@ -110,46 +145,13 @@ namespace SablePP.Generate.Building
 
                 productionCase++;
             }
-
-            reduceMethod.Body.DecreaseIndentation();
-            reduceMethod.Body.EmitLine("}");
-        }
-
-        private static IEnumerable<object> getListTypes(Production[] productions)
-        {
-            List<object> declarations = new List<object>();
-
-            foreach (var p in productions)
-                foreach (var a in p.Alternatives)
-                    foreach (var e in a.Elements)
-                    {
-                        if (e.Modifier == Modifiers.OneOrMany || e.Modifier == Modifiers.ZeroOrMany)
-                        {
-                            object decl = e is Alternative.TokenElement ? 
-                                (object)(e as Alternative.TokenElement).Token : 
-                                (object)(e as Alternative.ProductionElement).Production;
-
-                            if (!declarations.Contains(decl))
-                            {
-                                declarations.Add(decl);
-                                yield return decl;
-                            }
-                        }
-                    }
-
         }
 
         private int reduceCase = 0;
-        private int productionCase = 0;
         private MethodElement reduceMethod;
 
         private SimpleReductionBuilder simple = new SimpleReductionBuilder();
         private TranslationReductionBuilder translation = new TranslationReductionBuilder();
-
-        public void OutAProduction(AProduction node)
-        {
-            productionCase++;
-        }
 
         public void CaseAAlternative(AAlternative node)
         {
