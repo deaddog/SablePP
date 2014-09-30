@@ -77,8 +77,8 @@ namespace SablePP.Generate.Building
             Visit(node.Tokens);
 
             classElement.Add(new MethodElement(
-                "public Parser(SablePP.Tools.Lexing.ILexer lexer)",
-                "base(lexer, actionTable, gotoTable, errorMessages, errors)", true));
+                "public Parser({0}.ILexer lexer)",
+                "base(lexer, actionTable, gotoTable, errorMessages, errors)", true, SablePP.Generate.Namespaces.Lexing));
 
             classElement.Add(reduceMethod = new MethodElement("protected override void reduce(int index)"));
             reduceMethod.Body.EmitLine("switch (index)");
