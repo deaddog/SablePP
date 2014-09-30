@@ -19,22 +19,18 @@ namespace SablePP.Generate.Building
             fileElement.Using.Add("System.Collections.Generic");
         }
 
-        public static FileElement BuildCode(string originalFile, Start<PGrammar> astRoot)
+        public static FileElement BuildCode(Grammar grammar, CompilationResult tables)
         {
-            string code;
-            using (StreamReader reader = new StreamReader(originalFile))
-                code = reader.ReadToEnd();
+            Parser parser = new Parser();
+            parser.Visit(grammar);
 
-            ParserBuilder n = new ParserBuilder();
-            n.Visit(astRoot);
+            parser.classElement.EmitNewline();
+            parser.classElement.EmitField("private static int[][][] actionTable", tables.ParserActionTable);
+            parser.classElement.EmitField("private static int[][][] gotoTable", tables.ParserGotoTable);
+            parser.classElement.EmitField("private static string[] errorMessages", tables.ParserErrorMessagesTable);
+            parser.classElement.EmitField("private static int[] errors", tables.ParserErrorTable);
 
-            n.classElement.EmitNewline();
-            n.classElement.EmitField("private static int[][][] actionTable", getActionTable(code));
-            n.classElement.EmitField("private static int[][][] gotoTable", getGotoTable(code));
-            n.classElement.EmitField("private static string[] errorMessages", getErrorMessages(code));
-            n.classElement.EmitField("private static int[] errors", getErrors(code));
-
-            return n.fileElement;
+            return parser.fileElement;
         }
 
         public void Visit(Token[] node)
