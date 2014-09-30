@@ -118,9 +118,25 @@ namespace SablePP.Generate.Building
         {
             int productionCase = 0;
             for (; productionCase < node.Length; productionCase++)
-            {
+                foreach (var alt in node[productionCase].Alternatives)
+                {
+                    foreach (var e in builder.GetElements(alt, productionCase))
+                    {
+                        reduceMethod.Body.EmitLine("case {0}:", reduceCase);
+                        reduceMethod.Body.IncreaseIndentation();
+                        reduceMethod.Body.EmitLine("{");
+                        reduceMethod.Body.IncreaseIndentation();
 
-            }
+                        reduceMethod.Body.InsertElement(e);
+
+                        reduceMethod.Body.DecreaseIndentation();
+                        reduceMethod.Body.EmitLine("}");
+                        reduceMethod.Body.EmitLine("break;");
+                        reduceMethod.Body.DecreaseIndentation();
+
+                        reduceCase++;
+                    }
+                }
 
             foreach (var type in getListTypes(node))
             {
@@ -149,30 +165,5 @@ namespace SablePP.Generate.Building
 
         private int reduceCase = 0;
         private MethodElement reduceMethod;
-
-        private SimpleReductionBuilder simple = new SimpleReductionBuilder();
-        private TranslationReductionBuilder translation = new TranslationReductionBuilder();
-
-        public void CaseAAlternative(AAlternative node)
-        {
-            ReductionBuilder builder = node.HasTranslation ? (ReductionBuilder)translation : (ReductionBuilder)simple;
-
-            foreach (var e in builder.GetElements(node, productionCase))
-            {
-                reduceMethod.Body.EmitLine("case {0}:", reduceCase);
-                reduceMethod.Body.IncreaseIndentation();
-                reduceMethod.Body.EmitLine("{");
-                reduceMethod.Body.IncreaseIndentation();
-
-                reduceMethod.Body.InsertElement(e);
-
-                reduceMethod.Body.DecreaseIndentation();
-                reduceMethod.Body.EmitLine("}");
-                reduceMethod.Body.EmitLine("break;");
-                reduceMethod.Body.DecreaseIndentation();
-
-                reduceCase++;
-            }
-        }
     }
 }
