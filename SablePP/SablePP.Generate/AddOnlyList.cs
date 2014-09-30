@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SablePP.Generate
 {
-    public class AddOnlyList<T>
+    public class AddOnlyList<T> : IEnumerable<T>
     {
         private List<T> innerList;
 
@@ -68,6 +68,18 @@ namespace SablePP.Generate
             {
                 get { return item; }
             }
+        }
+
+        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        {
+            foreach (var item in innerList)
+                yield return item;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            foreach (var item in innerList)
+                yield return item;
         }
     }
 }
