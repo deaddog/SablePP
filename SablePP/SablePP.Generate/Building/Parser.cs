@@ -115,28 +115,28 @@ namespace SablePP.Generate.Building
             reduceMethod.Body.EmitLine("}");
         }
 
-        private static string[] getListTypes(AGrammar grammar)
+        private static IEnumerable<object> getListTypes(Production[] productions)
         {
-            List<string> types = new List<string>();
-            List<IDeclaration> declarations = new List<IDeclaration>();
+            List<object> declarations = new List<object>();
 
-            foreach (var p in grammar.Productions.Productions)
+            foreach (var p in productions)
                 foreach (var a in p.Alternatives)
                     foreach (var e in a.Elements)
                     {
-                        var t = e.ElementType;
-                        if (t == ElementTypes.Plus || t == ElementTypes.Star)
+                        if (e.Modifier == Modifiers.OneOrMany || e.Modifier == Modifiers.ZeroOrMany)
                         {
-                            var decl = (e.Elementid.Identifier as DeclarationIdentifier).Declaration;
+                            object decl = e is Alternative.TokenElement ? 
+                                (object)(e as Alternative.TokenElement).Token : 
+                                (object)(e as Alternative.ProductionElement).Production;
+
                             if (!declarations.Contains(decl))
                             {
-                                types.Add(e.ClassName);
                                 declarations.Add(decl);
+                                yield return decl;
                             }
                         }
                     }
 
-            return types.ToArray();
         }
 
         private int reduceCase = 0;
