@@ -52,7 +52,7 @@ namespace SablePP.Generate.Building
 
             int index = 0;
             foreach (var t in node)
-                if(!t.Ignored)
+                if (!t.Ignored)
                 {
                     MethodElement m;
                     classElement.Add(m = new MethodElement("private int getIndex({0} node)", true, t.Name));
@@ -74,8 +74,7 @@ namespace SablePP.Generate.Building
 
             nameElement.Add(classElement = new ClassElement("public class Parser : {0}.Parser<{1}>", SablePP.Generate.Namespaces.Parsing, node.RootProduction));
 
-            TokenIndexBuilder indexer = new TokenIndexBuilder(classElement);
-            indexer.Visit(node.Tokens);
+            Visit(node.Tokens);
 
             classElement.Add(new MethodElement(
                 "public Parser(SablePP.Tools.Lexing.ILexer lexer)",
