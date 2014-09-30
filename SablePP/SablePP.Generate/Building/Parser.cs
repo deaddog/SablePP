@@ -72,7 +72,7 @@ namespace SablePP.Generate.Building
             fileElement.Using.Add(node.Namespace + ".Nodes");
             fileElement.Using.Add(SablePP.Generate.Namespaces.Nodes);
 
-            nameElement.Add(classElement = new ClassElement("public class Parser : {0}.Parser<{1}>", SablePP.Generate.Namespaces.Parsing, node.RootProduction));
+            nameElement.Add(classElement = new ClassElement("public class Parser : {0}.Parser<{1}>", SablePP.Generate.Namespaces.Parsing, node.AbstractProductions[0].Name));
 
             Visit(node.Tokens);
 
