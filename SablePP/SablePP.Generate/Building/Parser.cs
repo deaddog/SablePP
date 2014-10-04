@@ -1,4 +1,5 @@
-﻿using SablePP.Tools.Generate.CSharp;
+﻿using SablePP.Generate.Translations;
+using SablePP.Tools.Generate.CSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -162,5 +163,30 @@ namespace SablePP.Generate.Building
 
         private int reduceCase = 0;
         private MethodElement reduceMethod;
+
+        private readonly Dictionary<Translation, string> translationVariables;
+        private readonly Dictionary<Alternative.Element, string> elementVariables;
+
+        private void Visit(Translation translation)
+        {
+            Visit((dynamic)translation);
+        }
+
+        private void Visit(ElementTranslation translation)
+        {
+            throw new NotImplementedException();
+        }
+        private void Visit(ListTranslation translation)
+        {
+            throw new NotImplementedException();
+        }
+        private void Visit(NewTranslation translation)
+        {
+            throw new NotImplementedException();
+        }
+        private void Visit(NullTranslation translation)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
