@@ -120,24 +120,21 @@ namespace SablePP.Generate.Building
             for (; productionCase < node.Length; productionCase++)
                 foreach (var alt in node[productionCase].Alternatives)
                 {
-                    foreach (var e in builder.GetElements(alt, productionCase))
-                    {
-                        reduceMethod.Body.EmitLine("case {0}:", reduceCase);
-                        reduceMethod.Body.IncreaseIndentation();
-                        reduceMethod.Body.EmitLine("{");
-                        reduceMethod.Body.IncreaseIndentation();
+                    reduceMethod.Body.EmitLine("case {0}:", reduceCase++);
 
-                        reduceMethod.Body.InsertElement(e);
+                    reduceMethod.Body.IncreaseIndentation();
+                    reduceMethod.Body.EmitLine("{");
+                    reduceMethod.Body.IncreaseIndentation();
 
-                        reduceMethod.Body.DecreaseIndentation();
-                        reduceMethod.Body.EmitLine("}");
-                        reduceMethod.Body.EmitLine("break;");
-                        reduceMethod.Body.DecreaseIndentation();
+                    Visit(alt.Translation);
 
-                        reduceCase++;
-                    }
+                    reduceMethod.Body.DecreaseIndentation();
+                    reduceMethod.Body.EmitLine("}");
+                    reduceMethod.Body.EmitLine("break;");
+                    reduceMethod.Body.DecreaseIndentation();
                 }
 
+            // Generate cases for handling list-building
             foreach (var type in getListTypes(node))
             {
                 reduceMethod.Body.EmitLine("case {0}:", reduceCase++);
