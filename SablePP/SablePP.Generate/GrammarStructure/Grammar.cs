@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SablePP.Generate
 {
-    public class Grammar
+    public class Grammar : GrammarPart
     {
         private string @namespace;
         private Helper[] helpers;
@@ -36,6 +36,11 @@ namespace SablePP.Generate
         public CompilationResult Compile()
         {
             return SablePP.Generate.SableCC.Compiler.ValidateWithSableCC(this);
+        }
+
+        internal override bool canBeParent(GrammarPart part)
+        {
+            return false;
         }
 
         public string Namespace
