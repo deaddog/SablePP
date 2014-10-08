@@ -50,7 +50,6 @@
     <Compile Include="ErrorTypes.cs" />
     <Compile Include="GrammarStructure\AbstractAlternative.cs" />
     <Compile Include="GrammarStructure\AbstractProduction.cs" />
-    <Compile Include="Adapter.cs" />
     <Compile Include="AddOnlyList.cs" />
     <Compile Include="GrammarStructure\Alternative.cs" />
     <Compile Include="GrammarStructure\Grammar.cs" />
