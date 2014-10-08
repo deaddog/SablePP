@@ -7,7 +7,20 @@ namespace SablePP.Generate
 {
     public abstract class GrammarPart
     {
-        private GrammarPart parent;
+        private GrammarPart _parent;
+        internal GrammarPart parent
+        {
+            get { return _parent; }
+            set
+            {
+                if (!canBeParent(value))
+                    throw new ArgumentException("The selected element cannot be the parent of this " + this.GetType().Name + ".", "value");
+                else if (value != null)
+                    throw new ArgumentException("The parent of this " + this.GetType().Name + " is already set.", "value");
+                else
+                    this.parent = value;
+            }
+        }
 
         public GrammarPart()
         {
@@ -15,14 +28,5 @@ namespace SablePP.Generate
         }
 
         internal abstract bool canBeParent(GrammarPart part);
-        internal void SetParent<T>(GrammarPart part)
-        {
-            if (!canBeParent(part))
-                throw new ArgumentException("The selected element cannot be the parent of this " + this.GetType().Name + ".", "part");
-            else if (parent != null)
-                throw new ArgumentException("The parent of this " + this.GetType().Name + " is already set.", "part");
-            else
-                this.parent = part;
-        }
     }
 }
