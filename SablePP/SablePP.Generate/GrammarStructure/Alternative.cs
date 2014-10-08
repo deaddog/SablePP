@@ -43,6 +43,9 @@ namespace SablePP.Generate
             {
                 get { return modifier; }
             }
+
+            public abstract string GetGeneratedName();
+            public abstract bool GeneratesList();
         }
 
         public class TokenElement : Element
@@ -59,6 +62,15 @@ namespace SablePP.Generate
             {
                 get { return token; }
             }
+
+            public override string GetGeneratedName()
+            {
+                return token.Name;
+            }
+            public override bool GeneratesList()
+            {
+                return Modifier == Modifiers.OneOrMany || Modifier == Modifiers.ZeroOrMany;
+            }
         }
 
         public class ProductionElement : Element
@@ -74,6 +86,23 @@ namespace SablePP.Generate
             public Production Production
             {
                 get { return production; }
+            }
+
+            public override string GetGeneratedName()
+            {
+                if (production.Translation.HasToken)
+                    return production.Translation.Token.Name;
+                else
+                    return production.Translation.Production.Name;
+            }
+            public override bool GeneratesList()
+            {
+                var mod = production.Translation.Modifier;
+                return
+                    Modifier == Modifiers.OneOrMany ||
+                    Modifier == Modifiers.ZeroOrMany ||
+                    mod == Modifiers.OneOrMany ||
+                    mod == Modifiers.ZeroOrMany;
             }
         }
     }
