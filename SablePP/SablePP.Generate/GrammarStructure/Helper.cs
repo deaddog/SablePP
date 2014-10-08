@@ -3,7 +3,7 @@ using System;
 
 namespace SablePP.Generate
 {
-    public class Helper
+    public class Helper : GrammarPart
     {
         private RegExp expression;
 
@@ -18,6 +18,15 @@ namespace SablePP.Generate
         public RegExp Expression
         {
             get { return expression; }
+        }
+
+        internal override bool canBeParent(GrammarPart part)
+        {
+            return part is Grammar;
+        }
+        public Grammar Parent
+        {
+            get { return base.parent as Grammar; }
         }
     }
 }

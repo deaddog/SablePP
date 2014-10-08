@@ -25,7 +25,11 @@ namespace SablePP.Generate
             IEnumerable<Highlighting> highlighting)
         {
             this.@namespace = @namespace;
+
             this.helpers = helpers.ToArray();
+            foreach (var h in this.helpers)
+                h.parent = this;
+
             this.states = states.ToArray();
             this.tokens = tokens.ToArray();
             this.productions = productions.ToArray();
