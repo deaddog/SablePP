@@ -53,6 +53,7 @@
     <Compile Include="AddOnlyList.cs" />
     <Compile Include="GrammarStructure\Alternative.cs" />
     <Compile Include="GrammarStructure\Grammar.cs" />
+    <Compile Include="GrammarStructure\GrammarPart.cs" />
     <Compile Include="GrammarStructure\Highlighting.cs" />
     <Compile Include="GrammarStructure\Production.cs" />
     <Compile Include="GrammarStructure\RegularExpressions\ConcatenatedRegExp.cs" />
