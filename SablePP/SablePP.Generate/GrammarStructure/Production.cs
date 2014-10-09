@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SablePP.Generate
 {
-    public class Production
+    public class Production : GrammarPart
     {
         private ProductionTranslation translation;
         private AddOnlyList<Alternative> alternatives;
@@ -19,12 +19,22 @@ namespace SablePP.Generate
         public Production(ProductionTranslation translation, IEnumerable<Alternative> alternatives)
         {
             this.translation = translation;
+            this.translation.parent = this;
 
             this.alternatives = new AddOnlyList<Alternative>();
             this.alternatives.ItemAdded += (s, e) => e.Item.Production = this;
 
             if (alternatives != null)
                 this.alternatives.AddRange(alternatives);
+        }
+
+        internal override bool canBeParent(GrammarPart part)
+        {
+            return part is Grammar;
+        }
+        public Grammar Parent
+        {
+            get { return base.parent as Grammar; }
         }
 
         public ProductionTranslation Translation
@@ -37,7 +47,7 @@ namespace SablePP.Generate
             get { return alternatives; }
         }
 
-        public class ProductionTranslation
+        public class ProductionTranslation : GrammarPart
         {
             private AbstractProduction production;
             private Token token;
@@ -60,6 +70,15 @@ namespace SablePP.Generate
                 this.production = production;
                 this.token = null;
                 this.modifier = modifier;
+            }
+
+            internal override bool canBeParent(GrammarPart part)
+            {
+                return part is Production;
+            }
+            public Production Parent
+            {
+                get { return base.parent as Production; }
             }
 
             public bool HasProduction
