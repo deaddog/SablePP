@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SablePP.Generate
 {
-    public class AbstractProduction
+    public class AbstractProduction : GrammarPart
     {
         private string name;
         private AddOnlyList<AbstractAlternative> alternatives;
@@ -27,6 +27,15 @@ namespace SablePP.Generate
 
             if (alternatives != null)
                 this.alternatives.AddRange(alternatives);
+        }
+
+        internal override bool canBeParent(GrammarPart part)
+        {
+            return part is Grammar;
+        }
+        public Grammar Parent
+        {
+            get { return base.parent as Grammar; }
         }
 
         public string Name
