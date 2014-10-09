@@ -13,10 +13,6 @@ namespace SablePP.Generate
         {
             this.innerList = new List<T>();
         }
-        public AddOnlyList(IEnumerable<T> items)
-        {
-            this.innerList = new List<T>(items);
-        }
 
         internal event EventHandler<AddEventArgs> ItemAdded;
 
