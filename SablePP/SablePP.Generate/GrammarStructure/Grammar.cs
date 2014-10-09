@@ -31,7 +31,13 @@ namespace SablePP.Generate
                 h.parent = this;
 
             this.states = states.ToArray();
+            foreach (var s in this.states)
+                s.parent = this;
+
             this.tokens = tokens.ToArray();
+            foreach (var t in this.tokens)
+                t.parent = this;
+
             this.productions = productions.ToArray();
             this.abstractProductions = abstractProductions.ToArray();
             this.highlighting = highlighting.ToArray();

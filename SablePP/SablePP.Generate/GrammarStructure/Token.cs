@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SablePP.Generate
 {
-    public class Token
+    public class Token : GrammarPart
     {
         private string name;
         private bool ignored;
@@ -31,6 +31,18 @@ namespace SablePP.Generate
                 this.states = new TokenState[0];
             else
                 this.states = states.ToArray();
+
+            foreach (var s in this.states)
+                s.parent = this;
+        }
+
+        internal override bool canBeParent(GrammarPart part)
+        {
+            return part is Grammar;
+        }
+        public Grammar Parent
+        {
+            get { return base.parent as Grammar; }
         }
 
         public bool Ignored
@@ -53,7 +65,7 @@ namespace SablePP.Generate
             get { return expression; }
         }
 
-        public class TokenState
+        public class TokenState : GrammarPart
         {
             private State from, to;
 
@@ -75,6 +87,15 @@ namespace SablePP.Generate
 
                 this.from = from;
                 this.to = to;
+            }
+
+            internal override bool canBeParent(GrammarPart part)
+            {
+                return part is Token;
+            }
+            public Token Parent
+            {
+                get { return base.parent as Token; }
             }
 
             public bool Translates
