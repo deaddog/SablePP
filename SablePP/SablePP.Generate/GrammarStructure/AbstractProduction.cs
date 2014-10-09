@@ -22,7 +22,7 @@ namespace SablePP.Generate
 
             this.name = name;
 
-            this.alternatives = new AddOnlyList<AbstractAlternative>();
+            this.alternatives = new AddOnlyList<AbstractAlternative>(this);
             this.alternatives.ItemAdded += (s, e) => e.Item.Production = this;
 
             if (alternatives != null)

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SablePP.Generate
 {
-    public class AbstractAlternative
+    public class AbstractAlternative : GrammarPart
     {
         private string name;
         private Element[] elements;
@@ -13,6 +13,15 @@ namespace SablePP.Generate
         {
             this.name = name;
             this.elements = elements.ToArray();
+        }
+
+        internal override bool canBeParent(GrammarPart part)
+        {
+            return part is AbstractProduction;
+        }
+        public AbstractProduction Parent
+        {
+            get { return base.parent as AbstractProduction; }
         }
 
         public string Name

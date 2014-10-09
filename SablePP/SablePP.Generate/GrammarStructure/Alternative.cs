@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SablePP.Generate
 {
-    public class Alternative
+    public class Alternative : GrammarPart
     {
         private Element[] elements;
         private Translation translation;
@@ -14,6 +14,15 @@ namespace SablePP.Generate
         {
             this.elements = elements.ToArray();
             this.translation = translation;
+        }
+
+        internal override bool canBeParent(GrammarPart part)
+        {
+            return part is Production;
+        }
+        public Production Parent
+        {
+            get { return base.parent as Production; }
         }
 
         public Element[] Elements

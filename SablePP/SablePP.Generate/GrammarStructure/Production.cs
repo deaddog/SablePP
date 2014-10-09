@@ -21,7 +21,7 @@ namespace SablePP.Generate
             this.translation = translation;
             this.translation.parent = this;
 
-            this.alternatives = new AddOnlyList<Alternative>();
+            this.alternatives = new AddOnlyList<Alternative>(this);
             this.alternatives.ItemAdded += (s, e) => e.Item.Production = this;
 
             if (alternatives != null)
