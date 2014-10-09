@@ -10,6 +10,8 @@ namespace SablePP.Generate.Translations
         public ListTranslation(IEnumerable<Translation> elements)
         {
             this.elements = elements.ToArray();
+            foreach (var t in this.elements)
+                t.parent = this;
         }
 
         public Translation[] Elements

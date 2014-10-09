@@ -12,6 +12,8 @@ namespace SablePP.Generate.Translations
         {
             this.alternative = alternative;
             this.arguments = arguments.ToArray();
+            foreach (var t in this.arguments)
+                t.parent = this;
         }
 
         public AbstractAlternative Alternative

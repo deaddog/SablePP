@@ -17,6 +17,7 @@ namespace SablePP.Generate
                 e.parent = this;
 
             this.translation = translation;
+            this.translation.parent = this;
         }
 
         internal override bool canBeParent(GrammarPart part)
