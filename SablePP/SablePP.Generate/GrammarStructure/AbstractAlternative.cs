@@ -13,6 +13,8 @@ namespace SablePP.Generate
         {
             this.name = name;
             this.elements = elements.ToArray();
+            foreach (var e in this.elements)
+                e.parent = this;
         }
 
         internal override bool canBeParent(GrammarPart part)
@@ -38,7 +40,7 @@ namespace SablePP.Generate
             internal set { production = value; }
         }
 
-        public abstract class Element
+        public abstract class Element : GrammarPart
         {
             private string name;
             private Modifiers modifier;
@@ -47,6 +49,15 @@ namespace SablePP.Generate
             {
                 this.name = name;
                 this.modifier = modifier;
+            }
+
+            internal override bool canBeParent(GrammarPart part)
+            {
+                return part is AbstractAlternative;
+            }
+            public AbstractAlternative Parent
+            {
+                get { return base.parent as AbstractAlternative; }
             }
 
             public string Name

@@ -13,6 +13,9 @@ namespace SablePP.Generate
         public Alternative(IEnumerable<Element> elements, Translation translation)
         {
             this.elements = elements.ToArray();
+            foreach (var e in this.elements)
+                e.parent = this;
+
             this.translation = translation;
         }
 
@@ -39,13 +42,22 @@ namespace SablePP.Generate
             internal set { production = value; }
         }
 
-        public abstract class Element
+        public abstract class Element : GrammarPart
         {
             private Modifiers modifier;
 
             public Element(Modifiers modifier)
             {
                 this.modifier = modifier;
+            }
+
+            internal override bool canBeParent(GrammarPart part)
+            {
+                return part is Alternative;
+            }
+            public Alternative Parent
+            {
+                get { return base.parent as Alternative; }
             }
 
             public Modifiers Modifier
