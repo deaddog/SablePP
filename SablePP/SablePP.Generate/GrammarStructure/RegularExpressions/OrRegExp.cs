@@ -14,6 +14,8 @@ namespace SablePP.Generate.RegularExpressions
                 throw new ArgumentNullException("expressions");
 
             this.expressions = expressions.ToArray();
+            foreach (var e in this.expressions)
+                e.parent = this;
 
             if (this.expressions.Length == 0)
                 throw new ArgumentOutOfRangeException("An or-regular-expression cannot consist of one regular expression.");

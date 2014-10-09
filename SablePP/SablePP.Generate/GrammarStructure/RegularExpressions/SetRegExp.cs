@@ -16,7 +16,11 @@ namespace SablePP.Generate.RegularExpressions
                 throw new ArgumentNullException("to");
 
             this.from = from;
+            this.from.parent = this;
+
             this.to = to;
+            this.to.parent = this;
+
             this.type = setType;
         }
 

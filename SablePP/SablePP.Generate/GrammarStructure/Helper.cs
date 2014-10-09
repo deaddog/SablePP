@@ -13,6 +13,7 @@ namespace SablePP.Generate
                 throw new ArgumentNullException("expression");
 
             this.expression = expression;
+            this.expression.parent = this;
         }
 
         public RegExp Expression

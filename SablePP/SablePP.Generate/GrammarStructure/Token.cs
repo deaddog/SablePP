@@ -27,6 +27,8 @@ namespace SablePP.Generate
             this.name = name;
             this.ignored = ignored;
             this.expression = expression;
+            this.expression.parent = this;
+
             if (states == null)
                 this.states = new TokenState[0];
             else

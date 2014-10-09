@@ -16,6 +16,8 @@ namespace SablePP.Generate.RegularExpressions
                 throw new ArgumentOutOfRangeException("modifier", "Unknown modifier.");
 
             this.expression = expression;
+            this.expression.parent = this;
+
             this.modifier = modifier;
         }
 
