@@ -47,6 +47,8 @@ namespace SablePP.Generate
                 p.parent = this;
 
             this.highlighting = highlighting.ToArray();
+            foreach (var h in this.highlighting)
+                h.parent = this;
         }
 
         public CompilationResult Compile()

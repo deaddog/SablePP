@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SablePP.Generate
 {
-    public class Highlighting
+    public class Highlighting : GrammarPart
     {
         private Token[] tokens;
         private Color? foreground, background;
@@ -17,6 +17,15 @@ namespace SablePP.Generate
             this.bold = bold;
             this.foreground = foreground;
             this.background = background;
+        }
+
+        internal override bool canBeParent(GrammarPart part)
+        {
+            return part is Grammar;
+        }
+        public Grammar Parent
+        {
+            get { return base.parent as Grammar; }
         }
 
         public Token[] Tokens
