@@ -15,16 +15,16 @@ namespace SablePP.Generate
             {
                 if (!canBeParent(value))
                     throw new ArgumentException("The selected element cannot be the parent of this " + this.GetType().Name + ".", "value");
-                else if (value != null)
+                else if (this._parent != null)
                     throw new ArgumentException("The parent of this " + this.GetType().Name + " is already set.", "value");
                 else
-                    this.parent = value;
+                    this._parent = value;
             }
         }
 
         public GrammarPart()
         {
-            this.parent = null;
+            this._parent = null;
         }
 
         internal abstract bool canBeParent(GrammarPart part);
