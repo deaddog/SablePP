@@ -5,12 +5,14 @@ using System.Text;
 
 namespace SablePP.Generate
 {
-    public class AddOnlyList<T> : IEnumerable<T>
+    public class AddOnlyList<T> : IEnumerable<T> where T : GrammarPart
     {
+        private GrammarPart parent;
         private List<T> innerList;
 
-        public AddOnlyList()
+        public AddOnlyList(GrammarPart parent)
         {
+            this.parent = parent;
             this.innerList = new List<T>();
         }
 
@@ -29,6 +31,7 @@ namespace SablePP.Generate
         public void Add(T item)
         {
             innerList.Add(item);
+            item.parent = this.parent;
 
             if (ItemAdded != null)
                 ItemAdded(this, new AddEventArgs(item));
@@ -41,6 +44,7 @@ namespace SablePP.Generate
         public void Insert(int index, T item)
         {
             innerList.Insert(index, item);
+            item.parent = this.parent;
 
             if (ItemAdded != null)
                 ItemAdded(this, new AddEventArgs(item));
