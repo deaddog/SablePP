@@ -123,6 +123,7 @@ namespace SablePP.Generate.Building
             for (; productionCase < node.Length; productionCase++)
                 foreach (var alt in node[productionCase].Alternatives)
                 {
+                    variables.Clear();
                     var optionalElements = alt.Elements.Where(e => e.Modifier == Modifiers.Optional || e.Modifier == Modifiers.ZeroOrMany).ToList();
                     int baseCase = reduceCase;
 

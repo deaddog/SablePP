@@ -33,5 +33,11 @@ namespace SablePP.Generate.Building
                     objects.Add(value, obj);
             }
         }
+
+        public void Clear()
+        {
+            this.objects.Clear();
+            this.names.Clear();
+        }
     }
 }
