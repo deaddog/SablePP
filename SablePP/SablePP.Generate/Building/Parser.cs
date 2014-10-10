@@ -121,7 +121,11 @@ namespace SablePP.Generate.Building
             for (; productionCase < node.Length; productionCase++)
                 foreach (var alt in node[productionCase].Alternatives)
                 {
-                    reduceMethod.Body.EmitLine("case {0}:", reduceCase++);
+                    var optionalElements = alt.Elements.Where(e => e.Modifier == Modifiers.Optional || e.Modifier == Modifiers.ZeroOrMany).ToList();
+                    int baseCase = reduceCase;
+
+                    for (int i = 0; i < 1 << optionalElements.Count; i++)
+                        reduceMethod.Body.EmitLine("case {0}:", reduceCase++);
 
                     reduceMethod.Body.IncreaseIndentation();
                     reduceMethod.Body.EmitLine("{");
