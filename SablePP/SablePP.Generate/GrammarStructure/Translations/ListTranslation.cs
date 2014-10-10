@@ -36,12 +36,12 @@ namespace SablePP.Generate.Translations
 
         private string getNestedElementType()
         {
-            if (Elements.Length == 0)
+            if (elements.Length == 0)
                 return null;
-            else if (Elements[0] is ListTranslation)
-                return (Elements[0] as ListTranslation).getNestedElementType();
+            else if (elements[0] is ListTranslation)
+                return (elements[0] as ListTranslation).getNestedElementType();
             else
-                return GetListElementType();
+                return elements[0].GetListElementType();
         }
 
         private string elementTypeFromParent(NewTranslation parent)
