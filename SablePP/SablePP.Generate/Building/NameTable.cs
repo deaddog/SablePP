@@ -11,7 +11,7 @@ namespace SablePP.Generate.Building
 
         public NameTable()
         {
-            this.objects = new Dictionary<string,T>();
+            this.objects = new Dictionary<string, T>();
             this.names = new Dictionary<T, string>();
             this.safe = new SafeNameDictionary<T>(this.objects);
         }
@@ -26,6 +26,12 @@ namespace SablePP.Generate.Building
         public string this[T obj]
         {
             get { return names[obj]; }
+            set
+            {
+                this.names[obj] = value;
+                if (!objects.ContainsKey(value))
+                    objects.Add(value, obj);
+            }
         }
     }
 }
