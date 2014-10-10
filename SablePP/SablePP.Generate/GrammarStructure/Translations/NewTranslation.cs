@@ -24,5 +24,14 @@ namespace SablePP.Generate.Translations
         {
             get { return arguments; }
         }
+
+        public override string GetListElementType()
+        {
+            return alternative.Production.Name;
+        }
+        public override bool GeneratesList()
+        {
+            return false;
+        }
     }
 }

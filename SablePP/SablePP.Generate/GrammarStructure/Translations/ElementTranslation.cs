@@ -18,5 +18,23 @@ namespace SablePP.Generate.Translations
         {
             get { return element; }
         }
+
+        public override string GetListElementType()
+        {
+            if (element is Alternative.TokenElement)
+                return (element as Alternative.TokenElement).Token.Name;
+            else
+            {
+                var production = (element as Alternative.ProductionElement).Production;
+                if (production.Translation.HasToken)
+                    return production.Translation.Token.Name;
+                else
+                    return production.Translation.Production.Name;
+            }
+        }
+        public override bool GeneratesList()
+        {
+            return element.GeneratesList();
+        }
     }
 }

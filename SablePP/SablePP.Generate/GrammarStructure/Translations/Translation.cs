@@ -2,6 +2,9 @@
 {
     public abstract class Translation : GrammarPart
     {
+        public abstract string GetListElementType();
+        public abstract bool GeneratesList();
+
         internal override bool canBeParent(GrammarPart part)
         {
             return part is Alternative || part is Translation;
