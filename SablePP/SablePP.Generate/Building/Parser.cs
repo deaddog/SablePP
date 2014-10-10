@@ -18,6 +18,8 @@ namespace SablePP.Generate.Building
             fileElement = new FileElement();
             fileElement.Using.Add("System");
             fileElement.Using.Add("System.Collections.Generic");
+
+            this.variables = new NameTable<object>();
         }
 
         public static FileElement BuildCode(Grammar grammar, CompilationResult tables)
@@ -168,8 +170,7 @@ namespace SablePP.Generate.Building
         private int reduceCase = 0;
         private MethodElement reduceMethod;
 
-        private readonly Dictionary<Translation, string> translationVariables;
-        private readonly Dictionary<Alternative.Element, string> elementVariables;
+        private NameTable<object> variables;
 
         private void Visit(Translation translation)
         {
