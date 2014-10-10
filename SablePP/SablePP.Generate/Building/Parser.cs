@@ -133,6 +133,12 @@ namespace SablePP.Generate.Building
                     reduceMethod.Body.EmitLine("{");
                     reduceMethod.Body.IncreaseIndentation();
 
+                    for (int i = 0; i < alt.Elements.Length; i++)
+                    {
+                        var e = alt.Elements[i];
+                        EmitPop(e, optionalElements.IndexOf(e), baseCase);
+                    }
+
                     Visit(alt.Translation);
 
                     reduceMethod.Body.DecreaseIndentation();
@@ -165,6 +171,24 @@ namespace SablePP.Generate.Building
 
                 productionCase++;
             }
+        }
+
+        private void EmitPop(Alternative.Element element, int optionalIndex, int baseReduceCase)
+        {
+            string type = element.GetGeneratedName();
+            bool list = element.GeneratesList();
+            string name = variables.Add(type.ToLower() + (list ? "list" : ""), element);
+
+            if (optionalIndex < 0)
+                if (!list)
+                    reduceMethod.Body.EmitLine("{0} {1} = Pop<{0}>();", type, name);
+                else
+                    reduceMethod.Body.EmitLine("List<{0}> {1} = Pop<List<{0}>>();", type, name);
+            else
+                if (!list)
+                    reduceMethod.Body.EmitLine("{0} {1} = isOn({2}, index - {3}) ? Pop<{0}>() : null;", type, name, 1 << optionalIndex, baseReduceCase);
+                else
+                    reduceMethod.Body.EmitLine("List<{0}> {1} = isOn({2}, index - {3}) ? Pop<List<{0}>>() : new List<{0}>();", type, name, 1 << optionalIndex, baseReduceCase);
         }
 
         private int reduceCase = 0;
