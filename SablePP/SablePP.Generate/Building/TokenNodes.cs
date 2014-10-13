@@ -31,7 +31,7 @@ namespace SablePP.Generate.Building
             fileElement.Add(nameElement = new NameSpaceElement(node.Namespace + ".Nodes"));
             fileElement.Using.Add(node.Namespace + ".Analysis");
 
-            foreach(var t in node.Tokens)
+            foreach (var t in node.Tokens)
                 Visit(t);
         }
 
@@ -39,19 +39,25 @@ namespace SablePP.Generate.Building
         {
             nameElement.Add(classElement = new ClassElement("public partial class {0} : Token<{0}>", node.Name));
 
-            EmitConstructor1();
-            EmitConstructor2();
+            EmitNoArgsConstructor(node);
+
+            classElement.Add(new MethodElement("public {0}(string text)", "base(text)", true, classElement.Name));
+            classElement.Add(new MethodElement("public {0}(string text, int line, int pos)", "base(text, line, pos)", true, classElement.Name));
+
             classElement.EmitNewline();
+
             EmitCloneMethod();
         }
 
-        private void EmitConstructor1()
+        private void EmitNoArgsConstructor(Token node)
         {
-            classElement.Add(new MethodElement("public {0}(string text)", "base(text)", true, classElement.Name));
-        }
-        private void EmitConstructor2()
-        {
-            classElement.Add(new MethodElement("public {0}(string text, int line, int pos)", "base(text, line, pos)", true, classElement.Name));
+            if (!(node.Expression is RegularExpressions.LiteralRegExp))
+                return;
+
+            RegularExpressions.LiteralRegExp exp = node.Expression as RegularExpressions.LiteralRegExp;
+            string content = exp.IsChar ? exp.Char.Value.ToString() : exp.Content;
+
+            classElement.Add(new MethodElement("public {0}()", "base({1})", true, classElement.Name, content));
         }
 
         private void EmitCloneMethod()
