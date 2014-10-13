@@ -237,7 +237,22 @@ namespace SablePP.Generate.Building
         }
         private void Visit(NewTranslation translation)
         {
-            throw new NotImplementedException();
+            string name = variables.Add(translation.Alternative.Production.Name.ToLower(), translation);
+
+            foreach (var arg in translation.Arguments) Visit(arg);
+
+            reduceMethod.Body.EmitLine("{0} {2} = new {1}(", translation.Alternative.Production.Name, translation.Alternative.Name, name);
+            reduceMethod.Body.IncreaseIndentation();
+
+            for (int i = 0; i < translation.Arguments.Length; i++)
+            {
+                reduceMethod.Body.EmitLine("{0}{1}",
+                    variables[translation.Arguments[i]],
+                    i < translation.Arguments.Length - 1 ? "," : "");
+            }
+
+            reduceMethod.Body.DecreaseIndentation();
+            reduceMethod.Body.EmitLine(");");
         }
         private void Visit(NullTranslation translation)
         {
