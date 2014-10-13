@@ -245,11 +245,11 @@ namespace SablePP.Generate.Building
         }
         private void Visit(NewTranslation translation)
         {
-            string name = variables.Add(translation.Alternative.Production.Name.ToLower(), translation);
+            string name = variables.Add(translation.Alternative.Name.ToLower(), translation);
 
             foreach (var arg in translation.Arguments) Visit(arg);
 
-            reduceMethod.Body.EmitLine("{0} {2} = new {1}(", translation.Alternative.Production.Name, translation.Alternative.Name, name);
+            reduceMethod.Body.EmitLine("{0} {1} = new {0}(", translation.Alternative.Name, name);
             reduceMethod.Body.IncreaseIndentation();
 
             for (int i = 0; i < translation.Arguments.Length; i++)
