@@ -173,18 +173,18 @@ namespace SablePP.Compiler
 
         public bool Generate(Start<PGrammar> root, string directory)
         {
+            directory = directory.TrimEnd('\\');
+
             string output = PathInformation.SableOutputDirectory;
 
             TokenNodes.BuildCode(root).ToFile(Path.Combine(output, "tokens.cs"));
             ProductionNodes.BuildCode(root).ToFile(Path.Combine(output, "prods.cs"));
             AnalysisBuilder.BuildCode(root).ToFile(Path.Combine(output, "analysis.cs"));
 
-            LexerBuilder.BuildCode(Path.Combine(output, "sablecc_lexer.cs"), root).ToFile(Path.Combine(output, "lexer.cs"));
-            ParserBuilder.BuildCode(Path.Combine(output, "sablecc_parser.cs"), root).ToFile(Path.Combine(output, "parser.cs"));
+            lastGrammar.GenerateLexer(lastResult).ToFile(Path.Combine(directory, "lexer.cs"));
+            lastGrammar.GenerateParser(lastResult).ToFile(Path.Combine(directory, "parser.cs"));
 
             CompilerExecuterBuilder.Build(root).ToFile(Path.Combine(output, "CompilerExecuter.cs"));
-
-            directory = directory.TrimEnd('\\');
 
             foreach (var file in new[] { "tokens.cs", "prods.cs", "analysis.cs", "parser.cs", "lexer.cs", "CompilerExecuter.cs" })
                 File.Copy(Path.Combine(output, file), Path.Combine(directory, file), true);
