@@ -217,7 +217,23 @@ namespace SablePP.Generate.Building
         }
         private void Visit(ListTranslation translation)
         {
-            throw new NotImplementedException();
+            string type = translation.GetListElementType();
+            if (type == null)
+                throw new InvalidOperationException("Unable to determine type of elements in list.");
+
+            string name = variables.Add(type.ToLower() + "list", translation);
+            reduceMethod.Body.EmitLine("List<{0}> {1} = new List<{0}>();", type, name);
+
+            for (int i = 0; i < translation.Elements.Length; i++)
+            {
+                Visit(translation.Elements[i]);
+                if (translation.Elements[i].GeneratesList())
+                    reduceMethod.Body.EmitLine("{0}.AddRange({1});", name, variables[translation.Elements[i]]);
+                else if (translation.Elements[i] is ElementTranslation && (translation.Elements[i] as ElementTranslation).Element.Modifier == Modifiers.Optional)
+                    reduceMethod.Body.EmitLine("if ({1} != null) {0}.Add({1});", name, variables[translation.Elements[i]]);
+                else
+                    reduceMethod.Body.EmitLine("{0}.Add({1});", name, variables[translation.Elements[i]]);
+            }
         }
         private void Visit(NewTranslation translation)
         {
