@@ -291,9 +291,6 @@ namespace SablePP.Generate.SableCC
             elements.OpenScope();
             Emit("{{{0}}} ", names[alternative]);
             EmitEach(alternative.Elements, e => Emit(e), " ");
-            Emit(" { -> ");
-            Emit(alternative.Translation);
-            Emit(" }");
             elements.CloseScope();
         }
         private void Emit(Alternative.Element element)
@@ -379,47 +376,5 @@ namespace SablePP.Generate.SableCC
                 case Modifiers.OneOrMany: Emit("+"); break;
             }
         }
-
-        #region Translations
-
-        private void Emit(Translation translation)
-        {
-            Emit((dynamic)translation);
-        }
-        private void Emit(ElementTranslation translation)
-        {
-            Emit("{0}", names[translation.Element]);
-            if (translation.Element is Alternative.ProductionElement)
-            {
-                var prod = translation.Element as Alternative.ProductionElement;
-                var trans = prod.Production.Translation;
-                if (trans.HasToken)
-                    Emit(".{0}", names[trans.Token]);
-                else
-                    Emit(".{0}", names[trans.Production]);
-            }
-        }
-        private void Emit(ListTranslation translation)
-        {
-            Emit("[");
-            EmitEach(translation.Elements, t => Emit(t), ", ");
-            Emit("]");
-        }
-        private void Emit(NewTranslation translation)
-        {
-            Emit("New {0}.{1}(",
-                names[translation.Alternative.Production],
-                names[translation.Alternative]);
-
-            EmitEach(translation.Arguments, t => Emit(t), ", ");
-
-            Emit(")");
-        }
-        private void Emit(NullTranslation translation)
-        {
-            Emit("Null");
-        }
-
-        #endregion
     }
 }
