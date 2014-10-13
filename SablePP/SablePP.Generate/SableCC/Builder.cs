@@ -91,24 +91,9 @@ namespace SablePP.Generate.SableCC
                 root.EmitLine();
             }
 
-            for (int i = 0; i < grammar.AbstractProductions.Length; i++)
-                names.Add(grammar.AbstractProductions[i], safename.Add("abstract", grammar.AbstractProductions[i]));
             for (int i = 0; i < grammar.Productions.Length; i++)
                 names.Add(grammar.Productions[i], safename.Add("prod", grammar.Productions[i]));
 
-            var temp = root;
-            var abs = root = new PatchElement();
-            if (grammar.AbstractProductions.Length > 0)
-            {
-                root.EmitLine("Abstract Syntax Tree");
-                root.IncreaseIndentation();
-                for (int i = 0; i < grammar.AbstractProductions.Length; i++)
-                    Emit(grammar.AbstractProductions[i]);
-                root.DecreaseIndentation();
-                root.EmitLine();
-            }
-
-            var prod = root = new PatchElement();
             if (grammar.Productions.Length > 0)
             {
                 root.EmitLine("Productions");
@@ -118,10 +103,6 @@ namespace SablePP.Generate.SableCC
                 root.DecreaseIndentation();
                 root.EmitLine();
             }
-
-            temp.InsertElement(prod);
-            temp.InsertElement(abs);
-            root = temp;
         }
 
         private Token[] GetIgnoredTokens(Grammar grammar)
@@ -310,62 +291,6 @@ namespace SablePP.Generate.SableCC
             }
         }
         private void Emit(Alternative.ProductionElement element)
-        {
-            Emit("[{0}]:{1}", names[element], names[element.Production]);
-
-            switch (element.Modifier)
-            {
-                case Modifiers.Optional: Emit("?"); break;
-                case Modifiers.ZeroOrMany: Emit("*"); break;
-                case Modifiers.OneOrMany: Emit("+"); break;
-            }
-        }
-
-        private void Emit(AbstractProduction production)
-        {
-            elements.OpenScope();
-            for (int i = 0; i < production.Alternatives.Count; i++)
-                names.Add(production.Alternatives[i], safename.Add("abstractalt", production.Alternatives[i]));
-
-            root.EmitLine(" {0}", names[production]);
-            root.IncreaseIndentation();
-            root.Emit("= ");
-            Emit(production.Alternatives[0]);
-            root.EmitLine();
-            for (int i = 1; i < production.Alternatives.Count; i++)
-            {
-                Emit("| ");
-                Emit(production.Alternatives[i]);
-                root.EmitLine();
-            }
-            root.EmitLine(";");
-            root.DecreaseIndentation();
-            elements.CloseScope();
-        }
-        private void Emit(AbstractAlternative alternative)
-        {
-            elements.OpenScope();
-            Emit("{{{0}}} ", names[alternative]);
-            EmitEach(alternative.Elements, e => Emit(e), " ");
-            elements.CloseScope();
-        }
-        private void Emit(AbstractAlternative.Element element)
-        {
-            names.Add(element, safename.Add("e", element));
-            Emit((dynamic)element);
-        }
-        private void Emit(AbstractAlternative.TokenElement element)
-        {
-            Emit("[{0}]:{1}", names[element], names[element.Token]);
-
-            switch (element.Modifier)
-            {
-                case Modifiers.Optional: Emit("?"); break;
-                case Modifiers.ZeroOrMany: Emit("*"); break;
-                case Modifiers.OneOrMany: Emit("+"); break;
-            }
-        }
-        private void Emit(AbstractAlternative.ProductionElement element)
         {
             Emit("[{0}]:{1}", names[element], names[element.Production]);
 
