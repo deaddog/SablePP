@@ -221,5 +221,16 @@ namespace SablePP.Tools.Parsing
         /// </summary>
         /// <param name="index">The action index.</param>
         protected abstract void reduce(int index);
+
+        /// <summary>
+        /// Determines whether the specified element should be popped for a given reduction case.
+        /// </summary>
+        /// <param name="elementFlag">The element flag.</param>
+        /// <param name="caseNumber">The case number.</param>
+        /// <returns><c>true</c> if the element should be popped; otherwise <c>false</c>.</returns>
+        protected static bool isOn(int elementFlag, int caseNumber)
+        {
+            return (elementFlag & caseNumber) > 0;
+        }
     }
 }
