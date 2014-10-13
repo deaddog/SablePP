@@ -1,4 +1,5 @@
 ﻿using SablePP.Tools;
+using System;
 using System.Collections.Generic;
 
 namespace SablePP.Generate.Building
@@ -14,6 +15,12 @@ namespace SablePP.Generate.Building
             this.objects = new Dictionary<string, T>();
             this.names = new Dictionary<T, string>();
             this.safe = new SafeNameDictionary<T>(this.objects);
+        }
+        public NameTable(Func<string, IEnumerable<string>> getTestNames)
+        {
+            this.objects = new Dictionary<string, T>();
+            this.names = new Dictionary<T, string>();
+            this.safe = new SafeNameDictionary<T>(this.objects, getTestNames);
         }
 
         public string Add(string name, T obj)

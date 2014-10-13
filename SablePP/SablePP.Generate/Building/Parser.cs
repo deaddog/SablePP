@@ -19,7 +19,14 @@ namespace SablePP.Generate.Building
             fileElement.Using.Add("System");
             fileElement.Using.Add("System.Collections.Generic");
 
-            this.variables = new NameTable<object>();
+            this.variables = new NameTable<object>(nameCounted);
+        }
+
+        private static IEnumerable<string> nameCounted(string x)
+        {
+            yield return x;
+            int i = 2;
+            while (true) yield return x + i++;
         }
 
         public static FileElement BuildCode(Grammar grammar, CompilationResult tables)
