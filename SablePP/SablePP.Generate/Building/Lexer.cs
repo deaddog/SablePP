@@ -1,12 +1,7 @@
-﻿using SablePP.Tools;
-using SablePP.Tools.Generate;
+﻿using SablePP.Tools.Generate;
 using SablePP.Tools.Generate.CSharp;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace SablePP.Generate.Building
 {
