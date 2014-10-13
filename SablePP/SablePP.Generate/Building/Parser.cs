@@ -96,7 +96,7 @@ namespace SablePP.Generate.Building
 
         private static IEnumerable<string> getListTypes(Production[] productions)
         {
-            List<string> declarations = new List<string>();
+            List<object> declarations = new List<object>();
 
             foreach (var p in productions)
                 foreach (var a in p.Alternatives)
@@ -104,22 +104,28 @@ namespace SablePP.Generate.Building
                     {
                         if (e.Modifier == Modifiers.OneOrMany || e.Modifier == Modifiers.ZeroOrMany)
                         {
-                            string decl;
+                            object decl;
+                            string name;
+
                             if (e is Alternative.TokenElement)
-                                decl = (e as Alternative.TokenElement).Token.Name;
+                            {
+                                decl = (e as Alternative.TokenElement).Token;
+                                name = (e as Alternative.TokenElement).Token.Name;
+                            }
                             else
                             {
+                                decl = (e as Alternative.ProductionElement).Production;
                                 var t = (e as Alternative.ProductionElement).Production.Translation;
                                 if (t.HasToken)
-                                    decl = t.Token.Name;
+                                    name = t.Token.Name;
                                 else
-                                    decl = t.Production.Name;
+                                    name = t.Production.Name;
                             }
 
                             if (!declarations.Contains(decl))
                             {
                                 declarations.Add(decl);
-                                yield return decl;
+                                yield return name;
                             }
                         }
                     }
