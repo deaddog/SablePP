@@ -149,6 +149,7 @@ namespace SablePP.Generate.Building
                     }
 
                     Visit(alt.Translation);
+                    reduceMethod.Body.EmitLine("Push({0}, {1});", productionCase, variables[alt.Translation]);
 
                     reduceMethod.Body.DecreaseIndentation();
                     reduceMethod.Body.EmitLine("}");
