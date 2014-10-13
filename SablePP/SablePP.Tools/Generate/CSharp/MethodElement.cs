@@ -164,7 +164,7 @@ namespace SablePP.Tools.Generate.CSharp
         /// <param name="hasBody">if set to <c>true</c> the method will have a body element to which code can be written.</param>
         /// <param name="args">A collection of arguments that are inserted into <paramref name="signature"/> using <see cref="String.Format(String, Object[])"/>.</param>
         public MethodElement(string signature, string chaincall, bool hasBody, params object[] args)
-            : this(string.Format(signature, args), chaincall, hasBody)
+            : this(string.Format(signature, args), chaincall == null ? null : string.Format(chaincall, args), hasBody)
         {
         }
     }
