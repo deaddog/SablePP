@@ -176,7 +176,7 @@ namespace SablePP.Compiler
 
             string output = PathInformation.SableOutputDirectory;
 
-            TokenNodes.BuildCode(root).ToFile(Path.Combine(output, "tokens.cs"));
+            lastGrammar.GenerateTokens().ToFile(Path.Combine(output, "tokens.cs"));
             ProductionNodes.BuildCode(root).ToFile(Path.Combine(output, "prods.cs"));
             AnalysisBuilder.BuildCode(root).ToFile(Path.Combine(output, "analysis.cs"));
 

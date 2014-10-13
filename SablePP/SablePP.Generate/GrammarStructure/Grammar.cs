@@ -63,6 +63,10 @@ namespace SablePP.Generate
         {
             return Parser.BuildCode(this, result);
         }
+        public FileElement GenerateTokens()
+        {
+            return TokenNodes.BuildCode(this);
+        }
 
         internal override bool canBeParent(GrammarPart part)
         {
