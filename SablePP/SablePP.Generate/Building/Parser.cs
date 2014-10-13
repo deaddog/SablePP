@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SablePP.Generate.Building
 {
-    public class Parser
+    internal class Parser
     {
         private FileElement fileElement;
         private NameSpaceElement nameElement;

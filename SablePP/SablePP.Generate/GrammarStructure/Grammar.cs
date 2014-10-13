@@ -1,8 +1,7 @@
-﻿using System;
+﻿using SablePP.Generate.Building;
+using SablePP.Tools.Generate.CSharp;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SablePP.Generate
 {
@@ -54,6 +53,15 @@ namespace SablePP.Generate
         public CompilationResult Compile()
         {
             return SablePP.Generate.SableCC.Compiler.ValidateWithSableCC(this);
+        }
+
+        public FileElement GenerateLexer(CompilationResult result)
+        {
+            return Lexer.BuildCode(this, result);
+        }
+        public FileElement GenerateParser(CompilationResult result)
+        {
+            return Parser.BuildCode(this, result);
         }
 
         internal override bool canBeParent(GrammarPart part)

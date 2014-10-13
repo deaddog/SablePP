@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace SablePP.Generate.Building
 {
-    public class Lexer
+    internal class Lexer
     {
         private Grammar grammar;
         private CompilationResult tables;
