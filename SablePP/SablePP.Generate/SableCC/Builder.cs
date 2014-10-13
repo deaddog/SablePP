@@ -233,7 +233,6 @@ namespace SablePP.Generate.SableCC
                 names.Add(production.Alternatives[i], safename.Add("alt", production.Alternatives[i]));
 
             Emit("{0} ", names[production]);
-            Emit(production.Translation);
             root.EmitLine();
             root.IncreaseIndentation();
             root.Emit("= ");
@@ -248,24 +247,6 @@ namespace SablePP.Generate.SableCC
             root.EmitLine(";");
             root.DecreaseIndentation();
             elements.CloseScope();
-        }
-        private void Emit(Production.ProductionTranslation translation)
-        {
-            Emit("{ -> ");
-
-            if (translation.HasToken)
-                Emit(names[translation.Token]);
-            else
-                Emit(names[translation.Production]);
-
-            switch (translation.Modifier)
-            {
-                case Modifiers.Optional: Emit("?"); break;
-                case Modifiers.ZeroOrMany: Emit("*"); break;
-                case Modifiers.OneOrMany: Emit("+"); break;
-            }
-
-            Emit(" }");
         }
         private void Emit(Alternative alternative)
         {
