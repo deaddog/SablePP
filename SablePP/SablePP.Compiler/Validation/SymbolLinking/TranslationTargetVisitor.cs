@@ -38,7 +38,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 {
                     string name = node.Alternativename.Name.Text;
                     nameForMessage = name + " alternative";
-                    astalt = astprod.Alternatives.FirstOrDefault(a => a.Alternativename.Name.Text == name);
+                    astalt = astprod.Alternatives.FirstOrDefault(a => a.HasAlternativename && a.Alternativename.Name.Text == name);
                 }
                 else
                 {
@@ -46,10 +46,13 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                     astalt = astprod.UnnamedAlternative;
                 }
 
-                if (astalt.Elements.Count != node.Elements.Count)
+                if (astalt == null)
+                    RegisterError(node.Production, "An alternative in the {0} production could not be implicitly translated to an ast-counterpart. No matching alternatives found.",
+                        node.Production.Identifier);
+                else if (astalt.Elements.Count != node.Elements.Count)
                 {
                     RegisterError(node.Production, "A alternative in the {0} production could not be implicitly translated to its ast-counterpart. They do not have the same number of elements.",
-                        node.Production);
+                        node.Production.Identifier);
                 }
                 else
                     for (int i = 0; i < node.Elements.Count; i++)
@@ -62,7 +65,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                             ModifierMatches(cE, aE, nameForMessage, i + 1);
                     }
 
-                node.AstTarget = new TranslationTarget(astalt, Modifiers.Single);
+                if (astalt != null)
+                    node.AstTarget = new TranslationTarget(astalt, Modifiers.Single);
             }
         }
 
