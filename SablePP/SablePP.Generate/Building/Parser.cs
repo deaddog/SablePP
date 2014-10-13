@@ -213,7 +213,7 @@ namespace SablePP.Generate.Building
 
         private void Visit(ElementTranslation translation)
         {
-            throw new NotImplementedException();
+            variables[translation] = variables[translation.Element];
         }
         private void Visit(ListTranslation translation)
         {
@@ -225,7 +225,7 @@ namespace SablePP.Generate.Building
         }
         private void Visit(NullTranslation translation)
         {
-            throw new NotImplementedException();
+            variables[translation] = "null";
         }
     }
 }
