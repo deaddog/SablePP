@@ -148,7 +148,7 @@ namespace SablePP.Generate.Building
                     reduceMethod.Body.EmitLine("{");
                     reduceMethod.Body.IncreaseIndentation();
 
-                    for (int i = 0; i < alt.Elements.Length; i++)
+                    for (int i = alt.Elements.Length - 1; i >= 0; i--)
                     {
                         var e = alt.Elements[i];
                         EmitPop(e, optionalElements.IndexOf(e), baseCase);
