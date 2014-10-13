@@ -227,12 +227,14 @@ namespace SablePP.Generate.Building
             if (type == null)
                 throw new InvalidOperationException("Unable to determine type of elements in list.");
 
+            for (int i = 0; i < translation.Elements.Length; i++)
+                Visit(translation.Elements[i]);
+
             string name = variables.Add(type.ToLower() + "list", translation);
             reduceMethod.Body.EmitLine("List<{0}> {1} = new List<{0}>();", type, name);
 
             for (int i = 0; i < translation.Elements.Length; i++)
             {
-                Visit(translation.Elements[i]);
                 if (translation.Elements[i].GeneratesList())
                     reduceMethod.Body.EmitLine("{0}.AddRange({1});", name, variables[translation.Elements[i]]);
                 else if (translation.Elements[i] is ElementTranslation && (translation.Elements[i] as ElementTranslation).Element.Modifier == Modifiers.Optional)
