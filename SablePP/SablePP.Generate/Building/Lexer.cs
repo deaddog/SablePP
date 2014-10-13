@@ -113,7 +113,8 @@ namespace SablePP.Generate.Building
             {
                 getTokenMethod.EmitLine("case {1}: return new {0}(text, line, position);", tokens[tokenIndex].Name, tokenIndex);
 
-                if (tokens[tokenIndex].States.Any(item => item.To != null))
+                var states = tokens[tokenIndex].States.Where(item => item.To != null);
+                if (states.Any())
                 {
                     getNextStateMethod.EmitLine("case {0}:", tokenIndex);
                     getNextStateMethod.IncreaseIndentation();
@@ -121,7 +122,7 @@ namespace SablePP.Generate.Building
                     getNextStateMethod.EmitLine("{");
                     getNextStateMethod.IncreaseIndentation();
 
-                    Visit(tokens[tokenIndex].States);
+                    Visit(states);
 
                     getNextStateMethod.EmitLine("default: return -1;");
                     getNextStateMethod.DecreaseIndentation();
@@ -131,7 +132,7 @@ namespace SablePP.Generate.Building
             }
         }
 
-        private void Visit(Token.TokenState[] states)
+        private void Visit(IEnumerable<Token.TokenState> states)
         {
             foreach (var state in states)
                 getNextStateMethod.EmitLine("case {0}: return {1};", names[state.From], names[state.To]);
