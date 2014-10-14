@@ -10,11 +10,8 @@ namespace SablePP.Generate.Building
 {
     internal class BCompilerExecuter
     {
-        public static FileElement Build(Start<PGrammar> root)
+        public static FileElement BuildCode(Grammar node)
         {
-            string packageName = root.Root.PackageName;
-            string rootProduction = root.Root.RootProduction;
-
             FileElement fileElement = new FileElement();
             fileElement.Using.Add("System.Drawing");
             fileElement.Using.Add("System.IO");
@@ -25,15 +22,15 @@ namespace SablePP.Generate.Building
 
             fileElement.Using.EmitNewline();
 
-            fileElement.Using.Add(packageName + ".Lexing");
-            fileElement.Using.Add(packageName + ".Nodes");
-            fileElement.Using.Add(packageName + ".Parsing");
+            fileElement.Using.Add(node.Namespace + ".Lexing");
+            fileElement.Using.Add(node.Namespace + ".Nodes");
+            fileElement.Using.Add(node.Namespace + ".Parsing");
 
             fileElement.Using.EmitNewline();
 
             fileElement.Using.Add("FastColoredTextBoxNS");
 
-            ClassElement classElement = CreateClass(fileElement, packageName, rootProduction);
+            ClassElement classElement = CreateClass(fileElement, node.Namespace, node.AbstractProductions.First().Name);
             CreateLexerMethod(classElement);
 
             classElement.EmitNewline();
@@ -44,11 +41,8 @@ namespace SablePP.Generate.Building
             classElement.EmitNewline();
             CreateSimpleSyntaxMethod(classElement, out styleRules);
 
-            if (root.Root is AGrammar && (root.Root as AGrammar).HasHighlightrules)
-            {
-                BCompilerExecuter builder = new BCompilerExecuter(classElement, styleRules);
-                builder.Visit((root.Root as AGrammar).Highlightrules);
-            }
+            BCompilerExecuter builder = new BCompilerExecuter(classElement, styleRules);
+            builder.Visit((node.Root as AGrammar).Highlightrules);
 
             return fileElement;
         }
