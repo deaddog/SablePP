@@ -44,5 +44,10 @@ namespace SablePP.Generate.RegularExpressions
             Complement,
             Range
         }
+
+        public override string GetStringLiteral()
+        {
+            return null;
+        }
     }
 }

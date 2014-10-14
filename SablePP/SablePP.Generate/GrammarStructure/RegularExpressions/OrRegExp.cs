@@ -25,5 +25,15 @@ namespace SablePP.Generate.RegularExpressions
         {
             get { return expressions; }
         }
+
+        public override string GetStringLiteral()
+        {
+            if (expressions.Length == 0)
+                return "";
+            else if (expressions.Length == 1)
+                return expressions[0].GetStringLiteral();
+            else
+                return null;
+        }
     }
 }

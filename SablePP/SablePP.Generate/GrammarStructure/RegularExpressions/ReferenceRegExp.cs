@@ -18,5 +18,10 @@ namespace SablePP.Generate.RegularExpressions
         {
             get { return reference; }
         }
+
+        public override string GetStringLiteral()
+        {
+            return reference.Expression.GetStringLiteral();
+        }
     }
 }

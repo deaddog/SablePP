@@ -42,5 +42,10 @@ namespace SablePP.Generate.RegularExpressions
         {
             get { return IsString ? content : null; }
         }
+
+        public override string GetStringLiteral()
+        {
+            return content;
+        }
     }
 }

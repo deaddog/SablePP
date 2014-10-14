@@ -30,5 +30,13 @@ namespace SablePP.Generate.RegularExpressions
         {
             get { return modifier; }
         }
+
+        public override string GetStringLiteral()
+        {
+            if (modifier == Modifiers.Single)
+                return expression.GetStringLiteral();
+            else
+                return null;
+        }
     }
 }

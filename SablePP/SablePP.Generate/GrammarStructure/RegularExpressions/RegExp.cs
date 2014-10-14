@@ -33,5 +33,7 @@ namespace SablePP.Generate.RegularExpressions
         {
             get { return base.parent as RegExp; }
         }
+
+        public abstract string GetStringLiteral();
     }
 }
