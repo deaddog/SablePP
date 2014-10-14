@@ -103,7 +103,7 @@ namespace SablePP.Generate.Building
             this.styleRulesElement = styleRulesElement;
         }
 
-        public override void CaseAHighlightrule(AHighlightrule node)
+        private void Visit(Highlighting node)
         {
             currentStyle = node.Name.Text + "Style";
 
@@ -170,20 +170,20 @@ namespace SablePP.Generate.Building
                 styleField.Emit("null");
         }
 
-        public override void CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        private void Visit(ABackgroundHighlightStyle node)
         {
             backgroundColor = GetColor((dynamic)node.Color);
         }
-        public override void CaseATextHighlightStyle(ATextHighlightStyle node)
+        private void Visit(ATextHighlightStyle node)
         {
             textColor = GetColor((dynamic)node.Color);
         }
 
-        public override void CaseAItalicHighlightStyle(AItalicHighlightStyle node)
+        private void Visit(AItalicHighlightStyle node)
         {
             fontStyle |= FontStyle.Italic;
         }
-        public override void CaseABoldHighlightStyle(ABoldHighlightStyle node)
+        private void Visit(ABoldHighlightStyle node)
         {
             fontStyle |= FontStyle.Bold;
         }
