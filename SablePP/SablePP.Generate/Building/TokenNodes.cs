@@ -55,9 +55,11 @@ namespace SablePP.Generate.Building
                 return;
 
             RegularExpressions.LiteralRegExp exp = node.Expression as RegularExpressions.LiteralRegExp;
-            string content = exp.IsChar ? exp.Char.Value.ToString() : exp.Content;
 
-            classElement.Add(new MethodElement("public {0}()", "base({1})", true, classElement.Name, content));
+            string content = exp.IsChar ? exp.Char.Value.ToString() : exp.Content;
+            content = content.Replace("\"", "\\\"");
+
+            classElement.Add(new MethodElement("public {0}()", "base(@\"{1}\")", true, classElement.Name, content));
         }
 
         private void EmitCloneMethod()
