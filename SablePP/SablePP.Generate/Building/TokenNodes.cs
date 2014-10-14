@@ -39,7 +39,12 @@ namespace SablePP.Generate.Building
         {
             nameElement.Add(classElement = new ClassElement("public partial class {0} : Token<{0}>", node.Name));
 
-            EmitNoArgsConstructor(node);
+            string content = node.Expression.GetStringLiteral().Replace("\"", "\\\"");
+            if (content != null)
+            {
+                classElement.Add(new MethodElement("public {0}()", "base(@\"{1}\")", true, classElement.Name, content));
+                classElement.Add(new MethodElement("public {0}(int line, int pos)", "base(@\"{1}\", line, pos)", true, classElement.Name, content));
+            }
 
             classElement.Add(new MethodElement("public {0}(string text)", "base(text)", true, classElement.Name));
             classElement.Add(new MethodElement("public {0}(string text, int line, int pos)", "base(text, line, pos)", true, classElement.Name));
@@ -47,19 +52,6 @@ namespace SablePP.Generate.Building
             classElement.EmitNewline();
 
             EmitCloneMethod();
-        }
-
-        private void EmitNoArgsConstructor(Token node)
-        {
-            if (!(node.Expression is RegularExpressions.LiteralRegExp))
-                return;
-
-            RegularExpressions.LiteralRegExp exp = node.Expression as RegularExpressions.LiteralRegExp;
-
-            string content = exp.IsChar ? exp.Char.Value.ToString() : exp.Content;
-            content = content.Replace("\"", "\\\"");
-
-            classElement.Add(new MethodElement("public {0}()", "base(@\"{1}\")", true, classElement.Name, content));
         }
 
         private void EmitCloneMethod()
