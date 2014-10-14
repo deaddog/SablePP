@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SablePP.Generate.Building
 {
-    internal class Lexer
+    internal class BLexer
     {
         private Grammar grammar;
         private CompilationResult tables;
@@ -18,7 +18,7 @@ namespace SablePP.Generate.Building
 
         private NameTable<State> names;
 
-        private Lexer(Grammar grammar, CompilationResult tables)
+        private BLexer(Grammar grammar, CompilationResult tables)
         {
             fileElement = new FileElement();
             fileElement.Using.Add("System");
@@ -147,7 +147,7 @@ namespace SablePP.Generate.Building
 
         public static FileElement BuildCode(Grammar grammar, CompilationResult result)
         {
-            Lexer lexer = new Lexer(grammar, result);
+            BLexer lexer = new BLexer(grammar, result);
             lexer.Visit(grammar);
 
             return lexer.fileElement;

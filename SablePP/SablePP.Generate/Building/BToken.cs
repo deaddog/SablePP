@@ -6,13 +6,13 @@ using System.Text;
 
 namespace SablePP.Generate.Building
 {
-    internal class TokenNodes
+    internal class BToken
     {
         private FileElement fileElement;
         private NameSpaceElement nameElement;
         private ClassElement classElement;
 
-        private TokenNodes()
+        private BToken()
         {
             fileElement = new FileElement();
             fileElement.Using.Add("System");
@@ -22,7 +22,7 @@ namespace SablePP.Generate.Building
 
         public static FileElement BuildCode(Grammar grammar)
         {
-            TokenNodes n = new TokenNodes();
+            BToken n = new BToken();
             n.Visit(grammar);
             return n.fileElement;
         }

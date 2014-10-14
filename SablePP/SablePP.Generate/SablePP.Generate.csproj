@@ -42,10 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Building\Lexer.cs" />
+    <Compile Include="Building\BLexer.cs" />
     <Compile Include="Building\NameTable.cs" />
-    <Compile Include="Building\Parser.cs" />
-    <Compile Include="Building\TokenNodes.cs" />
+    <Compile Include="Building\BParser.cs" />
+    <Compile Include="Building\BToken.cs" />
     <Compile Include="CompilationError.cs" />
     <Compile Include="CompilationResult.cs" />
     <Compile Include="ErrorTypes.cs" />

@@ -6,13 +6,13 @@ using System.Linq;
 
 namespace SablePP.Generate.Building
 {
-    internal class Parser
+    internal class BParser
     {
         private FileElement fileElement;
         private NameSpaceElement nameElement;
         private ClassElement classElement;
 
-        private Parser()
+        private BParser()
         {
             fileElement = new FileElement();
             fileElement.Using.Add("System");
@@ -30,7 +30,7 @@ namespace SablePP.Generate.Building
 
         public static FileElement BuildCode(Grammar grammar, CompilationResult tables)
         {
-            Parser parser = new Parser();
+            BParser parser = new BParser();
             parser.Visit(grammar);
 
             parser.classElement.EmitNewline();

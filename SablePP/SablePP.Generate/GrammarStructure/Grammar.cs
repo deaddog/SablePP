@@ -57,15 +57,15 @@ namespace SablePP.Generate
 
         public FileElement GenerateLexer(CompilationResult result)
         {
-            return Lexer.BuildCode(this, result);
+            return BLexer.BuildCode(this, result);
         }
         public FileElement GenerateParser(CompilationResult result)
         {
-            return Parser.BuildCode(this, result);
+            return BParser.BuildCode(this, result);
         }
         public FileElement GenerateTokens()
         {
-            return TokenNodes.BuildCode(this);
+            return BToken.BuildCode(this);
         }
 
         internal override bool canBeParent(GrammarPart part)
