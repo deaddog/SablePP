@@ -42,7 +42,8 @@ namespace SablePP.Generate.Building
             CreateSimpleSyntaxMethod(classElement, out styleRules);
 
             BCompilerExecuter builder = new BCompilerExecuter(classElement, styleRules);
-            builder.Visit((node.Root as AGrammar).Highlightrules);
+            foreach (var rule in node.HighlightingRules)
+                builder.Visit(rule);
 
             return fileElement;
         }
@@ -103,9 +104,11 @@ namespace SablePP.Generate.Building
             this.styleRulesElement = styleRulesElement;
         }
 
+        private SablePP.Tools.SafeNameList names = new Tools.SafeNameList(new List<string>());
+
         private void Visit(Highlighting node)
         {
-            currentStyle = node.Name.Text + "Style";
+            currentStyle = names.Add("style");
 
             PatchElement field;
             builderClass.EmitField("private TextStyle " + currentStyle, out field);
@@ -125,7 +128,7 @@ namespace SablePP.Generate.Building
             temp.Emit("if (");
             temp.InsertElement(styleRulesElement);
 
-            for (int i = 0; i < node.Tokens.Count; i++)
+            for (int i = 0; i < node.Tokens.Length; i++)
             {
                 if (i > 0)
                     styleRulesElement.Emit(" || ");
