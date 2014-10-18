@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SablePP.Generate.Building
 {
-    internal class BProduction
+    internal partial class BProduction
     {
         private FileElement fileElement;
         private NameSpaceElement nameElement;
