@@ -139,8 +139,6 @@ namespace SablePP.Generate.Building
             temp.DecreaseIndentation();
             styleRulesElement = temp;
 
-            Visit(node.Styles);
-
             EmitNewBrush(textColor);
             styleField.Emit(", ");
             EmitNewBrush(backgroundColor);
@@ -168,24 +166,6 @@ namespace SablePP.Generate.Building
                 styleField.Emit("new SolidBrush(Color.FromArgb({0}, {1}, {2}))", color.Value.R, color.Value.G, color.Value.B);
             else
                 styleField.Emit("null");
-        }
-
-        private void Visit(ABackgroundHighlightStyle node)
-        {
-            backgroundColor = GetColor((dynamic)node.Color);
-        }
-        private void Visit(ATextHighlightStyle node)
-        {
-            textColor = GetColor((dynamic)node.Color);
-        }
-
-        private void Visit(AItalicHighlightStyle node)
-        {
-            fontStyle |= FontStyle.Italic;
-        }
-        private void Visit(ABoldHighlightStyle node)
-        {
-            fontStyle |= FontStyle.Bold;
         }
     }
 }
