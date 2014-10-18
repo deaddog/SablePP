@@ -13,7 +13,7 @@ namespace SablePP.Generate.Building
         private ClassElement classElement;
         private string productionName;
 
-        private ProductionNodes()
+        private BProduction()
         {
             fileElement = new FileElement();
             fileElement.Using.Add("System");
@@ -21,14 +21,14 @@ namespace SablePP.Generate.Building
             fileElement.Using.Add(SablePP.Generate.Namespaces.Nodes);
         }
 
-        public static FileElement BuildCode(Start<PGrammar> astRoot)
+        public static FileElement BuildCode(Grammar node)
         {
-            ProductionNodes n = new ProductionNodes();
-            n.Visit(astRoot);
+            BProduction n = new BProduction();
+            n.Visit(node);
             return n.fileElement;
         }
 
-        public override void CaseAGrammar(AGrammar node)
+        private void Visit(Grammar node)
         {
             if (node.HasPackage)
                 Visit(node.Package);
@@ -44,7 +44,7 @@ namespace SablePP.Generate.Building
                 Visit(node.Productions);
         }
 
-        public override void CaseAProduction(AProduction node)
+        private void Visit(AbstractProduction node)
         {
             this.productionName = ToCamelCase(node.Identifier.Text);
             string name = "P" + productionName;
@@ -58,7 +58,7 @@ namespace SablePP.Generate.Building
             base.CaseAProduction(node);
         }
 
-        public override void CaseAAlternative(AAlternative node)
+        private void Visit(AbstractAlternative node)
         {
             string name = "A" + productionName;
             if (node.HasAlternativename)
