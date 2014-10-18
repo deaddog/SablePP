@@ -130,7 +130,7 @@ namespace SablePP.Generate.Building
                 if (i > 0)
                     styleRulesElement.Emit(" || ");
 
-                styleRulesElement.Emit("token is {0}", node.Tokens[i].AsPToken.ClassName);
+                styleRulesElement.Emit("token is {0}", node.Tokens[i].Name);
             }
 
             temp.EmitLine(")");
@@ -139,25 +139,19 @@ namespace SablePP.Generate.Building
             temp.DecreaseIndentation();
             styleRulesElement = temp;
 
-            EmitNewBrush(textColor);
+            EmitNewBrush(node.Foreground);
             styleField.Emit(", ");
-            EmitNewBrush(backgroundColor);
+            EmitNewBrush(node.Background);
             styleField.Emit(", ");
-
-            if (fontStyle == FontStyle.Regular)
+            
+            if (node.Italic && node.Bold)
                 styleField.Emit("FontStyle.Regular");
+            else if (node.Italic && !node.Bold)
+                styleField.Emit("FontStyle.Italic");
+            else if (!node.Italic && node.Bold)
+                styleField.Emit("FontStyle.Bold");
             else
-            {
-                bool first = true;
-                foreach (FontStyle s in Enum.GetValues(typeof(FontStyle)))
-                    if (fontStyle.HasFlag(s) && s != FontStyle.Regular)
-                    {
-                        if (!first) styleField.Emit(" | ");
-                        styleField.Emit("FontStyle.{0}", s);
-
-                        first = false;
-                    }
-            }
+                styleField.Emit("FontStyle.Regular");
         }
 
         private void EmitNewBrush(Color? color)
