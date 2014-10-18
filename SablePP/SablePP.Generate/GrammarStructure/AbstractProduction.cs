@@ -23,7 +23,7 @@ namespace SablePP.Generate
             this.name = name;
 
             this.alternatives = new AddOnlyList<AbstractAlternative>(this);
-            this.alternatives.ItemAdded += (s, e) => e.Item.Production = this;
+            this.alternatives.ItemAdded += (s, e) => { e.Item.Production = this; sharedElements = null; };
 
             if (alternatives != null)
                 this.alternatives.AddRange(alternatives);
@@ -45,6 +45,35 @@ namespace SablePP.Generate
         public AddOnlyList<AbstractAlternative> Alternatives
         {
             get { return alternatives; }
+        }
+
+        private AbstractAlternative.Element[] sharedElements = null;
+
+        public AbstractAlternative.Element[] SharedElements
+        {
+            get
+            {
+                if (sharedElements == null)
+                {
+                    var shared = alternatives[0].Elements.ToList();
+
+                    for (int i = 1; i < alternatives.Count; i++)
+                    {
+                        var elements = alternatives[i].Elements;
+
+                        for (int s = 0; s < shared.Count; s++)
+                        {
+                            var t = elements.FirstOrDefault(x => x.Name == shared[s].Name);
+                            if (t == null || t.Modifier != shared[s].Modifier)
+                                shared.RemoveAt(s--);
+                        }
+                    }
+
+                    sharedElements = shared.ToArray();
+                }
+
+                return sharedElements;
+            }
         }
     }
 }

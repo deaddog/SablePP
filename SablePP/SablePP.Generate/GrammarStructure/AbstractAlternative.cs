@@ -34,6 +34,14 @@ namespace SablePP.Generate
         {
             get { return elements; }
         }
+        public Element[] SharedElements
+        {
+            get { return Production.SharedElements; }
+        }
+        public Element[] UniqueElements
+        {
+            get { return Elements.Where(m => !SharedElements.Any(x => x.Name == m.Name)).ToArray(); }
+        }
         public AbstractProduction Production
         {
             get { return production; }
