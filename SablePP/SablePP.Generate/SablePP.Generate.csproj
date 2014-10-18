@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Building\BCompilerExecuter.cs" />
     <Compile Include="Building\BLexer.cs" />
+    <Compile Include="Building\BProduction.cs" />
     <Compile Include="Building\NameTable.cs" />
     <Compile Include="Building\BParser.cs" />
     <Compile Include="Building\BToken.cs" />
