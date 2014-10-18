@@ -11,7 +11,6 @@ namespace SablePP.Generate.Building
         private FileElement fileElement;
         private NameSpaceElement nameElement;
         private ClassElement classElement;
-        private string productionName;
 
         private BProduction()
         {
@@ -30,41 +29,25 @@ namespace SablePP.Generate.Building
 
         private void Visit(Grammar node)
         {
-            if (node.HasPackage)
-                Visit(node.Package);
+            fileElement.Add(nameElement = new NameSpaceElement(node.Namespace + ".Nodes"));
+            fileElement.Using.Add(node.Namespace + ".Analysis");
 
-            string packageName = node.PackageName;
-
-            fileElement.Add(nameElement = new NameSpaceElement(packageName + ".Nodes"));
-            fileElement.Using.Add(packageName + ".Analysis");
-
-            if (node.HasAstproductions)
-                Visit(node.Astproductions);
-            else if (node.HasProductions)
-                Visit(node.Productions);
+            foreach (var prod in node.AbstractProductions)
+                Visit(prod);
         }
 
         private void Visit(AbstractProduction node)
         {
-            this.productionName = ToCamelCase(node.Identifier.Text);
-            string name = "P" + productionName;
-
-            nameElement.Add(classElement = new ClassElement("public abstract partial class {0} : Production<{0}>", name));
+            nameElement.Add(classElement = new ClassElement("public abstract partial class {0} : Production<{0}>", node.Name));
 
             FieldBuilder.Emit(classElement, node);
             ConstructorBuilder.Emit(classElement, node);
             PropertiesBuilder.Emit(classElement, node);
-
-            base.CaseAProduction(node);
         }
 
         private void Visit(AbstractAlternative node)
         {
-            string name = "A" + productionName;
-            if (node.HasAlternativename)
-                name = "A" + ToCamelCase((node.Alternativename as AAlternativename).Name.Text) + productionName;
-
-            nameElement.Add(classElement = new ClassElement("public partial class {0} : P{1}", name, productionName));
+            nameElement.Add(classElement = new ClassElement("public partial class {0} : P{1}", node.Name, node.Production.Name));
 
             FieldBuilder.Emit(classElement, node);
             ConstructorBuilder.Emit(classElement, node);
