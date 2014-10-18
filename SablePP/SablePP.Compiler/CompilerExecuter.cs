@@ -182,7 +182,7 @@ namespace SablePP.Compiler
             lastGrammar.GenerateLexer(lastResult).ToFile(Path.Combine(directory, "lexer.cs"));
             lastGrammar.GenerateParser(lastResult).ToFile(Path.Combine(directory, "parser.cs"));
 
-            CompilerExecuterBuilder.Build(root).ToFile(Path.Combine(output, "CompilerExecuter.cs"));
+            lastGrammar.GenerateCompilerExecuter().ToFile(Path.Combine(directory, "CompilerExecuter.cs"));
 
             foreach (var file in new[] { "tokens.cs", "prods.cs", "analysis.cs", "parser.cs", "lexer.cs", "CompilerExecuter.cs" })
                 File.Copy(Path.Combine(output, file), Path.Combine(directory, file), true);

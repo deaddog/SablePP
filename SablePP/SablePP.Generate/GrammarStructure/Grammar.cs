@@ -63,6 +63,11 @@ namespace SablePP.Generate
         {
             return BParser.BuildCode(this, result);
         }
+        public FileElement GenerateCompilerExecuter()
+        {
+            return BCompilerExecuter.BuildCode(this);
+        }
+
         public FileElement GenerateTokens()
         {
             return BToken.BuildCode(this);

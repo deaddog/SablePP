@@ -90,7 +90,6 @@
     <Compile Include="CommonMethods.cs" />
     <Compile Include="Generate\Analysis\DepthFirstAdapterBuilder.cs" />
     <Compile Include="Generate\Analysis\ReturnAnalysisAdapterBuilder.cs" />
-    <Compile Include="Generate\CompilerExecuterBuilder.cs" />
     <Compile Include="Generate\Productions\ProductionElement.cs" />
     <Compile Include="Generate\Productions\CloneMethodBuilder.cs" />
     <Compile Include="Generate\Productions\ConstructorBuilder.cs" />
