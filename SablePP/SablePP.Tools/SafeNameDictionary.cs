@@ -30,6 +30,9 @@ namespace SablePP.Tools
         }
         public string Add(string name, object item, bool allscopes = true)
         {
+            if (item == null)
+                throw new ArgumentNullException("item", "Cannot link null to a name. Use Add(string, bool) instead.");
+
             if (ContainsItem(item, allscopes))
                 return this[item];
 
