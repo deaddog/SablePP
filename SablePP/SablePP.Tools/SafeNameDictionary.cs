@@ -106,6 +106,12 @@ namespace SablePP.Tools
             }
         }
 
+        /// <summary>
+        /// Determines whether the <see cref="SafeNameDictionary"/> contains the specified name.
+        /// </summary>
+        /// <param name="name">The name to find an item for.</param>
+        /// <param name="allscopes">if set to <c>true</c> all scopes are checked for <paramref name="name"/>; otherwise only the topmost scope is checked.</param>
+        /// <returns><c>true</c> if the specified name was found in the <see cref="SafeNameDictionary"/>; otherwise <c>false</c>.</returns>
         public bool ContainsName(string name, bool allscopes)
         {
             if (allscopes)
@@ -118,6 +124,12 @@ namespace SablePP.Tools
             else
                 return peek.NameToItem.ContainsKey(name);
         }
+        /// <summary>
+        /// Determines whether the <see cref="SafeNameDictionary"/> contains a name for the specified item.
+        /// </summary>
+        /// <param name="item">The item to find a name for.</param>
+        /// <param name="allscopes">if set to <c>true</c> all scopes are checked for <paramref name="item"/>; otherwise only the topmost scope is checked.</param>
+        /// <returns><c>true</c> if the specified item was found in the <see cref="SafeNameDictionary"/>; otherwise <c>false</c>.</returns>
         public bool ContainsItem(object item, bool allscopes)
         {
             if (allscopes)
