@@ -23,6 +23,18 @@ namespace SablePP.Tools
         }
 
         /// <summary>
+        /// Enumerates a collection of strings matching the pattern '<paramref name="name"/>', '<paramref name="name"/>2', '<paramref name="name"/>3', ...
+        /// </summary>
+        /// <param name="name">The name that should be prepended with integers.</param>
+        /// <returns>An infinite collection of strings; '<paramref name="name"/>', '<paramref name="name"/>2', '<paramref name="name"/>3', ...</returns>
+        public static IEnumerable<string> GetNumberedNamesAndInitial(string name)
+        {
+            yield return name;
+            int i = 2;
+            while (true) yield return name + i++;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SafeName"/> class.
         /// </summary>
         /// <param name="allowname">Specifies a method that determines if a name is available for usage. Should return <c>true</c> if the parameter is usable as a name and otherwise <c>false</c>.</param>
