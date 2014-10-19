@@ -26,6 +26,23 @@ namespace SablePP.Tools
             return peek.NameToItem.ContainsKey(name);
         }
 
+        public string Add(string name, bool tryliteral)
+        {
+            name = safename.GetName(name, tryliteral);
+            peek.NameToItem.Add(name, null);
+            return name;
+        }
+        public string Add(string name, object item, bool tryliteral)
+        {
+            if (ContainsItem(item, true))
+                return this[item];
+
+            name = safename.GetName(name, tryliteral);
+            peek.NameToItem.Add(name, item);
+            peek.ItemToName.Add(item, name);
+            return name;
+        }
+
         public object this[string name]
         {
             get
