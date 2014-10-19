@@ -29,20 +29,15 @@ namespace SablePP.Generate.Building
 
         private void emitElementField(AbstractAlternative.Element node)
         {
-            string name = variables.Add("member", node);
-            string type = (node is AbstractAlternative.TokenElement) ?
-                (node as AbstractAlternative.TokenElement).Token.Name :
-                (node as AbstractAlternative.ProductionElement).Production.Name;
-
             switch (node.Modifier)
             {
                 case Modifiers.Single:
                 case Modifiers.Optional:
-                    classElement.EmitField("private " + type + " " + name);
+                    classElement.EmitField("private " + node.GeneratedName + " " + variables.Add("member", node));
                     break;
                 case Modifiers.OneOrMany:
                 case Modifiers.ZeroOrMany:
-                    classElement.EmitField("private NodeList<" + type + "> " + name);
+                    classElement.EmitField("private NodeList<" + node.GeneratedName + "> " + variables.Add("member_list", node));
                     break;
             }
         }

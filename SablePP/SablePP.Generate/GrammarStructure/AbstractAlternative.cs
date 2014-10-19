@@ -73,6 +73,8 @@ namespace SablePP.Generate
                 get { return name; }
             }
 
+            public abstract string GeneratedName { get; }
+
             public Modifiers Modifier
             {
                 get { return modifier; }
@@ -93,6 +95,10 @@ namespace SablePP.Generate
             {
                 get { return token; }
             }
+            public override string GeneratedName
+            {
+                get { return token.Name; }
+            }
         }
 
         public class ProductionElement : Element
@@ -108,6 +114,10 @@ namespace SablePP.Generate
             public AbstractProduction Production
             {
                 get { return production; }
+            }
+            public override string GeneratedName
+            {
+                get { return production.Name; }
             }
         }
     }
