@@ -74,6 +74,17 @@ namespace SablePP.Tools
         }
 
         /// <summary>
+        /// Ensures that the <paramref name="item"/> refers to <paramref name="name"/>.
+        /// This will NOT use safe names and <paramref name="name"/> will NOT refer to <paramref name="item"/>.
+        /// </summary>
+        /// <param name="item">The item that should be associated with <paramref name="name"/>.</param>
+        /// <param name="name">The name that <paramref name="item"/> should be associated with.</param>
+        public void AddItem(T item, string name)
+        {
+            peek.ItemToName.Add(item, name);
+        }
+
+        /// <summary>
         /// Gets the item associated with the specified name.
         /// </summary>
         /// <param name="name">The name for which an item should be extracted.</param>
