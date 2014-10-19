@@ -45,6 +45,9 @@
     <Compile Include="Building\BCompilerExecuter.cs" />
     <Compile Include="Building\BLexer.cs" />
     <Compile Include="Building\BProduction.cs" />
+    <Compile Include="Building\BProductionConstructor.cs">
+      <DependentUpon>BProduction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Building\BProductionField.cs">
       <DependentUpon>BProduction.cs</DependentUpon>
     </Compile>
