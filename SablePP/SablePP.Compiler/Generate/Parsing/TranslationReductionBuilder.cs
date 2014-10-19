@@ -192,7 +192,13 @@ namespace SablePP.Compiler.Generate.Parsing
             if (element.Elementid.Identifier.IsPAlternative)
                 return element.Elementid.Identifier.AsPAlternative.Production.ClassName;
             else if (element.Elementid.Identifier.IsPProduction)
-                return element.Elementid.Identifier.AsPProduction.ClassName;
+            {
+                var p = element.Elementid.Identifier.AsPProduction;
+                if (p != null && p.HasProdtranslation)
+                    return p.Prodtranslation.Identifier.AsPProduction.ClassName;
+                else
+                    return element.Elementid.Identifier.AsPProduction.ClassName;
+            }
             else if (element.Elementid.Identifier.IsPToken)
                 return element.Elementid.Identifier.AsPToken.ClassName;
             else

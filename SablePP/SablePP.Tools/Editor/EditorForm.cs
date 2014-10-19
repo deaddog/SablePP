@@ -169,6 +169,8 @@ namespace SablePP.Tools.Editor
             if (codeTextBox1.Text == string.Empty)
                 codeTextBox1.OnTextChangedDelayed(codeTextBox1.Range);
 
+            codeTextBox1.ClearUndo();
+
             return DialogResult.OK;
 
         }
@@ -213,6 +215,7 @@ namespace SablePP.Tools.Editor
             {
                 codeTextBox1.Text = reader.ReadToEnd();
                 this.encoding = reader.CurrentEncoding;
+                codeTextBox1.ClearUndo();
             }
             changed = false;
 
@@ -242,6 +245,8 @@ namespace SablePP.Tools.Editor
                 writer.Write(codeTextBox1.Text);
             changed = false;
 
+            recentFiles.AddRecent(File.FullName);
+
             return DialogResult.OK;
         }
         /// <summary>
@@ -266,6 +271,7 @@ namespace SablePP.Tools.Editor
             File = f;
             changed = false;
 
+            recentFiles.AddRecent(File.FullName);
 
             return DialogResult.OK;
         }
@@ -540,6 +546,31 @@ namespace SablePP.Tools.Editor
         public CodeTextBox CodeTextBox
         {
             get { return codeTextBox1; }
+        }
+
+        private static string[] getDraggedFiles(DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                return e.Data.GetData(DataFormats.FileDrop) as string[];
+            else
+                return new string[0];
+        }
+
+        private void EditorForm_DragEnter(object sender, DragEventArgs e)
+        {
+            var files = getDraggedFiles(e);
+            if (files.Length != 1)
+            {
+                e.Effect = DragDropEffects.None;
+                return;
+            }
+            string ext = Path.GetExtension(files[0]);
+            e.Effect = (ext == ".sablecc" || ext == ".sablepp") ? DragDropEffects.Move : DragDropEffects.None;
+        }
+
+        private void EditorForm_DragDrop(object sender, DragEventArgs e)
+        {
+            OpenFile(getDraggedFiles(e)[0]);
         }
 
         private void codeTextBox1_SelectionChanged(object sender, EventArgs e)

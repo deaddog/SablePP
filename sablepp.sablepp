@@ -115,35 +115,35 @@ Ignored Tokens
     comment;
 
 Productions
-    grammar = section* { -> New grammar.section([section.section])};
+    grammar = section* { -> New grammar.section([section])};
     section
-        = {p} package { -> New section.package(package.package) }
-        | {h} helpers { -> New section.helpers(helpers.helpers) }
-        | {s} states { -> New section.states(states.states) }
-        | {t} tokens { -> New section.tokens(tokens.tokens) }
-        | {i} ign_tokens { -> New section.ignore(ign_tokens.ignoredtokens) }
-        | {pr} productions { -> New section.productions(productions.productions) }
-        | {a} astproductions { -> New section.a_s_t(astproductions.astproductions) }
-        | {hi} highlightrules { -> New section.highlight(highlightrules.highlightrules) }
+        = {p} package { -> New section.package(package) }
+        | {h} helpers { -> New section.helpers(helpers) }
+        | {s} states { -> New section.states(states) }
+        | {t} tokens { -> New section.tokens(tokens) }
+        | {i} ign_tokens { -> New section.ignore(ign_tokens) }
+        | {pr} productions { -> New section.productions(productions) }
+        | {a} astproductions { -> New section.a_s_t(astproductions) }
+        | {hi} highlightrules { -> New section.highlight(highlightrules) }
         ;
 
     package =
         packagetoken packagename semicolon;
 
     helpers
-        = helperstoken [helper_defs]:helper_def+ {-> New helpers(helperstoken, [helper_defs.helper])}
+        = helperstoken [helper_defs]:helper_def+ {-> New helpers(helperstoken, [helper_defs])}
         ;
 
     helper_def {-> helper}
-        = identifier equal reg_exp semicolon {-> New helper(identifier, equal, reg_exp.regex, semicolon)}
+        = identifier equal reg_exp semicolon {-> New helper(identifier, equal, reg_exp, semicolon)}
         ;
 
     states
-        = statestoken id_list semicolon {-> New states(statestoken, [id_list.identifier_listitem], semicolon)}
+        = statestoken id_list semicolon {-> New states(statestoken, [id_list], semicolon)}
         ;
 
     id_list {-> identifier_listitem+}
-        = identifier [ids]:id_list_tail* {-> [New identifier_listitem(Null, identifier), ids.identifier_listitem]}
+        = identifier [ids]:id_list_tail* {-> [New identifier_listitem(Null, identifier), ids]}
         ;
 
     id_list_tail {-> identifier_listitem}
@@ -151,18 +151,18 @@ Productions
         ;
 
     tokens
-        = tokenstoken [token_defs]:token_def+ {-> New tokens(tokenstoken, [token_defs.token])}
+        = tokenstoken [token_defs]:token_def+ {-> New tokens(tokenstoken, [token_defs])}
         ;
 
     token_def {-> token}
-        = state_list? identifier equal reg_exp look_ahead? semicolon {-> New token(state_list.tokenstate_list, identifier, equal, reg_exp.regex, look_ahead.tokenlookahead, semicolon)}
+        = state_list? identifier equal reg_exp look_ahead? semicolon {-> New token(state_list, identifier, equal, reg_exp, look_ahead, semicolon)}
         ;
 
     state_list {-> tokenstate_list}
         = {notransition} l_brace identifier [state_lists]:state_list_tail* r_brace
-          {-> New tokenstate_list(l_brace, [New tokenstate_listitem(Null, identifier), state_lists.tokenstate_listitem], r_brace)}
+          {-> New tokenstate_list(l_brace, [New tokenstate_listitem(Null, identifier), state_lists], r_brace)}
         | {transition} l_brace [f]:identifier arrow [t]:identifier [state_lists]:state_list_tail* r_brace
-          {-> New tokenstate_list(l_brace, [New tokenstate_listitem.transition(Null, f, arrow, t), state_lists.tokenstate_listitem], r_brace)}
+          {-> New tokenstate_list(l_brace, [New tokenstate_listitem.transition(Null, f, arrow, t), state_lists], r_brace)}
         ;
 
     state_list_tail {-> tokenstate_listitem}
@@ -171,24 +171,24 @@ Productions
         ;
 
     ign_tokens {-> ignoredtokens}
-        = ignoredtoken tokenstoken id_list semicolon {-> New ignoredtokens(ignoredtoken, tokenstoken, [id_list.identifier_listitem], semicolon)}
+        = ignoredtoken tokenstoken id_list semicolon {-> New ignoredtokens(ignoredtoken, tokenstoken, [id_list], semicolon)}
         ;
 
     look_ahead {-> tokenlookahead}
-        = slash reg_exp {-> New tokenlookahead(slash, reg_exp.regex)}
+        = slash reg_exp {-> New tokenlookahead(slash, reg_exp)}
         ;
 
     reg_exp {-> regex}
-        = {single} concat {-> concat.regex}
-        | {multiple} concat [concats]:reg_exp_tail+ {-> New regex.or([concat.regex, concats.regex])}
+        = {single} concat {-> concat}
+        | {multiple} concat [concats]:reg_exp_tail+ {-> New regex.or([concat, concats])}
         ;
 
     reg_exp_tail {-> regex}
-        = pipe concat {-> concat.regex}
+        = pipe concat {-> concat}
         ;
 
     concat {-> regex}
-        = [un_exps]:un_exp+ {-> New regex.concatenated([un_exps.regex])}
+        = [un_exps]:un_exp+ {-> New regex.concatenated([un_exps])}
         ;
     
     modifier
@@ -198,16 +198,16 @@ Productions
         ;
     
     un_exp {-> regex}
-        = {simple} basic {-> basic.regex}
-        | {mod} basic modifier {-> New regex.unary(basic.regex, modifier)}
+        = {simple} basic {-> basic}
+        | {mod} basic modifier {-> New regex.unary(basic, modifier)}
         ;
 
     basic {-> regex}
-        = {char} char {-> char.regex}
-        | {set} set {-> set.regex}
+        = {char} char {-> char}
+        | {set} set {-> set}
         | {string} string {-> New regex.string(string)}
         | {identifier} identifier {-> New regex.identifier(identifier)}
-        | {reg_exp} l_par reg_exp r_par {-> New regex.parenthesis(l_par, reg_exp.regex, r_par)}
+        | {reg_exp} l_par reg_exp r_par {-> New regex.parenthesis(l_par, reg_exp, r_par)}
         ;
 
     char {-> regex}
@@ -217,17 +217,17 @@ Productions
         ;
 
     set {-> regex}
-        = {plus} l_bkt [left]:basic plus [right]:basic r_bkt {-> New regex.binaryplus(l_bkt, left.regex, plus, right.regex, r_bkt)}
-        | {minus} l_bkt [left]:basic minus [right]:basic r_bkt {-> New regex.binaryminus(l_bkt, left.regex, minus, right.regex, r_bkt)}
-        | {interval} l_bkt [left]:char d_dot [right]:char r_bkt {-> New regex.interval(l_bkt, left.regex, d_dot, right.regex, r_bkt)}
+        = {plus} l_bkt [left]:basic plus [right]:basic r_bkt {-> New regex.binaryplus(l_bkt, left, plus, right, r_bkt)}
+        | {minus} l_bkt [left]:basic minus [right]:basic r_bkt {-> New regex.binaryminus(l_bkt, left, minus, right, r_bkt)}
+        | {interval} l_bkt [left]:char d_dot [right]:char r_bkt {-> New regex.interval(l_bkt, left, d_dot, right, r_bkt)}
         ;
 
     productions
-        = productionstoken [prods]:prod+ {-> New productions(productionstoken, [prods.production])}
+        = productionstoken [prods]:prod+ {-> New productions(productionstoken, [prods])}
         ;
 
     prod {-> production}
-        = identifier prodtrans? equal alts semicolon {-> New production(identifier, prodtrans.prodtranslation, equal, alts.productionrule, semicolon)}
+        = identifier prodtrans? equal alts semicolon {-> New production(identifier, prodtrans, equal, alts, semicolon)}
         ;
     
     prodtrans {-> prodtranslation}
@@ -236,21 +236,21 @@ Productions
         ;
     
     alttrans {-> translation}
-        = {braces} l_brace arrow translation r_brace {-> New translation.full(arrow, translation.translation)}
-        | arrow translation {-> New translation.full(arrow, translation.translation)}
+        = {braces} l_brace arrow translation r_brace {-> New translation.full(arrow, translation)}
+        | arrow translation {-> New translation.full(arrow, translation)}
         ;
     translation
-        = {id} translationid {-> translationid.translation}
-        | {new} new identifier l_par translation_args? r_par {-> New translation.new(new, identifier, l_par, [translation_args.translation_listitem], r_par)}
-        | {newalt} new [a]:identifier dot [b]:identifier l_par translation_args? r_par {-> New translation.newalternative(new, a, dot, b, l_par, [translation_args.translation_listitem], r_par)}
+        = {id} translationid {-> translationid}
+        | {new} new identifier l_par translation_args? r_par {-> New translation.new(new, identifier, l_par, [translation_args], r_par)}
+        | {newalt} new [a]:identifier dot [b]:identifier l_par translation_args? r_par {-> New translation.newalternative(new, a, dot, b, l_par, [translation_args], r_par)}
         | {null} null {-> New translation.null(null)}
-        | {list} l_bkt translation_args? r_bkt {-> New translation.list(l_bkt, [translation_args.translation_listitem], r_bkt)}
+        | {list} l_bkt translation_args? r_bkt {-> New translation.list(l_bkt, [translation_args], r_bkt)}
         ;
     translation_args {-> translation_listitem+}
-        = translation translation_args_tail* {-> [New translation_listitem(Null, translation.translation), translation_args_tail.translation_listitem]}
+        = translation translation_args_tail* {-> [New translation_listitem(Null, translation), translation_args_tail]}
         ;
     translation_args_tail {-> translation_listitem}
-        = comma translation {-> New translation_listitem(comma, translation.translation)}
+        = comma translation {-> New translation_listitem(comma, translation)}
         ;
     translationid {-> translation}
         = {single} identifier {-> New translation.id(identifier)}
@@ -258,19 +258,19 @@ Productions
         ;
 
     alts {-> productionrule}
-        = {simple} alt_name? [elems]:elem* alttrans? {-> New productionrule([New alternative(Null, alt_name.alternativename, New elements([elems.element]), alttrans.translation)])}
-        | {multiple} alt_name? [elems]:elem* alttrans? [alts]:alts_tail+ {-> New productionrule([New alternative(Null, alt_name.alternativename, New elements([elems.element]), alttrans.translation), alts.alternative])}
+        = {simple} alt_name? [elems]:elem* alttrans? {-> New productionrule([New alternative(Null, alt_name, New elements([elems]), alttrans)])}
+        | {multiple} alt_name? [elems]:elem* alttrans? [alts]:alts_tail+ {-> New productionrule([New alternative(Null, alt_name, New elements([elems]), alttrans), alts])}
         ;
 
     alts_tail {-> alternative}
-        = pipe alt_name? [elems]:elem* alttrans? {-> New alternative(pipe, alt_name.alternativename, New elements([elems.element]), alttrans.translation)}
+        = pipe alt_name? [elems]:elem* alttrans? {-> New alternative(pipe, alt_name, New elements([elems]), alttrans)}
         ;
         
     alt_name {-> alternativename}
         = l_brace identifier r_brace {-> New alternativename(l_brace, identifier, r_brace)}
         ;
 
-    elem {-> element} = elem_name? elem_id modifier? {-> New element(elem_name.elementname, elem_id.elementid, modifier)};
+    elem {-> element} = elem_name? elem_id modifier? {-> New element(elem_name, elem_id, modifier)};
 
     elem_name {-> elementname}
         = l_bkt identifier r_bkt colon {-> New elementname(l_bkt, identifier, r_bkt, colon)}
@@ -283,7 +283,7 @@ Productions
         ;
 
     astproductions
-        = asttoken [prods]:prod+ {-> New astproductions(asttoken, [prods.production])}
+        = asttoken [prods]:prod+ {-> New astproductions(asttoken, [prods])}
         ;
     
     highlightrules
@@ -291,15 +291,15 @@ Productions
         ;
     
     highlightrule
-        = identifier l_brace id_list r_brace hlstyle_list semicolon {-> New highlightrule(identifier, l_brace, [id_list.identifier_listitem], r_brace, [hlstyle_list.style_listitem], semicolon)}
+        = identifier l_brace id_list r_brace hlstyle_list semicolon {-> New highlightrule(identifier, l_brace, [id_list], r_brace, [hlstyle_list], semicolon)}
         ;
     
     hlstyle_list {-> style_listitem+ }
-        = hlstyle hlstyle_tail* {-> [New style_listitem(Null, hlstyle.highlight_style), hlstyle_tail.style_listitem]}
+        = hlstyle hlstyle_tail* {-> [New style_listitem(Null, hlstyle), hlstyle_tail]}
         ;
     
     hlstyle_tail {-> style_listitem }
-        = comma hlstyle {-> New style_listitem(comma, hlstyle.highlight_style)}
+        = comma hlstyle {-> New style_listitem(comma, hlstyle)}
         ;
         
     hlstyle {-> highlight_style}
