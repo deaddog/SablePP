@@ -7,43 +7,42 @@ namespace SablePP.Generate.Building
 {
     internal partial class BProduction
     {
-        public static void Emit(ClassElement classElement, AProduction node)
+        private void emitElementFields(AbstractProduction node)
         {
-            var fields = ProductionElement.GetSharedElements(node);
-            if (fields.Length > 0)
-            {
-                emit(classElement, fields);
-                classElement.EmitNewline();
-            }
+            emitElementFields(node.SharedElements);
         }
-        public static void Emit(ClassElement classElement, AAlternative node)
+        private void emitElementFields(AbstractAlternative node)
         {
-            var fields = ProductionElement.GetUniqueElements(node);
-            if (fields.Length > 0)
+            emitElementFields(node.UniqueElements);
+        }
+
+        private void emitElementFields(AbstractAlternative.Element[] elements)
+        {
+            if (elements.Length > 0)
             {
-                emit(classElement, fields);
+                foreach (var e in elements)
+                    emitElementField(e);
+
                 classElement.EmitNewline();
             }
         }
 
-        private static void emit(ClassElement classElement, IEnumerable<ProductionElement> elements)
+        private void emitElementField(AbstractAlternative.Element node)
         {
-            FieldBuilder builder = new FieldBuilder() { classElement = classElement };
-            foreach (var e in elements)
-                builder.emitElement(e);
-        }
+            string name = variables.Add("member", node);
+            string type = (node is AbstractAlternative.TokenElement) ?
+                (node as AbstractAlternative.TokenElement).Token.Name :
+                (node as AbstractAlternative.ProductionElement).Production.Name;
 
-        private void emitElement(ProductionElement node)
-        {
-            switch (node.ElementType)
+            switch (node.Modifier)
             {
-                case ElementTypes.Simple:
-                case ElementTypes.Question:
-                    classElement.EmitField("private " + node.ProductionOrTokenClass + " " + node.FieldName);
+                case Modifiers.Single:
+                case Modifiers.Optional:
+                    classElement.EmitField("private " + type + " " + name);
                     break;
-                case ElementTypes.Plus:
-                case ElementTypes.Star:
-                    classElement.EmitField("private NodeList<" + node.ProductionOrTokenClass + "> " + node.FieldName);
+                case Modifiers.OneOrMany:
+                case Modifiers.ZeroOrMany:
+                    classElement.EmitField("private NodeList<" + type + "> " + name);
                     break;
             }
         }
