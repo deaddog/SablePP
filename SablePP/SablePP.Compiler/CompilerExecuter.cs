@@ -9,7 +9,6 @@ using System.Text.RegularExpressions;
 using SablePP.Compiler.Execution;
 using SablePP.Compiler.Generate;
 using SablePP.Compiler.Generate.Analysis;
-using SablePP.Compiler.Generate.Productions;
 using SablePP.Compiler.Nodes;
 using SablePP.Compiler.Validation;
 using SablePP.Compiler.Validation.SymbolLinking;
@@ -176,7 +175,7 @@ namespace SablePP.Compiler
             string output = PathInformation.SableOutputDirectory;
 
             lastGrammar.GenerateTokens().ToFile(Path.Combine(directory, "tokens.cs"));
-            ProductionNodes.BuildCode(root).ToFile(Path.Combine(output, "prods.cs"));
+            lastGrammar.GenerateProductions().ToFile(Path.Combine(directory, "prods.cs"));
             AnalysisBuilder.BuildCode(root).ToFile(Path.Combine(output, "analysis.cs"));
 
             lastGrammar.GenerateLexer(lastResult).ToFile(Path.Combine(directory, "lexer.cs"));

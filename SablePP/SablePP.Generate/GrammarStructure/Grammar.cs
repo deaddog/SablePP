@@ -72,6 +72,10 @@ namespace SablePP.Generate
         {
             return BToken.BuildCode(this);
         }
+        public FileElement GenerateProductions()
+        {
+            return BProduction.BuildCode(this);
+        }
 
         internal override bool canBeParent(GrammarPart part)
         {
