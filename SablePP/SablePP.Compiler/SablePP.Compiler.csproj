@@ -90,9 +90,6 @@
     <Compile Include="CommonMethods.cs" />
     <Compile Include="Generate\Analysis\DepthFirstAdapterBuilder.cs" />
     <Compile Include="Generate\Analysis\ReturnAnalysisAdapterBuilder.cs" />
-    <Compile Include="Generate\Productions\ProductionElement.cs" />
-    <Compile Include="Generate\Productions\CloneMethodBuilder.cs" />
-    <Compile Include="Generate\Productions\ConstructorBuilder.cs" />
     <Compile Include="GrammarBuilder.cs" />
     <Compile Include="Modifiers.cs" />
     <Compile Include="Nodes\AFullTranslation.cs" />
@@ -103,14 +100,7 @@
     <Compile Include="Nodes\ANewTranslation.cs" />
     <Compile Include="Nodes\ANullTranslation.cs" />
     <Compile Include="Nodes\ElementTypes.cs" />
-    <Compile Include="Generate\Productions\GetChildrenMethodBuilder.cs" />
-    <Compile Include="Generate\Productions\ReplaceMethodBuilder.cs" />
-    <Compile Include="Generate\Productions\ToStringMethodBuilder.cs" />
-    <Compile Include="Generate\Productions\ProductionVisitor.cs" />
-    <Compile Include="Generate\Productions\PropertiesBuilder.cs" />
-    <Compile Include="Generate\Productions\FieldBuilder.cs" />
     <Compile Include="Generate\GenerateVisitor.cs" />
-    <Compile Include="Generate\Productions\ProductionNodes.cs" />
     <Compile Include="Nodes\IDeclaration.cs" />
     <Compile Include="Nodes\PAlternative.cs" />
     <Compile Include="Nodes\DeclarationIdentifier.cs" />
