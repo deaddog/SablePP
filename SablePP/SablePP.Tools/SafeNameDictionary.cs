@@ -8,10 +8,14 @@ namespace SablePP.Tools
         private Stack<DictionarySet> stack;
         private SafeName safename;
 
-        public SafeNameDictionary(SafeName safename)
+        public SafeNameDictionary()
+            : this(null)
+        { 
+        }
+        public SafeNameDictionary(Func<string, IEnumerable<string>> getTestNames)
         {
             this.stack = new Stack<DictionarySet>();
-            this.safename = safename;
+            this.safename = new SafeName(x => stack.Peek().NameToItem.ContainsKey(x), getTestNames ?? SafeName.GetNumberedNames);
 
             this.stack.Push(new DictionarySet());
         }
