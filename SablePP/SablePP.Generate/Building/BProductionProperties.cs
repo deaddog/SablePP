@@ -8,87 +8,80 @@ namespace SablePP.Generate.Building
 {
     internal partial class BProduction
     {
-        public static void Emit(ClassElement classElement, AProduction node)
+        private void emitProperties(AbstractProduction node)
         {
-            var fields = ProductionElement.GetSharedElements(node);
-            if (fields.Length > 0)
-            {
-                emit(classElement, fields);
-                classElement.EmitNewline();
-            }
+            emitProperties(node.SharedElements);
         }
-        public static void Emit(ClassElement classElement, AAlternative node)
+        private void emitProperties(AbstractAlternative node)
         {
-            var fields = ProductionElement.GetUniqueElements(node);
-            if (fields.Length > 0)
+            emitProperties(node.UniqueElements);
+        }
+
+        private void emitProperties(AbstractAlternative.Element[] elements)
+        {
+            if (elements.Length > 0)
             {
-                emit(classElement, fields);
+                foreach (var e in elements)
+                    emitElementProperty(e);
                 classElement.EmitNewline();
             }
         }
 
-        private static void emit(ClassElement classElement, IEnumerable<ProductionElement> elements)
+        private void emitElementProperty(AbstractAlternative.Element node)
         {
-            PropertiesBuilder builder = new PropertiesBuilder() { classElement = classElement };
-            foreach (var e in elements)
-                builder.emitElement(e);
-        }
-
-        private void emitElement(ProductionElement node)
-        {
-            switch (node.ElementType)
+            switch (node.Modifier)
             {
-                case ElementTypes.Simple:
-                    emitSimpleElement(node);
+                case Modifiers.Single:
+                    emitSingleElementProperty(node);
                     break;
-                case ElementTypes.Question:
-                    emitQuestionElement(node);
+                case Modifiers.Optional:
+                    emitOptionalElementProperty(node);
                     break;
-                case ElementTypes.Plus:
-                case ElementTypes.Star:
+                case Modifiers.OneOrMany:
+                case Modifiers.ZeroOrMany:
                     GetPropertyElement property;
-                    classElement.Add(property = new GetPropertyElement(AccessModifiers.@public, node.PropertyName, "NodeList<" + node.ProductionOrTokenClass + ">"));
-                    EmitGet(node, property);
+                    classElement.Add(property = new GetPropertyElement(AccessModifiers.@public, node.Name, "NodeList<" + node.GeneratedName + ">"));
+                    property.Get.Emit("return {0};", variables[node]);
                     break;
             }
         }
 
-        private void emitSimpleElement(ProductionElement node)
+        private void emitSingleElementProperty(AbstractAlternative.Element node)
         {
             GetSetPropertyElement property;
-            classElement.Add(property = new GetSetPropertyElement(AccessModifiers.@public, node.PropertyName, node.ProductionOrTokenClass));
-            EmitGet(node, property);
+            classElement.Add(property = new GetSetPropertyElement(AccessModifiers.@public, node.Name, node.GeneratedName));
+            property.Get.Emit("return {0};", variables[node]);
 
             property.Set.EmitLine("if (value == null)");
 
             property.Set.IncreaseIndentation();
-            property.Set.EmitLine("throw new ArgumentException(\"{0} in {1} cannot be null.\", \"value\");", node.PropertyName, classElement.Name);
+            property.Set.EmitLine("throw new ArgumentException(\"{0} in {1} cannot be null.\", \"value\");", node.Name, classElement.Name);
             property.Set.DecreaseIndentation();
 
             property.Set.EmitNewLine();
 
-            property.Set.EmitLine("if ({0} != null)", node.FieldName);
+            property.Set.EmitLine("if ({0} != null)", variables[node]);
 
             property.Set.IncreaseIndentation();
-            property.Set.EmitLine("SetParent({0}, null);", node.FieldName);
+            property.Set.EmitLine("SetParent({0}, null);", variables[node]);
             property.Set.DecreaseIndentation();
 
             property.Set.EmitLine("SetParent(value, this);");
 
             property.Set.EmitNewLine();
 
-            property.Set.Emit("{0} = value;", node.FieldName);
+            property.Set.Emit("{0} = value;", variables[node]);
         }
-        private void emitQuestionElement(ProductionElement node)
+        private void emitOptionalElementProperty(AbstractAlternative.Element node)
         {
             GetSetPropertyElement property;
-            classElement.Add(property = new GetSetPropertyElement(AccessModifiers.@public, node.PropertyName, node.ProductionOrTokenClass));
-            EmitGet(node, property);
+            classElement.Add(property = new GetSetPropertyElement(AccessModifiers.@public, node.Name, node.GeneratedName));
+            property.Get.Emit("return {0};", variables[node]);
 
-            property.Set.EmitLine("if ({0} != null)", node.FieldName);
+            property.Set.EmitLine("if ({0} != null)", variables[node]);
 
             property.Set.IncreaseIndentation();
-            property.Set.EmitLine("SetParent({0}, null);", node.FieldName);
+            property.Set.EmitLine("SetParent({0}, null);", variables[node]);
             property.Set.DecreaseIndentation();
 
             property.Set.EmitLine("if (value != null)");
@@ -99,16 +92,11 @@ namespace SablePP.Generate.Building
 
             property.Set.EmitNewLine();
 
-            property.Set.Emit("{0} = value;", node.FieldName);
+            property.Set.Emit("{0} = value;", variables[node]);
 
             GetPropertyElement hasProperty;
-            classElement.Add(hasProperty = new GetPropertyElement(AccessModifiers.@public, "Has" + node.PropertyName, "bool"));
-            hasProperty.Get.Emit("return {0} != null;", node.FieldName);
-        }
-
-        private void EmitGet(ProductionElement node, IGetProperty property)
-        {
-            property.Get.Emit("return {0};", node.FieldName);
+            classElement.Add(hasProperty = new GetPropertyElement(AccessModifiers.@public, "Has" + node.Name, "bool"));
+            hasProperty.Get.Emit("return {0} != null;", variables[node]);
         }
     }
 }
