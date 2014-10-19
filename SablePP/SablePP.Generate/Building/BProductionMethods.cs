@@ -1,4 +1,5 @@
-﻿using SablePP.Tools.Generate.CSharp;
+﻿using SablePP.Tools.Generate;
+using SablePP.Tools.Generate.CSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -156,6 +157,31 @@ namespace SablePP.Generate.Building
                     }
                     break;
             }
+        }
+
+        public void emitToStringMethod(AbstractAlternative node)
+        {
+            var elements = node.Elements;
+
+            MethodElement toStringMethod = new MethodElement("public override string ToString()");
+
+            PatchElement formatString = new PatchElement();
+            toStringMethod.Body.Emit("return string.Format(\"");
+            toStringMethod.Body.InsertElement(formatString);
+            toStringMethod.Body.Emit("\"");
+
+            for (int i = 0; i < elements.Length; i++)
+            {
+                if (i > 0)
+                    formatString.Emit(" ");
+
+                formatString.Emit("{{{0}}}", i);
+                toStringMethod.Body.Emit(", {0}", elements[i].Name);
+            }
+
+            toStringMethod.Body.EmitLine(");");
+
+            classElement.Add(toStringMethod);
         }
     }
 }

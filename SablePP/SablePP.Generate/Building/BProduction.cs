@@ -70,7 +70,7 @@ namespace SablePP.Generate.Building
             emitReplaceChildMethod(node);
             emitGetChildrenMethod(node);
             emitCloneMethod(node);
-            ToStringMethodBuilder.Emit(classElement, node);
+            emitToStringMethod(node);
 
             variables.CloseScope();
         }
