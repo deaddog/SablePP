@@ -52,6 +52,9 @@
       <DependentUpon>BProduction.cs</DependentUpon>
     </Compile>
     <Compile Include="Building\BParser.cs" />
+    <Compile Include="Building\BProductionProperties.cs">
+      <DependentUpon>BProduction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Building\BToken.cs" />
     <Compile Include="CompilationError.cs" />
     <Compile Include="CompilationResult.cs" />
