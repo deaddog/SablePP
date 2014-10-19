@@ -16,6 +16,28 @@ namespace SablePP.Tools
             this.stack.Push(new DictionarySet());
         }
 
+        public int ScopeLevel
+        {
+            get { return stack.Count - 1; }
+        }
+
+        public void OpenScope()
+        {
+            stack.Push(new DictionarySet());
+        }
+        public void CloseScope()
+        {
+            if (stack.Count == 1)
+                throw new InvalidOperationException("Cannot close the outermost scope in a SafeNameDictionary.");
+            else
+                stack.Pop();
+        }
+        public void CloseAllScopes()
+        {
+            while (stack.Count > 1)
+                stack.Pop();
+        }
+
         private class DictionarySet
         {
             public readonly Dictionary<string, object> NameToItem;
