@@ -6,9 +6,10 @@ namespace SablePP.Tools
     /// <summary>
     /// Defines methods for retrieving unused (variable) names.
     /// </summary>
-    public abstract class SafeName
+    public class SafeName
     {
         private Func<string, IEnumerable<string>> testnames;
+        private Func<string, bool> allowname;
 
         /// <summary>
         /// Enumerates a collection of strings matching the pattern '<paramref name="name"/>1', '<paramref name="name"/>2', '<paramref name="name"/>3', ...
@@ -21,28 +22,29 @@ namespace SablePP.Tools
             while (true) yield return name + i++;
         }
 
-        private bool yieldInitial = false;
         /// <summary>
-        /// Gets or sets a value indicating whether the input name should always be tested as an available name.
+        /// Initializes a new instance of the <see cref="SafeName"/> class using <see cref="GetNumberedNames"/> to generate names.
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if the input string should be tested; otherwise, <c>false</c>.
-        /// </value>
-        public bool YieldInitial
+        /// <param name="allowname">Specifies a method that determines if a name is available for usage. Should return <c>true</c> if the parameter is usable as a name and otherwise <c>false</c>.</param>
+        public SafeName(Func<string, bool> allowname)
+            : this(allowname, GetNumberedNames)
         {
-            get { return yieldInitial; }
-            set { yieldInitial = value; }
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SafeName"/> class with no pre-known names.
+        /// Initializes a new instance of the <see cref="SafeName"/> class.
         /// </summary>
+        /// <param name="allowname">Specifies a method that determines if a name is available for usage. Should return <c>true</c> if the parameter is usable as a name and otherwise <c>false</c>.</param>
         /// <param name="getTestNames">Specifies a method that generates variable names from an input string. Infinite collections of distinct elements are allowed.</param>
-        public SafeName(Func<string, IEnumerable<string>> getTestNames)
+        public SafeName(Func<string, bool> allowname, Func<string, IEnumerable<string>> getTestNames)
         {
+            if (allowname == null)
+                throw new ArgumentNullException("allowname");
+
             if (getTestNames == null)
                 throw new ArgumentNullException("getTestNames");
 
+            this.allowname = allowname;
             this.testnames = getTestNames;
         }
 
@@ -50,27 +52,21 @@ namespace SablePP.Tools
         /// Gets an previously unknown (safe) name from a string.
         /// </summary>
         /// <param name="name">The string from which a name is returned.</param>
+        /// <param name="yieldInitial">Determines if <paramref name="name"/> should be tested as an available name.</param>
         /// <returns>A string not previously known by this <see cref="SafeName"/>.</returns>
-        public string GetName(string name)
+        public string GetName(string name, bool yieldInitial)
         {
             if (name == null)
                 throw new ArgumentNullException("name");
 
-            if (yieldInitial && !Contains(name))
+            if (yieldInitial && !allowname(name))
                 return name;
 
             foreach (var n in testnames(name))
-                if (!Contains(n))
+                if (!allowname(n))
                     return n;
 
             throw new InvalidOperationException("Unable to determine a safe name.");
         }
-        /// <summary>
-        /// Determines whether <paramref name="name"/> is contained by the collection that this <see cref="SafeName"/> manages.
-        /// This method determines if names are available or not (if they are already in use).
-        /// </summary>
-        /// <param name="name">The name to check for.</param>
-        /// <returns><c>true</c>, if <paramref name="name"/> is already in use; otherwise <c>false</c>.</returns>
-        public abstract bool Contains(string name);
     }
 }
