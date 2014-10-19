@@ -26,6 +26,27 @@ namespace SablePP.Tools
             return peek.NameToItem.ContainsKey(name);
         }
 
+        public object this[string name]
+        {
+            get
+            {
+                foreach (var s in stack)
+                    if (s.NameToItem.ContainsKey(name))
+                        return s.NameToItem[name];
+                throw new ArgumentException("The name '" + name + "' was not found in the dictionary.", "name");
+            }
+        }
+        public string this[object item]
+        {
+            get
+            {
+                foreach (var s in stack)
+                    if (s.ItemToName.ContainsKey(item))
+                        return s.ItemToName[item];
+                throw new ArgumentException("The item '" + item.ToString() + "' was not found in the dictionary.", "item");
+            }
+        }
+
         public bool ContainsName(string name, bool allscopes)
         {
             if (allscopes)
