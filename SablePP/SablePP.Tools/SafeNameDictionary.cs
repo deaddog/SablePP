@@ -16,14 +16,9 @@ namespace SablePP.Tools
         public SafeNameDictionary(Func<string, IEnumerable<string>> getTestNames)
         {
             this.stack = new Stack<DictionarySet>();
-            this.safename = new SafeName(containsName, getTestNames ?? SafeName.GetNumberedNames);
+            this.safename = new SafeName(x => ContainsName(x, false), getTestNames ?? SafeName.GetNumberedNames);
 
             this.stack.Push(peek = new DictionarySet());
-        }
-
-        private bool containsName(string name)
-        {
-            return peek.NameToItem.ContainsKey(name);
         }
 
         public string Add(string name, bool tryliteral)
