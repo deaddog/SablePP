@@ -3,16 +3,30 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools
 {
+    /// <summary>
+    /// Provides methods for managing variable names and scoping.
+    /// </summary>
     public class SafeNameDictionary
     {
         private Stack<DictionarySet> stack;
         private DictionarySet peek;
         private SafeName safename, allscopesSafeName;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SafeNameDictionary"/> class that is empty,
+        /// has the default initial capacity,
+        /// and uses <see cref="SafeName.GetNumberedNames"/> to generate variable names.
+        /// </summary>
         public SafeNameDictionary()
             : this(null)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SafeNameDictionary"/> class that is empty,
+        /// has the default initial capacity,
+        /// and uses a function to generate variable names.
+        /// </summary>
+        /// <param name="getTestNames">A <see cref="NameGenerator"/> that generates names for the <see cref="SafeNameDictionary"/>.</param>
         public SafeNameDictionary(NameGenerator getTestNames)
         {
             this.stack = new Stack<DictionarySet>();
