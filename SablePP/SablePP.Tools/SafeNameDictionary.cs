@@ -201,11 +201,22 @@ namespace SablePP.Tools
         }
 
         /// <summary>
-        /// Gets the number of opened scopes (except for the outermost scope).
+        /// Gets or sets the number of opened scopes (except for the outermost scope).
         /// </summary>
         public int ScopeLevel
         {
             get { return stack.Count - 1; }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value", "Scope must be >= 0.");
+
+                while (value > ScopeLevel)
+                    OpenScope();
+
+                while (value < ScopeLevel)
+                    CloseScope();
+            }
         }
 
         /// <summary>
