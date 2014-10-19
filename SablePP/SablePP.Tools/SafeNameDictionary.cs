@@ -13,7 +13,7 @@ namespace SablePP.Tools
             : this(null)
         {
         }
-        public SafeNameDictionary(Func<string, IEnumerable<string>> getTestNames)
+        public SafeNameDictionary(NameGenerator getTestNames)
         {
             var getNames = getTestNames ?? SafeName.GetNumberedNames;
 

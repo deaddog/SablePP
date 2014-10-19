@@ -8,7 +8,7 @@ namespace SablePP.Tools
     /// </summary>
     public class SafeName
     {
-        private Func<string, IEnumerable<string>> testnames;
+        private NameGenerator testnames;
         private Func<string, bool> allowname;
 
         /// <summary>
@@ -35,8 +35,8 @@ namespace SablePP.Tools
         /// Initializes a new instance of the <see cref="SafeName"/> class.
         /// </summary>
         /// <param name="allowname">Specifies a method that determines if a name is available for usage. Should return <c>true</c> if the parameter is usable as a name and otherwise <c>false</c>.</param>
-        /// <param name="getTestNames">Specifies a method that generates variable names from an input string. Infinite collections of distinct elements are allowed.</param>
-        public SafeName(Func<string, bool> allowname, Func<string, IEnumerable<string>> getTestNames)
+        /// <param name="getTestNames">Specifies a <see cref="NameGenerator"/> for this <see cref="SafeName"/>.</param>
+        public SafeName(Func<string, bool> allowname, NameGenerator getTestNames)
         {
             if (allowname == null)
                 throw new ArgumentNullException("allowname");
