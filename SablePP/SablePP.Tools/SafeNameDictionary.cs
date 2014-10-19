@@ -36,12 +36,28 @@ namespace SablePP.Tools
             this.stack.Push(peek = new DictionarySet());
         }
 
+        /// <summary>
+        /// Adds the first unused name, matching a seed name, to this <see cref="SafeNameDictionary"/>.
+        /// </summary>
+        /// <param name="name">The name seed from which names are generated.</param>
+        /// <param name="allscopes">if set to <c>true</c> the generated name is unused in all scopes; otherwise, it is only unsued in the topmost scope.</param>
+        /// <returns>The name that was inserted in the <see cref="SafeNameDictionary"/></returns>
         public string Add(string name, bool allscopes = true)
         {
             name = (allscopes ? allscopesSafeName : safename).GetName(name);
             peek.NameToItem.Add(name, null);
             return name;
         }
+        /// <summary>
+        /// Adds the first unused name, matching a seed name, to this <see cref="SafeNameDictionary"/>.
+        /// Stores a two-way link between that name and <paramref name="item"/> such that one can be retrieved from the other.
+        /// </summary>
+        /// <param name="name">The name seed from which names are generated.</param>
+        /// <param name="item">The item that should be associated with the generated name.</param>
+        /// <param name="allscopes">if set to <c>true</c> the generated name is unused in all scopes; otherwise, it is only unsued in the topmost scope.</param>
+        /// <returns>The name that was inserted in the <see cref="SafeNameDictionary"/>
+        /// or the existing name stored for <paramref name="item"/> (if it exists).
+        /// The latter disregards the <paramref name="name"/> parameter.</returns>
         public string Add(string name, object item, bool allscopes = true)
         {
             if (item == null)
