@@ -3,36 +3,17 @@ using System.Collections.Generic;
 
 namespace SablePP.Tools
 {
-    public class SafeNameDictionary<TValue> : SafeName
+    public class SafeNameDictionary
     {
         private Stack<DictionarySet> stack;
+        private SafeName safename;
 
-        private IDictionary<string, TValue> dictionary;
-
-        public SafeNameDictionary(IDictionary<string, TValue> dictionary)
-            : this(dictionary, SafeName.GetNumberedNames)
+        public SafeNameDictionary(SafeName safename)
         {
-        }
+            this.stack = new Stack<DictionarySet>();
+            this.safename = safename;
 
-        public SafeNameDictionary(IDictionary<string, TValue> dictionary, Func<string, IEnumerable<string>> getTestNames)
-            : base(getTestNames)
-        {
-            if (dictionary == null)
-                throw new ArgumentNullException("dictionary");
-
-            this.dictionary = dictionary;
-        }
-
-        public override bool Contains(string name)
-        {
-            return dictionary.ContainsKey(name);
-        }
-
-        public string Add(string name, TValue value)
-        {
-            name = GetName(name);
-            dictionary.Add(name, value);
-            return name;
+            this.stack.Push(new DictionarySet());
         }
 
         private class DictionarySet
