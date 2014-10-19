@@ -22,16 +22,7 @@ namespace SablePP.Generate.Building
         {
             string chainCall = null;
             if (chain != null)
-            {
-                chainCall = "base(";
-                for (int i = 0; i < chain.Length; i++)
-                {
-                    if (i > 0)
-                        chainCall += ", ";
-                    chainCall += chain[i].FieldName;
-                }
-                chainCall += ")";
-            }
+                chainCall = "base(" + string.Join(", ", chain.Select(x => variables[x])) + ")";
 
             var constructor = new MethodElement("public {0}()", chainCall, true, classElement.Name);
             ConstructorBuilder builder = new ConstructorBuilder() { constructor = constructor };
