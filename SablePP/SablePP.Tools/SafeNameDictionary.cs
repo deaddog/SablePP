@@ -93,7 +93,7 @@ namespace SablePP.Tools
         /// Gets the name associated with the specified item.
         /// </summary>
         /// <param name="item">The item for which a name should be extracted.</param>
-        /// <returns>The namee associated with <paramref name="item"/>.
+        /// <returns>The name associated with <paramref name="item"/>.
         /// The name returned will be from the topmost scope containing <paramref name="item"/>.</returns>
         public string this[object item]
         {
@@ -143,6 +143,15 @@ namespace SablePP.Tools
                 return peek.ItemToName.ContainsKey(item);
         }
 
+        /// <summary>
+        /// Gets the item associated with the specified name.
+        /// </summary>
+        /// <typeparam name="T">The type of the item that is retrieved.</typeparam>
+        /// <param name="name">The name for which an item should be extracted.</param>
+        /// <param name="allscopes">if set to <c>true</c> [allscopes].</param>
+        /// <returns>The <typeparamref name="T"/> item associated with <paramref name="name"/>
+        /// or <c>null</c> if <paramref name="name"/> was known by the <see cref="SafeNameDictionary"/> but not associated with an item.
+        /// The item returned will be from the topmost scope containing <paramref name="name"/>.</returns>
         public T GetItem<T>(string name, bool allscopes)
         {
             if (allscopes)
@@ -169,6 +178,13 @@ namespace SablePP.Tools
                     return (T)obj;
             }
         }
+        /// <summary>
+        /// Gets the name associated with the specified item.
+        /// </summary>
+        /// <param name="item">The item for which a name should be extracted.</param>
+        /// <param name="allscopes">if set to <c>true</c> all scopes are checked for <paramref name="item"/>; otherwise only the topmost scope is checked.</param>
+        /// <returns>The name associated with <paramref name="item"/>.
+        /// The name returned will be from the topmost scope containing <paramref name="item"/>.</returns>
         public string GetName(object item, bool allscopes)
         {
             if (allscopes)
