@@ -96,19 +96,17 @@ namespace SablePP.Generate.Building
         private Color? backgroundColor;
         private FontStyle fontStyle;
 
-        private string currentStyle;
-
         private BCompilerExecuter(ClassElement builderClass, PatchElement styleRulesElement)
         {
             this.builderClass = builderClass;
             this.styleRulesElement = styleRulesElement;
         }
 
-        private SablePP.Tools.SafeNameList names = new Tools.SafeNameList(new List<string>());
+        private SablePP.Tools.SafeNameDictionary names = new Tools.SafeNameDictionary();
 
         private void Visit(Highlighting node)
         {
-            currentStyle = names.Add("style");
+            string currentStyle = names.Add("style");
 
             PatchElement field;
             builderClass.EmitField("private TextStyle " + currentStyle, out field);
@@ -146,7 +144,7 @@ namespace SablePP.Generate.Building
             styleField.Emit(", ");
             EmitNewBrush(node.Background);
             styleField.Emit(", ");
-            
+
             if (node.Italic && node.Bold)
                 styleField.Emit("FontStyle.Regular");
             else if (node.Italic && !node.Bold)

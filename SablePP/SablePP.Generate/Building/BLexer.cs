@@ -16,7 +16,7 @@ namespace SablePP.Generate.Building
 
         private PatchElement getTokenMethod, getNextStateMethod;
 
-        private NameTable<State> names;
+        private SablePP.Tools.SafeNameDictionary<State> names;
 
         private BLexer(Grammar grammar, CompilationResult tables)
         {
@@ -26,7 +26,7 @@ namespace SablePP.Generate.Building
             this.grammar = grammar;
             this.tables = tables;
 
-            this.names = new NameTable<State>();
+            this.names = new Tools.SafeNameDictionary<State>();
         }
 
         private void Visit(Grammar node)

@@ -18,14 +18,7 @@ namespace SablePP.Generate.Building
             fileElement.Using.Add("System");
             fileElement.Using.Add("System.Collections.Generic");
 
-            this.variables = new NameTable<object>(nameCounted);
-        }
-
-        private static IEnumerable<string> nameCounted(string x)
-        {
-            yield return x;
-            int i = 2;
-            while (true) yield return x + i++;
+            this.variables = new Tools.SafeNameDictionary<object>(Tools.SafeName.GetNumberedNamesAndInitial);
         }
 
         public static FileElement BuildCode(Grammar grammar, CompilationResult tables)
@@ -143,7 +136,8 @@ namespace SablePP.Generate.Building
             for (; productionCase < node.Length; productionCase++)
                 foreach (var alt in node[productionCase].Alternatives)
                 {
-                    variables.Clear();
+                    variables.OpenScope();
+
                     var optionalElements = alt.Elements.Where(e => e.Modifier == Modifiers.Optional || e.Modifier == Modifiers.ZeroOrMany).ToList();
                     int baseCase = reduceCase;
 
@@ -167,6 +161,8 @@ namespace SablePP.Generate.Building
                     reduceMethod.Body.EmitLine("}");
                     reduceMethod.Body.EmitLine("break;");
                     reduceMethod.Body.DecreaseIndentation();
+
+                    variables.CloseScope();
                 }
 
             // Generate cases for handling list-building
@@ -216,7 +212,7 @@ namespace SablePP.Generate.Building
         private int reduceCase = 0;
         private MethodElement reduceMethod;
 
-        private NameTable<object> variables;
+        private SablePP.Tools.SafeNameDictionary<object> variables;
 
         private void Visit(Translation translation)
         {
@@ -225,7 +221,7 @@ namespace SablePP.Generate.Building
 
         private void Visit(ElementTranslation translation)
         {
-            variables[translation] = variables[translation.Element];
+            variables.AddItem(translation, variables[translation.Element]);
         }
         private void Visit(ListTranslation translation)
         {
@@ -270,7 +266,7 @@ namespace SablePP.Generate.Building
         }
         private void Visit(NullTranslation translation)
         {
-            variables[translation] = "null";
+            variables.AddItem(translation, "null");
         }
     }
 }
