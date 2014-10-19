@@ -48,7 +48,6 @@
     <Compile Include="Building\BProductionField.cs">
       <DependentUpon>BProduction.cs</DependentUpon>
     </Compile>
-    <Compile Include="Building\NameTable.cs" />
     <Compile Include="Building\BParser.cs" />
     <Compile Include="Building\BToken.cs" />
     <Compile Include="CompilationError.cs" />
