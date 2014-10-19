@@ -7,7 +7,7 @@ namespace SablePP.Tools
     {
         private Stack<DictionarySet> stack;
         private DictionarySet peek;
-        private SafeName safename;
+        private SafeName safename, allscopesSafeName;
 
         public SafeNameDictionary()
             : this(null)
@@ -15,24 +15,27 @@ namespace SablePP.Tools
         }
         public SafeNameDictionary(Func<string, IEnumerable<string>> getTestNames)
         {
+            var getNames = getTestNames ?? SafeName.GetNumberedNames;
+
             this.stack = new Stack<DictionarySet>();
-            this.safename = new SafeName(x => ContainsName(x, false), getTestNames ?? SafeName.GetNumberedNames);
+            this.safename = new SafeName(x => ContainsName(x, false), getNames);
+            this.allscopesSafeName = new SafeName(x => ContainsName(x, true), getNames);
 
             this.stack.Push(peek = new DictionarySet());
         }
 
-        public string Add(string name, bool tryliteral)
+        public string Add(string name, bool allscopes, bool tryliteral)
         {
-            name = safename.GetName(name, tryliteral);
+            name = (allscopes ? allscopesSafeName : safename).GetName(name, tryliteral);
             peek.NameToItem.Add(name, null);
             return name;
         }
-        public string Add(string name, object item, bool tryliteral)
+        public string Add(string name, object item, bool allscopes, bool tryliteral)
         {
-            if (ContainsItem(item, true))
+            if (ContainsItem(item, allscopes))
                 return this[item];
 
-            name = safename.GetName(name, tryliteral);
+            name = (allscopes ? allscopesSafeName : safename).GetName(name, tryliteral);
             peek.NameToItem.Add(name, item);
             peek.ItemToName.Add(item, name);
             return name;
