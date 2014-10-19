@@ -24,13 +24,13 @@ namespace SablePP.Tools
             this.stack.Push(peek = new DictionarySet());
         }
 
-        public string Add(string name, bool allscopes, bool tryliteral)
+        public string Add(string name, bool allscopes = true, bool tryliteral = true)
         {
             name = (allscopes ? allscopesSafeName : safename).GetName(name, tryliteral);
             peek.NameToItem.Add(name, null);
             return name;
         }
-        public string Add(string name, object item, bool allscopes, bool tryliteral)
+        public string Add(string name, object item, bool allscopes = true, bool tryliteral = true)
         {
             if (ContainsItem(item, allscopes))
                 return this[item];
