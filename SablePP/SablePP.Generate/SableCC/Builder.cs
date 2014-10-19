@@ -12,17 +12,13 @@ namespace SablePP.Generate.SableCC
     internal class Builder
     {
         private PatchElement root;
-        private ScopedDictionary<string, object> elements;
-        private Dictionary<object, string> names;
-        private SafeNameDictionary<object> safename;
+        private SafeNameDictionary variables;
 
         private Builder()
         {
             this.root = new PatchElement();
 
-            this.elements = new ScopedDictionary<string, object>();
-            this.names = new Dictionary<object, string>();
-            this.safename = new SafeNameDictionary<object>(elements);
+            this.variables = new SafeNameDictionary();
         }
 
         public static void BuildToFile(Grammar grammar, string filepath)
@@ -43,8 +39,7 @@ namespace SablePP.Generate.SableCC
                 root.IncreaseIndentation();
                 for (int i = 0; i < grammar.Helpers.Length; i++)
                 {
-                    string name = safename.Add("helper", grammar.Helpers[i]);
-                    names.Add(grammar.Helpers[i], name);
+                    variables.Add("helper", grammar.Helpers[i]);
 
                     Emit(grammar.Helpers[i]);
                 }
@@ -57,8 +52,7 @@ namespace SablePP.Generate.SableCC
                 root.Emit("States ");
                 for (int i = 0; i < grammar.States.Length; i++)
                 {
-                    string name = safename.Add("state", grammar.States[i]);
-                    names.Add(grammar.States[i], name);
+                    string name = variables.Add("state", grammar.States[i]);
 
                     if (i > 0) Emit(", ");
                     Emit(name);
@@ -73,8 +67,7 @@ namespace SablePP.Generate.SableCC
                 root.IncreaseIndentation();
                 for (int i = 0; i < grammar.Tokens.Length; i++)
                 {
-                    string name = safename.Add("token", grammar.Tokens[i]);
-                    names.Add(grammar.Tokens[i], name);
+                    variables.Add("token", grammar.Tokens[i]);
 
                     Emit(grammar.Tokens[i]);
                 }
@@ -86,13 +79,13 @@ namespace SablePP.Generate.SableCC
             if (ignored.Length > 0)
             {
                 root.Emit("Ignored Tokens  ");
-                EmitEach(ignored, t => Emit(names[t]), ", ");
+                EmitEach(ignored, t => Emit(variables[t]), ", ");
                 root.EmitLine(";");
                 root.EmitLine();
             }
 
             for (int i = 0; i < grammar.Productions.Length; i++)
-                names.Add(grammar.Productions[i], safename.Add("prod", grammar.Productions[i]));
+                variables.Add("prod", grammar.Productions[i]);
 
             if (grammar.Productions.Length > 0)
             {
@@ -126,7 +119,7 @@ namespace SablePP.Generate.SableCC
 
         private void Emit(Helper helper)
         {
-            Emit("{0} = ", names[helper]);
+            Emit("{0} = ", variables[helper]);
             Emit(helper.Expression);
             root.EmitLine(";");
         }
@@ -140,7 +133,7 @@ namespace SablePP.Generate.SableCC
                 Emit(" } ");
             }
 
-            Emit("{0} = ", names[token]);
+            Emit("{0} = ", variables[token]);
             Emit(token.Expression);
             root.EmitLine(";");
         }
@@ -148,9 +141,9 @@ namespace SablePP.Generate.SableCC
         private void Emit(Token.TokenState state)
         {
             if (state.Translates)
-                Emit("{0} -> {1}", names[state.From], names[state.To]);
+                Emit("{0} -> {1}", variables[state.From], variables[state.To]);
             else
-                Emit("{0}", names[state.From]);
+                Emit("{0}", variables[state.From]);
         }
 
         #region Regular expressions
@@ -200,7 +193,7 @@ namespace SablePP.Generate.SableCC
         }
         private void Emit(ReferenceRegExp expression)
         {
-            root.Emit(names[expression.ReferencedHelper]);
+            root.Emit(variables[expression.ReferencedHelper]);
         }
         private void Emit(SetRegExp expression)
         {
@@ -228,11 +221,11 @@ namespace SablePP.Generate.SableCC
 
         private void Emit(Production production)
         {
-            elements.OpenScope();
+            variables.OpenScope();
             for (int i = 0; i < production.Alternatives.Count; i++)
-                names.Add(production.Alternatives[i], safename.Add("alt", production.Alternatives[i]));
+                variables.Add("alt", production.Alternatives[i]);
 
-            Emit("{0} ", names[production]);
+            Emit("{0} ", variables[production]);
             root.EmitLine();
             root.IncreaseIndentation();
             root.Emit("= ");
@@ -246,23 +239,23 @@ namespace SablePP.Generate.SableCC
             }
             root.EmitLine(";");
             root.DecreaseIndentation();
-            elements.CloseScope();
+            variables.CloseScope();
         }
         private void Emit(Alternative alternative)
         {
-            elements.OpenScope();
-            Emit("{{{0}}} ", names[alternative]);
+            variables.OpenScope();
+            Emit("{{{0}}} ", variables[alternative]);
             EmitEach(alternative.Elements, e => Emit(e), " ");
-            elements.CloseScope();
+            variables.CloseScope();
         }
         private void Emit(Alternative.Element element)
         {
-            names.Add(element, safename.Add("e", element));
+            variables.Add("e", element);
             Emit((dynamic)element);
         }
         private void Emit(Alternative.TokenElement element)
         {
-            Emit("[{0}]:{1}", names[element], names[element.Token]);
+            Emit("[{0}]:{1}", variables[element], variables[element.Token]);
 
             switch (element.Modifier)
             {
@@ -273,7 +266,7 @@ namespace SablePP.Generate.SableCC
         }
         private void Emit(Alternative.ProductionElement element)
         {
-            Emit("[{0}]:{1}", names[element], names[element.Production]);
+            Emit("[{0}]:{1}", variables[element], variables[element.Production]);
 
             switch (element.Modifier)
             {
