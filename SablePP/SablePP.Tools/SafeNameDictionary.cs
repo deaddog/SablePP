@@ -200,15 +200,27 @@ namespace SablePP.Tools
                 return peek.ItemToName[item];
         }
 
+        /// <summary>
+        /// Gets the number of opened scopes (except for the outermost scope).
+        /// </summary>
         public int ScopeLevel
         {
             get { return stack.Count - 1; }
         }
 
+        /// <summary>
+        /// Opens a new scope, allowing all names to be reused.
+        /// </summary>
         public void OpenScope()
         {
             stack.Push(peek = new DictionarySet());
         }
+        /// <summary>
+        /// Closes the top-most scope, removing all names/items defined in that scope.
+        /// Lower scopes are not altered.
+        /// The outermost scope cannot be closed.
+        /// </summary>
+        /// <exception cref="System.InvalidOperationException">Cannot close the outermost scope in a SafeNameDictionary.</exception>
         public void CloseScope()
         {
             if (stack.Count == 1)
@@ -219,6 +231,9 @@ namespace SablePP.Tools
                 peek = stack.Peek();
             }
         }
+        /// <summary>
+        /// Closes all scopes (except for the outermost scope), removing all names/items defined in all scopes (except for the outermost scope).
+        /// </summary>
         public void CloseAllScopes()
         {
             while (stack.Count > 1)
