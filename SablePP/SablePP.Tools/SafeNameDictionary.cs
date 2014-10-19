@@ -51,6 +51,47 @@ namespace SablePP.Tools
                 return peek.ItemToName.ContainsKey(item);
         }
 
+        public T GetItem<T>(string name, bool allscopes)
+        {
+            if (allscopes)
+            {
+                foreach (var s in stack)
+                    if (s.NameToItem.ContainsKey(name))
+                    {
+                        var obj = s.NameToItem[name];
+                        if (!(obj is T) && obj != null)
+                            throw new ArgumentException("The item referenced by '" + name + "' was not of type " + typeof(T) + ".", "name");
+                        else
+                            return (T)obj;
+                    }
+                throw new ArgumentException("The name '" + name + "' was not found in the dictionary.", "name");
+            }
+            else if (!peek.NameToItem.ContainsKey(name))
+                throw new ArgumentException("The name '" + name + "' was not found in the dictionary.", "name");
+            else
+            {
+                var obj = peek.NameToItem[name];
+                if (!(obj is T) && obj != null)
+                    throw new ArgumentException("The item referenced by '" + name + "' was not of type " + typeof(T) + ".", "name");
+                else
+                    return (T)obj;
+            }
+        }
+        public string GetName(object item, bool allscopes)
+        {
+            if (allscopes)
+            {
+                foreach (var s in stack)
+                    if (s.ItemToName.ContainsKey(item))
+                        return s.ItemToName[item];
+                throw new ArgumentException("The item '" + item.ToString() + "' was not found in the dictionary.", "item");
+            }
+            else if (!peek.ItemToName.ContainsKey(item))
+                throw new ArgumentException("The item '" + item.ToString() + "' was not found in the dictionary.", "item");
+            else
+                return peek.ItemToName[item];
+        }
+
         public int ScopeLevel
         {
             get { return stack.Count - 1; }
