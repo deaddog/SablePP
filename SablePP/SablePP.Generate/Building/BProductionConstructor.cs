@@ -7,22 +7,18 @@ namespace SablePP.Generate.Building
 {
     internal partial class BProduction
     {
-        private MethodElement constructor;
-
-        public static void Emit(ClassElement classElement, AProduction node)
+        private void emitConstructor(AbstractProduction node)
         {
-            var fields = ProductionElement.GetSharedElements(node);
-
-            emit(classElement, fields, null, fields);
+            emit(node.SharedElements, null, node.SharedElements);
             classElement.EmitNewline();
         }
-        public static void Emit(ClassElement classElement, AAlternative node)
+        private void emitConstructor(AbstractAlternative node)
         {
-            emit(classElement, ProductionElement.GetAllElements(node), ProductionElement.GetSharedElements(node), ProductionElement.GetUniqueElements(node));
+            emit(node.Elements, node.SharedElements, node.UniqueElements);
             classElement.EmitNewline();
         }
 
-        private static void emit(ClassElement classElement, ProductionElement[] parameters, ProductionElement[] chain, ProductionElement[] fields)
+        private void emit(AbstractAlternative.Element[] parameters, AbstractAlternative.Element[] chain, AbstractAlternative.Element[] fields)
         {
             string chainCall = null;
             if (chain != null)

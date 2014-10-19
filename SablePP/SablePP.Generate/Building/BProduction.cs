@@ -52,7 +52,7 @@ namespace SablePP.Generate.Building
             variables.OpenScope();
 
             emitElementFields(node);
-            ConstructorBuilder.Emit(classElement, node);
+            emitConstructor(node);
             PropertiesBuilder.Emit(classElement, node);
 
             variables.CloseScope();
@@ -65,7 +65,7 @@ namespace SablePP.Generate.Building
             variables.OpenScope();
 
             emitElementFields(node);
-            ConstructorBuilder.Emit(classElement, node);
+            emitConstructor(node);
             PropertiesBuilder.Emit(classElement, node);
             ReplaceMethodBuilder.Emit(classElement, node);
             GetChildrenMethodBuilder.Emit(classElement, node);
