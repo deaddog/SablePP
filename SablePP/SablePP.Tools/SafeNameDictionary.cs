@@ -9,6 +9,8 @@ namespace SablePP.Tools
     /// <typeparam name="TValue">The value-type of the elements in the dictionary.</typeparam>
     public class SafeNameDictionary<TValue> : SafeName
     {
+        private Stack<DictionarySet> stack;
+
         private IDictionary<string, TValue> dictionary;
 
         /// <summary>
@@ -59,6 +61,18 @@ namespace SablePP.Tools
             name = GetName(name);
             dictionary.Add(name, value);
             return name;
+        }
+
+        private class DictionarySet
+        {
+            public readonly Dictionary<string, object> NameToItem;
+            public readonly Dictionary<object, string> ItemToName;
+
+            public DictionarySet()
+            {
+                this.NameToItem = new Dictionary<string, object>();
+                this.ItemToName = new Dictionary<object, string>();
+            }
         }
     }
 }
