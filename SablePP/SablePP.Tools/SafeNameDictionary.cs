@@ -72,6 +72,13 @@ namespace SablePP.Tools
             return name;
         }
 
+        /// <summary>
+        /// Gets the <see cref="object"/> associated with the specified name.
+        /// </summary>
+        /// <param name="name">The name for which an item should be extracted.</param>
+        /// <returns>The <see cref="object"/> associated with <paramref name="name"/>
+        /// or <c>null</c> if <paramref name="name"/> was known by the <see cref="SafeNameDictionary"/> but not associated with an item.
+        /// The item returned will be from the topmost scope containing <paramref name="name"/>.</returns>
         public object this[string name]
         {
             get
@@ -82,6 +89,12 @@ namespace SablePP.Tools
                 throw new ArgumentException("The name '" + name + "' was not found in the dictionary.", "name");
             }
         }
+        /// <summary>
+        /// Gets the name associated with the specified item.
+        /// </summary>
+        /// <param name="item">The item for which a name should be extracted.</param>
+        /// <returns>The namee associated with <paramref name="item"/>.
+        /// The name returned will be from the topmost scope containing <paramref name="item"/>.</returns>
         public string this[object item]
         {
             get
