@@ -23,26 +23,18 @@ namespace SablePP.Tools
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SafeName"/> class using <see cref="GetNumberedNames"/> to generate names.
-        /// </summary>
-        /// <param name="allowname">Specifies a method that determines if a name is available for usage. Should return <c>true</c> if the parameter is usable as a name and otherwise <c>false</c>.</param>
-        public SafeName(Func<string, bool> allowname)
-            : this(allowname, GetNumberedNames)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SafeName"/> class.
         /// </summary>
         /// <param name="allowname">Specifies a method that determines if a name is available for usage. Should return <c>true</c> if the parameter is usable as a name and otherwise <c>false</c>.</param>
-        /// <param name="getTestNames">Specifies a <see cref="NameGenerator"/> for this <see cref="SafeName"/>.</param>
+        /// <param name="getTestNames">Specifies a <see cref="NameGenerator"/> for this <see cref="SafeName"/>.
+        /// If <c>null</c>, <see cref="GetNumberedNames"/> is used.</param>
         public SafeName(Func<string, bool> allowname, NameGenerator getTestNames)
         {
             if (allowname == null)
                 throw new ArgumentNullException("allowname");
 
             if (getTestNames == null)
-                throw new ArgumentNullException("getTestNames");
+                getTestNames = GetNumberedNames;
 
             this.allowname = allowname;
             this.testnames = getTestNames;
