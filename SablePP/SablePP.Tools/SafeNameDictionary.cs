@@ -11,7 +11,7 @@ namespace SablePP.Tools
 
         public SafeNameDictionary()
             : this(null)
-        { 
+        {
         }
         public SafeNameDictionary(Func<string, IEnumerable<string>> getTestNames)
         {
@@ -24,6 +24,31 @@ namespace SablePP.Tools
         private bool containsName(string name)
         {
             return peek.NameToItem.ContainsKey(name);
+        }
+
+        public bool ContainsName(string name, bool allscopes)
+        {
+            if (allscopes)
+            {
+                foreach (var s in stack)
+                    if (s.NameToItem.ContainsKey(name))
+                        return true;
+                return false;
+            }
+            else
+                return peek.NameToItem.ContainsKey(name);
+        }
+        public bool ContainsItem(object item, bool allscopes)
+        {
+            if (allscopes)
+            {
+                foreach (var s in stack)
+                    if (s.ItemToName.ContainsKey(item))
+                        return true;
+                return false;
+            }
+            else
+                return peek.ItemToName.ContainsKey(item);
         }
 
         public int ScopeLevel
