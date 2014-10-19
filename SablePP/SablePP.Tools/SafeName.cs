@@ -56,15 +56,11 @@ namespace SablePP.Tools
         /// Gets an previously unknown (safe) name from a string.
         /// </summary>
         /// <param name="name">The string from which a name is returned.</param>
-        /// <param name="yieldInitial">Determines if <paramref name="name"/> should be tested as an available name.</param>
         /// <returns>A string not previously known by this <see cref="SafeName"/>.</returns>
-        public string GetName(string name, bool yieldInitial)
+        public string GetName(string name)
         {
             if (name == null)
                 throw new ArgumentNullException("name");
-
-            if (yieldInitial && !allowname(name))
-                return name;
 
             foreach (var n in testnames(name))
                 if (!allowname(n))

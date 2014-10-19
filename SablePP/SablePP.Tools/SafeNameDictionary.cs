@@ -22,18 +22,18 @@ namespace SablePP.Tools
             this.stack.Push(peek = new DictionarySet());
         }
 
-        public string Add(string name, bool allscopes = true, bool tryliteral = true)
+        public string Add(string name, bool allscopes = true)
         {
-            name = (allscopes ? allscopesSafeName : safename).GetName(name, tryliteral);
+            name = (allscopes ? allscopesSafeName : safename).GetName(name);
             peek.NameToItem.Add(name, null);
             return name;
         }
-        public string Add(string name, object item, bool allscopes = true, bool tryliteral = true)
+        public string Add(string name, object item, bool allscopes = true)
         {
             if (ContainsItem(item, allscopes))
                 return this[item];
 
-            name = (allscopes ? allscopesSafeName : safename).GetName(name, tryliteral);
+            name = (allscopes ? allscopesSafeName : safename).GetName(name);
             peek.NameToItem.Add(name, item);
             peek.ItemToName.Add(item, name);
             return name;
