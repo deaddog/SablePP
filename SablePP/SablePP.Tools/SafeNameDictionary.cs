@@ -6,7 +6,8 @@ namespace SablePP.Tools
     /// <summary>
     /// Provides methods for managing variable names and scoping.
     /// </summary>
-    public class SafeNameDictionary
+    /// <typeparam name="T">The type of the objects that names refer to.</typeparam>
+    public class SafeNameDictionary<T> where T : class
     {
         private Stack<DictionarySet> stack;
         private DictionarySet peek;
@@ -58,7 +59,7 @@ namespace SablePP.Tools
         /// <returns>The name that was inserted in the <see cref="SafeNameDictionary"/>
         /// or the existing name stored for <paramref name="item"/> (if it exists).
         /// The latter disregards the <paramref name="name"/> parameter.</returns>
-        public string Add(string name, object item, bool allscopes = true)
+        public string Add(string name, T item, bool allscopes = true)
         {
             if (item == null)
                 throw new ArgumentNullException("item", "Cannot link null to a name. Use Add(string, bool) instead.");
@@ -73,13 +74,24 @@ namespace SablePP.Tools
         }
 
         /// <summary>
-        /// Gets the <see cref="object"/> associated with the specified name.
+        /// Ensures that the <paramref name="item"/> refers to <paramref name="name"/>.
+        /// This will NOT use safe names and <paramref name="name"/> will NOT refer to <paramref name="item"/>.
+        /// </summary>
+        /// <param name="item">The item that should be associated with <paramref name="name"/>.</param>
+        /// <param name="name">The name that <paramref name="item"/> should be associated with.</param>
+        public void AddItem(T item, string name)
+        {
+            peek.ItemToName.Add(item, name);
+        }
+
+        /// <summary>
+        /// Gets the item associated with the specified name.
         /// </summary>
         /// <param name="name">The name for which an item should be extracted.</param>
-        /// <returns>The <see cref="object"/> associated with <paramref name="name"/>
+        /// <returns>The item associated with <paramref name="name"/>
         /// or <c>null</c> if <paramref name="name"/> was known by the <see cref="SafeNameDictionary"/> but not associated with an item.
         /// The item returned will be from the topmost scope containing <paramref name="name"/>.</returns>
-        public object this[string name]
+        public T this[string name]
         {
             get
             {
@@ -95,7 +107,7 @@ namespace SablePP.Tools
         /// <param name="item">The item for which a name should be extracted.</param>
         /// <returns>The name associated with <paramref name="item"/>.
         /// The name returned will be from the topmost scope containing <paramref name="item"/>.</returns>
-        public string this[object item]
+        public string this[T item]
         {
             get
             {
@@ -130,7 +142,7 @@ namespace SablePP.Tools
         /// <param name="item">The item to find a name for.</param>
         /// <param name="allscopes">if set to <c>true</c> all scopes are checked for <paramref name="item"/>; otherwise only the topmost scope is checked.</param>
         /// <returns><c>true</c> if the specified item was found in the <see cref="SafeNameDictionary"/>; otherwise <c>false</c>.</returns>
-        public bool ContainsItem(object item, bool allscopes)
+        public bool ContainsItem(T item, bool allscopes)
         {
             if (allscopes)
             {
@@ -146,37 +158,25 @@ namespace SablePP.Tools
         /// <summary>
         /// Gets the item associated with the specified name.
         /// </summary>
-        /// <typeparam name="T">The type of the item that is retrieved.</typeparam>
         /// <param name="name">The name for which an item should be extracted.</param>
-        /// <param name="allscopes">if set to <c>true</c> [allscopes].</param>
+        /// <param name="allscopes">if set to <c>true</c> all scopes are checked for <paramref name="name"/>; otherwise only the topmost scope is checked.</param>
         /// <returns>The <typeparamref name="T"/> item associated with <paramref name="name"/>
         /// or <c>null</c> if <paramref name="name"/> was known by the <see cref="SafeNameDictionary"/> but not associated with an item.
         /// The item returned will be from the topmost scope containing <paramref name="name"/>.</returns>
-        public T GetItem<T>(string name, bool allscopes)
+        public T GetItem(string name, bool allscopes)
         {
             if (allscopes)
             {
                 foreach (var s in stack)
                     if (s.NameToItem.ContainsKey(name))
-                    {
-                        var obj = s.NameToItem[name];
-                        if (!(obj is T) && obj != null)
-                            throw new ArgumentException("The item referenced by '" + name + "' was not of type " + typeof(T) + ".", "name");
-                        else
-                            return (T)obj;
-                    }
+                        return s.NameToItem[name];
+
                 throw new ArgumentException("The name '" + name + "' was not found in the dictionary.", "name");
             }
             else if (!peek.NameToItem.ContainsKey(name))
                 throw new ArgumentException("The name '" + name + "' was not found in the dictionary.", "name");
             else
-            {
-                var obj = peek.NameToItem[name];
-                if (!(obj is T) && obj != null)
-                    throw new ArgumentException("The item referenced by '" + name + "' was not of type " + typeof(T) + ".", "name");
-                else
-                    return (T)obj;
-            }
+                return peek.NameToItem[name];
         }
         /// <summary>
         /// Gets the name associated with the specified item.
@@ -185,7 +185,7 @@ namespace SablePP.Tools
         /// <param name="allscopes">if set to <c>true</c> all scopes are checked for <paramref name="item"/>; otherwise only the topmost scope is checked.</param>
         /// <returns>The name associated with <paramref name="item"/>.
         /// The name returned will be from the topmost scope containing <paramref name="item"/>.</returns>
-        public string GetName(object item, bool allscopes)
+        public string GetName(T item, bool allscopes)
         {
             if (allscopes)
             {
@@ -201,11 +201,22 @@ namespace SablePP.Tools
         }
 
         /// <summary>
-        /// Gets the number of opened scopes (except for the outermost scope).
+        /// Gets or sets the number of opened scopes (except for the outermost scope).
         /// </summary>
         public int ScopeLevel
         {
             get { return stack.Count - 1; }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value", "Scope must be >= 0.");
+
+                while (value > ScopeLevel)
+                    OpenScope();
+
+                while (value < ScopeLevel)
+                    CloseScope();
+            }
         }
 
         /// <summary>
@@ -243,14 +254,39 @@ namespace SablePP.Tools
 
         private class DictionarySet
         {
-            public readonly Dictionary<string, object> NameToItem;
-            public readonly Dictionary<object, string> ItemToName;
+            public readonly Dictionary<string, T> NameToItem;
+            public readonly Dictionary<T, string> ItemToName;
 
             public DictionarySet()
             {
-                this.NameToItem = new Dictionary<string, object>();
-                this.ItemToName = new Dictionary<object, string>();
+                this.NameToItem = new Dictionary<string, T>();
+                this.ItemToName = new Dictionary<T, string>();
             }
+        }
+    }
+
+    /// <summary>
+    /// Provides methods for managing variable names and scoping.
+    /// </summary>
+    public class SafeNameDictionary : SafeNameDictionary<object>
+    {
+        /// <summary>
+        /// Gets the item associated with the specified name.
+        /// </summary>
+        /// <typeparam name="T">The type of the item that is retrieved.</typeparam>
+        /// <param name="name">The name for which an item should be extracted.</param>
+        /// <param name="allscopes">if set to <c>true</c> all scopes are checked for <paramref name="name"/>; otherwise only the topmost scope is checked.</param>
+        /// <returns>The <typeparamref name="T"/> item associated with <paramref name="name"/>
+        /// or <c>null</c> if <paramref name="name"/> was known by the <see cref="SafeNameDictionary"/> but not associated with an item.
+        /// The item returned will be from the topmost scope containing <paramref name="name"/>.</returns>
+        public T GetItem<T>(string name, bool allscopes)
+        {
+            var obj = base.GetItem(name, allscopes);
+
+            if (!(obj is T) && obj != null)
+                throw new ArgumentException("The item referenced by '" + name + "' was not of type " + typeof(T) + ".", "name");
+            else
+                return (T)obj;
         }
     }
 }
