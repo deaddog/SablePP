@@ -67,7 +67,7 @@ namespace SablePP.Generate.Building
             emitElementFields(node);
             emitConstructor(node);
             emitProperties(node);
-            ReplaceMethodBuilder.Emit(classElement, node);
+            emitReplaceChildMethod(node);
             emitGetChildrenMethod(node);
             emitCloneMethod(node);
             ToStringMethodBuilder.Emit(classElement, node);
