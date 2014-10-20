@@ -32,15 +32,11 @@ namespace SablePP.Generate.Building
             fileElement.Add(nameElement = new NameSpaceElement(node.Namespace + ".Analysis"));
             fileElement.Using.Add(node.Namespace + ".Nodes");
 
-            List<DepthFirstAdapter> adapters = new List<DepthFirstAdapter>();
-
-            adapters.Add(new AnalysisAdapterBuilder(nameElement, node));
+            emitAnalysisAdapter(node);
             nameElement.EmitNewLine();
             adapters.Add(new DepthFirstAdapterBuilder(nameElement, false));
             nameElement.EmitNewLine();
             adapters.Add(new DepthFirstAdapterBuilder(nameElement, true));
-
-            VisitInParallel(node, adapters.ToArray());
         }
     }
 }

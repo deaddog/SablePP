@@ -9,49 +9,44 @@ namespace SablePP.Generate.Building
     internal partial class BAnalysis
     {
         private static readonly string typeParameter = "Value";
-        private ClassElement adapterClass;
 
-        public AnalysisAdapterBuilder(NameSpaceElement namespaceElement, PGrammar grammar)
+        private void emitAnalysisAdapter(Grammar node)
         {
-            namespaceElement.Add(new ClassElement("public class AnalysisAdapter : AnalysisAdapter<object>"));
-            namespaceElement.Add(adapterClass = new ClassElement("public class AnalysisAdapter<{1}> : Adapter<{1}, {0}>", grammar.RootProduction, typeParameter));
-        }
+            ClassElement adapterClass;
 
-        public override void CaseAGrammar(AGrammar node)
-        {
+            nameElement.Add(new ClassElement("public class AnalysisAdapter : AnalysisAdapter<object>"));
+            nameElement.Add(adapterClass = new ClassElement("public class AnalysisAdapter<{1}> : Adapter<{1}, {0}>", node.AbstractProductions.First().Name, typeParameter));
+
             // Dynamic Visit(node) method
             MethodElement method;
             adapterClass.Add(method = new MethodElement("public override void Visit(Node node)"));
             method.Body.EmitLine("Visit((dynamic)node);");
-            
+
             adapterClass.EmitNewline();
 
-            if (node.HasAstproductions)
-                Visit(node.Astproductions);
-            else if (node.HasProductions)
-                Visit(node.Productions);
-
-            if (node.HasTokens)
-                Visit(node.Tokens);
+            foreach (var p in node.AbstractProductions)
+                foreach (var a in p.Alternatives)
+                    emitAnalysisAdapterAlternative(adapterClass, a);
+            foreach (var t in node.Tokens)
+                emitAnalysisAdapterToken(adapterClass, t);
         }
 
-        public override void CaseAToken(AToken node)
+        private void emitAnalysisAdapterToken(ClassElement adapterClass, Token node)
         {
             MethodElement method;
-            adapterClass.Add(method = new MethodElement("public void Visit({0} node)", true, node.ClassName));
-            method.Body.EmitLine("Case{0}(node);", node.ClassName);
+            adapterClass.Add(method = new MethodElement("public void Visit({0} node)", true, node.Name));
+            method.Body.EmitLine("Case{0}(node);", node.Name);
 
-            adapterClass.Add(method = new MethodElement("public virtual void Case{0}({0} node)", true, node.ClassName));
+            adapterClass.Add(method = new MethodElement("public virtual void Case{0}({0} node)", true, node.Name));
             method.Body.EmitLine("DefaultCase(node);");
         }
-
-        public override void CaseAAlternative(AAlternative node)
+        private void emitAnalysisAdapterAlternative(ClassElement adapterClass, AbstractAlternative node)
         {
             MethodElement method;
-            adapterClass.Add(method = new MethodElement("public void Visit({0} node)", true, node.ClassName));
-            method.Body.EmitLine("Case{0}(node);", node.ClassName);
+            adapterClass.Add(method = new MethodElement("public void Visit({0} node)", true, node.Name));
+            method.Body.EmitLine("Case{0}(node);", node.Name);
 
-            adapterClass.Add(method = new MethodElement("public virtual void Case{0}({0} node)", true, node.ClassName));
+            adapterClass.Add(method = new MethodElement("public virtual void Case{0}({0} node)", true, node.Name));
             method.Body.EmitLine("DefaultCase(node);");
         }
     }
