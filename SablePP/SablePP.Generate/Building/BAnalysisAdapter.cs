@@ -8,8 +8,6 @@ namespace SablePP.Generate.Building
 {
     internal partial class BAnalysis
     {
-        private static readonly string typeParameter = "Value";
-
         private void emitAnalysisAdapter(Grammar node)
         {
             ClassElement adapterClass;

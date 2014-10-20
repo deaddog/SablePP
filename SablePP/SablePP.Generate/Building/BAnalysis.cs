@@ -8,6 +8,8 @@ namespace SablePP.Generate.Building
 {
     internal partial class BAnalysis
     {
+        private static readonly string typeParameter = "Value";
+
         private FileElement fileElement;
         private NameSpaceElement nameElement;
 
