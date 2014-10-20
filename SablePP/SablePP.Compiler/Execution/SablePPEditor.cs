@@ -132,12 +132,6 @@ namespace SablePP.Compiler.Execution
             outputButton.Enabled = File != null && File.Exists;
         }
 
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-            PathInformation.CleanTemporaryFiles();
-        }
-
         protected override void OnFiletoolsEnabledChanged(EventArgs e)
         {
             tools.Enabled = FiletoolsEnabled;
