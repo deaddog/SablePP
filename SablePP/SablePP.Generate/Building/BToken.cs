@@ -39,9 +39,10 @@ namespace SablePP.Generate.Building
         {
             nameElement.Add(classElement = new ClassElement("public partial class {0} : Token<{0}>", node.Name));
 
-            string content = node.Expression.GetStringLiteral().Replace("\"", "\\\"");
+            string content = node.Expression.GetStringLiteral();
             if (content != null)
             {
+                content = content.Replace("\"", "\"\"");
                 classElement.Add(new MethodElement("public {0}()", "base(@\"{1}\")", true, classElement.Name, content));
                 classElement.Add(new MethodElement("public {0}(int line, int pos)", "base(@\"{1}\", line, pos)", true, classElement.Name, content));
             }
