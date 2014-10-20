@@ -42,7 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Building\BAnalysis.cs" />
+    <Compile Include="Building\BAnalysisAdapter.cs">
+      <DependentUpon>BAnalysis.cs</DependentUpon>
+    </Compile>
     <Compile Include="Building\BCompilerExecuter.cs" />
+    <Compile Include="Building\BDepthFirstAdapter.cs">
+      <DependentUpon>BAnalysis.cs</DependentUpon>
+    </Compile>
     <Compile Include="Building\BLexer.cs" />
     <Compile Include="Building\BProduction.cs" />
     <Compile Include="Building\BProductionConstructor.cs">
