@@ -14,6 +14,9 @@ namespace SablePP.Generate.Building
         private void emitElementFields(AbstractAlternative node)
         {
             emitElementFields(node.UniqueElements);
+
+            foreach (var v in node.Elements)
+                variables.Add("arg", v);
         }
 
         private void emitElementFields(AbstractAlternative.Element[] elements)
