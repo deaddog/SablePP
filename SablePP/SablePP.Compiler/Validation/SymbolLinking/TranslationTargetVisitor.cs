@@ -47,12 +47,23 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 }
 
                 if (astalt == null)
-                    RegisterError(node.Production, "An alternative in the {0} production could not be implicitly translated to an ast-counterpart. No matching alternatives found.",
-                        node.Production.Identifier);
+                    if (node.HasAlternativename)
+                        RegisterError(node, "The {1} alternative in the {0} production could not be implicitly translated to an ast-counterpart. No matching alternatives found.",
+                            node.Production.Identifier,
+                            node.Alternativename);
+                    else
+                        RegisterError(node, "An alternative in the {0} production could not be implicitly translated to an ast-counterpart. No matching alternatives found.",
+                            node.Production.Identifier);
+
                 else if (astalt.Elements.Count != node.Elements.Count)
                 {
-                    RegisterError(node.Production, "A alternative in the {0} production could not be implicitly translated to its ast-counterpart. They do not have the same number of elements.",
-                        node.Production.Identifier);
+                    if (node.HasAlternativename)
+                        RegisterError(node, "The {1} alternative in the {0} production could not be implicitly translated to its ast-counterpart. They do not have the same number of elements.",
+                            node.Production.Identifier,
+                            node.Alternativename);
+                    else
+                        RegisterError(node, "A alternative in the {0} production could not be implicitly translated to its ast-counterpart. They do not have the same number of elements.",
+                            node.Production.Identifier);
                 }
                 else
                     for (int i = 0; i < node.Elements.Count; i++)
