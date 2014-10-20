@@ -120,8 +120,10 @@ namespace SablePP.Tools.Editor
             int len = text.Length;
             while (text.Contains('\r'))
             {
-                len -= (text.IndexOf('\r') + 2);
-                text = text.Substring(text.IndexOf('\r')).Trim('\r', '\n');
+                int index = text.IndexOf('\r');
+                len -= index + 2;
+                text = text.Substring(index + 2);
+
                 p2.iLine++;
                 p2.iChar = 0;
             }
@@ -137,7 +139,7 @@ namespace SablePP.Tools.Editor
         public Token TokenFromPlace(Place place)
         {
             Result res = lastResult;
-            if(res == null || res.Tree == null)
+            if (res == null || res.Tree == null)
                 return null;
 
             foreach (var token in SablePP.Tools.Analysis.DepthFirstTreeWalker.GetTokens(res.Tree))
