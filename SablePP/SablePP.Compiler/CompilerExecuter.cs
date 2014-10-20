@@ -172,8 +172,6 @@ namespace SablePP.Compiler
         {
             directory = directory.TrimEnd('\\');
 
-            string output = PathInformation.SableOutputDirectory;
-
             lastGrammar.GenerateTokens().ToFile(Path.Combine(directory, "tokens.cs"));
             lastGrammar.GenerateProductions().ToFile(Path.Combine(directory, "prods.cs"));
             lastGrammar.GenerateAnalysis().ToFile(Path.Combine(directory, "analysis.cs"));
@@ -182,9 +180,6 @@ namespace SablePP.Compiler
             lastGrammar.GenerateParser(lastResult).ToFile(Path.Combine(directory, "parser.cs"));
 
             lastGrammar.GenerateCompilerExecuter().ToFile(Path.Combine(directory, "CompilerExecuter.cs"));
-
-            foreach (var file in new[] { "tokens.cs", "prods.cs", "analysis.cs", "parser.cs", "lexer.cs", "CompilerExecuter.cs" })
-                File.Copy(Path.Combine(output, file), Path.Combine(directory, file), true);
 
             return true;
         }
