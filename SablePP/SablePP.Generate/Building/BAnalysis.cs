@@ -11,7 +11,7 @@ namespace SablePP.Generate.Building
         private FileElement fileElement;
         private NameSpaceElement nameElement;
 
-        private AnalysisBuilder()
+        private BAnalysis()
         {
             fileElement = new FileElement();
             fileElement.Using.Add("System");
@@ -20,21 +20,17 @@ namespace SablePP.Generate.Building
             fileElement.Using.Add(SablePP.Generate.Namespaces.Nodes);
         }
 
-        public static FileElement BuildCode(Start<PGrammar> astRoot)
+        public static FileElement BuildCode(Grammar astRoot)
         {
-            AnalysisBuilder n = new AnalysisBuilder();
+            BAnalysis n = new BAnalysis();
             n.Visit(astRoot);
             return n.fileElement;
         }
 
-        public override void CaseAGrammar(AGrammar node)
+        private void Visit(Grammar node)
         {
-            if (node.HasPackage)
-                Visit(node.Package);
-
-            string packageName = node.PackageName;
-            fileElement.Add(nameElement = new NameSpaceElement(packageName + ".Analysis"));
-            fileElement.Using.Add(packageName + ".Nodes");
+            fileElement.Add(nameElement = new NameSpaceElement(node.Namespace + ".Analysis"));
+            fileElement.Using.Add(node.Namespace + ".Nodes");
 
             List<DepthFirstAdapter> adapters = new List<DepthFirstAdapter>();
 
