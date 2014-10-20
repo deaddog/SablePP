@@ -176,7 +176,7 @@ namespace SablePP.Compiler
 
             lastGrammar.GenerateTokens().ToFile(Path.Combine(directory, "tokens.cs"));
             lastGrammar.GenerateProductions().ToFile(Path.Combine(directory, "prods.cs"));
-            AnalysisBuilder.BuildCode(root).ToFile(Path.Combine(output, "analysis.cs"));
+            lastGrammar.GenerateAnalysis().ToFile(Path.Combine(directory, "analysis.cs"));
 
             lastGrammar.GenerateLexer(lastResult).ToFile(Path.Combine(directory, "lexer.cs"));
             lastGrammar.GenerateParser(lastResult).ToFile(Path.Combine(directory, "parser.cs"));

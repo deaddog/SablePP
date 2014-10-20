@@ -77,6 +77,11 @@ namespace SablePP.Generate
             return BProduction.BuildCode(this);
         }
 
+        public FileElement GenerateAnalysis()
+        {
+            return BAnalysis.BuildCode(this);
+        }
+
         internal override bool canBeParent(GrammarPart part)
         {
             return false;

@@ -36,9 +36,9 @@ namespace SablePP.Generate.Building
 
             emitAnalysisAdapter(node);
             nameElement.EmitNewLine();
-            adapters.Add(new DepthFirstAdapterBuilder(nameElement, false));
+            emitDepthFirstAdapter(node, false);
             nameElement.EmitNewLine();
-            adapters.Add(new DepthFirstAdapterBuilder(nameElement, true));
+            emitDepthFirstAdapter(node, true);
         }
     }
 }
