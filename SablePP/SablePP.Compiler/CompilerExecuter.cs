@@ -7,8 +7,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 using SablePP.Compiler.Execution;
-using SablePP.Compiler.Generate;
-using SablePP.Compiler.Generate.Analysis;
 using SablePP.Compiler.Nodes;
 using SablePP.Compiler.Validation;
 using SablePP.Compiler.Validation.SymbolLinking;

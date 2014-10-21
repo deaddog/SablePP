@@ -85,11 +85,7 @@
     <Compile Include="Generated\parser.cs" />
     <Compile Include="Generated\prods.cs" />
     <Compile Include="Generated\tokens.cs" />
-    <Compile Include="Generate\Analysis\AnalysisAdapterBuilder.cs" />
-    <Compile Include="Generate\Analysis\AnalysisBuilder.cs" />
     <Compile Include="CommonMethods.cs" />
-    <Compile Include="Generate\Analysis\DepthFirstAdapterBuilder.cs" />
-    <Compile Include="Generate\Analysis\ReturnAnalysisAdapterBuilder.cs" />
     <Compile Include="GrammarBuilder.cs" />
     <Compile Include="Modifiers.cs" />
     <Compile Include="Nodes\AFullTranslation.cs" />
@@ -100,7 +96,6 @@
     <Compile Include="Nodes\ANewTranslation.cs" />
     <Compile Include="Nodes\ANullTranslation.cs" />
     <Compile Include="Nodes\ElementTypes.cs" />
-    <Compile Include="Generate\GenerateVisitor.cs" />
     <Compile Include="Nodes\IDeclaration.cs" />
     <Compile Include="Nodes\PAlternative.cs" />
     <Compile Include="Nodes\DeclarationIdentifier.cs" />
