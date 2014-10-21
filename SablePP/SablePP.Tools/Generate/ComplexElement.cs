@@ -30,6 +30,25 @@ namespace SablePP.Tools.Generate
         }
 
         /// <summary>
+        /// Generates a clone of this <see cref="ComplexElement" /> structure by copying its content into base element types.
+        /// The text, indentation and newline structure is maintained in the clone.
+        /// </summary>
+        /// <returns>
+        /// A content-clone of this <see cref="ComplexElement" />.
+        /// </returns>
+        public override CodeElement CloneFlat()
+        {
+            PatchElement newElement = new PatchElement();
+
+            foreach (var e in elements)
+                newElement.InsertElement(e.CloneFlat());
+
+            newElement.Dispose();
+
+            return newElement;
+        }
+
+        /// <summary>
         /// Inserts a <see cref="CodeElement"/> as the last child of this <see cref="ComplexElement"/>.
         /// </summary>
         /// <param name="element">The element to insert.</param>

@@ -36,6 +36,17 @@ namespace SablePP.Tools.Generate
             get { return UseSpace.Never; }
         }
 
+        /// <summary>
+        /// Generates a clone of this <see cref="IndentationElement" />.
+        /// </summary>
+        /// <returns>
+        /// A clone of this <see cref="IndentationElement" />.
+        /// </returns>
+        public override CodeElement CloneFlat()
+        {
+            return new IndentationElement(this.difference);
+        }
+
         internal override void Generate(CodeStreamWriter streamwriter)
         {
             if (difference == 0)
