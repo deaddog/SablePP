@@ -481,7 +481,6 @@ namespace SablePP.Tools.Editor
         /// <summary>
         /// Gets the Edit menu.
         /// </summary>
-        /// <value>
         public ToolStripMenuItem EditMenu
         {
             get { return editToolStripMenuItem; }
