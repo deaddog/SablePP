@@ -20,7 +20,6 @@ namespace SablePP.Compiler
 {
     public partial class CompilerExecuter
     {
-        private const int SABLE_MAX_WAIT = 500;
         private IdentifierHighlighter identifierHighlighter;
 
         private SablePP.Generate.Grammar lastGrammar;
