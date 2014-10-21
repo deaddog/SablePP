@@ -27,10 +27,10 @@ namespace SablePP.Generate.Building
             parser.Visit(grammar);
 
             parser.classElement.EmitNewline();
-            parser.classElement.EmitField("private static int[][][] actionTable", tables.ParserActionTable);
-            parser.classElement.EmitField("private static int[][][] gotoTable", tables.ParserGotoTable);
-            parser.classElement.EmitField("private static string[] errorMessages", tables.ParserErrorMessagesTable);
-            parser.classElement.EmitField("private static int[] errors", tables.ParserErrorTable);
+            parser.classElement.EmitField("private static int[][][] actionTable", tables.ParserActionTable.CloneFlat());
+            parser.classElement.EmitField("private static int[][][] gotoTable", tables.ParserGotoTable.CloneFlat());
+            parser.classElement.EmitField("private static string[] errorMessages", tables.ParserErrorMessagesTable.CloneFlat());
+            parser.classElement.EmitField("private static int[] errors", tables.ParserErrorTable.CloneFlat());
 
             return parser.fileElement;
         }

@@ -54,14 +54,14 @@ namespace SablePP.Generate.Building
             classElement.EmitNewline();
             classElement.EmitRegionStart("Goto Table");
             classElement.EmitNewline();
-            classElement.EmitField("private static int[][][][] gotoTable", tables.LexerGotoTable);
+            classElement.EmitField("private static int[][][][] gotoTable", tables.LexerGotoTable.CloneFlat());
             classElement.EmitNewline();
             classElement.EmitRegionEnd();
 
             classElement.EmitNewline();
             classElement.EmitRegionStart("Accept Table");
             classElement.EmitNewline();
-            classElement.EmitField("private static int[][] acceptTable", tables.LexerAcceptTable);
+            classElement.EmitField("private static int[][] acceptTable", tables.LexerAcceptTable.CloneFlat());
             classElement.EmitNewline();
             classElement.EmitRegionEnd();
         }
