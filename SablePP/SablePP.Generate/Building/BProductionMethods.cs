@@ -17,7 +17,7 @@ namespace SablePP.Generate.Building
             AbstractAlternative.Element[] elements = node.Elements;
 
             MethodElement replaceMethod = new MethodElement("public override {0} Clone()", true, node.Production.Name);
-            replaceMethod.Body.Emit("return new {0}({1});", classElement.Name, string.Join(", ", elements.Select(getCloneMethodArgument)));
+            replaceMethod.Body.EmitLine("return new {0}({1});", classElement.Name, string.Join(", ", elements.Select(getCloneMethodArgument)));
 
             classElement.Add(replaceMethod);
             classElement.EmitNewline();
