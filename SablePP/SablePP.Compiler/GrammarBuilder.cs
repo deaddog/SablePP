@@ -125,9 +125,9 @@ namespace SablePP.Compiler
             string name = "T" + node.Identifier.Text.ToCamelCase();
 
             if (node.Statelist.Count == 0)
-                token = new Token(name, node.IsIgnored, Visit(node.Regex));
+                token = new Token(name.ToCamelCase(), node.IsIgnored, Visit(node.Regex));
             else
-                token = new Token(name, node.IsIgnored, Visit(node.Regex), from s in node.Statelist select Visit(s));
+                token = new Token(name.ToCamelCase(), node.IsIgnored, Visit(node.Regex), from s in node.Statelist select Visit(s));
 
             tokens.Add(node, token);
             return token;
@@ -248,9 +248,9 @@ namespace SablePP.Compiler
             var id = node.Elementid.Identifier;
 
             if (id.IsPProduction)
-                return new AbstractAlternative.ProductionElement(name, abstractProductions[id.AsPProduction], mod);
+                return new AbstractAlternative.ProductionElement(name.ToCamelCase(), abstractProductions[id.AsPProduction], mod);
             else if (id.IsPToken)
-                return new AbstractAlternative.TokenElement(name, tokens[id.AsPToken], mod);
+                return new AbstractAlternative.TokenElement(name.ToCamelCase(), tokens[id.AsPToken], mod);
             else
                 throw new ArgumentException("Element must must refer to either an ast node or a token.");
         }
