@@ -60,7 +60,7 @@ namespace SablePP.Generate.Building
 
         private void Visit(AbstractAlternative node)
         {
-            nameElement.Add(classElement = new ClassElement("public partial class {0} : P{1}", node.Name, node.Production.Name));
+            nameElement.Add(classElement = new ClassElement("public partial class {0} : {1}", node.Name, node.Production.Name));
 
             variables.OpenScope();
 
