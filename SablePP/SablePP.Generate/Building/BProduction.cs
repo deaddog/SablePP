@@ -22,7 +22,7 @@ namespace SablePP.Generate.Building
             fileElement.Using.Add("System.Collections.Generic");
             fileElement.Using.Add(SablePP.Generate.Namespaces.Nodes);
 
-            variables = new SafeNameDictionary();
+            variables = new SafeNameDictionary(SafeName.GetNumberedNamesAndInitial);
         }
 
         public static FileElement BuildCode(Grammar node)

@@ -16,7 +16,7 @@ namespace SablePP.Generate.Building
             emitElementFields(node.UniqueElements);
 
             foreach (var v in node.Elements)
-                variables.Add("arg", v);
+                variables.Add("_" + v.Name.ToLower() + "_", v);
         }
 
         private void emitElementFields(AbstractAlternative.Element[] elements)
@@ -36,11 +36,11 @@ namespace SablePP.Generate.Building
             {
                 case Modifiers.Single:
                 case Modifiers.Optional:
-                    classElement.EmitField("private " + node.GeneratedName + " " + variables.Add("member", node));
+                    classElement.EmitField("private " + node.GeneratedName + " " + variables.Add("_" + node.Name.ToLower() + "_", node));
                     break;
                 case Modifiers.OneOrMany:
                 case Modifiers.ZeroOrMany:
-                    classElement.EmitField("private NodeList<" + node.GeneratedName + "> " + variables.Add("member_list", node));
+                    classElement.EmitField("private NodeList<" + node.GeneratedName + "> " + variables.Add("_" + node.Name.ToLower() + "_", node));
                     break;
             }
         }
