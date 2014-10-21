@@ -29,6 +29,16 @@ namespace SablePP.Tools.Generate
         }
 
         /// <summary>
+        /// Generates a clone of this <see cref="CodeElement"/> structure by copying its content into base element types.
+        /// The text, indentation and newline structure is maintained in the clone.
+        /// </summary>
+        /// <returns>A content-clone of this <see cref="CodeElement"/>.</returns>
+        public virtual CodeElement CloneFlat()
+        {
+            return new TextElement(this.ToString(""), this.Prepend, this.Append);
+        }
+
+        /// <summary>
         /// Defines a ruleset that determines if two <see cref="CodeElement"/>s should be separated by a space.
         /// </summary>
         /// <param name="append">A <see cref="UseSpace"/> enum that determines the need for a space after the first element.</param>

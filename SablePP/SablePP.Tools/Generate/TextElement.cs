@@ -31,6 +31,17 @@
         }
 
         /// <summary>
+        /// Generates a clone of this <see cref="TextElement" /> by copying its content.
+        /// </summary>
+        /// <returns>
+        /// A content-clone of this <see cref="TextElement" />.
+        /// </returns>
+        public override CodeElement CloneFlat()
+        {
+            return new TextElement(this.text, this.prepend, this.append);
+        }
+
+        /// <summary>
         /// Gets the text stored in this <see cref="TextElement"/>.
         /// </summary>
         public string Text
