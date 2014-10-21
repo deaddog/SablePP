@@ -65,6 +65,9 @@
     <Compile Include="Building\BProductionProperties.cs">
       <DependentUpon>BProduction.cs</DependentUpon>
     </Compile>
+    <Compile Include="Building\BReturnAnalysisAdapter.cs">
+      <DependentUpon>BAnalysis.cs</DependentUpon>
+    </Compile>
     <Compile Include="Building\BToken.cs" />
     <Compile Include="CompilationError.cs" />
     <Compile Include="CompilationResult.cs" />

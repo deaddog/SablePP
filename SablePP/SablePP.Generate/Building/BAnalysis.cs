@@ -9,6 +9,9 @@ namespace SablePP.Generate.Building
     internal partial class BAnalysis
     {
         private static readonly string typeParameter = "Value";
+        private static readonly string returnTypeParameter = "Result";
+
+        private const byte TYPEARGSCOUNT_RETURN = 3;
 
         private FileElement fileElement;
         private NameSpaceElement nameElement;
@@ -34,11 +37,24 @@ namespace SablePP.Generate.Building
             fileElement.Add(nameElement = new NameSpaceElement(node.Namespace + ".Analysis"));
             fileElement.Using.Add(node.Namespace + ".Nodes");
 
+            nameElement.EmitRegionStart("Analysis adapters", false);
+            nameElement.EmitNewLine();
+
             emitAnalysisAdapter(node);
             nameElement.EmitNewLine();
             emitDepthFirstAdapter(node, false);
             nameElement.EmitNewLine();
             emitDepthFirstAdapter(node, true);
+
+            nameElement.EmitRegionEnd();
+            nameElement.EmitRegionStart("Return analysis adapters", false);
+            nameElement.EmitNewLine();
+
+            for (byte i = 0; i <= TYPEARGSCOUNT_RETURN; i++)
+                emitReturnAnalysisAdapter(node, i);
+
+            nameElement.EmitNewLine();
+            nameElement.EmitRegionEnd(false);
         }
     }
 }
