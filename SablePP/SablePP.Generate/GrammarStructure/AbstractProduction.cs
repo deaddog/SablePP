@@ -23,7 +23,13 @@ namespace SablePP.Generate
             this.name = name;
 
             this.alternatives = new AddOnlyList<AbstractAlternative>(this);
-            this.alternatives.ItemAdded += (s, e) => { e.Item.Production = this; sharedElements = null; };
+            this.alternatives.ItemAdded += (s, e) =>
+            {
+                e.Item.Production = this;
+                sharedElements = null;
+                foreach (var a in this.alternatives)
+                    a.ClearSharedElements();
+            };
 
             if (alternatives != null)
                 this.alternatives.AddRange(alternatives);

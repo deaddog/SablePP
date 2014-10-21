@@ -34,9 +34,37 @@ namespace SablePP.Generate
         {
             get { return elements; }
         }
+        private Element[] sharedElements = null;
+        public void ClearSharedElements()
+        {
+            sharedElements = null;
+        }
+
         public Element[] SharedElements
         {
-            get { return Production.SharedElements; }
+            get
+            {
+                if (sharedElements == null)
+                {
+                    var shared = this.Elements.ToList();
+
+                    for (int i = 0; i < production.Alternatives.Count; i++)
+                    {
+                        var elements = production.Alternatives[i].Elements;
+
+                        for (int s = 0; s < shared.Count; s++)
+                        {
+                            var t = elements.FirstOrDefault(x => x.Name == shared[s].Name);
+                            if (t == null || t.Modifier != shared[s].Modifier)
+                                shared.RemoveAt(s--);
+                        }
+                    }
+
+                    sharedElements = shared.ToArray();
+                }
+
+                return sharedElements;
+            }
         }
         public Element[] UniqueElements
         {
