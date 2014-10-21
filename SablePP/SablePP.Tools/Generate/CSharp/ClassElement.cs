@@ -152,7 +152,7 @@ namespace SablePP.Tools.Generate.CSharp
         /// </summary>
         /// <param name="declaration">The field declaration that should be emitted.</param>
         /// <param name="valueElement">The <see cref="PatchElement"/> to which the initial value of the field should be emitted.</param>
-        public void EmitField(string declaration, PatchElement valueElement)
+        public void EmitField(string declaration, CodeElement valueElement)
         {
             content.Emit("{0} = ", declaration.Trim());
             content.InsertElement(valueElement);
