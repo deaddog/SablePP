@@ -134,7 +134,14 @@ namespace SablePP.Generate.SableCC
             }
 
             Emit("{0} = ", variables[token]);
-            Emit(token.Expression);
+            if (token.Expression is LiteralRegExp)
+            {
+                LiteralRegExp lit = token.Expression as LiteralRegExp;
+                string text = lit.IsChar ? lit.Char.ToString() : lit.Content;
+                Emit(new OrRegExp(new RegExp[] { new LiteralRegExp(text), new LiteralRegExp(text) }));
+            }
+            else
+                Emit(token.Expression);
             root.EmitLine(";");
         }
 
