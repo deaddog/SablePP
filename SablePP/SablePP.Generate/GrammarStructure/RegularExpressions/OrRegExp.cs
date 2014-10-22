@@ -33,7 +33,13 @@ namespace SablePP.Generate.RegularExpressions
             else if (expressions.Length == 1)
                 return expressions[0].GetStringLiteral();
             else
-                return null;
+            {
+                string lit = expressions[0].GetStringLiteral();
+                for (int i = 1; i < expressions.Length; i++)
+                    if (expressions[i].GetStringLiteral() != lit)
+                        return null;
+                return lit;
+            }
         }
     }
 }
