@@ -134,20 +134,12 @@ namespace SablePP.Generate.SableCC
                 {
                     CompilationResult result = new CompilationResult();
 
-                    result.SetLexerTables(readFile(Path.Combine(cp._temporary_, "lexer.cs")));
-                    result.SetParserTables(readFile(Path.Combine(cp._temporary_, "parser.cs")));
+                    result.SetLexerTables(File.ReadAllText(Path.Combine(cp._temporary_, "lexer.cs")));
+                    result.SetParserTables(File.ReadAllText(Path.Combine(cp._temporary_, "parser.cs")));
 
                     return result;
                 }
             }
-        }
-
-        private static string readFile(string filepath)
-        {
-            string content = null;
-            using (StreamReader reader = new StreamReader(filepath))
-                content = reader.ReadToEnd();
-            return content;
         }
 
         private const int SABLE_MAX_WAIT = 500;
