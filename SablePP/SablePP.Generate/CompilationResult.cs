@@ -39,9 +39,11 @@ namespace SablePP.Generate
         }
         private static PatchElement getTable(string code, string regex)
         {
+            return getTable(Regex.Match(code, regex).Groups["table"].Value);
+        }
+        private static PatchElement getTable(string code)
+        {
             PatchElement element = new PatchElement();
-
-            code = Regex.Match(code, regex).Groups["table"].Value;
 
             string[] strings = getNonEmpty(code.Split(new char[] { '\r', '\n' })).ToArray();
 
