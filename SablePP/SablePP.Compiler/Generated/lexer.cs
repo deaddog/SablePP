@@ -5,13 +5,13 @@ namespace SablePP.Compiler.Lexing
 {
     public class Lexer : SablePP.Tools.Lexing.Lexer
     {
-        private const int NORMAL = 0;
-        private const int PACKAGE = 1;
-        private const int HIGHLIGHT = 2;
-        private const int HIGHLIGHTSTYLES = 3;
+        private const int STATE1 = 0;
+        private const int STATE2 = 1;
+        private const int STATE3 = 2;
+        private const int STATE4 = 3;
         
         public Lexer(System.IO.TextReader input)
-            : base(input, NORMAL, gotoTable, acceptTable)
+            : base(input, STATE1, gotoTable, acceptTable)
         {
         }
         
@@ -76,63 +76,63 @@ namespace SablePP.Compiler.Lexing
                 case 1:
                     switch (currentState)
                     {
-                        case NORMAL: return PACKAGE;
-                        case HIGHLIGHT: return PACKAGE;
+                        case STATE1: return STATE2;
+                        case STATE3: return STATE2;
                         default: return -1;
                     }
                 case 2:
                     switch (currentState)
                     {
-                        case HIGHLIGHT: return NORMAL;
+                        case STATE3: return STATE1;
                         default: return -1;
                     }
                 case 3:
                     switch (currentState)
                     {
-                        case HIGHLIGHT: return NORMAL;
+                        case STATE3: return STATE1;
                         default: return -1;
                     }
                 case 4:
                     switch (currentState)
                     {
-                        case HIGHLIGHT: return NORMAL;
+                        case STATE3: return STATE1;
                         default: return -1;
                     }
                 case 5:
                     switch (currentState)
                     {
-                        case HIGHLIGHT: return NORMAL;
+                        case STATE3: return STATE1;
                         default: return -1;
                     }
                 case 6:
                     switch (currentState)
                     {
-                        case HIGHLIGHT: return NORMAL;
+                        case STATE3: return STATE1;
                         default: return -1;
                     }
                 case 7:
                     switch (currentState)
                     {
-                        case HIGHLIGHT: return NORMAL;
+                        case STATE3: return STATE1;
                         default: return -1;
                     }
                 case 8:
                     switch (currentState)
                     {
-                        case NORMAL: return HIGHLIGHT;
+                        case STATE1: return STATE3;
                         default: return -1;
                     }
                 case 15:
                     switch (currentState)
                     {
-                        case PACKAGE: return NORMAL;
-                        case HIGHLIGHTSTYLES: return HIGHLIGHT;
+                        case STATE2: return STATE1;
+                        case STATE4: return STATE3;
                         default: return -1;
                     }
                 case 22:
                     switch (currentState)
                     {
-                        case HIGHLIGHT: return HIGHLIGHTSTYLES;
+                        case STATE3: return STATE4;
                         default: return -1;
                     }
                 default: return -1;

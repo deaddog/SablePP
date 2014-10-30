@@ -1488,27 +1488,27 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class ADecRegex : PRegex
     {
-        private TDecChar _dec_char_;
+        private TDecChar _decchar_;
         
-        public ADecRegex(TDecChar _dec_char_)
+        public ADecRegex(TDecChar _decchar_)
             : base()
         {
-            this.DecChar = _dec_char_;
+            this.DecChar = _decchar_;
         }
         
         public TDecChar DecChar
         {
-            get { return _dec_char_; }
+            get { return _decchar_; }
             set
             {
                 if (value == null)
                     throw new ArgumentException("DecChar in ADecRegex cannot be null.", "value");
                 
-                if (_dec_char_ != null)
-                    SetParent(_dec_char_, null);
+                if (_decchar_ != null)
+                    SetParent(_decchar_, null);
                 SetParent(value, this);
                 
-                _dec_char_ = value;
+                _decchar_ = value;
             }
         }
         
@@ -1541,27 +1541,27 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AHexRegex : PRegex
     {
-        private THexChar _hex_char_;
+        private THexChar _hexchar_;
         
-        public AHexRegex(THexChar _hex_char_)
+        public AHexRegex(THexChar _hexchar_)
             : base()
         {
-            this.HexChar = _hex_char_;
+            this.HexChar = _hexchar_;
         }
         
         public THexChar HexChar
         {
-            get { return _hex_char_; }
+            get { return _hexchar_; }
             set
             {
                 if (value == null)
                     throw new ArgumentException("HexChar in AHexRegex cannot be null.", "value");
                 
-                if (_hex_char_ != null)
-                    SetParent(_hex_char_, null);
+                if (_hexchar_ != null)
+                    SetParent(_hexchar_, null);
                 SetParent(value, this);
                 
-                _hex_char_ = value;
+                _hexchar_ = value;
             }
         }
         
@@ -2515,27 +2515,27 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AQuestionModifier : PModifier
     {
-        private TQMark _q_mark_;
+        private TQMark _qmark_;
         
-        public AQuestionModifier(TQMark _q_mark_)
+        public AQuestionModifier(TQMark _qmark_)
             : base()
         {
-            this.QMark = _q_mark_;
+            this.QMark = _qmark_;
         }
         
         public TQMark QMark
         {
-            get { return _q_mark_; }
+            get { return _qmark_; }
             set
             {
                 if (value == null)
                     throw new ArgumentException("QMark in AQuestionModifier cannot be null.", "value");
                 
-                if (_q_mark_ != null)
-                    SetParent(_q_mark_, null);
+                if (_qmark_ != null)
+                    SetParent(_qmark_, null);
                 SetParent(value, this);
                 
-                _q_mark_ = value;
+                _qmark_ = value;
             }
         }
         
@@ -4825,29 +4825,29 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class ATokenElementid : PElementid
     {
-        private TTokenSpecifier _token_specifier_;
+        private TTokenSpecifier _tokenspecifier_;
         private TDot _dot_;
         
-        public ATokenElementid(TTokenSpecifier _token_specifier_, TDot _dot_, TIdentifier _identifier_)
+        public ATokenElementid(TTokenSpecifier _tokenspecifier_, TDot _dot_, TIdentifier _identifier_)
             : base(_identifier_)
         {
-            this.TokenSpecifier = _token_specifier_;
+            this.TokenSpecifier = _tokenspecifier_;
             this.Dot = _dot_;
         }
         
         public TTokenSpecifier TokenSpecifier
         {
-            get { return _token_specifier_; }
+            get { return _tokenspecifier_; }
             set
             {
                 if (value == null)
                     throw new ArgumentException("TokenSpecifier in ATokenElementid cannot be null.", "value");
                 
-                if (_token_specifier_ != null)
-                    SetParent(_token_specifier_, null);
+                if (_tokenspecifier_ != null)
+                    SetParent(_tokenspecifier_, null);
                 SetParent(value, this);
                 
-                _token_specifier_ = value;
+                _tokenspecifier_ = value;
             }
         }
         public TDot Dot
@@ -4913,29 +4913,29 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AProductionElementid : PElementid
     {
-        private TProductionSpecifier _production_specifier_;
+        private TProductionSpecifier _productionspecifier_;
         private TDot _dot_;
         
-        public AProductionElementid(TProductionSpecifier _production_specifier_, TDot _dot_, TIdentifier _identifier_)
+        public AProductionElementid(TProductionSpecifier _productionspecifier_, TDot _dot_, TIdentifier _identifier_)
             : base(_identifier_)
         {
-            this.ProductionSpecifier = _production_specifier_;
+            this.ProductionSpecifier = _productionspecifier_;
             this.Dot = _dot_;
         }
         
         public TProductionSpecifier ProductionSpecifier
         {
-            get { return _production_specifier_; }
+            get { return _productionspecifier_; }
             set
             {
                 if (value == null)
                     throw new ArgumentException("ProductionSpecifier in AProductionElementid cannot be null.", "value");
                 
-                if (_production_specifier_ != null)
-                    SetParent(_production_specifier_, null);
+                if (_productionspecifier_ != null)
+                    SetParent(_productionspecifier_, null);
                 SetParent(value, this);
                 
-                _production_specifier_ = value;
+                _productionspecifier_ = value;
             }
         }
         public TDot Dot
@@ -5599,25 +5599,25 @@ namespace SablePP.Compiler.Nodes
     public partial class ARgbColor : PColor
     {
         private TRgb _rgb_;
-        private TLPar _l_par_;
+        private TLPar _lpar_;
         private TDecChar _red_;
         private TComma _comma1_;
         private TDecChar _green_;
         private TComma _comma2_;
         private TDecChar _blue_;
-        private TRPar _r_par_;
+        private TRPar _rpar_;
         
-        public ARgbColor(TRgb _rgb_, TLPar _l_par_, TDecChar _red_, TComma _comma1_, TDecChar _green_, TComma _comma2_, TDecChar _blue_, TRPar _r_par_)
+        public ARgbColor(TRgb _rgb_, TLPar _lpar_, TDecChar _red_, TComma _comma1_, TDecChar _green_, TComma _comma2_, TDecChar _blue_, TRPar _rpar_)
             : base()
         {
             this.Rgb = _rgb_;
-            this.LPar = _l_par_;
+            this.LPar = _lpar_;
             this.Red = _red_;
             this.Comma1 = _comma1_;
             this.Green = _green_;
             this.Comma2 = _comma2_;
             this.Blue = _blue_;
-            this.RPar = _r_par_;
+            this.RPar = _rpar_;
         }
         
         public TRgb Rgb
@@ -5637,17 +5637,17 @@ namespace SablePP.Compiler.Nodes
         }
         public TLPar LPar
         {
-            get { return _l_par_; }
+            get { return _lpar_; }
             set
             {
                 if (value == null)
                     throw new ArgumentException("LPar in ARgbColor cannot be null.", "value");
                 
-                if (_l_par_ != null)
-                    SetParent(_l_par_, null);
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
-                _l_par_ = value;
+                _lpar_ = value;
             }
         }
         public TDecChar Red
@@ -5727,17 +5727,17 @@ namespace SablePP.Compiler.Nodes
         }
         public TRPar RPar
         {
-            get { return _r_par_; }
+            get { return _rpar_; }
             set
             {
                 if (value == null)
                     throw new ArgumentException("RPar in ARgbColor cannot be null.", "value");
                 
-                if (_r_par_ != null)
-                    SetParent(_r_par_, null);
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
-                _r_par_ = value;
+                _rpar_ = value;
             }
         }
         
@@ -5834,25 +5834,25 @@ namespace SablePP.Compiler.Nodes
     public partial class AHsvColor : PColor
     {
         private THsv _hsv_;
-        private TLPar _l_par_;
+        private TLPar _lpar_;
         private TDecChar _hue_;
         private TComma _comma1_;
         private TDecChar _saturation_;
         private TComma _comma2_;
         private TDecChar _brightness_;
-        private TRPar _r_par_;
+        private TRPar _rpar_;
         
-        public AHsvColor(THsv _hsv_, TLPar _l_par_, TDecChar _hue_, TComma _comma1_, TDecChar _saturation_, TComma _comma2_, TDecChar _brightness_, TRPar _r_par_)
+        public AHsvColor(THsv _hsv_, TLPar _lpar_, TDecChar _hue_, TComma _comma1_, TDecChar _saturation_, TComma _comma2_, TDecChar _brightness_, TRPar _rpar_)
             : base()
         {
             this.Hsv = _hsv_;
-            this.LPar = _l_par_;
+            this.LPar = _lpar_;
             this.Hue = _hue_;
             this.Comma1 = _comma1_;
             this.Saturation = _saturation_;
             this.Comma2 = _comma2_;
             this.Brightness = _brightness_;
-            this.RPar = _r_par_;
+            this.RPar = _rpar_;
         }
         
         public THsv Hsv
@@ -5872,17 +5872,17 @@ namespace SablePP.Compiler.Nodes
         }
         public TLPar LPar
         {
-            get { return _l_par_; }
+            get { return _lpar_; }
             set
             {
                 if (value == null)
                     throw new ArgumentException("LPar in AHsvColor cannot be null.", "value");
                 
-                if (_l_par_ != null)
-                    SetParent(_l_par_, null);
+                if (_lpar_ != null)
+                    SetParent(_lpar_, null);
                 SetParent(value, this);
                 
-                _l_par_ = value;
+                _lpar_ = value;
             }
         }
         public TDecChar Hue
@@ -5962,17 +5962,17 @@ namespace SablePP.Compiler.Nodes
         }
         public TRPar RPar
         {
-            get { return _r_par_; }
+            get { return _rpar_; }
             set
             {
                 if (value == null)
                     throw new ArgumentException("RPar in AHsvColor cannot be null.", "value");
                 
-                if (_r_par_ != null)
-                    SetParent(_r_par_, null);
+                if (_rpar_ != null)
+                    SetParent(_rpar_, null);
                 SetParent(value, this);
                 
-                _r_par_ = value;
+                _rpar_ = value;
             }
         }
         

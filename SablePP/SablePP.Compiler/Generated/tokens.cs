@@ -39,6 +39,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TStatestoken : Token<TStatestoken>
     {
+        public TStatestoken()
+            : base(@"States")
+        {
+        }
+        public TStatestoken(int line, int pos)
+            : base(@"States", line, pos)
+        {
+        }
         public TStatestoken(string text)
             : base(text)
         {
@@ -55,6 +63,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class THelperstoken : Token<THelperstoken>
     {
+        public THelperstoken()
+            : base(@"Helpers")
+        {
+        }
+        public THelperstoken(int line, int pos)
+            : base(@"Helpers", line, pos)
+        {
+        }
         public THelperstoken(string text)
             : base(text)
         {
@@ -71,6 +87,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TTokenstoken : Token<TTokenstoken>
     {
+        public TTokenstoken()
+            : base(@"Tokens")
+        {
+        }
+        public TTokenstoken(int line, int pos)
+            : base(@"Tokens", line, pos)
+        {
+        }
         public TTokenstoken(string text)
             : base(text)
         {
@@ -87,6 +111,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TIgnoredtoken : Token<TIgnoredtoken>
     {
+        public TIgnoredtoken()
+            : base(@"Ignored")
+        {
+        }
+        public TIgnoredtoken(int line, int pos)
+            : base(@"Ignored", line, pos)
+        {
+        }
         public TIgnoredtoken(string text)
             : base(text)
         {
@@ -103,6 +135,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TProductionstoken : Token<TProductionstoken>
     {
+        public TProductionstoken()
+            : base(@"Productions")
+        {
+        }
+        public TProductionstoken(int line, int pos)
+            : base(@"Productions", line, pos)
+        {
+        }
         public TProductionstoken(string text)
             : base(text)
         {
@@ -135,6 +175,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class THighlighttoken : Token<THighlighttoken>
     {
+        public THighlighttoken()
+            : base(@"Token Syntax Highlight")
+        {
+        }
+        public THighlighttoken(int line, int pos)
+            : base(@"Token Syntax Highlight", line, pos)
+        {
+        }
         public THighlighttoken(string text)
             : base(text)
         {
@@ -151,6 +199,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TNew : Token<TNew>
     {
+        public TNew()
+            : base(@"New")
+        {
+        }
+        public TNew(int line, int pos)
+            : base(@"New", line, pos)
+        {
+        }
         public TNew(string text)
             : base(text)
         {
@@ -167,6 +223,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TNull : Token<TNull>
     {
+        public TNull()
+            : base(@"Null")
+        {
+        }
+        public TNull(int line, int pos)
+            : base(@"Null", line, pos)
+        {
+        }
         public TNull(string text)
             : base(text)
         {
@@ -183,6 +247,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TTokenSpecifier : Token<TTokenSpecifier>
     {
+        public TTokenSpecifier()
+            : base(@"T")
+        {
+        }
+        public TTokenSpecifier(int line, int pos)
+            : base(@"T", line, pos)
+        {
+        }
         public TTokenSpecifier(string text)
             : base(text)
         {
@@ -199,6 +271,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TProductionSpecifier : Token<TProductionSpecifier>
     {
+        public TProductionSpecifier()
+            : base(@"P")
+        {
+        }
+        public TProductionSpecifier(int line, int pos)
+            : base(@"P", line, pos)
+        {
+        }
         public TProductionSpecifier(string text)
             : base(text)
         {
@@ -215,6 +295,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TDot : Token<TDot>
     {
+        public TDot()
+            : base(@".")
+        {
+        }
+        public TDot(int line, int pos)
+            : base(@".", line, pos)
+        {
+        }
         public TDot(string text)
             : base(text)
         {
@@ -231,6 +319,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TDDot : Token<TDDot>
     {
+        public TDDot()
+            : base(@"..")
+        {
+        }
+        public TDDot(int line, int pos)
+            : base(@"..", line, pos)
+        {
+        }
         public TDDot(string text)
             : base(text)
         {
@@ -247,6 +343,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TSemicolon : Token<TSemicolon>
     {
+        public TSemicolon()
+            : base(@";")
+        {
+        }
+        public TSemicolon(int line, int pos)
+            : base(@";", line, pos)
+        {
+        }
         public TSemicolon(string text)
             : base(text)
         {
@@ -263,6 +367,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TEqual : Token<TEqual>
     {
+        public TEqual()
+            : base(@"=")
+        {
+        }
+        public TEqual(int line, int pos)
+            : base(@"=", line, pos)
+        {
+        }
         public TEqual(string text)
             : base(text)
         {
@@ -279,6 +391,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TLBkt : Token<TLBkt>
     {
+        public TLBkt()
+            : base(@"[")
+        {
+        }
+        public TLBkt(int line, int pos)
+            : base(@"[", line, pos)
+        {
+        }
         public TLBkt(string text)
             : base(text)
         {
@@ -295,6 +415,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TRBkt : Token<TRBkt>
     {
+        public TRBkt()
+            : base(@"]")
+        {
+        }
+        public TRBkt(int line, int pos)
+            : base(@"]", line, pos)
+        {
+        }
         public TRBkt(string text)
             : base(text)
         {
@@ -311,6 +439,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TLPar : Token<TLPar>
     {
+        public TLPar()
+            : base(@"(")
+        {
+        }
+        public TLPar(int line, int pos)
+            : base(@"(", line, pos)
+        {
+        }
         public TLPar(string text)
             : base(text)
         {
@@ -327,6 +463,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TRPar : Token<TRPar>
     {
+        public TRPar()
+            : base(@")")
+        {
+        }
+        public TRPar(int line, int pos)
+            : base(@")", line, pos)
+        {
+        }
         public TRPar(string text)
             : base(text)
         {
@@ -343,6 +487,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TLBrace : Token<TLBrace>
     {
+        public TLBrace()
+            : base(@"{")
+        {
+        }
+        public TLBrace(int line, int pos)
+            : base(@"{", line, pos)
+        {
+        }
         public TLBrace(string text)
             : base(text)
         {
@@ -359,6 +511,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TRBrace : Token<TRBrace>
     {
+        public TRBrace()
+            : base(@"}")
+        {
+        }
+        public TRBrace(int line, int pos)
+            : base(@"}", line, pos)
+        {
+        }
         public TRBrace(string text)
             : base(text)
         {
@@ -375,6 +535,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TPlus : Token<TPlus>
     {
+        public TPlus()
+            : base(@"+")
+        {
+        }
+        public TPlus(int line, int pos)
+            : base(@"+", line, pos)
+        {
+        }
         public TPlus(string text)
             : base(text)
         {
@@ -391,6 +559,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TMinus : Token<TMinus>
     {
+        public TMinus()
+            : base(@"-")
+        {
+        }
+        public TMinus(int line, int pos)
+            : base(@"-", line, pos)
+        {
+        }
         public TMinus(string text)
             : base(text)
         {
@@ -407,6 +583,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TQMark : Token<TQMark>
     {
+        public TQMark()
+            : base(@"?")
+        {
+        }
+        public TQMark(int line, int pos)
+            : base(@"?", line, pos)
+        {
+        }
         public TQMark(string text)
             : base(text)
         {
@@ -423,6 +607,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TStar : Token<TStar>
     {
+        public TStar()
+            : base(@"*")
+        {
+        }
+        public TStar(int line, int pos)
+            : base(@"*", line, pos)
+        {
+        }
         public TStar(string text)
             : base(text)
         {
@@ -439,6 +631,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TPipe : Token<TPipe>
     {
+        public TPipe()
+            : base(@"|")
+        {
+        }
+        public TPipe(int line, int pos)
+            : base(@"|", line, pos)
+        {
+        }
         public TPipe(string text)
             : base(text)
         {
@@ -455,6 +655,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TComma : Token<TComma>
     {
+        public TComma()
+            : base(@",")
+        {
+        }
+        public TComma(int line, int pos)
+            : base(@",", line, pos)
+        {
+        }
         public TComma(string text)
             : base(text)
         {
@@ -471,6 +679,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TSlash : Token<TSlash>
     {
+        public TSlash()
+            : base(@"/")
+        {
+        }
+        public TSlash(int line, int pos)
+            : base(@"/", line, pos)
+        {
+        }
         public TSlash(string text)
             : base(text)
         {
@@ -487,6 +703,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TArrow : Token<TArrow>
     {
+        public TArrow()
+            : base(@"->")
+        {
+        }
+        public TArrow(int line, int pos)
+            : base(@"->", line, pos)
+        {
+        }
         public TArrow(string text)
             : base(text)
         {
@@ -503,6 +727,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TColon : Token<TColon>
     {
+        public TColon()
+            : base(@":")
+        {
+        }
+        public TColon(int line, int pos)
+            : base(@":", line, pos)
+        {
+        }
         public TColon(string text)
             : base(text)
         {
@@ -631,6 +863,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TItalic : Token<TItalic>
     {
+        public TItalic()
+            : base(@"italic")
+        {
+        }
+        public TItalic(int line, int pos)
+            : base(@"italic", line, pos)
+        {
+        }
         public TItalic(string text)
             : base(text)
         {
@@ -647,6 +887,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TBold : Token<TBold>
     {
+        public TBold()
+            : base(@"bold")
+        {
+        }
+        public TBold(int line, int pos)
+            : base(@"bold", line, pos)
+        {
+        }
         public TBold(string text)
             : base(text)
         {
@@ -663,6 +911,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TText : Token<TText>
     {
+        public TText()
+            : base(@"text")
+        {
+        }
+        public TText(int line, int pos)
+            : base(@"text", line, pos)
+        {
+        }
         public TText(string text)
             : base(text)
         {
@@ -679,6 +935,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TBackground : Token<TBackground>
     {
+        public TBackground()
+            : base(@"background")
+        {
+        }
+        public TBackground(int line, int pos)
+            : base(@"background", line, pos)
+        {
+        }
         public TBackground(string text)
             : base(text)
         {
@@ -695,6 +959,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class TRgb : Token<TRgb>
     {
+        public TRgb()
+            : base(@"rgb")
+        {
+        }
+        public TRgb(int line, int pos)
+            : base(@"rgb", line, pos)
+        {
+        }
         public TRgb(string text)
             : base(text)
         {
