@@ -138,6 +138,7 @@ namespace SablePP.Generate.SableCC
 
                     result.SetLexerTables(File.ReadAllText(Path.Combine(cp._temporary_, "lexer.cs")));
                     result.SetParserTables(File.ReadAllText(Path.Combine(cp._temporary_, "parser.cs")));
+                    result.SetErrorMessageTable(File.ReadAllText(Path.Combine(cp._temporary_, "parser.cs")), generatedVariables);
 
                     return result;
                 }

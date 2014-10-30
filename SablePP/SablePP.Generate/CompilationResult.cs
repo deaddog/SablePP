@@ -34,9 +34,29 @@ namespace SablePP.Generate
         {
             parserAction = getTable(parserCode, @"int\[\]\[\]\[\] actionTable[^{]+(?<table>{[^;]*);");
             parserGoto = getTable(parserCode, @"int\[\]\[\]\[\] gotoTable[^{]+(?<table>{[^;]*);");
-            parserMessage = getTable(parserCode, "String\\[\\] errorMessages[^{]*(?<table>([^\"}]*\"[^\"]*\")+[^}]*\\});");
             parserError = getTable(parserCode, @"int\[\] errors[^{]+(?<table>{[^;]*);");
         }
+        internal void SetErrorMessageTable(string parserCode, SablePP.Tools.SafeNameDictionary variables)
+        {
+            parserCode = Regex.Match(parserCode, "String\\[\\] errorMessages[^{]*(?<table>([^\"}]*\"[^\"]*\")+[^}]*\\});").Groups["table"].Value;
+            parserCode = Regex.Replace(parserCode, "expecting", "Expecting");
+            parserCode = Regex.Replace(parserCode, "((token[0-9]+|EOF), )+", m => m.Value.Substring(0, m.Value.Length - 2) + " or ");
+            parserCode = Regex.Replace(parserCode, "EOF", "end of file");
+            parserCode = Regex.Replace(parserCode, "token[0-9]+", m => replaceTokenName(m.Value, variables));
+            parserMessage = getTable(parserCode);
+        }
+
+        private string replaceTokenName(string token, SablePP.Tools.SafeNameDictionary variables)
+        {
+            var t = variables.GetItem<Token>(token, false);
+            token = t.Expression.GetStringLiteral();
+            if (token == null)
+                token = t.Name;
+            else
+                token = "'" + token + "'";
+            return token;
+        }
+
         private static PatchElement getTable(string code, string regex)
         {
             return getTable(Regex.Match(code, regex).Groups["table"].Value);
