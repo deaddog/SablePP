@@ -21,9 +21,11 @@ namespace SablePP.Generate.SableCC
             this.variables = new SafeNameDictionary();
         }
 
-        public static void BuildToFile(Grammar grammar, string filepath)
+        public static void BuildToFile(Grammar grammar, string filepath, out SafeNameDictionary variables)
         {
             Builder builder = new Builder();
+            variables = builder.variables;
+
             builder.Start(grammar);
             builder.root.ToFile(filepath, Encoding.UTF8, "  ");
         }

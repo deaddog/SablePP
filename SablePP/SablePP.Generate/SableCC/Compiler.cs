@@ -115,7 +115,9 @@ namespace SablePP.Generate.SableCC
         {
             using (Compiler cp = new Compiler())
             {
-                Builder.BuildToFile(grammar, cp._grammarPath);
+                SablePP.Tools.SafeNameDictionary generatedVariables;
+
+                Builder.BuildToFile(grammar, cp._grammarPath, out generatedVariables);
 
                 int exitCode;
                 string standardError;
