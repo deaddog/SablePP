@@ -11,5 +11,9 @@ namespace SablePP.Compiler
 {
     public class NoAstGrammarBuilder : GrammarBuilder
     {
+        public override Grammar Visit(AGrammar node)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
