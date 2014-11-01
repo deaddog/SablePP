@@ -45,7 +45,7 @@ namespace SablePP.Compiler
             var _package = node.PackageName;
             var _helpers = node.HasHelpers ? Visit(node.Helpers).ToArray() : new Helper[0];
             var _states = node.HasStates ? Visit(node.States).ToArray() : new State[0];
-            var _tokens = node.HasTokens ? Visit(node.Tokens).ToArray() : new Token[0]; ;
+            var _tokens = node.HasTokens ? Visit(node.Tokens).ToArray() : new Token[0];
 
             foreach (var p in node.Astproductions.Productions)
             {
@@ -78,18 +78,6 @@ namespace SablePP.Compiler
             var _styles = node.HasHighlightrules ? Visit(node.Highlightrules).ToArray() : new Highlighting[0];
 
             return new Grammar(_package, _helpers, _states, _tokens, _productions, _absProds, _styles);
-        }
-
-        public Production.ProductionTranslation Visit(PProdtranslation node)
-        {
-            Modifiers mod = node.Modifier.GetModifier();
-
-            if (node.Identifier.IsPProduction)
-                return new Production.ProductionTranslation(abstractProductions[node.Identifier.AsPProduction], mod);
-            else if (node.Identifier.IsPToken)
-                return new Production.ProductionTranslation(tokens[node.Identifier.AsPToken], mod);
-            else
-                throw new ArgumentException("Production translation must be to either an ast node or a token.");
         }
 
         public IEnumerable<Helper> Visit(PHelpers node)
@@ -210,6 +198,18 @@ namespace SablePP.Compiler
         }
 
         #endregion
+
+        public Production.ProductionTranslation Visit(PProdtranslation node)
+        {
+            Modifiers mod = node.Modifier.GetModifier();
+
+            if (node.Identifier.IsPProduction)
+                return new Production.ProductionTranslation(abstractProductions[node.Identifier.AsPProduction], mod);
+            else if (node.Identifier.IsPToken)
+                return new Production.ProductionTranslation(tokens[node.Identifier.AsPToken], mod);
+            else
+                throw new ArgumentException("Production translation must be to either an ast node or a token.");
+        }
 
         public IEnumerable<AbstractProduction> VisitAbstract(PAstproductions node)
         {
@@ -362,7 +362,7 @@ namespace SablePP.Compiler
         {
             bool bold = node.Styles.OfType<ABoldHighlightStyle>().Any();
             bool italic = node.Styles.OfType<AItalicHighlightStyle>().Any();
-            
+
             var foreground = node.Styles.OfType<ATextHighlightStyle>().FirstOrDefault();
             var background = node.Styles.OfType<ABackgroundHighlightStyle>().FirstOrDefault();
 
