@@ -102,6 +102,8 @@ namespace SablePP.Compiler
             return state;
         }
 
+        #region Tokens
+
         public IEnumerable<Token> Visit(PTokens node)
         {
             return from t in node.Tokens select Visit(t);
@@ -132,6 +134,8 @@ namespace SablePP.Compiler
         {
             return new Token.TokenState(states[node.From.AsState], states[node.To.AsState]);
         }
+
+        #endregion
 
         #region Regular Expressions
 
@@ -198,6 +202,8 @@ namespace SablePP.Compiler
         }
 
         #endregion
+
+        #region Productions
 
         public Production.ProductionTranslation Visit(PProdtranslation node)
         {
@@ -315,6 +321,8 @@ namespace SablePP.Compiler
                 throw new InvalidOperationException("Unknown element target.");
         }
 
+        #endregion
+
         #region Translations
 
         public Translation Visit(PTranslation node)
@@ -352,6 +360,8 @@ namespace SablePP.Compiler
         }
 
         #endregion
+
+        #region Highlighting
 
         public IEnumerable<Highlighting> Visit(PHighlightrules node)
         {
@@ -442,5 +452,7 @@ namespace SablePP.Compiler
         {
             return Color.FromArgb(node.Red.Value, node.Green.Value, node.Blue.Value);
         }
+
+        #endregion
     }
 }
