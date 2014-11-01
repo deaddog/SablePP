@@ -24,7 +24,13 @@ namespace SablePP.Compiler
 
         public static Grammar BuildSableCCGrammar(SablePP.Tools.Nodes.Start<PGrammar> grammar)
         {
-            GrammarBuilder builder = new AstGrammarBuilder();
+            GrammarBuilder builder;
+            
+            if (grammar.Root.HasAstproductions)
+                builder = new AstGrammarBuilder();
+            else
+                builder = new NoAstGrammarBuilder();
+
             return builder.Visit(grammar.Root as AGrammar);
         }
 
