@@ -9,6 +9,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class DeclarationVisitor : ErrorVisitor
     {
+        private bool hasASTsection;
+
         private DeclarationTable<PHelper> helpers;
         private DeclarationTable<PState> states;
         private DeclarationTable<PToken> tokens;
@@ -45,6 +47,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseAGrammar(AGrammar node)
         {
+            hasASTsection = node.HasAstproductions;
+
             if (node.HasPackage)
                 Visit(node.Package);
 
@@ -194,7 +198,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 else if (id.IsPToken)
                     node.AstTarget = new TranslationTarget(id.AsPToken, mod);
             }
-            else
+            else if (hasASTsection)
             {
                 PProduction abs;
                 if (astProd.TryGetValue(node.Identifier.Text, out abs))
