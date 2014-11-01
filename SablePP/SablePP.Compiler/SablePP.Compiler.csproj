@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AstGrammarBuilder.cs" />
     <Compile Include="CompilerExecuter.cs" />
     <Compile Include="Execution\CompilerBase.cs" />
     <Compile Include="Execution\ConsoleCompiler.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="CommonMethods.cs" />
     <Compile Include="GrammarBuilder.cs" />
     <Compile Include="Modifiers.cs" />
+    <Compile Include="NoAstGrammarBuilder.cs" />
     <Compile Include="Nodes\AFullTranslation.cs" />
     <Compile Include="Nodes\AIddotidTranslation.cs" />
     <Compile Include="Nodes\AIdTranslation.cs" />
