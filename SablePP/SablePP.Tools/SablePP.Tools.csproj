@@ -150,6 +150,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>EditorResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Editor\SimpleEditor.resx">
+      <DependentUpon>SimpleEditor.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
