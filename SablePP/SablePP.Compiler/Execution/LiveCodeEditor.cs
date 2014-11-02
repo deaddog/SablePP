@@ -130,21 +130,6 @@ namespace SablePP.Compiler.Execution
         }
         public void LoadCompiler(string grammarNamespace)
         {
-            CompilerResults results = provider.CompileAssemblyFromFile(options,
-                PathInformation.SableOutputDirectory + "\\tokens.cs",
-                PathInformation.SableOutputDirectory + "\\prods.cs",
-                PathInformation.SableOutputDirectory + "\\analysis.cs",
-                PathInformation.SableOutputDirectory + "\\parser.cs",
-                PathInformation.SableOutputDirectory + "\\lexer.cs",
-                PathInformation.SableOutputDirectory + "\\CompilerExecuter.cs");
-
-            if (results.Errors.Count == 0)
-            {
-                var type = results.CompiledAssembly.GetType(grammarNamespace + ".CompilerExecuter");
-                var constr = type.GetConstructor(System.Type.EmptyTypes);
-
-                codeTextBox1.Executer = constr.Invoke(null) as SablePP.Tools.ICompilerExecuter;
-            }
         }
     }
 }
