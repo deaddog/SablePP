@@ -26,21 +26,21 @@ namespace SablePP.Compiler
         public override Style GetSimpleStyle(Token token)
         {
             if (token is TComment)
-                return commentStyle;
+                return style1;
             if (token is TCharacter || token is TString)
-                return stringStyle;
+                return style2;
             if (token is TPackagename || token is TPackagetoken || token is THelperstoken || token is TTokenstoken || token is TIgnoredtoken || token is TStatestoken || token is TProductionstoken || token is TAsttoken || token is THighlighttoken)
-                return headingStyle;
+                return style3;
             if (token is TBold)
-                return boldStyle;
+                return style4;
             if (token is TItalic)
-                return italicStyle;
+                return style5;
             return null;
         }
-        private TextStyle commentStyle = new TextStyle(new SolidBrush(Color.FromArgb(0, 128, 0)), null, FontStyle.Regular);
-        private TextStyle stringStyle = new TextStyle(new SolidBrush(Color.FromArgb(163, 21, 21)), null, FontStyle.Regular);
-        private TextStyle headingStyle = new TextStyle(new SolidBrush(Color.FromArgb(76, 76, 76)), null, FontStyle.Bold);
-        private TextStyle boldStyle = new TextStyle(null, null, FontStyle.Bold);
-        private TextStyle italicStyle = new TextStyle(null, null, FontStyle.Italic);
+        private TextStyle style1 = new TextStyle(new SolidBrush(Color.FromArgb(0, 128, 0)), null, FontStyle.Regular);
+        private TextStyle style2 = new TextStyle(new SolidBrush(Color.FromArgb(163, 21, 21)), null, FontStyle.Regular);
+        private TextStyle style3 = new TextStyle(new SolidBrush(Color.FromArgb(76, 76, 76)), null, FontStyle.Bold);
+        private TextStyle style4 = new TextStyle(null, null, FontStyle.Bold);
+        private TextStyle style5 = new TextStyle(null, null, FontStyle.Italic);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace SablePP.Compiler.Nodes
 {
-    public partial class PElement
+    public partial class PElement : IDeclaration
     {
         public string LowerName
         {
@@ -21,6 +21,24 @@ namespace SablePP.Compiler.Nodes
         public bool IsList
         {
             get { return HasModifier && (Modifier is AStarModifier || Modifier is APlusModifier); }
+        }
+
+        public bool GeneratesAsList
+        {
+            get
+            {
+                if (!IsList)
+                {
+                    var prod = Elementid.Identifier.AsPProduction;
+                    if (prod != null && prod.HasProdtranslation)
+                    {
+                        var trans = prod.Prodtranslation;
+                        return trans.HasModifier && (trans.Modifier is APlusModifier || trans.Modifier is AStarModifier);
+                    }
+                }
+
+                return IsList;
+            }
         }
 
         public ElementTypes ElementType
@@ -54,7 +72,15 @@ namespace SablePP.Compiler.Nodes
                 {
                     var prod = id.AsPProduction;
                     if (prod.HasProdtranslation)
-                        return prod.Prodtranslation.Identifier.AsPProduction.ClassName;
+                    {
+                        id = prod.Prodtranslation.Identifier;
+                        if (id.IsPProduction)
+                            return id.AsPProduction.ClassName;
+                        else if (id.IsPToken)
+                            return id.AsPToken.ClassName;
+                        else
+                            throw new InvalidOperationException();
+                    }
                     else
                         return prod.ClassName;
                 }
@@ -63,6 +89,14 @@ namespace SablePP.Compiler.Nodes
                 else
                     throw new InvalidOperationException();
             }
+        }
+
+        public TIdentifier GetIdentifier()
+        {
+            if (HasElementname)
+                return Elementname.Name;
+            else
+                return Elementid.Identifier;
         }
     }
 }

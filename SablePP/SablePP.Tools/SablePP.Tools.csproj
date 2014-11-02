@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\SablePP.Tools.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FastColoredTextBox">
@@ -52,6 +53,7 @@
     <Compile Include="Analysis\DepthFirstTreeWalker.cs" />
     <Compile Include="CompilationOptions.cs" />
     <Compile Include="CompilerExecuter.cs" />
+    <Compile Include="DictionaryExtension.cs" />
     <Compile Include="Editor\ErrorEventArgs.cs" />
     <Compile Include="Editor\ErrorEventHandler.cs" />
     <Compile Include="Editor\ErrorView.cs">
@@ -93,8 +95,11 @@
     <Compile Include="Lexing\ILexer.cs" />
     <Compile Include="Lexing\Lexer.cs" />
     <Compile Include="Lexing\ResetableLexer.cs" />
+    <Compile Include="NameGenerator.cs" />
     <Compile Include="Parsing\IParser.cs" />
     <Compile Include="Parsing\Parser.cs" />
+    <Compile Include="SafeName.cs" />
+    <Compile Include="SafeNameDictionary.cs" />
     <Compile Include="SimplePrinter.cs" />
     <Compile Include="Error\CompilerError.cs" />
     <Compile Include="Error\ErrorArgumentEventHandler.cs" />

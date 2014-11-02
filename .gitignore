@@ -1,5 +1,6 @@
 # Ignore all .sablecc language definitions - except the sablepp file #
 *.sablecc
+*.sablepp
 
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Bb]in/

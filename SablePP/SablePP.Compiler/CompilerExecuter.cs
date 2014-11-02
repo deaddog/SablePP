@@ -7,11 +7,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 using SablePP.Compiler.Execution;
-using SablePP.Compiler.Generate;
-using SablePP.Compiler.Generate.Analysis;
-using SablePP.Compiler.Generate.Parsing;
-using SablePP.Compiler.Generate.Productions;
-using SablePP.Compiler.Generate.Tokens;
 using SablePP.Compiler.Nodes;
 using SablePP.Compiler.Validation;
 using SablePP.Compiler.Validation.SymbolLinking;
@@ -25,20 +20,16 @@ namespace SablePP.Compiler
 {
     public partial class CompilerExecuter
     {
-        private const int SABLE_MAX_WAIT = 500;
-        private bool runSable;
         private IdentifierHighlighter identifierHighlighter;
 
-        public bool RunSable
-        {
-            get { return runSable; }
-            set { runSable = value; }
-        }
+        private SablePP.Generate.Grammar lastGrammar;
+        private SablePP.Generate.CompilationResult lastResult;
 
-        public CompilerExecuter(bool runSable)
+        public CompilerExecuter()
         {
-            this.runSable = runSable;
             this.identifierHighlighter = new IdentifierHighlighter();
+            this.lastGrammar = null;
+            this.lastResult = null;
         }
 
         public override void Validate(Start<PGrammar> root, CompilationOptions compilationOptions)
@@ -51,8 +42,19 @@ namespace SablePP.Compiler
 
             compilationOptions.Highlight(identifierHighlighter);
 
-            if (compilationOptions.ErrorManager.Errors.Count == 0 && runSable)
-                ValidateWithSableCC(root, compilationOptions);
+            if (compilationOptions.ErrorManager.Errors.Count == 0)
+            {
+                this.lastGrammar = GrammarBuilder.BuildSableCCGrammar(root);
+                this.lastResult = lastGrammar.Compile();
+
+                if (lastResult.Error != null)
+                    compilationOptions.ErrorManager.Register(ErrorType.Error, "Failed to compile grammar, see details below:\r\n{0}", lastResult.Error.Message);
+            }
+            else
+            {
+                this.lastGrammar = null;
+                this.lastResult = null;
+            }
         }
 
         private void Rebuild(Start<PGrammar> root, ErrorManager errorManager)
@@ -80,7 +82,7 @@ namespace SablePP.Compiler
 
             { // States
                 var states = sections<AStatesSection>(root);
-                var list = new List<PIdentifierListitem>();
+                var list = new List<PState>();
                 for (int i = 0; i < states.Length; i++)
                     list.AddRange(states[i].States.States);
 
@@ -100,7 +102,7 @@ namespace SablePP.Compiler
 
             { // Ignored
                 var ignored = sections<AIgnoreSection>(root);
-                var list = new List<PIdentifierListitem>();
+                var list = new List<TIdentifier>();
                 for (int i = 0; i < ignored.Length; i++)
                     list.AddRange(ignored[i].Ignoredtokens.Tokens);
 
@@ -162,122 +164,19 @@ namespace SablePP.Compiler
             if (errorManager.Errors.Count == 0)
                 new ExcessiveNodesVisitor(errorManager).Visit(root);
         }
-        private void ValidateWithSableCC(Start<PGrammar> root, CompilationOptions compilationOptions)
-        {
-            SableGrammarEmitter emitter;
-            using (FileStream fss = new FileStream(PathInformation.TemporarySableGrammarPath, FileMode.Create))
-            {
-                emitter = new SableGrammarEmitter(fss);
-                emitter.Visit(root);
-            }
-
-            using (Process proc = StartSableCC())
-            {
-                if (proc.ExitCode != 0)
-                {
-                    string errorText = proc.StandardError.ReadToEnd();
-                    string sableCCgrammar;
-                    using (StreamReader reader = new StreamReader(PathInformation.TemporarySableGrammarPath))
-                        sableCCgrammar = reader.ReadToEnd();
-                    SableCCLogger.LogFromGrammar(compilationOptions.Input, sableCCgrammar, errorText);
-
-                    string[] text = errorText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-
-                    for (int i = 0; i < text.Length; i++)
-                    {
-                        if (text[i].StartsWith("\tat "))
-                            break;
-                        handleSableException(compilationOptions.ErrorManager, emitter, text[i]);
-                    }
-                }
-                else
-                {
-                    string lexerDestination = Path.Combine(PathInformation.SableOutputDirectory, "sablecc_lexer.cs");
-                    string parserDestination = Path.Combine(PathInformation.SableOutputDirectory, "sablecc_parser.cs");
-
-                    if (File.Exists(lexerDestination))
-                        File.Delete(lexerDestination);
-                    File.Move(Path.Combine(PathInformation.SableOutputDirectory, "lexer.cs"), lexerDestination);
-
-                    if (File.Exists(parserDestination))
-                        File.Delete(parserDestination);
-                    File.Move(Path.Combine(PathInformation.SableOutputDirectory, "parser.cs"), parserDestination);
-                }
-                proc.Close();
-            }
-        }
-        private Process StartSableCC()
-        {
-            var processInfo = new ProcessStartInfo(
-                PathInformation.JavaExecutable,
-                "-jar sablecc.jar -d \"" + PathInformation.SableOutputDirectory + "\" -t csharp \"" + PathInformation.TemporarySableGrammarPath + "\"")
-            {
-                CreateNoWindow = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                WorkingDirectory = PathInformation.ExecutingDirectory
-            };
-
-            int wait = 0;
-            Process proc;
-            if ((proc = Process.Start(processInfo)) == null)
-                throw new ApplicationException("Java not found - visit Java.com to install.");
-
-            while (!proc.WaitForExit(100))
-            {
-                wait += 100;
-                int err = proc.StandardError.Peek();
-                if (err > 0 && wait >= SABLE_MAX_WAIT)
-                    proc.Kill();
-            }
-
-            return proc;
-        }
-        private void handleSableException(ErrorManager errorManager, SableGrammarEmitter emitter, string text)
-        {
-            Match m = Regex.Match(text, "java.lang.RuntimeException: \\[(?<line>[0-9]+),(?<char>[0-9]+)\\] (?<text>.*)");
-            if (m.Success)
-            {
-                int eLine = int.Parse(m.Groups["line"].Value);
-                int eChar = int.Parse(m.Groups["char"].Value);
-
-                var position = emitter.TranslatePosition(eLine, eChar);
-
-                string eText = m.Groups["text"].Value;
-
-                if (eLine == 0 || eChar == 0)
-                    errorManager.Register("SableCC: {2} at {{{0},{1}}}", eLine, eChar, eText);
-                else
-                    errorManager.Register(new CompilerError(ErrorType.Error, position, position, "SableCC: " + eText));
-            }
-            else
-                errorManager.Register(text);
-        }
 
         public bool Generate(Start<PGrammar> root, string directory)
         {
-            ErrorManager manager = new ErrorManager();
-            if (!runSable)
-                ValidateWithSableCC(root, new CompilationOptions("", manager, null));
-
-            if (manager.Count > 0)
-                return false;
-
-            string output = PathInformation.SableOutputDirectory;
-
-            TokenNodes.BuildCode(root).ToFile(Path.Combine(output, "tokens.cs"));
-            ProductionNodes.BuildCode(root).ToFile(Path.Combine(output, "prods.cs"));
-            AnalysisBuilder.BuildCode(root).ToFile(Path.Combine(output, "analysis.cs"));
-
-            LexerBuilder.BuildCode(Path.Combine(output, "sablecc_lexer.cs"), root).ToFile(Path.Combine(output, "lexer.cs"));
-            ParserBuilder.BuildCode(Path.Combine(output, "sablecc_parser.cs"), root).ToFile(Path.Combine(output, "parser.cs"));
-
-            CompilerExecuterBuilder.Build(root).ToFile(Path.Combine(output, "CompilerExecuter.cs"));
-
             directory = directory.TrimEnd('\\');
 
-            foreach (var file in new[] { "tokens.cs", "prods.cs", "analysis.cs", "parser.cs", "lexer.cs", "CompilerExecuter.cs" })
-                File.Copy(Path.Combine(output, file), Path.Combine(directory, file), true);
+            lastGrammar.GenerateTokens().ToFile(Path.Combine(directory, "tokens.cs"));
+            lastGrammar.GenerateProductions().ToFile(Path.Combine(directory, "prods.cs"));
+            lastGrammar.GenerateAnalysis().ToFile(Path.Combine(directory, "analysis.cs"));
+
+            lastGrammar.GenerateLexer(lastResult).ToFile(Path.Combine(directory, "lexer.cs"));
+            lastGrammar.GenerateParser(lastResult).ToFile(Path.Combine(directory, "parser.cs"));
+
+            lastGrammar.GenerateCompilerExecuter().ToFile(Path.Combine(directory, "CompilerExecuter.cs"));
 
             return true;
         }

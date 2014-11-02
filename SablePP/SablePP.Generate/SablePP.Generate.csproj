@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DDC52F3A-F031-4414-89FD-61077C631DD4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SablePP.Generate</RootNamespace>
+    <AssemblyName>SablePP.Generate</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\SablePP.Generate.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\SablePP.Generate.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Building\BAnalysis.cs" />
+    <Compile Include="Building\BAnalysisAdapter.cs">
+      <DependentUpon>BAnalysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Building\BCompilerExecuter.cs" />
+    <Compile Include="Building\BDepthFirstAdapter.cs">
+      <DependentUpon>BAnalysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Building\BLexer.cs" />
+    <Compile Include="Building\BProduction.cs" />
+    <Compile Include="Building\BProductionConstructor.cs">
+      <DependentUpon>BProduction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Building\BProductionField.cs">
+      <DependentUpon>BProduction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Building\BParser.cs" />
+    <Compile Include="Building\BProductionMethods.cs">
+      <DependentUpon>BProduction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Building\BProductionProperties.cs">
+      <DependentUpon>BProduction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Building\BReturnAnalysisAdapter.cs">
+      <DependentUpon>BAnalysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Building\BToken.cs" />
+    <Compile Include="CompilationError.cs" />
+    <Compile Include="CompilationResult.cs" />
+    <Compile Include="ErrorTypes.cs" />
+    <Compile Include="GrammarStructure\AbstractAlternative.cs" />
+    <Compile Include="GrammarStructure\AbstractProduction.cs" />
+    <Compile Include="AddOnlyList.cs" />
+    <Compile Include="GrammarStructure\Alternative.cs" />
+    <Compile Include="GrammarStructure\Grammar.cs" />
+    <Compile Include="GrammarStructure\GrammarPart.cs" />
+    <Compile Include="GrammarStructure\Highlighting.cs" />
+    <Compile Include="GrammarStructure\Production.cs" />
+    <Compile Include="GrammarStructure\RegularExpressions\ConcatenatedRegExp.cs" />
+    <Compile Include="GrammarStructure\Helper.cs" />
+    <Compile Include="GrammarStructure\RegularExpressions\LiteralRegExp.cs" />
+    <Compile Include="GrammarStructure\RegularExpressions\ModifiedRegExp.cs" />
+    <Compile Include="GrammarStructure\Modifiers.cs" />
+    <Compile Include="GrammarStructure\RegularExpressions\OrRegExp.cs" />
+    <Compile Include="Namespaces.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GrammarStructure\RegularExpressions\ReferenceRegExp.cs" />
+    <Compile Include="GrammarStructure\RegularExpressions\RegExp.cs" />
+    <Compile Include="GrammarStructure\RegularExpressions\SetRegExp.cs" />
+    <Compile Include="SableCC\Builder.cs" />
+    <Compile Include="SableCC\Compiler.cs" />
+    <Compile Include="GrammarStructure\State.cs" />
+    <Compile Include="GrammarStructure\Token.cs" />
+    <Compile Include="GrammarStructure\Translations\ElementTranslation.cs" />
+    <Compile Include="GrammarStructure\Translations\ListTranslation.cs" />
+    <Compile Include="GrammarStructure\Translations\NewTranslation.cs" />
+    <Compile Include="GrammarStructure\Translations\NullTranslation.cs" />
+    <Compile Include="GrammarStructure\Translations\Translation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SablePP.Tools\SablePP.Tools.csproj">
+      <Project>{3a7bf5f0-3346-4653-a3c3-443c5311971b}</Project>
+      <Name>SablePP.Tools</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

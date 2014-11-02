@@ -1,5 +1,5 @@
 ﻿using FastColoredTextBoxNS;
-using SablePP.Compiler.Nodes.Identifiers;
+using SablePP.Compiler.Nodes;
 using SablePP.Tools.Analysis;
 using SablePP.Tools.Editor;
 using System;
@@ -30,7 +30,7 @@ namespace SablePP.Compiler.Execution
 
         public SablePPEditor()
         {
-            this.Executer = executer = new CompilerExecuter(true);
+            this.Executer = executer = new CompilerExecuter();
             this.Text = "SPP Editor";
             this.FileExtension = "sablepp";
 
@@ -126,7 +126,7 @@ namespace SablePP.Compiler.Execution
                 else if (id.IsPToken)
                     id = id.AsPToken.Identifier;
                 else if (id.IsState)
-                    id = id.AsState;
+                    id = id.AsState.Identifier;
                 else
                     id = null;
 
@@ -143,12 +143,6 @@ namespace SablePP.Compiler.Execution
         protected override void OnFileChanged(EventArgs e)
         {
             outputButton.Enabled = File != null && File.Exists;
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-            PathInformation.CleanTemporaryFiles();
         }
 
         protected override void OnFiletoolsEnabledChanged(EventArgs e)

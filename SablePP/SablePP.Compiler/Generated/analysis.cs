@@ -274,6 +274,14 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
+        public void Visit(AState node)
+        {
+            CaseAState(node);
+        }
+        public virtual void CaseAState(AState node)
+        {
+            DefaultCase(node);
+        }
         public void Visit(AIgnoredtokens node)
         {
             CaseAIgnoredtokens(node);
@@ -282,51 +290,19 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(AIdentifierListitem node)
+        public void Visit(ATokenState node)
         {
-            CaseAIdentifierListitem(node);
+            CaseATokenState(node);
         }
-        public virtual void CaseAIdentifierListitem(AIdentifierListitem node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(ATokenstateList node)
-        {
-            CaseATokenstateList(node);
-        }
-        public virtual void CaseATokenstateList(ATokenstateList node)
+        public virtual void CaseATokenState(ATokenState node)
         {
             DefaultCase(node);
         }
-        public void Visit(ATokenstateListitem node)
+        public void Visit(ATransitionTokenState node)
         {
-            CaseATokenstateListitem(node);
+            CaseATransitionTokenState(node);
         }
-        public virtual void CaseATokenstateListitem(ATokenstateListitem node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(ATransitionTokenstateListitem node)
-        {
-            CaseATransitionTokenstateListitem(node);
-        }
-        public virtual void CaseATransitionTokenstateListitem(ATransitionTokenstateListitem node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(ATranslationListitem node)
-        {
-            CaseATranslationListitem(node);
-        }
-        public virtual void CaseATranslationListitem(ATranslationListitem node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AStyleListitem node)
-        {
-            CaseAStyleListitem(node);
-        }
-        public virtual void CaseAStyleListitem(AStyleListitem node)
+        public virtual void CaseATransitionTokenState(ATransitionTokenState node)
         {
             DefaultCase(node);
         }
@@ -418,14 +394,6 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(AProductionrule node)
-        {
-            CaseAProductionrule(node);
-        }
-        public virtual void CaseAProductionrule(AProductionrule node)
-        {
-            DefaultCase(node);
-        }
         public void Visit(AAlternative node)
         {
             CaseAAlternative(node);
@@ -439,14 +407,6 @@ namespace SablePP.Compiler.Analysis
             CaseAAlternativename(node);
         }
         public virtual void CaseAAlternativename(AAlternativename node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AElements node)
-        {
-            CaseAElements(node);
-        }
-        public virtual void CaseAElements(AElements node)
         {
             DefaultCase(node);
         }
@@ -1323,8 +1283,7 @@ namespace SablePP.Compiler.Analysis
             InPToken(node);
             InAToken(node);
             
-            if (node.HasStatelist)
-                Visit((dynamic)node.Statelist);
+            Visit(node.Statelist);
             Visit(node.Identifier);
             Visit(node.Equal);
             Visit((dynamic)node.Regex);
@@ -1696,6 +1655,33 @@ namespace SablePP.Compiler.Analysis
             OutPStates(node);
         }
         
+        public virtual void InPState(PState node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPState(PState node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAState(AState node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAState(AState node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAState(AState node)
+        {
+            InPState(node);
+            InAState(node);
+            
+            Visit(node.Identifier);
+            
+            OutAState(node);
+            OutPState(node);
+        }
+        
         public virtual void InPIgnoredtokens(PIgnoredtokens node)
         {
             DefaultPIn(node);
@@ -1726,171 +1712,51 @@ namespace SablePP.Compiler.Analysis
             OutPIgnoredtokens(node);
         }
         
-        public virtual void InPIdentifierListitem(PIdentifierListitem node)
+        public virtual void InPTokenState(PTokenState node)
         {
             DefaultPIn(node);
         }
-        public virtual void OutPIdentifierListitem(PIdentifierListitem node)
+        public virtual void OutPTokenState(PTokenState node)
         {
             DefaultPOut(node);
         }
-        public virtual void InAIdentifierListitem(AIdentifierListitem node)
+        public virtual void InATokenState(ATokenState node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAIdentifierListitem(AIdentifierListitem node)
+        public virtual void OutATokenState(ATokenState node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAIdentifierListitem(AIdentifierListitem node)
+        public override void CaseATokenState(ATokenState node)
         {
-            InPIdentifierListitem(node);
-            InAIdentifierListitem(node);
+            InPTokenState(node);
+            InATokenState(node);
             
-            if (node.HasComma)
-                Visit(node.Comma);
             Visit(node.Identifier);
             
-            OutAIdentifierListitem(node);
-            OutPIdentifierListitem(node);
+            OutATokenState(node);
+            OutPTokenState(node);
         }
-        
-        public virtual void InPTokenstateList(PTokenstateList node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTokenstateList(PTokenstateList node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InATokenstateList(ATokenstateList node)
+        public virtual void InATransitionTokenState(ATransitionTokenState node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutATokenstateList(ATokenstateList node)
+        public virtual void OutATransitionTokenState(ATransitionTokenState node)
         {
             DefaultAOut(node);
         }
-        public override void CaseATokenstateList(ATokenstateList node)
+        public override void CaseATransitionTokenState(ATransitionTokenState node)
         {
-            InPTokenstateList(node);
-            InATokenstateList(node);
+            InPTokenState(node);
+            InATransitionTokenState(node);
             
-            Visit(node.Lpar);
-            Visit(node.States);
-            Visit(node.Rpar);
-            
-            OutATokenstateList(node);
-            OutPTokenstateList(node);
-        }
-        
-        public virtual void InPTokenstateListitem(PTokenstateListitem node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTokenstateListitem(PTokenstateListitem node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InATokenstateListitem(ATokenstateListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutATokenstateListitem(ATokenstateListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATokenstateListitem(ATokenstateListitem node)
-        {
-            InPTokenstateListitem(node);
-            InATokenstateListitem(node);
-            
-            if (node.HasComma)
-                Visit(node.Comma);
-            Visit(node.Identifier);
-            
-            OutATokenstateListitem(node);
-            OutPTokenstateListitem(node);
-        }
-        public virtual void InATransitionTokenstateListitem(ATransitionTokenstateListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutATransitionTokenstateListitem(ATransitionTokenstateListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATransitionTokenstateListitem(ATransitionTokenstateListitem node)
-        {
-            InPTokenstateListitem(node);
-            InATransitionTokenstateListitem(node);
-            
-            if (node.HasComma)
-                Visit(node.Comma);
             Visit(node.From);
             Visit(node.Arrow);
             Visit(node.To);
             
-            OutATransitionTokenstateListitem(node);
-            OutPTokenstateListitem(node);
-        }
-        
-        public virtual void InPTranslationListitem(PTranslationListitem node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTranslationListitem(PTranslationListitem node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InATranslationListitem(ATranslationListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutATranslationListitem(ATranslationListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATranslationListitem(ATranslationListitem node)
-        {
-            InPTranslationListitem(node);
-            InATranslationListitem(node);
-            
-            if (node.HasComma)
-                Visit(node.Comma);
-            Visit((dynamic)node.Translation);
-            
-            OutATranslationListitem(node);
-            OutPTranslationListitem(node);
-        }
-        
-        public virtual void InPStyleListitem(PStyleListitem node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPStyleListitem(PStyleListitem node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAStyleListitem(AStyleListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStyleListitem(AStyleListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStyleListitem(AStyleListitem node)
-        {
-            InPStyleListitem(node);
-            InAStyleListitem(node);
-            
-            if (node.HasComma)
-                Visit(node.Comma);
-            Visit((dynamic)node.HighlightStyle);
-            
-            OutAStyleListitem(node);
-            OutPStyleListitem(node);
+            OutATransitionTokenState(node);
+            OutPTokenState(node);
         }
         
         public virtual void InPProductions(PProductions node)
@@ -1974,7 +1840,7 @@ namespace SablePP.Compiler.Analysis
             if (node.HasProdtranslation)
                 Visit((dynamic)node.Prodtranslation);
             Visit(node.Equal);
-            Visit((dynamic)node.Productionrule);
+            Visit(node.Alternatives);
             Visit(node.Semicolon);
             
             OutAProduction(node);
@@ -2161,33 +2027,6 @@ namespace SablePP.Compiler.Analysis
             OutPTranslation(node);
         }
         
-        public virtual void InPProductionrule(PProductionrule node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPProductionrule(PProductionrule node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAProductionrule(AProductionrule node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProductionrule(AProductionrule node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProductionrule(AProductionrule node)
-        {
-            InPProductionrule(node);
-            InAProductionrule(node);
-            
-            Visit(node.Alternatives);
-            
-            OutAProductionrule(node);
-            OutPProductionrule(node);
-        }
-        
         public virtual void InPAlternative(PAlternative node)
         {
             DefaultPIn(node);
@@ -2209,11 +2048,9 @@ namespace SablePP.Compiler.Analysis
             InPAlternative(node);
             InAAlternative(node);
             
-            if (node.HasPipe)
-                Visit(node.Pipe);
             if (node.HasAlternativename)
                 Visit((dynamic)node.Alternativename);
-            Visit((dynamic)node.Elements);
+            Visit(node.Elements);
             if (node.HasTranslation)
                 Visit((dynamic)node.Translation);
             
@@ -2248,33 +2085,6 @@ namespace SablePP.Compiler.Analysis
             
             OutAAlternativename(node);
             OutPAlternativename(node);
-        }
-        
-        public virtual void InPElements(PElements node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPElements(PElements node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAElements(AElements node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAElements(AElements node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAElements(AElements node)
-        {
-            InPElements(node);
-            InAElements(node);
-            
-            Visit(node.Elements);
-            
-            OutAElements(node);
-            OutPElements(node);
         }
         
         public virtual void InPElement(PElement node)
@@ -3025,8 +2835,7 @@ namespace SablePP.Compiler.Analysis
             Visit((dynamic)node.Regex);
             Visit(node.Equal);
             Visit(node.Identifier);
-            if (node.HasStatelist)
-                Visit((dynamic)node.Statelist);
+            Visit(node.Statelist);
             
             OutAToken(node);
             OutPToken(node);
@@ -3392,6 +3201,33 @@ namespace SablePP.Compiler.Analysis
             OutPStates(node);
         }
         
+        public virtual void InPState(PState node)
+        {
+            DefaultPIn(node);
+        }
+        public virtual void OutPState(PState node)
+        {
+            DefaultPOut(node);
+        }
+        public virtual void InAState(AState node)
+        {
+            DefaultAIn(node);
+        }
+        public virtual void OutAState(AState node)
+        {
+            DefaultAOut(node);
+        }
+        public override void CaseAState(AState node)
+        {
+            InPState(node);
+            InAState(node);
+            
+            Visit(node.Identifier);
+            
+            OutAState(node);
+            OutPState(node);
+        }
+        
         public virtual void InPIgnoredtokens(PIgnoredtokens node)
         {
             DefaultPIn(node);
@@ -3422,171 +3258,51 @@ namespace SablePP.Compiler.Analysis
             OutPIgnoredtokens(node);
         }
         
-        public virtual void InPIdentifierListitem(PIdentifierListitem node)
+        public virtual void InPTokenState(PTokenState node)
         {
             DefaultPIn(node);
         }
-        public virtual void OutPIdentifierListitem(PIdentifierListitem node)
+        public virtual void OutPTokenState(PTokenState node)
         {
             DefaultPOut(node);
         }
-        public virtual void InAIdentifierListitem(AIdentifierListitem node)
+        public virtual void InATokenState(ATokenState node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAIdentifierListitem(AIdentifierListitem node)
+        public virtual void OutATokenState(ATokenState node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAIdentifierListitem(AIdentifierListitem node)
+        public override void CaseATokenState(ATokenState node)
         {
-            InPIdentifierListitem(node);
-            InAIdentifierListitem(node);
+            InPTokenState(node);
+            InATokenState(node);
             
             Visit(node.Identifier);
-            if (node.HasComma)
-                Visit(node.Comma);
             
-            OutAIdentifierListitem(node);
-            OutPIdentifierListitem(node);
+            OutATokenState(node);
+            OutPTokenState(node);
         }
-        
-        public virtual void InPTokenstateList(PTokenstateList node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTokenstateList(PTokenstateList node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InATokenstateList(ATokenstateList node)
+        public virtual void InATransitionTokenState(ATransitionTokenState node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutATokenstateList(ATokenstateList node)
+        public virtual void OutATransitionTokenState(ATransitionTokenState node)
         {
             DefaultAOut(node);
         }
-        public override void CaseATokenstateList(ATokenstateList node)
+        public override void CaseATransitionTokenState(ATransitionTokenState node)
         {
-            InPTokenstateList(node);
-            InATokenstateList(node);
-            
-            Visit(node.Rpar);
-            Visit(node.States);
-            Visit(node.Lpar);
-            
-            OutATokenstateList(node);
-            OutPTokenstateList(node);
-        }
-        
-        public virtual void InPTokenstateListitem(PTokenstateListitem node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTokenstateListitem(PTokenstateListitem node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InATokenstateListitem(ATokenstateListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutATokenstateListitem(ATokenstateListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATokenstateListitem(ATokenstateListitem node)
-        {
-            InPTokenstateListitem(node);
-            InATokenstateListitem(node);
-            
-            Visit(node.Identifier);
-            if (node.HasComma)
-                Visit(node.Comma);
-            
-            OutATokenstateListitem(node);
-            OutPTokenstateListitem(node);
-        }
-        public virtual void InATransitionTokenstateListitem(ATransitionTokenstateListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutATransitionTokenstateListitem(ATransitionTokenstateListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATransitionTokenstateListitem(ATransitionTokenstateListitem node)
-        {
-            InPTokenstateListitem(node);
-            InATransitionTokenstateListitem(node);
+            InPTokenState(node);
+            InATransitionTokenState(node);
             
             Visit(node.To);
             Visit(node.Arrow);
             Visit(node.From);
-            if (node.HasComma)
-                Visit(node.Comma);
             
-            OutATransitionTokenstateListitem(node);
-            OutPTokenstateListitem(node);
-        }
-        
-        public virtual void InPTranslationListitem(PTranslationListitem node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTranslationListitem(PTranslationListitem node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InATranslationListitem(ATranslationListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutATranslationListitem(ATranslationListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATranslationListitem(ATranslationListitem node)
-        {
-            InPTranslationListitem(node);
-            InATranslationListitem(node);
-            
-            Visit((dynamic)node.Translation);
-            if (node.HasComma)
-                Visit(node.Comma);
-            
-            OutATranslationListitem(node);
-            OutPTranslationListitem(node);
-        }
-        
-        public virtual void InPStyleListitem(PStyleListitem node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPStyleListitem(PStyleListitem node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAStyleListitem(AStyleListitem node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStyleListitem(AStyleListitem node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStyleListitem(AStyleListitem node)
-        {
-            InPStyleListitem(node);
-            InAStyleListitem(node);
-            
-            Visit((dynamic)node.HighlightStyle);
-            if (node.HasComma)
-                Visit(node.Comma);
-            
-            OutAStyleListitem(node);
-            OutPStyleListitem(node);
+            OutATransitionTokenState(node);
+            OutPTokenState(node);
         }
         
         public virtual void InPProductions(PProductions node)
@@ -3667,7 +3383,7 @@ namespace SablePP.Compiler.Analysis
             InAProduction(node);
             
             Visit(node.Semicolon);
-            Visit((dynamic)node.Productionrule);
+            Visit(node.Alternatives);
             Visit(node.Equal);
             if (node.HasProdtranslation)
                 Visit((dynamic)node.Prodtranslation);
@@ -3857,33 +3573,6 @@ namespace SablePP.Compiler.Analysis
             OutPTranslation(node);
         }
         
-        public virtual void InPProductionrule(PProductionrule node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPProductionrule(PProductionrule node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAProductionrule(AProductionrule node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProductionrule(AProductionrule node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProductionrule(AProductionrule node)
-        {
-            InPProductionrule(node);
-            InAProductionrule(node);
-            
-            Visit(node.Alternatives);
-            
-            OutAProductionrule(node);
-            OutPProductionrule(node);
-        }
-        
         public virtual void InPAlternative(PAlternative node)
         {
             DefaultPIn(node);
@@ -3907,11 +3596,9 @@ namespace SablePP.Compiler.Analysis
             
             if (node.HasTranslation)
                 Visit((dynamic)node.Translation);
-            Visit((dynamic)node.Elements);
+            Visit(node.Elements);
             if (node.HasAlternativename)
                 Visit((dynamic)node.Alternativename);
-            if (node.HasPipe)
-                Visit(node.Pipe);
             
             OutAAlternative(node);
             OutPAlternative(node);
@@ -3944,33 +3631,6 @@ namespace SablePP.Compiler.Analysis
             
             OutAAlternativename(node);
             OutPAlternativename(node);
-        }
-        
-        public virtual void InPElements(PElements node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPElements(PElements node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAElements(AElements node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAElements(AElements node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAElements(AElements node)
-        {
-            InPElements(node);
-            InAElements(node);
-            
-            Visit(node.Elements);
-            
-            OutAElements(node);
-            OutPElements(node);
         }
         
         public virtual void InPElement(PElement node)
@@ -4591,6 +4251,14 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
+        public Result Visit(AState node)
+        {
+            return CaseAState(node);
+        }
+        public virtual Result CaseAState(AState node)
+        {
+            return DefaultCase(node);
+        }
         public Result Visit(AIgnoredtokens node)
         {
             return CaseAIgnoredtokens(node);
@@ -4599,51 +4267,19 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(AIdentifierListitem node)
+        public Result Visit(ATokenState node)
         {
-            return CaseAIdentifierListitem(node);
+            return CaseATokenState(node);
         }
-        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(ATokenstateList node)
-        {
-            return CaseATokenstateList(node);
-        }
-        public virtual Result CaseATokenstateList(ATokenstateList node)
+        public virtual Result CaseATokenState(ATokenState node)
         {
             return DefaultCase(node);
         }
-        public Result Visit(ATokenstateListitem node)
+        public Result Visit(ATransitionTokenState node)
         {
-            return CaseATokenstateListitem(node);
+            return CaseATransitionTokenState(node);
         }
-        public virtual Result CaseATokenstateListitem(ATokenstateListitem node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(ATransitionTokenstateListitem node)
-        {
-            return CaseATransitionTokenstateListitem(node);
-        }
-        public virtual Result CaseATransitionTokenstateListitem(ATransitionTokenstateListitem node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(ATranslationListitem node)
-        {
-            return CaseATranslationListitem(node);
-        }
-        public virtual Result CaseATranslationListitem(ATranslationListitem node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AStyleListitem node)
-        {
-            return CaseAStyleListitem(node);
-        }
-        public virtual Result CaseAStyleListitem(AStyleListitem node)
+        public virtual Result CaseATransitionTokenState(ATransitionTokenState node)
         {
             return DefaultCase(node);
         }
@@ -4735,14 +4371,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(AProductionrule node)
-        {
-            return CaseAProductionrule(node);
-        }
-        public virtual Result CaseAProductionrule(AProductionrule node)
-        {
-            return DefaultCase(node);
-        }
         public Result Visit(AAlternative node)
         {
             return CaseAAlternative(node);
@@ -4756,14 +4384,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAAlternativename(node);
         }
         public virtual Result CaseAAlternativename(AAlternativename node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AElements node)
-        {
-            return CaseAElements(node);
-        }
-        public virtual Result CaseAElements(AElements node)
         {
             return DefaultCase(node);
         }
@@ -5511,6 +5131,14 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
+        public Result Visit(AState node, T1 arg1)
+        {
+            return CaseAState(node, arg1);
+        }
+        public virtual Result CaseAState(AState node, T1 arg1)
+        {
+            return DefaultCase(node, arg1);
+        }
         public Result Visit(AIgnoredtokens node, T1 arg1)
         {
             return CaseAIgnoredtokens(node, arg1);
@@ -5519,51 +5147,19 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(AIdentifierListitem node, T1 arg1)
+        public Result Visit(ATokenState node, T1 arg1)
         {
-            return CaseAIdentifierListitem(node, arg1);
+            return CaseATokenState(node, arg1);
         }
-        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(ATokenstateList node, T1 arg1)
-        {
-            return CaseATokenstateList(node, arg1);
-        }
-        public virtual Result CaseATokenstateList(ATokenstateList node, T1 arg1)
+        public virtual Result CaseATokenState(ATokenState node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(ATokenstateListitem node, T1 arg1)
+        public Result Visit(ATransitionTokenState node, T1 arg1)
         {
-            return CaseATokenstateListitem(node, arg1);
+            return CaseATransitionTokenState(node, arg1);
         }
-        public virtual Result CaseATokenstateListitem(ATokenstateListitem node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(ATransitionTokenstateListitem node, T1 arg1)
-        {
-            return CaseATransitionTokenstateListitem(node, arg1);
-        }
-        public virtual Result CaseATransitionTokenstateListitem(ATransitionTokenstateListitem node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(ATranslationListitem node, T1 arg1)
-        {
-            return CaseATranslationListitem(node, arg1);
-        }
-        public virtual Result CaseATranslationListitem(ATranslationListitem node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AStyleListitem node, T1 arg1)
-        {
-            return CaseAStyleListitem(node, arg1);
-        }
-        public virtual Result CaseAStyleListitem(AStyleListitem node, T1 arg1)
+        public virtual Result CaseATransitionTokenState(ATransitionTokenState node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -5655,14 +5251,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(AProductionrule node, T1 arg1)
-        {
-            return CaseAProductionrule(node, arg1);
-        }
-        public virtual Result CaseAProductionrule(AProductionrule node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
         public Result Visit(AAlternative node, T1 arg1)
         {
             return CaseAAlternative(node, arg1);
@@ -5676,14 +5264,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAAlternativename(node, arg1);
         }
         public virtual Result CaseAAlternativename(AAlternativename node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AElements node, T1 arg1)
-        {
-            return CaseAElements(node, arg1);
-        }
-        public virtual Result CaseAElements(AElements node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -6431,6 +6011,14 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
+        public Result Visit(AState node, T1 arg1, T2 arg2)
+        {
+            return CaseAState(node, arg1, arg2);
+        }
+        public virtual Result CaseAState(AState node, T1 arg1, T2 arg2)
+        {
+            return DefaultCase(node, arg1, arg2);
+        }
         public Result Visit(AIgnoredtokens node, T1 arg1, T2 arg2)
         {
             return CaseAIgnoredtokens(node, arg1, arg2);
@@ -6439,51 +6027,19 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(AIdentifierListitem node, T1 arg1, T2 arg2)
+        public Result Visit(ATokenState node, T1 arg1, T2 arg2)
         {
-            return CaseAIdentifierListitem(node, arg1, arg2);
+            return CaseATokenState(node, arg1, arg2);
         }
-        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(ATokenstateList node, T1 arg1, T2 arg2)
-        {
-            return CaseATokenstateList(node, arg1, arg2);
-        }
-        public virtual Result CaseATokenstateList(ATokenstateList node, T1 arg1, T2 arg2)
+        public virtual Result CaseATokenState(ATokenState node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(ATokenstateListitem node, T1 arg1, T2 arg2)
+        public Result Visit(ATransitionTokenState node, T1 arg1, T2 arg2)
         {
-            return CaseATokenstateListitem(node, arg1, arg2);
+            return CaseATransitionTokenState(node, arg1, arg2);
         }
-        public virtual Result CaseATokenstateListitem(ATokenstateListitem node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(ATransitionTokenstateListitem node, T1 arg1, T2 arg2)
-        {
-            return CaseATransitionTokenstateListitem(node, arg1, arg2);
-        }
-        public virtual Result CaseATransitionTokenstateListitem(ATransitionTokenstateListitem node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(ATranslationListitem node, T1 arg1, T2 arg2)
-        {
-            return CaseATranslationListitem(node, arg1, arg2);
-        }
-        public virtual Result CaseATranslationListitem(ATranslationListitem node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AStyleListitem node, T1 arg1, T2 arg2)
-        {
-            return CaseAStyleListitem(node, arg1, arg2);
-        }
-        public virtual Result CaseAStyleListitem(AStyleListitem node, T1 arg1, T2 arg2)
+        public virtual Result CaseATransitionTokenState(ATransitionTokenState node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -6575,14 +6131,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(AProductionrule node, T1 arg1, T2 arg2)
-        {
-            return CaseAProductionrule(node, arg1, arg2);
-        }
-        public virtual Result CaseAProductionrule(AProductionrule node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
         public Result Visit(AAlternative node, T1 arg1, T2 arg2)
         {
             return CaseAAlternative(node, arg1, arg2);
@@ -6596,14 +6144,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAAlternativename(node, arg1, arg2);
         }
         public virtual Result CaseAAlternativename(AAlternativename node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AElements node, T1 arg1, T2 arg2)
-        {
-            return CaseAElements(node, arg1, arg2);
-        }
-        public virtual Result CaseAElements(AElements node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -7351,6 +6891,14 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
+        public Result Visit(AState node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return CaseAState(node, arg1, arg2, arg3);
+        }
+        public virtual Result CaseAState(AState node, T1 arg1, T2 arg2, T3 arg3)
+        {
+            return DefaultCase(node, arg1, arg2, arg3);
+        }
         public Result Visit(AIgnoredtokens node, T1 arg1, T2 arg2, T3 arg3)
         {
             return CaseAIgnoredtokens(node, arg1, arg2, arg3);
@@ -7359,51 +6907,19 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(AIdentifierListitem node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(ATokenState node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAIdentifierListitem(node, arg1, arg2, arg3);
+            return CaseATokenState(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAIdentifierListitem(AIdentifierListitem node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(ATokenstateList node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseATokenstateList(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseATokenstateList(ATokenstateList node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseATokenState(ATokenState node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(ATokenstateListitem node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(ATransitionTokenState node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseATokenstateListitem(node, arg1, arg2, arg3);
+            return CaseATransitionTokenState(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseATokenstateListitem(ATokenstateListitem node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(ATransitionTokenstateListitem node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseATransitionTokenstateListitem(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseATransitionTokenstateListitem(ATransitionTokenstateListitem node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(ATranslationListitem node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseATranslationListitem(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseATranslationListitem(ATranslationListitem node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AStyleListitem node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAStyleListitem(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAStyleListitem(AStyleListitem node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseATransitionTokenState(ATransitionTokenState node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
@@ -7495,14 +7011,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(AProductionrule node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAProductionrule(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAProductionrule(AProductionrule node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
         public Result Visit(AAlternative node, T1 arg1, T2 arg2, T3 arg3)
         {
             return CaseAAlternative(node, arg1, arg2, arg3);
@@ -7516,14 +7024,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAAlternativename(node, arg1, arg2, arg3);
         }
         public virtual Result CaseAAlternativename(AAlternativename node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AElements node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAElements(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAElements(AElements node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }

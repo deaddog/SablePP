@@ -1,6 +1,9 @@
-﻿namespace SablePP.Compiler.Nodes
+﻿using System;
+using System.Linq;
+
+namespace SablePP.Compiler.Nodes
 {
-    public partial class PProduction
+    public partial class PProduction : IDeclaration
     {
         public bool IsFirst
         {
@@ -18,6 +21,29 @@
         public string ClassName
         {
             get { return "P" + this.Identifier.Text.ToCamelCase(); }
+        }
+
+        public PAlternative UnnamedAlternative
+        {
+            get { return (from a in _alternatives_ where !a.HasAlternativename select a).FirstOrDefault(); }
+        }
+
+        public TIdentifier GetIdentifier()
+        {
+            return Identifier;
+        }
+
+        private TranslationTarget? astTarget;
+        public TranslationTarget AstTarget
+        {
+            get { return astTarget.HasValue ? astTarget.Value : TranslationTarget.Unknown; }
+            set
+            {
+                if (astTarget != null)
+                    throw new InvalidOperationException("Cannot set production target twice.");
+
+                astTarget = value;
+            }
         }
     }
 }

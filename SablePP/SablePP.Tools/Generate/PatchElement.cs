@@ -69,6 +69,14 @@ namespace SablePP.Tools.Generate
         /// <summary>
         /// Emits a new line at the end of this <see cref="PatchElement"/>.
         /// </summary>
+        public void EmitLine()
+        {
+            base.emitNewLine();
+        }
+
+        /// <summary>
+        /// Emits a new line at the end of this <see cref="PatchElement"/>.
+        /// </summary>
         public void EmitNewLine()
         {
             base.emitNewLine();

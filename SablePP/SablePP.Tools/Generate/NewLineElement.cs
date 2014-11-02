@@ -24,6 +24,17 @@ namespace SablePP.Tools.Generate
             get { return UseSpace.Never; }
         }
 
+        /// <summary>
+        /// Generates a clone of this <see cref="NewLineElement" />.
+        /// </summary>
+        /// <returns>
+        /// A clone of this <see cref="NewLineElement" />.
+        /// </returns>
+        public override CodeElement CloneFlat()
+        {
+            return new NewLineElement();
+        }
+
         internal override void Generate(CodeStreamWriter streamwriter)
         {
             streamwriter.WriteNewline();

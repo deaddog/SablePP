@@ -13,15 +13,14 @@ namespace SablePP.Compiler.Execution
         protected override void Main()
         {
             string inputGrammar = Arguments["grammar"][0];
-            File.Copy(inputGrammar, PathInformation.TemporaryGrammarPath, true);
 
             string outputDirectory = Arguments["out"][0];
             outputDirectory = outputDirectory.TrimEnd('\\');
 
-            CompilerExecuter executer = new CompilerExecuter(true);
+            CompilerExecuter executer = new CompilerExecuter();
 
             Console.WriteLine("Input:\n" + inputGrammar + "\n\nValidating grammar.");
-            Start<PGrammar> ast = Parse(ReadFile(PathInformation.TemporaryGrammarPath), executer);
+            Start<PGrammar> ast = Parse(ReadFile(inputGrammar), executer);
 
             ErrorManager errorManager = new ErrorManager();
             executer.Validate(ast, new SablePP.Tools.CompilationOptions(inputGrammar, errorManager, (h) => { }));

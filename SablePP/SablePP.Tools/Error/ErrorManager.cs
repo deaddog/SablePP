@@ -96,12 +96,18 @@ namespace SablePP.Tools.Error
         /// <param name="args">Arguments for the error message.</param>
         public void Register(Node node, ErrorType errorType, string errorMessage, params object[] args)
         {
-            if (args != null && args.Length > 0)
-                errorMessage = string.Format(errorMessage, translateArguments(args));
-
             Token first;
             Token last;
             FirstLastVisitor.FindTokens(node, out first, out last);
+
+            if (first == null || last == null)
+            {
+                Register(errorType, errorMessage, args);
+                return;
+            }
+
+            if (args != null && args.Length > 0)
+                errorMessage = string.Format(errorMessage, translateArguments(args));
 
             Register(new CompilerError(
                 errorType,

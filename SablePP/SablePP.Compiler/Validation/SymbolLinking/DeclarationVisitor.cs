@@ -1,51 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using SablePP.Compiler;
 using SablePP.Compiler.Nodes;
-
+using SablePP.Generate;
 using SablePP.Tools.Error;
-using SablePP.Compiler.Nodes.Identifiers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
     public class DeclarationVisitor : ErrorVisitor
     {
-        private HelpersTable helpers;
-        private StatesTable states;
-        private TokensTable tokens;
+        private bool hasASTsection;
 
-        private ProductionsTable productions;
-        private ProductionsTable astProd;
-        private ProductionsTable nonastProd;
+        private DeclarationTable<PHelper> helpers;
+        private DeclarationTable<PState> states;
+        private DeclarationTable<PToken> tokens;
 
-        private AlternativesTable alternatives;
-        private Dictionary<PProduction, AlternativesTable> allAlternatives;
-        private ElementsTable elements;
-        private Dictionary<PAlternative, ElementsTable> allElements;
+        private DeclarationTable<PProduction> productions;
+        private DeclarationTable<PProduction> astProd;
+        private DeclarationTable<PProduction> nonastProd;
 
-        private HighlightrulesTable highlightrules;
+        private DeclarationTable<PAlternative> alternatives;
+        private Dictionary<PProduction, DeclarationTable<PAlternative>> allAlternatives;
+        private DeclarationTable<PElement> elements;
+        private Dictionary<PAlternative, DeclarationTable<PElement>> allElements;
+
+        private DeclarationTable<PHighlightrule> highlightrules;
 
         public DeclarationVisitor(ErrorManager errorManager)
             : base(errorManager)
         {
-            this.helpers = new HelpersTable();
-            this.states = new StatesTable();
-            this.tokens = new TokensTable();
+            this.helpers = new DeclarationTable<PHelper>();
+            this.states = new DeclarationTable<PState>();
+            this.tokens = new DeclarationTable<PToken>();
 
             this.productions = null;
-            this.astProd = new ProductionsTable();
-            this.nonastProd = new ProductionsTable();
+            this.astProd = new DeclarationTable<PProduction>();
+            this.nonastProd = new DeclarationTable<PProduction>();
 
             this.alternatives = null;
-            this.allAlternatives = new Dictionary<PProduction, AlternativesTable>();
+            this.allAlternatives = new Dictionary<PProduction, DeclarationTable<PAlternative>>();
             this.elements = null;
-            this.allElements = new Dictionary<PAlternative, ElementsTable>();
+            this.allElements = new Dictionary<PAlternative, DeclarationTable<PElement>>();
 
-            this.highlightrules = new HighlightrulesTable();
+            this.highlightrules = new DeclarationTable<PHighlightrule>();
         }
 
         public override void CaseAGrammar(AGrammar node)
         {
+            hasASTsection = node.HasAstproductions;
+
             if (node.HasPackage)
                 Visit(node.Package);
 
@@ -66,6 +69,12 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             if (node.HasProductions)
                 Visit(node.Productions);
+
+            if (ErrorManager.Errors.Count > 0)
+                return;
+
+            if (node.HasProductions && node.HasAstproductions)
+                new TranslationTargetVisitor(this.ErrorManager).Visit(node.Productions);
 
             if (node.HasHighlightrules)
                 Visit(node.Highlightrules);
@@ -92,11 +101,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             foreach (var h in node.Helpers)
                 if (!helpers.Declare(h))
-                {
-                    RegisterError(h.Identifier, "Helper {0} has already been defined (line {1}).",
-                        h.Identifier,
-                        helpers[h.Identifier.Text].Identifier.Line);
-                }
+                    RegisterError(h.Identifier, "Helper {0} has already been defined (line {1}).", h.Identifier, helpers[h.Identifier.Text].Identifier.Line);
 
             base.CaseAHelpers(node);
         }
@@ -109,12 +114,13 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         public override void CaseAStates(AStates node)
         {
             foreach (var s in node.States)
-                states.Declare(s.Identifier);
+                if (!states.Declare(s))
+                    RegisterError(s.Identifier, "State {0} has already been defined (line {1}).", s.Identifier, states[s.Identifier.Text].Identifier.Line);
         }
 
         public override void CaseAToken(AToken node)
         {
-            if (node.HasStatelist)
+            if (node.Statelist.Count > 0)
                 Visit(node.Statelist);
 
             if (!tokens.Declare(node))
@@ -125,12 +131,12 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 Visit(node.Tokenlookahead);
         }
 
-        public override void CaseATokenstateListitem(ATokenstateListitem node)
+        public override void CaseATokenState(ATokenState node)
         {
             if (!states.Link(node.Identifier))
                 RegisterError(node.Identifier, "The state {0} has not been defined.", node.Identifier);
         }
-        public override void CaseATransitionTokenstateListitem(ATransitionTokenstateListitem node)
+        public override void CaseATransitionTokenState(ATransitionTokenState node)
         {
             if (!states.Link(node.From))
                 RegisterError(node.From, "The state {0} has not been defined.", node.From);
@@ -140,12 +146,13 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseAIgnoredtokens(AIgnoredtokens node)
         {
-            foreach (var item in node.Tokens)
+            for (int i = 0; i < node.Tokens.Count; i++)
             {
-                if (!tokens.Link(item.Identifier))
-                    RegisterError(item.Identifier, "The token {0} has not been defined.", item.Identifier);
+                var item = node.Tokens[i];
+                if (!tokens.Link(item))
+                    RegisterError(item, "The token {0} has not been defined.", item);
                 else
-                    tokens[item.Identifier.Text].IsIgnored = true;
+                    tokens[item.Text].IsIgnored = true;
             }
         }
 
@@ -175,13 +182,41 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         }
         public override void CaseAProduction(AProduction node)
         {
-            alternatives = new AlternativesTable();
-            base.CaseAProduction(node);
+            alternatives = new DeclarationTable<PAlternative>();
+
+            Visit(node.Identifier);
+
+            if (node.HasProdtranslation)
+            {
+                Visit(node.Prodtranslation);
+
+                var id = node.Prodtranslation.Identifier;
+                var mod = node.Prodtranslation.Modifier.GetModifier();
+
+                if (id.IsPProduction)
+                    node.AstTarget = new TranslationTarget(id.AsPProduction, mod);
+                else if (id.IsPToken)
+                    node.AstTarget = new TranslationTarget(id.AsPToken, mod);
+            }
+            else if (hasASTsection)
+            {
+                PProduction abs;
+                if (astProd.TryGetValue(node.Identifier.Text, out abs))
+                    node.AstTarget = new TranslationTarget(abs, Modifiers.Single);
+                else
+                    RegisterError(node.Identifier,
+                        "Resulting AST node could not be inferred from production. No \"{0}\" ast-production was found.", node.Identifier.Text);
+            }
+
+            Visit(node.Alternatives);
+            if (node.Alternatives.Where(a => !a.HasAlternativename).Count() > 1)
+                RegisterError(node.Identifier, "A production can only have 1 unnamed alternative.");
+
             allAlternatives[node] = alternatives;
         }
         public override void CaseAAlternative(AAlternative node)
         {
-            elements = new ElementsTable();
+            elements = new DeclarationTable<PElement>();
             base.CaseAAlternative(node);
             allElements[node] = elements;
         }
@@ -242,8 +277,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void InPProdtranslation(PProdtranslation node)
         {
-            if (!astProd.Link(node.Identifier))
-                RegisterError(node.Identifier, "The AST production {0} has not been defined.", node.Identifier);
+            if (astProd.Contains(node.Identifier.Text) && tokens.Contains(node.Identifier.Text))
+                RegisterError(node.Identifier, "Unable to determine if {0} refers to an AST production or a token.", node.Identifier.Text);
+            if (!astProd.Link(node.Identifier) && !tokens.Link(node.Identifier))
+                RegisterError(node.Identifier, "The production translation target {0} has not been defined as neither an AST production or a token.", node.Identifier);
         }
 
         public override void CaseANewTranslation(ANewTranslation node)
@@ -287,15 +324,16 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (!highlightrules.Declare(node))
                 RegisterError(node.Name, "Syntax highlight style {0} has already been defined (line {1}).", node.Name, highlightrules[node.Name.Text].Name.Line);
 
-            foreach (var item in node.Tokens)
+            for (int i = 0; i < node.Tokens.Count; i++)
             {
-                if (!tokens.Link(item.Identifier))
-                    RegisterError(node, "The token {0} has not been defined.", item.Identifier);
+                var item = node.Tokens[i];
+                if (!tokens.Link(item))
+                    RegisterError(node, "The token {0} has not been defined.", item);
                 else
                 {
-                    var token = tokens[item.Identifier.Text];
+                    var token = tokens[item.Text];
                     if (token.HasHighlighting)
-                        RegisterError(item.Identifier, "The style of {0} has already been defined as {1} (line {2}).", item.Identifier, token.Highlighting.Name, token.Highlighting.Name.Line);
+                        RegisterError(item, "The style of {0} has already been defined as {1} (line {2}).", item, token.Highlighting.Name, token.Highlighting.Name.Line);
                     else
                         token.Highlighting = node;
                 }
