@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FastColoredTextBoxNS;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Windows.Forms;
 
 namespace SablePP.Tools.Editor
 {
-    public class SimpleEditor : EditorForm
+    public partial class SimpleEditor : EditorForm
     {
         public SimpleEditor()
-            :base()
+            : base()
         {
+            InitializeComponent();
+
             HookEditToTextBox(codeTextBox1);
 
             Font consolas = new Font("Consolas", 10);
@@ -36,7 +37,6 @@ namespace SablePP.Tools.Editor
 
             base.OnNewFileCreated(e);
         }
-
         protected override void OnFileOpened(FileOpenedEventArgs e)
         {
             splitContainer1.Enabled = true;
@@ -51,14 +51,12 @@ namespace SablePP.Tools.Editor
 
             base.OnFileOpened(e);
         }
-
         protected override void OnFileSaving(FileSavingEventArgs e)
         {
             e.Content = codeTextBox1.Text;
 
             base.OnFileSaving(e);
         }
-
         protected override void OnFileClosed(EventArgs e)
         {
             splitContainer1.Enabled = false;
