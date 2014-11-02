@@ -40,7 +40,7 @@ namespace SablePP.Tools.Editor
         }
         private void updateTitle()
         {
-            string fileText = FileOpened ? string.Format("{0}{1}", File.Name, (_changed || !_file.Exists) ? "*" : "") : "";
+            string fileText = FileIsOpen ? string.Format("{0}{1}", File.Name, (_changed || !_file.Exists) ? "*" : "") : "";
             if (text == null || text.Length == 0)
                 base.Text = fileText;
             else if (fileText.Length > 0)
@@ -118,7 +118,7 @@ namespace SablePP.Tools.Editor
         /// <value>
         ///   <c>true</c> if a file is currently open; otherwise, <c>false</c>.
         /// </value>
-        public bool FileOpened
+        public bool FileIsOpen
         {
             get { return File != null; }
         }
@@ -181,7 +181,7 @@ namespace SablePP.Tools.Editor
         public DialogResult OpenFile()
         {
             DialogResult res;
-            if (FileOpened)
+            if (FileIsOpen)
             {
                 res = CloseFile();
                 if (res != System.Windows.Forms.DialogResult.OK)
@@ -202,7 +202,7 @@ namespace SablePP.Tools.Editor
         /// <returns>A <see cref="DialogResult"/> describing the succes of the operation. <see cref="DialogResult.OK"/> implies that the operation was successful.</returns>
         public DialogResult OpenFile(string filepath)
         {
-            if (FileOpened)
+            if (FileIsOpen)
             {
                 DialogResult res = CloseFile();
                 if (res != System.Windows.Forms.DialogResult.OK)
@@ -234,7 +234,7 @@ namespace SablePP.Tools.Editor
         /// <returns>A <see cref="DialogResult"/> describing the succes of the operation. <see cref="DialogResult.OK"/> implies that the operation was successful.</returns>
         public DialogResult SaveFile()
         {
-            if (!FileOpened)
+            if (!FileIsOpen)
                 return System.Windows.Forms.DialogResult.Cancel;
 
             if (!File.Exists)
@@ -255,7 +255,7 @@ namespace SablePP.Tools.Editor
         /// <returns>A <see cref="DialogResult"/> describing the succes of the operation. <see cref="DialogResult.OK"/> implies that the operation was successful.</returns>
         public DialogResult SaveFileAs()
         {
-            if (!FileOpened)
+            if (!FileIsOpen)
                 return System.Windows.Forms.DialogResult.Cancel;
 
             DialogResult res = saveFileDialog1.ShowDialog();
@@ -281,7 +281,7 @@ namespace SablePP.Tools.Editor
         /// <returns>A <see cref="DialogResult"/> describing the succes of the operation. <see cref="DialogResult.OK"/> implies that the operation was successful.</returns>
         public DialogResult CloseFile()
         {
-            if (!FileOpened)
+            if (!FileIsOpen)
                 return System.Windows.Forms.DialogResult.OK;
 
             if (changed)
