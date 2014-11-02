@@ -365,30 +365,27 @@ namespace SablePP.Tools.Editor
 
             saveAsDefaultToolStripMenuItem.Click += (s, e) =>
             {
-                EditorSettings.Default.DefaultCode = codeTextBox1.Text;
+                FileSavingEventArgs saving = new FileSavingEventArgs();
+                if (this.FileSaving != null)
+                    this.FileSaving(this, saving);
+
+                EditorSettings.Default.DefaultCode = saving.Content;
                 EditorSettings.Default.Save();
             };
 
             #endregion
+        }
 
-            #region Edit menu events setup
+        protected void HookEditToTextBox(FastColoredTextBox textbox)
+        {
+            copyToolStripMenuItem.Click += (s, e) => textbox.Copy();
+            cutToolStripMenuItem.Click += (s, e) => textbox.Cut();
+            pasteToolStripMenuItem.Click += (s, e) => textbox.Paste();
 
-            copyToolStripMenuItem.Click += (s, e) => codeTextBox1.Copy();
-            cutToolStripMenuItem.Click += (s, e) => codeTextBox1.Cut();
-            pasteToolStripMenuItem.Click += (s, e) => codeTextBox1.Paste();
+            undoToolStripMenuItem.Click += (s, e) => textbox.Undo();
+            redoToolStripMenuItem.Click += (s, e) => textbox.Redo();
 
-            undoToolStripMenuItem.Click += (s, e) => codeTextBox1.Undo();
-            redoToolStripMenuItem.Click += (s, e) => codeTextBox1.Redo();
-
-            selectAllToolStripMenuItem.Click += (s, e) => codeTextBox1.SelectAll();
-
-            #endregion
-
-            Font consolas = new Font("Consolas", 10);
-            if (consolas.Name == "Consolas")
-                codeTextBox1.Font = consolas;
-            else
-                consolas.Dispose();
+            selectAllToolStripMenuItem.Click += (s, e) => textbox.SelectAll();
         }
 
         /// <summary>

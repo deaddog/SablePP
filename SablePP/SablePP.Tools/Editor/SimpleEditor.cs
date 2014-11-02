@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -10,6 +11,13 @@ namespace SablePP.Tools.Editor
         public SimpleEditor()
             :base()
         {
+            HookEditToTextBox(codeTextBox1);
+
+            Font consolas = new Font("Consolas", 10);
+            if (consolas.Name == "Consolas")
+                codeTextBox1.Font = consolas;
+            else
+                consolas.Dispose();
         }
 
         protected override void OnNewFileCreated(EventArgs e)
