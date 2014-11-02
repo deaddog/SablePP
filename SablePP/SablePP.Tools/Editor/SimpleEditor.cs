@@ -50,5 +50,13 @@ namespace SablePP.Tools.Editor
 
             base.OnFileSaving(e);
         }
+
+        protected override void OnFileClosed(EventArgs e)
+        {
+            splitContainer1.Enabled = false;
+            codeTextBox1.Text = "";
+
+            base.OnFileClosed(e);
+        }
     }
 }

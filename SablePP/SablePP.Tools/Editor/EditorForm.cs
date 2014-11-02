@@ -313,10 +313,15 @@ namespace SablePP.Tools.Editor
             encoding = null;
             File = null;
 
-            splitContainer1.Enabled = false;
-            codeTextBox1.Text = "";
+            OnFileClosed(EventArgs.Empty);
             return DialogResult.OK;
         }
+        protected virtual void OnFileClosed(EventArgs e)
+        {
+            if (FileClosed != null)
+                FileClosed(this, e);
+        }
+        public event EventHandler FileClosed;
 
         #endregion
 
