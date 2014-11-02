@@ -59,6 +59,8 @@
     <Compile Include="Editor\ErrorView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Editor\FileOpenedEventArgs.cs" />
+    <Compile Include="Editor\FileOpenedEventHandler.cs" />
     <Compile Include="Editor\MessageIcons.cs" />
     <Compile Include="Editor\SimpleEditor.cs">
       <SubType>Form</SubType>
