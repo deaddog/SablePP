@@ -40,7 +40,7 @@ namespace SablePP.Tools.Editor
         }
         private void updateTitle()
         {
-            string fileText = FileOpened ? string.Format("{0}{1}", File.Name, _changed ? "*" : "") : "";
+            string fileText = FileOpened ? string.Format("{0}{1}", File.Name, (_changed || !_file.Exists) ? "*" : "") : "";
             if (text == null || text.Length == 0)
                 base.Text = fileText;
             else if (fileText.Length > 0)
