@@ -19,7 +19,7 @@ namespace SablePP.Tools.Editor
             codeTextBox1.Text = EditorSettings.Default.DefaultCode;
             codeTextBox1.Focus();
             codeTextBox1.SelectionLength = 0;
-            codeTextBox1.SelectionStart = EditorSettings.Default.DefaultStart;
+            codeTextBox1.SelectionStart = 0;
 
             if (codeTextBox1.Text == string.Empty)
                 codeTextBox1.OnTextChangedDelayed(codeTextBox1.Range);

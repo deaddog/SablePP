@@ -366,7 +366,6 @@ namespace SablePP.Tools.Editor
             saveAsDefaultToolStripMenuItem.Click += (s, e) =>
             {
                 EditorSettings.Default.DefaultCode = codeTextBox1.Text;
-                EditorSettings.Default.DefaultStart = codeTextBox1.SelectionStart;
                 EditorSettings.Default.Save();
             };
 
