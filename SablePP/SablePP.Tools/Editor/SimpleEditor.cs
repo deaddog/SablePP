@@ -43,5 +43,12 @@ namespace SablePP.Tools.Editor
 
             base.OnFileOpened(e);
         }
+
+        protected override void OnFileSaving(FileSavingEventArgs e)
+        {
+            e.Content = codeTextBox1.Text;
+
+            base.OnFileSaving(e);
+        }
     }
 }

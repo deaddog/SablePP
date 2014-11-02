@@ -242,9 +242,11 @@ namespace SablePP.Tools.Editor
             if (!File.Exists)
                 return SaveFileAs();
 
+            FileSavingEventArgs e = new FileSavingEventArgs();
+            OnFileSaving(e);
             using (FileStream fs = new FileStream(File.FullName, FileMode.Create))
             using (StreamWriter writer = new StreamWriter(fs, encoding))
-                writer.Write(codeTextBox1.Text);
+                writer.Write(e.Content);
             changed = false;
 
             recentFiles.AddRecent(File.FullName);
@@ -266,9 +268,11 @@ namespace SablePP.Tools.Editor
 
             FileInfo f = new FileInfo(saveFileDialog1.FileName);
 
+            FileSavingEventArgs e = new FileSavingEventArgs();
+            OnFileSaving(e);
             using (FileStream fs = new FileStream(f.FullName, FileMode.Create))
             using (StreamWriter writer = new StreamWriter(fs, encoding))
-                writer.Write(codeTextBox1.Text);
+                writer.Write(e.Content);
 
             File = f;
             changed = false;
@@ -277,6 +281,13 @@ namespace SablePP.Tools.Editor
 
             return DialogResult.OK;
         }
+        protected virtual void OnFileSaving(FileSavingEventArgs e)
+        {
+            if (FileSaving != null)
+                FileSaving(this, e);
+        }
+        public event FileSavingEventHandler FileSaving;
+
         /// <summary>
         /// Closes the file after prompting to save changes to the file.
         /// </summary>
