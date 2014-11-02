@@ -28,5 +28,20 @@ namespace SablePP.Tools.Editor
 
             base.OnNewFileCreated();
         }
+
+        protected override void OnFileOpened(FileOpenedEventArgs e)
+        {
+            splitContainer1.Enabled = true;
+
+            codeTextBox1.Text = e.Content;
+            codeTextBox1.ClearUndo();
+
+            codeTextBox1.Focus();
+
+            if (codeTextBox1.Text == string.Empty)
+                codeTextBox1.OnTextChangedDelayed(codeTextBox1.Range);
+
+            base.OnFileOpened(e);
+        }
     }
 }

@@ -208,26 +208,28 @@ namespace SablePP.Tools.Editor
                 if (res != System.Windows.Forms.DialogResult.OK)
                     return res;
             }
-
-            splitContainer1.Enabled = true;
+            
+            string content;
             File = new FileInfo(filepath);
             using (StreamReader reader = new StreamReader(File.FullName, true))
             {
-                codeTextBox1.Text = reader.ReadToEnd();
+                content = reader.ReadToEnd();
                 this.encoding = reader.CurrentEncoding;
-                codeTextBox1.ClearUndo();
             }
+            OnFileOpened(new FileOpenedEventArgs(content));
             changed = false;
-
-            codeTextBox1.Focus();
-
-            if (codeTextBox1.Text == string.Empty)
-                codeTextBox1.OnTextChangedDelayed(codeTextBox1.Range);
 
             recentFiles.AddRecent(filepath);
 
             return DialogResult.OK;
         }
+        protected virtual void OnFileOpened(FileOpenedEventArgs e)
+        {
+            if (FileOpened != null)
+                FileOpened(this, e);
+        }
+        public event FileOpenedEventHandler FileOpened;
+
         /// <summary>
         /// Saves the currently open file on disc. If the file does not exist on disc, this is equivalent of calling the <see cref="SaveFileAs"/> method.
         /// </summary>
