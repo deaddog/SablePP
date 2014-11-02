@@ -12,7 +12,7 @@ namespace SablePP.Tools.Editor
         {
         }
 
-        protected override void OnNewFileCreated()
+        protected override void OnNewFileCreated(EventArgs e)
         {
             splitContainer1.Enabled = true;
 
@@ -26,7 +26,7 @@ namespace SablePP.Tools.Editor
 
             codeTextBox1.ClearUndo();
 
-            base.OnNewFileCreated();
+            base.OnNewFileCreated(e);
         }
 
         protected override void OnFileOpened(FileOpenedEventArgs e)

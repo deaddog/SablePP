@@ -156,7 +156,7 @@ namespace SablePP.Tools.Editor
             File = new FileInfo(EditorResources.Untitled + "." + (extension ?? EditorResources.DefaultExtension));
 
             encoding = Encoding.UTF8;
-            OnNewFileCreated();
+            OnNewFileCreated(EventArgs.Empty);
             changed = false;
 
             return DialogResult.OK;
@@ -164,10 +164,10 @@ namespace SablePP.Tools.Editor
         /// <summary>
         /// Raises the <see cref="NewFileCreated"/> event.
         /// </summary>
-        protected virtual void OnNewFileCreated()
+        protected virtual void OnNewFileCreated(EventArgs e)
         {
             if (NewFileCreated != null)
-                NewFileCreated(this, EventArgs.Empty);
+                NewFileCreated(this, e);
         }
         /// <summary>
         /// Occurs when a new file is created in the form.
