@@ -153,27 +153,27 @@ namespace SablePP.Tools.Editor
             if (res != System.Windows.Forms.DialogResult.OK)
                 return res;
 
-            encoding = Encoding.UTF8;
-
-            splitContainer1.Enabled = true;
-
-            codeTextBox1.Text = EditorSettings.Default.DefaultCode;
-            changed = false;
-
             File = new FileInfo(EditorResources.Untitled + "." + (extension ?? EditorResources.DefaultExtension));
 
-            codeTextBox1.Focus();
-            codeTextBox1.SelectionLength = 0;
-            codeTextBox1.SelectionStart = EditorSettings.Default.DefaultStart;
-
-            if (codeTextBox1.Text == string.Empty)
-                codeTextBox1.OnTextChangedDelayed(codeTextBox1.Range);
-
-            codeTextBox1.ClearUndo();
+            encoding = Encoding.UTF8;
+            OnNewFileCreated();
+            changed = false;
 
             return DialogResult.OK;
-
         }
+        /// <summary>
+        /// Raises the <see cref="NewFileCreated"/> event.
+        /// </summary>
+        protected virtual void OnNewFileCreated()
+        {
+            if (NewFileCreated != null)
+                NewFileCreated(this, EventArgs.Empty);
+        }
+        /// <summary>
+        /// Occurs when a new file is created in the form.
+        /// </summary>
+        public event EventHandler NewFileCreated;
+
         /// <summary>
         /// Opens a file from disc using a dialog to select the file.
         /// </summary>
