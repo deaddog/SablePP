@@ -60,6 +60,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Editor\MessageIcons.cs" />
+    <Compile Include="Editor\SimpleEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Generate\ContentElement.cs" />
     <Compile Include="Generate\CSharp\AccessModifierElement.cs" />
     <Compile Include="Generate\CSharp\CSharpElement.cs" />
