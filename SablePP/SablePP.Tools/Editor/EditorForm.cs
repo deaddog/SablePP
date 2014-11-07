@@ -231,6 +231,20 @@ namespace SablePP.Tools.Editor
 
             return DialogResult.OK;
         }
+
+        /// <summary>
+        /// Raises the <see cref="E:FileOpening" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="FileOpeningEventArgs"/> instance containing the event data.</param>
+        protected virtual void OnFileOpening(FileOpeningEventArgs e)
+        {
+            if (FileOpening != null)
+                FileOpening(this, e);
+        }
+        /// <summary>
+        /// Occurs when a file is being opened.
+        /// </summary>
+        public event EventHandler<FileOpeningEventArgs> FileOpening;
         /// <summary>
         /// Raises the <see cref="E:FileOpened" /> event.
         /// </summary>
