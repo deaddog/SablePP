@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace SablePP.Compiler.Execution
 {
-    public partial class SablePPEditor : SimpleEditor
+    public partial class SablePPEditor : EditorForm
     {
         private BackgroundWorker generateWorker;
         private CompilerExecuter executer;
