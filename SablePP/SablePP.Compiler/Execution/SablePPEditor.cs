@@ -30,7 +30,7 @@ namespace SablePP.Compiler.Execution
 
         public SablePPEditor()
         {
-            this.Executer = executer = new CompilerExecuter();
+            this.CodeTextBox.Executer = executer = new CompilerExecuter();
             this.Text = "SPP Editor";
             this.FileExtension = "sablepp";
 
@@ -214,7 +214,7 @@ namespace SablePP.Compiler.Execution
         {
             string path = e.Argument as string;
 
-            var res = this.WaitForResult();
+            var res = this.CodeTextBox.WaitForResult();
 
             if (!testForErrors(res.Errors))
                 executer.Generate(res.Tree as SablePP.Tools.Nodes.Start<Nodes.PGrammar>, path);
