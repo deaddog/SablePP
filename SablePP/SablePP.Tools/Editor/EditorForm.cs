@@ -477,22 +477,6 @@ namespace SablePP.Tools.Editor
                 return new string[0];
         }
 
-        private void EditorForm_DragEnter(object sender, DragEventArgs e)
-        {
-            var files = GetDraggedFiles(e);
-            if (files.Length != 1)
-            {
-                e.Effect = DragDropEffects.None;
-                return;
-            }
-            string ext = Path.GetExtension(files[0]);
-            e.Effect = (ext == ".sablecc" || ext == ".sablepp") ? DragDropEffects.Move : DragDropEffects.None;
-        }
-        private void EditorForm_DragDrop(object sender, DragEventArgs e)
-        {
-            OpenFile(GetDraggedFiles(e)[0]);
-        }
-
         private void fileToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
             while (openRecentToolStripMenuItem.DropDownItems.Count > 0)
