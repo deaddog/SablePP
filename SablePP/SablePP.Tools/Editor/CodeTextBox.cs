@@ -200,7 +200,7 @@ namespace SablePP.Tools.Editor
         /// <summary>
         /// Occurs when a new <see cref="CompilerError"/> is added to the <see cref="CodeTextBox"/>.
         /// </summary>
-        public event ErrorEventHandler ErrorAdded;
+        public event EventHandler<ErrorEventArgs> ErrorAdded;
 
         private bool useSmartPar = true;
         /// <summary>

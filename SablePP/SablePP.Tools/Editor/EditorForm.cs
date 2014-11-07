@@ -243,7 +243,7 @@ namespace SablePP.Tools.Editor
         /// <summary>
         /// Occurs when a file is opened in the <see cref="EditorForm"/>.
         /// </summary>
-        public event FileOpenedEventHandler FileOpened;
+        public event EventHandler<FileOpenedEventArgs> FileOpened;
 
         /// <summary>
         /// Saves the currently open file on disc. If the file does not exist on disc, this is equivalent of calling the <see cref="SaveFileAs"/> method.
@@ -308,7 +308,7 @@ namespace SablePP.Tools.Editor
         /// <summary>
         /// Occurs when a file is saved by the <see cref="EditorForm"/>.
         /// </summary>
-        public event FileSavingEventHandler FileSaving;
+        public event EventHandler<FileSavingEventArgs> FileSaving;
 
         /// <summary>
         /// Closes the file after prompting to save changes to the file.

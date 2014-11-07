@@ -55,14 +55,11 @@
     <Compile Include="CompilerExecuter.cs" />
     <Compile Include="DictionaryExtension.cs" />
     <Compile Include="Editor\ErrorEventArgs.cs" />
-    <Compile Include="Editor\ErrorEventHandler.cs" />
     <Compile Include="Editor\ErrorView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Editor\FileOpenedEventArgs.cs" />
-    <Compile Include="Editor\FileOpenedEventHandler.cs" />
     <Compile Include="Editor\FileSavingEventArgs.cs" />
-    <Compile Include="Editor\FileSavingEventHandler.cs" />
     <Compile Include="Editor\MessageIcons.cs" />
     <Compile Include="Editor\SimpleEditor.cs">
       <SubType>Form</SubType>
