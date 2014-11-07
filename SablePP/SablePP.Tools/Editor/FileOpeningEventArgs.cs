@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -22,6 +23,17 @@ namespace SablePP.Tools.Editor
         {
             this.filepath = filepath;
             this.allowfile = initialAllow;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileOpeningEventArgs"/> class.
+        /// </summary>
+        /// <param name="filepath">The filepath of the file being opened.</param>
+        /// <param name="allowedExtension">The extension allowed for files opened. This sets the <see cref="AllowFile"/> property.</param>
+        public FileOpeningEventArgs(string filepath, string allowedExtension)
+            : this(filepath, Path.GetExtension(filepath).TrimStart('.').ToLower() == allowedExtension.TrimStart('.').ToLower())
+        {
+
         }
 
         /// <summary>

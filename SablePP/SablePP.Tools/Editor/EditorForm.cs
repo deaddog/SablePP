@@ -201,7 +201,7 @@ namespace SablePP.Tools.Editor
             if (res != System.Windows.Forms.DialogResult.OK)
                 return res;
 
-            FileOpeningEventArgs fo = new FileOpeningEventArgs(openFileDialog1.FileName, Path.GetExtension(openFileDialog1.FileName) == "." + this.FileExtension);
+            FileOpeningEventArgs fo = new FileOpeningEventArgs(openFileDialog1.FileName, this.FileExtension);
             OnFileOpening(fo);
             if (!fo.AllowFile)
                 return System.Windows.Forms.DialogResult.Abort;
