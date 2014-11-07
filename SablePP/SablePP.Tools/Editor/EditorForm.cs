@@ -167,16 +167,18 @@ namespace SablePP.Tools.Editor
 
             return DialogResult.OK;
         }
+
         /// <summary>
-        /// Raises the <see cref="NewFileCreated"/> event.
+        /// Raises the <see cref="E:NewFileCreated" /> event.
         /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected virtual void OnNewFileCreated(EventArgs e)
         {
             if (NewFileCreated != null)
                 NewFileCreated(this, e);
         }
         /// <summary>
-        /// Occurs when a new file is created in the form.
+        /// Occurs when a new file is created in the <see cref="EditorForm"/>.
         /// </summary>
         public event EventHandler NewFileCreated;
 
@@ -229,11 +231,18 @@ namespace SablePP.Tools.Editor
 
             return DialogResult.OK;
         }
+        /// <summary>
+        /// Raises the <see cref="E:FileOpened" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="FileOpenedEventArgs"/> instance containing the event data.</param>
         protected virtual void OnFileOpened(FileOpenedEventArgs e)
         {
             if (FileOpened != null)
                 FileOpened(this, e);
         }
+        /// <summary>
+        /// Occurs when a file is opened in the <see cref="EditorForm"/>.
+        /// </summary>
         public event FileOpenedEventHandler FileOpened;
 
         /// <summary>
@@ -287,11 +296,18 @@ namespace SablePP.Tools.Editor
 
             return DialogResult.OK;
         }
+        /// <summary>
+        /// Raises the <see cref="E:FileSaving" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="FileSavingEventArgs"/> instance containing the event data.</param>
         protected virtual void OnFileSaving(FileSavingEventArgs e)
         {
             if (FileSaving != null)
                 FileSaving(this, e);
         }
+        /// <summary>
+        /// Occurs when a file is saved by the <see cref="EditorForm"/>.
+        /// </summary>
         public event FileSavingEventHandler FileSaving;
 
         /// <summary>
@@ -322,11 +338,18 @@ namespace SablePP.Tools.Editor
             OnFileClosed(EventArgs.Empty);
             return DialogResult.OK;
         }
+        /// <summary>
+        /// Raises the <see cref="E:FileClosed" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected virtual void OnFileClosed(EventArgs e)
         {
             if (FileClosed != null)
                 FileClosed(this, e);
         }
+        /// <summary>
+        /// Occurs when a file is closed by the <see cref="EditorForm"/>.
+        /// </summary>
         public event EventHandler FileClosed;
 
         #endregion

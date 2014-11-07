@@ -24,6 +24,10 @@ namespace SablePP.Tools.Editor
                 consolas.Dispose();
         }
 
+        /// <summary>
+        /// Updates the <see cref="SimpleEditor"/> interface and raises the <see cref="E:NewFileCreated" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         protected override void OnNewFileCreated(EventArgs e)
         {
             splitContainer1.Enabled = true;
@@ -40,6 +44,10 @@ namespace SablePP.Tools.Editor
 
             base.OnNewFileCreated(e);
         }
+        /// <summary>
+        /// Updates the <see cref="SimpleEditor"/> interface and raises the <see cref="E:FileOpened" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="FileOpenedEventArgs" /> instance containing the event data.</param>
         protected override void OnFileOpened(FileOpenedEventArgs e)
         {
             splitContainer1.Enabled = true;
@@ -54,12 +62,20 @@ namespace SablePP.Tools.Editor
 
             base.OnFileOpened(e);
         }
+        /// <summary>
+        /// Updates the <see cref="SimpleEditor"/> interface and raises the <see cref="E:FileSaving" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="FileSavingEventArgs" /> instance containing the event data.</param>
         protected override void OnFileSaving(FileSavingEventArgs e)
         {
             e.Content = codeTextBox1.Text;
 
             base.OnFileSaving(e);
         }
+        /// <summary>
+        /// Updates the <see cref="SimpleEditor"/> interface and raises the <see cref="E:FileClosed" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         protected override void OnFileClosed(EventArgs e)
         {
             splitContainer1.Enabled = false;
