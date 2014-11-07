@@ -6,10 +6,17 @@ using System.Windows.Forms;
 
 namespace SablePP.Tools.Editor
 {
+    /// <summary>
+    /// Extends the <see cref="EditorForm"/> by providing a <see cref="CodeTextBox"/> and a <see cref="ErrorView"/> for displaying code, running compilation and displaying errors.
+    /// This editor can be modified to some extend and provides the basic functionality required for most simple programming-languages.
+    /// </summary>
     public partial class SimpleEditor : EditorForm
     {
         private const int DEFAULT_MESSAGE_TIME = 3000;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SimpleEditor"/> class.
+        /// </summary>
         public SimpleEditor()
             : base()
         {
