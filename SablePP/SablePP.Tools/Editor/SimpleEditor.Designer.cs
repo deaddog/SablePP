@@ -36,6 +36,7 @@
             this.fillerLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lineLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.positionLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.messageTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -119,7 +120,7 @@
             this.fillerLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.fillerLabel.Margin = new System.Windows.Forms.Padding(5, 3, 0, 2);
             this.fillerLabel.Name = "fillerLabel";
-            this.fillerLabel.Size = new System.Drawing.Size(422, 17);
+            this.fillerLabel.Size = new System.Drawing.Size(453, 17);
             this.fillerLabel.Spring = true;
             this.fillerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -138,6 +139,11 @@
             this.positionLabel.Size = new System.Drawing.Size(60, 17);
             this.positionLabel.Text = "Pos: 0";
             this.positionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // messageTimer
+            // 
+            this.messageTimer.Interval = 3000;
+            this.messageTimer.Tick += new System.EventHandler(this.messageTimer_Tick);
             // 
             // SimpleEditor
             // 
@@ -171,6 +177,7 @@
         private System.Windows.Forms.ToolStripStatusLabel fillerLabel;
         private System.Windows.Forms.ToolStripStatusLabel lineLabel;
         private System.Windows.Forms.ToolStripStatusLabel positionLabel;
+        private System.Windows.Forms.Timer messageTimer;
 
     }
 }

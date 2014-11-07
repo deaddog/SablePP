@@ -17,8 +17,6 @@ namespace SablePP.Tools.Editor
     /// </summary>
     public partial class EditorForm : Form
     {
-        private const int DEFAULT_MESSAGE_TIME = 3000;
-
         private RecentFilesHandler recentFiles;
 
         #region Form Text/Application name
@@ -391,65 +389,6 @@ namespace SablePP.Tools.Editor
             redoToolStripMenuItem.Click += (s, e) => textbox.Redo();
 
             selectAllToolStripMenuItem.Click += (s, e) => textbox.SelectAll();
-        }
-
-        /// <summary>
-        /// Shows a message in the status strip in the bottom of the <see cref="EditorForm"/>.
-        /// </summary>
-        /// <param name="text">The text message to display.</param>
-        /// <param name="duration">The time, in milliseconds, the message is displayed.</param>
-        public void ShowMessage(string text, int duration = DEFAULT_MESSAGE_TIME)
-        {
-            ShowMessage(null, text, duration);
-        }
-        /// <summary>
-        /// Shows a message and an image in the status strip in the bottom of the <see cref="EditorForm"/>.
-        /// </summary>
-        /// <param name="image">The image to display.</param>
-        /// <param name="text">The text message to display.</param>
-        /// <param name="duration">The time, in milliseconds, the message is displayed.</param>
-        public void ShowMessage(Image image, string text, int duration = DEFAULT_MESSAGE_TIME)
-        {
-            messageTimer.Interval = duration;
-            messageTimer.Stop();
-            messageTimer.Start();
-
-            fillerLabel.Image = image;
-            fillerLabel.Text = text;
-        }
-        /// <summary>
-        /// Shows a message and an icon in the status strip in the bottom of the <see cref="EditorForm"/>.
-        /// </summary>
-        /// <param name="icon">The icon to display.</param>
-        /// <param name="text">The text message to display.</param>
-        /// <param name="duration">The time, in milliseconds, the message is displayed.</param>
-        public void ShowMessage(MessageIcons icon, string text, int duration = DEFAULT_MESSAGE_TIME)
-        {
-            Image iconImage;
-
-            switch (icon)
-            {
-                case MessageIcons.Accept:
-                    iconImage = EditorResources.accept; break;
-                case MessageIcons.Error:
-                    iconImage = EditorResources.error; break;
-                case MessageIcons.Warning:
-                    iconImage = EditorResources.warning; break;
-                case MessageIcons.Working:
-                    iconImage = EditorResources.working; break;
-                default:
-                    throw new ArgumentException("Unknown message icon.");
-            }
-
-            ShowMessage(iconImage, text, duration);
-        }
-
-        private void messageTimer_Tick(object sender, EventArgs e)
-        {
-            messageTimer.Stop();
-
-            fillerLabel.Image = null;
-            fillerLabel.Text = "";
         }
 
         /// <summary>
