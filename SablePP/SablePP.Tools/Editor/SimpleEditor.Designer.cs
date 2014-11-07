@@ -87,6 +87,8 @@
             this.codeTextBox1.Zoom = 100;
             this.codeTextBox1.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.codeTextBox1_TextChanged);
             this.codeTextBox1.SelectionChanged += new System.EventHandler(this.codeTextBox1_SelectionChanged);
+            this.codeTextBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.EditorForm_DragDrop);
+            this.codeTextBox1.DragEnter += new System.Windows.Forms.DragEventHandler(this.EditorForm_DragEnter);
             // 
             // errorView1
             // 
@@ -154,6 +156,8 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "SimpleEditor";
             this.Text = "SimpleEditor";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.EditorForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.EditorForm_DragEnter);
             this.Controls.SetChildIndex(this.splitContainer1, 0);
             this.Controls.SetChildIndex(this.statusStrip1, 0);
             this.splitContainer1.Panel1.ResumeLayout(false);

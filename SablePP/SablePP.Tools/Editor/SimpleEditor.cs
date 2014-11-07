@@ -1,6 +1,7 @@
 ﻿using FastColoredTextBoxNS;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace SablePP.Tools.Editor
@@ -116,6 +117,36 @@ namespace SablePP.Tools.Editor
             base.ApplyChanged();
         }
 
+        private static bool noValidation(string file)
+        {
+            return true;
+        }
+        private Func<string, bool> dragDropFileValidator = noValidation;
+
+        public Func<string, bool> DragDropFileValidator
+        {
+            get { return dragDropFileValidator == noValidation ? null : dragDropFileValidator; }
+            set
+            {
+                if (value == null)
+                    dragDropFileValidator = noValidation;
+                else
+                    dragDropFileValidator = value;
+            }
+        }
+
+        private void EditorForm_DragEnter(object sender, DragEventArgs e)
+        {
+            var files = GetDraggedFiles(e);
+            if (files.Length != 1)
+                e.Effect = DragDropEffects.None;
+            else
+                e.Effect = dragDropFileValidator(files[0]) ? DragDropEffects.Move : DragDropEffects.None;
+        }
+        private void EditorForm_DragDrop(object sender, DragEventArgs e)
+        {
+            OpenFile(GetDraggedFiles(e)[0]);
+        }
 
         /// <summary>
         /// Shows a message in the status strip in the bottom of the <see cref="EditorForm"/>.
