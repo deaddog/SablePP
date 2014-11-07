@@ -530,7 +530,7 @@ namespace SablePP.Tools.Editor
                 FiletoolsEnabledChanged(this, e);
         }
 
-        private static string[] getDraggedFiles(DragEventArgs e)
+        protected static string[] GetDraggedFiles(DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 return e.Data.GetData(DataFormats.FileDrop) as string[];
@@ -540,7 +540,7 @@ namespace SablePP.Tools.Editor
 
         private void EditorForm_DragEnter(object sender, DragEventArgs e)
         {
-            var files = getDraggedFiles(e);
+            var files = GetDraggedFiles(e);
             if (files.Length != 1)
             {
                 e.Effect = DragDropEffects.None;
@@ -549,10 +549,9 @@ namespace SablePP.Tools.Editor
             string ext = Path.GetExtension(files[0]);
             e.Effect = (ext == ".sablecc" || ext == ".sablepp") ? DragDropEffects.Move : DragDropEffects.None;
         }
-
         private void EditorForm_DragDrop(object sender, DragEventArgs e)
         {
-            OpenFile(getDraggedFiles(e)[0]);
+            OpenFile(GetDraggedFiles(e)[0]);
         }
 
         private void fileToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
