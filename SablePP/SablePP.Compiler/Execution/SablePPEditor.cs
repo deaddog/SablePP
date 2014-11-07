@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace SablePP.Compiler.Execution
 {
-    public class SablePPEditor : SimpleEditor
+    public partial class SablePPEditor : SimpleEditor
     {
         private BackgroundWorker generateWorker;
         private CompilerExecuter executer;
@@ -30,6 +30,8 @@ namespace SablePP.Compiler.Execution
 
         public SablePPEditor()
         {
+            InitializeComponent();
+
             this.CodeTextBox.Executer = executer = new CompilerExecuter();
             this.Text = "SPP Editor";
             this.FileExtension = "sablepp";
