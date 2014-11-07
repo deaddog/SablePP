@@ -59,6 +59,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Editor\FileOpenedEventArgs.cs" />
+    <Compile Include="Editor\FileOpeningEventArgs.cs" />
     <Compile Include="Editor\FileSavingEventArgs.cs" />
     <Compile Include="Editor\MessageIcons.cs" />
     <Compile Include="Editor\SimpleEditor.cs">
