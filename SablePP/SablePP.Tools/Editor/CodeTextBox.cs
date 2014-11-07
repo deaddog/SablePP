@@ -96,6 +96,11 @@ namespace SablePP.Tools.Editor
             return result;
         }
 
+        /// <summary>
+        /// Occurs when the <see cref="ICompilerExecuter"/> associated with this <see cref="CodeTextBox"/> is done compiling an AST.
+        /// The event is raised regardless of the result of the compilation.
+        /// The event is never raised when the <see cref="CodeTextBox"/> is not associated with an <see cref="ICompilerExecuter"/>.
+        /// </summary>
         public event EventHandler CompilationCompleted;
 
         private void setStyle(Token token, Style style)
