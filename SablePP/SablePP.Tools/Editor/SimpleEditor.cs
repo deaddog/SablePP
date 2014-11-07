@@ -114,7 +114,7 @@ namespace SablePP.Tools.Editor
         }
         private void codeTextBox1_TextChanged(object sender, TextChangedEventArgs e)
         {
-            base.ApplyChanged();
+            base.MarkFileAsChanged();
         }
 
         private static bool noValidation(string file)

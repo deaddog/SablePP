@@ -127,7 +127,10 @@ namespace SablePP.Tools.Editor
             set { _changed = value; updateTitle(); }
         }
 
-        protected void ApplyChanged()
+        /// <summary>
+        /// Marks the current file as changed. This will make the <see cref="EditorForm"/> ask if the file should be saved when it is closed.
+        /// </summary>
+        protected void MarkFileAsChanged()
         {
             this.changed = true;
         }
