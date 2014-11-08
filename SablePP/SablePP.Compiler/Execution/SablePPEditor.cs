@@ -75,6 +75,14 @@ namespace SablePP.Compiler.Execution
 
         private void codeTextBox1_SelectionChanged(object sender, EventArgs e)
         {
+            // Update the position labels in the bottom right corner
+            string lineText = lineLabel.Text.Substring(0, lineLabel.Text.IndexOf(':') + 1) + " ";
+            lineLabel.Text = lineText + (codeTextBox1.Selection.Start.iLine + 1);
+
+            string positionText = positionLabel.Text.Substring(0, positionLabel.Text.IndexOf(':') + 1) + " ";
+            positionLabel.Text = positionText + (codeTextBox1.Selection.Start.iChar + 1);
+
+            // Update the highlighting style to mark all related tokens
             codeTextBox1.Range.ClearStyle(highlightstyle);
 
             var find = codeTextBox1.TokenFromPlace(codeTextBox1.Selection.Start);
