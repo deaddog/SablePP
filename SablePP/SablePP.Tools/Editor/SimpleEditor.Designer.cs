@@ -144,7 +144,7 @@
             // 
             // messageTimer1
             // 
-            this.messageTimer1.MessageTime = this.fillerLabel;
+            this.messageTimer1.Label = this.fillerLabel;
             // 
             // SimpleEditor
             // 
