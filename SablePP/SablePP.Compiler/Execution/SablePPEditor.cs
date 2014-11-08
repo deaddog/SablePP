@@ -162,6 +162,8 @@ namespace SablePP.Compiler.Execution
         private void codeTextBox1_TextChanged(object sender, TextChangedEventArgs e)
         {
             base.MarkFileAsChanged();
+            if (!liveCodeSplitter.Panel2Collapsed)
+                liveCodeControl1.MarkAsChanged();
         }
 
         private void goToButton_Click(object sender, EventArgs e)
