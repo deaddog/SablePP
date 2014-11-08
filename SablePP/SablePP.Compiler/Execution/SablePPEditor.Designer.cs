@@ -36,6 +36,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.codeTextBox1 = new SablePP.Tools.Editor.CodeTextBox();
             this.errorView1 = new SablePP.Tools.Editor.ErrorView();
+            this.messageTimer1 = new SablePP.Tools.Editor.MessageTimer();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -140,6 +141,10 @@
             this.errorView1.UseCompatibleStateImageBehavior = false;
             this.errorView1.View = System.Windows.Forms.View.Details;
             // 
+            // messageTimer1
+            // 
+            this.messageTimer1.Label = this.fillerLabel;
+            // 
             // SablePPEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -172,5 +177,6 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private Tools.Editor.CodeTextBox codeTextBox1;
         private Tools.Editor.ErrorView errorView1;
+        private Tools.Editor.MessageTimer messageTimer1;
     }
 }

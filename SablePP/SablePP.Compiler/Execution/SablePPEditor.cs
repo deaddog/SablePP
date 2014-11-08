@@ -263,7 +263,7 @@ namespace SablePP.Compiler.Execution
                     settings.OutputPaths[this.File.FullName] = output;
             }
 
-            ShowMessage(MessageIcons.Working, "Building compiler...", 1000 * 60 * 10);
+            messageTimer1.ShowMessage(MessageIcons.Working, "Building compiler...", 1000 * 60 * 10);
             generateButton.Enabled = false;
             generateWorker.RunWorkerAsync(output);
         }
@@ -298,10 +298,10 @@ namespace SablePP.Compiler.Execution
             var res = e.Result as CodeTextBox.Result;
 
             if (testForErrors(res.Errors))
-                ShowMessage(MessageIcons.Error, "Unable to generate compiler; error in validation.");
+                messageTimer1.ShowMessage(MessageIcons.Error, "Unable to generate compiler; error in validation.");
             else
             {
-                ShowMessage(MessageIcons.Accept, "Code generation completed!");
+                messageTimer1.ShowMessage(MessageIcons.Accept, "Code generation completed!");
                 var root = res.Tree as SablePP.Tools.Nodes.Start<SablePP.Compiler.Nodes.PGrammar>;
                 var grammar = root.Root as SablePP.Compiler.Nodes.AGrammar;
 
