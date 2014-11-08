@@ -32,7 +32,7 @@ namespace SablePP.Compiler.Execution
         {
             InitializeComponent();
 
-            this.CodeTextBox.Executer = executer = new CompilerExecuter();
+            this.codeTextBox1.Executer = executer = new CompilerExecuter();
             this.Text = "SPP Editor";
             this.FileExtension = "sablepp";
 
@@ -70,27 +70,27 @@ namespace SablePP.Compiler.Execution
             EditMenu.DropDownItems.Add(new ToolStripSeparator());
             EditMenu.DropDownItems.Add(goToButton);
 
-            this.CodeTextBox.SelectionChanged += CodeTextBox_SelectionChanged;
-            this.CodeTextBox.CompilationCompleted += CodeTextBox_SelectionChanged;
+            this.codeTextBox1.SelectionChanged += codeTextBox1_SelectionChanged;
+            this.codeTextBox1.CompilationCompleted += codeTextBox1_SelectionChanged;
 
-            CodeTextBox.Styles[0] = highlightstyle;
+            codeTextBox1.Styles[0] = highlightstyle;
         }
 
-        private void CodeTextBox_SelectionChanged(object sender, EventArgs e)
+        private void codeTextBox1_SelectionChanged(object sender, EventArgs e)
         {
-            CodeTextBox.Range.ClearStyle(highlightstyle);
+            codeTextBox1.Range.ClearStyle(highlightstyle);
 
-            var find = CodeTextBox.TokenFromPlace(CodeTextBox.Selection.Start);
+            var find = codeTextBox1.TokenFromPlace(codeTextBox1.Selection.Start);
             if (find != null && find is DeclarationIdentifier)
             {
                 var id = find as DeclarationIdentifier;
                 goToButton.Enabled = true;
 
-                foreach (var token in DepthFirstTreeWalker.GetTokens(CodeTextBox.LastResult.Tree).OfType<DeclarationIdentifier>())
+                foreach (var token in DepthFirstTreeWalker.GetTokens(codeTextBox1.LastResult.Tree).OfType<DeclarationIdentifier>())
                     if (id.Declaration == token.Declaration || (id.IsPElement && id.AsPElement.Elementid.Identifier == token))
                     {
-                        var r = CodeTextBox.RangeFromToken(token);
-                        if (!CodeTextBox.Range.Contains(r.Start) || !(CodeTextBox.Range.Contains(r.End)))
+                        var r = codeTextBox1.RangeFromToken(token);
+                        if (!codeTextBox1.Range.Contains(r.Start) || !(codeTextBox1.Range.Contains(r.End)))
                             return;
                         r.SetStyle(highlightstyle);
                     }
@@ -101,7 +101,7 @@ namespace SablePP.Compiler.Execution
 
         private void goToButton_Click(object sender, EventArgs e)
         {
-            var t = CodeTextBox.TokenFromPlace(CodeTextBox.Selection.Start);
+            var t = codeTextBox1.TokenFromPlace(codeTextBox1.Selection.Start);
             if (t != null && t is SablePP.Compiler.Nodes.TIdentifier)
             {
                 var id = t as SablePP.Compiler.Nodes.TIdentifier;
@@ -134,10 +134,10 @@ namespace SablePP.Compiler.Execution
 
                 if (id != null)
                 {
-                    var range = CodeTextBox.RangeFromToken(id);
-                    CodeTextBox.Selection = range;
-                    if (!CodeTextBox.VisibleRange.Contains(range.Start) || !CodeTextBox.VisibleRange.Contains(range.End))
-                        CodeTextBox.DoSelectionVisible();
+                    var range = codeTextBox1.RangeFromToken(id);
+                    codeTextBox1.Selection = range;
+                    if (!codeTextBox1.VisibleRange.Contains(range.Start) || !codeTextBox1.VisibleRange.Contains(range.End))
+                        codeTextBox1.DoSelectionVisible();
                 }
             }
         }
@@ -216,7 +216,7 @@ namespace SablePP.Compiler.Execution
         {
             string path = e.Argument as string;
 
-            var res = this.CodeTextBox.WaitForResult();
+            var res = this.codeTextBox1.WaitForResult();
 
             if (!testForErrors(res.Errors))
                 executer.Generate(res.Tree as SablePP.Tools.Nodes.Start<Nodes.PGrammar>, path);
