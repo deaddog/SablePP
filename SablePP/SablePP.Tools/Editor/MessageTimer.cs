@@ -140,5 +140,12 @@ namespace SablePP.Tools.Editor
             label.Image = null;
             label.Text = "";
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            timer.Stop();
+            timer.Dispose();
+            base.Dispose(disposing);
+        }
     }
 }
