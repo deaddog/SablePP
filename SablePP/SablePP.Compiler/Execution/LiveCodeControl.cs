@@ -30,6 +30,10 @@ namespace SablePP.Compiler.Execution
             //The two types used below are only used to reference their assembly
             options.ReferencedAssemblies.Add(typeof(SablePP.Tools.CompilationOptions).Assembly.Location);
             options.ReferencedAssemblies.Add(typeof(FastColoredTextBoxNS.TextStyle).Assembly.Location);
+
+            liveMessageLabel.Visible = true;
+            liveMessageLabel.BackColor = Color.LightSkyBlue;
+            liveMessageLabel.Text = "The LiveCode tool will update everytime the compiler is built (F5)";
         }
 
         public void LoadCompiler(string location, string grammarNamespace)
@@ -48,12 +52,24 @@ namespace SablePP.Compiler.Execution
                 var constr = type.GetConstructor(System.Type.EmptyTypes);
 
                 codeTextBox1.Executer = constr.Invoke(null) as SablePP.Tools.ICompilerExecuter;
+                liveMessageLabel.Visible = false;
             }
         }
 
         public void UnLoadCompiler()
         {
             codeTextBox1.Executer = null;
+
+            liveMessageLabel.Visible = true;
+            liveMessageLabel.BackColor = Color.LightSkyBlue;
+            liveMessageLabel.Text = "The LiveCode tool will update everytime the compiler is built (F5)";
+        }
+
+        public void MarkAsChanged()
+        {
+            liveMessageLabel.Visible = true;
+            liveMessageLabel.BackColor = Color.Goldenrod;
+            liveMessageLabel.Text = "You are running an old version of the LiveCode tool, consider building (F5)";
         }
     }
 }

@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.codeTextBox1 = new SablePP.Tools.Editor.CodeTextBox();
+            this.liveMessageLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.codeTextBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,10 +54,26 @@
             this.codeTextBox1.TabIndex = 0;
             this.codeTextBox1.Zoom = 100;
             // 
+            // liveMessageLabel
+            // 
+            this.liveMessageLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.liveMessageLabel.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.liveMessageLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.liveMessageLabel.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.liveMessageLabel.ForeColor = System.Drawing.Color.Black;
+            this.liveMessageLabel.Location = new System.Drawing.Point(10, 240);
+            this.liveMessageLabel.Name = "liveMessageLabel";
+            this.liveMessageLabel.Size = new System.Drawing.Size(280, 50);
+            this.liveMessageLabel.TabIndex = 2;
+            this.liveMessageLabel.Text = "Text";
+            this.liveMessageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // LiveCodeControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.liveMessageLabel);
             this.Controls.Add(this.codeTextBox1);
             this.Name = "LiveCodeControl";
             this.Size = new System.Drawing.Size(300, 300);
@@ -68,5 +85,6 @@
         #endregion
 
         private Tools.Editor.CodeTextBox codeTextBox1;
+        private System.Windows.Forms.Label liveMessageLabel;
     }
 }
