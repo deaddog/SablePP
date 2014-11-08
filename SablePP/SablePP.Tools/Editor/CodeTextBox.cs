@@ -68,6 +68,15 @@ namespace SablePP.Tools.Editor
             {
                 executer = value;
                 this.OnTextChangedDelayed(this.Range);
+
+                if (executer == null)
+                {
+                    this.Range.ClearStyle(simpleStyles.ToArray());
+                    this.Range.ClearStyle(moreStyles.ToArray());
+                    this.Range.ClearStyle(errorStyle);
+                    this.Range.ClearStyle(warningStyle);
+                    this.Range.ClearStyle(messageStyle);
+                }
             }
         }
 
