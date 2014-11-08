@@ -77,6 +77,12 @@
     <Compile Include="Execution\EditorCompiler.cs" />
     <Compile Include="Execution\EditorSettings.cs" />
     <Compile Include="Execution\IdentifierHighlighter.cs" />
+    <Compile Include="Execution\LiveCodeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Execution\LiveCodeControl.Designer.cs">
+      <DependentUpon>LiveCodeControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Execution\LiveCodeEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,6 +154,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Execution\LiveCodeControl.resx">
+      <DependentUpon>LiveCodeControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Execution\LiveCodeEditor.resx" />
     <EmbeddedResource Include="Execution\SablePPEditor.resx">
       <DependentUpon>SablePPEditor.cs</DependentUpon>
