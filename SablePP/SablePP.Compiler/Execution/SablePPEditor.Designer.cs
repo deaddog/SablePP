@@ -38,6 +38,7 @@
             this.errorView1 = new SablePP.Tools.Editor.ErrorView();
             this.messageTimer1 = new SablePP.Tools.Editor.MessageTimer();
             this.liveCodeSplitter = new System.Windows.Forms.SplitContainer();
+            this.liveCodeControl1 = new SablePP.Compiler.Execution.LiveCodeControl();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -46,6 +47,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.codeTextBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.liveCodeSplitter)).BeginInit();
             this.liveCodeSplitter.Panel1.SuspendLayout();
+            this.liveCodeSplitter.Panel2.SuspendLayout();
             this.liveCodeSplitter.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -158,10 +160,22 @@
             // liveCodeSplitter.Panel1
             // 
             this.liveCodeSplitter.Panel1.Controls.Add(this.splitContainer1);
+            // 
+            // liveCodeSplitter.Panel2
+            // 
+            this.liveCodeSplitter.Panel2.Controls.Add(this.liveCodeControl1);
             this.liveCodeSplitter.Panel2Collapsed = true;
             this.liveCodeSplitter.Size = new System.Drawing.Size(880, 533);
             this.liveCodeSplitter.SplitterDistance = 467;
             this.liveCodeSplitter.TabIndex = 6;
+            // 
+            // liveCodeControl1
+            // 
+            this.liveCodeControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.liveCodeControl1.Location = new System.Drawing.Point(0, 0);
+            this.liveCodeControl1.Name = "liveCodeControl1";
+            this.liveCodeControl1.Size = new System.Drawing.Size(409, 533);
+            this.liveCodeControl1.TabIndex = 0;
             // 
             // SablePPEditor
             // 
@@ -182,6 +196,7 @@
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.codeTextBox1)).EndInit();
             this.liveCodeSplitter.Panel1.ResumeLayout(false);
+            this.liveCodeSplitter.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.liveCodeSplitter)).EndInit();
             this.liveCodeSplitter.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -200,5 +215,6 @@
         private Tools.Editor.ErrorView errorView1;
         private Tools.Editor.MessageTimer messageTimer1;
         private System.Windows.Forms.SplitContainer liveCodeSplitter;
+        private LiveCodeControl liveCodeControl1;
     }
 }
