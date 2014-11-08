@@ -103,6 +103,10 @@ namespace SablePP.Compiler.Execution
             else
                 goToButton.Enabled = false;
         }
+        private void codeTextBox1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            base.MarkFileAsChanged();
+        }
 
         private void goToButton_Click(object sender, EventArgs e)
         {

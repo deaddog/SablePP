@@ -122,6 +122,7 @@
             this.codeTextBox1.TabIndex = 0;
             this.codeTextBox1.Zoom = 100;
             this.codeTextBox1.CompilationCompleted += new System.EventHandler(this.codeTextBox1_SelectionChanged);
+            this.codeTextBox1.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.codeTextBox1_TextChanged);
             this.codeTextBox1.SelectionChanged += new System.EventHandler(this.codeTextBox1_SelectionChanged);
             // 
             // errorView1
