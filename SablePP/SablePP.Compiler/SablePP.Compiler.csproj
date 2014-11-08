@@ -83,10 +83,6 @@
     <Compile Include="Execution\LiveCodeControl.Designer.cs">
       <DependentUpon>LiveCodeControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Execution\LiveCodeEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Execution\LiveCodeEditor.Designer.cs" />
     <Compile Include="Execution\SablePPEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,7 +153,6 @@
     <EmbeddedResource Include="Execution\LiveCodeControl.resx">
       <DependentUpon>LiveCodeControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Execution\LiveCodeEditor.resx" />
     <EmbeddedResource Include="Execution\SablePPEditor.resx">
       <DependentUpon>SablePPEditor.cs</DependentUpon>
     </EmbeddedResource>
