@@ -36,7 +36,7 @@
             this.fillerLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lineLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.positionLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.messageTimer = new System.Windows.Forms.Timer(this.components);
+            this.messageTimer1 = new SablePP.Tools.Editor.MessageTimer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -142,10 +142,9 @@
             this.positionLabel.Text = "Pos: 0";
             this.positionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // messageTimer
+            // messageTimer1
             // 
-            this.messageTimer.Interval = 3000;
-            this.messageTimer.Tick += new System.EventHandler(this.messageTimer_Tick);
+            this.messageTimer1.MessageTime = this.fillerLabel;
             // 
             // SimpleEditor
             // 
@@ -181,7 +180,7 @@
         private System.Windows.Forms.ToolStripStatusLabel fillerLabel;
         private System.Windows.Forms.ToolStripStatusLabel lineLabel;
         private System.Windows.Forms.ToolStripStatusLabel positionLabel;
-        private System.Windows.Forms.Timer messageTimer;
+        private MessageTimer messageTimer1;
 
     }
 }
