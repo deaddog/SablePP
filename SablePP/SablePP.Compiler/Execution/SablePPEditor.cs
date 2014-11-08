@@ -24,13 +24,13 @@ namespace SablePP.Compiler.Execution
         private ToolStripMenuItem generateButton = new ToolStripMenuItem("&Build");
         private ToolStripMenuItem livecodeButton = new ToolStripMenuItem("&LiveCode Tool");
 
-        private LiveCodeEditor lce;
-
         private ToolStripMenuItem goToButton = new ToolStripMenuItem("Go to definition...");
 
         public SablePPEditor()
         {
             InitializeComponent();
+
+            HookEditToTextBox(codeTextBox1);
 
             this.codeTextBox1.Executer = executer = new CompilerExecuter();
             this.Text = "SPP Editor";
@@ -56,12 +56,6 @@ namespace SablePP.Compiler.Execution
             tools.DropDownItems.Add(generateButton);
             tools.DropDownItems.Add(new ToolStripSeparator());
             tools.DropDownItems.Add(livecodeButton);
-
-            lce = new LiveCodeEditor()
-            {
-                ManagingForm = this
-            };
-            lce.VisibleChanged += (s, e) => livecodeButton.Checked = lce.Visible;
 
             goToButton.Click += goToButton_Click;
             goToButton.Enabled = false;
@@ -129,6 +123,8 @@ namespace SablePP.Compiler.Execution
         {
             splitContainer1.Enabled = false;
             codeTextBox1.Text = "";
+
+            liveCodeControl1.UnLoadCompiler();
 
             base.OnFileClosed(e);
         }
@@ -270,12 +266,22 @@ namespace SablePP.Compiler.Execution
 
         void livecodeButton_Click(object sender, EventArgs e)
         {
-            if (!livecodeButton.Checked)
-                lce.Show();
+            if (liveCodeSplitter.Panel2Collapsed)
+            {
+                // Show live editor
+                liveCodeSplitter.Panel2Collapsed = false;
+                livecodeButton.Checked = true;
+            }
             else
-                lce.Hide();
+            {
+                // Hide live editor
+                liveCodeSplitter.Panel2Collapsed = true;
+                livecodeButton.Checked = false;
+
+                liveCodeControl1.UnLoadCompiler();
+            }
         }
-        
+
         private bool testForErrors(Tools.Error.CompilerError[] errors)
         {
             return errors.Any(e => e.ErrorType == Tools.Error.ErrorType.Error);
@@ -305,7 +311,8 @@ namespace SablePP.Compiler.Execution
                 var root = res.Tree as SablePP.Tools.Nodes.Start<SablePP.Compiler.Nodes.PGrammar>;
                 var grammar = root.Root as SablePP.Compiler.Nodes.AGrammar;
 
-                lce.LoadCompiler(grammar.PackageName);
+                if (!liveCodeSplitter.Panel2Collapsed)
+                    liveCodeControl1.LoadCompiler(settings.OutputPaths[this.File.FullName], grammar.PackageName);
             }
 
             generateButton.Enabled = true;
