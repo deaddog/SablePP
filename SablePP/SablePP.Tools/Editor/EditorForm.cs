@@ -424,6 +424,14 @@ namespace SablePP.Tools.Editor
             #endregion
         }
 
+        /// <summary>
+        /// Gets the default code (content) associated with the current <see cref="EditorForm"/>.
+        /// </summary>
+        protected string DefaultCode
+        {
+            get { return EditorSettings.Default.DefaultCode; }
+        }
+
         protected void HookEditToTextBox(FastColoredTextBox textbox)
         {
             copyToolStripMenuItem.Click += (s, e) => textbox.Copy();

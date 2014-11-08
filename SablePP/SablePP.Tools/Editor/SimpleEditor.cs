@@ -39,7 +39,7 @@ namespace SablePP.Tools.Editor
         {
             splitContainer1.Enabled = true;
 
-            codeTextBox1.Text = EditorSettings.Default.DefaultCode;
+            codeTextBox1.Text = DefaultCode;
             codeTextBox1.Focus();
             codeTextBox1.SelectionLength = 0;
             codeTextBox1.SelectionStart = 0;
