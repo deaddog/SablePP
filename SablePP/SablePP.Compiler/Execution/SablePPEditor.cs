@@ -70,9 +70,6 @@ namespace SablePP.Compiler.Execution
             EditMenu.DropDownItems.Add(new ToolStripSeparator());
             EditMenu.DropDownItems.Add(goToButton);
 
-            this.codeTextBox1.SelectionChanged += codeTextBox1_SelectionChanged;
-            this.codeTextBox1.CompilationCompleted += codeTextBox1_SelectionChanged;
-
             codeTextBox1.Styles[0] = highlightstyle;
         }
 
