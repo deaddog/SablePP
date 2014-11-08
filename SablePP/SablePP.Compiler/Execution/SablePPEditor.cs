@@ -73,6 +73,66 @@ namespace SablePP.Compiler.Execution
             codeTextBox1.Styles[0] = highlightstyle;
         }
 
+        /// <summary>
+        /// Updates the <see cref="SimpleEditor"/> interface and raises the <see cref="E:NewFileCreated" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+        protected override void OnNewFileCreated(EventArgs e)
+        {
+            splitContainer1.Enabled = true;
+
+            codeTextBox1.Text = DefaultCode;
+            codeTextBox1.Focus();
+            codeTextBox1.SelectionLength = 0;
+            codeTextBox1.SelectionStart = 0;
+
+            if (codeTextBox1.Text == string.Empty)
+                codeTextBox1.OnTextChangedDelayed(codeTextBox1.Range);
+
+            codeTextBox1.ClearUndo();
+
+            base.OnNewFileCreated(e);
+        }
+        /// <summary>
+        /// Updates the <see cref="SimpleEditor"/> interface and raises the <see cref="E:FileOpened" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="FileOpenedEventArgs" /> instance containing the event data.</param>
+        protected override void OnFileOpened(FileOpenedEventArgs e)
+        {
+            splitContainer1.Enabled = true;
+
+            codeTextBox1.Text = e.Content;
+            codeTextBox1.ClearUndo();
+
+            codeTextBox1.Focus();
+
+            if (codeTextBox1.Text == string.Empty)
+                codeTextBox1.OnTextChangedDelayed(codeTextBox1.Range);
+
+            base.OnFileOpened(e);
+        }
+        /// <summary>
+        /// Updates the <see cref="SimpleEditor"/> interface and raises the <see cref="E:FileSaving" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="FileSavingEventArgs" /> instance containing the event data.</param>
+        protected override void OnFileSaving(FileSavingEventArgs e)
+        {
+            e.Content = codeTextBox1.Text;
+
+            base.OnFileSaving(e);
+        }
+        /// <summary>
+        /// Updates the <see cref="SimpleEditor"/> interface and raises the <see cref="E:FileClosed" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
+        protected override void OnFileClosed(EventArgs e)
+        {
+            splitContainer1.Enabled = false;
+            codeTextBox1.Text = "";
+
+            base.OnFileClosed(e);
+        }
+
         private void codeTextBox1_SelectionChanged(object sender, EventArgs e)
         {
             // Update the position labels in the bottom right corner
