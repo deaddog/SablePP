@@ -23,12 +23,6 @@ namespace SablePP.Tools.Editor
             InitializeComponent();
 
             HookEditToTextBox(codeTextBox1);
-
-            Font consolas = new Font("Consolas", 10);
-            if (consolas.Name == "Consolas")
-                codeTextBox1.Font = consolas;
-            else
-                consolas.Dispose();
         }
 
         /// <summary>

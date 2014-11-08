@@ -110,14 +110,15 @@
             // 
             // codeTextBox1
             // 
-            this.codeTextBox1.AutoScrollMinSize = new System.Drawing.Size(27, 14);
+            this.codeTextBox1.AutoScrollMinSize = new System.Drawing.Size(25, 15);
             this.codeTextBox1.BackBrush = null;
             this.codeTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.codeTextBox1.CharHeight = 14;
-            this.codeTextBox1.CharWidth = 8;
+            this.codeTextBox1.CharHeight = 15;
+            this.codeTextBox1.CharWidth = 7;
             this.codeTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.codeTextBox1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.codeTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.codeTextBox1.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.codeTextBox1.IsReplaceMode = false;
             this.codeTextBox1.Location = new System.Drawing.Point(0, 0);
             this.codeTextBox1.Name = "codeTextBox1";
@@ -174,7 +175,7 @@
             this.liveCodeControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.liveCodeControl1.Location = new System.Drawing.Point(0, 0);
             this.liveCodeControl1.Name = "liveCodeControl1";
-            this.liveCodeControl1.Size = new System.Drawing.Size(409, 533);
+            this.liveCodeControl1.Size = new System.Drawing.Size(96, 100);
             this.liveCodeControl1.TabIndex = 0;
             // 
             // SablePPEditor
