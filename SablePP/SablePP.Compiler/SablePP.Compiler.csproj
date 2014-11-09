@@ -113,7 +113,6 @@
     <Compile Include="Nodes\PElement.cs" />
     <Compile Include="Nodes\PGrammar.cs" />
     <Compile Include="Nodes\PHelper.cs" />
-    <Compile Include="Nodes\PHighlightrule.cs" />
     <Compile Include="Nodes\PProduction.cs" />
     <Compile Include="Nodes\PState.cs" />
     <Compile Include="Nodes\PToken.cs" />
