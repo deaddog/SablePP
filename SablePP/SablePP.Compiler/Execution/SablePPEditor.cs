@@ -5,6 +5,7 @@ using SablePP.Tools.Editor;
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -167,6 +168,23 @@ namespace SablePP.Compiler.Execution
             base.MarkFileAsChanged();
             if (!liveCodeSplitter.Panel2Collapsed)
                 liveCodeControl1.MarkAsChanged();
+        }
+
+        private void Form_DragEnter(object sender, DragEventArgs e)
+        {
+            var files = GetDraggedFiles(e);
+            if (files.Length != 1)
+                e.Effect = DragDropEffects.None;
+            else
+            {
+                FileOpeningEventArgs fdea = new FileOpeningEventArgs(files[0], Path.GetExtension(files[0]) == "." + this.FileExtension);
+                OnFileOpening(fdea);
+                e.Effect = fdea.AllowFile ? DragDropEffects.Move : DragDropEffects.None;
+            }
+        }
+        private void Form_DragDrop(object sender, DragEventArgs e)
+        {
+            OpenFile(GetDraggedFiles(e)[0]);
         }
 
         private void goToButton_Click(object sender, EventArgs e)

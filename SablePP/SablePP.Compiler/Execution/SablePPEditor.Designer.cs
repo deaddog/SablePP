@@ -130,6 +130,8 @@
             this.codeTextBox1.CompilationCompleted += new System.EventHandler(this.codeTextBox1_SelectionChanged);
             this.codeTextBox1.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.codeTextBox1_TextChanged);
             this.codeTextBox1.SelectionChanged += new System.EventHandler(this.codeTextBox1_SelectionChanged);
+            this.codeTextBox1.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form_DragDrop);
+            this.codeTextBox1.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form_DragEnter);
             // 
             // errorView1
             // 
@@ -187,6 +189,8 @@
             this.Controls.Add(this.statusStrip1);
             this.Name = "SablePPEditor";
             this.Text = "SablePPEditor";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form_DragEnter);
             this.Controls.SetChildIndex(this.statusStrip1, 0);
             this.Controls.SetChildIndex(this.liveCodeSplitter, 0);
             this.statusStrip1.ResumeLayout(false);
