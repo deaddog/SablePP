@@ -209,8 +209,6 @@ namespace SablePP.Compiler.Execution
                 }
                 else if (id.IsPHelper)
                     id = id.AsPHelper.Identifier;
-                else if (id.IsPHighlightrule)
-                    id = id.AsPHighlightrule.Name;
                 else if (id.IsPProduction)
                     id = id.AsPProduction.Identifier;
                 else if (id.IsPToken)

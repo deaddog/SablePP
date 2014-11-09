@@ -127,26 +127,5 @@
         {
             get { return IsPElement ? (this as DeclarationIdentifier<PElement>).Declaration : null; }
         }
-
-        /// <summary>
-        /// Gets a value indicating whether this identifier refers to a <see cref="PHighlightrule"/>.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this identifier refers to a <see cref="PHighlightrule"/>; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsPHighlightrule
-        {
-            get { return this is DeclarationIdentifier<PHighlightrule>; }
-        }
-        /// <summary>
-        /// Gets the highlighter rule associated with this identifier, as a <see cref="PHighlightrule"/>.
-        /// </summary>
-        /// <value>
-        ///   A <see cref="PHighlightrule"/> if this identifier refers to a <see cref="PHighlightrule"/>; otherwise, <c>null</c>.
-        /// </value>
-        public PHighlightrule AsPHighlightrule
-        {
-            get { return IsPHighlightrule ? (this as DeclarationIdentifier<PHighlightrule>).Declaration : null; }
-        }
     }
 }
