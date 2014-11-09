@@ -10,7 +10,7 @@ Helpers
     tab = 9;
     cr = 13;
     lf = 10;
-    eol = cr lf | cr | lf;        // This takes care of different platforms
+    eol = cr lf | cr | lf;
 
     not_cr_lf = [all - [cr + lf]];
     not_star = [all - '*'];
@@ -298,7 +298,7 @@ Productions
         ;
     
     highlightrule
-        = identifier l_brace id_list r_brace hlstyle_list semicolon {-> New highlightrule(identifier, l_brace, [id_list], r_brace, [hlstyle_list], semicolon)}
+        = l_brace id_list r_brace hlstyle_list semicolon {-> New highlightrule(l_brace, [id_list], r_brace, [hlstyle_list], semicolon)}
         ;
     
     hlstyle_list {-> highlight_style+ }
@@ -413,7 +413,7 @@ Abstract Syntax Tree
         = highlighttoken highlightrule+
         ;
     highlightrule
-        = [name]:identifier [lpar]:l_brace [tokens]:identifier+ [rpar]:r_brace [styles]:highlight_style+ semicolon
+        = [lpar]:l_brace [tokens]:identifier+ [rpar]:r_brace [styles]:highlight_style+ semicolon
         ;
     highlight_style
         = {italic} italic
