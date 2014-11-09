@@ -83,6 +83,8 @@ namespace SablePP.Compiler
                 AbstractAlternative.Element absElement;
 
                 Visit(e, out element, out absElement);
+                elements.Add(element);
+                absElements.Add(absElement);
 
                 Translation trans = new ElementTranslation(element);
                 if (e.IsList)
