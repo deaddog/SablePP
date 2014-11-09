@@ -30,6 +30,9 @@ namespace SablePP.Compiler.Execution
         {
             InitializeComponent();
 
+            codeTextBox1.GotFocus += (s, e) => HookEditToTextBox(codeTextBox1);
+            liveCodeControl1.RecievedFocus += (s, e) => HookEditToTextBox(liveCodeControl1.CodeTextBox);
+
             HookEditToTextBox(codeTextBox1);
 
             this.codeTextBox1.Executer = executer = new CompilerExecuter();

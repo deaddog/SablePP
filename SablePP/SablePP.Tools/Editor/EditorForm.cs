@@ -221,7 +221,7 @@ namespace SablePP.Tools.Editor
                 if (res != System.Windows.Forms.DialogResult.OK)
                     return res;
             }
-            
+
             string content;
             File = new FileInfo(filepath);
             using (StreamReader reader = new StreamReader(File.FullName, true))
@@ -432,17 +432,48 @@ namespace SablePP.Tools.Editor
             get { return EditorSettings.Default.DefaultCode; }
         }
 
+        #region Setup for the Edit toolstrip menu
+
+        private FastColoredTextBox editTextBox = null;
         protected void HookEditToTextBox(FastColoredTextBox textbox)
         {
-            copyToolStripMenuItem.Click += (s, e) => textbox.Copy();
-            cutToolStripMenuItem.Click += (s, e) => textbox.Cut();
-            pasteToolStripMenuItem.Click += (s, e) => textbox.Paste();
-
-            undoToolStripMenuItem.Click += (s, e) => textbox.Undo();
-            redoToolStripMenuItem.Click += (s, e) => textbox.Redo();
-
-            selectAllToolStripMenuItem.Click += (s, e) => textbox.SelectAll();
+            this.editTextBox = textbox;
         }
+
+        private void textboxCopy(object sender, EventArgs e)
+        {
+            if (editTextBox != null)
+                editTextBox.Copy();
+        }
+        private void textboxCut(object sender, EventArgs e)
+        {
+            if (editTextBox != null)
+                editTextBox.Cut();
+        }
+        private void textboxPaste(object sender, EventArgs e)
+        {
+            if (editTextBox != null)
+                editTextBox.Paste();
+        }
+
+        private void textboxUndo(object sender, EventArgs e)
+        {
+            if (editTextBox != null)
+                editTextBox.Undo();
+        }
+        private void textboxRedo(object sender, EventArgs e)
+        {
+            if (editTextBox != null)
+                editTextBox.Redo();
+        }
+
+        private void textboxSelectAll(object sender, EventArgs e)
+        {
+            if (editTextBox != null)
+                editTextBox.SelectAll();
+        }
+
+        #endregion
 
         /// <summary>
         /// Adds a menu item to the top menu bar in the <see cref="EditorForm"/>.

@@ -1,4 +1,5 @@
 ﻿using Microsoft.CSharp;
+using System;
 using System.CodeDom.Compiler;
 using System.Drawing;
 using System.Windows.Forms;
@@ -34,6 +35,17 @@ namespace SablePP.Compiler.Execution
             liveMessageLabel.Visible = true;
             liveMessageLabel.BackColor = Color.LightSkyBlue;
             liveMessageLabel.Text = "The LiveCode tool will update everytime the compiler is built (F5)";
+        }
+
+        public SablePP.Tools.Editor.CodeTextBox CodeTextBox
+        {
+            get { return codeTextBox1; }
+        }
+
+        public event EventHandler RecievedFocus
+        {
+            add { codeTextBox1.GotFocus += value; }
+            remove { codeTextBox1.GotFocus -= value; }
         }
 
         public void LoadCompiler(string location, string grammarNamespace)
