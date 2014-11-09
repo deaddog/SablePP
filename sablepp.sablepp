@@ -115,7 +115,7 @@ Ignored Tokens
     comment;
 
 Productions
-    grammar = section* { -> New grammar.section([section])};
+    grammar = section*;
     section
         = {p} package { -> New section.package(package) }
         | {h} helpers { -> New section.helpers(helpers) }
@@ -324,8 +324,7 @@ Productions
 
 Abstract Syntax Tree
     grammar
-        = package? helpers? states? tokens? ignoredtokens? productions? astproductions? highlightrules?
-        | {section} section*
+        = section*
         ;
     section
         = {package} package
