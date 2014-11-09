@@ -24,8 +24,6 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         private DeclarationTable<PElement> elements;
         private Dictionary<PAlternative, DeclarationTable<PElement>> allElements;
 
-        private DeclarationTable<PHighlightrule> highlightrules;
-
         public DeclarationVisitor(ErrorManager errorManager)
             : base(errorManager)
         {
@@ -41,8 +39,6 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             this.allAlternatives = new Dictionary<PProduction, DeclarationTable<PAlternative>>();
             this.elements = null;
             this.allElements = new Dictionary<PAlternative, DeclarationTable<PElement>>();
-
-            this.highlightrules = new DeclarationTable<PHighlightrule>();
         }
 
         public override void CaseAGrammar(AGrammar node)
@@ -321,9 +317,6 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseAHighlightrule(AHighlightrule node)
         {
-            if (!highlightrules.Declare(node))
-                RegisterError(node.Name, "Syntax highlight style {0} has already been defined (line {1}).", node.Name, highlightrules[node.Name.Text].Name.Line);
-
             for (int i = 0; i < node.Tokens.Count; i++)
             {
                 var item = node.Tokens[i];
@@ -333,7 +326,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 {
                     var token = tokens[item.Text];
                     if (token.HasHighlighting)
-                        RegisterError(item, "The style of {0} has already been defined as {1} (line {2}).", item, token.Highlighting.Name, token.Highlighting.Name.Line);
+                        RegisterError(item, "The style of {0} has already been defined in line {1}.", item, token.Highlighting.Lpar.Line);
                     else
                         token.Highlighting = node;
                 }
