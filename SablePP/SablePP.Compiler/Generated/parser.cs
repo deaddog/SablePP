@@ -1125,13 +1125,11 @@ namespace SablePP.Compiler.Parsing
                         TRBrace trbrace = Pop<TRBrace>();
                         List<TIdentifier> tidentifierlist = Pop<List<TIdentifier>>();
                         TLBrace tlbrace = Pop<TLBrace>();
-                        TIdentifier tidentifier = Pop<TIdentifier>();
                         List<TIdentifier> tidentifierlist2 = new List<TIdentifier>();
                         tidentifierlist2.AddRange(tidentifierlist);
                         List<PHighlightStyle> phighlightstylelist2 = new List<PHighlightStyle>();
                         phighlightstylelist2.AddRange(phighlightstylelist);
                         AHighlightrule ahighlightrule = new AHighlightrule(
-                            tidentifier,
                             tlbrace,
                             tidentifierlist2,
                             trbrace,
@@ -1459,7 +1457,7 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 3, 8},
-                new int[] {32, 0, 36},
+                new int[] {21, 0, 36},
             },
             new int[][] {
                 new int[] {-1, 3, 9},
@@ -1569,14 +1567,14 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 3, 36},
-                new int[] {21, 0, 58},
+                new int[] {32, 0, 51},
             },
             new int[][] {
                 new int[] {-1, 1, 145},
             },
             new int[][] {
                 new int[] {-1, 1, 109},
-                new int[] {32, 0, 36},
+                new int[] {21, 0, 36},
             },
             new int[][] {
                 new int[] {-1, 1, 122},
@@ -1669,7 +1667,7 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 3, 58},
-                new int[] {32, 0, 51},
+                new int[] {22, 0, 106},
             },
             new int[][] {
                 new int[] {-1, 1, 146},
@@ -1904,20 +1902,23 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 3, 106},
-                new int[] {22, 0, 158},
+                new int[] {37, 0, 158},
+                new int[] {38, 0, 159},
+                new int[] {39, 0, 160},
+                new int[] {40, 0, 161},
             },
             new int[][] {
                 new int[] {-1, 3, 107},
-                new int[] {23, 0, 159},
-                new int[] {24, 0, 160},
+                new int[] {23, 0, 164},
+                new int[] {24, 0, 165},
             },
             new int[][] {
                 new int[] {-1, 1, 42},
-                new int[] {14, 0, 161},
+                new int[] {14, 0, 166},
             },
             new int[][] {
                 new int[] {-1, 3, 109},
-                new int[] {20, 0, 162},
+                new int[] {20, 0, 167},
             },
             new int[][] {
                 new int[] {-1, 1, 12},
@@ -1956,11 +1957,11 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 1, 29},
-                new int[] {30, 0, 165},
+                new int[] {30, 0, 170},
             },
             new int[][] {
                 new int[] {-1, 3, 120},
-                new int[] {22, 0, 166},
+                new int[] {22, 0, 171},
                 new int[] {28, 0, 77},
             },
             new int[][] {
@@ -1984,11 +1985,11 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 3, 125},
-                new int[] {15, 0, 169},
+                new int[] {15, 0, 174},
             },
             new int[][] {
                 new int[] {-1, 3, 126},
-                new int[] {15, 0, 170},
+                new int[] {15, 0, 175},
                 new int[] {29, 0, 124},
             },
             new int[][] {
@@ -1999,15 +2000,15 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 3, 129},
-                new int[] {32, 0, 172},
+                new int[] {32, 0, 177},
             },
             new int[][] {
                 new int[] {-1, 3, 130},
-                new int[] {32, 0, 173},
+                new int[] {32, 0, 178},
             },
             new int[][] {
                 new int[] {-1, 3, 131},
-                new int[] {18, 0, 174},
+                new int[] {18, 0, 179},
             },
             new int[][] {
                 new int[] {-1, 3, 132},
@@ -2018,7 +2019,7 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 3, 133},
-                new int[] {22, 0, 176},
+                new int[] {22, 0, 181},
             },
             new int[][] {
                 new int[] {-1, 1, 95},
@@ -2043,7 +2044,7 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 3, 137},
-                new int[] {32, 0, 180},
+                new int[] {32, 0, 185},
             },
             new int[][] {
                 new int[] {-1, 1, 67},
@@ -2053,12 +2054,12 @@ namespace SablePP.Compiler.Parsing
                 new int[] {9, 0, 137},
                 new int[] {10, 0, 138},
                 new int[] {17, 0, 139},
-                new int[] {18, 0, 181},
+                new int[] {18, 0, 186},
                 new int[] {32, 0, 140},
             },
             new int[][] {
                 new int[] {-1, 1, 73},
-                new int[] {13, 0, 184},
+                new int[] {13, 0, 189},
             },
             new int[][] {
                 new int[] {-1, 1, 61},
@@ -2120,7 +2121,7 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 3, 155},
-                new int[] {22, 0, 190},
+                new int[] {22, 0, 195},
                 new int[] {23, 0, 114},
                 new int[] {25, 0, 115},
                 new int[] {26, 0, 116},
@@ -2130,27 +2131,32 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 3, 157},
-                new int[] {15, 0, 192},
+                new int[] {15, 0, 197},
             },
             new int[][] {
-                new int[] {-1, 3, 158},
-                new int[] {37, 0, 193},
-                new int[] {38, 0, 194},
-                new int[] {39, 0, 195},
-                new int[] {40, 0, 196},
+                new int[] {-1, 1, 114},
             },
             new int[][] {
-                new int[] {-1, 3, 159},
-                new int[] {17, 0, 62},
-                new int[] {19, 0, 63},
-                new int[] {32, 0, 64},
-                new int[] {33, 0, 65},
-                new int[] {34, 0, 66},
-                new int[] {35, 0, 67},
-                new int[] {36, 0, 68},
+                new int[] {-1, 1, 115},
             },
             new int[][] {
                 new int[] {-1, 3, 160},
+                new int[] {31, 0, 198},
+            },
+            new int[][] {
+                new int[] {-1, 3, 161},
+                new int[] {31, 0, 199},
+            },
+            new int[][] {
+                new int[] {-1, 3, 162},
+                new int[] {15, 0, 200},
+            },
+            new int[][] {
+                new int[] {-1, 1, 111},
+                new int[] {28, 0, 201},
+            },
+            new int[][] {
+                new int[] {-1, 3, 164},
                 new int[] {17, 0, 62},
                 new int[] {19, 0, 63},
                 new int[] {32, 0, 64},
@@ -2160,7 +2166,17 @@ namespace SablePP.Compiler.Parsing
                 new int[] {36, 0, 68},
             },
             new int[][] {
-                new int[] {-1, 3, 161},
+                new int[] {-1, 3, 165},
+                new int[] {17, 0, 62},
+                new int[] {19, 0, 63},
+                new int[] {32, 0, 64},
+                new int[] {33, 0, 65},
+                new int[] {34, 0, 66},
+                new int[] {35, 0, 67},
+                new int[] {36, 0, 68},
+            },
+            new int[][] {
+                new int[] {-1, 3, 166},
                 new int[] {33, 0, 65},
                 new int[] {34, 0, 66},
                 new int[] {35, 0, 67},
@@ -2175,15 +2191,15 @@ namespace SablePP.Compiler.Parsing
                 new int[] {-1, 1, 134},
             },
             new int[][] {
-                new int[] {-1, 3, 165},
-                new int[] {32, 0, 202},
+                new int[] {-1, 3, 170},
+                new int[] {32, 0, 207},
             },
             new int[][] {
                 new int[] {-1, 1, 27},
             },
             new int[][] {
-                new int[] {-1, 3, 167},
-                new int[] {22, 0, 203},
+                new int[] {-1, 3, 172},
+                new int[] {22, 0, 208},
                 new int[] {28, 0, 77},
             },
             new int[][] {
@@ -2196,8 +2212,8 @@ namespace SablePP.Compiler.Parsing
                 new int[] {-1, 1, 23},
             },
             new int[][] {
-                new int[] {-1, 3, 171},
-                new int[] {15, 0, 204},
+                new int[] {-1, 3, 176},
+                new int[] {15, 0, 209},
             },
             new int[][] {
                 new int[] {-1, 1, 106},
@@ -2206,12 +2222,12 @@ namespace SablePP.Compiler.Parsing
                 new int[] {-1, 1, 107},
             },
             new int[][] {
-                new int[] {-1, 3, 174},
-                new int[] {31, 0, 205},
+                new int[] {-1, 3, 179},
+                new int[] {31, 0, 210},
             },
             new int[][] {
-                new int[] {-1, 3, 175},
-                new int[] {22, 0, 206},
+                new int[] {-1, 3, 180},
+                new int[] {22, 0, 211},
             },
             new int[][] {
                 new int[] {-1, 1, 99},
@@ -2232,24 +2248,24 @@ namespace SablePP.Compiler.Parsing
                 new int[] {-1, 1, 97},
             },
             new int[][] {
-                new int[] {-1, 3, 180},
-                new int[] {13, 0, 208},
-                new int[] {19, 0, 209},
+                new int[] {-1, 3, 185},
+                new int[] {13, 0, 213},
+                new int[] {19, 0, 214},
             },
             new int[][] {
                 new int[] {-1, 1, 68},
             },
             new int[][] {
                 new int[] {-1, 1, 70},
-                new int[] {28, 0, 210},
+                new int[] {28, 0, 215},
             },
             new int[][] {
-                new int[] {-1, 3, 183},
-                new int[] {18, 0, 213},
+                new int[] {-1, 3, 188},
+                new int[] {18, 0, 218},
             },
             new int[][] {
-                new int[] {-1, 3, 184},
-                new int[] {32, 0, 214},
+                new int[] {-1, 3, 189},
+                new int[] {32, 0, 219},
             },
             new int[][] {
                 new int[] {-1, 1, 88},
@@ -2274,45 +2290,52 @@ namespace SablePP.Compiler.Parsing
                 new int[] {-1, 1, 56},
             },
             new int[][] {
-                new int[] {-1, 3, 191},
-                new int[] {22, 0, 216},
+                new int[] {-1, 3, 196},
+                new int[] {22, 0, 221},
             },
             new int[][] {
                 new int[] {-1, 1, 55},
             },
             new int[][] {
-                new int[] {-1, 1, 114},
-            },
-            new int[][] {
-                new int[] {-1, 1, 115},
-            },
-            new int[][] {
-                new int[] {-1, 3, 195},
-                new int[] {31, 0, 217},
-            },
-            new int[][] {
-                new int[] {-1, 3, 196},
-                new int[] {31, 0, 218},
-            },
-            new int[][] {
-                new int[] {-1, 3, 197},
-                new int[] {15, 0, 219},
-            },
-            new int[][] {
-                new int[] {-1, 1, 111},
-                new int[] {28, 0, 220},
+                new int[] {-1, 3, 198},
+                new int[] {41, 0, 222},
+                new int[] {42, 0, 223},
+                new int[] {43, 0, 224},
             },
             new int[][] {
                 new int[] {-1, 3, 199},
-                new int[] {18, 0, 223},
+                new int[] {41, 0, 222},
+                new int[] {42, 0, 223},
+                new int[] {43, 0, 224},
             },
             new int[][] {
-                new int[] {-1, 3, 200},
-                new int[] {18, 0, 224},
+                new int[] {-1, 1, 110},
             },
             new int[][] {
                 new int[] {-1, 3, 201},
-                new int[] {18, 0, 225},
+                new int[] {37, 0, 158},
+                new int[] {38, 0, 159},
+                new int[] {39, 0, 160},
+                new int[] {40, 0, 161},
+            },
+            new int[][] {
+                new int[] {-1, 1, 147},
+            },
+            new int[][] {
+                new int[] {-1, 1, 112},
+                new int[] {28, 0, 201},
+            },
+            new int[][] {
+                new int[] {-1, 3, 204},
+                new int[] {18, 0, 229},
+            },
+            new int[][] {
+                new int[] {-1, 3, 205},
+                new int[] {18, 0, 230},
+            },
+            new int[][] {
+                new int[] {-1, 3, 206},
+                new int[] {18, 0, 231},
             },
             new int[][] {
                 new int[] {-1, 1, 30},
@@ -2333,19 +2356,19 @@ namespace SablePP.Compiler.Parsing
                 new int[] {-1, 1, 98},
             },
             new int[][] {
-                new int[] {-1, 3, 208},
-                new int[] {32, 0, 226},
+                new int[] {-1, 3, 213},
+                new int[] {32, 0, 232},
             },
             new int[][] {
-                new int[] {-1, 3, 209},
+                new int[] {-1, 3, 214},
                 new int[] {9, 0, 137},
                 new int[] {10, 0, 138},
                 new int[] {17, 0, 139},
-                new int[] {20, 0, 227},
+                new int[] {20, 0, 233},
                 new int[] {32, 0, 140},
             },
             new int[][] {
-                new int[] {-1, 3, 210},
+                new int[] {-1, 3, 215},
                 new int[] {9, 0, 137},
                 new int[] {10, 0, 138},
                 new int[] {17, 0, 139},
@@ -2356,7 +2379,7 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 1, 71},
-                new int[] {28, 0, 210},
+                new int[] {28, 0, 215},
             },
             new int[][] {
                 new int[] {-1, 1, 69},
@@ -2372,67 +2395,12 @@ namespace SablePP.Compiler.Parsing
                 new int[] {-1, 1, 57},
             },
             new int[][] {
-                new int[] {-1, 3, 217},
-                new int[] {41, 0, 231},
-                new int[] {42, 0, 232},
-                new int[] {43, 0, 233},
+                new int[] {-1, 3, 222},
+                new int[] {19, 0, 237},
             },
             new int[][] {
-                new int[] {-1, 3, 218},
-                new int[] {41, 0, 231},
-                new int[] {42, 0, 232},
-                new int[] {43, 0, 233},
-            },
-            new int[][] {
-                new int[] {-1, 1, 110},
-            },
-            new int[][] {
-                new int[] {-1, 3, 220},
-                new int[] {37, 0, 193},
-                new int[] {38, 0, 194},
-                new int[] {39, 0, 195},
-                new int[] {40, 0, 196},
-            },
-            new int[][] {
-                new int[] {-1, 1, 147},
-            },
-            new int[][] {
-                new int[] {-1, 1, 112},
-                new int[] {28, 0, 220},
-            },
-            new int[][] {
-                new int[] {-1, 1, 50},
-            },
-            new int[][] {
-                new int[] {-1, 1, 51},
-            },
-            new int[][] {
-                new int[] {-1, 1, 52},
-            },
-            new int[][] {
-                new int[] {-1, 3, 226},
+                new int[] {-1, 3, 223},
                 new int[] {19, 0, 238},
-            },
-            new int[][] {
-                new int[] {-1, 1, 63},
-            },
-            new int[][] {
-                new int[] {-1, 3, 228},
-                new int[] {20, 0, 239},
-            },
-            new int[][] {
-                new int[] {-1, 1, 72},
-            },
-            new int[][] {
-                new int[] {-1, 1, 140},
-            },
-            new int[][] {
-                new int[] {-1, 3, 231},
-                new int[] {19, 0, 240},
-            },
-            new int[][] {
-                new int[] {-1, 3, 232},
-                new int[] {19, 0, 241},
             },
             new int[][] {
                 new int[] {-1, 1, 120},
@@ -2450,49 +2418,79 @@ namespace SablePP.Compiler.Parsing
                 new int[] {-1, 1, 148},
             },
             new int[][] {
+                new int[] {-1, 1, 50},
+            },
+            new int[][] {
+                new int[] {-1, 1, 51},
+            },
+            new int[][] {
+                new int[] {-1, 1, 52},
+            },
+            new int[][] {
+                new int[] {-1, 3, 232},
+                new int[] {19, 0, 239},
+            },
+            new int[][] {
+                new int[] {-1, 1, 63},
+            },
+            new int[][] {
+                new int[] {-1, 3, 234},
+                new int[] {20, 0, 240},
+            },
+            new int[][] {
+                new int[] {-1, 1, 72},
+            },
+            new int[][] {
+                new int[] {-1, 1, 140},
+            },
+            new int[][] {
+                new int[] {-1, 3, 237},
+                new int[] {34, 0, 241},
+            },
+            new int[][] {
                 new int[] {-1, 3, 238},
+                new int[] {34, 0, 242},
+            },
+            new int[][] {
+                new int[] {-1, 3, 239},
                 new int[] {9, 0, 137},
                 new int[] {10, 0, 138},
                 new int[] {17, 0, 139},
-                new int[] {20, 0, 242},
+                new int[] {20, 0, 243},
                 new int[] {32, 0, 140},
             },
             new int[][] {
                 new int[] {-1, 1, 64},
             },
             new int[][] {
-                new int[] {-1, 3, 240},
-                new int[] {34, 0, 244},
+                new int[] {-1, 3, 241},
+                new int[] {28, 0, 245},
             },
             new int[][] {
-                new int[] {-1, 3, 241},
-                new int[] {34, 0, 245},
+                new int[] {-1, 3, 242},
+                new int[] {28, 0, 246},
             },
             new int[][] {
                 new int[] {-1, 1, 65},
             },
             new int[][] {
-                new int[] {-1, 3, 243},
-                new int[] {20, 0, 246},
-            },
-            new int[][] {
                 new int[] {-1, 3, 244},
-                new int[] {28, 0, 247},
+                new int[] {20, 0, 247},
             },
             new int[][] {
                 new int[] {-1, 3, 245},
-                new int[] {28, 0, 248},
+                new int[] {34, 0, 248},
+            },
+            new int[][] {
+                new int[] {-1, 3, 246},
+                new int[] {34, 0, 249},
             },
             new int[][] {
                 new int[] {-1, 1, 66},
             },
             new int[][] {
-                new int[] {-1, 3, 247},
-                new int[] {34, 0, 249},
-            },
-            new int[][] {
                 new int[] {-1, 3, 248},
-                new int[] {34, 0, 250},
+                new int[] {28, 0, 250},
             },
             new int[][] {
                 new int[] {-1, 3, 249},
@@ -2500,7 +2498,7 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 3, 250},
-                new int[] {28, 0, 252},
+                new int[] {34, 0, 252},
             },
             new int[][] {
                 new int[] {-1, 3, 251},
@@ -2508,15 +2506,11 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 3, 252},
-                new int[] {34, 0, 254},
+                new int[] {20, 0, 254},
             },
             new int[][] {
                 new int[] {-1, 3, 253},
                 new int[] {20, 0, 255},
-            },
-            new int[][] {
-                new int[] {-1, 3, 254},
-                new int[] {20, 0, 256},
             },
             new int[][] {
                 new int[] {-1, 1, 118},
@@ -2557,7 +2551,7 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 52},
-                new int[] {58, 106},
+                new int[] {36, 58},
             },
             new int[][] {
                 new int[] {-1, 84},
@@ -2576,36 +2570,36 @@ namespace SablePP.Compiler.Parsing
             new int[][] {
                 new int[] {-1, 79},
                 new int[] {80, 122},
-                new int[] {167, 122},
+                new int[] {172, 122},
             },
             new int[][] {
                 new int[] {-1, 15},
             },
             new int[][] {
                 new int[] {-1, 125},
-                new int[] {126, 171},
+                new int[] {126, 176},
             },
             new int[][] {
                 new int[] {-1, 69},
                 new int[] {48, 81},
                 new int[] {63, 109},
                 new int[] {82, 126},
-                new int[] {124, 168},
+                new int[] {124, 173},
             },
             new int[][] {
                 new int[] {-1, 112},
-                new int[] {113, 164},
+                new int[] {113, 169},
             },
             new int[][] {
                 new int[] {-1, 70},
-                new int[] {111, 163},
+                new int[] {111, 168},
             },
             new int[][] {
                 new int[] {-1, 117},
                 new int[] {100, 150},
                 new int[] {104, 156},
-                new int[] {149, 188},
-                new int[] {155, 191},
+                new int[] {149, 193},
+                new int[] {155, 196},
             },
             new int[][] {
                 new int[] {-1, 71},
@@ -2614,13 +2608,13 @@ namespace SablePP.Compiler.Parsing
             new int[][] {
                 new int[] {-1, 72},
                 new int[] {62, 107},
-                new int[] {159, 199},
-                new int[] {160, 200},
+                new int[] {164, 204},
+                new int[] {165, 205},
             },
             new int[][] {
                 new int[] {-1, 73},
                 new int[] {62, 108},
-                new int[] {161, 201},
+                new int[] {166, 206},
             },
             new int[][] {
                 new int[] {-1, 74},
@@ -2641,25 +2635,25 @@ namespace SablePP.Compiler.Parsing
                 new int[] {91, 134},
                 new int[] {97, 146},
                 new int[] {101, 151},
-                new int[] {135, 177},
-                new int[] {136, 179},
-                new int[] {147, 186},
-                new int[] {178, 207},
+                new int[] {135, 182},
+                new int[] {136, 184},
+                new int[] {147, 191},
+                new int[] {183, 212},
             },
             new int[][] {
-                new int[] {-1, 182},
+                new int[] {-1, 187},
                 new int[] {92, 141},
-                new int[] {132, 175},
-                new int[] {210, 229},
+                new int[] {132, 180},
+                new int[] {215, 235},
             },
             new int[][] {
-                new int[] {-1, 183},
-                new int[] {209, 228},
-                new int[] {238, 243},
+                new int[] {-1, 188},
+                new int[] {214, 234},
+                new int[] {239, 244},
             },
             new int[][] {
-                new int[] {-1, 211},
-                new int[] {212, 230},
+                new int[] {-1, 216},
+                new int[] {217, 236},
             },
             new int[][] {
                 new int[] {-1, 142},
@@ -2674,10 +2668,10 @@ namespace SablePP.Compiler.Parsing
                 new int[] {143, 154},
                 new int[] {148, 154},
                 new int[] {153, 154},
-                new int[] {185, 154},
-                new int[] {187, 154},
-                new int[] {189, 154},
-                new int[] {215, 154},
+                new int[] {190, 154},
+                new int[] {192, 154},
+                new int[] {194, 154},
+                new int[] {220, 154},
             },
             new int[][] {
                 new int[] {-1, 97},
@@ -2688,7 +2682,7 @@ namespace SablePP.Compiler.Parsing
                 new int[] {101, 152},
                 new int[] {136, 152},
                 new int[] {147, 152},
-                new int[] {178, 152},
+                new int[] {183, 152},
             },
             new int[][] {
                 new int[] {-1, 99},
@@ -2708,19 +2702,19 @@ namespace SablePP.Compiler.Parsing
                 new int[] {38, 59},
             },
             new int[][] {
-                new int[] {-1, 197},
+                new int[] {-1, 162},
             },
             new int[][] {
-                new int[] {-1, 221},
-                new int[] {222, 237},
+                new int[] {-1, 202},
+                new int[] {203, 228},
             },
             new int[][] {
-                new int[] {-1, 198},
-                new int[] {220, 236},
+                new int[] {-1, 163},
+                new int[] {201, 227},
             },
             new int[][] {
-                new int[] {-1, 234},
-                new int[] {218, 235},
+                new int[] {-1, 225},
+                new int[] {199, 226},
             },
             new int[][] {
                 new int[] {-1, 19},
@@ -2739,7 +2733,7 @@ namespace SablePP.Compiler.Parsing
             },
             new int[][] {
                 new int[] {-1, 80},
-                new int[] {120, 167},
+                new int[] {120, 172},
             },
             new int[][] {
                 new int[] {-1, 113},
@@ -2752,29 +2746,29 @@ namespace SablePP.Compiler.Parsing
                 new int[] {7, 35},
             },
             new int[][] {
-                new int[] {-1, 212},
+                new int[] {-1, 217},
             },
             new int[][] {
                 new int[] {-1, 101},
                 new int[] {91, 136},
                 new int[] {97, 147},
-                new int[] {135, 178},
+                new int[] {135, 183},
             },
             new int[][] {
                 new int[] {-1, 102},
                 new int[] {94, 143},
                 new int[] {97, 148},
                 new int[] {101, 153},
-                new int[] {146, 185},
-                new int[] {147, 187},
-                new int[] {151, 189},
-                new int[] {186, 215},
+                new int[] {146, 190},
+                new int[] {147, 192},
+                new int[] {151, 194},
+                new int[] {191, 220},
             },
             new int[][] {
                 new int[] {-1, 38},
             },
             new int[][] {
-                new int[] {-1, 222},
+                new int[] {-1, 203},
             },
         };
         #endregion
@@ -2785,6 +2779,7 @@ namespace SablePP.Compiler.Parsing
             "Expecting: TIdentifier",
             "Expecting: '{' or TIdentifier",
             "Expecting: 'Tokens'",
+            "Expecting: '{'",
             "Expecting: end of file",
             "Expecting: ';'",
             "Expecting: ';' or ','",
@@ -2792,12 +2787,13 @@ namespace SablePP.Compiler.Parsing
             "Expecting: TPackagetoken, 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', TAsttoken, 'Token Syntax Highlight', TIdentifier or end of file",
             "Expecting: TPackagetoken, 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', TAsttoken, 'Token Syntax Highlight', '{', TIdentifier or end of file",
             "Expecting: '=', '{' or '->'",
-            "Expecting: '{'",
+            "Expecting: TPackagetoken, 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', TAsttoken, 'Token Syntax Highlight', '{' or end of file",
             "Expecting: '[', '(', TIdentifier, TCharacter, TDecChar, THexChar or TString",
             "Expecting: '}', ',' or '->'",
             "Expecting: ';', '}' or ','",
             "Expecting: 'T', 'P', ';', '[', '{', '|', '->' or TIdentifier",
             "Expecting: '->'",
+            "Expecting: '}'",
             "Expecting: ';', '[', ']', '(', ')', '+', '-', '?', '*', '|', '/', TIdentifier, TCharacter, TDecChar, THexChar or TString",
             "Expecting: '..', ';', '[', ']', '(', ')', '+', '-', '?', '*', '|', '/', TIdentifier, TCharacter, TDecChar, THexChar or TString",
             "Expecting: ';', ')', '|' or '/'",
@@ -2813,7 +2809,7 @@ namespace SablePP.Compiler.Parsing
             "Expecting: ';' or '|'",
             "Expecting: 'T', 'P' or TIdentifier",
             "Expecting: '=', '+', '?' or '*'",
-            "Expecting: '}'",
+            "Expecting: 'italic', 'bold', 'text' or 'background'",
             "Expecting: '+' or '-'",
             "Expecting: '..', '+' or '-'",
             "Expecting: ')'",
@@ -2823,13 +2819,12 @@ namespace SablePP.Compiler.Parsing
             "Expecting: 'New', 'Null', '[', ']' or TIdentifier",
             "Expecting: '.', ';', ']', ')', '}', '|' or ','",
             "Expecting: '}', '+', '?' or '*'",
-            "Expecting: 'italic', 'bold', 'text' or 'background'",
-            "Expecting: TCharacter, TDecChar or THexChar",
             "Expecting: ':'",
+            "Expecting: TCharacter, TDecChar or THexChar",
             "Expecting: '.' or '('",
             "Expecting: ']', ')' or ','",
-            "Expecting: 'New', 'Null', '[', ')' or TIdentifier",
             "Expecting: 'rgb', THsv or THexColor",
+            "Expecting: 'New', 'Null', '[', ')' or TIdentifier",
             "Expecting: '('",
             "Expecting: TDecChar",
             "Expecting: ','",
@@ -2837,23 +2832,22 @@ namespace SablePP.Compiler.Parsing
         #endregion
         #region errors
         private static int[] errors = {
-            0, 1, 2, 2, 3, 4, 2, 2, 2, 5, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 6, 7, 6, 8, 9, 9, 2, 8, 10, 2, 10, 2,
-            11, 9, 9, 9, 12, 9, 9, 0, 0, 2, 7, 7, 0, 13, 9, 14,
-            13, 8, 10, 15, 6, 16, 17, 2, 8, 9, 2, 9, 7, 7, 13, 13,
-            18, 19, 19, 19, 18, 6, 20, 21, 22, 23, 18, 21, 2, 2, 2, 24,
-            24, 25, 13, 2, 15, 15, 0, 26, 26, 2, 27, 16, 28, 29, 30, 6,
-            30, 16, 16, 31, 29, 16, 30, 2, 32, 16, 33, 34, 35, 36, 9, 13,
-            20, 20, 37, 37, 37, 21, 21, 14, 24, 2, 24, 10, 13, 6, 25, 15,
-            15, 2, 2, 38, 28, 33, 30, 16, 16, 2, 39, 40, 41, 30, 39, 30,
-            9, 17, 30, 16, 30, 29, 16, 30, 16, 30, 30, 42, 8, 6, 43, 13,
-            13, 44, 18, 20, 20, 2, 2, 24, 6, 10, 10, 6, 29, 29, 45, 33,
-            16, 30, 16, 30, 46, 39, 47, 38, 2, 30, 30, 30, 16, 30, 8, 33,
-            9, 7, 7, 45, 45, 6, 7, 38, 38, 38, 24, 2, 10, 31, 30, 30,
-            2, 48, 28, 47, 47, 39, 39, 30, 8, 49, 49, 9, 43, 7, 7, 18,
-            18, 18, 50, 39, 36, 47, 47, 50, 50, 7, 7, 7, 7, 7, 48, 39,
-            51, 51, 39, 36, 52, 52, 39, 51, 51, 52, 52, 51, 51, 36, 36, 7,
-            7,
+            0, 1, 2, 2, 3, 4, 2, 2, 5, 6, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 7, 8, 7, 9, 10, 10, 2, 9, 11, 2, 11, 2,
+            12, 10, 10, 10, 2, 13, 13, 0, 0, 2, 8, 8, 0, 14, 10, 15,
+            14, 9, 11, 16, 7, 17, 18, 2, 9, 10, 19, 13, 8, 8, 14, 14,
+            20, 21, 21, 21, 20, 7, 22, 23, 24, 25, 20, 23, 2, 2, 2, 26,
+            26, 27, 14, 2, 16, 16, 0, 28, 28, 2, 29, 17, 30, 31, 32, 7,
+            32, 17, 17, 33, 31, 17, 32, 2, 34, 17, 35, 36, 37, 38, 10, 14,
+            22, 22, 39, 39, 39, 23, 23, 15, 26, 2, 26, 11, 14, 7, 27, 16,
+            16, 2, 2, 40, 30, 19, 32, 17, 17, 2, 41, 42, 43, 32, 41, 32,
+            10, 18, 32, 17, 32, 31, 17, 32, 17, 32, 32, 44, 9, 7, 8, 8,
+            45, 45, 7, 8, 14, 14, 46, 20, 22, 22, 2, 2, 26, 7, 11, 11,
+            7, 31, 31, 45, 19, 17, 32, 17, 32, 47, 41, 48, 40, 2, 32, 32,
+            32, 17, 32, 9, 19, 10, 49, 49, 13, 35, 8, 8, 40, 40, 40, 26,
+            2, 11, 33, 32, 32, 2, 50, 30, 48, 48, 41, 41, 32, 9, 51, 51,
+            8, 8, 8, 8, 8, 20, 20, 20, 51, 41, 38, 48, 48, 52, 52, 50,
+            41, 53, 53, 41, 38, 52, 52, 41, 53, 53, 52, 52, 38, 38, 8, 8,
         };
         #endregion
     }

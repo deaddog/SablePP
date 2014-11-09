@@ -5084,16 +5084,14 @@ namespace SablePP.Compiler.Nodes
     }
     public abstract partial class PHighlightrule : Production<PHighlightrule>
     {
-        private TIdentifier _name_;
         private TLBrace _lpar_;
         private NodeList<TIdentifier> _tokens_;
         private TRBrace _rpar_;
         private NodeList<PHighlightStyle> _styles_;
         private TSemicolon _semicolon_;
         
-        public PHighlightrule(TIdentifier _name_, TLBrace _lpar_, IEnumerable<TIdentifier> _tokens_, TRBrace _rpar_, IEnumerable<PHighlightStyle> _styles_, TSemicolon _semicolon_)
+        public PHighlightrule(TLBrace _lpar_, IEnumerable<TIdentifier> _tokens_, TRBrace _rpar_, IEnumerable<PHighlightStyle> _styles_, TSemicolon _semicolon_)
         {
-            this.Name = _name_;
             this.Lpar = _lpar_;
             this._tokens_ = new NodeList<TIdentifier>(this, _tokens_, false);
             this.Rpar = _rpar_;
@@ -5101,21 +5099,6 @@ namespace SablePP.Compiler.Nodes
             this.Semicolon = _semicolon_;
         }
         
-        public TIdentifier Name
-        {
-            get { return _name_; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentException("Name in PHighlightrule cannot be null.", "value");
-                
-                if (_name_ != null)
-                    SetParent(_name_, null);
-                SetParent(value, this);
-                
-                _name_ = value;
-            }
-        }
         public TLBrace Lpar
         {
             get { return _lpar_; }
@@ -5173,22 +5156,14 @@ namespace SablePP.Compiler.Nodes
     }
     public partial class AHighlightrule : PHighlightrule
     {
-        public AHighlightrule(TIdentifier _name_, TLBrace _lpar_, IEnumerable<TIdentifier> _tokens_, TRBrace _rpar_, IEnumerable<PHighlightStyle> _styles_, TSemicolon _semicolon_)
-            : base(_name_, _lpar_, _tokens_, _rpar_, _styles_, _semicolon_)
+        public AHighlightrule(TLBrace _lpar_, IEnumerable<TIdentifier> _tokens_, TRBrace _rpar_, IEnumerable<PHighlightStyle> _styles_, TSemicolon _semicolon_)
+            : base(_lpar_, _tokens_, _rpar_, _styles_, _semicolon_)
         {
         }
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Name == oldChild)
-            {
-                if (newChild == null)
-                    throw new ArgumentException("Name in AHighlightrule cannot be null.", "newChild");
-                if (!(newChild is TIdentifier) && newChild != null)
-                    throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Name = newChild as TIdentifier;
-            }
-            else if (Lpar == oldChild)
+            if (Lpar == oldChild)
             {
                 if (newChild == null)
                     throw new ArgumentException("Lpar in AHighlightrule cannot be null.", "newChild");
@@ -5238,7 +5213,6 @@ namespace SablePP.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            yield return Name;
             yield return Lpar;
             {
                 TIdentifier[] temp = new TIdentifier[Tokens.Count];
@@ -5258,12 +5232,12 @@ namespace SablePP.Compiler.Nodes
         
         public override PHighlightrule Clone()
         {
-            return new AHighlightrule(Name.Clone(), Lpar.Clone(), Tokens, Rpar.Clone(), Styles, Semicolon.Clone());
+            return new AHighlightrule(Lpar.Clone(), Tokens, Rpar.Clone(), Styles, Semicolon.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2} {3} {4} {5}", Name, Lpar, Tokens, Rpar, Styles, Semicolon);
+            return string.Format("{0} {1} {2} {3} {4}", Lpar, Tokens, Rpar, Styles, Semicolon);
         }
     }
     public abstract partial class PHighlightStyle : Production<PHighlightStyle>

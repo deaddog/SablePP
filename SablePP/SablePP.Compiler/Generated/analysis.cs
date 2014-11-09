@@ -2264,7 +2264,6 @@ namespace SablePP.Compiler.Analysis
             InPHighlightrule(node);
             InAHighlightrule(node);
             
-            Visit(node.Name);
             Visit(node.Lpar);
             Visit(node.Tokens);
             Visit(node.Rpar);
@@ -3815,7 +3814,6 @@ namespace SablePP.Compiler.Analysis
             Visit(node.Rpar);
             Visit(node.Tokens);
             Visit(node.Lpar);
-            Visit(node.Name);
             
             OutAHighlightrule(node);
             OutPHighlightrule(node);
