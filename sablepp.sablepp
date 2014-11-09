@@ -117,30 +117,20 @@ Ignored Tokens
 Productions
     grammar = section*;
     section
-        = {p} package { -> New section.package(package) }
-        | {h} helpers { -> New section.helpers(helpers) }
-        | {s} states { -> New section.states(states) }
-        | {t} tokens { -> New section.tokens(tokens) }
-        | {i} ign_tokens { -> New section.ignore(ign_tokens) }
-        | {pr} productions { -> New section.productions(productions) }
-        | {a} astproductions { -> New section.a_s_t(astproductions) }
-        | {hi} highlightrules { -> New section.highlight(highlightrules) }
-        ;
-
-    package =
-        packagetoken packagename semicolon;
-
-    helpers
-        = helperstoken [helper_defs]:helper_def+ {-> New helpers(helperstoken, [helper_defs])}
+        = {package} packagetoken packagename semicolon
+        | {h} helperstoken [helper_defs]:helper_def+ -> New section.helpers(helperstoken, [helper_defs])
+        | {s} statestoken s_list semicolon -> New section.states(statestoken, [s_list], semicolon)
+        | {t} tokenstoken [token_defs]:token_def+ -> New section.tokens(tokenstoken, [token_defs])
+        | {i} ignoredtoken tokenstoken id_list semicolon -> New section.ignore(ignoredtoken, tokenstoken, [id_list], semicolon)
+        | {pr} productionstoken [prods]:prod+ -> New section.productions(productionstoken, [prods])
+        | {a} asttoken [prods]:prod+ -> New section.a_s_t(asttoken, [prods])
+        | {highlight} highlighttoken highlightrule+
         ;
 
     helper_def {-> helper}
         = identifier equal reg_exp semicolon {-> New helper(identifier, equal, reg_exp, semicolon)}
         ;
 
-    states
-        = statestoken s_list semicolon {-> New states(statestoken, [s_list], semicolon)}
-        ;
     s_list -> state+
     = identifier s_list_tail* -> [New state(identifier), s_list_tail]
         ;
@@ -154,10 +144,6 @@ Productions
 
     id_list_tail {-> identifier}
         = comma identifier {-> identifier}
-        ;
-
-    tokens
-        = tokenstoken [token_defs]:token_def+ {-> New tokens(tokenstoken, [token_defs])}
         ;
 
     token_def {-> token}
@@ -175,10 +161,6 @@ Productions
     state_list_tail {-> token_state}
         = {notransition} comma identifier {-> New token_state(identifier)}
         | {transition} comma [f]:identifier arrow [t]:identifier {-> New token_state.transition(f, arrow, t)}
-        ;
-
-    ign_tokens {-> ignoredtokens}
-        = ignoredtoken tokenstoken id_list semicolon {-> New ignoredtokens(ignoredtoken, tokenstoken, [id_list], semicolon)}
         ;
 
     look_ahead {-> tokenlookahead}
@@ -227,10 +209,6 @@ Productions
         = {plus} l_bkt [left]:basic plus [right]:basic r_bkt {-> New regex.binaryplus(l_bkt, left, plus, right, r_bkt)}
         | {minus} l_bkt [left]:basic minus [right]:basic r_bkt {-> New regex.binaryminus(l_bkt, left, minus, right, r_bkt)}
         | {interval} l_bkt [left]:char d_dot [right]:char r_bkt {-> New regex.interval(l_bkt, left, d_dot, right, r_bkt)}
-        ;
-
-    productions
-        = productionstoken [prods]:prod+ {-> New productions(productionstoken, [prods])}
         ;
 
     prod {-> production}
@@ -288,14 +266,6 @@ Productions
         | {token} token_specifier dot identifier {-> New elementid.token(token_specifier, dot, identifier)}
         | {production} production_specifier dot identifier {-> New elementid.production(production_specifier, dot, identifier)}
         ;
-
-    astproductions
-        = asttoken [prods]:prod+ {-> New astproductions(asttoken, [prods])}
-        ;
-    
-    highlightrules
-        = highlighttoken highlightrule+
-        ;
     
     highlightrule
         = l_brace id_list r_brace hlstyle_list semicolon {-> New highlightrule(l_brace, [id_list], r_brace, [hlstyle_list], semicolon)}
@@ -327,22 +297,18 @@ Abstract Syntax Tree
         = section*
         ;
     section
-        = {package} package
-        | {helpers} helpers
-        | {states} states
-        | {tokens} tokens
-        | {ignore} ignoredtokens
-        | {productions} productions
-        | {a_s_t} astproductions
-        | {highlight} highlightrules
+        = {package} packagetoken packagename semicolon
+        | {helpers} helperstoken [helpers]:helper*
+        | {states} statestoken state+ semicolon
+        | {tokens} tokenstoken [tokens]:token*
+        | {ignore} ignoredtoken tokenstoken [tokens]:identifier+ semicolon
+        | {productions} productionstoken [productions]:production+
+        | {a_s_t} asttoken [productions]:production+
+        | {highlight} highlighttoken highlightrule+
         ;
     
-    package = packagetoken packagename semicolon;
-    
-    helpers = helperstoken [helpers]:helper*;
     helper = identifier equal regex semicolon;
     
-    tokens = tokenstoken [tokens]:token*;
     token = [statelist]:token_state* identifier equal regex tokenlookahead? semicolon;
     tokenlookahead = slash regex;
     
@@ -371,17 +337,13 @@ Abstract Syntax Tree
         | {plus} plus
         ;
     
-    states = statestoken state+ semicolon;
     state = identifier;
-    ignoredtokens = ignoredtoken tokenstoken [tokens]:identifier+ semicolon;
     
     token_state
         = identifier
         | {transition} [from]:identifier arrow [to]:identifier
         ;
 
-    productions = productionstoken [productions]:production+;
-    astproductions =      asttoken [productions]:production+;
     production = identifier prodtranslation? equal alternative+ semicolon;
     
     prodtranslation = arrow identifier modifier?;
@@ -408,9 +370,6 @@ Abstract Syntax Tree
         | {production} production_specifier dot identifier
         ;
     
-    highlightrules
-        = highlighttoken highlightrule+
-        ;
     highlightrule
         = [lpar]:l_brace [tokens]:identifier+ [rpar]:r_brace [styles]:highlight_style+ semicolon
         ;
