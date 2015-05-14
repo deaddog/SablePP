@@ -55,7 +55,7 @@ namespace SablePP.Compiler
 
         private TSection[] sections<TSection>(Start<PGrammar> node) where TSection : PSection
         {
-            return (from s in (node.Root as ASectionGrammar).Sections where s is TSection select s as TSection).ToArray();
+            return (from s in node.Root.Sections where s is TSection select s as TSection).ToArray();
         }
 
         private void ValidatePreSable(Start<PGrammar> root, ErrorManager errorManager)
