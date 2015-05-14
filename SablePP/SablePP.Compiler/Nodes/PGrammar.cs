@@ -13,18 +13,9 @@ namespace SablePP.Compiler.Nodes
             get { return HasPackages ? Packages.First().Text : DefaultName; }
         }
 
-        private string rootProduction = null;
-        public string RootProduction
+        public PProduction RootProduction
         {
-            get
-            {
-                if (rootProduction == null)
-                {
-                    var prod = HasAstproductions ? Astproductions.Productions : Productions.Productions;
-                    rootProduction = "P" + prod[0].Identifier.Text.ToCamelCase();
-                }
-                return rootProduction;
-            }
+            get { return (HasAstproductions ? AstProductions : Productions).FirstOrDefault(); }
         }
 
         public bool HasPackages
