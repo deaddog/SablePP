@@ -34,15 +34,6 @@ namespace SablePP.Compiler
 
         public override void Validate(Start<PGrammar> root, CompilationOptions compilationOptions)
         {
-            {
-                var packages = sections<APackageSection>(root);
-                for (int i = 1; i < packages.Length; i++)
-                    compilationOptions.ErrorManager.Register(packages[i], "A SablePP grammar cannot contain multiple Package/Namespace sections.");
-            }
-
-            if (compilationOptions.ErrorManager.Errors.Count > 0)
-                return;
-
             ValidatePreSable(root, compilationOptions.ErrorManager);
 
             compilationOptions.Highlight(identifierHighlighter);
@@ -69,8 +60,11 @@ namespace SablePP.Compiler
 
         private void ValidatePreSable(Start<PGrammar> root, ErrorManager errorManager)
         {
-            if (!root.Root.HasPackage)
+            if (!root.Root.HasPackages)
                 errorManager.Register(ErrorType.Message, "When a SablePP does not have a Namespace definition, code is generated in the {0} namespace.", PGrammar.DefaultName);
+            else
+                foreach (var package in sections<APackageSection>(root))
+                    errorManager.Register(package, "A SablePP grammar cannot contain multiple Package/Namespace sections.");
 
             if (!root.Root.HasTokens)
                 errorManager.Register("A SablePP grammar must contain a Tokens definition.");
