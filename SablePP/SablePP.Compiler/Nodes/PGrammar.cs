@@ -8,20 +8,9 @@ namespace SablePP.Compiler.Nodes
     public partial class PGrammar
     {
         public static readonly string DefaultName = "SableCCPP";
-        private string packagename = null;
         public string PackageName
         {
-            get
-            {
-                if (packagename == null)
-                {
-                    if (HasPackage)
-                        packagename = Package.Packagename.Text;
-                    else
-                        packagename = DefaultName;
-                }
-                return packagename;
-            }
+            get { return HasPackages ? Packages.First().Text : DefaultName; }
         }
 
         private string rootProduction = null;
