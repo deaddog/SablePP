@@ -25,7 +25,7 @@ namespace SablePP.Compiler
         public static Grammar BuildSableCCGrammar(SablePP.Tools.Nodes.Start<PGrammar> grammar)
         {
             GrammarBuilder builder;
-            
+
             if (grammar.Root.HasAstproductions)
                 builder = new AstGrammarBuilder();
             else
@@ -36,9 +36,9 @@ namespace SablePP.Compiler
 
         public abstract Grammar Visit(AGrammar node);
 
-        public IEnumerable<Helper> Visit(PHelpers node)
+        public IEnumerable<Helper> Visit(IEnumerable<PHelper> nodes)
         {
-            return from h in node.Helpers select Visit(h);
+            return from h in nodes select Visit(h);
         }
         public Helper Visit(PHelper node)
         {
@@ -47,9 +47,9 @@ namespace SablePP.Compiler
             return helper;
         }
 
-        public IEnumerable<State> Visit(PStates node)
+        public IEnumerable<State> Visit(IEnumerable<PState> nodes)
         {
-            return from s in node.States select Visit(s);
+            return from s in nodes select Visit(s);
         }
         public State Visit(PState node)
         {
@@ -60,9 +60,9 @@ namespace SablePP.Compiler
 
         #region Tokens
 
-        public IEnumerable<Token> Visit(PTokens node)
+        public IEnumerable<Token> Visit(IEnumerable<PToken> nodes)
         {
-            return from t in node.Tokens select Visit(t);
+            return from t in nodes select Visit(t);
         }
         public Token Visit(PToken node)
         {
@@ -161,9 +161,9 @@ namespace SablePP.Compiler
 
         #region Highlighting
 
-        public IEnumerable<Highlighting> Visit(PHighlightrules node)
+        public IEnumerable<Highlighting> Visit(IEnumerable<PHighlightrule> nodes)
         {
-            return from h in node.Highlightrules select Visit(h);
+            return from h in nodes select Visit(h);
         }
 
         public Highlighting Visit(PHighlightrule node)
