@@ -45,35 +45,21 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             hasASTsection = node.HasAstproductions;
 
-            if (node.HasPackage)
-                Visit(node.Package);
-
-            if (node.HasHelpers)
-                Visit(node.Helpers);
-
-            if (node.HasStates)
-                Visit(node.States);
-
-            if (node.HasTokens)
-                Visit(node.Tokens);
-
-            if (node.HasIgnoredtokens)
-                Visit(node.Ignoredtokens);
-
-            if (node.HasAstproductions)
-                Visit(node.Astproductions);
-
-            if (node.HasProductions)
-                Visit(node.Productions);
+            VisitPackages(node.Packages);
+            VisitHelpers(node.Helpers);
+            VisitStates(node.States);
+            VisitTokens(node.Tokens);
+            VisitIgnoredTokens(node.IgnoredTokens);
+            VisitAstProductions(node.AstProductions);
+            VisitProductions(node.Productions);
 
             if (ErrorManager.Errors.Count > 0)
                 return;
 
             if (node.HasProductions && node.HasAstproductions)
-                new TranslationTargetVisitor(this.ErrorManager).Visit(node.Productions);
+                new TranslationTargetVisitor(this.ErrorManager).VisitProductions(node.Productions);
 
-            if (node.HasHighlightrules)
-                Visit(node.Highlightrules);
+            VisitHighlightRules(node.HighlightRules);
 
             foreach (var h in helpers.NonLinked)
                 RegisterWarning(h.Identifier, "The helper {0} is never used in a helper or token definition.", h.Identifier);
