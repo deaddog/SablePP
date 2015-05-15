@@ -63,7 +63,7 @@ namespace SablePP.Compiler
             if (!root.Root.HasPackages)
                 errorManager.Register(ErrorType.Message, "When a SablePP does not have a Namespace definition, code is generated in the {0} namespace.", PGrammar.DefaultName);
             else
-                foreach (var package in sections<APackageSection>(root))
+                foreach (var package in sections<APackageSection>(root).Skip(1))
                     errorManager.Register(package, "A SablePP grammar cannot contain multiple Package/Namespace sections.");
 
             if (!root.Root.HasTokens)

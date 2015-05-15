@@ -10,10 +10,10 @@ namespace SablePP.Compiler.Nodes
             get
             {
                 var par = this.GetParent();
-                if (par is PProductions)
-                    return ReferenceEquals((par as PProductions).Productions[0], this);
-                else if (par is PAstproductions)
-                    return ReferenceEquals((par as PAstproductions).Productions[0], this);
+                if (par is AProductionsSection)
+                    return ReferenceEquals((par as AProductionsSection).Productions[0], this);
+                else if (par is AASTSection)
+                    return ReferenceEquals((par as AASTSection).Productions[0], this);
                 else
                     return false;
             }
