@@ -262,7 +262,9 @@ namespace SablePP.Compiler.Execution
         private void outputButton_Click(object sender, EventArgs e)
         {
             DialogResult result;
-            settings.OutputPaths[this.File.FullName] = getOutputDirectory(out result);
+            var dir = getOutputDirectory(out result);
+            if (result == System.Windows.Forms.DialogResult.OK)
+                settings.OutputPaths[this.File.FullName] = dir;
         }
 
         private void generateButton_Click(object sender, EventArgs e)
