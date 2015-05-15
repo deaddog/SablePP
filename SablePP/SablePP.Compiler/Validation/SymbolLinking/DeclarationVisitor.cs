@@ -79,13 +79,13 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                     RegisterWarning(p.Identifier, "The AST production {0} is never used in another production.", p.Identifier);
         }
 
-        public override void VisitHelpers(IEnumerable<PHelper> nodes)
+        protected override void CaseHelpers(PHelper[] nodes)
         {
             foreach (var h in nodes)
                 if (!helpers.Declare(h))
                     RegisterError(h.Identifier, "Helper {0} has already been defined (line {1}).", h.Identifier, helpers[h.Identifier.Text].Identifier.Line);
 
-            base.VisitHelpers(nodes);
+            base.CaseHelpers(nodes);
         }
         public override void CaseAIdentifierRegex(AIdentifierRegex node)
         {
@@ -93,7 +93,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 RegisterError(node.Identifier, "The helper {0} has not been defined.", node.Identifier);
         }
 
-        public override void VisitStates(IEnumerable<PState> nodes)
+        protected override void CaseStates(PState[] nodes)
         {
             foreach (var s in nodes)
                 if (!states.Declare(s))
@@ -126,7 +126,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 RegisterError(node.To, "The state {0} has not been defined.", node.To);
         }
 
-        public override void VisitIgnoredTokens(IEnumerable<TIdentifier> nodes)
+        protected override void CaseIgnoredTokens(TIdentifier[] nodes)
         {
             foreach (var item in nodes)
             {
@@ -137,7 +137,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             }
         }
 
-        public override void VisitAstProductions(IEnumerable<PProduction> nodes)
+        protected override void CaseAstProductions(PProduction[] nodes)
         {
             productions = astProd;
 
@@ -145,11 +145,11 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 if (!productions.Declare(prod))
                     RegisterError(prod.Identifier, "AST production {0} has already been defined (line {1}).", prod.Identifier, productions[prod.Identifier.Text].Identifier.Line);
 
-            base.VisitAstProductions(nodes);
+            base.CaseAstProductions(nodes);
 
             productions = null;
         }
-        public override void VisitProductions(IEnumerable<PProduction> nodes)
+        protected override void CaseProductions(PProduction[] nodes)
         {
             productions = nonastProd;
 
@@ -157,7 +157,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 if (!productions.Declare(prod))
                     RegisterError(prod.Identifier, "Production {0} has already been defined (line {1}).", prod.Identifier, productions[prod.Identifier.Text].Identifier.Line);
 
-            base.VisitProductions(nodes);
+            base.CaseProductions(nodes);
 
             productions = null;
         }
