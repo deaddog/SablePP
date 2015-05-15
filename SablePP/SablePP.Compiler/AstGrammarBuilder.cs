@@ -33,16 +33,12 @@ namespace SablePP.Compiler
             var _states = node.HasStates ? Visit(node.States).ToArray() : new State[0];
             var _tokens = node.HasTokens ? Visit(node.Tokens).ToArray() : new Token[0];
 
-            foreach (var p in node.Astproductions.Productions)
-            {
-                string name = "P" + p.Identifier.Text.ToCamelCase();
-                AbstractProduction prod = new AbstractProduction(name);
-                abstractProductions.Add(p, prod);
-            }
+            foreach (var p in node.AstProductions)
+                abstractProductions.Add(p, new AbstractProduction(p.ClassName));
 
-            var _absProds = node.HasAstproductions ? VisitAbstract(node.Astproductions).ToArray() : new AbstractProduction[0];
+            var _absProds = node.HasAstproductions ? VisitAbstract(node.AstProductions).ToArray() : new AbstractProduction[0];
 
-            foreach (var p in node.Productions.Productions)
+            foreach (var p in node.Productions)
             {
                 Production prod;
                 if (p.HasProdtranslation)
@@ -61,7 +57,7 @@ namespace SablePP.Compiler
             }
 
             var _productions = node.HasProductions ? Visit(node.Productions).ToArray() : new Production[0];
-            var _styles = node.HasHighlightrules ? Visit(node.Highlightrules).ToArray() : new Highlighting[0];
+            var _styles = node.HasHighlightRules ? Visit(node.HighlightRules).ToArray() : new Highlighting[0];
 
             return new Grammar(_package, _helpers, _states, _tokens, _productions, _absProds, _styles);
         }
@@ -80,9 +76,9 @@ namespace SablePP.Compiler
                 throw new ArgumentException("Production translation must be to either an ast node or a token.");
         }
 
-        public IEnumerable<AbstractProduction> VisitAbstract(PAstproductions node)
+        public IEnumerable<AbstractProduction> VisitAbstract(IEnumerable<PProduction> nodes)
         {
-            return from p in node.Productions select VisitAbstract(p);
+            return from p in nodes select VisitAbstract(p);
         }
         public AbstractProduction VisitAbstract(PProduction node)
         {
@@ -124,9 +120,9 @@ namespace SablePP.Compiler
                 throw new ArgumentException("Element must must refer to either an ast node or a token.");
         }
 
-        public IEnumerable<Production> Visit(PProductions node)
+        public IEnumerable<Production> Visit(IEnumerable<PProduction> nodes)
         {
-            return from p in node.Productions select Visit(p);
+            return from p in nodes select Visit(p);
         }
         public Production Visit(PProduction node)
         {
