@@ -16,6 +16,19 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
         }
 
+        public override void CaseAProduction(AProduction node)
+        {
+            if (node.IsFirst)
+            {
+                var t = node.AstTarget;
+
+                if (!t.IsUnknown && (!t.IsProduction || !t.Production.IsFirst))
+                    RegisterError(node.Identifier, "The root production must translate to the AST root production.");
+            }
+
+            base.CaseAProduction(node);
+        }
+
         public override void CaseAAlternative(AAlternative node)
         {
             if (node.HasTranslation)
