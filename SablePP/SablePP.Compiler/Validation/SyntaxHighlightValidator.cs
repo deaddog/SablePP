@@ -15,8 +15,7 @@ namespace SablePP.Compiler.Validation
 
         public override void CaseAGrammar(AGrammar node)
         {
-            if (node.HasHighlightrules)
-                Visit((dynamic)node.Highlightrules);
+            VisitHighlightRules(node.HighlightRules);
         }
 
         public override void CaseAHighlightrule(AHighlightrule node)

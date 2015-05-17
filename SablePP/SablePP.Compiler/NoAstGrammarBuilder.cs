@@ -31,7 +31,7 @@ namespace SablePP.Compiler
             var _states = node.HasStates ? Visit(node.States).ToArray() : new State[0];
             var _tokens = node.HasTokens ? Visit(node.Tokens).ToArray() : new Token[0];
 
-            foreach (var p in node.Productions.Productions)
+            foreach (var p in node.Productions)
             {
                 string name = "P" + p.Identifier.Text.ToCamelCase();
                 AbstractProduction abs = new AbstractProduction(name);
@@ -41,10 +41,10 @@ namespace SablePP.Compiler
                 abstractProductions.Add(prod, abs);
             }
 
-            foreach (var p in node.Productions.Productions)
+            foreach (var p in node.Productions)
                 Visit(p);
 
-            var _styles = node.HasHighlightrules ? Visit(node.Highlightrules).ToArray() : new Highlighting[0];
+            var _styles = node.HasHighlightRules ? Visit(node.HighlightRules).ToArray() : new Highlighting[0];
 
             return new Grammar(_package, _helpers, _states, _tokens, productions.Values, abstractProductions.Values, _styles);
         }

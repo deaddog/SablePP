@@ -26,14 +26,6 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(ASectionGrammar node)
-        {
-            CaseASectionGrammar(node);
-        }
-        public virtual void CaseASectionGrammar(ASectionGrammar node)
-        {
-            DefaultCase(node);
-        }
         public void Visit(APackageSection node)
         {
             CaseAPackageSection(node);
@@ -98,35 +90,11 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(APackage node)
-        {
-            CaseAPackage(node);
-        }
-        public virtual void CaseAPackage(APackage node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AHelpers node)
-        {
-            CaseAHelpers(node);
-        }
-        public virtual void CaseAHelpers(AHelpers node)
-        {
-            DefaultCase(node);
-        }
         public void Visit(AHelper node)
         {
             CaseAHelper(node);
         }
         public virtual void CaseAHelper(AHelper node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(ATokens node)
-        {
-            CaseATokens(node);
-        }
-        public virtual void CaseATokens(ATokens node)
         {
             DefaultCase(node);
         }
@@ -266,27 +234,11 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(AStates node)
-        {
-            CaseAStates(node);
-        }
-        public virtual void CaseAStates(AStates node)
-        {
-            DefaultCase(node);
-        }
         public void Visit(AState node)
         {
             CaseAState(node);
         }
         public virtual void CaseAState(AState node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AIgnoredtokens node)
-        {
-            CaseAIgnoredtokens(node);
-        }
-        public virtual void CaseAIgnoredtokens(AIgnoredtokens node)
         {
             DefaultCase(node);
         }
@@ -303,22 +255,6 @@ namespace SablePP.Compiler.Analysis
             CaseATransitionTokenState(node);
         }
         public virtual void CaseATransitionTokenState(ATransitionTokenState node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AProductions node)
-        {
-            CaseAProductions(node);
-        }
-        public virtual void CaseAProductions(AProductions node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AAstproductions node)
-        {
-            CaseAAstproductions(node);
-        }
-        public virtual void CaseAAstproductions(AAstproductions node)
         {
             DefaultCase(node);
         }
@@ -447,14 +383,6 @@ namespace SablePP.Compiler.Analysis
             CaseAProductionElementid(node);
         }
         public virtual void CaseAProductionElementid(AProductionElementid node)
-        {
-            DefaultCase(node);
-        }
-        public void Visit(AHighlightrules node)
-        {
-            CaseAHighlightrules(node);
-        }
-        public virtual void CaseAHighlightrules(AHighlightrules node)
         {
             DefaultCase(node);
         }
@@ -955,42 +883,9 @@ namespace SablePP.Compiler.Analysis
             InPGrammar(node);
             InAGrammar(node);
             
-            if (node.HasPackage)
-                Visit((dynamic)node.Package);
-            if (node.HasHelpers)
-                Visit((dynamic)node.Helpers);
-            if (node.HasStates)
-                Visit((dynamic)node.States);
-            if (node.HasTokens)
-                Visit((dynamic)node.Tokens);
-            if (node.HasIgnoredtokens)
-                Visit((dynamic)node.Ignoredtokens);
-            if (node.HasProductions)
-                Visit((dynamic)node.Productions);
-            if (node.HasAstproductions)
-                Visit((dynamic)node.Astproductions);
-            if (node.HasHighlightrules)
-                Visit((dynamic)node.Highlightrules);
-            
-            OutAGrammar(node);
-            OutPGrammar(node);
-        }
-        public virtual void InASectionGrammar(ASectionGrammar node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutASectionGrammar(ASectionGrammar node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseASectionGrammar(ASectionGrammar node)
-        {
-            InPGrammar(node);
-            InASectionGrammar(node);
-            
             Visit(node.Sections);
             
-            OutASectionGrammar(node);
+            OutAGrammar(node);
             OutPGrammar(node);
         }
         
@@ -1015,7 +910,9 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAPackageSection(node);
             
-            Visit((dynamic)node.Package);
+            Visit(node.Packagetoken);
+            Visit(node.Packagename);
+            Visit(node.Semicolon);
             
             OutAPackageSection(node);
             OutPSection(node);
@@ -1033,7 +930,8 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAHelpersSection(node);
             
-            Visit((dynamic)node.Helpers);
+            Visit(node.Helperstoken);
+            Visit(node.Helpers);
             
             OutAHelpersSection(node);
             OutPSection(node);
@@ -1051,7 +949,9 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAStatesSection(node);
             
-            Visit((dynamic)node.States);
+            Visit(node.Statestoken);
+            Visit(node.States);
+            Visit(node.Semicolon);
             
             OutAStatesSection(node);
             OutPSection(node);
@@ -1069,7 +969,8 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InATokensSection(node);
             
-            Visit((dynamic)node.Tokens);
+            Visit(node.Tokenstoken);
+            Visit(node.Tokens);
             
             OutATokensSection(node);
             OutPSection(node);
@@ -1087,7 +988,10 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAIgnoreSection(node);
             
-            Visit((dynamic)node.Ignoredtokens);
+            Visit(node.Ignoredtoken);
+            Visit(node.Tokenstoken);
+            Visit(node.Tokens);
+            Visit(node.Semicolon);
             
             OutAIgnoreSection(node);
             OutPSection(node);
@@ -1105,7 +1009,8 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAProductionsSection(node);
             
-            Visit((dynamic)node.Productions);
+            Visit(node.Productionstoken);
+            Visit(node.Productions);
             
             OutAProductionsSection(node);
             OutPSection(node);
@@ -1123,7 +1028,8 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAASTSection(node);
             
-            Visit((dynamic)node.Astproductions);
+            Visit(node.Asttoken);
+            Visit(node.Productions);
             
             OutAASTSection(node);
             OutPSection(node);
@@ -1141,67 +1047,11 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAHighlightSection(node);
             
-            Visit((dynamic)node.Highlightrules);
+            Visit(node.Highlighttoken);
+            Visit(node.Highlightrules);
             
             OutAHighlightSection(node);
             OutPSection(node);
-        }
-        
-        public virtual void InPPackage(PPackage node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPPackage(PPackage node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAPackage(APackage node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAPackage(APackage node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAPackage(APackage node)
-        {
-            InPPackage(node);
-            InAPackage(node);
-            
-            Visit(node.Packagetoken);
-            Visit(node.Packagename);
-            Visit(node.Semicolon);
-            
-            OutAPackage(node);
-            OutPPackage(node);
-        }
-        
-        public virtual void InPHelpers(PHelpers node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPHelpers(PHelpers node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAHelpers(AHelpers node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHelpers(AHelpers node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHelpers(AHelpers node)
-        {
-            InPHelpers(node);
-            InAHelpers(node);
-            
-            Visit(node.Helperstoken);
-            Visit(node.Helpers);
-            
-            OutAHelpers(node);
-            OutPHelpers(node);
         }
         
         public virtual void InPHelper(PHelper node)
@@ -1232,34 +1082,6 @@ namespace SablePP.Compiler.Analysis
             
             OutAHelper(node);
             OutPHelper(node);
-        }
-        
-        public virtual void InPTokens(PTokens node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTokens(PTokens node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InATokens(ATokens node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutATokens(ATokens node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATokens(ATokens node)
-        {
-            InPTokens(node);
-            InATokens(node);
-            
-            Visit(node.Tokenstoken);
-            Visit(node.Tokens);
-            
-            OutATokens(node);
-            OutPTokens(node);
         }
         
         public virtual void InPToken(PToken node)
@@ -1626,35 +1448,6 @@ namespace SablePP.Compiler.Analysis
             OutPModifier(node);
         }
         
-        public virtual void InPStates(PStates node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPStates(PStates node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAStates(AStates node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStates(AStates node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStates(AStates node)
-        {
-            InPStates(node);
-            InAStates(node);
-            
-            Visit(node.Statestoken);
-            Visit(node.States);
-            Visit(node.Semicolon);
-            
-            OutAStates(node);
-            OutPStates(node);
-        }
-        
         public virtual void InPState(PState node)
         {
             DefaultPIn(node);
@@ -1680,36 +1473,6 @@ namespace SablePP.Compiler.Analysis
             
             OutAState(node);
             OutPState(node);
-        }
-        
-        public virtual void InPIgnoredtokens(PIgnoredtokens node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPIgnoredtokens(PIgnoredtokens node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAIgnoredtokens(AIgnoredtokens node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIgnoredtokens(AIgnoredtokens node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIgnoredtokens(AIgnoredtokens node)
-        {
-            InPIgnoredtokens(node);
-            InAIgnoredtokens(node);
-            
-            Visit(node.Ignoredtoken);
-            Visit(node.Tokenstoken);
-            Visit(node.Tokens);
-            Visit(node.Semicolon);
-            
-            OutAIgnoredtokens(node);
-            OutPIgnoredtokens(node);
         }
         
         public virtual void InPTokenState(PTokenState node)
@@ -1757,62 +1520,6 @@ namespace SablePP.Compiler.Analysis
             
             OutATransitionTokenState(node);
             OutPTokenState(node);
-        }
-        
-        public virtual void InPProductions(PProductions node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPProductions(PProductions node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAProductions(AProductions node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProductions(AProductions node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProductions(AProductions node)
-        {
-            InPProductions(node);
-            InAProductions(node);
-            
-            Visit(node.Productionstoken);
-            Visit(node.Productions);
-            
-            OutAProductions(node);
-            OutPProductions(node);
-        }
-        
-        public virtual void InPAstproductions(PAstproductions node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPAstproductions(PAstproductions node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAAstproductions(AAstproductions node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAAstproductions(AAstproductions node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAAstproductions(AAstproductions node)
-        {
-            InPAstproductions(node);
-            InAAstproductions(node);
-            
-            Visit(node.Asttoken);
-            Visit(node.Productions);
-            
-            OutAAstproductions(node);
-            OutPAstproductions(node);
         }
         
         public virtual void InPProduction(PProduction node)
@@ -2213,34 +1920,6 @@ namespace SablePP.Compiler.Analysis
             
             OutAProductionElementid(node);
             OutPElementid(node);
-        }
-        
-        public virtual void InPHighlightrules(PHighlightrules node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPHighlightrules(PHighlightrules node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAHighlightrules(AHighlightrules node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHighlightrules(AHighlightrules node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHighlightrules(AHighlightrules node)
-        {
-            InPHighlightrules(node);
-            InAHighlightrules(node);
-            
-            Visit(node.Highlighttoken);
-            Visit(node.Highlightrules);
-            
-            OutAHighlightrules(node);
-            OutPHighlightrules(node);
         }
         
         public virtual void InPHighlightrule(PHighlightrule node)
@@ -2500,42 +2179,9 @@ namespace SablePP.Compiler.Analysis
             InPGrammar(node);
             InAGrammar(node);
             
-            if (node.HasHighlightrules)
-                Visit((dynamic)node.Highlightrules);
-            if (node.HasAstproductions)
-                Visit((dynamic)node.Astproductions);
-            if (node.HasProductions)
-                Visit((dynamic)node.Productions);
-            if (node.HasIgnoredtokens)
-                Visit((dynamic)node.Ignoredtokens);
-            if (node.HasTokens)
-                Visit((dynamic)node.Tokens);
-            if (node.HasStates)
-                Visit((dynamic)node.States);
-            if (node.HasHelpers)
-                Visit((dynamic)node.Helpers);
-            if (node.HasPackage)
-                Visit((dynamic)node.Package);
-            
-            OutAGrammar(node);
-            OutPGrammar(node);
-        }
-        public virtual void InASectionGrammar(ASectionGrammar node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutASectionGrammar(ASectionGrammar node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseASectionGrammar(ASectionGrammar node)
-        {
-            InPGrammar(node);
-            InASectionGrammar(node);
-            
             Visit(node.Sections);
             
-            OutASectionGrammar(node);
+            OutAGrammar(node);
             OutPGrammar(node);
         }
         
@@ -2560,7 +2206,9 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAPackageSection(node);
             
-            Visit((dynamic)node.Package);
+            Visit(node.Semicolon);
+            Visit(node.Packagename);
+            Visit(node.Packagetoken);
             
             OutAPackageSection(node);
             OutPSection(node);
@@ -2578,7 +2226,8 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAHelpersSection(node);
             
-            Visit((dynamic)node.Helpers);
+            Visit(node.Helpers);
+            Visit(node.Helperstoken);
             
             OutAHelpersSection(node);
             OutPSection(node);
@@ -2596,7 +2245,9 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAStatesSection(node);
             
-            Visit((dynamic)node.States);
+            Visit(node.Semicolon);
+            Visit(node.States);
+            Visit(node.Statestoken);
             
             OutAStatesSection(node);
             OutPSection(node);
@@ -2614,7 +2265,8 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InATokensSection(node);
             
-            Visit((dynamic)node.Tokens);
+            Visit(node.Tokens);
+            Visit(node.Tokenstoken);
             
             OutATokensSection(node);
             OutPSection(node);
@@ -2632,7 +2284,10 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAIgnoreSection(node);
             
-            Visit((dynamic)node.Ignoredtokens);
+            Visit(node.Semicolon);
+            Visit(node.Tokens);
+            Visit(node.Tokenstoken);
+            Visit(node.Ignoredtoken);
             
             OutAIgnoreSection(node);
             OutPSection(node);
@@ -2650,7 +2305,8 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAProductionsSection(node);
             
-            Visit((dynamic)node.Productions);
+            Visit(node.Productions);
+            Visit(node.Productionstoken);
             
             OutAProductionsSection(node);
             OutPSection(node);
@@ -2668,7 +2324,8 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAASTSection(node);
             
-            Visit((dynamic)node.Astproductions);
+            Visit(node.Productions);
+            Visit(node.Asttoken);
             
             OutAASTSection(node);
             OutPSection(node);
@@ -2686,67 +2343,11 @@ namespace SablePP.Compiler.Analysis
             InPSection(node);
             InAHighlightSection(node);
             
-            Visit((dynamic)node.Highlightrules);
+            Visit(node.Highlightrules);
+            Visit(node.Highlighttoken);
             
             OutAHighlightSection(node);
             OutPSection(node);
-        }
-        
-        public virtual void InPPackage(PPackage node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPPackage(PPackage node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAPackage(APackage node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAPackage(APackage node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAPackage(APackage node)
-        {
-            InPPackage(node);
-            InAPackage(node);
-            
-            Visit(node.Semicolon);
-            Visit(node.Packagename);
-            Visit(node.Packagetoken);
-            
-            OutAPackage(node);
-            OutPPackage(node);
-        }
-        
-        public virtual void InPHelpers(PHelpers node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPHelpers(PHelpers node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAHelpers(AHelpers node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHelpers(AHelpers node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHelpers(AHelpers node)
-        {
-            InPHelpers(node);
-            InAHelpers(node);
-            
-            Visit(node.Helpers);
-            Visit(node.Helperstoken);
-            
-            OutAHelpers(node);
-            OutPHelpers(node);
         }
         
         public virtual void InPHelper(PHelper node)
@@ -2777,34 +2378,6 @@ namespace SablePP.Compiler.Analysis
             
             OutAHelper(node);
             OutPHelper(node);
-        }
-        
-        public virtual void InPTokens(PTokens node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTokens(PTokens node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InATokens(ATokens node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutATokens(ATokens node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATokens(ATokens node)
-        {
-            InPTokens(node);
-            InATokens(node);
-            
-            Visit(node.Tokens);
-            Visit(node.Tokenstoken);
-            
-            OutATokens(node);
-            OutPTokens(node);
         }
         
         public virtual void InPToken(PToken node)
@@ -3171,35 +2744,6 @@ namespace SablePP.Compiler.Analysis
             OutPModifier(node);
         }
         
-        public virtual void InPStates(PStates node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPStates(PStates node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAStates(AStates node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStates(AStates node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStates(AStates node)
-        {
-            InPStates(node);
-            InAStates(node);
-            
-            Visit(node.Semicolon);
-            Visit(node.States);
-            Visit(node.Statestoken);
-            
-            OutAStates(node);
-            OutPStates(node);
-        }
-        
         public virtual void InPState(PState node)
         {
             DefaultPIn(node);
@@ -3225,36 +2769,6 @@ namespace SablePP.Compiler.Analysis
             
             OutAState(node);
             OutPState(node);
-        }
-        
-        public virtual void InPIgnoredtokens(PIgnoredtokens node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPIgnoredtokens(PIgnoredtokens node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAIgnoredtokens(AIgnoredtokens node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIgnoredtokens(AIgnoredtokens node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIgnoredtokens(AIgnoredtokens node)
-        {
-            InPIgnoredtokens(node);
-            InAIgnoredtokens(node);
-            
-            Visit(node.Semicolon);
-            Visit(node.Tokens);
-            Visit(node.Tokenstoken);
-            Visit(node.Ignoredtoken);
-            
-            OutAIgnoredtokens(node);
-            OutPIgnoredtokens(node);
         }
         
         public virtual void InPTokenState(PTokenState node)
@@ -3302,62 +2816,6 @@ namespace SablePP.Compiler.Analysis
             
             OutATransitionTokenState(node);
             OutPTokenState(node);
-        }
-        
-        public virtual void InPProductions(PProductions node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPProductions(PProductions node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAProductions(AProductions node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProductions(AProductions node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProductions(AProductions node)
-        {
-            InPProductions(node);
-            InAProductions(node);
-            
-            Visit(node.Productions);
-            Visit(node.Productionstoken);
-            
-            OutAProductions(node);
-            OutPProductions(node);
-        }
-        
-        public virtual void InPAstproductions(PAstproductions node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPAstproductions(PAstproductions node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAAstproductions(AAstproductions node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAAstproductions(AAstproductions node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAAstproductions(AAstproductions node)
-        {
-            InPAstproductions(node);
-            InAAstproductions(node);
-            
-            Visit(node.Productions);
-            Visit(node.Asttoken);
-            
-            OutAAstproductions(node);
-            OutPAstproductions(node);
         }
         
         public virtual void InPProduction(PProduction node)
@@ -3760,34 +3218,6 @@ namespace SablePP.Compiler.Analysis
             OutPElementid(node);
         }
         
-        public virtual void InPHighlightrules(PHighlightrules node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPHighlightrules(PHighlightrules node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAHighlightrules(AHighlightrules node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHighlightrules(AHighlightrules node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHighlightrules(AHighlightrules node)
-        {
-            InPHighlightrules(node);
-            InAHighlightrules(node);
-            
-            Visit(node.Highlightrules);
-            Visit(node.Highlighttoken);
-            
-            OutAHighlightrules(node);
-            OutPHighlightrules(node);
-        }
-        
         public virtual void InPHighlightrule(PHighlightrule node)
         {
             DefaultPIn(node);
@@ -4001,14 +3431,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(ASectionGrammar node)
-        {
-            return CaseASectionGrammar(node);
-        }
-        public virtual Result CaseASectionGrammar(ASectionGrammar node)
-        {
-            return DefaultCase(node);
-        }
         public Result Visit(APackageSection node)
         {
             return CaseAPackageSection(node);
@@ -4073,35 +3495,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(APackage node)
-        {
-            return CaseAPackage(node);
-        }
-        public virtual Result CaseAPackage(APackage node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AHelpers node)
-        {
-            return CaseAHelpers(node);
-        }
-        public virtual Result CaseAHelpers(AHelpers node)
-        {
-            return DefaultCase(node);
-        }
         public Result Visit(AHelper node)
         {
             return CaseAHelper(node);
         }
         public virtual Result CaseAHelper(AHelper node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(ATokens node)
-        {
-            return CaseATokens(node);
-        }
-        public virtual Result CaseATokens(ATokens node)
         {
             return DefaultCase(node);
         }
@@ -4241,27 +3639,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(AStates node)
-        {
-            return CaseAStates(node);
-        }
-        public virtual Result CaseAStates(AStates node)
-        {
-            return DefaultCase(node);
-        }
         public Result Visit(AState node)
         {
             return CaseAState(node);
         }
         public virtual Result CaseAState(AState node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AIgnoredtokens node)
-        {
-            return CaseAIgnoredtokens(node);
-        }
-        public virtual Result CaseAIgnoredtokens(AIgnoredtokens node)
         {
             return DefaultCase(node);
         }
@@ -4278,22 +3660,6 @@ namespace SablePP.Compiler.Analysis
             return CaseATransitionTokenState(node);
         }
         public virtual Result CaseATransitionTokenState(ATransitionTokenState node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AProductions node)
-        {
-            return CaseAProductions(node);
-        }
-        public virtual Result CaseAProductions(AProductions node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AAstproductions node)
-        {
-            return CaseAAstproductions(node);
-        }
-        public virtual Result CaseAAstproductions(AAstproductions node)
         {
             return DefaultCase(node);
         }
@@ -4422,14 +3788,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAProductionElementid(node);
         }
         public virtual Result CaseAProductionElementid(AProductionElementid node)
-        {
-            return DefaultCase(node);
-        }
-        public Result Visit(AHighlightrules node)
-        {
-            return CaseAHighlightrules(node);
-        }
-        public virtual Result CaseAHighlightrules(AHighlightrules node)
         {
             return DefaultCase(node);
         }
@@ -4881,14 +4239,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(ASectionGrammar node, T1 arg1)
-        {
-            return CaseASectionGrammar(node, arg1);
-        }
-        public virtual Result CaseASectionGrammar(ASectionGrammar node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
         public Result Visit(APackageSection node, T1 arg1)
         {
             return CaseAPackageSection(node, arg1);
@@ -4953,35 +4303,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(APackage node, T1 arg1)
-        {
-            return CaseAPackage(node, arg1);
-        }
-        public virtual Result CaseAPackage(APackage node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AHelpers node, T1 arg1)
-        {
-            return CaseAHelpers(node, arg1);
-        }
-        public virtual Result CaseAHelpers(AHelpers node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
         public Result Visit(AHelper node, T1 arg1)
         {
             return CaseAHelper(node, arg1);
         }
         public virtual Result CaseAHelper(AHelper node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(ATokens node, T1 arg1)
-        {
-            return CaseATokens(node, arg1);
-        }
-        public virtual Result CaseATokens(ATokens node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -5121,27 +4447,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(AStates node, T1 arg1)
-        {
-            return CaseAStates(node, arg1);
-        }
-        public virtual Result CaseAStates(AStates node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
         public Result Visit(AState node, T1 arg1)
         {
             return CaseAState(node, arg1);
         }
         public virtual Result CaseAState(AState node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AIgnoredtokens node, T1 arg1)
-        {
-            return CaseAIgnoredtokens(node, arg1);
-        }
-        public virtual Result CaseAIgnoredtokens(AIgnoredtokens node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -5158,22 +4468,6 @@ namespace SablePP.Compiler.Analysis
             return CaseATransitionTokenState(node, arg1);
         }
         public virtual Result CaseATransitionTokenState(ATransitionTokenState node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AProductions node, T1 arg1)
-        {
-            return CaseAProductions(node, arg1);
-        }
-        public virtual Result CaseAProductions(AProductions node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AAstproductions node, T1 arg1)
-        {
-            return CaseAAstproductions(node, arg1);
-        }
-        public virtual Result CaseAAstproductions(AAstproductions node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -5302,14 +4596,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAProductionElementid(node, arg1);
         }
         public virtual Result CaseAProductionElementid(AProductionElementid node, T1 arg1)
-        {
-            return DefaultCase(node, arg1);
-        }
-        public Result Visit(AHighlightrules node, T1 arg1)
-        {
-            return CaseAHighlightrules(node, arg1);
-        }
-        public virtual Result CaseAHighlightrules(AHighlightrules node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -5761,14 +5047,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(ASectionGrammar node, T1 arg1, T2 arg2)
-        {
-            return CaseASectionGrammar(node, arg1, arg2);
-        }
-        public virtual Result CaseASectionGrammar(ASectionGrammar node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
         public Result Visit(APackageSection node, T1 arg1, T2 arg2)
         {
             return CaseAPackageSection(node, arg1, arg2);
@@ -5833,35 +5111,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(APackage node, T1 arg1, T2 arg2)
-        {
-            return CaseAPackage(node, arg1, arg2);
-        }
-        public virtual Result CaseAPackage(APackage node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AHelpers node, T1 arg1, T2 arg2)
-        {
-            return CaseAHelpers(node, arg1, arg2);
-        }
-        public virtual Result CaseAHelpers(AHelpers node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
         public Result Visit(AHelper node, T1 arg1, T2 arg2)
         {
             return CaseAHelper(node, arg1, arg2);
         }
         public virtual Result CaseAHelper(AHelper node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(ATokens node, T1 arg1, T2 arg2)
-        {
-            return CaseATokens(node, arg1, arg2);
-        }
-        public virtual Result CaseATokens(ATokens node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -6001,27 +5255,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(AStates node, T1 arg1, T2 arg2)
-        {
-            return CaseAStates(node, arg1, arg2);
-        }
-        public virtual Result CaseAStates(AStates node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
         public Result Visit(AState node, T1 arg1, T2 arg2)
         {
             return CaseAState(node, arg1, arg2);
         }
         public virtual Result CaseAState(AState node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AIgnoredtokens node, T1 arg1, T2 arg2)
-        {
-            return CaseAIgnoredtokens(node, arg1, arg2);
-        }
-        public virtual Result CaseAIgnoredtokens(AIgnoredtokens node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -6038,22 +5276,6 @@ namespace SablePP.Compiler.Analysis
             return CaseATransitionTokenState(node, arg1, arg2);
         }
         public virtual Result CaseATransitionTokenState(ATransitionTokenState node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AProductions node, T1 arg1, T2 arg2)
-        {
-            return CaseAProductions(node, arg1, arg2);
-        }
-        public virtual Result CaseAProductions(AProductions node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AAstproductions node, T1 arg1, T2 arg2)
-        {
-            return CaseAAstproductions(node, arg1, arg2);
-        }
-        public virtual Result CaseAAstproductions(AAstproductions node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -6182,14 +5404,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAProductionElementid(node, arg1, arg2);
         }
         public virtual Result CaseAProductionElementid(AProductionElementid node, T1 arg1, T2 arg2)
-        {
-            return DefaultCase(node, arg1, arg2);
-        }
-        public Result Visit(AHighlightrules node, T1 arg1, T2 arg2)
-        {
-            return CaseAHighlightrules(node, arg1, arg2);
-        }
-        public virtual Result CaseAHighlightrules(AHighlightrules node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -6641,14 +5855,6 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(ASectionGrammar node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseASectionGrammar(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseASectionGrammar(ASectionGrammar node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
         public Result Visit(APackageSection node, T1 arg1, T2 arg2, T3 arg3)
         {
             return CaseAPackageSection(node, arg1, arg2, arg3);
@@ -6713,35 +5919,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(APackage node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAPackage(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAPackage(APackage node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AHelpers node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAHelpers(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAHelpers(AHelpers node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
         public Result Visit(AHelper node, T1 arg1, T2 arg2, T3 arg3)
         {
             return CaseAHelper(node, arg1, arg2, arg3);
         }
         public virtual Result CaseAHelper(AHelper node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(ATokens node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseATokens(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseATokens(ATokens node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
@@ -6881,27 +6063,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(AStates node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAStates(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAStates(AStates node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
         public Result Visit(AState node, T1 arg1, T2 arg2, T3 arg3)
         {
             return CaseAState(node, arg1, arg2, arg3);
         }
         public virtual Result CaseAState(AState node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AIgnoredtokens node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAIgnoredtokens(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAIgnoredtokens(AIgnoredtokens node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
@@ -6918,22 +6084,6 @@ namespace SablePP.Compiler.Analysis
             return CaseATransitionTokenState(node, arg1, arg2, arg3);
         }
         public virtual Result CaseATransitionTokenState(ATransitionTokenState node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AProductions node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAProductions(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAProductions(AProductions node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AAstproductions node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAAstproductions(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAAstproductions(AAstproductions node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
@@ -7062,14 +6212,6 @@ namespace SablePP.Compiler.Analysis
             return CaseAProductionElementid(node, arg1, arg2, arg3);
         }
         public virtual Result CaseAProductionElementid(AProductionElementid node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return DefaultCase(node, arg1, arg2, arg3);
-        }
-        public Result Visit(AHighlightrules node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return CaseAHighlightrules(node, arg1, arg2, arg3);
-        }
-        public virtual Result CaseAHighlightrules(AHighlightrules node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }

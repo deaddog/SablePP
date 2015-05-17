@@ -8,106 +8,121 @@ namespace SablePP.Compiler.Nodes
     public partial class PGrammar
     {
         public static readonly string DefaultName = "SableCCPP";
-        private string packagename = null;
         public string PackageName
         {
-            get
-            {
-                if (packagename == null)
-                {
-                    if (HasPackage)
-                        packagename = Package.Packagename.Text;
-                    else
-                        packagename = DefaultName;
-                }
-                return packagename;
-            }
+            get { return HasPackages ? Packages.First().Text : DefaultName; }
         }
 
-        private string rootProduction = null;
-        public string RootProduction
+        public PProduction RootProduction
         {
-            get
-            {
-                if (rootProduction == null)
-                {
-                    var prod = HasAstproductions ? Astproductions.Productions : Productions.Productions;
-                    rootProduction = "P" + prod[0].Identifier.Text.ToCamelCase();
-                }
-                return rootProduction;
-            }
+            get { return (HasAstproductions ? AstProductions : Productions).FirstOrDefault(); }
         }
 
-        public bool HasPackage
+        public bool HasPackages
         {
-            get { return (this as AGrammar).HasPackage; }
+            get { return Packages.Any(); }
         }
-        public PPackage Package
+        public IEnumerable<TPackagename> Packages
         {
-            get { return (this as AGrammar).Package; }
+            get { return _sections_.OfType<APackageSection>().Select(x => x.Packagename); }
         }
 
         public bool HasHelpers
         {
-            get { return (this as AGrammar).HasHelpers; }
+            get { return Helpers.Any(); }
         }
-        public PHelpers Helpers
+        public IEnumerable<PHelper> Helpers
         {
-            get { return (this as AGrammar).Helpers; }
+            get
+            {
+                foreach (var hSec in _sections_.OfType<AHelpersSection>())
+                    foreach (var h in hSec.Helpers)
+                        yield return h;
+            }
         }
 
         public bool HasStates
         {
-            get { return (this as AGrammar).HasStates; }
+            get { return States.Any(); }
         }
-        public PStates States
+        public IEnumerable<PState> States
         {
-            get { return (this as AGrammar).States; }
+            get
+            {
+                foreach (var sSec in _sections_.OfType<AStatesSection>())
+                    foreach (var s in sSec.States)
+                        yield return s;
+            }
         }
 
         public bool HasTokens
         {
-            get { return (this as AGrammar).HasTokens; }
+            get { return Tokens.Any(); }
         }
-        public PTokens Tokens
+        public IEnumerable<PToken> Tokens
         {
-            get { return (this as AGrammar).Tokens; }
+            get
+            {
+                foreach (var tSec in _sections_.OfType<ATokensSection>())
+                    foreach (var t in tSec.Tokens)
+                        yield return t;
+            }
         }
 
-        public bool HasIgnoredtokens
+        public bool HasIgnoredTokens
         {
-            get { return (this as AGrammar).HasIgnoredtokens; }
+            get { return IgnoredTokens.Any(); }
         }
-        public PIgnoredtokens Ignoredtokens
+        public IEnumerable<TIdentifier> IgnoredTokens
         {
-            get { return (this as AGrammar).Ignoredtokens; }
+            get
+            {
+                foreach (var tSec in _sections_.OfType<AIgnoreSection>())
+                    foreach (var t in tSec.Tokens)
+                        yield return t;
+            }
         }
 
         public bool HasProductions
         {
-            get { return (this as AGrammar).HasProductions; }
+            get { return Productions.Any(); }
         }
-        public PProductions Productions
+        public IEnumerable<PProduction> Productions
         {
-            get { return (this as AGrammar).Productions; }
+            get
+            {
+                foreach (var pSec in _sections_.OfType<AProductionsSection>())
+                    foreach (var p in pSec.Productions)
+                        yield return p;
+            }
         }
 
         public bool HasAstproductions
         {
-            get { return (this as AGrammar).HasAstproductions; }
+            get { return AstProductions.Any(); }
         }
-        public PAstproductions Astproductions
+        public IEnumerable<PProduction> AstProductions
         {
-            get { return (this as AGrammar).Astproductions; }
+            get
+            {
+                foreach (var aSec in _sections_.OfType<AASTSection>())
+                    foreach (var p in aSec.Productions)
+                        yield return p;
+            }
         }
 
-        public bool HasHighlightrules
+        public bool HasHighlightRules
         {
-            get { return (this as AGrammar).HasHighlightrules; }
+            get { return HighlightRules.Any(); }
         }
-        public PHighlightrules Highlightrules
+        public IEnumerable<PHighlightrule> HighlightRules
         {
-            get { return (this as AGrammar).Highlightrules; }
+            get
+            {
+                foreach (var hSec in _sections_.OfType<AHighlightSection>())
+                    foreach (var r in hSec.Highlightrules)
+                        yield return r;
+            }
         }
     }
 }

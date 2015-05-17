@@ -45,35 +45,21 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             hasASTsection = node.HasAstproductions;
 
-            if (node.HasPackage)
-                Visit(node.Package);
-
-            if (node.HasHelpers)
-                Visit(node.Helpers);
-
-            if (node.HasStates)
-                Visit(node.States);
-
-            if (node.HasTokens)
-                Visit(node.Tokens);
-
-            if (node.HasIgnoredtokens)
-                Visit(node.Ignoredtokens);
-
-            if (node.HasAstproductions)
-                Visit(node.Astproductions);
-
-            if (node.HasProductions)
-                Visit(node.Productions);
+            VisitPackages(node.Packages);
+            VisitHelpers(node.Helpers);
+            VisitStates(node.States);
+            VisitTokens(node.Tokens);
+            VisitIgnoredTokens(node.IgnoredTokens);
+            VisitAstProductions(node.AstProductions);
+            VisitProductions(node.Productions);
 
             if (ErrorManager.Errors.Count > 0)
                 return;
 
             if (node.HasProductions && node.HasAstproductions)
-                new TranslationTargetVisitor(this.ErrorManager).Visit(node.Productions);
+                new TranslationTargetVisitor(this.ErrorManager).VisitProductions(node.Productions);
 
-            if (node.HasHighlightrules)
-                Visit(node.Highlightrules);
+            VisitHighlightRules(node.HighlightRules);
 
             foreach (var h in helpers.NonLinked)
                 RegisterWarning(h.Identifier, "The helper {0} is never used in a helper or token definition.", h.Identifier);
@@ -93,13 +79,13 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                     RegisterWarning(p.Identifier, "The AST production {0} is never used in another production.", p.Identifier);
         }
 
-        public override void CaseAHelpers(AHelpers node)
+        protected override void CaseHelpers(PHelper[] nodes)
         {
-            foreach (var h in node.Helpers)
+            foreach (var h in nodes)
                 if (!helpers.Declare(h))
                     RegisterError(h.Identifier, "Helper {0} has already been defined (line {1}).", h.Identifier, helpers[h.Identifier.Text].Identifier.Line);
 
-            base.CaseAHelpers(node);
+            base.CaseHelpers(nodes);
         }
         public override void CaseAIdentifierRegex(AIdentifierRegex node)
         {
@@ -107,9 +93,9 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 RegisterError(node.Identifier, "The helper {0} has not been defined.", node.Identifier);
         }
 
-        public override void CaseAStates(AStates node)
+        protected override void CaseStates(PState[] nodes)
         {
-            foreach (var s in node.States)
+            foreach (var s in nodes)
                 if (!states.Declare(s))
                     RegisterError(s.Identifier, "State {0} has already been defined (line {1}).", s.Identifier, states[s.Identifier.Text].Identifier.Line);
         }
@@ -140,11 +126,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 RegisterError(node.To, "The state {0} has not been defined.", node.To);
         }
 
-        public override void CaseAIgnoredtokens(AIgnoredtokens node)
+        protected override void CaseIgnoredTokens(TIdentifier[] nodes)
         {
-            for (int i = 0; i < node.Tokens.Count; i++)
+            foreach (var item in nodes)
             {
-                var item = node.Tokens[i];
                 if (!tokens.Link(item))
                     RegisterError(item, "The token {0} has not been defined.", item);
                 else
@@ -152,27 +137,27 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             }
         }
 
-        public override void CaseAAstproductions(AAstproductions node)
+        protected override void CaseAstProductions(PProduction[] nodes)
         {
             productions = astProd;
 
-            foreach (var prod in node.Productions)
+            foreach (var prod in nodes)
                 if (!productions.Declare(prod))
                     RegisterError(prod.Identifier, "AST production {0} has already been defined (line {1}).", prod.Identifier, productions[prod.Identifier.Text].Identifier.Line);
 
-            base.CaseAAstproductions(node);
+            base.CaseAstProductions(nodes);
 
             productions = null;
         }
-        public override void CaseAProductions(AProductions node)
+        protected override void CaseProductions(PProduction[] nodes)
         {
             productions = nonastProd;
 
-            foreach (var prod in node.Productions)
+            foreach (var prod in nodes)
                 if (!productions.Declare(prod))
                     RegisterError(prod.Identifier, "Production {0} has already been defined (line {1}).", prod.Identifier, productions[prod.Identifier.Text].Identifier.Line);
 
-            base.CaseAProductions(node);
+            base.CaseProductions(nodes);
 
             productions = null;
         }

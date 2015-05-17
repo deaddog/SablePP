@@ -6,7 +6,7 @@
         {
             get
             {
-                var par = this.GetFirstParent<PStates>();
+                var par = this.GetFirstParent<AStatesSection>();
                 return ReferenceEquals(par.States[0], this);
             }
         }
