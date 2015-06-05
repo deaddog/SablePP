@@ -133,7 +133,7 @@ namespace SablePP.Tools.Editor
         /// <summary>
         /// Gets the <see cref="Range"/> in this <see cref="CodeTextBox"/> of a <see cref="Token"/>.
         /// </summary>
-        /// <param name="token">The <see cref="Token"/> from which <see cref="Range"/> should be retrieved..</param>
+        /// <param name="token">The <see cref="Token"/> from which <see cref="Range"/> should be retrieved.</param>
         /// <returns>A <see cref="Range"/> representing the location of <paramref name="token"/> in this <see cref="CodeTextBox"/>.</returns>
         public Range RangeFromToken(Token token)
         {
@@ -154,6 +154,31 @@ namespace SablePP.Tools.Editor
             }
             p2.iChar += len;
             return new Range(this, p1, p2);
+        }
+        /// <summary>
+        /// Gets the <see cref="Range"/> in this <see cref="CodeTextBox"/> of a <see cref="Production"/>.
+        /// </summary>
+        /// <param name="production">The <see cref="Production"/> from which <see cref="Range"/> should be retrieved.</param>
+        /// <returns>A <see cref="Range"/> containing all the tokens of <paramref name="production"/>.</returns>
+        public Range RangeFromProduction(Production production)
+        {
+            var first = RangeFromToken(Tools.Analysis.DepthFirstTreeWalker.GetTokens(production).First());
+            var last = RangeFromToken(SablePP.Tools.Analysis.DepthFirstReversedTreeWalker.GetTokens(production).First());
+            return first.GetUnionWith(last);
+        }
+        /// <summary>
+        /// Gets the <see cref="Range"/> in this <see cref="CodeTextBox"/> of a <see cref="Node"/> by invoking <see cref="RangeFromToken"/> or <see cref="RangeFromProduction"/>.
+        /// </summary>
+        /// <param name="node">The <see cref="Node"/> from which <see cref="Range"/> should be retrieved.</param>
+        /// <returns>A <see cref="Range"/> containing all the tokens of <paramref name="node"/> (or just the single element if <paramref name="node"/> is a <see cref="Token"/>).</returns>
+        public Range RangeFromNode(Node node)
+        {
+            if (node is Token)
+                return RangeFromToken(node as Token);
+            else if (node is Production)
+                return RangeFromProduction(node as Production);
+            else
+                throw new ArgumentException("Range can only be retrieved from tokens and productions.", "node");
         }
         /// <summary>
         /// Gets the <see cref="Token"/> located at <paramref name="place"/> in this <see cref="CodeTextBox"/>.
