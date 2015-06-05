@@ -161,6 +161,25 @@ namespace SablePP.Tools.Editor
                     return token;
             return null;
         }
+        /// <summary>
+        /// Get the <see cref="Token"/> containing <paramref name="range"/> in this <see cref="CodeTextBox"/>.
+        /// Tokens are found in the <see cref="LastResult"/> property.
+        /// </summary>
+        /// <param name="range">The range in which to look for a <see cref="Token"/>.</param>
+        /// <returns>The <see cref="Token"/> containing <paramref name="range"/>, if any exists; otherwise <c>null</c>.
+        /// If <paramref name="range"/> is larger than any 'close' <see cref="Token"/>, <c>null</c> is returned.</returns>
+        public Token TokenFromRange(Range range)
+        {
+            if (range.Start != range.End)
+            {
+                var s = TokenFromPlace(range.Start);
+                var e = TokenFromPlace(range.End);
+
+                return s == e ? s : null;
+            }
+            else
+                return TokenFromPlace(range.Start);
+        }
 
         private SquigglyStyle getSquigglyStyle(ErrorType errorType)
         {
