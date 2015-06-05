@@ -30,6 +30,7 @@ namespace SablePP.Tools.Editor
 
         private CompileWorker compileWorker;
         private Result lastResult;
+        private Token selectedToken;
         private List<Style> simpleStyles;
         private List<Style> moreStyles;
 
@@ -50,6 +51,7 @@ namespace SablePP.Tools.Editor
             this.lexerError = true;
 
             this.compileWorker = new CompileWorker(this);
+            this.selectedToken = null;
             this.lastResult = null;
             this.simpleStyles = new List<Style>();
             this.moreStyles = new List<Style>();
@@ -103,6 +105,15 @@ namespace SablePP.Tools.Editor
             result = this.lastResult;
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="Token"/> currently selected by the user.
+        /// </summary>
+        [Browsable(false)]
+        public Token SelectedToken
+        {
+            get { return selectedToken; }
         }
 
         /// <summary>
@@ -305,6 +316,12 @@ namespace SablePP.Tools.Editor
             base.OnTextChangedDelayed(changedRange);
         }
 
+        public override void OnSelectionChanged()
+        {
+            this.selectedToken = TokenFromRange(this.Selection);
+            base.OnSelectionChanged();
+        }
+
         protected sealed override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -426,6 +443,7 @@ namespace SablePP.Tools.Editor
                 }
 
                 parent.lastResult = new Result(node, errors);
+                parent.selectedToken = parent.TokenFromRange(parent.Selection);
                 if (parent.CompilationCompleted != null)
                     parent.CompilationCompleted(parent, EventArgs.Empty);
                 waitFlag = false;

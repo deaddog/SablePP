@@ -140,8 +140,6 @@ namespace SablePP.Compiler.Execution
             base.OnFileClosed(e);
         }
 
-        private Token selectedToken = null;
-
         private void codeTextBox1_SelectionChanged(object sender, EventArgs e)
         {
             // Update the position labels in the bottom right corner
@@ -154,10 +152,9 @@ namespace SablePP.Compiler.Execution
             // Update the highlighting style to mark all related tokens
             codeTextBox1.Range.ClearStyle(highlightstyle);
 
-            selectedToken = codeTextBox1.TokenFromPlace(codeTextBox1.Selection.Start);
-            if (selectedToken != null && selectedToken is DeclarationIdentifier)
+            if (codeTextBox1.SelectedToken != null && codeTextBox1.SelectedToken is DeclarationIdentifier)
             {
-                var id = selectedToken as DeclarationIdentifier;
+                var id = codeTextBox1.SelectedToken as DeclarationIdentifier;
                 goToButton.Enabled = renameButton.Enabled = true;
 
                 foreach (var token in DepthFirstTreeWalker.GetTokens(codeTextBox1.LastResult.Tree).OfType<DeclarationIdentifier>())
@@ -198,11 +195,11 @@ namespace SablePP.Compiler.Execution
 
         private void goToButton_Click(object sender, EventArgs e)
         {
-            if (selectedToken != null && selectedToken is TIdentifier)
+            if (codeTextBox1.SelectedToken != null && codeTextBox1.SelectedToken is TIdentifier)
             {
                 TIdentifier id;
-                if (selectedToken is DeclarationIdentifier)
-                    id = (selectedToken as DeclarationIdentifier).Declaration.GetIdentifier();
+                if (codeTextBox1.SelectedToken is DeclarationIdentifier)
+                    id = (codeTextBox1.SelectedToken as DeclarationIdentifier).Declaration.GetIdentifier();
                 else
                     id = null;
 
@@ -217,8 +214,8 @@ namespace SablePP.Compiler.Execution
         }
         private void renameButton_Click(object sender, EventArgs e)
         {
-            if (selectedToken != null && selectedToken is DeclarationIdentifier)
-                using (RenameForm form = new RenameForm(selectedToken as DeclarationIdentifier))
+            if (codeTextBox1.SelectedToken != null && codeTextBox1.SelectedToken is DeclarationIdentifier)
+                using (RenameForm form = new RenameForm(codeTextBox1.SelectedToken as DeclarationIdentifier))
                     if (form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
                         throw new NotImplementedException();
