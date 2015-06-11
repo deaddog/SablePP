@@ -34,6 +34,8 @@ namespace SablePP.Tools.Editor
         private List<Style> simpleStyles;
         private List<Style> moreStyles;
 
+        private IDeclarationLocator decLocator;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeTextBox"/> class.
         /// </summary>
@@ -55,6 +57,8 @@ namespace SablePP.Tools.Editor
             this.lastResult = null;
             this.simpleStyles = new List<Style>();
             this.moreStyles = new List<Style>();
+
+            this.decLocator = null;
 
             this.ToolTipNeeded += CodeTextBox_ToolTipNeeded;
         }
@@ -114,6 +118,12 @@ namespace SablePP.Tools.Editor
         public Token SelectedToken
         {
             get { return selectedToken; }
+        }
+
+        public IDeclarationLocator DeclarationLocator
+        {
+            get { return decLocator; }
+            set { decLocator = value; }
         }
 
         /// <summary>
