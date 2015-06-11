@@ -126,6 +126,27 @@ namespace SablePP.Tools.Editor
             set { decLocator = value; }
         }
 
+        public void GoToDeclaration()
+        {
+            if (selectedToken != null)
+                GoToDeclaration(selectedToken);
+        }
+        public void GoToDeclaration(Token token)
+        {
+            if (decLocator == null)
+                throw new InvalidOperationException("GoToDeclaration is not available when property DeclarationLocator is not set.");
+            if (token == null)
+                throw new ArgumentNullException("token");
+
+            Token declaration = decLocator.FindDeclaration(token);
+            if (declaration != null)
+            {
+                var range = RangeFromToken(declaration);
+                Selection = range;
+                DoRangeVisible(range, true);
+            }
+        }
+
         /// <summary>
         /// Occurs when the <see cref="ICompilerExecuter"/> associated with this <see cref="CodeTextBox"/> is done compiling an AST.
         /// The event is raised regardless of the result of the compilation.
