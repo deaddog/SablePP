@@ -128,7 +128,9 @@ namespace SablePP.Tools.Editor
 
         public void GoToDeclaration()
         {
-            if (selectedToken != null)
+            if (selectedToken == null)
+                throw new InvalidOperationException("No token is selected.");
+            else
                 GoToDeclaration(selectedToken);
         }
         public void GoToDeclaration(Token token)
@@ -145,6 +147,20 @@ namespace SablePP.Tools.Editor
                 Selection = range;
                 DoRangeVisible(range, true);
             }
+        }
+        public bool HasDeclaration()
+        {
+            return HasDeclaration(selectedToken);
+        }
+        public bool HasDeclaration(Token token)
+        {
+            if (decLocator == null)
+                throw new InvalidOperationException("HasDeclaration is not available when property DeclarationLocator is not set.");
+
+            if (token == null)
+                return false;
+
+            return decLocator.FindDeclaration(token) != null;
         }
 
         /// <summary>
