@@ -170,22 +170,10 @@ namespace SablePP.Compiler.Execution
             string positionText = positionLabel.Text.Substring(0, positionLabel.Text.IndexOf(':') + 1) + " ";
             positionLabel.Text = positionText + (codeTextBox1.Selection.Start.iChar + 1);
 
-            // Update the highlighting style to mark all related tokens
-            codeTextBox1.Range.ClearStyle(highlightstyle);
-
-            if (codeTextBox1.SelectedToken != null && codeTextBox1.SelectedToken is DeclarationIdentifier)
+            if(codeTextBox1.HasDeclaration())
             {
                 var id = codeTextBox1.SelectedToken as DeclarationIdentifier;
                 goToButton.Enabled = renameButton.Enabled = true;
-
-                foreach (var token in DepthFirstTreeWalker.GetTokens(codeTextBox1.LastResult.Tree).OfType<DeclarationIdentifier>())
-                    if (id.Declaration == token.Declaration || (id.IsPElement && id.AsPElement.Elementid.Identifier == token))
-                    {
-                        var r = codeTextBox1.RangeFromToken(token);
-                        if (!codeTextBox1.Range.Contains(r.Start) || !(codeTextBox1.Range.Contains(r.End)))
-                            return;
-                        r.SetStyle(highlightstyle);
-                    }
             }
             else
                 goToButton.Enabled = renameButton.Enabled = false;
