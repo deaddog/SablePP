@@ -36,6 +36,7 @@ namespace SablePP.Tools.Editor
         private List<Style> moreStyles;
 
         private DeclarationLocatorCache decLocator;
+        private IDeclarationRenamer decRenamer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeTextBox"/> class.
@@ -66,6 +67,7 @@ namespace SablePP.Tools.Editor
             this.moreStyles = new List<Style>();
 
             this.decLocator = null;
+            this.decRenamer = null;
 
             this.ToolTipNeeded += CodeTextBox_ToolTipNeeded;
         }
@@ -143,6 +145,11 @@ namespace SablePP.Tools.Editor
                 else
                     decLocator = new DeclarationLocatorCache(value);
             }
+        }
+        public IDeclarationRenamer DeclarationRenamer
+        {
+            get { return decRenamer; }
+            set { decRenamer = value; }
         }
 
         public void GoToDeclaration()

@@ -64,6 +64,7 @@
     <Compile Include="Editor\FileOpeningEventArgs.cs" />
     <Compile Include="Editor\FileSavingEventArgs.cs" />
     <Compile Include="Editor\IDeclarationLocator.cs" />
+    <Compile Include="Editor\IDeclarationRenamer.cs" />
     <Compile Include="Editor\MessageIcons.cs" />
     <Compile Include="Editor\MessageTimer.cs">
       <SubType>Component</SubType>
