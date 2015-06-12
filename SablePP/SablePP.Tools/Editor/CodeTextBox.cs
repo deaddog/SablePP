@@ -410,6 +410,21 @@ namespace SablePP.Tools.Editor
         public override void OnSelectionChanged()
         {
             this.selectedToken = TokenFromRange(this.Selection);
+
+            Range.ClearStyle(highlightstyle);
+            if (this.decLocator != null && this.selectedToken != null)
+            {
+                var dec = decLocator.FindDeclaration(selectedToken);
+
+                foreach (var token in decLocator.FindReferences(dec, lastResult))
+                {
+                    var r = RangeFromToken(token);
+                    if (Range.Contains(r.Start) && (Range.Contains(r.End)))
+                        r.SetStyle(highlightstyle);
+                }
+
+            }
+
             base.OnSelectionChanged();
         }
 
