@@ -44,7 +44,7 @@ namespace SablePP.Compiler.Execution
 
             public bool IsNameValid(Token token, string newName)
             {
-                throw new NotImplementedException();
+                return System.Text.RegularExpressions.Regex.IsMatch(newName, "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$");
             }
         }
 
