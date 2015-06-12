@@ -48,7 +48,9 @@ namespace SablePP.Compiler.Execution
         private ToolStripMenuItem livecodeButton = new ToolStripMenuItem("&LiveCode Tool");
 
         private ToolStripMenuItem goToButton = new ToolStripMenuItem("Go to definition...");
-        private ToolStripMenuItem renameButton = new ToolStripMenuItem("Rename \"{0}\"");
+        private ToolStripMenuItem renameButton = new ToolStripMenuItem();
+        private string renameText = "Rename \"{0}\"";
+        private string renameTextDisabled = "Rename ...";
 
         public SablePPEditor()
         {
@@ -170,13 +172,18 @@ namespace SablePP.Compiler.Execution
             string positionText = positionLabel.Text.Substring(0, positionLabel.Text.IndexOf(':') + 1) + " ";
             positionLabel.Text = positionText + (codeTextBox1.Selection.Start.iChar + 1);
 
-            if(codeTextBox1.HasDeclaration())
+            if (codeTextBox1.HasDeclaration())
             {
                 var id = codeTextBox1.SelectedToken as DeclarationIdentifier;
-                goToButton.Enabled = renameButton.Enabled = true;
+                goToButton.Enabled = true;
+                renameButton.Enabled = codeTextBox1.SelectedToken == id.Declaration.GetIdentifier();
+                renameButton.Text = string.Format(renameText, codeTextBox1.SelectedToken.Text);
             }
             else
+            {
                 goToButton.Enabled = renameButton.Enabled = false;
+                renameButton.Text = renameTextDisabled;
+            }
         }
         private void codeTextBox1_TextChanged(object sender, TextChangedEventArgs e)
         {
