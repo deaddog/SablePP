@@ -14,6 +14,29 @@ namespace SablePP.Compiler.Execution
 {
     public partial class SablePPEditor : EditorForm
     {
+        #region Locator class
+
+        private class Locator : EnumerationLocator
+        {
+            public override Token FindDeclaration(Token token)
+            {
+                if (token is DeclarationIdentifier)
+                    return (token as DeclarationIdentifier).Declaration.GetIdentifier();
+                else
+                    return null;
+            }
+
+            protected override bool IsReference(Token declaration, Token token)
+            {
+                if (token is DeclarationIdentifier)
+                    return (token as DeclarationIdentifier).Declaration.GetIdentifier() == declaration;
+                else
+                    return false;
+            }
+        }
+
+        #endregion
+
         private BackgroundWorker generateWorker;
         private CompilerExecuter executer;
 
@@ -72,6 +95,8 @@ namespace SablePP.Compiler.Execution
             EditMenu.DropDownItems.Add(new ToolStripSeparator());
             EditMenu.DropDownItems.Add(goToButton);
             EditMenu.DropDownItems.Add(renameButton);
+
+            codeTextBox1.DeclarationLocator = new Locator();
         }
 
         /// <summary>
