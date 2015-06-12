@@ -174,7 +174,7 @@ namespace SablePP.Tools.Editor
         public bool HasDeclaration(Token token)
         {
             if (decLocator == null)
-                throw new InvalidOperationException("HasDeclaration is not available when property DeclarationLocator is not set.");
+                return false;
 
             if (token == null)
                 return false;
