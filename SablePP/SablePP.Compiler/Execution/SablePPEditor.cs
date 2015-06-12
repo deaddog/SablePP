@@ -4,6 +4,7 @@ using SablePP.Tools.Analysis;
 using SablePP.Tools.Editor;
 using SablePP.Tools.Nodes;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -34,6 +35,19 @@ namespace SablePP.Compiler.Execution
                     return false;
             }
         }
+        private class Renamer : IDeclarationRenamer
+        {
+            public IEnumerable<Token> FindRenamees(Token token, CodeTextBox.Result result)
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool IsNameValid(Token token, string newName)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
 
         #endregion
 
