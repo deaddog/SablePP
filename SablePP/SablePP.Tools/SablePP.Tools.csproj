@@ -54,6 +54,7 @@
     <Compile Include="CompilationOptions.cs" />
     <Compile Include="CompilerExecuter.cs" />
     <Compile Include="DictionaryExtension.cs" />
+    <Compile Include="Editor\DeclarationLocatorCache.cs" />
     <Compile Include="Editor\ErrorEventArgs.cs" />
     <Compile Include="Editor\ErrorView.cs">
       <SubType>Component</SubType>

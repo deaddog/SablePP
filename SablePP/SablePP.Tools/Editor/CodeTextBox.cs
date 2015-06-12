@@ -35,7 +35,7 @@ namespace SablePP.Tools.Editor
         private List<Style> simpleStyles;
         private List<Style> moreStyles;
 
-        private IDeclarationLocator decLocator;
+        private DeclarationLocatorCache decLocator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeTextBox"/> class.
@@ -129,8 +129,20 @@ namespace SablePP.Tools.Editor
 
         public IDeclarationLocator DeclarationLocator
         {
-            get { return decLocator; }
-            set { decLocator = value; }
+            get
+            {
+                if (decLocator == null)
+                    return null;
+                else
+                    return decLocator.Inner;
+            }
+            set
+            {
+                if (value == null)
+                    decLocator = null;
+                else
+                    decLocator = new DeclarationLocatorCache(value);
+            }
         }
 
         public void GoToDeclaration()
