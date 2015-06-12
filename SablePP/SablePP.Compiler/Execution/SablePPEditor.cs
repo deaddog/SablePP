@@ -84,7 +84,7 @@ namespace SablePP.Compiler.Execution
             tools.DropDownItems.Add(new ToolStripSeparator());
             tools.DropDownItems.Add(livecodeButton);
 
-            goToButton.Click += goToButton_Click;
+            goToButton.Click += (s, e) => codeTextBox1.GoToDeclaration();
             goToButton.Enabled = false;
             goToButton.ShortcutKeys = Keys.F12;
 
@@ -214,25 +214,6 @@ namespace SablePP.Compiler.Execution
             OpenFile(GetDraggedFiles(e)[0]);
         }
 
-        private void goToButton_Click(object sender, EventArgs e)
-        {
-            if (codeTextBox1.SelectedToken != null && codeTextBox1.SelectedToken is TIdentifier)
-            {
-                TIdentifier id;
-                if (codeTextBox1.SelectedToken is DeclarationIdentifier)
-                    id = (codeTextBox1.SelectedToken as DeclarationIdentifier).Declaration.GetIdentifier();
-                else
-                    id = null;
-
-                if (id != null)
-                {
-                    var range = codeTextBox1.RangeFromToken(id);
-                    codeTextBox1.Selection = range;
-                    if (!codeTextBox1.VisibleRange.Contains(range.Start) || !codeTextBox1.VisibleRange.Contains(range.End))
-                        codeTextBox1.DoSelectionVisible();
-                }
-            }
-        }
         private void renameButton_Click(object sender, EventArgs e)
         {
             if (codeTextBox1.SelectedToken != null && codeTextBox1.SelectedToken is DeclarationIdentifier)
