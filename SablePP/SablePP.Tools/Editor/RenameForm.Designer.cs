@@ -1,4 +1,4 @@
-﻿namespace SablePP.Compiler.Execution
+﻿namespace SablePP.Tools.Editor
 {
     partial class RenameForm
     {

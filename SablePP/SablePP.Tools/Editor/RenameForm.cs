@@ -3,7 +3,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace SablePP.Compiler.Execution
+namespace SablePP.Tools.Editor
 {
     public partial class RenameForm : Form
     {

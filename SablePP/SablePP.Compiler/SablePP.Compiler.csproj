@@ -83,12 +83,6 @@
     <Compile Include="Execution\LiveCodeControl.Designer.cs">
       <DependentUpon>LiveCodeControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Execution\RenameForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Execution\RenameForm.Designer.cs">
-      <DependentUpon>RenameForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Execution\SablePPEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,9 +153,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Execution\SablePPEditor.resx">
       <DependentUpon>SablePPEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Execution\RenameForm.resx">
-      <DependentUpon>RenameForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

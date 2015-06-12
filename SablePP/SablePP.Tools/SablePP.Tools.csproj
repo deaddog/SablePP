@@ -69,6 +69,12 @@
     <Compile Include="Editor\MessageTimer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Editor\RenameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editor\RenameForm.Designer.cs">
+      <DependentUpon>RenameForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Editor\SimpleEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,6 +160,9 @@
     <EmbeddedResource Include="Editor\EditorResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>EditorResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editor\RenameForm.resx">
+      <DependentUpon>RenameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Editor\SimpleEditor.resx">
       <DependentUpon>SimpleEditor.cs</DependentUpon>
