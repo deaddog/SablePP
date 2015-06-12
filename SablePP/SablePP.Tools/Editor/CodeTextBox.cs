@@ -20,6 +20,7 @@ namespace SablePP.Tools.Editor
     public class CodeTextBox : FastColoredTextBox
     {
         private SquigglyStyle errorStyle, warningStyle, messageStyle;
+        private Style highlightstyle;
         private Dictionary<Range, string> tooltipMessages;
         private Dictionary<Range, SquigglyStyle> directDrawErrors;
 
@@ -45,8 +46,14 @@ namespace SablePP.Tools.Editor
             errorStyle = new SquigglyStyle(Pens.Red);
             warningStyle = new SquigglyStyle(new Pen(Color.FromArgb(48, 150, 49)));
             messageStyle = new SquigglyStyle(Pens.DodgerBlue);
+            highlightstyle = new SelectionStyle(new SolidBrush(Color.FromArgb(226, 230, 214)));
             tooltipMessages = new Dictionary<Range, string>();
             directDrawErrors = new Dictionary<Range, SquigglyStyle>();
+
+            Styles[0] = errorStyle;
+            Styles[1] = warningStyle;
+            Styles[2] = messageStyle;
+            Styles[3] = highlightstyle;
 
             this.executer = null;
             this.lexer = null;

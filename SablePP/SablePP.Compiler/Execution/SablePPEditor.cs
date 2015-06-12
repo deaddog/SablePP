@@ -19,8 +19,6 @@ namespace SablePP.Compiler.Execution
 
         private EditorSettings settings = EditorSettings.Default;
 
-        private Style highlightstyle = new SelectionStyle(new SolidBrush(Color.FromArgb(226, 230, 214)));
-
         private ToolStripMenuItem tools;
         private ToolStripMenuItem outputButton = new ToolStripMenuItem("Set &Output Directory...");
         private ToolStripMenuItem generateButton = new ToolStripMenuItem("&Build");
@@ -74,8 +72,6 @@ namespace SablePP.Compiler.Execution
             EditMenu.DropDownItems.Add(new ToolStripSeparator());
             EditMenu.DropDownItems.Add(goToButton);
             EditMenu.DropDownItems.Add(renameButton);
-
-            codeTextBox1.Styles[0] = highlightstyle;
         }
 
         /// <summary>
