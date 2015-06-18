@@ -15,7 +15,7 @@ namespace SablePP.Tools.Editor
             InitializeComponent();
         }
 
-        public RenameForm(IDeclarationRenamer renamer, Token token)
+        private RenameForm(IDeclarationRenamer renamer, Token token, string title, string message)
             : this()
         {
             if (renamer == null)
@@ -26,8 +26,11 @@ namespace SablePP.Tools.Editor
             this.renamer = renamer;
             this.token = token;
 
-            this.Text = string.Format(this.Text, token.Text);
-            this.label1.Text = string.Format(this.label1.Text, token.Text);
+            if (title == null) title = string.Empty;
+            this.Text = title;
+            if (message == null) message = string.Empty;
+            this.label1.Text = message;
+
             this.textBox1.Text = token.Text;
         }
 
