@@ -34,6 +34,22 @@ namespace SablePP.Tools.Editor
             this.textBox1.Text = token.Text;
         }
 
+        public static string ShowDialog(IDeclarationRenamer renamer, Token token, string title = null, string message = null)
+        {
+            if (title == null)
+                title = string.Format("Renaming \"{0}\"", token.Text);
+            if (message == null)
+                message = string.Format("Renaming \"{0}\" and all its references.\r\nSpecify a new name below:", token.Text);
+
+            using (RenameForm rf = new RenameForm(renamer, token, title, message))
+            {
+                if (rf.ShowDialog() == DialogResult.OK)
+                    return rf.DeclarationName;
+                else
+                    return null;
+            }
+        }
+
         public string DeclarationName
         {
             get { return textBox1.Text; }
