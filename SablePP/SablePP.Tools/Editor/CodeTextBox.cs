@@ -189,6 +189,40 @@ namespace SablePP.Tools.Editor
             return decLocator.FindDeclaration(token) != null;
         }
 
+        public void RenameDeclaration(string newName = null)
+        {
+            if (selectedToken != null)
+                RenameDeclaration(selectedToken, newName);
+        }
+        public void RenameDeclaration(Token token, string newName = null)
+        {
+            if (decRenamer == null)
+                throw new InvalidOperationException("RenameDeclaration is not available when property DeclarationRenamer is not set.");
+            if (decLocator == null)
+                throw new InvalidOperationException("RenameDeclaration is not available when property DeclarationLocator is not set.");
+            if (token == null)
+                throw new ArgumentNullException("token");
+
+            if (newName == null)
+                newName = RenameForm.ShowDialog(decRenamer, token);
+            if (newName == null)
+                return;
+
+            var dec = decLocator.FindDeclaration(token);
+
+            var renamees = decRenamer.FindRenamees(dec, lastResult).Select(x =>
+            {
+                var r = RangeFromToken(x);
+                return Tuple.Create(PlaceToPosition(r.Start), PlaceToPosition(r.End));
+            }).ToArray();
+            Array.Sort(renamees, (x, y) => -x.Item1.CompareTo(y.Item1));
+
+            string text = Text;
+            for (int i = 0; i < renamees.Length; i++)
+                text = text.Substring(0, renamees[i].Item1) + newName + text.Substring(renamees[i].Item2);
+            Text = text;
+        }
+
         /// <summary>
         /// Occurs when the <see cref="ICompilerExecuter"/> associated with this <see cref="CodeTextBox"/> is done compiling an AST.
         /// The event is raised regardless of the result of the compilation.
