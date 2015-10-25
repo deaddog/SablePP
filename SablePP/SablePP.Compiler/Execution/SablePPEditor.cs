@@ -39,7 +39,9 @@ namespace SablePP.Compiler.Execution
         {
             public IEnumerable<Token> FindRenamees(Token token, CodeTextBox.Result result)
             {
-                throw new NotImplementedException();
+                foreach (var t in DepthFirstTreeWalker.GetTokens(result.Tree))
+                    if (t is DeclarationIdentifier && (t as DeclarationIdentifier).Declaration.GetIdentifier() == token)
+                        yield return t;
             }
 
             public bool IsNameValid(Token token, string newName)
@@ -104,7 +106,7 @@ namespace SablePP.Compiler.Execution
             goToButton.Enabled = false;
             goToButton.ShortcutKeys = Keys.F12;
 
-            renameButton.Click += renameButton_Click;
+            renameButton.Click += (s, e) => codeTextBox1.RenameDeclaration();
             renameButton.Enabled = false;
             renameButton.ShortcutKeys = Keys.F11;
 
@@ -113,6 +115,7 @@ namespace SablePP.Compiler.Execution
             EditMenu.DropDownItems.Add(renameButton);
 
             codeTextBox1.DeclarationLocator = new Locator();
+            codeTextBox1.DeclarationRenamer = new Renamer();
         }
 
         /// <summary>
@@ -222,17 +225,7 @@ namespace SablePP.Compiler.Execution
         {
             OpenFile(GetDraggedFiles(e)[0]);
         }
-
-        private void renameButton_Click(object sender, EventArgs e)
-        {
-            if (codeTextBox1.SelectedToken != null && codeTextBox1.SelectedToken is DeclarationIdentifier)
-                using (RenameForm form = new RenameForm(codeTextBox1.SelectedToken as DeclarationIdentifier))
-                    if (form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    {
-                        throw new NotImplementedException();
-                    }
-        }
-
+        
         protected override void OnFileChanged(EventArgs e)
         {
             outputButton.Enabled = File != null && File.Exists;
