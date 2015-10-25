@@ -216,11 +216,22 @@ namespace SablePP.Tools.Editor
                 return Tuple.Create(PlaceToPosition(r.Start), PlaceToPosition(r.End));
             }).ToArray();
             Array.Sort(renamees, (x, y) => -x.Item1.CompareTo(y.Item1));
-
+            
+            int oldPosition = PlaceToPosition(RangeFromToken(dec).Start);
+            int newPosition = oldPosition;
+            int offset = newName.Length - token.Text.Length;
+            
             string text = Text;
             for (int i = 0; i < renamees.Length; i++)
+            {
                 text = text.Substring(0, renamees[i].Item1) + newName + text.Substring(renamees[i].Item2);
+                if (renamees[i].Item1 < oldPosition && renamees[i].Item2 < oldPosition)
+                    newPosition += offset;
+            }
             Text = text;
+            this.Selection = new Range(this, PositionToPlace(newPosition), PositionToPlace(newPosition));
+            Range.ClearStyle(highlightstyle);
+            this.DoCaretVisible();
         }
 
         /// <summary>
@@ -590,9 +601,11 @@ namespace SablePP.Tools.Editor
                 }
 
                 parent.lastResult = new Result(node, errors);
-                parent.selectedToken = parent.TokenFromRange(parent.Selection);
+                parent.OnSelectionChanged();
+                
                 if (parent.CompilationCompleted != null)
                     parent.CompilationCompleted(parent, EventArgs.Empty);
+
                 waitFlag = false;
 
                 if (shouldStart)
