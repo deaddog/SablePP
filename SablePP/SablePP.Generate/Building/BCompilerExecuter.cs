@@ -50,9 +50,9 @@ namespace SablePP.Generate.Building
 
         #region Class setup
 
-        private static ClassElement CreateClass(FileElement fileElement, string packageName, string rootProduction)
+        private static ClassElement CreateClass(FileElement fileElement, string @namespace, string rootProduction)
         {
-            NameSpaceElement name = new NameSpaceElement(packageName);
+            NameSpaceElement name = new NameSpaceElement(@namespace);
             fileElement.Add(name);
 
             ClassElement executerClass = new ClassElement("public partial class CompilerExecuter : {1}.CompilerExecuter<{0}, Lexer, Parser>", rootProduction, SablePP.Generate.Namespaces.Root);

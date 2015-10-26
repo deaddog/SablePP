@@ -45,7 +45,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             hasASTsection = node.HasAstproductions;
 
-            VisitPackages(node.Packages);
+            VisitNamespaces(node.Namespaces);
             VisitHelpers(node.Helpers);
             VisitStates(node.States);
             VisitTokens(node.Tokens);

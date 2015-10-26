@@ -5,36 +5,44 @@ using SablePP.Compiler.Analysis;
 
 namespace SablePP.Compiler.Nodes
 {
-    public partial class TPackagename : Token<TPackagename>
+    public partial class TNamespace : Token<TNamespace>
     {
-        public TPackagename(string text)
+        public TNamespace(string text)
             : base(text)
         {
         }
-        public TPackagename(string text, int line, int pos)
+        public TNamespace(string text, int line, int pos)
             : base(text, line, pos)
         {
         }
         
-        public override TPackagename Clone()
+        public override TNamespace Clone()
         {
-            return new TPackagename(Text, Line, Position);
+            return new TNamespace(Text, Line, Position);
         }
     }
-    public partial class TPackagetoken : Token<TPackagetoken>
+    public partial class TNamespacetoken : Token<TNamespacetoken>
     {
-        public TPackagetoken(string text)
+        public TNamespacetoken()
+            : base(@"Namespace")
+        {
+        }
+        public TNamespacetoken(int line, int pos)
+            : base(@"Namespace", line, pos)
+        {
+        }
+        public TNamespacetoken(string text)
             : base(text)
         {
         }
-        public TPackagetoken(string text, int line, int pos)
+        public TNamespacetoken(string text, int line, int pos)
             : base(text, line, pos)
         {
         }
         
-        public override TPackagetoken Clone()
+        public override TNamespacetoken Clone()
         {
-            return new TPackagetoken(Text, Line, Position);
+            return new TNamespacetoken(Text, Line, Position);
         }
     }
     public partial class TStatestoken : Token<TStatestoken>

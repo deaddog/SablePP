@@ -45,11 +45,11 @@ namespace SablePP.Compiler.Validation
                 Visit(nodes[i]);
         }
 
-        public void VisitPackages(IEnumerable<TPackagename> nodes)
+        public void VisitNamespaces(IEnumerable<TNamespace> nodes)
         {
-            CasePackages(nodes.ToArray());
+            CaseNamespaces(nodes.ToArray());
         }
-        protected virtual void CasePackages(TPackagename[] nodes)
+        protected virtual void CaseNamespaces(TNamespace[] nodes)
         {
             visitEach(nodes);
         }

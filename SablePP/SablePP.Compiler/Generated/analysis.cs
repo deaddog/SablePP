@@ -26,11 +26,11 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(APackageSection node)
+        public void Visit(ANamespaceSection node)
         {
-            CaseAPackageSection(node);
+            CaseANamespaceSection(node);
         }
-        public virtual void CaseAPackageSection(APackageSection node)
+        public virtual void CaseANamespaceSection(ANamespaceSection node)
         {
             DefaultCase(node);
         }
@@ -450,19 +450,19 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultCase(node);
         }
-        public void Visit(TPackagename node)
+        public void Visit(TNamespace node)
         {
-            CaseTPackagename(node);
+            CaseTNamespace(node);
         }
-        public virtual void CaseTPackagename(TPackagename node)
+        public virtual void CaseTNamespace(TNamespace node)
         {
             DefaultCase(node);
         }
-        public void Visit(TPackagetoken node)
+        public void Visit(TNamespacetoken node)
         {
-            CaseTPackagetoken(node);
+            CaseTNamespacetoken(node);
         }
-        public virtual void CaseTPackagetoken(TPackagetoken node)
+        public virtual void CaseTNamespacetoken(TNamespacetoken node)
         {
             DefaultCase(node);
         }
@@ -897,24 +897,24 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultPOut(node);
         }
-        public virtual void InAPackageSection(APackageSection node)
+        public virtual void InANamespaceSection(ANamespaceSection node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAPackageSection(APackageSection node)
+        public virtual void OutANamespaceSection(ANamespaceSection node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAPackageSection(APackageSection node)
+        public override void CaseANamespaceSection(ANamespaceSection node)
         {
             InPSection(node);
-            InAPackageSection(node);
+            InANamespaceSection(node);
             
-            Visit(node.Packagetoken);
-            Visit(node.Packagename);
+            Visit(node.Namespacetoken);
+            Visit(node.Namespace);
             Visit(node.Semicolon);
             
-            OutAPackageSection(node);
+            OutANamespaceSection(node);
             OutPSection(node);
         }
         public virtual void InAHelpersSection(AHelpersSection node)
@@ -2193,24 +2193,24 @@ namespace SablePP.Compiler.Analysis
         {
             DefaultPOut(node);
         }
-        public virtual void InAPackageSection(APackageSection node)
+        public virtual void InANamespaceSection(ANamespaceSection node)
         {
             DefaultAIn(node);
         }
-        public virtual void OutAPackageSection(APackageSection node)
+        public virtual void OutANamespaceSection(ANamespaceSection node)
         {
             DefaultAOut(node);
         }
-        public override void CaseAPackageSection(APackageSection node)
+        public override void CaseANamespaceSection(ANamespaceSection node)
         {
             InPSection(node);
-            InAPackageSection(node);
+            InANamespaceSection(node);
             
             Visit(node.Semicolon);
-            Visit(node.Packagename);
-            Visit(node.Packagetoken);
+            Visit(node.Namespace);
+            Visit(node.Namespacetoken);
             
-            OutAPackageSection(node);
+            OutANamespaceSection(node);
             OutPSection(node);
         }
         public virtual void InAHelpersSection(AHelpersSection node)
@@ -3431,11 +3431,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(APackageSection node)
+        public Result Visit(ANamespaceSection node)
         {
-            return CaseAPackageSection(node);
+            return CaseANamespaceSection(node);
         }
-        public virtual Result CaseAPackageSection(APackageSection node)
+        public virtual Result CaseANamespaceSection(ANamespaceSection node)
         {
             return DefaultCase(node);
         }
@@ -3855,19 +3855,19 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node);
         }
-        public Result Visit(TPackagename node)
+        public Result Visit(TNamespace node)
         {
-            return CaseTPackagename(node);
+            return CaseTNamespace(node);
         }
-        public virtual Result CaseTPackagename(TPackagename node)
+        public virtual Result CaseTNamespace(TNamespace node)
         {
             return DefaultCase(node);
         }
-        public Result Visit(TPackagetoken node)
+        public Result Visit(TNamespacetoken node)
         {
-            return CaseTPackagetoken(node);
+            return CaseTNamespacetoken(node);
         }
-        public virtual Result CaseTPackagetoken(TPackagetoken node)
+        public virtual Result CaseTNamespacetoken(TNamespacetoken node)
         {
             return DefaultCase(node);
         }
@@ -4239,11 +4239,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(APackageSection node, T1 arg1)
+        public Result Visit(ANamespaceSection node, T1 arg1)
         {
-            return CaseAPackageSection(node, arg1);
+            return CaseANamespaceSection(node, arg1);
         }
-        public virtual Result CaseAPackageSection(APackageSection node, T1 arg1)
+        public virtual Result CaseANamespaceSection(ANamespaceSection node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -4663,19 +4663,19 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(TPackagename node, T1 arg1)
+        public Result Visit(TNamespace node, T1 arg1)
         {
-            return CaseTPackagename(node, arg1);
+            return CaseTNamespace(node, arg1);
         }
-        public virtual Result CaseTPackagename(TPackagename node, T1 arg1)
+        public virtual Result CaseTNamespace(TNamespace node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
-        public Result Visit(TPackagetoken node, T1 arg1)
+        public Result Visit(TNamespacetoken node, T1 arg1)
         {
-            return CaseTPackagetoken(node, arg1);
+            return CaseTNamespacetoken(node, arg1);
         }
-        public virtual Result CaseTPackagetoken(TPackagetoken node, T1 arg1)
+        public virtual Result CaseTNamespacetoken(TNamespacetoken node, T1 arg1)
         {
             return DefaultCase(node, arg1);
         }
@@ -5047,11 +5047,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(APackageSection node, T1 arg1, T2 arg2)
+        public Result Visit(ANamespaceSection node, T1 arg1, T2 arg2)
         {
-            return CaseAPackageSection(node, arg1, arg2);
+            return CaseANamespaceSection(node, arg1, arg2);
         }
-        public virtual Result CaseAPackageSection(APackageSection node, T1 arg1, T2 arg2)
+        public virtual Result CaseANamespaceSection(ANamespaceSection node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -5471,19 +5471,19 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(TPackagename node, T1 arg1, T2 arg2)
+        public Result Visit(TNamespace node, T1 arg1, T2 arg2)
         {
-            return CaseTPackagename(node, arg1, arg2);
+            return CaseTNamespace(node, arg1, arg2);
         }
-        public virtual Result CaseTPackagename(TPackagename node, T1 arg1, T2 arg2)
+        public virtual Result CaseTNamespace(TNamespace node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
-        public Result Visit(TPackagetoken node, T1 arg1, T2 arg2)
+        public Result Visit(TNamespacetoken node, T1 arg1, T2 arg2)
         {
-            return CaseTPackagetoken(node, arg1, arg2);
+            return CaseTNamespacetoken(node, arg1, arg2);
         }
-        public virtual Result CaseTPackagetoken(TPackagetoken node, T1 arg1, T2 arg2)
+        public virtual Result CaseTNamespacetoken(TNamespacetoken node, T1 arg1, T2 arg2)
         {
             return DefaultCase(node, arg1, arg2);
         }
@@ -5855,11 +5855,11 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(APackageSection node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(ANamespaceSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAPackageSection(node, arg1, arg2, arg3);
+            return CaseANamespaceSection(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAPackageSection(APackageSection node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseANamespaceSection(ANamespaceSection node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
@@ -6279,19 +6279,19 @@ namespace SablePP.Compiler.Analysis
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(TPackagename node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(TNamespace node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTPackagename(node, arg1, arg2, arg3);
+            return CaseTNamespace(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTPackagename(TPackagename node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseTNamespace(TNamespace node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }
-        public Result Visit(TPackagetoken node, T1 arg1, T2 arg2, T3 arg3)
+        public Result Visit(TNamespacetoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTPackagetoken(node, arg1, arg2, arg3);
+            return CaseTNamespacetoken(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTPackagetoken(TPackagetoken node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result CaseTNamespacetoken(TNamespacetoken node, T1 arg1, T2 arg2, T3 arg3)
         {
             return DefaultCase(node, arg1, arg2, arg3);
         }

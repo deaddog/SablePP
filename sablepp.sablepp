@@ -27,16 +27,16 @@ Helpers
 
 States
     normal,
-    package,
+    namespace,
     highlight,
     highlightstyles;
 
 Tokens
-{package}
-    packagename = letter (letter | digit)* ('.' letter (letter | digit)*)*;
+{namespace}
+    namespace = letter (letter | digit)* ('.' letter (letter | digit)*)*;
 
-{normal->package,highlight->package}
-    packagetoken = 'Package'|'Namespace';
+{normal->namespace,highlight->namespace}
+    namespacetoken = 'Namespace';
 {normal,highlight->normal}
     statestoken = 'States';
 {normal,highlight->normal}
@@ -61,7 +61,7 @@ Tokens
     dot = '.';
     d_dot = '..';
 
-{normal, package->normal, highlightstyles->highlight}
+{normal, namespace->normal, highlightstyles->highlight}
     semicolon = ';';
 
     equal = '=';
@@ -117,7 +117,7 @@ Ignored Tokens
 Productions
     grammar = section*;
     section
-        = {package} packagetoken packagename semicolon
+        = {namespace} namespacetoken namespace semicolon
         | {h} helperstoken [helper_defs]:helper_def+ -> New section.helpers(helperstoken, [helper_defs])
         | {s} statestoken s_list semicolon -> New section.states(statestoken, [s_list], semicolon)
         | {t} tokenstoken [token_defs]:token_def+ -> New section.tokens(tokenstoken, [token_defs])
@@ -297,7 +297,7 @@ Abstract Syntax Tree
         = section*
         ;
     section
-        = {package} packagetoken packagename semicolon
+        = {namespace} namespacetoken namespace semicolon
         | {helpers} helperstoken [helpers]:helper*
         | {states} statestoken state+ semicolon
         | {tokens} tokenstoken [tokens]:token*
@@ -389,6 +389,6 @@ Abstract Syntax Tree
 Token Syntax Highlight
     {comment} text:#008000;
     {character, string} text:rgb(163, 21, 21);
-    {packagename, packagetoken, helperstoken, tokenstoken, ignoredtoken, statestoken, productionstoken, asttoken, highlighttoken} text:hsv(0, 0, 30), bold;
+    {namespace, namespacetoken, helperstoken, tokenstoken, ignoredtoken, statestoken, productionstoken, asttoken, highlighttoken} text:hsv(0, 0, 30), bold;
     {bold} bold;
     {italic} italic;
