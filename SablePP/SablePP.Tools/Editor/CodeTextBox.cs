@@ -20,6 +20,7 @@ namespace SablePP.Tools.Editor
     public class CodeTextBox : FastColoredTextBox
     {
         private SquigglyStyle errorStyle, warningStyle, messageStyle;
+        private Style highlightstyle;
         private Dictionary<Range, string> tooltipMessages;
         private Dictionary<Range, SquigglyStyle> directDrawErrors;
 
@@ -30,8 +31,12 @@ namespace SablePP.Tools.Editor
 
         private CompileWorker compileWorker;
         private Result lastResult;
+        private Token selectedToken;
         private List<Style> simpleStyles;
         private List<Style> moreStyles;
+
+        private DeclarationLocatorCache decLocator;
+        private IDeclarationRenamer decRenamer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CodeTextBox"/> class.
@@ -42,17 +47,27 @@ namespace SablePP.Tools.Editor
             errorStyle = new SquigglyStyle(Pens.Red);
             warningStyle = new SquigglyStyle(new Pen(Color.FromArgb(48, 150, 49)));
             messageStyle = new SquigglyStyle(Pens.DodgerBlue);
+            highlightstyle = new SelectionStyle(new SolidBrush(Color.FromArgb(226, 230, 214)));
             tooltipMessages = new Dictionary<Range, string>();
             directDrawErrors = new Dictionary<Range, SquigglyStyle>();
+
+            Styles[0] = errorStyle;
+            Styles[1] = warningStyle;
+            Styles[2] = messageStyle;
+            Styles[3] = highlightstyle;
 
             this.executer = null;
             this.lexer = null;
             this.lexerError = true;
 
             this.compileWorker = new CompileWorker(this);
+            this.selectedToken = null;
             this.lastResult = null;
             this.simpleStyles = new List<Style>();
             this.moreStyles = new List<Style>();
+
+            this.decLocator = null;
+            this.decRenamer = null;
 
             this.ToolTipNeeded += CodeTextBox_ToolTipNeeded;
         }
@@ -106,6 +121,120 @@ namespace SablePP.Tools.Editor
         }
 
         /// <summary>
+        /// Gets the <see cref="Token"/> currently selected by the user.
+        /// </summary>
+        [Browsable(false)]
+        public Token SelectedToken
+        {
+            get { return selectedToken; }
+        }
+
+        public IDeclarationLocator DeclarationLocator
+        {
+            get
+            {
+                if (decLocator == null)
+                    return null;
+                else
+                    return decLocator.Inner;
+            }
+            set
+            {
+                if (value == null)
+                    decLocator = null;
+                else
+                    decLocator = new DeclarationLocatorCache(value);
+            }
+        }
+        public IDeclarationRenamer DeclarationRenamer
+        {
+            get { return decRenamer; }
+            set { decRenamer = value; }
+        }
+
+        public void GoToDeclaration()
+        {
+            if (selectedToken == null)
+                throw new InvalidOperationException("No token is selected.");
+            else
+                GoToDeclaration(selectedToken);
+        }
+        public void GoToDeclaration(Token token)
+        {
+            if (decLocator == null)
+                throw new InvalidOperationException("GoToDeclaration is not available when property DeclarationLocator is not set.");
+            if (token == null)
+                throw new ArgumentNullException("token");
+
+            Token declaration = decLocator.FindDeclaration(token);
+            if (declaration != null)
+            {
+                var range = RangeFromToken(declaration);
+                Selection = range;
+                DoRangeVisible(range, true);
+            }
+        }
+        public bool HasDeclaration()
+        {
+            return HasDeclaration(selectedToken);
+        }
+        public bool HasDeclaration(Token token)
+        {
+            if (decLocator == null)
+                return false;
+
+            if (token == null)
+                return false;
+
+            return decLocator.FindDeclaration(token) != null;
+        }
+
+        public void RenameDeclaration(string newName = null)
+        {
+            if (selectedToken != null)
+                RenameDeclaration(selectedToken, newName);
+        }
+        public void RenameDeclaration(Token token, string newName = null)
+        {
+            if (decRenamer == null)
+                throw new InvalidOperationException("RenameDeclaration is not available when property DeclarationRenamer is not set.");
+            if (decLocator == null)
+                throw new InvalidOperationException("RenameDeclaration is not available when property DeclarationLocator is not set.");
+            if (token == null)
+                throw new ArgumentNullException("token");
+
+            if (newName == null)
+                newName = RenameForm.ShowDialog(decRenamer, token);
+            if (newName == null)
+                return;
+
+            var dec = decLocator.FindDeclaration(token);
+
+            var renamees = decRenamer.FindRenamees(dec, lastResult).Select(x =>
+            {
+                var r = RangeFromToken(x);
+                return Tuple.Create(PlaceToPosition(r.Start), PlaceToPosition(r.End));
+            }).ToArray();
+            Array.Sort(renamees, (x, y) => -x.Item1.CompareTo(y.Item1));
+            
+            int oldPosition = PlaceToPosition(RangeFromToken(dec).Start);
+            int newPosition = oldPosition;
+            int offset = newName.Length - token.Text.Length;
+            
+            string text = Text;
+            for (int i = 0; i < renamees.Length; i++)
+            {
+                text = text.Substring(0, renamees[i].Item1) + newName + text.Substring(renamees[i].Item2);
+                if (renamees[i].Item1 < oldPosition && renamees[i].Item2 < oldPosition)
+                    newPosition += offset;
+            }
+            Text = text;
+            this.Selection = new Range(this, PositionToPlace(newPosition), PositionToPlace(newPosition));
+            Range.ClearStyle(highlightstyle);
+            this.DoCaretVisible();
+        }
+
+        /// <summary>
         /// Occurs when the <see cref="ICompilerExecuter"/> associated with this <see cref="CodeTextBox"/> is done compiling an AST.
         /// The event is raised regardless of the result of the compilation.
         /// The event is never raised when the <see cref="CodeTextBox"/> is not associated with an <see cref="ICompilerExecuter"/>.
@@ -122,7 +251,7 @@ namespace SablePP.Tools.Editor
         /// <summary>
         /// Gets the <see cref="Range"/> in this <see cref="CodeTextBox"/> of a <see cref="Token"/>.
         /// </summary>
-        /// <param name="token">The <see cref="Token"/> from which <see cref="Range"/> should be retrieved..</param>
+        /// <param name="token">The <see cref="Token"/> from which <see cref="Range"/> should be retrieved.</param>
         /// <returns>A <see cref="Range"/> representing the location of <paramref name="token"/> in this <see cref="CodeTextBox"/>.</returns>
         public Range RangeFromToken(Token token)
         {
@@ -145,6 +274,31 @@ namespace SablePP.Tools.Editor
             return new Range(this, p1, p2);
         }
         /// <summary>
+        /// Gets the <see cref="Range"/> in this <see cref="CodeTextBox"/> of a <see cref="Production"/>.
+        /// </summary>
+        /// <param name="production">The <see cref="Production"/> from which <see cref="Range"/> should be retrieved.</param>
+        /// <returns>A <see cref="Range"/> containing all the tokens of <paramref name="production"/>.</returns>
+        public Range RangeFromProduction(Production production)
+        {
+            var first = RangeFromToken(Tools.Analysis.DepthFirstTreeWalker.GetTokens(production).First());
+            var last = RangeFromToken(SablePP.Tools.Analysis.DepthFirstReversedTreeWalker.GetTokens(production).First());
+            return first.GetUnionWith(last);
+        }
+        /// <summary>
+        /// Gets the <see cref="Range"/> in this <see cref="CodeTextBox"/> of a <see cref="Node"/> by invoking <see cref="RangeFromToken"/> or <see cref="RangeFromProduction"/>.
+        /// </summary>
+        /// <param name="node">The <see cref="Node"/> from which <see cref="Range"/> should be retrieved.</param>
+        /// <returns>A <see cref="Range"/> containing all the tokens of <paramref name="node"/> (or just the single element if <paramref name="node"/> is a <see cref="Token"/>).</returns>
+        public Range RangeFromNode(Node node)
+        {
+            if (node is Token)
+                return RangeFromToken(node as Token);
+            else if (node is Production)
+                return RangeFromProduction(node as Production);
+            else
+                throw new ArgumentException("Range can only be retrieved from tokens and productions.", "node");
+        }
+        /// <summary>
         /// Gets the <see cref="Token"/> located at <paramref name="place"/> in this <see cref="CodeTextBox"/>.
         /// Tokens are found in the <see cref="LastResult"/> property.
         /// </summary>
@@ -160,6 +314,25 @@ namespace SablePP.Tools.Editor
                 if (RangeFromToken(token).Contains(place))
                     return token;
             return null;
+        }
+        /// <summary>
+        /// Get the <see cref="Token"/> containing <paramref name="range"/> in this <see cref="CodeTextBox"/>.
+        /// Tokens are found in the <see cref="LastResult"/> property.
+        /// </summary>
+        /// <param name="range">The range in which to look for a <see cref="Token"/>.</param>
+        /// <returns>The <see cref="Token"/> containing <paramref name="range"/>, if any exists; otherwise <c>null</c>.
+        /// If <paramref name="range"/> is larger than any 'close' <see cref="Token"/>, <c>null</c> is returned.</returns>
+        public Token TokenFromRange(Range range)
+        {
+            if (range.Start != range.End)
+            {
+                var s = TokenFromPlace(range.Start);
+                var e = TokenFromPlace(range.End);
+
+                return s == e ? s : null;
+            }
+            else
+                return TokenFromPlace(range.Start);
         }
 
         private SquigglyStyle getSquigglyStyle(ErrorType errorType)
@@ -286,6 +459,27 @@ namespace SablePP.Tools.Editor
             base.OnTextChangedDelayed(changedRange);
         }
 
+        public override void OnSelectionChanged()
+        {
+            this.selectedToken = TokenFromRange(this.Selection);
+
+            Range.ClearStyle(highlightstyle);
+            if (this.decLocator != null && this.selectedToken != null)
+            {
+                var dec = decLocator.FindDeclaration(selectedToken);
+
+                foreach (var token in decLocator.FindReferences(dec, lastResult))
+                {
+                    var r = RangeFromToken(token);
+                    if (Range.Contains(r.Start) && (Range.Contains(r.End)))
+                        r.SetStyle(highlightstyle);
+                }
+
+            }
+
+            base.OnSelectionChanged();
+        }
+
         protected sealed override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -407,8 +601,11 @@ namespace SablePP.Tools.Editor
                 }
 
                 parent.lastResult = new Result(node, errors);
+                parent.OnSelectionChanged();
+                
                 if (parent.CompilationCompleted != null)
                     parent.CompilationCompleted(parent, EventArgs.Empty);
+
                 waitFlag = false;
 
                 if (shouldStart)

@@ -54,6 +54,8 @@
     <Compile Include="CompilationOptions.cs" />
     <Compile Include="CompilerExecuter.cs" />
     <Compile Include="DictionaryExtension.cs" />
+    <Compile Include="Editor\DeclarationLocatorCache.cs" />
+    <Compile Include="Editor\EnumerationLocator.cs" />
     <Compile Include="Editor\ErrorEventArgs.cs" />
     <Compile Include="Editor\ErrorView.cs">
       <SubType>Component</SubType>
@@ -61,9 +63,17 @@
     <Compile Include="Editor\FileOpenedEventArgs.cs" />
     <Compile Include="Editor\FileOpeningEventArgs.cs" />
     <Compile Include="Editor\FileSavingEventArgs.cs" />
+    <Compile Include="Editor\IDeclarationLocator.cs" />
+    <Compile Include="Editor\IDeclarationRenamer.cs" />
     <Compile Include="Editor\MessageIcons.cs" />
     <Compile Include="Editor\MessageTimer.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Editor\RenameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editor\RenameForm.Designer.cs">
+      <DependentUpon>RenameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Editor\SimpleEditor.cs">
       <SubType>Form</SubType>
@@ -150,6 +160,9 @@
     <EmbeddedResource Include="Editor\EditorResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>EditorResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editor\RenameForm.resx">
+      <DependentUpon>RenameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Editor\SimpleEditor.resx">
       <DependentUpon>SimpleEditor.cs</DependentUpon>

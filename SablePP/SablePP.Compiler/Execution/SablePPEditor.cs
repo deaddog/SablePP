@@ -2,7 +2,9 @@
 using SablePP.Compiler.Nodes;
 using SablePP.Tools.Analysis;
 using SablePP.Tools.Editor;
+using SablePP.Tools.Nodes;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -13,12 +15,48 @@ namespace SablePP.Compiler.Execution
 {
     public partial class SablePPEditor : EditorForm
     {
+        #region Locator class
+
+        private class Locator : EnumerationLocator
+        {
+            public override Token FindDeclaration(Token token)
+            {
+                if (token is DeclarationIdentifier)
+                    return (token as DeclarationIdentifier).Declaration.GetIdentifier();
+                else
+                    return null;
+            }
+
+            protected override bool IsReference(Token declaration, Token token)
+            {
+                if (token is DeclarationIdentifier)
+                    return (token as DeclarationIdentifier).Declaration.GetIdentifier() == declaration;
+                else
+                    return false;
+            }
+        }
+        private class Renamer : IDeclarationRenamer
+        {
+            public IEnumerable<Token> FindRenamees(Token token, CodeTextBox.Result result)
+            {
+                foreach (var t in DepthFirstTreeWalker.GetTokens(result.Tree))
+                    if (t is DeclarationIdentifier && (t as DeclarationIdentifier).Declaration.GetIdentifier() == token)
+                        yield return t;
+            }
+
+            public bool IsNameValid(Token token, string newName)
+            {
+                return System.Text.RegularExpressions.Regex.IsMatch(newName, "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$");
+            }
+        }
+
+
+        #endregion
+
         private BackgroundWorker generateWorker;
         private CompilerExecuter executer;
 
         private EditorSettings settings = EditorSettings.Default;
-
-        private Style highlightstyle = new SelectionStyle(new SolidBrush(Color.FromArgb(226, 230, 214)));
 
         private ToolStripMenuItem tools;
         private ToolStripMenuItem outputButton = new ToolStripMenuItem("Set &Output Directory...");
@@ -26,6 +64,9 @@ namespace SablePP.Compiler.Execution
         private ToolStripMenuItem livecodeButton = new ToolStripMenuItem("&LiveCode Tool");
 
         private ToolStripMenuItem goToButton = new ToolStripMenuItem("Go to definition...");
+        private ToolStripMenuItem renameButton = new ToolStripMenuItem();
+        private string renameText = "Rename \"{0}\"";
+        private string renameTextDisabled = "Rename ...";
 
         public SablePPEditor()
         {
@@ -61,14 +102,20 @@ namespace SablePP.Compiler.Execution
             tools.DropDownItems.Add(new ToolStripSeparator());
             tools.DropDownItems.Add(livecodeButton);
 
-            goToButton.Click += goToButton_Click;
+            goToButton.Click += (s, e) => codeTextBox1.GoToDeclaration();
             goToButton.Enabled = false;
             goToButton.ShortcutKeys = Keys.F12;
 
+            renameButton.Click += (s, e) => codeTextBox1.RenameDeclaration();
+            renameButton.Enabled = false;
+            renameButton.ShortcutKeys = Keys.F11;
+
             EditMenu.DropDownItems.Add(new ToolStripSeparator());
             EditMenu.DropDownItems.Add(goToButton);
+            EditMenu.DropDownItems.Add(renameButton);
 
-            codeTextBox1.Styles[0] = highlightstyle;
+            codeTextBox1.DeclarationLocator = new Locator();
+            codeTextBox1.DeclarationRenamer = new Renamer();
         }
 
         /// <summary>
@@ -142,26 +189,18 @@ namespace SablePP.Compiler.Execution
             string positionText = positionLabel.Text.Substring(0, positionLabel.Text.IndexOf(':') + 1) + " ";
             positionLabel.Text = positionText + (codeTextBox1.Selection.Start.iChar + 1);
 
-            // Update the highlighting style to mark all related tokens
-            codeTextBox1.Range.ClearStyle(highlightstyle);
-
-            var find = codeTextBox1.TokenFromPlace(codeTextBox1.Selection.Start);
-            if (find != null && find is DeclarationIdentifier)
+            if (codeTextBox1.HasDeclaration())
             {
-                var id = find as DeclarationIdentifier;
+                var id = codeTextBox1.SelectedToken as DeclarationIdentifier;
                 goToButton.Enabled = true;
-
-                foreach (var token in DepthFirstTreeWalker.GetTokens(codeTextBox1.LastResult.Tree).OfType<DeclarationIdentifier>())
-                    if (id.Declaration == token.Declaration || (id.IsPElement && id.AsPElement.Elementid.Identifier == token))
-                    {
-                        var r = codeTextBox1.RangeFromToken(token);
-                        if (!codeTextBox1.Range.Contains(r.Start) || !(codeTextBox1.Range.Contains(r.End)))
-                            return;
-                        r.SetStyle(highlightstyle);
-                    }
+                renameButton.Enabled = codeTextBox1.SelectedToken == id.Declaration.GetIdentifier();
+                renameButton.Text = string.Format(renameText, codeTextBox1.SelectedToken.Text);
             }
             else
-                goToButton.Enabled = false;
+            {
+                goToButton.Enabled = renameButton.Enabled = false;
+                renameButton.Text = renameTextDisabled;
+            }
         }
         private void codeTextBox1_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -186,48 +225,7 @@ namespace SablePP.Compiler.Execution
         {
             OpenFile(GetDraggedFiles(e)[0]);
         }
-
-        private void goToButton_Click(object sender, EventArgs e)
-        {
-            var t = codeTextBox1.TokenFromPlace(codeTextBox1.Selection.Start);
-            if (t != null && t is SablePP.Compiler.Nodes.TIdentifier)
-            {
-                var id = t as SablePP.Compiler.Nodes.TIdentifier;
-                if (id.IsPAlternative)
-                {
-                    if (id.AsPAlternative.HasAlternativename)
-                        id = id.AsPAlternative.Alternativename.Name;
-                    else
-                        id = null;
-                }
-                else if (id.IsPElement)
-                {
-                    if (id.AsPElement.HasElementname)
-                        id = id.AsPElement.Elementname.Name;
-                    else
-                        id = id.AsPElement.Elementid.Identifier;
-                }
-                else if (id.IsPHelper)
-                    id = id.AsPHelper.Identifier;
-                else if (id.IsPProduction)
-                    id = id.AsPProduction.Identifier;
-                else if (id.IsPToken)
-                    id = id.AsPToken.Identifier;
-                else if (id.IsState)
-                    id = id.AsState.Identifier;
-                else
-                    id = null;
-
-                if (id != null)
-                {
-                    var range = codeTextBox1.RangeFromToken(id);
-                    codeTextBox1.Selection = range;
-                    if (!codeTextBox1.VisibleRange.Contains(range.Start) || !codeTextBox1.VisibleRange.Contains(range.End))
-                        codeTextBox1.DoSelectionVisible();
-                }
-            }
-        }
-
+        
         protected override void OnFileChanged(EventArgs e)
         {
             outputButton.Enabled = File != null && File.Exists;
