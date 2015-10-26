@@ -63,7 +63,7 @@ namespace SablePP.Tools
                 throw new ArgumentNullException("name");
 
             foreach (var n in testnames(name))
-                if (!allowname(n))
+                if (allowname(n))
                     return n;
 
             throw new InvalidOperationException("Unable to determine a safe name.");

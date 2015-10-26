@@ -31,8 +31,8 @@ namespace SablePP.Tools
         public SafeNameDictionary(NameGenerator getTestNames)
         {
             this.stack = new Stack<DictionarySet>();
-            this.safename = new SafeName(x => ContainsName(x, false), getTestNames);
-            this.allscopesSafeName = new SafeName(x => ContainsName(x, true), getTestNames);
+            this.safename = new SafeName(x => !ContainsName(x, false), getTestNames);
+            this.allscopesSafeName = new SafeName(x => !ContainsName(x, true), getTestNames);
 
             this.stack.Push(peek = new DictionarySet());
         }
