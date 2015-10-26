@@ -22,9 +22,9 @@ namespace SablePP.Compiler.Nodes
         {
             get { return Packages.Any(); }
         }
-        public IEnumerable<TPackagename> Packages
+        public IEnumerable<TNamespace> Packages
         {
-            get { return _sections_.OfType<APackageSection>().Select(x => x.Packagename); }
+            get { return _sections_.OfType<ANamespaceSection>().Select(x => x.Namespace); }
         }
 
         public bool HasHelpers

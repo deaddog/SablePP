@@ -69,48 +69,48 @@ namespace SablePP.Compiler.Nodes
         }
         
     }
-    public partial class APackageSection : PSection
+    public partial class ANamespaceSection : PSection
     {
-        private TPackagetoken _packagetoken_;
-        private TPackagename _packagename_;
+        private TNamespacetoken _namespacetoken_;
+        private TNamespace _namespace_;
         private TSemicolon _semicolon_;
         
-        public APackageSection(TPackagetoken _packagetoken_, TPackagename _packagename_, TSemicolon _semicolon_)
+        public ANamespaceSection(TNamespacetoken _namespacetoken_, TNamespace _namespace_, TSemicolon _semicolon_)
             : base()
         {
-            this.Packagetoken = _packagetoken_;
-            this.Packagename = _packagename_;
+            this.Namespacetoken = _namespacetoken_;
+            this.Namespace = _namespace_;
             this.Semicolon = _semicolon_;
         }
         
-        public TPackagetoken Packagetoken
+        public TNamespacetoken Namespacetoken
         {
-            get { return _packagetoken_; }
+            get { return _namespacetoken_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Packagetoken in APackageSection cannot be null.", "value");
+                    throw new ArgumentException("Namespacetoken in ANamespaceSection cannot be null.", "value");
                 
-                if (_packagetoken_ != null)
-                    SetParent(_packagetoken_, null);
+                if (_namespacetoken_ != null)
+                    SetParent(_namespacetoken_, null);
                 SetParent(value, this);
                 
-                _packagetoken_ = value;
+                _namespacetoken_ = value;
             }
         }
-        public TPackagename Packagename
+        public TNamespace Namespace
         {
-            get { return _packagename_; }
+            get { return _namespace_; }
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Packagename in APackageSection cannot be null.", "value");
+                    throw new ArgumentException("Namespace in ANamespaceSection cannot be null.", "value");
                 
-                if (_packagename_ != null)
-                    SetParent(_packagename_, null);
+                if (_namespace_ != null)
+                    SetParent(_namespace_, null);
                 SetParent(value, this);
                 
-                _packagename_ = value;
+                _namespace_ = value;
             }
         }
         public TSemicolon Semicolon
@@ -119,7 +119,7 @@ namespace SablePP.Compiler.Nodes
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Semicolon in APackageSection cannot be null.", "value");
+                    throw new ArgumentException("Semicolon in ANamespaceSection cannot be null.", "value");
                 
                 if (_semicolon_ != null)
                     SetParent(_semicolon_, null);
@@ -131,26 +131,26 @@ namespace SablePP.Compiler.Nodes
         
         public override void ReplaceChild(Node oldChild, Node newChild)
         {
-            if (Packagetoken == oldChild)
+            if (Namespacetoken == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Packagetoken in APackageSection cannot be null.", "newChild");
-                if (!(newChild is TPackagetoken) && newChild != null)
+                    throw new ArgumentException("Namespacetoken in ANamespaceSection cannot be null.", "newChild");
+                if (!(newChild is TNamespacetoken) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Packagetoken = newChild as TPackagetoken;
+                Namespacetoken = newChild as TNamespacetoken;
             }
-            else if (Packagename == oldChild)
+            else if (Namespace == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Packagename in APackageSection cannot be null.", "newChild");
-                if (!(newChild is TPackagename) && newChild != null)
+                    throw new ArgumentException("Namespace in ANamespaceSection cannot be null.", "newChild");
+                if (!(newChild is TNamespace) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
-                Packagename = newChild as TPackagename;
+                Namespace = newChild as TNamespace;
             }
             else if (Semicolon == oldChild)
             {
                 if (newChild == null)
-                    throw new ArgumentException("Semicolon in APackageSection cannot be null.", "newChild");
+                    throw new ArgumentException("Semicolon in ANamespaceSection cannot be null.", "newChild");
                 if (!(newChild is TSemicolon) && newChild != null)
                     throw new ArgumentException("Child replaced must be of same type as child being replaced with.");
                 Semicolon = newChild as TSemicolon;
@@ -159,19 +159,19 @@ namespace SablePP.Compiler.Nodes
         }
         protected override IEnumerable<Node> GetChildren()
         {
-            yield return Packagetoken;
-            yield return Packagename;
+            yield return Namespacetoken;
+            yield return Namespace;
             yield return Semicolon;
         }
         
         public override PSection Clone()
         {
-            return new APackageSection(Packagetoken.Clone(), Packagename.Clone(), Semicolon.Clone());
+            return new ANamespaceSection(Namespacetoken.Clone(), Namespace.Clone(), Semicolon.Clone());
         }
         
         public override string ToString()
         {
-            return string.Format("{0} {1} {2}", Packagetoken, Packagename, Semicolon);
+            return string.Format("{0} {1} {2}", Namespacetoken, Namespace, Semicolon);
         }
     }
     public partial class AHelpersSection : PSection

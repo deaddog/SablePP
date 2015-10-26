@@ -19,11 +19,11 @@ namespace SablePP.Compiler.Parsing
             return -1;
         }
         
-        private int getIndex(TPackagename node)
+        private int getIndex(TNamespace node)
         {
             return 0;
         }
-        private int getIndex(TPackagetoken node)
+        private int getIndex(TNamespacetoken node)
         {
             return 1;
         }
@@ -226,14 +226,14 @@ namespace SablePP.Compiler.Parsing
                 case 2:
                     {
                         TSemicolon tsemicolon = Pop<TSemicolon>();
-                        TPackagename tpackagename = Pop<TPackagename>();
-                        TPackagetoken tpackagetoken = Pop<TPackagetoken>();
-                        APackageSection apackagesection = new APackageSection(
-                            tpackagetoken,
-                            tpackagename,
+                        TNamespace tnamespace = Pop<TNamespace>();
+                        TNamespacetoken tnamespacetoken = Pop<TNamespacetoken>();
+                        ANamespaceSection anamespacesection = new ANamespaceSection(
+                            tnamespacetoken,
+                            tnamespace,
                             tsemicolon
                         );
-                        Push(1, apackagesection);
+                        Push(1, anamespacesection);
                     }
                     break;
                 case 3:
@@ -2654,8 +2654,8 @@ namespace SablePP.Compiler.Parsing
         #endregion
         #region errorMessages
         private static string[] errorMessages = {
-            "Expecting: TPackagetoken, 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', TAsttoken, 'Token Syntax Highlight' or end of file",
-            "Expecting: TPackagename",
+            "Expecting: 'Namespace', 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', TAsttoken, 'Token Syntax Highlight' or end of file",
+            "Expecting: TNamespace",
             "Expecting: TIdentifier",
             "Expecting: '{' or TIdentifier",
             "Expecting: 'Tokens'",
@@ -2664,10 +2664,10 @@ namespace SablePP.Compiler.Parsing
             "Expecting: ';'",
             "Expecting: ';' or ','",
             "Expecting: '='",
-            "Expecting: TPackagetoken, 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', TAsttoken, 'Token Syntax Highlight', TIdentifier or end of file",
-            "Expecting: TPackagetoken, 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', TAsttoken, 'Token Syntax Highlight', '{', TIdentifier or end of file",
+            "Expecting: 'Namespace', 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', TAsttoken, 'Token Syntax Highlight', TIdentifier or end of file",
+            "Expecting: 'Namespace', 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', TAsttoken, 'Token Syntax Highlight', '{', TIdentifier or end of file",
             "Expecting: '=', '{' or '->'",
-            "Expecting: TPackagetoken, 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', TAsttoken, 'Token Syntax Highlight', '{' or end of file",
+            "Expecting: 'Namespace', 'States', 'Helpers', 'Tokens', 'Ignored', 'Productions', TAsttoken, 'Token Syntax Highlight', '{' or end of file",
             "Expecting: '[', '(', TIdentifier, TCharacter, TDecChar, THexChar or TString",
             "Expecting: '}', ',' or '->'",
             "Expecting: ';', '}' or ','",

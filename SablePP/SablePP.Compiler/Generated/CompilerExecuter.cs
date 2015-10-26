@@ -29,7 +29,7 @@ namespace SablePP.Compiler
                 return style1;
             if (token is TCharacter || token is TString)
                 return style2;
-            if (token is TPackagename || token is TPackagetoken || token is THelperstoken || token is TTokenstoken || token is TIgnoredtoken || token is TStatestoken || token is TProductionstoken || token is TAsttoken || token is THighlighttoken)
+            if (token is TNamespace || token is TNamespacetoken || token is THelperstoken || token is TTokenstoken || token is TIgnoredtoken || token is TStatestoken || token is TProductionstoken || token is TAsttoken || token is THighlighttoken)
                 return style3;
             if (token is TBold)
                 return style4;
