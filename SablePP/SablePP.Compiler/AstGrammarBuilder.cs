@@ -28,7 +28,7 @@ namespace SablePP.Compiler
 
         public override Grammar Visit(AGrammar node)
         {
-            var _package = node.PackageName;
+            var _namespace = node.Namespace;
             var _helpers = node.HasHelpers ? Visit(node.Helpers).ToArray() : new Helper[0];
             var _states = node.HasStates ? Visit(node.States).ToArray() : new State[0];
             var _tokens = node.HasTokens ? Visit(node.Tokens).ToArray() : new Token[0];
@@ -59,7 +59,7 @@ namespace SablePP.Compiler
             var _productions = node.HasProductions ? Visit(node.Productions).ToArray() : new Production[0];
             var _styles = node.HasHighlightRules ? Visit(node.HighlightRules).ToArray() : new Highlighting[0];
 
-            return new Grammar(_package, _helpers, _states, _tokens, _productions, _absProds, _styles);
+            return new Grammar(_namespace, _helpers, _states, _tokens, _productions, _absProds, _styles);
         }
 
         #region Productions

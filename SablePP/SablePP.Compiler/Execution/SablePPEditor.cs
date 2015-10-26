@@ -335,7 +335,7 @@ namespace SablePP.Compiler.Execution
                 var grammar = root.Root as SablePP.Compiler.Nodes.AGrammar;
 
                 if (!liveCodeSplitter.Panel2Collapsed)
-                    liveCodeControl1.LoadCompiler(settings.OutputPaths[this.File.FullName], grammar.PackageName);
+                    liveCodeControl1.LoadCompiler(settings.OutputPaths[this.File.FullName], grammar.Namespace);
             }
 
             generateButton.Enabled = true;

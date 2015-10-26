@@ -8,9 +8,9 @@ namespace SablePP.Compiler.Nodes
     public partial class PGrammar
     {
         public static readonly string DefaultName = "SableCCPP";
-        public string PackageName
+        public string Namespace
         {
-            get { return HasPackages ? Packages.First().Text : DefaultName; }
+            get { return HasNamespaces ? Namespaces.First().Text : DefaultName; }
         }
 
         public PProduction RootProduction
@@ -18,11 +18,11 @@ namespace SablePP.Compiler.Nodes
             get { return (HasAstproductions ? AstProductions : Productions).FirstOrDefault(); }
         }
 
-        public bool HasPackages
+        public bool HasNamespaces
         {
-            get { return Packages.Any(); }
+            get { return Namespaces.Any(); }
         }
-        public IEnumerable<TNamespace> Packages
+        public IEnumerable<TNamespace> Namespaces
         {
             get { return _sections_.OfType<ANamespaceSection>().Select(x => x.Namespace); }
         }

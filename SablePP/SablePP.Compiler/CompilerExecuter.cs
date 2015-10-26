@@ -60,11 +60,11 @@ namespace SablePP.Compiler
 
         private void ValidatePreSable(Start<PGrammar> root, ErrorManager errorManager)
         {
-            if (!root.Root.HasPackages)
+            if (!root.Root.HasNamespaces)
                 errorManager.Register(ErrorType.Message, "When a SablePP does not have a Namespace definition, code is generated in the {0} namespace.", PGrammar.DefaultName);
             else
-                foreach (var package in sections<ANamespaceSection>(root).Skip(1))
-                    errorManager.Register(package, "A SablePP grammar cannot contain multiple Package/Namespace sections.");
+                foreach (var _namespace in sections<ANamespaceSection>(root).Skip(1))
+                    errorManager.Register(_namespace, "A SablePP grammar cannot contain multiple Namespace sections.");
 
             if (!root.Root.HasTokens)
                 errorManager.Register("A SablePP grammar must contain a Tokens definition.");
