@@ -216,11 +216,11 @@ namespace SablePP.Tools.Editor
                 return Tuple.Create(PlaceToPosition(r.Start), PlaceToPosition(r.End));
             }).ToArray();
             Array.Sort(renamees, (x, y) => -x.Item1.CompareTo(y.Item1));
-            
+
             int oldPosition = PlaceToPosition(RangeFromToken(dec).Start);
             int newPosition = oldPosition;
             int offset = newName.Length - token.Text.Length;
-            
+
             string text = Text;
             for (int i = 0; i < renamees.Length; i++)
             {
@@ -395,6 +395,44 @@ namespace SablePP.Tools.Editor
             set { this.useSmartPar = value; }
         }
 
+        private bool isParenthesisStart(char c)
+        {
+            switch (c)
+            {
+                case '(':
+                case '{':
+                case '[':
+                case '<':
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        private bool isParenthesisEnd(char c)
+        {
+            switch (c)
+            {
+                case ')':
+                case '}':
+                case ']':
+                case '>':
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        private char? getParenthesisEnd(char start)
+        {
+            switch (start)
+            {
+                case '(': return ')';
+                case '{': return '}';
+                case '[': return ']';
+                case '<': return '>';
+                default: return null;
+            }
+        }
+
 #pragma warning disable 1591
         protected sealed override void OnEnabledChanged(EventArgs e)
         {
@@ -407,8 +445,8 @@ namespace SablePP.Tools.Editor
         {
             if (useSmartPar)
             {
-                char end = c == '(' ? ')' : c == '{' ? '}' : c == '[' ? ']' : c == '<' ? '>' : '\0';
-                if (end != '\0')
+                char? end = getParenthesisEnd(c);
+                if (end.HasValue)
                 {
                     int s = this.SelectionStart;
                     int l = this.SelectionLength;
@@ -602,7 +640,7 @@ namespace SablePP.Tools.Editor
 
                 parent.lastResult = new Result(node, errors);
                 parent.OnSelectionChanged();
-                
+
                 if (parent.CompilationCompleted != null)
                     parent.CompilationCompleted(parent, EventArgs.Empty);
 
