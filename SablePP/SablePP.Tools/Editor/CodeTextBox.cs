@@ -432,6 +432,20 @@ namespace SablePP.Tools.Editor
                 default: return null;
             }
         }
+        private bool handleSmartParenthesis(char c)
+        {
+            if (isParenthesisStart(c))
+            {
+                int s = SelectionStart;
+                int l = SelectionLength;
+                this.InsertText(c + this.Text.Substring(s, l) + getParenthesisEnd(c).Value);
+                this.SelectionStart = s + 1;
+                this.SelectionLength = l;
+                return true;
+            }
+
+            return false;
+        }
 
 #pragma warning disable 1591
         protected sealed override void OnEnabledChanged(EventArgs e)
@@ -443,20 +457,10 @@ namespace SablePP.Tools.Editor
 
         public sealed override bool ProcessKey(char c, System.Windows.Forms.Keys modifiers)
         {
-            if (useSmartPar)
-            {
-                char? end = getParenthesisEnd(c);
-                if (end.HasValue)
-                {
-                    int s = this.SelectionStart;
-                    int l = this.SelectionLength;
-                    this.InsertText(c + this.Text.Substring(s, l) + end);
-                    this.SelectionStart = s + 1;
-                    this.SelectionLength = l;
-                    return true;
-                }
-            }
-            return base.ProcessKey(c, modifiers);
+            if (useSmartPar && handleSmartParenthesis(c))
+                return true;
+            else
+                return base.ProcessKey(c, modifiers);
         }
 
         public sealed override void OnTextChangedDelayed(Range changedRange)
