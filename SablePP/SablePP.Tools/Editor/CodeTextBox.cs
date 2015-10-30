@@ -443,8 +443,13 @@ namespace SablePP.Tools.Editor
         }
         private bool handleSmartParenthesis(char c)
         {
+            char? nextChar = Text.Length > SelectionStart ? (char?)Text[SelectionStart] : null;
+
             if (isParenthesisStart(c))
             {
+                if (SelectionLength == 0 && nextChar.HasValue && !char.IsWhiteSpace(nextChar.Value))
+                    return false;
+
                 int s = SelectionStart;
                 int l = SelectionLength;
                 this.InsertText(c + this.Text.Substring(s, l) + getParenthesisEnd(c).Value);
