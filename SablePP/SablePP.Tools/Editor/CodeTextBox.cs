@@ -395,9 +395,12 @@ namespace SablePP.Tools.Editor
             set { this.useSmartPar = value; }
         }
 
-        private bool isParenthesisStart(char c)
+        private bool isParenthesisStart(char? c)
         {
-            switch (c)
+            if (!c.HasValue)
+                return false;
+
+            switch (c.Value)
             {
                 case '(':
                 case '{':
@@ -408,9 +411,12 @@ namespace SablePP.Tools.Editor
                     return false;
             }
         }
-        private bool isParenthesisEnd(char c)
+        private bool isParenthesisEnd(char? c)
         {
-            switch (c)
+            if (!c.HasValue)
+                return false;
+
+            switch (c.Value)
             {
                 case ')':
                 case '}':
@@ -421,9 +427,12 @@ namespace SablePP.Tools.Editor
                     return false;
             }
         }
-        private char? getParenthesisEnd(char start)
+        private char? getParenthesisEnd(char? start)
         {
-            switch (start)
+            if (!start.HasValue)
+                return null;
+
+            switch (start.Value)
             {
                 case '(': return ')';
                 case '{': return '}';
