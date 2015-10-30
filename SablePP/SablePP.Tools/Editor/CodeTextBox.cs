@@ -457,6 +457,17 @@ namespace SablePP.Tools.Editor
                 this.SelectionLength = l;
                 return true;
             }
+            else if (isParenthesisEnd(c))
+            {
+                if (this.SelectionLength > 0)
+                    return false;
+
+                if (nextChar == c)
+                {
+                    this.SelectionStart++;
+                    return true;
+                }
+            }
 
             return false;
         }
