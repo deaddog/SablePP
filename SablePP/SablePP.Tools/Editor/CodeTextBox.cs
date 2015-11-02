@@ -487,6 +487,24 @@ namespace SablePP.Tools.Editor
             else
                 return base.ProcessKey(c, modifiers);
         }
+        public override bool ProcessKey(System.Windows.Forms.Keys keyData)
+        {
+            char? prevChar = SelectionStart > 0 ? (char?)Text[SelectionStart - 1] : null;
+            char? nextChar = Text.Length > SelectionStart ? (char?)Text[SelectionStart] : null;
+
+            switch (keyData)
+            {
+                case System.Windows.Forms.Keys.Back:
+                    if (isParenthesisStart(prevChar) && nextChar == getParenthesisEnd(prevChar))
+                    {
+                        SelectionStart++;
+                        InsertText("\b");
+                    }
+                    break;
+            }
+
+            return base.ProcessKey(keyData);
+        }
 
         public sealed override void OnTextChangedDelayed(Range changedRange)
         {
