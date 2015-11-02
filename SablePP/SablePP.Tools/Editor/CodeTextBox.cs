@@ -447,7 +447,7 @@ namespace SablePP.Tools.Editor
 
             if (isParenthesisStart(c))
             {
-                if (SelectionLength == 0 && nextChar.HasValue && !char.IsWhiteSpace(nextChar.Value))
+                if (SelectionLength == 0 && nextChar.HasValue && !char.IsWhiteSpace(nextChar.Value) && nextChar != getParenthesisEnd(c))
                     return false;
 
                 int s = SelectionStart;
