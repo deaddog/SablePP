@@ -216,11 +216,11 @@ namespace SablePP.Tools.Editor
                 return Tuple.Create(PlaceToPosition(r.Start), PlaceToPosition(r.End));
             }).ToArray();
             Array.Sort(renamees, (x, y) => -x.Item1.CompareTo(y.Item1));
-            
+
             int oldPosition = PlaceToPosition(RangeFromToken(dec).Start);
             int newPosition = oldPosition;
             int offset = newName.Length - token.Text.Length;
-            
+
             string text = Text;
             for (int i = 0; i < renamees.Length; i++)
             {
@@ -395,6 +395,83 @@ namespace SablePP.Tools.Editor
             set { this.useSmartPar = value; }
         }
 
+        private bool isParenthesisStart(char? c)
+        {
+            if (!c.HasValue)
+                return false;
+
+            switch (c.Value)
+            {
+                case '(':
+                case '{':
+                case '[':
+                case '<':
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        private bool isParenthesisEnd(char? c)
+        {
+            if (!c.HasValue)
+                return false;
+
+            switch (c.Value)
+            {
+                case ')':
+                case '}':
+                case ']':
+                case '>':
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        private char? getParenthesisEnd(char? start)
+        {
+            if (!start.HasValue)
+                return null;
+
+            switch (start.Value)
+            {
+                case '(': return ')';
+                case '{': return '}';
+                case '[': return ']';
+                case '<': return '>';
+                default: return null;
+            }
+        }
+        private bool handleSmartParenthesis(char c)
+        {
+            char? nextChar = Text.Length > SelectionStart ? (char?)Text[SelectionStart] : null;
+
+            if (isParenthesisStart(c))
+            {
+                if (SelectionLength == 0 && nextChar.HasValue && !char.IsWhiteSpace(nextChar.Value) && nextChar != getParenthesisEnd(c))
+                    return false;
+
+                int s = SelectionStart;
+                int l = SelectionLength;
+                this.InsertText(c + this.Text.Substring(s, l) + getParenthesisEnd(c).Value);
+                this.SelectionStart = s + 1;
+                this.SelectionLength = l;
+                return true;
+            }
+            else if (isParenthesisEnd(c))
+            {
+                if (this.SelectionLength > 0)
+                    return false;
+
+                if (nextChar == c)
+                {
+                    this.SelectionStart++;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
 #pragma warning disable 1591
         protected sealed override void OnEnabledChanged(EventArgs e)
         {
@@ -405,20 +482,28 @@ namespace SablePP.Tools.Editor
 
         public sealed override bool ProcessKey(char c, System.Windows.Forms.Keys modifiers)
         {
-            if (useSmartPar)
+            if (useSmartPar && handleSmartParenthesis(c))
+                return true;
+            else
+                return base.ProcessKey(c, modifiers);
+        }
+        public override bool ProcessKey(System.Windows.Forms.Keys keyData)
+        {
+            char? prevChar = SelectionStart > 0 ? (char?)Text[SelectionStart - 1] : null;
+            char? nextChar = Text.Length > SelectionStart ? (char?)Text[SelectionStart] : null;
+
+            switch (keyData)
             {
-                char end = c == '(' ? ')' : c == '{' ? '}' : c == '[' ? ']' : c == '<' ? '>' : '\0';
-                if (end != '\0')
-                {
-                    int s = this.SelectionStart;
-                    int l = this.SelectionLength;
-                    this.InsertText(c + this.Text.Substring(s, l) + end);
-                    this.SelectionStart = s + 1;
-                    this.SelectionLength = l;
-                    return true;
-                }
+                case System.Windows.Forms.Keys.Back:
+                    if (isParenthesisStart(prevChar) && nextChar == getParenthesisEnd(prevChar))
+                    {
+                        SelectionStart++;
+                        InsertText("\b");
+                    }
+                    break;
             }
-            return base.ProcessKey(c, modifiers);
+
+            return base.ProcessKey(keyData);
         }
 
         public sealed override void OnTextChangedDelayed(Range changedRange)
@@ -602,7 +687,7 @@ namespace SablePP.Tools.Editor
 
                 parent.lastResult = new Result(node, errors);
                 parent.OnSelectionChanged();
-                
+
                 if (parent.CompilationCompleted != null)
                     parent.CompilationCompleted(parent, EventArgs.Empty);
 
