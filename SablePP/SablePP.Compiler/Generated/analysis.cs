@@ -24,7 +24,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAGrammar(AGrammar node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ANamespaceSection node)
         {
@@ -32,7 +32,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseANamespaceSection(ANamespaceSection node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AHelpersSection node)
         {
@@ -40,7 +40,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAHelpersSection(AHelpersSection node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AStatesSection node)
         {
@@ -48,7 +48,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAStatesSection(AStatesSection node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ATokensSection node)
         {
@@ -56,7 +56,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseATokensSection(ATokensSection node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AIgnoreSection node)
         {
@@ -64,7 +64,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAIgnoreSection(AIgnoreSection node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AProductionsSection node)
         {
@@ -72,7 +72,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAProductionsSection(AProductionsSection node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AASTSection node)
         {
@@ -80,7 +80,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAASTSection(AASTSection node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AHighlightSection node)
         {
@@ -88,7 +88,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAHighlightSection(AHighlightSection node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AHelper node)
         {
@@ -96,7 +96,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAHelper(AHelper node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AToken node)
         {
@@ -104,7 +104,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAToken(AToken node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ATokenlookahead node)
         {
@@ -112,7 +112,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseATokenlookahead(ATokenlookahead node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ACharRegex node)
         {
@@ -120,7 +120,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseACharRegex(ACharRegex node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ADecRegex node)
         {
@@ -128,7 +128,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseADecRegex(ADecRegex node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AHexRegex node)
         {
@@ -136,7 +136,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAHexRegex(AHexRegex node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AConcatenatedRegex node)
         {
@@ -144,7 +144,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAConcatenatedRegex(AConcatenatedRegex node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AUnaryRegex node)
         {
@@ -152,7 +152,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAUnaryRegex(AUnaryRegex node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ABinaryplusRegex node)
         {
@@ -160,7 +160,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseABinaryplusRegex(ABinaryplusRegex node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ABinaryminusRegex node)
         {
@@ -168,7 +168,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseABinaryminusRegex(ABinaryminusRegex node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AIntervalRegex node)
         {
@@ -176,7 +176,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAIntervalRegex(AIntervalRegex node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AStringRegex node)
         {
@@ -184,7 +184,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAStringRegex(AStringRegex node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AIdentifierRegex node)
         {
@@ -192,7 +192,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAIdentifierRegex(AIdentifierRegex node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AParenthesisRegex node)
         {
@@ -200,7 +200,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAParenthesisRegex(AParenthesisRegex node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AOrRegex node)
         {
@@ -208,7 +208,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAOrRegex(AOrRegex node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AStarModifier node)
         {
@@ -216,7 +216,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAStarModifier(AStarModifier node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AQuestionModifier node)
         {
@@ -224,7 +224,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAQuestionModifier(AQuestionModifier node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(APlusModifier node)
         {
@@ -232,7 +232,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAPlusModifier(APlusModifier node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AState node)
         {
@@ -240,7 +240,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAState(AState node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ATokenState node)
         {
@@ -248,7 +248,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseATokenState(ATokenState node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ATransitionTokenState node)
         {
@@ -256,7 +256,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseATransitionTokenState(ATransitionTokenState node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AProduction node)
         {
@@ -264,7 +264,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAProduction(AProduction node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AProdtranslation node)
         {
@@ -272,7 +272,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAProdtranslation(AProdtranslation node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AFullTranslation node)
         {
@@ -280,7 +280,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAFullTranslation(AFullTranslation node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ANewTranslation node)
         {
@@ -288,7 +288,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseANewTranslation(ANewTranslation node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ANewalternativeTranslation node)
         {
@@ -296,7 +296,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseANewalternativeTranslation(ANewalternativeTranslation node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AListTranslation node)
         {
@@ -304,7 +304,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAListTranslation(AListTranslation node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ANullTranslation node)
         {
@@ -312,7 +312,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseANullTranslation(ANullTranslation node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AIdTranslation node)
         {
@@ -320,7 +320,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAIdTranslation(AIdTranslation node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AIddotidTranslation node)
         {
@@ -328,7 +328,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAIddotidTranslation(AIddotidTranslation node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AAlternative node)
         {
@@ -336,7 +336,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAAlternative(AAlternative node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AAlternativename node)
         {
@@ -344,7 +344,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAAlternativename(AAlternativename node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AElement node)
         {
@@ -352,7 +352,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAElement(AElement node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AElementname node)
         {
@@ -360,7 +360,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAElementname(AElementname node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ACleanElementid node)
         {
@@ -368,7 +368,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseACleanElementid(ACleanElementid node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ATokenElementid node)
         {
@@ -376,7 +376,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseATokenElementid(ATokenElementid node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AProductionElementid node)
         {
@@ -384,7 +384,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAProductionElementid(AProductionElementid node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AHighlightrule node)
         {
@@ -392,7 +392,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAHighlightrule(AHighlightrule node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AItalicHighlightStyle node)
         {
@@ -400,7 +400,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAItalicHighlightStyle(AItalicHighlightStyle node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ABoldHighlightStyle node)
         {
@@ -408,7 +408,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseABoldHighlightStyle(ABoldHighlightStyle node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ATextHighlightStyle node)
         {
@@ -416,7 +416,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseATextHighlightStyle(ATextHighlightStyle node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ABackgroundHighlightStyle node)
         {
@@ -424,7 +424,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(ARgbColor node)
         {
@@ -432,7 +432,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseARgbColor(ARgbColor node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AHsvColor node)
         {
@@ -440,7 +440,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAHsvColor(AHsvColor node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(AHexColor node)
         {
@@ -448,7 +448,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseAHexColor(AHexColor node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TNamespace node)
         {
@@ -456,7 +456,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTNamespace(TNamespace node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TNamespacetoken node)
         {
@@ -464,7 +464,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTNamespacetoken(TNamespacetoken node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TStatestoken node)
         {
@@ -472,7 +472,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTStatestoken(TStatestoken node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(THelperstoken node)
         {
@@ -480,7 +480,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTHelperstoken(THelperstoken node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TTokenstoken node)
         {
@@ -488,7 +488,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTTokenstoken(TTokenstoken node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TIgnoredtoken node)
         {
@@ -496,7 +496,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTIgnoredtoken(TIgnoredtoken node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TProductionstoken node)
         {
@@ -504,7 +504,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTProductionstoken(TProductionstoken node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TAsttoken node)
         {
@@ -512,7 +512,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTAsttoken(TAsttoken node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(THighlighttoken node)
         {
@@ -520,7 +520,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTHighlighttoken(THighlighttoken node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TNew node)
         {
@@ -528,7 +528,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTNew(TNew node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TNull node)
         {
@@ -536,7 +536,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTNull(TNull node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TTokenSpecifier node)
         {
@@ -544,7 +544,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTTokenSpecifier(TTokenSpecifier node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TProductionSpecifier node)
         {
@@ -552,7 +552,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTProductionSpecifier(TProductionSpecifier node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TDot node)
         {
@@ -560,7 +560,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTDot(TDot node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TDDot node)
         {
@@ -568,7 +568,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTDDot(TDDot node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TSemicolon node)
         {
@@ -576,7 +576,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTSemicolon(TSemicolon node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TEqual node)
         {
@@ -584,7 +584,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTEqual(TEqual node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TLBkt node)
         {
@@ -592,7 +592,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTLBkt(TLBkt node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TRBkt node)
         {
@@ -600,7 +600,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTRBkt(TRBkt node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TLPar node)
         {
@@ -608,7 +608,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTLPar(TLPar node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TRPar node)
         {
@@ -616,7 +616,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTRPar(TRPar node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TLBrace node)
         {
@@ -624,7 +624,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTLBrace(TLBrace node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TRBrace node)
         {
@@ -632,7 +632,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTRBrace(TRBrace node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TPlus node)
         {
@@ -640,7 +640,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTPlus(TPlus node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TMinus node)
         {
@@ -648,7 +648,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTMinus(TMinus node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TQMark node)
         {
@@ -656,7 +656,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTQMark(TQMark node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TStar node)
         {
@@ -664,7 +664,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTStar(TStar node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TPipe node)
         {
@@ -672,7 +672,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTPipe(TPipe node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TComma node)
         {
@@ -680,7 +680,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTComma(TComma node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TSlash node)
         {
@@ -688,7 +688,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTSlash(TSlash node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TArrow node)
         {
@@ -696,7 +696,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTArrow(TArrow node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TColon node)
         {
@@ -704,7 +704,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTColon(TColon node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TIdentifier node)
         {
@@ -712,7 +712,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTIdentifier(TIdentifier node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TCharacter node)
         {
@@ -720,7 +720,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTCharacter(TCharacter node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TDecChar node)
         {
@@ -728,7 +728,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTDecChar(TDecChar node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(THexChar node)
         {
@@ -736,7 +736,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTHexChar(THexChar node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TString node)
         {
@@ -744,7 +744,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTString(TString node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TBlank node)
         {
@@ -752,7 +752,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTBlank(TBlank node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TComment node)
         {
@@ -760,7 +760,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTComment(TComment node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TItalic node)
         {
@@ -768,7 +768,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTItalic(TItalic node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TBold node)
         {
@@ -776,7 +776,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTBold(TBold node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TText node)
         {
@@ -784,7 +784,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTText(TText node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TBackground node)
         {
@@ -792,7 +792,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTBackground(TBackground node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(TRgb node)
         {
@@ -800,7 +800,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTRgb(TRgb node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(THsv node)
         {
@@ -808,7 +808,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTHsv(THsv node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         public void Visit(THexColor node)
         {
@@ -816,7 +816,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual void CaseTHexColor(THexColor node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
     }
     
@@ -839,7 +839,7 @@ namespace SablePP.Compiler.Analysis
         public virtual void OutStart(Start<PGrammar> node)
         {
         }
-        public override void CaseStart(Start<PGrammar> node)
+        public override void HandleStart(Start<PGrammar> node)
         {
             InStart(node);
             
@@ -2135,7 +2135,7 @@ namespace SablePP.Compiler.Analysis
         public virtual void OutStart(Start<PGrammar> node)
         {
         }
-        public override void CaseStart(Start<PGrammar> node)
+        public override void HandleStart(Start<PGrammar> node)
         {
             InStart(node);
             
@@ -3429,7 +3429,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAGrammar(AGrammar node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ANamespaceSection node)
         {
@@ -3437,7 +3437,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANamespaceSection(ANamespaceSection node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AHelpersSection node)
         {
@@ -3445,7 +3445,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHelpersSection(AHelpersSection node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AStatesSection node)
         {
@@ -3453,7 +3453,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAStatesSection(AStatesSection node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ATokensSection node)
         {
@@ -3461,7 +3461,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokensSection(ATokensSection node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AIgnoreSection node)
         {
@@ -3469,7 +3469,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIgnoreSection(AIgnoreSection node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AProductionsSection node)
         {
@@ -3477,7 +3477,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProductionsSection(AProductionsSection node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AASTSection node)
         {
@@ -3485,7 +3485,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAASTSection(AASTSection node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AHighlightSection node)
         {
@@ -3493,7 +3493,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHighlightSection(AHighlightSection node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AHelper node)
         {
@@ -3501,7 +3501,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHelper(AHelper node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AToken node)
         {
@@ -3509,7 +3509,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAToken(AToken node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ATokenlookahead node)
         {
@@ -3517,7 +3517,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokenlookahead(ATokenlookahead node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ACharRegex node)
         {
@@ -3525,7 +3525,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseACharRegex(ACharRegex node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ADecRegex node)
         {
@@ -3533,7 +3533,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseADecRegex(ADecRegex node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AHexRegex node)
         {
@@ -3541,7 +3541,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHexRegex(AHexRegex node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AConcatenatedRegex node)
         {
@@ -3549,7 +3549,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAConcatenatedRegex(AConcatenatedRegex node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AUnaryRegex node)
         {
@@ -3557,7 +3557,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAUnaryRegex(AUnaryRegex node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ABinaryplusRegex node)
         {
@@ -3565,7 +3565,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABinaryplusRegex(ABinaryplusRegex node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ABinaryminusRegex node)
         {
@@ -3573,7 +3573,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABinaryminusRegex(ABinaryminusRegex node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AIntervalRegex node)
         {
@@ -3581,7 +3581,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIntervalRegex(AIntervalRegex node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AStringRegex node)
         {
@@ -3589,7 +3589,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAStringRegex(AStringRegex node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AIdentifierRegex node)
         {
@@ -3597,7 +3597,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIdentifierRegex(AIdentifierRegex node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AParenthesisRegex node)
         {
@@ -3605,7 +3605,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAParenthesisRegex(AParenthesisRegex node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AOrRegex node)
         {
@@ -3613,7 +3613,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAOrRegex(AOrRegex node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AStarModifier node)
         {
@@ -3621,7 +3621,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAStarModifier(AStarModifier node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AQuestionModifier node)
         {
@@ -3629,7 +3629,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAQuestionModifier(AQuestionModifier node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(APlusModifier node)
         {
@@ -3637,7 +3637,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAPlusModifier(APlusModifier node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AState node)
         {
@@ -3645,7 +3645,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAState(AState node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ATokenState node)
         {
@@ -3653,7 +3653,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokenState(ATokenState node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ATransitionTokenState node)
         {
@@ -3661,7 +3661,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATransitionTokenState(ATransitionTokenState node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AProduction node)
         {
@@ -3669,7 +3669,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProduction(AProduction node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AProdtranslation node)
         {
@@ -3677,7 +3677,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProdtranslation(AProdtranslation node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AFullTranslation node)
         {
@@ -3685,7 +3685,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAFullTranslation(AFullTranslation node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ANewTranslation node)
         {
@@ -3693,7 +3693,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANewTranslation(ANewTranslation node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ANewalternativeTranslation node)
         {
@@ -3701,7 +3701,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANewalternativeTranslation(ANewalternativeTranslation node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AListTranslation node)
         {
@@ -3709,7 +3709,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAListTranslation(AListTranslation node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ANullTranslation node)
         {
@@ -3717,7 +3717,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANullTranslation(ANullTranslation node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AIdTranslation node)
         {
@@ -3725,7 +3725,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIdTranslation(AIdTranslation node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AIddotidTranslation node)
         {
@@ -3733,7 +3733,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIddotidTranslation(AIddotidTranslation node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AAlternative node)
         {
@@ -3741,7 +3741,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAAlternative(AAlternative node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AAlternativename node)
         {
@@ -3749,7 +3749,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAAlternativename(AAlternativename node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AElement node)
         {
@@ -3757,7 +3757,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAElement(AElement node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AElementname node)
         {
@@ -3765,7 +3765,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAElementname(AElementname node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ACleanElementid node)
         {
@@ -3773,7 +3773,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseACleanElementid(ACleanElementid node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ATokenElementid node)
         {
@@ -3781,7 +3781,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokenElementid(ATokenElementid node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AProductionElementid node)
         {
@@ -3789,7 +3789,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProductionElementid(AProductionElementid node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AHighlightrule node)
         {
@@ -3797,7 +3797,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHighlightrule(AHighlightrule node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AItalicHighlightStyle node)
         {
@@ -3805,7 +3805,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAItalicHighlightStyle(AItalicHighlightStyle node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ABoldHighlightStyle node)
         {
@@ -3813,7 +3813,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABoldHighlightStyle(ABoldHighlightStyle node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ATextHighlightStyle node)
         {
@@ -3821,7 +3821,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATextHighlightStyle(ATextHighlightStyle node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ABackgroundHighlightStyle node)
         {
@@ -3829,7 +3829,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(ARgbColor node)
         {
@@ -3837,7 +3837,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseARgbColor(ARgbColor node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AHsvColor node)
         {
@@ -3845,7 +3845,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHsvColor(AHsvColor node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(AHexColor node)
         {
@@ -3853,7 +3853,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHexColor(AHexColor node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TNamespace node)
         {
@@ -3861,7 +3861,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNamespace(TNamespace node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TNamespacetoken node)
         {
@@ -3869,7 +3869,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNamespacetoken(TNamespacetoken node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TStatestoken node)
         {
@@ -3877,7 +3877,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTStatestoken(TStatestoken node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(THelperstoken node)
         {
@@ -3885,7 +3885,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHelperstoken(THelperstoken node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TTokenstoken node)
         {
@@ -3893,7 +3893,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTTokenstoken(TTokenstoken node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TIgnoredtoken node)
         {
@@ -3901,7 +3901,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTIgnoredtoken(TIgnoredtoken node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TProductionstoken node)
         {
@@ -3909,7 +3909,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTProductionstoken(TProductionstoken node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TAsttoken node)
         {
@@ -3917,7 +3917,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTAsttoken(TAsttoken node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(THighlighttoken node)
         {
@@ -3925,7 +3925,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHighlighttoken(THighlighttoken node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TNew node)
         {
@@ -3933,7 +3933,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNew(TNew node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TNull node)
         {
@@ -3941,7 +3941,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNull(TNull node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TTokenSpecifier node)
         {
@@ -3949,7 +3949,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTTokenSpecifier(TTokenSpecifier node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TProductionSpecifier node)
         {
@@ -3957,7 +3957,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTProductionSpecifier(TProductionSpecifier node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TDot node)
         {
@@ -3965,7 +3965,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTDot(TDot node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TDDot node)
         {
@@ -3973,7 +3973,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTDDot(TDDot node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TSemicolon node)
         {
@@ -3981,7 +3981,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTSemicolon(TSemicolon node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TEqual node)
         {
@@ -3989,7 +3989,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTEqual(TEqual node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TLBkt node)
         {
@@ -3997,7 +3997,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTLBkt(TLBkt node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TRBkt node)
         {
@@ -4005,7 +4005,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRBkt(TRBkt node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TLPar node)
         {
@@ -4013,7 +4013,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTLPar(TLPar node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TRPar node)
         {
@@ -4021,7 +4021,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRPar(TRPar node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TLBrace node)
         {
@@ -4029,7 +4029,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTLBrace(TLBrace node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TRBrace node)
         {
@@ -4037,7 +4037,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRBrace(TRBrace node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TPlus node)
         {
@@ -4045,7 +4045,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTPlus(TPlus node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TMinus node)
         {
@@ -4053,7 +4053,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTMinus(TMinus node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TQMark node)
         {
@@ -4061,7 +4061,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTQMark(TQMark node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TStar node)
         {
@@ -4069,7 +4069,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTStar(TStar node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TPipe node)
         {
@@ -4077,7 +4077,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTPipe(TPipe node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TComma node)
         {
@@ -4085,7 +4085,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTComma(TComma node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TSlash node)
         {
@@ -4093,7 +4093,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTSlash(TSlash node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TArrow node)
         {
@@ -4101,7 +4101,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTArrow(TArrow node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TColon node)
         {
@@ -4109,7 +4109,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTColon(TColon node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TIdentifier node)
         {
@@ -4117,7 +4117,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTIdentifier(TIdentifier node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TCharacter node)
         {
@@ -4125,7 +4125,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTCharacter(TCharacter node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TDecChar node)
         {
@@ -4133,7 +4133,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTDecChar(TDecChar node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(THexChar node)
         {
@@ -4141,7 +4141,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHexChar(THexChar node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TString node)
         {
@@ -4149,7 +4149,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTString(TString node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TBlank node)
         {
@@ -4157,7 +4157,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTBlank(TBlank node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TComment node)
         {
@@ -4165,7 +4165,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTComment(TComment node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TItalic node)
         {
@@ -4173,7 +4173,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTItalic(TItalic node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TBold node)
         {
@@ -4181,7 +4181,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTBold(TBold node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TText node)
         {
@@ -4189,7 +4189,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTText(TText node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TBackground node)
         {
@@ -4197,7 +4197,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTBackground(TBackground node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(TRgb node)
         {
@@ -4205,7 +4205,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRgb(TRgb node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(THsv node)
         {
@@ -4213,7 +4213,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHsv(THsv node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         public Result Visit(THexColor node)
         {
@@ -4221,7 +4221,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHexColor(THexColor node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
     }
     public class ReturnAnalysisAdapter<T1, Result> : ReturnAdapter<T1, Result, PGrammar>
@@ -4237,7 +4237,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAGrammar(AGrammar node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ANamespaceSection node, T1 arg1)
         {
@@ -4245,7 +4245,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANamespaceSection(ANamespaceSection node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AHelpersSection node, T1 arg1)
         {
@@ -4253,7 +4253,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHelpersSection(AHelpersSection node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AStatesSection node, T1 arg1)
         {
@@ -4261,7 +4261,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAStatesSection(AStatesSection node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ATokensSection node, T1 arg1)
         {
@@ -4269,7 +4269,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokensSection(ATokensSection node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AIgnoreSection node, T1 arg1)
         {
@@ -4277,7 +4277,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIgnoreSection(AIgnoreSection node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AProductionsSection node, T1 arg1)
         {
@@ -4285,7 +4285,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProductionsSection(AProductionsSection node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AASTSection node, T1 arg1)
         {
@@ -4293,7 +4293,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAASTSection(AASTSection node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AHighlightSection node, T1 arg1)
         {
@@ -4301,7 +4301,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHighlightSection(AHighlightSection node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AHelper node, T1 arg1)
         {
@@ -4309,7 +4309,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHelper(AHelper node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AToken node, T1 arg1)
         {
@@ -4317,7 +4317,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAToken(AToken node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ATokenlookahead node, T1 arg1)
         {
@@ -4325,7 +4325,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokenlookahead(ATokenlookahead node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ACharRegex node, T1 arg1)
         {
@@ -4333,7 +4333,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseACharRegex(ACharRegex node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ADecRegex node, T1 arg1)
         {
@@ -4341,7 +4341,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseADecRegex(ADecRegex node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AHexRegex node, T1 arg1)
         {
@@ -4349,7 +4349,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHexRegex(AHexRegex node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AConcatenatedRegex node, T1 arg1)
         {
@@ -4357,7 +4357,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAConcatenatedRegex(AConcatenatedRegex node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AUnaryRegex node, T1 arg1)
         {
@@ -4365,7 +4365,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAUnaryRegex(AUnaryRegex node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ABinaryplusRegex node, T1 arg1)
         {
@@ -4373,7 +4373,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABinaryplusRegex(ABinaryplusRegex node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ABinaryminusRegex node, T1 arg1)
         {
@@ -4381,7 +4381,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABinaryminusRegex(ABinaryminusRegex node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AIntervalRegex node, T1 arg1)
         {
@@ -4389,7 +4389,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIntervalRegex(AIntervalRegex node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AStringRegex node, T1 arg1)
         {
@@ -4397,7 +4397,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAStringRegex(AStringRegex node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AIdentifierRegex node, T1 arg1)
         {
@@ -4405,7 +4405,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIdentifierRegex(AIdentifierRegex node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AParenthesisRegex node, T1 arg1)
         {
@@ -4413,7 +4413,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAParenthesisRegex(AParenthesisRegex node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AOrRegex node, T1 arg1)
         {
@@ -4421,7 +4421,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAOrRegex(AOrRegex node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AStarModifier node, T1 arg1)
         {
@@ -4429,7 +4429,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAStarModifier(AStarModifier node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AQuestionModifier node, T1 arg1)
         {
@@ -4437,7 +4437,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAQuestionModifier(AQuestionModifier node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(APlusModifier node, T1 arg1)
         {
@@ -4445,7 +4445,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAPlusModifier(APlusModifier node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AState node, T1 arg1)
         {
@@ -4453,7 +4453,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAState(AState node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ATokenState node, T1 arg1)
         {
@@ -4461,7 +4461,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokenState(ATokenState node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ATransitionTokenState node, T1 arg1)
         {
@@ -4469,7 +4469,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATransitionTokenState(ATransitionTokenState node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AProduction node, T1 arg1)
         {
@@ -4477,7 +4477,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProduction(AProduction node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AProdtranslation node, T1 arg1)
         {
@@ -4485,7 +4485,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProdtranslation(AProdtranslation node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AFullTranslation node, T1 arg1)
         {
@@ -4493,7 +4493,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAFullTranslation(AFullTranslation node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ANewTranslation node, T1 arg1)
         {
@@ -4501,7 +4501,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANewTranslation(ANewTranslation node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ANewalternativeTranslation node, T1 arg1)
         {
@@ -4509,7 +4509,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANewalternativeTranslation(ANewalternativeTranslation node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AListTranslation node, T1 arg1)
         {
@@ -4517,7 +4517,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAListTranslation(AListTranslation node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ANullTranslation node, T1 arg1)
         {
@@ -4525,7 +4525,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANullTranslation(ANullTranslation node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AIdTranslation node, T1 arg1)
         {
@@ -4533,7 +4533,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIdTranslation(AIdTranslation node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AIddotidTranslation node, T1 arg1)
         {
@@ -4541,7 +4541,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIddotidTranslation(AIddotidTranslation node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AAlternative node, T1 arg1)
         {
@@ -4549,7 +4549,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAAlternative(AAlternative node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AAlternativename node, T1 arg1)
         {
@@ -4557,7 +4557,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAAlternativename(AAlternativename node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AElement node, T1 arg1)
         {
@@ -4565,7 +4565,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAElement(AElement node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AElementname node, T1 arg1)
         {
@@ -4573,7 +4573,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAElementname(AElementname node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ACleanElementid node, T1 arg1)
         {
@@ -4581,7 +4581,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseACleanElementid(ACleanElementid node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ATokenElementid node, T1 arg1)
         {
@@ -4589,7 +4589,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokenElementid(ATokenElementid node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AProductionElementid node, T1 arg1)
         {
@@ -4597,7 +4597,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProductionElementid(AProductionElementid node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AHighlightrule node, T1 arg1)
         {
@@ -4605,7 +4605,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHighlightrule(AHighlightrule node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AItalicHighlightStyle node, T1 arg1)
         {
@@ -4613,7 +4613,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAItalicHighlightStyle(AItalicHighlightStyle node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ABoldHighlightStyle node, T1 arg1)
         {
@@ -4621,7 +4621,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABoldHighlightStyle(ABoldHighlightStyle node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ATextHighlightStyle node, T1 arg1)
         {
@@ -4629,7 +4629,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATextHighlightStyle(ATextHighlightStyle node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ABackgroundHighlightStyle node, T1 arg1)
         {
@@ -4637,7 +4637,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(ARgbColor node, T1 arg1)
         {
@@ -4645,7 +4645,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseARgbColor(ARgbColor node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AHsvColor node, T1 arg1)
         {
@@ -4653,7 +4653,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHsvColor(AHsvColor node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(AHexColor node, T1 arg1)
         {
@@ -4661,7 +4661,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHexColor(AHexColor node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TNamespace node, T1 arg1)
         {
@@ -4669,7 +4669,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNamespace(TNamespace node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TNamespacetoken node, T1 arg1)
         {
@@ -4677,7 +4677,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNamespacetoken(TNamespacetoken node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TStatestoken node, T1 arg1)
         {
@@ -4685,7 +4685,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTStatestoken(TStatestoken node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(THelperstoken node, T1 arg1)
         {
@@ -4693,7 +4693,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHelperstoken(THelperstoken node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TTokenstoken node, T1 arg1)
         {
@@ -4701,7 +4701,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTTokenstoken(TTokenstoken node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TIgnoredtoken node, T1 arg1)
         {
@@ -4709,7 +4709,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTIgnoredtoken(TIgnoredtoken node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TProductionstoken node, T1 arg1)
         {
@@ -4717,7 +4717,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTProductionstoken(TProductionstoken node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TAsttoken node, T1 arg1)
         {
@@ -4725,7 +4725,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTAsttoken(TAsttoken node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(THighlighttoken node, T1 arg1)
         {
@@ -4733,7 +4733,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHighlighttoken(THighlighttoken node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TNew node, T1 arg1)
         {
@@ -4741,7 +4741,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNew(TNew node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TNull node, T1 arg1)
         {
@@ -4749,7 +4749,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNull(TNull node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TTokenSpecifier node, T1 arg1)
         {
@@ -4757,7 +4757,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTTokenSpecifier(TTokenSpecifier node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TProductionSpecifier node, T1 arg1)
         {
@@ -4765,7 +4765,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTProductionSpecifier(TProductionSpecifier node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TDot node, T1 arg1)
         {
@@ -4773,7 +4773,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTDot(TDot node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TDDot node, T1 arg1)
         {
@@ -4781,7 +4781,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTDDot(TDDot node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TSemicolon node, T1 arg1)
         {
@@ -4789,7 +4789,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTSemicolon(TSemicolon node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TEqual node, T1 arg1)
         {
@@ -4797,7 +4797,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTEqual(TEqual node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TLBkt node, T1 arg1)
         {
@@ -4805,7 +4805,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTLBkt(TLBkt node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TRBkt node, T1 arg1)
         {
@@ -4813,7 +4813,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRBkt(TRBkt node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TLPar node, T1 arg1)
         {
@@ -4821,7 +4821,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTLPar(TLPar node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TRPar node, T1 arg1)
         {
@@ -4829,7 +4829,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRPar(TRPar node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TLBrace node, T1 arg1)
         {
@@ -4837,7 +4837,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTLBrace(TLBrace node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TRBrace node, T1 arg1)
         {
@@ -4845,7 +4845,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRBrace(TRBrace node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TPlus node, T1 arg1)
         {
@@ -4853,7 +4853,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTPlus(TPlus node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TMinus node, T1 arg1)
         {
@@ -4861,7 +4861,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTMinus(TMinus node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TQMark node, T1 arg1)
         {
@@ -4869,7 +4869,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTQMark(TQMark node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TStar node, T1 arg1)
         {
@@ -4877,7 +4877,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTStar(TStar node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TPipe node, T1 arg1)
         {
@@ -4885,7 +4885,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTPipe(TPipe node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TComma node, T1 arg1)
         {
@@ -4893,7 +4893,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTComma(TComma node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TSlash node, T1 arg1)
         {
@@ -4901,7 +4901,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTSlash(TSlash node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TArrow node, T1 arg1)
         {
@@ -4909,7 +4909,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTArrow(TArrow node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TColon node, T1 arg1)
         {
@@ -4917,7 +4917,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTColon(TColon node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TIdentifier node, T1 arg1)
         {
@@ -4925,7 +4925,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTIdentifier(TIdentifier node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TCharacter node, T1 arg1)
         {
@@ -4933,7 +4933,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTCharacter(TCharacter node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TDecChar node, T1 arg1)
         {
@@ -4941,7 +4941,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTDecChar(TDecChar node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(THexChar node, T1 arg1)
         {
@@ -4949,7 +4949,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHexChar(THexChar node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TString node, T1 arg1)
         {
@@ -4957,7 +4957,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTString(TString node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TBlank node, T1 arg1)
         {
@@ -4965,7 +4965,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTBlank(TBlank node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TComment node, T1 arg1)
         {
@@ -4973,7 +4973,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTComment(TComment node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TItalic node, T1 arg1)
         {
@@ -4981,7 +4981,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTItalic(TItalic node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TBold node, T1 arg1)
         {
@@ -4989,7 +4989,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTBold(TBold node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TText node, T1 arg1)
         {
@@ -4997,7 +4997,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTText(TText node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TBackground node, T1 arg1)
         {
@@ -5005,7 +5005,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTBackground(TBackground node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(TRgb node, T1 arg1)
         {
@@ -5013,7 +5013,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRgb(TRgb node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(THsv node, T1 arg1)
         {
@@ -5021,7 +5021,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHsv(THsv node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         public Result Visit(THexColor node, T1 arg1)
         {
@@ -5029,7 +5029,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHexColor(THexColor node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
     }
     public class ReturnAnalysisAdapter<T1, T2, Result> : ReturnAdapter<T1, T2, Result, PGrammar>
@@ -5045,7 +5045,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAGrammar(AGrammar node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ANamespaceSection node, T1 arg1, T2 arg2)
         {
@@ -5053,7 +5053,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANamespaceSection(ANamespaceSection node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHelpersSection node, T1 arg1, T2 arg2)
         {
@@ -5061,7 +5061,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHelpersSection(AHelpersSection node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AStatesSection node, T1 arg1, T2 arg2)
         {
@@ -5069,7 +5069,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAStatesSection(AStatesSection node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ATokensSection node, T1 arg1, T2 arg2)
         {
@@ -5077,7 +5077,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokensSection(ATokensSection node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AIgnoreSection node, T1 arg1, T2 arg2)
         {
@@ -5085,7 +5085,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIgnoreSection(AIgnoreSection node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AProductionsSection node, T1 arg1, T2 arg2)
         {
@@ -5093,7 +5093,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProductionsSection(AProductionsSection node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AASTSection node, T1 arg1, T2 arg2)
         {
@@ -5101,7 +5101,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAASTSection(AASTSection node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHighlightSection node, T1 arg1, T2 arg2)
         {
@@ -5109,7 +5109,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHighlightSection(AHighlightSection node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHelper node, T1 arg1, T2 arg2)
         {
@@ -5117,7 +5117,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHelper(AHelper node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AToken node, T1 arg1, T2 arg2)
         {
@@ -5125,7 +5125,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAToken(AToken node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ATokenlookahead node, T1 arg1, T2 arg2)
         {
@@ -5133,7 +5133,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokenlookahead(ATokenlookahead node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ACharRegex node, T1 arg1, T2 arg2)
         {
@@ -5141,7 +5141,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseACharRegex(ACharRegex node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ADecRegex node, T1 arg1, T2 arg2)
         {
@@ -5149,7 +5149,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseADecRegex(ADecRegex node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHexRegex node, T1 arg1, T2 arg2)
         {
@@ -5157,7 +5157,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHexRegex(AHexRegex node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AConcatenatedRegex node, T1 arg1, T2 arg2)
         {
@@ -5165,7 +5165,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAConcatenatedRegex(AConcatenatedRegex node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AUnaryRegex node, T1 arg1, T2 arg2)
         {
@@ -5173,7 +5173,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAUnaryRegex(AUnaryRegex node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ABinaryplusRegex node, T1 arg1, T2 arg2)
         {
@@ -5181,7 +5181,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABinaryplusRegex(ABinaryplusRegex node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ABinaryminusRegex node, T1 arg1, T2 arg2)
         {
@@ -5189,7 +5189,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABinaryminusRegex(ABinaryminusRegex node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AIntervalRegex node, T1 arg1, T2 arg2)
         {
@@ -5197,7 +5197,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIntervalRegex(AIntervalRegex node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AStringRegex node, T1 arg1, T2 arg2)
         {
@@ -5205,7 +5205,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAStringRegex(AStringRegex node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AIdentifierRegex node, T1 arg1, T2 arg2)
         {
@@ -5213,7 +5213,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIdentifierRegex(AIdentifierRegex node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AParenthesisRegex node, T1 arg1, T2 arg2)
         {
@@ -5221,7 +5221,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAParenthesisRegex(AParenthesisRegex node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AOrRegex node, T1 arg1, T2 arg2)
         {
@@ -5229,7 +5229,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAOrRegex(AOrRegex node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AStarModifier node, T1 arg1, T2 arg2)
         {
@@ -5237,7 +5237,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAStarModifier(AStarModifier node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AQuestionModifier node, T1 arg1, T2 arg2)
         {
@@ -5245,7 +5245,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAQuestionModifier(AQuestionModifier node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(APlusModifier node, T1 arg1, T2 arg2)
         {
@@ -5253,7 +5253,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAPlusModifier(APlusModifier node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AState node, T1 arg1, T2 arg2)
         {
@@ -5261,7 +5261,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAState(AState node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ATokenState node, T1 arg1, T2 arg2)
         {
@@ -5269,7 +5269,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokenState(ATokenState node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ATransitionTokenState node, T1 arg1, T2 arg2)
         {
@@ -5277,7 +5277,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATransitionTokenState(ATransitionTokenState node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AProduction node, T1 arg1, T2 arg2)
         {
@@ -5285,7 +5285,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProduction(AProduction node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AProdtranslation node, T1 arg1, T2 arg2)
         {
@@ -5293,7 +5293,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProdtranslation(AProdtranslation node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AFullTranslation node, T1 arg1, T2 arg2)
         {
@@ -5301,7 +5301,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAFullTranslation(AFullTranslation node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ANewTranslation node, T1 arg1, T2 arg2)
         {
@@ -5309,7 +5309,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANewTranslation(ANewTranslation node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ANewalternativeTranslation node, T1 arg1, T2 arg2)
         {
@@ -5317,7 +5317,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANewalternativeTranslation(ANewalternativeTranslation node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AListTranslation node, T1 arg1, T2 arg2)
         {
@@ -5325,7 +5325,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAListTranslation(AListTranslation node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ANullTranslation node, T1 arg1, T2 arg2)
         {
@@ -5333,7 +5333,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANullTranslation(ANullTranslation node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AIdTranslation node, T1 arg1, T2 arg2)
         {
@@ -5341,7 +5341,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIdTranslation(AIdTranslation node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AIddotidTranslation node, T1 arg1, T2 arg2)
         {
@@ -5349,7 +5349,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIddotidTranslation(AIddotidTranslation node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AAlternative node, T1 arg1, T2 arg2)
         {
@@ -5357,7 +5357,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAAlternative(AAlternative node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AAlternativename node, T1 arg1, T2 arg2)
         {
@@ -5365,7 +5365,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAAlternativename(AAlternativename node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AElement node, T1 arg1, T2 arg2)
         {
@@ -5373,7 +5373,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAElement(AElement node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AElementname node, T1 arg1, T2 arg2)
         {
@@ -5381,7 +5381,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAElementname(AElementname node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ACleanElementid node, T1 arg1, T2 arg2)
         {
@@ -5389,7 +5389,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseACleanElementid(ACleanElementid node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ATokenElementid node, T1 arg1, T2 arg2)
         {
@@ -5397,7 +5397,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokenElementid(ATokenElementid node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AProductionElementid node, T1 arg1, T2 arg2)
         {
@@ -5405,7 +5405,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProductionElementid(AProductionElementid node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHighlightrule node, T1 arg1, T2 arg2)
         {
@@ -5413,7 +5413,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHighlightrule(AHighlightrule node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AItalicHighlightStyle node, T1 arg1, T2 arg2)
         {
@@ -5421,7 +5421,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAItalicHighlightStyle(AItalicHighlightStyle node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ABoldHighlightStyle node, T1 arg1, T2 arg2)
         {
@@ -5429,7 +5429,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABoldHighlightStyle(ABoldHighlightStyle node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ATextHighlightStyle node, T1 arg1, T2 arg2)
         {
@@ -5437,7 +5437,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATextHighlightStyle(ATextHighlightStyle node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ABackgroundHighlightStyle node, T1 arg1, T2 arg2)
         {
@@ -5445,7 +5445,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ARgbColor node, T1 arg1, T2 arg2)
         {
@@ -5453,7 +5453,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseARgbColor(ARgbColor node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHsvColor node, T1 arg1, T2 arg2)
         {
@@ -5461,7 +5461,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHsvColor(AHsvColor node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHexColor node, T1 arg1, T2 arg2)
         {
@@ -5469,7 +5469,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHexColor(AHexColor node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TNamespace node, T1 arg1, T2 arg2)
         {
@@ -5477,7 +5477,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNamespace(TNamespace node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TNamespacetoken node, T1 arg1, T2 arg2)
         {
@@ -5485,7 +5485,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNamespacetoken(TNamespacetoken node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TStatestoken node, T1 arg1, T2 arg2)
         {
@@ -5493,7 +5493,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTStatestoken(TStatestoken node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(THelperstoken node, T1 arg1, T2 arg2)
         {
@@ -5501,7 +5501,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHelperstoken(THelperstoken node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TTokenstoken node, T1 arg1, T2 arg2)
         {
@@ -5509,7 +5509,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTTokenstoken(TTokenstoken node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TIgnoredtoken node, T1 arg1, T2 arg2)
         {
@@ -5517,7 +5517,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTIgnoredtoken(TIgnoredtoken node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TProductionstoken node, T1 arg1, T2 arg2)
         {
@@ -5525,7 +5525,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTProductionstoken(TProductionstoken node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TAsttoken node, T1 arg1, T2 arg2)
         {
@@ -5533,7 +5533,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTAsttoken(TAsttoken node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(THighlighttoken node, T1 arg1, T2 arg2)
         {
@@ -5541,7 +5541,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHighlighttoken(THighlighttoken node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TNew node, T1 arg1, T2 arg2)
         {
@@ -5549,7 +5549,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNew(TNew node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TNull node, T1 arg1, T2 arg2)
         {
@@ -5557,7 +5557,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNull(TNull node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TTokenSpecifier node, T1 arg1, T2 arg2)
         {
@@ -5565,7 +5565,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTTokenSpecifier(TTokenSpecifier node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TProductionSpecifier node, T1 arg1, T2 arg2)
         {
@@ -5573,7 +5573,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTProductionSpecifier(TProductionSpecifier node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TDot node, T1 arg1, T2 arg2)
         {
@@ -5581,7 +5581,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTDot(TDot node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TDDot node, T1 arg1, T2 arg2)
         {
@@ -5589,7 +5589,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTDDot(TDDot node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TSemicolon node, T1 arg1, T2 arg2)
         {
@@ -5597,7 +5597,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTSemicolon(TSemicolon node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TEqual node, T1 arg1, T2 arg2)
         {
@@ -5605,7 +5605,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTEqual(TEqual node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TLBkt node, T1 arg1, T2 arg2)
         {
@@ -5613,7 +5613,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTLBkt(TLBkt node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TRBkt node, T1 arg1, T2 arg2)
         {
@@ -5621,7 +5621,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRBkt(TRBkt node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TLPar node, T1 arg1, T2 arg2)
         {
@@ -5629,7 +5629,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTLPar(TLPar node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TRPar node, T1 arg1, T2 arg2)
         {
@@ -5637,7 +5637,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRPar(TRPar node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TLBrace node, T1 arg1, T2 arg2)
         {
@@ -5645,7 +5645,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTLBrace(TLBrace node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TRBrace node, T1 arg1, T2 arg2)
         {
@@ -5653,7 +5653,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRBrace(TRBrace node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TPlus node, T1 arg1, T2 arg2)
         {
@@ -5661,7 +5661,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTPlus(TPlus node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TMinus node, T1 arg1, T2 arg2)
         {
@@ -5669,7 +5669,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTMinus(TMinus node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TQMark node, T1 arg1, T2 arg2)
         {
@@ -5677,7 +5677,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTQMark(TQMark node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TStar node, T1 arg1, T2 arg2)
         {
@@ -5685,7 +5685,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTStar(TStar node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TPipe node, T1 arg1, T2 arg2)
         {
@@ -5693,7 +5693,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTPipe(TPipe node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TComma node, T1 arg1, T2 arg2)
         {
@@ -5701,7 +5701,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTComma(TComma node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TSlash node, T1 arg1, T2 arg2)
         {
@@ -5709,7 +5709,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTSlash(TSlash node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TArrow node, T1 arg1, T2 arg2)
         {
@@ -5717,7 +5717,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTArrow(TArrow node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TColon node, T1 arg1, T2 arg2)
         {
@@ -5725,7 +5725,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTColon(TColon node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TIdentifier node, T1 arg1, T2 arg2)
         {
@@ -5733,7 +5733,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTIdentifier(TIdentifier node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TCharacter node, T1 arg1, T2 arg2)
         {
@@ -5741,7 +5741,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTCharacter(TCharacter node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TDecChar node, T1 arg1, T2 arg2)
         {
@@ -5749,7 +5749,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTDecChar(TDecChar node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(THexChar node, T1 arg1, T2 arg2)
         {
@@ -5757,7 +5757,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHexChar(THexChar node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TString node, T1 arg1, T2 arg2)
         {
@@ -5765,7 +5765,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTString(TString node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TBlank node, T1 arg1, T2 arg2)
         {
@@ -5773,7 +5773,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTBlank(TBlank node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TComment node, T1 arg1, T2 arg2)
         {
@@ -5781,7 +5781,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTComment(TComment node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TItalic node, T1 arg1, T2 arg2)
         {
@@ -5789,7 +5789,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTItalic(TItalic node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TBold node, T1 arg1, T2 arg2)
         {
@@ -5797,7 +5797,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTBold(TBold node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TText node, T1 arg1, T2 arg2)
         {
@@ -5805,7 +5805,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTText(TText node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TBackground node, T1 arg1, T2 arg2)
         {
@@ -5813,7 +5813,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTBackground(TBackground node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TRgb node, T1 arg1, T2 arg2)
         {
@@ -5821,7 +5821,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRgb(TRgb node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(THsv node, T1 arg1, T2 arg2)
         {
@@ -5829,7 +5829,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHsv(THsv node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(THexColor node, T1 arg1, T2 arg2)
         {
@@ -5837,7 +5837,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHexColor(THexColor node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
     }
     public class ReturnAnalysisAdapter<T1, T2, T3, Result> : ReturnAdapter<T1, T2, T3, Result, PGrammar>
@@ -5853,7 +5853,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAGrammar(AGrammar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ANamespaceSection node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5861,7 +5861,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANamespaceSection(ANamespaceSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHelpersSection node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5869,7 +5869,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHelpersSection(AHelpersSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AStatesSection node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5877,7 +5877,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAStatesSection(AStatesSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ATokensSection node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5885,7 +5885,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokensSection(ATokensSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AIgnoreSection node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5893,7 +5893,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIgnoreSection(AIgnoreSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AProductionsSection node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5901,7 +5901,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProductionsSection(AProductionsSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AASTSection node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5909,7 +5909,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAASTSection(AASTSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHighlightSection node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5917,7 +5917,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHighlightSection(AHighlightSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHelper node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5925,7 +5925,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHelper(AHelper node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AToken node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5933,7 +5933,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAToken(AToken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ATokenlookahead node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5941,7 +5941,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokenlookahead(ATokenlookahead node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ACharRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5949,7 +5949,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseACharRegex(ACharRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ADecRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5957,7 +5957,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseADecRegex(ADecRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHexRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5965,7 +5965,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHexRegex(AHexRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AConcatenatedRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5973,7 +5973,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAConcatenatedRegex(AConcatenatedRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AUnaryRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5981,7 +5981,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAUnaryRegex(AUnaryRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ABinaryplusRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5989,7 +5989,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABinaryplusRegex(ABinaryplusRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ABinaryminusRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -5997,7 +5997,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABinaryminusRegex(ABinaryminusRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AIntervalRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6005,7 +6005,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIntervalRegex(AIntervalRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AStringRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6013,7 +6013,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAStringRegex(AStringRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AIdentifierRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6021,7 +6021,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIdentifierRegex(AIdentifierRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AParenthesisRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6029,7 +6029,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAParenthesisRegex(AParenthesisRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AOrRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6037,7 +6037,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAOrRegex(AOrRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AStarModifier node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6045,7 +6045,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAStarModifier(AStarModifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AQuestionModifier node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6053,7 +6053,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAQuestionModifier(AQuestionModifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(APlusModifier node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6061,7 +6061,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAPlusModifier(APlusModifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AState node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6069,7 +6069,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAState(AState node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ATokenState node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6077,7 +6077,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokenState(ATokenState node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ATransitionTokenState node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6085,7 +6085,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATransitionTokenState(ATransitionTokenState node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AProduction node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6093,7 +6093,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProduction(AProduction node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6101,7 +6101,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProdtranslation(AProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AFullTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6109,7 +6109,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAFullTranslation(AFullTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ANewTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6117,7 +6117,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANewTranslation(ANewTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ANewalternativeTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6125,7 +6125,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANewalternativeTranslation(ANewalternativeTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AListTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6133,7 +6133,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAListTranslation(AListTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ANullTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6141,7 +6141,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseANullTranslation(ANullTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AIdTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6149,7 +6149,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIdTranslation(AIdTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AIddotidTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6157,7 +6157,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAIddotidTranslation(AIddotidTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AAlternative node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6165,7 +6165,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAAlternative(AAlternative node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AAlternativename node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6173,7 +6173,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAAlternativename(AAlternativename node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AElement node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6181,7 +6181,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAElement(AElement node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AElementname node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6189,7 +6189,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAElementname(AElementname node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ACleanElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6197,7 +6197,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseACleanElementid(ACleanElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ATokenElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6205,7 +6205,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATokenElementid(ATokenElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AProductionElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6213,7 +6213,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAProductionElementid(AProductionElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHighlightrule node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6221,7 +6221,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHighlightrule(AHighlightrule node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AItalicHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6229,7 +6229,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAItalicHighlightStyle(AItalicHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ABoldHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6237,7 +6237,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABoldHighlightStyle(ABoldHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ATextHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6245,7 +6245,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseATextHighlightStyle(ATextHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ABackgroundHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6253,7 +6253,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ARgbColor node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6261,7 +6261,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseARgbColor(ARgbColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHsvColor node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6269,7 +6269,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHsvColor(AHsvColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHexColor node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6277,7 +6277,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseAHexColor(AHexColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TNamespace node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6285,7 +6285,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNamespace(TNamespace node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TNamespacetoken node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6293,7 +6293,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNamespacetoken(TNamespacetoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TStatestoken node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6301,7 +6301,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTStatestoken(TStatestoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(THelperstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6309,7 +6309,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHelperstoken(THelperstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TTokenstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6317,7 +6317,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTTokenstoken(TTokenstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TIgnoredtoken node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6325,7 +6325,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTIgnoredtoken(TIgnoredtoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TProductionstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6333,7 +6333,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTProductionstoken(TProductionstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TAsttoken node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6341,7 +6341,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTAsttoken(TAsttoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(THighlighttoken node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6349,7 +6349,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHighlighttoken(THighlighttoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TNew node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6357,7 +6357,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNew(TNew node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TNull node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6365,7 +6365,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTNull(TNull node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TTokenSpecifier node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6373,7 +6373,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTTokenSpecifier(TTokenSpecifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TProductionSpecifier node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6381,7 +6381,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTProductionSpecifier(TProductionSpecifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TDot node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6389,7 +6389,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTDot(TDot node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TDDot node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6397,7 +6397,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTDDot(TDDot node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TSemicolon node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6405,7 +6405,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTSemicolon(TSemicolon node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TEqual node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6413,7 +6413,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTEqual(TEqual node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TLBkt node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6421,7 +6421,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTLBkt(TLBkt node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TRBkt node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6429,7 +6429,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRBkt(TRBkt node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TLPar node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6437,7 +6437,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTLPar(TLPar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TRPar node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6445,7 +6445,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRPar(TRPar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TLBrace node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6453,7 +6453,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTLBrace(TLBrace node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TRBrace node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6461,7 +6461,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRBrace(TRBrace node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TPlus node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6469,7 +6469,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTPlus(TPlus node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TMinus node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6477,7 +6477,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTMinus(TMinus node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TQMark node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6485,7 +6485,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTQMark(TQMark node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TStar node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6493,7 +6493,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTStar(TStar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TPipe node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6501,7 +6501,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTPipe(TPipe node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TComma node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6509,7 +6509,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTComma(TComma node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TSlash node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6517,7 +6517,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTSlash(TSlash node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TArrow node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6525,7 +6525,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTArrow(TArrow node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TColon node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6533,7 +6533,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTColon(TColon node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TIdentifier node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6541,7 +6541,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTIdentifier(TIdentifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TCharacter node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6549,7 +6549,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTCharacter(TCharacter node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TDecChar node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6557,7 +6557,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTDecChar(TDecChar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(THexChar node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6565,7 +6565,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHexChar(THexChar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TString node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6573,7 +6573,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTString(TString node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TBlank node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6581,7 +6581,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTBlank(TBlank node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TComment node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6589,7 +6589,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTComment(TComment node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TItalic node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6597,7 +6597,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTItalic(TItalic node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TBold node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6605,7 +6605,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTBold(TBold node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TText node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6613,7 +6613,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTText(TText node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TBackground node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6621,7 +6621,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTBackground(TBackground node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TRgb node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6629,7 +6629,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTRgb(TRgb node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(THsv node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6637,7 +6637,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHsv(THsv node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(THexColor node, T1 arg1, T2 arg2, T3 arg3)
         {
@@ -6645,7 +6645,7 @@ namespace SablePP.Compiler.Analysis
         }
         public virtual Result CaseTHexColor(THexColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
     }
     

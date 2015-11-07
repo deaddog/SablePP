@@ -58,7 +58,7 @@ namespace SablePP.Generate.Building
             for (int i = 1; i <= arguments; i++)
                 method.Parameters.Add("{0} arg{1}", returnAnalysisAdapter.TypeParameters[i - 1], i);
 
-            method.Body.Emit("return DefaultCase(node");
+            method.Body.Emit("return HandleDefault(node");
             for (int i = 1; i <= arguments; i++)
                 method.Body.Emit(", arg{0}", i);
             method.Body.EmitLine(");");

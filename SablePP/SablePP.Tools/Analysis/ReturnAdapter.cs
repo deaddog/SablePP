@@ -144,28 +144,28 @@ namespace SablePP.Tools.Analysis
         /// </summary>
         /// <param name="node">The <see cref="Node"/> that should be visited.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult DefaultCase(Node node)
+        public virtual TResult HandleDefault(Node node)
         {
             return default(TResult);
         }
 
         /// <summary>
-        /// Visits the specified <see cref="Start{TRoot}"/> production by calling the <see cref="CaseStart"/> method.
+        /// Visits the specified <see cref="Start{TRoot}"/> production by calling the <see cref="HandleStart"/> method.
         /// </summary>
         /// <param name="node">The <see cref="Start{TRoot}"/> production that should be visited.</param>
         /// <returns>A value determined by the visit handler.</returns>
         public TResult Visit(Start<TRoot> node)
         {
-            return CaseStart(node);
+            return HandleStart(node);
         }
         /// <summary>
-        /// Visits the specified <see cref="EOF"/> token by calling the <see cref="CaseEOF"/> method.
+        /// Visits the specified <see cref="EOF"/> token by calling the <see cref="HandleEOF"/> method.
         /// </summary>
         /// <param name="node">The <see cref="EOF"/> token that should be visited.</param>
         /// <returns>A value determined by the visit handler.</returns>
         public TResult Visit(EOF node)
         {
-            return CaseEOF(node);
+            return HandleEOF(node);
         }
 
         /// <summary>
@@ -173,18 +173,18 @@ namespace SablePP.Tools.Analysis
         /// </summary>
         /// <param name="node">The <see cref="Start{TRoot}"/> node to handle.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult CaseStart(Start<TRoot> node)
+        public virtual TResult HandleStart(Start<TRoot> node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
         /// <summary>
         /// When overridden in a derived class, specifies a handler for visiting <see cref="EOF"/> token nodes.
         /// </summary>
         /// <param name="node">The <see cref="EOF"/> node to handle.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult CaseEOF(EOF node)
+        public virtual TResult HandleEOF(EOF node)
         {
-            return DefaultCase(node);
+            return HandleDefault(node);
         }
     }
 
@@ -219,30 +219,30 @@ namespace SablePP.Tools.Analysis
         /// <param name="node">The <see cref="Node"/> that should be visited.</param>
         /// <param name="arg1">The argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult DefaultCase(Node node, T1 arg1)
+        public virtual TResult HandleDefault(Node node, T1 arg1)
         {
             return default(TResult);
         }
 
         /// <summary>
-        /// Visits the specified <see cref="Start{TRoot}"/> production by calling the <see cref="CaseStart"/> method.
+        /// Visits the specified <see cref="Start{TRoot}"/> production by calling the <see cref="HandleStart"/> method.
         /// </summary>
         /// <param name="node">The <see cref="Start{TRoot}"/> production that should be visited.</param>
         /// <param name="arg1">The argument passed to the visit handler.</param>
         /// <returns>A value determined by the visit handler.</returns>
         public TResult Visit(Start<TRoot> node, T1 arg1)
         {
-            return CaseStart(node, arg1);
+            return HandleStart(node, arg1);
         }
         /// <summary>
-        /// Visits the specified <see cref="EOF"/> token by calling the <see cref="CaseEOF"/> method.
+        /// Visits the specified <see cref="EOF"/> token by calling the <see cref="HandleEOF"/> method.
         /// </summary>
         /// <param name="node">The <see cref="EOF"/> token that should be visited.</param>
         /// <param name="arg1">The argument passed to the visit handler.</param>
         /// <returns>A value determined by the visit handler.</returns>
         public TResult Visit(EOF node, T1 arg1)
         {
-            return CaseEOF(node, arg1);
+            return HandleEOF(node, arg1);
         }
 
         /// <summary>
@@ -251,9 +251,9 @@ namespace SablePP.Tools.Analysis
         /// <param name="node">The <see cref="Start{TRoot}"/> node to handle.</param>
         /// <param name="arg1">The argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult CaseStart(Start<TRoot> node, T1 arg1)
+        public virtual TResult HandleStart(Start<TRoot> node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
         /// <summary>
         /// When overridden in a derived class, specifies a handler for visiting <see cref="EOF"/> token nodes.
@@ -261,9 +261,9 @@ namespace SablePP.Tools.Analysis
         /// <param name="node">The <see cref="EOF"/> node to handle.</param>
         /// <param name="arg1">The argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult CaseEOF(EOF node, T1 arg1)
+        public virtual TResult HandleEOF(EOF node, T1 arg1)
         {
-            return DefaultCase(node, arg1);
+            return HandleDefault(node, arg1);
         }
     }
 
@@ -301,13 +301,13 @@ namespace SablePP.Tools.Analysis
         /// <param name="arg1">The first argument that is passed to this visit handler.</param>
         /// <param name="arg2">The second argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult DefaultCase(Node node, T1 arg1, T2 arg2)
+        public virtual TResult HandleDefault(Node node, T1 arg1, T2 arg2)
         {
             return default(TResult);
         }
 
         /// <summary>
-        /// Visits the specified <see cref="Start{TRoot}"/> production by calling the <see cref="CaseStart"/> method.
+        /// Visits the specified <see cref="Start{TRoot}"/> production by calling the <see cref="HandleStart"/> method.
         /// </summary>
         /// <param name="node">The <see cref="Start{TRoot}"/> production that should be visited.</param>
         /// <param name="arg1">The first argument passed to the visit handler.</param>
@@ -315,10 +315,10 @@ namespace SablePP.Tools.Analysis
         /// <returns>A value determined by the visit handler.</returns>
         public TResult Visit(Start<TRoot> node, T1 arg1, T2 arg2)
         {
-            return CaseStart(node, arg1, arg2);
+            return HandleStart(node, arg1, arg2);
         }
         /// <summary>
-        /// Visits the specified <see cref="EOF"/> token by calling the <see cref="CaseEOF"/> method.
+        /// Visits the specified <see cref="EOF"/> token by calling the <see cref="HandleEOF"/> method.
         /// </summary>
         /// <param name="node">The <see cref="EOF"/> token that should be visited.</param>
         /// <param name="arg1">The first argument passed to the visit handler.</param>
@@ -326,7 +326,7 @@ namespace SablePP.Tools.Analysis
         /// <returns>A value determined by the visit handler.</returns>
         public TResult Visit(EOF node, T1 arg1, T2 arg2)
         {
-            return CaseEOF(node, arg1, arg2);
+            return HandleEOF(node, arg1, arg2);
         }
 
         /// <summary>
@@ -336,9 +336,9 @@ namespace SablePP.Tools.Analysis
         /// <param name="arg1">The first argument that is passed to this visit handler.</param>
         /// <param name="arg2">The second argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult CaseStart(Start<TRoot> node, T1 arg1, T2 arg2)
+        public virtual TResult HandleStart(Start<TRoot> node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
         /// <summary>
         /// When overridden in a derived class, specifies a handler for visiting <see cref="EOF"/> token nodes.
@@ -347,9 +347,9 @@ namespace SablePP.Tools.Analysis
         /// <param name="arg1">The first argument that is passed to this visit handler.</param>
         /// <param name="arg2">The second argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult CaseEOF(EOF node, T1 arg1, T2 arg2)
+        public virtual TResult HandleEOF(EOF node, T1 arg1, T2 arg2)
         {
-            return DefaultCase(node, arg1, arg2);
+            return HandleDefault(node, arg1, arg2);
         }
     }
 
@@ -390,13 +390,13 @@ namespace SablePP.Tools.Analysis
         /// <param name="arg2">The second argument that is passed to this visit handler.</param>
         /// <param name="arg3">The third argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult DefaultCase(Node node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual TResult HandleDefault(Node node, T1 arg1, T2 arg2, T3 arg3)
         {
             return default(TResult);
         }
 
         /// <summary>
-        /// Visits the specified <see cref="Start{TRoot}"/> production by calling the <see cref="CaseStart"/> method.
+        /// Visits the specified <see cref="Start{TRoot}"/> production by calling the <see cref="HandleStart"/> method.
         /// </summary>
         /// <param name="node">The <see cref="Start{TRoot}"/> production that should be visited.</param>
         /// <param name="arg1">The first argument passed to the visit handler.</param>
@@ -405,10 +405,10 @@ namespace SablePP.Tools.Analysis
         /// <returns>A value determined by the visit handler.</returns>
         public TResult Visit(Start<TRoot> node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseStart(node, arg1, arg2, arg3);
+            return HandleStart(node, arg1, arg2, arg3);
         }
         /// <summary>
-        /// Visits the specified <see cref="EOF"/> token by calling the <see cref="CaseEOF"/> method.
+        /// Visits the specified <see cref="EOF"/> token by calling the <see cref="HandleEOF"/> method.
         /// </summary>
         /// <param name="node">The <see cref="EOF"/> token that should be visited.</param>
         /// <param name="arg1">The first argument passed to the visit handler.</param>
@@ -417,7 +417,7 @@ namespace SablePP.Tools.Analysis
         /// <returns>A value determined by the visit handler.</returns>
         public TResult Visit(EOF node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseEOF(node, arg1, arg2, arg3);
+            return HandleEOF(node, arg1, arg2, arg3);
         }
 
         /// <summary>
@@ -428,9 +428,9 @@ namespace SablePP.Tools.Analysis
         /// <param name="arg2">The second argument that is passed to this visit handler.</param>
         /// <param name="arg3">The third argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult CaseStart(Start<TRoot> node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual TResult HandleStart(Start<TRoot> node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
         /// <summary>
         /// When overridden in a derived class, specifies a handler for visiting <see cref="EOF"/> token nodes.
@@ -440,9 +440,9 @@ namespace SablePP.Tools.Analysis
         /// <param name="arg2">The second argument that is passed to this visit handler.</param>
         /// <param name="arg3">The third argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult CaseEOF(EOF node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual TResult HandleEOF(EOF node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return DefaultCase(node, arg1, arg2, arg3);
+            return HandleDefault(node, arg1, arg2, arg3);
         }
     }
 }

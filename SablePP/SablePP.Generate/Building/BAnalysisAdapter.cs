@@ -36,7 +36,7 @@ namespace SablePP.Generate.Building
             method.Body.EmitLine("Case{0}(node);", node.Name);
 
             adapterClass.Add(method = new MethodElement("public virtual void Case{0}({0} node)", true, node.Name));
-            method.Body.EmitLine("DefaultCase(node);");
+            method.Body.EmitLine("HandleDefault(node);");
         }
         private void emitAnalysisAdapterAlternative(ClassElement adapterClass, AbstractAlternative node)
         {
@@ -45,7 +45,7 @@ namespace SablePP.Generate.Building
             method.Body.EmitLine("Case{0}(node);", node.Name);
 
             adapterClass.Add(method = new MethodElement("public virtual void Case{0}({0} node)", true, node.Name));
-            method.Body.EmitLine("DefaultCase(node);");
+            method.Body.EmitLine("HandleDefault(node);");
         }
     }
 }

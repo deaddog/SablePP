@@ -87,41 +87,41 @@ namespace SablePP.Tools.Analysis
         /// When overridden in a derived class, specifies default handler for visiting nodes.
         /// </summary>
         /// <param name="node">The <see cref="Node"/> that should be visited.</param>
-        public virtual void DefaultCase(Node node)
+        public virtual void HandleDefault(Node node)
         {
         }
 
         /// <summary>
-        /// Visits the specified <see cref="Start{TRoot}"/> production by calling the <see cref="CaseStart"/> method.
+        /// Visits the specified <see cref="Start{TRoot}"/> production by calling the <see cref="HandleStart"/> method.
         /// </summary>
         /// <param name="node">The <see cref="Start{TRoot}"/> node that should be visited.</param>
         public void Visit(Start<TRoot> node)
         {
-            CaseStart(node);
+            HandleStart(node);
         }
         /// <summary>
-        /// Visits the specified <see cref="EOF"/> token by calling the <see cref="CaseEOF"/> method.
+        /// Visits the specified <see cref="EOF"/> token by calling the <see cref="HandleEOF"/> method.
         /// </summary>
         /// <param name="node">The <see cref="EOF"/> node that should be visited.</param>
         public void Visit(EOF node)
         {
-            CaseEOF(node);
+            HandleEOF(node);
         }
         /// <summary>
         /// When overridden in a derived class, specifies a handler for visiting <see cref="Start{TRoot}"/> production nodes.
         /// </summary>
         /// <param name="node">The <see cref="Start{TRoot}"/> node to handle.</param>
-        public virtual void CaseStart(Start<TRoot> node)
+        public virtual void HandleStart(Start<TRoot> node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         /// <summary>
         /// When overridden in a derived class, specifies a handler for visiting <see cref="EOF"/> token nodes.
         /// </summary>
         /// <param name="node">The <see cref="EOF"/> node to handle.</param>
-        public virtual void CaseEOF(EOF node)
+        public virtual void HandleEOF(EOF node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
 
         /// <summary>
