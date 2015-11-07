@@ -38,15 +38,9 @@ namespace SablePP.Generate.Building
 
             #endregion
 
-            adapterClass.Add(new MethodElement($"public virtual void InStart(Start<{rootProduction}> node)"));
-            adapterClass.Add(new MethodElement($"public virtual void OutStart(Start<{rootProduction}> node)"));
-
             #region StartCase
 
             adapterClass.Add(method = new MethodElement($"protected override void HandleStart(Start<{rootProduction}> node)"));
-
-            method.Body.EmitLine("InStart(node);");
-            method.Body.EmitNewLine();
 
             if (!reversed)
             {
@@ -59,59 +53,23 @@ namespace SablePP.Generate.Building
                 method.Body.EmitLine("Visit((dynamic)node.Root);");
             }
 
-            method.Body.EmitNewLine();
-            method.Body.EmitLine("OutStart(node);");
             adapterClass.EmitNewline();
 
             #endregion
 
-            adapterClass.Add(new MethodElement("public virtual void DefaultPIn(Node node)"));
-            adapterClass.Add(new MethodElement("public virtual void DefaultPOut(Node node)"));
-
-            adapterClass.Add(new MethodElement("public virtual void DefaultAIn(Node node)"));
-            adapterClass.Add(new MethodElement("public virtual void DefaultAOut(Node node)"));
-
             foreach (var p in grammar.AbstractProductions)
-            {
-                emitDepthFirstAdapterProduction(adapterClass, p);
                 foreach (var a in p.Alternatives)
                     emitDepthFirstAdapterAlternative(adapterClass, a, reversed);
-            }
-        }
-
-        private void emitDepthFirstAdapterProduction(ClassElement adapterClass, AbstractProduction node)
-        {
-            adapterClass.EmitNewline();
-            emitDepthFirstAdapterInOut(adapterClass, node.Name);
         }
 
         private void emitDepthFirstAdapterAlternative(ClassElement adapterClass, AbstractAlternative node, bool reversed)
         {
-            emitDepthFirstAdapterInOut(adapterClass, node.Name);
-
             MethodElement method;
             adapterClass.Add(method = new MethodElement($"protected override void Handle{node.Name}({node.Name} node)"));
-            method.Body.EmitLine($"In{node.Production.Name}(node);");
-            method.Body.EmitLine($"In{node.Name}(node);");
-            method.Body.EmitNewLine();
 
             var elements = reversed ? node.Elements.Reverse() : node.Elements;
             foreach (var e in elements)
                 emitDepthFirstAdapterElement(e, method);
-
-            method.Body.EmitNewLine();
-            method.Body.EmitLine($"Out{node.Name}(node);");
-            method.Body.EmitLine($"Out{node.Production.Name}(node);");
-        }
-
-        private void emitDepthFirstAdapterInOut(ClassElement adapterClass, string name)
-        {
-            MethodElement method;
-            adapterClass.Add(method = new MethodElement($"public virtual void In{name}({name} node)"));
-            method.Body.EmitLine($"Default{name[0]}In(node);");
-
-            adapterClass.Add(method = new MethodElement($"public virtual void Out{name}({name} node)"));
-            method.Body.EmitLine($"Default{name[0]}Out(node);");
         }
 
         private void emitDepthFirstAdapterElement(AbstractAlternative.Element node, MethodElement method)
