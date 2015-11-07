@@ -7,7 +7,7 @@ namespace SablePP.Compiler.Nodes
 {
     public partial class PGrammar
     {
-        public static readonly string DefaultName = "SableCCPP";
+        public static readonly string DefaultName = "SablePP";
         public string Namespace
         {
             get { return HasNamespaces ? Namespaces.First().Text : DefaultName; }
