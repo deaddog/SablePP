@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using SablePP.Tools.Analysis;
 using SablePP.Tools.Nodes;
 using SablePP.Compiler.Nodes;
@@ -8,1639 +8,1201 @@ namespace SablePP.Compiler.Analysis
 {
     #region Analysis adapters
     
-    public class AnalysisAdapter : AnalysisAdapter<object>
+    public partial class AnalysisAdapter : AnalysisAdapter<object>
     {
     }
-    public class AnalysisAdapter<Value> : Adapter<Value, PGrammar>
+    public partial class AnalysisAdapter<Value> : Adapter<Value, PGrammar>
     {
-        public void Visit(AGrammar node)
+        public void Visit(PGrammar node)
         {
-            CaseAGrammar(node);
+            HandlePGrammar(node);
         }
-        public virtual void CaseAGrammar(AGrammar node)
+        protected virtual void HandlePGrammar(PGrammar node)
         {
-            HandleDefault(node);
+            dispatch((dynamic)node);
         }
-        public void Visit(ANamespaceSection node)
+        private void dispatch(AGrammar node)
         {
-            CaseANamespaceSection(node);
+            HandleAGrammar(node);
         }
-        public virtual void CaseANamespaceSection(ANamespaceSection node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AHelpersSection node)
-        {
-            CaseAHelpersSection(node);
-        }
-        public virtual void CaseAHelpersSection(AHelpersSection node)
+        protected virtual void HandleAGrammar(AGrammar node)
         {
             HandleDefault(node);
         }
-        public void Visit(AStatesSection node)
+        
+        public void Visit(PSection node)
         {
-            CaseAStatesSection(node);
+            HandlePSection(node);
         }
-        public virtual void CaseAStatesSection(AStatesSection node)
+        protected virtual void HandlePSection(PSection node)
         {
-            HandleDefault(node);
+            dispatch((dynamic)node);
         }
-        public void Visit(ATokensSection node)
+        private void dispatch(ANamespaceSection node)
         {
-            CaseATokensSection(node);
+            HandleANamespaceSection(node);
         }
-        public virtual void CaseATokensSection(ATokensSection node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AIgnoreSection node)
-        {
-            CaseAIgnoreSection(node);
-        }
-        public virtual void CaseAIgnoreSection(AIgnoreSection node)
+        protected virtual void HandleANamespaceSection(ANamespaceSection node)
         {
             HandleDefault(node);
         }
-        public void Visit(AProductionsSection node)
+        private void dispatch(AHelpersSection node)
         {
-            CaseAProductionsSection(node);
+            HandleAHelpersSection(node);
         }
-        public virtual void CaseAProductionsSection(AProductionsSection node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AASTSection node)
-        {
-            CaseAASTSection(node);
-        }
-        public virtual void CaseAASTSection(AASTSection node)
+        protected virtual void HandleAHelpersSection(AHelpersSection node)
         {
             HandleDefault(node);
         }
-        public void Visit(AHighlightSection node)
+        private void dispatch(AStatesSection node)
         {
-            CaseAHighlightSection(node);
+            HandleAStatesSection(node);
         }
-        public virtual void CaseAHighlightSection(AHighlightSection node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AHelper node)
-        {
-            CaseAHelper(node);
-        }
-        public virtual void CaseAHelper(AHelper node)
+        protected virtual void HandleAStatesSection(AStatesSection node)
         {
             HandleDefault(node);
         }
-        public void Visit(AToken node)
+        private void dispatch(ATokensSection node)
         {
-            CaseAToken(node);
+            HandleATokensSection(node);
         }
-        public virtual void CaseAToken(AToken node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(ATokenlookahead node)
-        {
-            CaseATokenlookahead(node);
-        }
-        public virtual void CaseATokenlookahead(ATokenlookahead node)
+        protected virtual void HandleATokensSection(ATokensSection node)
         {
             HandleDefault(node);
         }
-        public void Visit(ACharRegex node)
+        private void dispatch(AIgnoreSection node)
         {
-            CaseACharRegex(node);
+            HandleAIgnoreSection(node);
         }
-        public virtual void CaseACharRegex(ACharRegex node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(ADecRegex node)
-        {
-            CaseADecRegex(node);
-        }
-        public virtual void CaseADecRegex(ADecRegex node)
+        protected virtual void HandleAIgnoreSection(AIgnoreSection node)
         {
             HandleDefault(node);
         }
-        public void Visit(AHexRegex node)
+        private void dispatch(AProductionsSection node)
         {
-            CaseAHexRegex(node);
+            HandleAProductionsSection(node);
         }
-        public virtual void CaseAHexRegex(AHexRegex node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AConcatenatedRegex node)
-        {
-            CaseAConcatenatedRegex(node);
-        }
-        public virtual void CaseAConcatenatedRegex(AConcatenatedRegex node)
+        protected virtual void HandleAProductionsSection(AProductionsSection node)
         {
             HandleDefault(node);
         }
-        public void Visit(AUnaryRegex node)
+        private void dispatch(AASTSection node)
         {
-            CaseAUnaryRegex(node);
+            HandleAASTSection(node);
         }
-        public virtual void CaseAUnaryRegex(AUnaryRegex node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(ABinaryplusRegex node)
-        {
-            CaseABinaryplusRegex(node);
-        }
-        public virtual void CaseABinaryplusRegex(ABinaryplusRegex node)
+        protected virtual void HandleAASTSection(AASTSection node)
         {
             HandleDefault(node);
         }
-        public void Visit(ABinaryminusRegex node)
+        private void dispatch(AHighlightSection node)
         {
-            CaseABinaryminusRegex(node);
+            HandleAHighlightSection(node);
         }
-        public virtual void CaseABinaryminusRegex(ABinaryminusRegex node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AIntervalRegex node)
-        {
-            CaseAIntervalRegex(node);
-        }
-        public virtual void CaseAIntervalRegex(AIntervalRegex node)
+        protected virtual void HandleAHighlightSection(AHighlightSection node)
         {
             HandleDefault(node);
         }
-        public void Visit(AStringRegex node)
+        
+        public void Visit(PHelper node)
         {
-            CaseAStringRegex(node);
+            HandlePHelper(node);
         }
-        public virtual void CaseAStringRegex(AStringRegex node)
+        protected virtual void HandlePHelper(PHelper node)
         {
-            HandleDefault(node);
+            dispatch((dynamic)node);
         }
-        public void Visit(AIdentifierRegex node)
+        private void dispatch(AHelper node)
         {
-            CaseAIdentifierRegex(node);
+            HandleAHelper(node);
         }
-        public virtual void CaseAIdentifierRegex(AIdentifierRegex node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AParenthesisRegex node)
-        {
-            CaseAParenthesisRegex(node);
-        }
-        public virtual void CaseAParenthesisRegex(AParenthesisRegex node)
+        protected virtual void HandleAHelper(AHelper node)
         {
             HandleDefault(node);
         }
-        public void Visit(AOrRegex node)
+        
+        public void Visit(PToken node)
         {
-            CaseAOrRegex(node);
+            HandlePToken(node);
         }
-        public virtual void CaseAOrRegex(AOrRegex node)
+        protected virtual void HandlePToken(PToken node)
         {
-            HandleDefault(node);
+            dispatch((dynamic)node);
         }
-        public void Visit(AStarModifier node)
+        private void dispatch(AToken node)
         {
-            CaseAStarModifier(node);
+            HandleAToken(node);
         }
-        public virtual void CaseAStarModifier(AStarModifier node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AQuestionModifier node)
-        {
-            CaseAQuestionModifier(node);
-        }
-        public virtual void CaseAQuestionModifier(AQuestionModifier node)
+        protected virtual void HandleAToken(AToken node)
         {
             HandleDefault(node);
         }
-        public void Visit(APlusModifier node)
+        
+        public void Visit(PTokenlookahead node)
         {
-            CaseAPlusModifier(node);
+            HandlePTokenlookahead(node);
         }
-        public virtual void CaseAPlusModifier(APlusModifier node)
+        protected virtual void HandlePTokenlookahead(PTokenlookahead node)
         {
-            HandleDefault(node);
+            dispatch((dynamic)node);
         }
-        public void Visit(AState node)
+        private void dispatch(ATokenlookahead node)
         {
-            CaseAState(node);
+            HandleATokenlookahead(node);
         }
-        public virtual void CaseAState(AState node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(ATokenState node)
-        {
-            CaseATokenState(node);
-        }
-        public virtual void CaseATokenState(ATokenState node)
+        protected virtual void HandleATokenlookahead(ATokenlookahead node)
         {
             HandleDefault(node);
         }
-        public void Visit(ATransitionTokenState node)
+        
+        public void Visit(PRegex node)
         {
-            CaseATransitionTokenState(node);
+            HandlePRegex(node);
         }
-        public virtual void CaseATransitionTokenState(ATransitionTokenState node)
+        protected virtual void HandlePRegex(PRegex node)
         {
-            HandleDefault(node);
+            dispatch((dynamic)node);
         }
-        public void Visit(AProduction node)
+        private void dispatch(ACharRegex node)
         {
-            CaseAProduction(node);
+            HandleACharRegex(node);
         }
-        public virtual void CaseAProduction(AProduction node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AProdtranslation node)
-        {
-            CaseAProdtranslation(node);
-        }
-        public virtual void CaseAProdtranslation(AProdtranslation node)
+        protected virtual void HandleACharRegex(ACharRegex node)
         {
             HandleDefault(node);
         }
-        public void Visit(AFullTranslation node)
+        private void dispatch(ADecRegex node)
         {
-            CaseAFullTranslation(node);
+            HandleADecRegex(node);
         }
-        public virtual void CaseAFullTranslation(AFullTranslation node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(ANewTranslation node)
-        {
-            CaseANewTranslation(node);
-        }
-        public virtual void CaseANewTranslation(ANewTranslation node)
+        protected virtual void HandleADecRegex(ADecRegex node)
         {
             HandleDefault(node);
         }
-        public void Visit(ANewalternativeTranslation node)
+        private void dispatch(AHexRegex node)
         {
-            CaseANewalternativeTranslation(node);
+            HandleAHexRegex(node);
         }
-        public virtual void CaseANewalternativeTranslation(ANewalternativeTranslation node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AListTranslation node)
-        {
-            CaseAListTranslation(node);
-        }
-        public virtual void CaseAListTranslation(AListTranslation node)
+        protected virtual void HandleAHexRegex(AHexRegex node)
         {
             HandleDefault(node);
         }
-        public void Visit(ANullTranslation node)
+        private void dispatch(AConcatenatedRegex node)
         {
-            CaseANullTranslation(node);
+            HandleAConcatenatedRegex(node);
         }
-        public virtual void CaseANullTranslation(ANullTranslation node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AIdTranslation node)
-        {
-            CaseAIdTranslation(node);
-        }
-        public virtual void CaseAIdTranslation(AIdTranslation node)
+        protected virtual void HandleAConcatenatedRegex(AConcatenatedRegex node)
         {
             HandleDefault(node);
         }
-        public void Visit(AIddotidTranslation node)
+        private void dispatch(AUnaryRegex node)
         {
-            CaseAIddotidTranslation(node);
+            HandleAUnaryRegex(node);
         }
-        public virtual void CaseAIddotidTranslation(AIddotidTranslation node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AAlternative node)
-        {
-            CaseAAlternative(node);
-        }
-        public virtual void CaseAAlternative(AAlternative node)
+        protected virtual void HandleAUnaryRegex(AUnaryRegex node)
         {
             HandleDefault(node);
         }
-        public void Visit(AAlternativename node)
+        private void dispatch(ABinaryplusRegex node)
         {
-            CaseAAlternativename(node);
+            HandleABinaryplusRegex(node);
         }
-        public virtual void CaseAAlternativename(AAlternativename node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AElement node)
-        {
-            CaseAElement(node);
-        }
-        public virtual void CaseAElement(AElement node)
+        protected virtual void HandleABinaryplusRegex(ABinaryplusRegex node)
         {
             HandleDefault(node);
         }
-        public void Visit(AElementname node)
+        private void dispatch(ABinaryminusRegex node)
         {
-            CaseAElementname(node);
+            HandleABinaryminusRegex(node);
         }
-        public virtual void CaseAElementname(AElementname node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(ACleanElementid node)
-        {
-            CaseACleanElementid(node);
-        }
-        public virtual void CaseACleanElementid(ACleanElementid node)
+        protected virtual void HandleABinaryminusRegex(ABinaryminusRegex node)
         {
             HandleDefault(node);
         }
-        public void Visit(ATokenElementid node)
+        private void dispatch(AIntervalRegex node)
         {
-            CaseATokenElementid(node);
+            HandleAIntervalRegex(node);
         }
-        public virtual void CaseATokenElementid(ATokenElementid node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AProductionElementid node)
-        {
-            CaseAProductionElementid(node);
-        }
-        public virtual void CaseAProductionElementid(AProductionElementid node)
+        protected virtual void HandleAIntervalRegex(AIntervalRegex node)
         {
             HandleDefault(node);
         }
-        public void Visit(AHighlightrule node)
+        private void dispatch(AStringRegex node)
         {
-            CaseAHighlightrule(node);
+            HandleAStringRegex(node);
         }
-        public virtual void CaseAHighlightrule(AHighlightrule node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AItalicHighlightStyle node)
-        {
-            CaseAItalicHighlightStyle(node);
-        }
-        public virtual void CaseAItalicHighlightStyle(AItalicHighlightStyle node)
+        protected virtual void HandleAStringRegex(AStringRegex node)
         {
             HandleDefault(node);
         }
-        public void Visit(ABoldHighlightStyle node)
+        private void dispatch(AIdentifierRegex node)
         {
-            CaseABoldHighlightStyle(node);
+            HandleAIdentifierRegex(node);
         }
-        public virtual void CaseABoldHighlightStyle(ABoldHighlightStyle node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(ATextHighlightStyle node)
-        {
-            CaseATextHighlightStyle(node);
-        }
-        public virtual void CaseATextHighlightStyle(ATextHighlightStyle node)
+        protected virtual void HandleAIdentifierRegex(AIdentifierRegex node)
         {
             HandleDefault(node);
         }
-        public void Visit(ABackgroundHighlightStyle node)
+        private void dispatch(AParenthesisRegex node)
         {
-            CaseABackgroundHighlightStyle(node);
+            HandleAParenthesisRegex(node);
         }
-        public virtual void CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(ARgbColor node)
-        {
-            CaseARgbColor(node);
-        }
-        public virtual void CaseARgbColor(ARgbColor node)
+        protected virtual void HandleAParenthesisRegex(AParenthesisRegex node)
         {
             HandleDefault(node);
         }
-        public void Visit(AHsvColor node)
+        private void dispatch(AOrRegex node)
         {
-            CaseAHsvColor(node);
+            HandleAOrRegex(node);
         }
-        public virtual void CaseAHsvColor(AHsvColor node)
-        {
-            HandleDefault(node);
-        }
-        public void Visit(AHexColor node)
-        {
-            CaseAHexColor(node);
-        }
-        public virtual void CaseAHexColor(AHexColor node)
+        protected virtual void HandleAOrRegex(AOrRegex node)
         {
             HandleDefault(node);
         }
+        
+        public void Visit(PModifier node)
+        {
+            HandlePModifier(node);
+        }
+        protected virtual void HandlePModifier(PModifier node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(AStarModifier node)
+        {
+            HandleAStarModifier(node);
+        }
+        protected virtual void HandleAStarModifier(AStarModifier node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(AQuestionModifier node)
+        {
+            HandleAQuestionModifier(node);
+        }
+        protected virtual void HandleAQuestionModifier(AQuestionModifier node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(APlusModifier node)
+        {
+            HandleAPlusModifier(node);
+        }
+        protected virtual void HandleAPlusModifier(APlusModifier node)
+        {
+            HandleDefault(node);
+        }
+        
+        public void Visit(PState node)
+        {
+            HandlePState(node);
+        }
+        protected virtual void HandlePState(PState node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(AState node)
+        {
+            HandleAState(node);
+        }
+        protected virtual void HandleAState(AState node)
+        {
+            HandleDefault(node);
+        }
+        
+        public void Visit(PTokenState node)
+        {
+            HandlePTokenState(node);
+        }
+        protected virtual void HandlePTokenState(PTokenState node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(ATokenState node)
+        {
+            HandleATokenState(node);
+        }
+        protected virtual void HandleATokenState(ATokenState node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(ATransitionTokenState node)
+        {
+            HandleATransitionTokenState(node);
+        }
+        protected virtual void HandleATransitionTokenState(ATransitionTokenState node)
+        {
+            HandleDefault(node);
+        }
+        
+        public void Visit(PProduction node)
+        {
+            HandlePProduction(node);
+        }
+        protected virtual void HandlePProduction(PProduction node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(AProduction node)
+        {
+            HandleAProduction(node);
+        }
+        protected virtual void HandleAProduction(AProduction node)
+        {
+            HandleDefault(node);
+        }
+        
+        public void Visit(PProdtranslation node)
+        {
+            HandlePProdtranslation(node);
+        }
+        protected virtual void HandlePProdtranslation(PProdtranslation node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(AProdtranslation node)
+        {
+            HandleAProdtranslation(node);
+        }
+        protected virtual void HandleAProdtranslation(AProdtranslation node)
+        {
+            HandleDefault(node);
+        }
+        
+        public void Visit(PTranslation node)
+        {
+            HandlePTranslation(node);
+        }
+        protected virtual void HandlePTranslation(PTranslation node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(AFullTranslation node)
+        {
+            HandleAFullTranslation(node);
+        }
+        protected virtual void HandleAFullTranslation(AFullTranslation node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(ANewTranslation node)
+        {
+            HandleANewTranslation(node);
+        }
+        protected virtual void HandleANewTranslation(ANewTranslation node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(ANewalternativeTranslation node)
+        {
+            HandleANewalternativeTranslation(node);
+        }
+        protected virtual void HandleANewalternativeTranslation(ANewalternativeTranslation node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(AListTranslation node)
+        {
+            HandleAListTranslation(node);
+        }
+        protected virtual void HandleAListTranslation(AListTranslation node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(ANullTranslation node)
+        {
+            HandleANullTranslation(node);
+        }
+        protected virtual void HandleANullTranslation(ANullTranslation node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(AIdTranslation node)
+        {
+            HandleAIdTranslation(node);
+        }
+        protected virtual void HandleAIdTranslation(AIdTranslation node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(AIddotidTranslation node)
+        {
+            HandleAIddotidTranslation(node);
+        }
+        protected virtual void HandleAIddotidTranslation(AIddotidTranslation node)
+        {
+            HandleDefault(node);
+        }
+        
+        public void Visit(PAlternative node)
+        {
+            HandlePAlternative(node);
+        }
+        protected virtual void HandlePAlternative(PAlternative node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(AAlternative node)
+        {
+            HandleAAlternative(node);
+        }
+        protected virtual void HandleAAlternative(AAlternative node)
+        {
+            HandleDefault(node);
+        }
+        
+        public void Visit(PAlternativename node)
+        {
+            HandlePAlternativename(node);
+        }
+        protected virtual void HandlePAlternativename(PAlternativename node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(AAlternativename node)
+        {
+            HandleAAlternativename(node);
+        }
+        protected virtual void HandleAAlternativename(AAlternativename node)
+        {
+            HandleDefault(node);
+        }
+        
+        public void Visit(PElement node)
+        {
+            HandlePElement(node);
+        }
+        protected virtual void HandlePElement(PElement node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(AElement node)
+        {
+            HandleAElement(node);
+        }
+        protected virtual void HandleAElement(AElement node)
+        {
+            HandleDefault(node);
+        }
+        
+        public void Visit(PElementname node)
+        {
+            HandlePElementname(node);
+        }
+        protected virtual void HandlePElementname(PElementname node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(AElementname node)
+        {
+            HandleAElementname(node);
+        }
+        protected virtual void HandleAElementname(AElementname node)
+        {
+            HandleDefault(node);
+        }
+        
+        public void Visit(PElementid node)
+        {
+            HandlePElementid(node);
+        }
+        protected virtual void HandlePElementid(PElementid node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(ACleanElementid node)
+        {
+            HandleACleanElementid(node);
+        }
+        protected virtual void HandleACleanElementid(ACleanElementid node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(ATokenElementid node)
+        {
+            HandleATokenElementid(node);
+        }
+        protected virtual void HandleATokenElementid(ATokenElementid node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(AProductionElementid node)
+        {
+            HandleAProductionElementid(node);
+        }
+        protected virtual void HandleAProductionElementid(AProductionElementid node)
+        {
+            HandleDefault(node);
+        }
+        
+        public void Visit(PHighlightrule node)
+        {
+            HandlePHighlightrule(node);
+        }
+        protected virtual void HandlePHighlightrule(PHighlightrule node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(AHighlightrule node)
+        {
+            HandleAHighlightrule(node);
+        }
+        protected virtual void HandleAHighlightrule(AHighlightrule node)
+        {
+            HandleDefault(node);
+        }
+        
+        public void Visit(PHighlightStyle node)
+        {
+            HandlePHighlightStyle(node);
+        }
+        protected virtual void HandlePHighlightStyle(PHighlightStyle node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(AItalicHighlightStyle node)
+        {
+            HandleAItalicHighlightStyle(node);
+        }
+        protected virtual void HandleAItalicHighlightStyle(AItalicHighlightStyle node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(ABoldHighlightStyle node)
+        {
+            HandleABoldHighlightStyle(node);
+        }
+        protected virtual void HandleABoldHighlightStyle(ABoldHighlightStyle node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(ATextHighlightStyle node)
+        {
+            HandleATextHighlightStyle(node);
+        }
+        protected virtual void HandleATextHighlightStyle(ATextHighlightStyle node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(ABackgroundHighlightStyle node)
+        {
+            HandleABackgroundHighlightStyle(node);
+        }
+        protected virtual void HandleABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        {
+            HandleDefault(node);
+        }
+        
+        public void Visit(PColor node)
+        {
+            HandlePColor(node);
+        }
+        protected virtual void HandlePColor(PColor node)
+        {
+            dispatch((dynamic)node);
+        }
+        private void dispatch(ARgbColor node)
+        {
+            HandleARgbColor(node);
+        }
+        protected virtual void HandleARgbColor(ARgbColor node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(AHsvColor node)
+        {
+            HandleAHsvColor(node);
+        }
+        protected virtual void HandleAHsvColor(AHsvColor node)
+        {
+            HandleDefault(node);
+        }
+        private void dispatch(AHexColor node)
+        {
+            HandleAHexColor(node);
+        }
+        protected virtual void HandleAHexColor(AHexColor node)
+        {
+            HandleDefault(node);
+        }
+        
         public void Visit(TNamespace node)
         {
-            CaseTNamespace(node);
+            HandleTNamespace(node);
         }
-        public virtual void CaseTNamespace(TNamespace node)
+        protected virtual void HandleTNamespace(TNamespace node)
         {
             HandleDefault(node);
         }
         public void Visit(TNamespacetoken node)
         {
-            CaseTNamespacetoken(node);
+            HandleTNamespacetoken(node);
         }
-        public virtual void CaseTNamespacetoken(TNamespacetoken node)
+        protected virtual void HandleTNamespacetoken(TNamespacetoken node)
         {
             HandleDefault(node);
         }
         public void Visit(TStatestoken node)
         {
-            CaseTStatestoken(node);
+            HandleTStatestoken(node);
         }
-        public virtual void CaseTStatestoken(TStatestoken node)
+        protected virtual void HandleTStatestoken(TStatestoken node)
         {
             HandleDefault(node);
         }
         public void Visit(THelperstoken node)
         {
-            CaseTHelperstoken(node);
+            HandleTHelperstoken(node);
         }
-        public virtual void CaseTHelperstoken(THelperstoken node)
+        protected virtual void HandleTHelperstoken(THelperstoken node)
         {
             HandleDefault(node);
         }
         public void Visit(TTokenstoken node)
         {
-            CaseTTokenstoken(node);
+            HandleTTokenstoken(node);
         }
-        public virtual void CaseTTokenstoken(TTokenstoken node)
+        protected virtual void HandleTTokenstoken(TTokenstoken node)
         {
             HandleDefault(node);
         }
         public void Visit(TIgnoredtoken node)
         {
-            CaseTIgnoredtoken(node);
+            HandleTIgnoredtoken(node);
         }
-        public virtual void CaseTIgnoredtoken(TIgnoredtoken node)
+        protected virtual void HandleTIgnoredtoken(TIgnoredtoken node)
         {
             HandleDefault(node);
         }
         public void Visit(TProductionstoken node)
         {
-            CaseTProductionstoken(node);
+            HandleTProductionstoken(node);
         }
-        public virtual void CaseTProductionstoken(TProductionstoken node)
+        protected virtual void HandleTProductionstoken(TProductionstoken node)
         {
             HandleDefault(node);
         }
         public void Visit(TAsttoken node)
         {
-            CaseTAsttoken(node);
+            HandleTAsttoken(node);
         }
-        public virtual void CaseTAsttoken(TAsttoken node)
+        protected virtual void HandleTAsttoken(TAsttoken node)
         {
             HandleDefault(node);
         }
         public void Visit(THighlighttoken node)
         {
-            CaseTHighlighttoken(node);
+            HandleTHighlighttoken(node);
         }
-        public virtual void CaseTHighlighttoken(THighlighttoken node)
+        protected virtual void HandleTHighlighttoken(THighlighttoken node)
         {
             HandleDefault(node);
         }
         public void Visit(TNew node)
         {
-            CaseTNew(node);
+            HandleTNew(node);
         }
-        public virtual void CaseTNew(TNew node)
+        protected virtual void HandleTNew(TNew node)
         {
             HandleDefault(node);
         }
         public void Visit(TNull node)
         {
-            CaseTNull(node);
+            HandleTNull(node);
         }
-        public virtual void CaseTNull(TNull node)
+        protected virtual void HandleTNull(TNull node)
         {
             HandleDefault(node);
         }
         public void Visit(TTokenSpecifier node)
         {
-            CaseTTokenSpecifier(node);
+            HandleTTokenSpecifier(node);
         }
-        public virtual void CaseTTokenSpecifier(TTokenSpecifier node)
+        protected virtual void HandleTTokenSpecifier(TTokenSpecifier node)
         {
             HandleDefault(node);
         }
         public void Visit(TProductionSpecifier node)
         {
-            CaseTProductionSpecifier(node);
+            HandleTProductionSpecifier(node);
         }
-        public virtual void CaseTProductionSpecifier(TProductionSpecifier node)
+        protected virtual void HandleTProductionSpecifier(TProductionSpecifier node)
         {
             HandleDefault(node);
         }
         public void Visit(TDot node)
         {
-            CaseTDot(node);
+            HandleTDot(node);
         }
-        public virtual void CaseTDot(TDot node)
+        protected virtual void HandleTDot(TDot node)
         {
             HandleDefault(node);
         }
         public void Visit(TDDot node)
         {
-            CaseTDDot(node);
+            HandleTDDot(node);
         }
-        public virtual void CaseTDDot(TDDot node)
+        protected virtual void HandleTDDot(TDDot node)
         {
             HandleDefault(node);
         }
         public void Visit(TSemicolon node)
         {
-            CaseTSemicolon(node);
+            HandleTSemicolon(node);
         }
-        public virtual void CaseTSemicolon(TSemicolon node)
+        protected virtual void HandleTSemicolon(TSemicolon node)
         {
             HandleDefault(node);
         }
         public void Visit(TEqual node)
         {
-            CaseTEqual(node);
+            HandleTEqual(node);
         }
-        public virtual void CaseTEqual(TEqual node)
+        protected virtual void HandleTEqual(TEqual node)
         {
             HandleDefault(node);
         }
         public void Visit(TLBkt node)
         {
-            CaseTLBkt(node);
+            HandleTLBkt(node);
         }
-        public virtual void CaseTLBkt(TLBkt node)
+        protected virtual void HandleTLBkt(TLBkt node)
         {
             HandleDefault(node);
         }
         public void Visit(TRBkt node)
         {
-            CaseTRBkt(node);
+            HandleTRBkt(node);
         }
-        public virtual void CaseTRBkt(TRBkt node)
+        protected virtual void HandleTRBkt(TRBkt node)
         {
             HandleDefault(node);
         }
         public void Visit(TLPar node)
         {
-            CaseTLPar(node);
+            HandleTLPar(node);
         }
-        public virtual void CaseTLPar(TLPar node)
+        protected virtual void HandleTLPar(TLPar node)
         {
             HandleDefault(node);
         }
         public void Visit(TRPar node)
         {
-            CaseTRPar(node);
+            HandleTRPar(node);
         }
-        public virtual void CaseTRPar(TRPar node)
+        protected virtual void HandleTRPar(TRPar node)
         {
             HandleDefault(node);
         }
         public void Visit(TLBrace node)
         {
-            CaseTLBrace(node);
+            HandleTLBrace(node);
         }
-        public virtual void CaseTLBrace(TLBrace node)
+        protected virtual void HandleTLBrace(TLBrace node)
         {
             HandleDefault(node);
         }
         public void Visit(TRBrace node)
         {
-            CaseTRBrace(node);
+            HandleTRBrace(node);
         }
-        public virtual void CaseTRBrace(TRBrace node)
+        protected virtual void HandleTRBrace(TRBrace node)
         {
             HandleDefault(node);
         }
         public void Visit(TPlus node)
         {
-            CaseTPlus(node);
+            HandleTPlus(node);
         }
-        public virtual void CaseTPlus(TPlus node)
+        protected virtual void HandleTPlus(TPlus node)
         {
             HandleDefault(node);
         }
         public void Visit(TMinus node)
         {
-            CaseTMinus(node);
+            HandleTMinus(node);
         }
-        public virtual void CaseTMinus(TMinus node)
+        protected virtual void HandleTMinus(TMinus node)
         {
             HandleDefault(node);
         }
         public void Visit(TQMark node)
         {
-            CaseTQMark(node);
+            HandleTQMark(node);
         }
-        public virtual void CaseTQMark(TQMark node)
+        protected virtual void HandleTQMark(TQMark node)
         {
             HandleDefault(node);
         }
         public void Visit(TStar node)
         {
-            CaseTStar(node);
+            HandleTStar(node);
         }
-        public virtual void CaseTStar(TStar node)
+        protected virtual void HandleTStar(TStar node)
         {
             HandleDefault(node);
         }
         public void Visit(TPipe node)
         {
-            CaseTPipe(node);
+            HandleTPipe(node);
         }
-        public virtual void CaseTPipe(TPipe node)
+        protected virtual void HandleTPipe(TPipe node)
         {
             HandleDefault(node);
         }
         public void Visit(TComma node)
         {
-            CaseTComma(node);
+            HandleTComma(node);
         }
-        public virtual void CaseTComma(TComma node)
+        protected virtual void HandleTComma(TComma node)
         {
             HandleDefault(node);
         }
         public void Visit(TSlash node)
         {
-            CaseTSlash(node);
+            HandleTSlash(node);
         }
-        public virtual void CaseTSlash(TSlash node)
+        protected virtual void HandleTSlash(TSlash node)
         {
             HandleDefault(node);
         }
         public void Visit(TArrow node)
         {
-            CaseTArrow(node);
+            HandleTArrow(node);
         }
-        public virtual void CaseTArrow(TArrow node)
+        protected virtual void HandleTArrow(TArrow node)
         {
             HandleDefault(node);
         }
         public void Visit(TColon node)
         {
-            CaseTColon(node);
+            HandleTColon(node);
         }
-        public virtual void CaseTColon(TColon node)
+        protected virtual void HandleTColon(TColon node)
         {
             HandleDefault(node);
         }
         public void Visit(TIdentifier node)
         {
-            CaseTIdentifier(node);
+            HandleTIdentifier(node);
         }
-        public virtual void CaseTIdentifier(TIdentifier node)
+        protected virtual void HandleTIdentifier(TIdentifier node)
         {
             HandleDefault(node);
         }
         public void Visit(TCharacter node)
         {
-            CaseTCharacter(node);
+            HandleTCharacter(node);
         }
-        public virtual void CaseTCharacter(TCharacter node)
+        protected virtual void HandleTCharacter(TCharacter node)
         {
             HandleDefault(node);
         }
         public void Visit(TDecChar node)
         {
-            CaseTDecChar(node);
+            HandleTDecChar(node);
         }
-        public virtual void CaseTDecChar(TDecChar node)
+        protected virtual void HandleTDecChar(TDecChar node)
         {
             HandleDefault(node);
         }
         public void Visit(THexChar node)
         {
-            CaseTHexChar(node);
+            HandleTHexChar(node);
         }
-        public virtual void CaseTHexChar(THexChar node)
+        protected virtual void HandleTHexChar(THexChar node)
         {
             HandleDefault(node);
         }
         public void Visit(TString node)
         {
-            CaseTString(node);
+            HandleTString(node);
         }
-        public virtual void CaseTString(TString node)
+        protected virtual void HandleTString(TString node)
         {
             HandleDefault(node);
         }
         public void Visit(TBlank node)
         {
-            CaseTBlank(node);
+            HandleTBlank(node);
         }
-        public virtual void CaseTBlank(TBlank node)
+        protected virtual void HandleTBlank(TBlank node)
         {
             HandleDefault(node);
         }
         public void Visit(TComment node)
         {
-            CaseTComment(node);
+            HandleTComment(node);
         }
-        public virtual void CaseTComment(TComment node)
+        protected virtual void HandleTComment(TComment node)
         {
             HandleDefault(node);
         }
         public void Visit(TItalic node)
         {
-            CaseTItalic(node);
+            HandleTItalic(node);
         }
-        public virtual void CaseTItalic(TItalic node)
+        protected virtual void HandleTItalic(TItalic node)
         {
             HandleDefault(node);
         }
         public void Visit(TBold node)
         {
-            CaseTBold(node);
+            HandleTBold(node);
         }
-        public virtual void CaseTBold(TBold node)
+        protected virtual void HandleTBold(TBold node)
         {
             HandleDefault(node);
         }
         public void Visit(TText node)
         {
-            CaseTText(node);
+            HandleTText(node);
         }
-        public virtual void CaseTText(TText node)
+        protected virtual void HandleTText(TText node)
         {
             HandleDefault(node);
         }
         public void Visit(TBackground node)
         {
-            CaseTBackground(node);
+            HandleTBackground(node);
         }
-        public virtual void CaseTBackground(TBackground node)
+        protected virtual void HandleTBackground(TBackground node)
         {
             HandleDefault(node);
         }
         public void Visit(TRgb node)
         {
-            CaseTRgb(node);
+            HandleTRgb(node);
         }
-        public virtual void CaseTRgb(TRgb node)
+        protected virtual void HandleTRgb(TRgb node)
         {
             HandleDefault(node);
         }
         public void Visit(THsv node)
         {
-            CaseTHsv(node);
+            HandleTHsv(node);
         }
-        public virtual void CaseTHsv(THsv node)
+        protected virtual void HandleTHsv(THsv node)
         {
             HandleDefault(node);
         }
         public void Visit(THexColor node)
         {
-            CaseTHexColor(node);
+            HandleTHexColor(node);
         }
-        public virtual void CaseTHexColor(THexColor node)
+        protected virtual void HandleTHexColor(THexColor node)
         {
             HandleDefault(node);
         }
     }
     
-    public class DepthFirstAdapter : DepthFirstAdapter<object>
+    public partial class DepthFirstAdapter : DepthFirstAdapter<object>
     {
     }
-    public class DepthFirstAdapter<Value> : AnalysisAdapter<Value>
+    public partial class DepthFirstAdapter<Value> : AnalysisAdapter<Value>
     {
-        public void Visit<Element>(Production.NodeList<Element> elements) where Element : Node
+        public void Visit<Element>(IEnumerable<Element> elements) where Element : Node
         {
-            Element[] temp = new Element[elements.Count];
-            elements.CopyTo(temp, 0);
+            Element[] temp = elements.ToArray();
             for (int i = 0; i < temp.Length; i++)
                 Visit((dynamic)temp[i]);
         }
         
-        public virtual void InStart(Start<PGrammar> node)
-        {
-        }
-        public virtual void OutStart(Start<PGrammar> node)
-        {
-        }
         protected override void HandleStart(Start<PGrammar> node)
         {
-            InStart(node);
-            
-            Visit((dynamic)node.Root);
+            Visit(node.Root);
             Visit(node.EOF);
-            
-            OutStart(node);
         }
         
-        public virtual void DefaultPIn(Node node)
+        protected override void HandleAGrammar(AGrammar node)
         {
-        }
-        public virtual void DefaultPOut(Node node)
-        {
-        }
-        public virtual void DefaultAIn(Node node)
-        {
-        }
-        public virtual void DefaultAOut(Node node)
-        {
-        }
-        
-        public virtual void InPGrammar(PGrammar node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPGrammar(PGrammar node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAGrammar(AGrammar node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAGrammar(AGrammar node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAGrammar(AGrammar node)
-        {
-            InPGrammar(node);
-            InAGrammar(node);
-            
             Visit(node.Sections);
-            
-            OutAGrammar(node);
-            OutPGrammar(node);
         }
-        
-        public virtual void InPSection(PSection node)
+        protected override void HandleANamespaceSection(ANamespaceSection node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPSection(PSection node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InANamespaceSection(ANamespaceSection node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutANamespaceSection(ANamespaceSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseANamespaceSection(ANamespaceSection node)
-        {
-            InPSection(node);
-            InANamespaceSection(node);
-            
             Visit(node.Namespacetoken);
             Visit(node.Namespace);
             Visit(node.Semicolon);
-            
-            OutANamespaceSection(node);
-            OutPSection(node);
         }
-        public virtual void InAHelpersSection(AHelpersSection node)
+        protected override void HandleAHelpersSection(AHelpersSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHelpersSection(AHelpersSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHelpersSection(AHelpersSection node)
-        {
-            InPSection(node);
-            InAHelpersSection(node);
-            
             Visit(node.Helperstoken);
             Visit(node.Helpers);
-            
-            OutAHelpersSection(node);
-            OutPSection(node);
         }
-        public virtual void InAStatesSection(AStatesSection node)
+        protected override void HandleAStatesSection(AStatesSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStatesSection(AStatesSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStatesSection(AStatesSection node)
-        {
-            InPSection(node);
-            InAStatesSection(node);
-            
             Visit(node.Statestoken);
             Visit(node.States);
             Visit(node.Semicolon);
-            
-            OutAStatesSection(node);
-            OutPSection(node);
         }
-        public virtual void InATokensSection(ATokensSection node)
+        protected override void HandleATokensSection(ATokensSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutATokensSection(ATokensSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATokensSection(ATokensSection node)
-        {
-            InPSection(node);
-            InATokensSection(node);
-            
             Visit(node.Tokenstoken);
             Visit(node.Tokens);
-            
-            OutATokensSection(node);
-            OutPSection(node);
         }
-        public virtual void InAIgnoreSection(AIgnoreSection node)
+        protected override void HandleAIgnoreSection(AIgnoreSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIgnoreSection(AIgnoreSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIgnoreSection(AIgnoreSection node)
-        {
-            InPSection(node);
-            InAIgnoreSection(node);
-            
             Visit(node.Ignoredtoken);
             Visit(node.Tokenstoken);
             Visit(node.Tokens);
             Visit(node.Semicolon);
-            
-            OutAIgnoreSection(node);
-            OutPSection(node);
         }
-        public virtual void InAProductionsSection(AProductionsSection node)
+        protected override void HandleAProductionsSection(AProductionsSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProductionsSection(AProductionsSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProductionsSection(AProductionsSection node)
-        {
-            InPSection(node);
-            InAProductionsSection(node);
-            
             Visit(node.Productionstoken);
             Visit(node.Productions);
-            
-            OutAProductionsSection(node);
-            OutPSection(node);
         }
-        public virtual void InAASTSection(AASTSection node)
+        protected override void HandleAASTSection(AASTSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAASTSection(AASTSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAASTSection(AASTSection node)
-        {
-            InPSection(node);
-            InAASTSection(node);
-            
             Visit(node.Asttoken);
             Visit(node.Productions);
-            
-            OutAASTSection(node);
-            OutPSection(node);
         }
-        public virtual void InAHighlightSection(AHighlightSection node)
+        protected override void HandleAHighlightSection(AHighlightSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHighlightSection(AHighlightSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHighlightSection(AHighlightSection node)
-        {
-            InPSection(node);
-            InAHighlightSection(node);
-            
             Visit(node.Highlighttoken);
             Visit(node.Highlightrules);
-            
-            OutAHighlightSection(node);
-            OutPSection(node);
         }
-        
-        public virtual void InPHelper(PHelper node)
+        protected override void HandleAHelper(AHelper node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPHelper(PHelper node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAHelper(AHelper node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHelper(AHelper node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHelper(AHelper node)
-        {
-            InPHelper(node);
-            InAHelper(node);
-            
             Visit(node.Identifier);
             Visit(node.Equal);
-            Visit((dynamic)node.Regex);
+            Visit(node.Regex);
             Visit(node.Semicolon);
-            
-            OutAHelper(node);
-            OutPHelper(node);
         }
-        
-        public virtual void InPToken(PToken node)
+        protected override void HandleAToken(AToken node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPToken(PToken node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAToken(AToken node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAToken(AToken node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAToken(AToken node)
-        {
-            InPToken(node);
-            InAToken(node);
-            
             Visit(node.Statelist);
             Visit(node.Identifier);
             Visit(node.Equal);
-            Visit((dynamic)node.Regex);
+            Visit(node.Regex);
             if (node.HasTokenlookahead)
-                Visit((dynamic)node.Tokenlookahead);
+                Visit(node.Tokenlookahead);
             Visit(node.Semicolon);
-            
-            OutAToken(node);
-            OutPToken(node);
         }
-        
-        public virtual void InPTokenlookahead(PTokenlookahead node)
+        protected override void HandleATokenlookahead(ATokenlookahead node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTokenlookahead(PTokenlookahead node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InATokenlookahead(ATokenlookahead node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutATokenlookahead(ATokenlookahead node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATokenlookahead(ATokenlookahead node)
-        {
-            InPTokenlookahead(node);
-            InATokenlookahead(node);
-            
             Visit(node.Slash);
-            Visit((dynamic)node.Regex);
-            
-            OutATokenlookahead(node);
-            OutPTokenlookahead(node);
+            Visit(node.Regex);
         }
-        
-        public virtual void InPRegex(PRegex node)
+        protected override void HandleACharRegex(ACharRegex node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPRegex(PRegex node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InACharRegex(ACharRegex node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutACharRegex(ACharRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseACharRegex(ACharRegex node)
-        {
-            InPRegex(node);
-            InACharRegex(node);
-            
             Visit(node.Character);
-            
-            OutACharRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InADecRegex(ADecRegex node)
+        protected override void HandleADecRegex(ADecRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutADecRegex(ADecRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseADecRegex(ADecRegex node)
-        {
-            InPRegex(node);
-            InADecRegex(node);
-            
             Visit(node.DecChar);
-            
-            OutADecRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAHexRegex(AHexRegex node)
+        protected override void HandleAHexRegex(AHexRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHexRegex(AHexRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHexRegex(AHexRegex node)
-        {
-            InPRegex(node);
-            InAHexRegex(node);
-            
             Visit(node.HexChar);
-            
-            OutAHexRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAConcatenatedRegex(AConcatenatedRegex node)
+        protected override void HandleAConcatenatedRegex(AConcatenatedRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAConcatenatedRegex(AConcatenatedRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAConcatenatedRegex(AConcatenatedRegex node)
-        {
-            InPRegex(node);
-            InAConcatenatedRegex(node);
-            
             Visit(node.Regexs);
-            
-            OutAConcatenatedRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAUnaryRegex(AUnaryRegex node)
+        protected override void HandleAUnaryRegex(AUnaryRegex node)
         {
-            DefaultAIn(node);
+            Visit(node.Regex);
+            Visit(node.Modifier);
         }
-        public virtual void OutAUnaryRegex(AUnaryRegex node)
+        protected override void HandleABinaryplusRegex(ABinaryplusRegex node)
         {
-            DefaultAOut(node);
-        }
-        public override void CaseAUnaryRegex(AUnaryRegex node)
-        {
-            InPRegex(node);
-            InAUnaryRegex(node);
-            
-            Visit((dynamic)node.Regex);
-            Visit((dynamic)node.Modifier);
-            
-            OutAUnaryRegex(node);
-            OutPRegex(node);
-        }
-        public virtual void InABinaryplusRegex(ABinaryplusRegex node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutABinaryplusRegex(ABinaryplusRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseABinaryplusRegex(ABinaryplusRegex node)
-        {
-            InPRegex(node);
-            InABinaryplusRegex(node);
-            
             Visit(node.Lpar);
-            Visit((dynamic)node.Left);
+            Visit(node.Left);
             Visit(node.Plus);
-            Visit((dynamic)node.Right);
+            Visit(node.Right);
             Visit(node.Rpar);
-            
-            OutABinaryplusRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InABinaryminusRegex(ABinaryminusRegex node)
+        protected override void HandleABinaryminusRegex(ABinaryminusRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutABinaryminusRegex(ABinaryminusRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseABinaryminusRegex(ABinaryminusRegex node)
-        {
-            InPRegex(node);
-            InABinaryminusRegex(node);
-            
             Visit(node.Lpar);
-            Visit((dynamic)node.Left);
+            Visit(node.Left);
             Visit(node.Minus);
-            Visit((dynamic)node.Right);
+            Visit(node.Right);
             Visit(node.Rpar);
-            
-            OutABinaryminusRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAIntervalRegex(AIntervalRegex node)
+        protected override void HandleAIntervalRegex(AIntervalRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIntervalRegex(AIntervalRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIntervalRegex(AIntervalRegex node)
-        {
-            InPRegex(node);
-            InAIntervalRegex(node);
-            
             Visit(node.Lpar);
-            Visit((dynamic)node.Left);
+            Visit(node.Left);
             Visit(node.Dots);
-            Visit((dynamic)node.Right);
+            Visit(node.Right);
             Visit(node.Rpar);
-            
-            OutAIntervalRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAStringRegex(AStringRegex node)
+        protected override void HandleAStringRegex(AStringRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStringRegex(AStringRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStringRegex(AStringRegex node)
-        {
-            InPRegex(node);
-            InAStringRegex(node);
-            
             Visit(node.String);
-            
-            OutAStringRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAIdentifierRegex(AIdentifierRegex node)
+        protected override void HandleAIdentifierRegex(AIdentifierRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIdentifierRegex(AIdentifierRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIdentifierRegex(AIdentifierRegex node)
-        {
-            InPRegex(node);
-            InAIdentifierRegex(node);
-            
             Visit(node.Identifier);
-            
-            OutAIdentifierRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAParenthesisRegex(AParenthesisRegex node)
+        protected override void HandleAParenthesisRegex(AParenthesisRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAParenthesisRegex(AParenthesisRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAParenthesisRegex(AParenthesisRegex node)
-        {
-            InPRegex(node);
-            InAParenthesisRegex(node);
-            
             Visit(node.Lpar);
-            Visit((dynamic)node.Regex);
+            Visit(node.Regex);
             Visit(node.Rpar);
-            
-            OutAParenthesisRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAOrRegex(AOrRegex node)
+        protected override void HandleAOrRegex(AOrRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAOrRegex(AOrRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAOrRegex(AOrRegex node)
-        {
-            InPRegex(node);
-            InAOrRegex(node);
-            
             Visit(node.Regexs);
-            
-            OutAOrRegex(node);
-            OutPRegex(node);
         }
-        
-        public virtual void InPModifier(PModifier node)
+        protected override void HandleAStarModifier(AStarModifier node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPModifier(PModifier node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAStarModifier(AStarModifier node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStarModifier(AStarModifier node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStarModifier(AStarModifier node)
-        {
-            InPModifier(node);
-            InAStarModifier(node);
-            
             Visit(node.Star);
-            
-            OutAStarModifier(node);
-            OutPModifier(node);
         }
-        public virtual void InAQuestionModifier(AQuestionModifier node)
+        protected override void HandleAQuestionModifier(AQuestionModifier node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAQuestionModifier(AQuestionModifier node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAQuestionModifier(AQuestionModifier node)
-        {
-            InPModifier(node);
-            InAQuestionModifier(node);
-            
             Visit(node.QMark);
-            
-            OutAQuestionModifier(node);
-            OutPModifier(node);
         }
-        public virtual void InAPlusModifier(APlusModifier node)
+        protected override void HandleAPlusModifier(APlusModifier node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAPlusModifier(APlusModifier node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAPlusModifier(APlusModifier node)
-        {
-            InPModifier(node);
-            InAPlusModifier(node);
-            
             Visit(node.Plus);
-            
-            OutAPlusModifier(node);
-            OutPModifier(node);
         }
-        
-        public virtual void InPState(PState node)
+        protected override void HandleAState(AState node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPState(PState node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAState(AState node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAState(AState node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAState(AState node)
-        {
-            InPState(node);
-            InAState(node);
-            
             Visit(node.Identifier);
-            
-            OutAState(node);
-            OutPState(node);
         }
-        
-        public virtual void InPTokenState(PTokenState node)
+        protected override void HandleATokenState(ATokenState node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTokenState(PTokenState node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InATokenState(ATokenState node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutATokenState(ATokenState node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATokenState(ATokenState node)
-        {
-            InPTokenState(node);
-            InATokenState(node);
-            
             Visit(node.Identifier);
-            
-            OutATokenState(node);
-            OutPTokenState(node);
         }
-        public virtual void InATransitionTokenState(ATransitionTokenState node)
+        protected override void HandleATransitionTokenState(ATransitionTokenState node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutATransitionTokenState(ATransitionTokenState node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATransitionTokenState(ATransitionTokenState node)
-        {
-            InPTokenState(node);
-            InATransitionTokenState(node);
-            
             Visit(node.From);
             Visit(node.Arrow);
             Visit(node.To);
-            
-            OutATransitionTokenState(node);
-            OutPTokenState(node);
         }
-        
-        public virtual void InPProduction(PProduction node)
+        protected override void HandleAProduction(AProduction node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPProduction(PProduction node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAProduction(AProduction node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProduction(AProduction node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProduction(AProduction node)
-        {
-            InPProduction(node);
-            InAProduction(node);
-            
             Visit(node.Identifier);
             if (node.HasProdtranslation)
-                Visit((dynamic)node.Prodtranslation);
+                Visit(node.Prodtranslation);
             Visit(node.Equal);
             Visit(node.Alternatives);
             Visit(node.Semicolon);
-            
-            OutAProduction(node);
-            OutPProduction(node);
         }
-        
-        public virtual void InPProdtranslation(PProdtranslation node)
+        protected override void HandleAProdtranslation(AProdtranslation node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPProdtranslation(PProdtranslation node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAProdtranslation(AProdtranslation node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProdtranslation(AProdtranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProdtranslation(AProdtranslation node)
-        {
-            InPProdtranslation(node);
-            InAProdtranslation(node);
-            
             Visit(node.Arrow);
             Visit(node.Identifier);
             if (node.HasModifier)
-                Visit((dynamic)node.Modifier);
-            
-            OutAProdtranslation(node);
-            OutPProdtranslation(node);
+                Visit(node.Modifier);
         }
-        
-        public virtual void InPTranslation(PTranslation node)
+        protected override void HandleAFullTranslation(AFullTranslation node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTranslation(PTranslation node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAFullTranslation(AFullTranslation node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAFullTranslation(AFullTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAFullTranslation(AFullTranslation node)
-        {
-            InPTranslation(node);
-            InAFullTranslation(node);
-            
             Visit(node.Arrow);
-            Visit((dynamic)node.Translation);
-            
-            OutAFullTranslation(node);
-            OutPTranslation(node);
+            Visit(node.Translation);
         }
-        public virtual void InANewTranslation(ANewTranslation node)
+        protected override void HandleANewTranslation(ANewTranslation node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutANewTranslation(ANewTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseANewTranslation(ANewTranslation node)
-        {
-            InPTranslation(node);
-            InANewTranslation(node);
-            
             Visit(node.New);
             Visit(node.Production);
             Visit(node.Lpar);
             Visit(node.Arguments);
             Visit(node.Rpar);
-            
-            OutANewTranslation(node);
-            OutPTranslation(node);
         }
-        public virtual void InANewalternativeTranslation(ANewalternativeTranslation node)
+        protected override void HandleANewalternativeTranslation(ANewalternativeTranslation node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutANewalternativeTranslation(ANewalternativeTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseANewalternativeTranslation(ANewalternativeTranslation node)
-        {
-            InPTranslation(node);
-            InANewalternativeTranslation(node);
-            
             Visit(node.New);
             Visit(node.Production);
             Visit(node.Dot);
@@ -1648,412 +1210,102 @@ namespace SablePP.Compiler.Analysis
             Visit(node.Lpar);
             Visit(node.Arguments);
             Visit(node.Rpar);
-            
-            OutANewalternativeTranslation(node);
-            OutPTranslation(node);
         }
-        public virtual void InAListTranslation(AListTranslation node)
+        protected override void HandleAListTranslation(AListTranslation node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAListTranslation(AListTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAListTranslation(AListTranslation node)
-        {
-            InPTranslation(node);
-            InAListTranslation(node);
-            
             Visit(node.Lpar);
             Visit(node.Elements);
             Visit(node.Rpar);
-            
-            OutAListTranslation(node);
-            OutPTranslation(node);
         }
-        public virtual void InANullTranslation(ANullTranslation node)
+        protected override void HandleANullTranslation(ANullTranslation node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutANullTranslation(ANullTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseANullTranslation(ANullTranslation node)
-        {
-            InPTranslation(node);
-            InANullTranslation(node);
-            
             Visit(node.Null);
-            
-            OutANullTranslation(node);
-            OutPTranslation(node);
         }
-        public virtual void InAIdTranslation(AIdTranslation node)
+        protected override void HandleAIdTranslation(AIdTranslation node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIdTranslation(AIdTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIdTranslation(AIdTranslation node)
-        {
-            InPTranslation(node);
-            InAIdTranslation(node);
-            
             Visit(node.Identifier);
-            
-            OutAIdTranslation(node);
-            OutPTranslation(node);
         }
-        public virtual void InAIddotidTranslation(AIddotidTranslation node)
+        protected override void HandleAIddotidTranslation(AIddotidTranslation node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIddotidTranslation(AIddotidTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIddotidTranslation(AIddotidTranslation node)
-        {
-            InPTranslation(node);
-            InAIddotidTranslation(node);
-            
             Visit(node.Identifier);
             Visit(node.Dot);
             Visit(node.Production);
-            
-            OutAIddotidTranslation(node);
-            OutPTranslation(node);
         }
-        
-        public virtual void InPAlternative(PAlternative node)
+        protected override void HandleAAlternative(AAlternative node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPAlternative(PAlternative node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAAlternative(AAlternative node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAAlternative(AAlternative node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAAlternative(AAlternative node)
-        {
-            InPAlternative(node);
-            InAAlternative(node);
-            
             if (node.HasAlternativename)
-                Visit((dynamic)node.Alternativename);
+                Visit(node.Alternativename);
             Visit(node.Elements);
             if (node.HasTranslation)
-                Visit((dynamic)node.Translation);
-            
-            OutAAlternative(node);
-            OutPAlternative(node);
+                Visit(node.Translation);
         }
-        
-        public virtual void InPAlternativename(PAlternativename node)
+        protected override void HandleAAlternativename(AAlternativename node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPAlternativename(PAlternativename node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAAlternativename(AAlternativename node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAAlternativename(AAlternativename node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAAlternativename(AAlternativename node)
-        {
-            InPAlternativename(node);
-            InAAlternativename(node);
-            
             Visit(node.Lpar);
             Visit(node.Name);
             Visit(node.Rpar);
-            
-            OutAAlternativename(node);
-            OutPAlternativename(node);
         }
-        
-        public virtual void InPElement(PElement node)
+        protected override void HandleAElement(AElement node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPElement(PElement node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAElement(AElement node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAElement(AElement node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAElement(AElement node)
-        {
-            InPElement(node);
-            InAElement(node);
-            
             if (node.HasElementname)
-                Visit((dynamic)node.Elementname);
-            Visit((dynamic)node.Elementid);
+                Visit(node.Elementname);
+            Visit(node.Elementid);
             if (node.HasModifier)
-                Visit((dynamic)node.Modifier);
-            
-            OutAElement(node);
-            OutPElement(node);
+                Visit(node.Modifier);
         }
-        
-        public virtual void InPElementname(PElementname node)
+        protected override void HandleAElementname(AElementname node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPElementname(PElementname node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAElementname(AElementname node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAElementname(AElementname node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAElementname(AElementname node)
-        {
-            InPElementname(node);
-            InAElementname(node);
-            
             Visit(node.Lpar);
             Visit(node.Name);
             Visit(node.Rpar);
             Visit(node.Colon);
-            
-            OutAElementname(node);
-            OutPElementname(node);
         }
-        
-        public virtual void InPElementid(PElementid node)
+        protected override void HandleACleanElementid(ACleanElementid node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPElementid(PElementid node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InACleanElementid(ACleanElementid node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutACleanElementid(ACleanElementid node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseACleanElementid(ACleanElementid node)
-        {
-            InPElementid(node);
-            InACleanElementid(node);
-            
             Visit(node.Identifier);
-            
-            OutACleanElementid(node);
-            OutPElementid(node);
         }
-        public virtual void InATokenElementid(ATokenElementid node)
+        protected override void HandleATokenElementid(ATokenElementid node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutATokenElementid(ATokenElementid node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATokenElementid(ATokenElementid node)
-        {
-            InPElementid(node);
-            InATokenElementid(node);
-            
             Visit(node.TokenSpecifier);
             Visit(node.Dot);
             Visit(node.Identifier);
-            
-            OutATokenElementid(node);
-            OutPElementid(node);
         }
-        public virtual void InAProductionElementid(AProductionElementid node)
+        protected override void HandleAProductionElementid(AProductionElementid node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProductionElementid(AProductionElementid node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProductionElementid(AProductionElementid node)
-        {
-            InPElementid(node);
-            InAProductionElementid(node);
-            
             Visit(node.ProductionSpecifier);
             Visit(node.Dot);
             Visit(node.Identifier);
-            
-            OutAProductionElementid(node);
-            OutPElementid(node);
         }
-        
-        public virtual void InPHighlightrule(PHighlightrule node)
+        protected override void HandleAHighlightrule(AHighlightrule node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPHighlightrule(PHighlightrule node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAHighlightrule(AHighlightrule node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHighlightrule(AHighlightrule node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHighlightrule(AHighlightrule node)
-        {
-            InPHighlightrule(node);
-            InAHighlightrule(node);
-            
             Visit(node.Lpar);
             Visit(node.Tokens);
             Visit(node.Rpar);
             Visit(node.Styles);
             Visit(node.Semicolon);
-            
-            OutAHighlightrule(node);
-            OutPHighlightrule(node);
         }
-        
-        public virtual void InPHighlightStyle(PHighlightStyle node)
+        protected override void HandleAItalicHighlightStyle(AItalicHighlightStyle node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPHighlightStyle(PHighlightStyle node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAItalicHighlightStyle(AItalicHighlightStyle node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAItalicHighlightStyle(AItalicHighlightStyle node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAItalicHighlightStyle(AItalicHighlightStyle node)
-        {
-            InPHighlightStyle(node);
-            InAItalicHighlightStyle(node);
-            
             Visit(node.Italic);
-            
-            OutAItalicHighlightStyle(node);
-            OutPHighlightStyle(node);
         }
-        public virtual void InABoldHighlightStyle(ABoldHighlightStyle node)
+        protected override void HandleABoldHighlightStyle(ABoldHighlightStyle node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutABoldHighlightStyle(ABoldHighlightStyle node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseABoldHighlightStyle(ABoldHighlightStyle node)
-        {
-            InPHighlightStyle(node);
-            InABoldHighlightStyle(node);
-            
             Visit(node.Bold);
-            
-            OutABoldHighlightStyle(node);
-            OutPHighlightStyle(node);
         }
-        public virtual void InATextHighlightStyle(ATextHighlightStyle node)
+        protected override void HandleATextHighlightStyle(ATextHighlightStyle node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutATextHighlightStyle(ATextHighlightStyle node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATextHighlightStyle(ATextHighlightStyle node)
-        {
-            InPHighlightStyle(node);
-            InATextHighlightStyle(node);
-            
             Visit(node.Text);
             Visit(node.Colon);
-            Visit((dynamic)node.Color);
-            
-            OutATextHighlightStyle(node);
-            OutPHighlightStyle(node);
+            Visit(node.Color);
         }
-        public virtual void InABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        protected override void HandleABackgroundHighlightStyle(ABackgroundHighlightStyle node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutABackgroundHighlightStyle(ABackgroundHighlightStyle node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node)
-        {
-            InPHighlightStyle(node);
-            InABackgroundHighlightStyle(node);
-            
             Visit(node.Background);
             Visit(node.Colon);
-            Visit((dynamic)node.Color);
-            
-            OutABackgroundHighlightStyle(node);
-            OutPHighlightStyle(node);
+            Visit(node.Color);
         }
-        
-        public virtual void InPColor(PColor node)
+        protected override void HandleARgbColor(ARgbColor node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPColor(PColor node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InARgbColor(ARgbColor node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutARgbColor(ARgbColor node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseARgbColor(ARgbColor node)
-        {
-            InPColor(node);
-            InARgbColor(node);
-            
             Visit(node.Rgb);
             Visit(node.LPar);
             Visit(node.Red);
@@ -2062,23 +1314,9 @@ namespace SablePP.Compiler.Analysis
             Visit(node.Comma2);
             Visit(node.Blue);
             Visit(node.RPar);
-            
-            OutARgbColor(node);
-            OutPColor(node);
         }
-        public virtual void InAHsvColor(AHsvColor node)
+        protected override void HandleAHsvColor(AHsvColor node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHsvColor(AHsvColor node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHsvColor(AHsvColor node)
-        {
-            InPColor(node);
-            InAHsvColor(node);
-            
             Visit(node.Hsv);
             Visit(node.LPar);
             Visit(node.Hue);
@@ -2087,856 +1325,221 @@ namespace SablePP.Compiler.Analysis
             Visit(node.Comma2);
             Visit(node.Brightness);
             Visit(node.RPar);
-            
-            OutAHsvColor(node);
-            OutPColor(node);
         }
-        public virtual void InAHexColor(AHexColor node)
+        protected override void HandleAHexColor(AHexColor node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHexColor(AHexColor node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHexColor(AHexColor node)
-        {
-            InPColor(node);
-            InAHexColor(node);
-            
             Visit(node.Color);
-            
-            OutAHexColor(node);
-            OutPColor(node);
         }
     }
     
-    public class ReverseDepthFirstAdapter : ReverseDepthFirstAdapter<object>
+    public partial class ReverseDepthFirstAdapter : ReverseDepthFirstAdapter<object>
     {
     }
-    public class ReverseDepthFirstAdapter<Value> : AnalysisAdapter<Value>
+    public partial class ReverseDepthFirstAdapter<Value> : AnalysisAdapter<Value>
     {
-        public void Visit<Element>(Production.NodeList<Element> elements) where Element : Node
+        public void Visit<Element>(IEnumerable<Element> elements) where Element : Node
         {
-            Element[] temp = new Element[elements.Count];
-            elements.CopyTo(temp, 0);
+            Element[] temp = elements.ToArray();
             for (int i = temp.Length - 1; i >= 0; i--)
                 Visit((dynamic)temp[i]);
         }
         
-        public virtual void InStart(Start<PGrammar> node)
-        {
-        }
-        public virtual void OutStart(Start<PGrammar> node)
-        {
-        }
         protected override void HandleStart(Start<PGrammar> node)
         {
-            InStart(node);
-            
             Visit(node.EOF);
-            Visit((dynamic)node.Root);
-            
-            OutStart(node);
+            Visit(node.Root);
         }
         
-        public virtual void DefaultPIn(Node node)
+        protected override void HandleAGrammar(AGrammar node)
         {
-        }
-        public virtual void DefaultPOut(Node node)
-        {
-        }
-        public virtual void DefaultAIn(Node node)
-        {
-        }
-        public virtual void DefaultAOut(Node node)
-        {
-        }
-        
-        public virtual void InPGrammar(PGrammar node)
-        {
-            DefaultPIn(node);
-        }
-        public virtual void OutPGrammar(PGrammar node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAGrammar(AGrammar node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAGrammar(AGrammar node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAGrammar(AGrammar node)
-        {
-            InPGrammar(node);
-            InAGrammar(node);
-            
             Visit(node.Sections);
-            
-            OutAGrammar(node);
-            OutPGrammar(node);
         }
-        
-        public virtual void InPSection(PSection node)
+        protected override void HandleANamespaceSection(ANamespaceSection node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPSection(PSection node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InANamespaceSection(ANamespaceSection node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutANamespaceSection(ANamespaceSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseANamespaceSection(ANamespaceSection node)
-        {
-            InPSection(node);
-            InANamespaceSection(node);
-            
             Visit(node.Semicolon);
             Visit(node.Namespace);
             Visit(node.Namespacetoken);
-            
-            OutANamespaceSection(node);
-            OutPSection(node);
         }
-        public virtual void InAHelpersSection(AHelpersSection node)
+        protected override void HandleAHelpersSection(AHelpersSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHelpersSection(AHelpersSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHelpersSection(AHelpersSection node)
-        {
-            InPSection(node);
-            InAHelpersSection(node);
-            
             Visit(node.Helpers);
             Visit(node.Helperstoken);
-            
-            OutAHelpersSection(node);
-            OutPSection(node);
         }
-        public virtual void InAStatesSection(AStatesSection node)
+        protected override void HandleAStatesSection(AStatesSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStatesSection(AStatesSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStatesSection(AStatesSection node)
-        {
-            InPSection(node);
-            InAStatesSection(node);
-            
             Visit(node.Semicolon);
             Visit(node.States);
             Visit(node.Statestoken);
-            
-            OutAStatesSection(node);
-            OutPSection(node);
         }
-        public virtual void InATokensSection(ATokensSection node)
+        protected override void HandleATokensSection(ATokensSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutATokensSection(ATokensSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATokensSection(ATokensSection node)
-        {
-            InPSection(node);
-            InATokensSection(node);
-            
             Visit(node.Tokens);
             Visit(node.Tokenstoken);
-            
-            OutATokensSection(node);
-            OutPSection(node);
         }
-        public virtual void InAIgnoreSection(AIgnoreSection node)
+        protected override void HandleAIgnoreSection(AIgnoreSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIgnoreSection(AIgnoreSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIgnoreSection(AIgnoreSection node)
-        {
-            InPSection(node);
-            InAIgnoreSection(node);
-            
             Visit(node.Semicolon);
             Visit(node.Tokens);
             Visit(node.Tokenstoken);
             Visit(node.Ignoredtoken);
-            
-            OutAIgnoreSection(node);
-            OutPSection(node);
         }
-        public virtual void InAProductionsSection(AProductionsSection node)
+        protected override void HandleAProductionsSection(AProductionsSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProductionsSection(AProductionsSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProductionsSection(AProductionsSection node)
-        {
-            InPSection(node);
-            InAProductionsSection(node);
-            
             Visit(node.Productions);
             Visit(node.Productionstoken);
-            
-            OutAProductionsSection(node);
-            OutPSection(node);
         }
-        public virtual void InAASTSection(AASTSection node)
+        protected override void HandleAASTSection(AASTSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAASTSection(AASTSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAASTSection(AASTSection node)
-        {
-            InPSection(node);
-            InAASTSection(node);
-            
             Visit(node.Productions);
             Visit(node.Asttoken);
-            
-            OutAASTSection(node);
-            OutPSection(node);
         }
-        public virtual void InAHighlightSection(AHighlightSection node)
+        protected override void HandleAHighlightSection(AHighlightSection node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHighlightSection(AHighlightSection node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHighlightSection(AHighlightSection node)
-        {
-            InPSection(node);
-            InAHighlightSection(node);
-            
             Visit(node.Highlightrules);
             Visit(node.Highlighttoken);
-            
-            OutAHighlightSection(node);
-            OutPSection(node);
         }
-        
-        public virtual void InPHelper(PHelper node)
+        protected override void HandleAHelper(AHelper node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPHelper(PHelper node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAHelper(AHelper node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHelper(AHelper node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHelper(AHelper node)
-        {
-            InPHelper(node);
-            InAHelper(node);
-            
             Visit(node.Semicolon);
-            Visit((dynamic)node.Regex);
+            Visit(node.Regex);
             Visit(node.Equal);
             Visit(node.Identifier);
-            
-            OutAHelper(node);
-            OutPHelper(node);
         }
-        
-        public virtual void InPToken(PToken node)
+        protected override void HandleAToken(AToken node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPToken(PToken node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAToken(AToken node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAToken(AToken node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAToken(AToken node)
-        {
-            InPToken(node);
-            InAToken(node);
-            
             Visit(node.Semicolon);
             if (node.HasTokenlookahead)
-                Visit((dynamic)node.Tokenlookahead);
-            Visit((dynamic)node.Regex);
+                Visit(node.Tokenlookahead);
+            Visit(node.Regex);
             Visit(node.Equal);
             Visit(node.Identifier);
             Visit(node.Statelist);
-            
-            OutAToken(node);
-            OutPToken(node);
         }
-        
-        public virtual void InPTokenlookahead(PTokenlookahead node)
+        protected override void HandleATokenlookahead(ATokenlookahead node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTokenlookahead(PTokenlookahead node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InATokenlookahead(ATokenlookahead node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutATokenlookahead(ATokenlookahead node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATokenlookahead(ATokenlookahead node)
-        {
-            InPTokenlookahead(node);
-            InATokenlookahead(node);
-            
-            Visit((dynamic)node.Regex);
+            Visit(node.Regex);
             Visit(node.Slash);
-            
-            OutATokenlookahead(node);
-            OutPTokenlookahead(node);
         }
-        
-        public virtual void InPRegex(PRegex node)
+        protected override void HandleACharRegex(ACharRegex node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPRegex(PRegex node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InACharRegex(ACharRegex node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutACharRegex(ACharRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseACharRegex(ACharRegex node)
-        {
-            InPRegex(node);
-            InACharRegex(node);
-            
             Visit(node.Character);
-            
-            OutACharRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InADecRegex(ADecRegex node)
+        protected override void HandleADecRegex(ADecRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutADecRegex(ADecRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseADecRegex(ADecRegex node)
-        {
-            InPRegex(node);
-            InADecRegex(node);
-            
             Visit(node.DecChar);
-            
-            OutADecRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAHexRegex(AHexRegex node)
+        protected override void HandleAHexRegex(AHexRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHexRegex(AHexRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHexRegex(AHexRegex node)
-        {
-            InPRegex(node);
-            InAHexRegex(node);
-            
             Visit(node.HexChar);
-            
-            OutAHexRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAConcatenatedRegex(AConcatenatedRegex node)
+        protected override void HandleAConcatenatedRegex(AConcatenatedRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAConcatenatedRegex(AConcatenatedRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAConcatenatedRegex(AConcatenatedRegex node)
-        {
-            InPRegex(node);
-            InAConcatenatedRegex(node);
-            
             Visit(node.Regexs);
-            
-            OutAConcatenatedRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAUnaryRegex(AUnaryRegex node)
+        protected override void HandleAUnaryRegex(AUnaryRegex node)
         {
-            DefaultAIn(node);
+            Visit(node.Modifier);
+            Visit(node.Regex);
         }
-        public virtual void OutAUnaryRegex(AUnaryRegex node)
+        protected override void HandleABinaryplusRegex(ABinaryplusRegex node)
         {
-            DefaultAOut(node);
-        }
-        public override void CaseAUnaryRegex(AUnaryRegex node)
-        {
-            InPRegex(node);
-            InAUnaryRegex(node);
-            
-            Visit((dynamic)node.Modifier);
-            Visit((dynamic)node.Regex);
-            
-            OutAUnaryRegex(node);
-            OutPRegex(node);
-        }
-        public virtual void InABinaryplusRegex(ABinaryplusRegex node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutABinaryplusRegex(ABinaryplusRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseABinaryplusRegex(ABinaryplusRegex node)
-        {
-            InPRegex(node);
-            InABinaryplusRegex(node);
-            
             Visit(node.Rpar);
-            Visit((dynamic)node.Right);
+            Visit(node.Right);
             Visit(node.Plus);
-            Visit((dynamic)node.Left);
+            Visit(node.Left);
             Visit(node.Lpar);
-            
-            OutABinaryplusRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InABinaryminusRegex(ABinaryminusRegex node)
+        protected override void HandleABinaryminusRegex(ABinaryminusRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutABinaryminusRegex(ABinaryminusRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseABinaryminusRegex(ABinaryminusRegex node)
-        {
-            InPRegex(node);
-            InABinaryminusRegex(node);
-            
             Visit(node.Rpar);
-            Visit((dynamic)node.Right);
+            Visit(node.Right);
             Visit(node.Minus);
-            Visit((dynamic)node.Left);
+            Visit(node.Left);
             Visit(node.Lpar);
-            
-            OutABinaryminusRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAIntervalRegex(AIntervalRegex node)
+        protected override void HandleAIntervalRegex(AIntervalRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIntervalRegex(AIntervalRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIntervalRegex(AIntervalRegex node)
-        {
-            InPRegex(node);
-            InAIntervalRegex(node);
-            
             Visit(node.Rpar);
-            Visit((dynamic)node.Right);
+            Visit(node.Right);
             Visit(node.Dots);
-            Visit((dynamic)node.Left);
+            Visit(node.Left);
             Visit(node.Lpar);
-            
-            OutAIntervalRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAStringRegex(AStringRegex node)
+        protected override void HandleAStringRegex(AStringRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStringRegex(AStringRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStringRegex(AStringRegex node)
-        {
-            InPRegex(node);
-            InAStringRegex(node);
-            
             Visit(node.String);
-            
-            OutAStringRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAIdentifierRegex(AIdentifierRegex node)
+        protected override void HandleAIdentifierRegex(AIdentifierRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIdentifierRegex(AIdentifierRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIdentifierRegex(AIdentifierRegex node)
-        {
-            InPRegex(node);
-            InAIdentifierRegex(node);
-            
             Visit(node.Identifier);
-            
-            OutAIdentifierRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAParenthesisRegex(AParenthesisRegex node)
+        protected override void HandleAParenthesisRegex(AParenthesisRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAParenthesisRegex(AParenthesisRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAParenthesisRegex(AParenthesisRegex node)
-        {
-            InPRegex(node);
-            InAParenthesisRegex(node);
-            
             Visit(node.Rpar);
-            Visit((dynamic)node.Regex);
+            Visit(node.Regex);
             Visit(node.Lpar);
-            
-            OutAParenthesisRegex(node);
-            OutPRegex(node);
         }
-        public virtual void InAOrRegex(AOrRegex node)
+        protected override void HandleAOrRegex(AOrRegex node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAOrRegex(AOrRegex node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAOrRegex(AOrRegex node)
-        {
-            InPRegex(node);
-            InAOrRegex(node);
-            
             Visit(node.Regexs);
-            
-            OutAOrRegex(node);
-            OutPRegex(node);
         }
-        
-        public virtual void InPModifier(PModifier node)
+        protected override void HandleAStarModifier(AStarModifier node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPModifier(PModifier node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAStarModifier(AStarModifier node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAStarModifier(AStarModifier node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAStarModifier(AStarModifier node)
-        {
-            InPModifier(node);
-            InAStarModifier(node);
-            
             Visit(node.Star);
-            
-            OutAStarModifier(node);
-            OutPModifier(node);
         }
-        public virtual void InAQuestionModifier(AQuestionModifier node)
+        protected override void HandleAQuestionModifier(AQuestionModifier node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAQuestionModifier(AQuestionModifier node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAQuestionModifier(AQuestionModifier node)
-        {
-            InPModifier(node);
-            InAQuestionModifier(node);
-            
             Visit(node.QMark);
-            
-            OutAQuestionModifier(node);
-            OutPModifier(node);
         }
-        public virtual void InAPlusModifier(APlusModifier node)
+        protected override void HandleAPlusModifier(APlusModifier node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAPlusModifier(APlusModifier node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAPlusModifier(APlusModifier node)
-        {
-            InPModifier(node);
-            InAPlusModifier(node);
-            
             Visit(node.Plus);
-            
-            OutAPlusModifier(node);
-            OutPModifier(node);
         }
-        
-        public virtual void InPState(PState node)
+        protected override void HandleAState(AState node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPState(PState node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAState(AState node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAState(AState node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAState(AState node)
-        {
-            InPState(node);
-            InAState(node);
-            
             Visit(node.Identifier);
-            
-            OutAState(node);
-            OutPState(node);
         }
-        
-        public virtual void InPTokenState(PTokenState node)
+        protected override void HandleATokenState(ATokenState node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTokenState(PTokenState node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InATokenState(ATokenState node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutATokenState(ATokenState node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATokenState(ATokenState node)
-        {
-            InPTokenState(node);
-            InATokenState(node);
-            
             Visit(node.Identifier);
-            
-            OutATokenState(node);
-            OutPTokenState(node);
         }
-        public virtual void InATransitionTokenState(ATransitionTokenState node)
+        protected override void HandleATransitionTokenState(ATransitionTokenState node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutATransitionTokenState(ATransitionTokenState node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATransitionTokenState(ATransitionTokenState node)
-        {
-            InPTokenState(node);
-            InATransitionTokenState(node);
-            
             Visit(node.To);
             Visit(node.Arrow);
             Visit(node.From);
-            
-            OutATransitionTokenState(node);
-            OutPTokenState(node);
         }
-        
-        public virtual void InPProduction(PProduction node)
+        protected override void HandleAProduction(AProduction node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPProduction(PProduction node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAProduction(AProduction node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProduction(AProduction node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProduction(AProduction node)
-        {
-            InPProduction(node);
-            InAProduction(node);
-            
             Visit(node.Semicolon);
             Visit(node.Alternatives);
             Visit(node.Equal);
             if (node.HasProdtranslation)
-                Visit((dynamic)node.Prodtranslation);
+                Visit(node.Prodtranslation);
             Visit(node.Identifier);
-            
-            OutAProduction(node);
-            OutPProduction(node);
         }
-        
-        public virtual void InPProdtranslation(PProdtranslation node)
+        protected override void HandleAProdtranslation(AProdtranslation node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPProdtranslation(PProdtranslation node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAProdtranslation(AProdtranslation node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProdtranslation(AProdtranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProdtranslation(AProdtranslation node)
-        {
-            InPProdtranslation(node);
-            InAProdtranslation(node);
-            
             if (node.HasModifier)
-                Visit((dynamic)node.Modifier);
+                Visit(node.Modifier);
             Visit(node.Identifier);
             Visit(node.Arrow);
-            
-            OutAProdtranslation(node);
-            OutPProdtranslation(node);
         }
-        
-        public virtual void InPTranslation(PTranslation node)
+        protected override void HandleAFullTranslation(AFullTranslation node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPTranslation(PTranslation node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAFullTranslation(AFullTranslation node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAFullTranslation(AFullTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAFullTranslation(AFullTranslation node)
-        {
-            InPTranslation(node);
-            InAFullTranslation(node);
-            
-            Visit((dynamic)node.Translation);
+            Visit(node.Translation);
             Visit(node.Arrow);
-            
-            OutAFullTranslation(node);
-            OutPTranslation(node);
         }
-        public virtual void InANewTranslation(ANewTranslation node)
+        protected override void HandleANewTranslation(ANewTranslation node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutANewTranslation(ANewTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseANewTranslation(ANewTranslation node)
-        {
-            InPTranslation(node);
-            InANewTranslation(node);
-            
             Visit(node.Rpar);
             Visit(node.Arguments);
             Visit(node.Lpar);
             Visit(node.Production);
             Visit(node.New);
-            
-            OutANewTranslation(node);
-            OutPTranslation(node);
         }
-        public virtual void InANewalternativeTranslation(ANewalternativeTranslation node)
+        protected override void HandleANewalternativeTranslation(ANewalternativeTranslation node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutANewalternativeTranslation(ANewalternativeTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseANewalternativeTranslation(ANewalternativeTranslation node)
-        {
-            InPTranslation(node);
-            InANewalternativeTranslation(node);
-            
             Visit(node.Rpar);
             Visit(node.Arguments);
             Visit(node.Lpar);
@@ -2944,412 +1547,102 @@ namespace SablePP.Compiler.Analysis
             Visit(node.Dot);
             Visit(node.Production);
             Visit(node.New);
-            
-            OutANewalternativeTranslation(node);
-            OutPTranslation(node);
         }
-        public virtual void InAListTranslation(AListTranslation node)
+        protected override void HandleAListTranslation(AListTranslation node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAListTranslation(AListTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAListTranslation(AListTranslation node)
-        {
-            InPTranslation(node);
-            InAListTranslation(node);
-            
             Visit(node.Rpar);
             Visit(node.Elements);
             Visit(node.Lpar);
-            
-            OutAListTranslation(node);
-            OutPTranslation(node);
         }
-        public virtual void InANullTranslation(ANullTranslation node)
+        protected override void HandleANullTranslation(ANullTranslation node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutANullTranslation(ANullTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseANullTranslation(ANullTranslation node)
-        {
-            InPTranslation(node);
-            InANullTranslation(node);
-            
             Visit(node.Null);
-            
-            OutANullTranslation(node);
-            OutPTranslation(node);
         }
-        public virtual void InAIdTranslation(AIdTranslation node)
+        protected override void HandleAIdTranslation(AIdTranslation node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIdTranslation(AIdTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIdTranslation(AIdTranslation node)
-        {
-            InPTranslation(node);
-            InAIdTranslation(node);
-            
             Visit(node.Identifier);
-            
-            OutAIdTranslation(node);
-            OutPTranslation(node);
         }
-        public virtual void InAIddotidTranslation(AIddotidTranslation node)
+        protected override void HandleAIddotidTranslation(AIddotidTranslation node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAIddotidTranslation(AIddotidTranslation node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAIddotidTranslation(AIddotidTranslation node)
-        {
-            InPTranslation(node);
-            InAIddotidTranslation(node);
-            
             Visit(node.Production);
             Visit(node.Dot);
             Visit(node.Identifier);
-            
-            OutAIddotidTranslation(node);
-            OutPTranslation(node);
         }
-        
-        public virtual void InPAlternative(PAlternative node)
+        protected override void HandleAAlternative(AAlternative node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPAlternative(PAlternative node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAAlternative(AAlternative node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAAlternative(AAlternative node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAAlternative(AAlternative node)
-        {
-            InPAlternative(node);
-            InAAlternative(node);
-            
             if (node.HasTranslation)
-                Visit((dynamic)node.Translation);
+                Visit(node.Translation);
             Visit(node.Elements);
             if (node.HasAlternativename)
-                Visit((dynamic)node.Alternativename);
-            
-            OutAAlternative(node);
-            OutPAlternative(node);
+                Visit(node.Alternativename);
         }
-        
-        public virtual void InPAlternativename(PAlternativename node)
+        protected override void HandleAAlternativename(AAlternativename node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPAlternativename(PAlternativename node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAAlternativename(AAlternativename node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAAlternativename(AAlternativename node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAAlternativename(AAlternativename node)
-        {
-            InPAlternativename(node);
-            InAAlternativename(node);
-            
             Visit(node.Rpar);
             Visit(node.Name);
             Visit(node.Lpar);
-            
-            OutAAlternativename(node);
-            OutPAlternativename(node);
         }
-        
-        public virtual void InPElement(PElement node)
+        protected override void HandleAElement(AElement node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPElement(PElement node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAElement(AElement node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAElement(AElement node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAElement(AElement node)
-        {
-            InPElement(node);
-            InAElement(node);
-            
             if (node.HasModifier)
-                Visit((dynamic)node.Modifier);
-            Visit((dynamic)node.Elementid);
+                Visit(node.Modifier);
+            Visit(node.Elementid);
             if (node.HasElementname)
-                Visit((dynamic)node.Elementname);
-            
-            OutAElement(node);
-            OutPElement(node);
+                Visit(node.Elementname);
         }
-        
-        public virtual void InPElementname(PElementname node)
+        protected override void HandleAElementname(AElementname node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPElementname(PElementname node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAElementname(AElementname node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAElementname(AElementname node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAElementname(AElementname node)
-        {
-            InPElementname(node);
-            InAElementname(node);
-            
             Visit(node.Colon);
             Visit(node.Rpar);
             Visit(node.Name);
             Visit(node.Lpar);
-            
-            OutAElementname(node);
-            OutPElementname(node);
         }
-        
-        public virtual void InPElementid(PElementid node)
+        protected override void HandleACleanElementid(ACleanElementid node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPElementid(PElementid node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InACleanElementid(ACleanElementid node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutACleanElementid(ACleanElementid node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseACleanElementid(ACleanElementid node)
-        {
-            InPElementid(node);
-            InACleanElementid(node);
-            
             Visit(node.Identifier);
-            
-            OutACleanElementid(node);
-            OutPElementid(node);
         }
-        public virtual void InATokenElementid(ATokenElementid node)
+        protected override void HandleATokenElementid(ATokenElementid node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutATokenElementid(ATokenElementid node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATokenElementid(ATokenElementid node)
-        {
-            InPElementid(node);
-            InATokenElementid(node);
-            
             Visit(node.Identifier);
             Visit(node.Dot);
             Visit(node.TokenSpecifier);
-            
-            OutATokenElementid(node);
-            OutPElementid(node);
         }
-        public virtual void InAProductionElementid(AProductionElementid node)
+        protected override void HandleAProductionElementid(AProductionElementid node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAProductionElementid(AProductionElementid node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAProductionElementid(AProductionElementid node)
-        {
-            InPElementid(node);
-            InAProductionElementid(node);
-            
             Visit(node.Identifier);
             Visit(node.Dot);
             Visit(node.ProductionSpecifier);
-            
-            OutAProductionElementid(node);
-            OutPElementid(node);
         }
-        
-        public virtual void InPHighlightrule(PHighlightrule node)
+        protected override void HandleAHighlightrule(AHighlightrule node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPHighlightrule(PHighlightrule node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAHighlightrule(AHighlightrule node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHighlightrule(AHighlightrule node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHighlightrule(AHighlightrule node)
-        {
-            InPHighlightrule(node);
-            InAHighlightrule(node);
-            
             Visit(node.Semicolon);
             Visit(node.Styles);
             Visit(node.Rpar);
             Visit(node.Tokens);
             Visit(node.Lpar);
-            
-            OutAHighlightrule(node);
-            OutPHighlightrule(node);
         }
-        
-        public virtual void InPHighlightStyle(PHighlightStyle node)
+        protected override void HandleAItalicHighlightStyle(AItalicHighlightStyle node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPHighlightStyle(PHighlightStyle node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InAItalicHighlightStyle(AItalicHighlightStyle node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutAItalicHighlightStyle(AItalicHighlightStyle node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAItalicHighlightStyle(AItalicHighlightStyle node)
-        {
-            InPHighlightStyle(node);
-            InAItalicHighlightStyle(node);
-            
             Visit(node.Italic);
-            
-            OutAItalicHighlightStyle(node);
-            OutPHighlightStyle(node);
         }
-        public virtual void InABoldHighlightStyle(ABoldHighlightStyle node)
+        protected override void HandleABoldHighlightStyle(ABoldHighlightStyle node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutABoldHighlightStyle(ABoldHighlightStyle node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseABoldHighlightStyle(ABoldHighlightStyle node)
-        {
-            InPHighlightStyle(node);
-            InABoldHighlightStyle(node);
-            
             Visit(node.Bold);
-            
-            OutABoldHighlightStyle(node);
-            OutPHighlightStyle(node);
         }
-        public virtual void InATextHighlightStyle(ATextHighlightStyle node)
+        protected override void HandleATextHighlightStyle(ATextHighlightStyle node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutATextHighlightStyle(ATextHighlightStyle node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseATextHighlightStyle(ATextHighlightStyle node)
-        {
-            InPHighlightStyle(node);
-            InATextHighlightStyle(node);
-            
-            Visit((dynamic)node.Color);
+            Visit(node.Color);
             Visit(node.Colon);
             Visit(node.Text);
-            
-            OutATextHighlightStyle(node);
-            OutPHighlightStyle(node);
         }
-        public virtual void InABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        protected override void HandleABackgroundHighlightStyle(ABackgroundHighlightStyle node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutABackgroundHighlightStyle(ABackgroundHighlightStyle node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node)
-        {
-            InPHighlightStyle(node);
-            InABackgroundHighlightStyle(node);
-            
-            Visit((dynamic)node.Color);
+            Visit(node.Color);
             Visit(node.Colon);
             Visit(node.Background);
-            
-            OutABackgroundHighlightStyle(node);
-            OutPHighlightStyle(node);
         }
-        
-        public virtual void InPColor(PColor node)
+        protected override void HandleARgbColor(ARgbColor node)
         {
-            DefaultPIn(node);
-        }
-        public virtual void OutPColor(PColor node)
-        {
-            DefaultPOut(node);
-        }
-        public virtual void InARgbColor(ARgbColor node)
-        {
-            DefaultAIn(node);
-        }
-        public virtual void OutARgbColor(ARgbColor node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseARgbColor(ARgbColor node)
-        {
-            InPColor(node);
-            InARgbColor(node);
-            
             Visit(node.RPar);
             Visit(node.Blue);
             Visit(node.Comma2);
@@ -3358,23 +1651,9 @@ namespace SablePP.Compiler.Analysis
             Visit(node.Red);
             Visit(node.LPar);
             Visit(node.Rgb);
-            
-            OutARgbColor(node);
-            OutPColor(node);
         }
-        public virtual void InAHsvColor(AHsvColor node)
+        protected override void HandleAHsvColor(AHsvColor node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHsvColor(AHsvColor node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHsvColor(AHsvColor node)
-        {
-            InPColor(node);
-            InAHsvColor(node);
-            
             Visit(node.RPar);
             Visit(node.Brightness);
             Visit(node.Comma2);
@@ -3383,27 +1662,10 @@ namespace SablePP.Compiler.Analysis
             Visit(node.Hue);
             Visit(node.LPar);
             Visit(node.Hsv);
-            
-            OutAHsvColor(node);
-            OutPColor(node);
         }
-        public virtual void InAHexColor(AHexColor node)
+        protected override void HandleAHexColor(AHexColor node)
         {
-            DefaultAIn(node);
-        }
-        public virtual void OutAHexColor(AHexColor node)
-        {
-            DefaultAOut(node);
-        }
-        public override void CaseAHexColor(AHexColor node)
-        {
-            InPColor(node);
-            InAHexColor(node);
-            
             Visit(node.Color);
-            
-            OutAHexColor(node);
-            OutPColor(node);
         }
     }
     
@@ -3411,3214 +1673,3214 @@ namespace SablePP.Compiler.Analysis
     
     #region Return analysis adapters
     
-    public class ReturnAnalysisAdapter<Result> : ReturnAdapter<Result, PGrammar>
+    public partial class ReturnAnalysisAdapter<Result> : ReturnAdapter<Result, PGrammar>
     {
         public Result Visit(AGrammar node)
         {
-            return CaseAGrammar(node);
+            return HandleAGrammar(node);
         }
-        public virtual Result CaseAGrammar(AGrammar node)
+        public virtual Result HandleAGrammar(AGrammar node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ANamespaceSection node)
         {
-            return CaseANamespaceSection(node);
+            return HandleANamespaceSection(node);
         }
-        public virtual Result CaseANamespaceSection(ANamespaceSection node)
+        public virtual Result HandleANamespaceSection(ANamespaceSection node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AHelpersSection node)
         {
-            return CaseAHelpersSection(node);
+            return HandleAHelpersSection(node);
         }
-        public virtual Result CaseAHelpersSection(AHelpersSection node)
+        public virtual Result HandleAHelpersSection(AHelpersSection node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AStatesSection node)
         {
-            return CaseAStatesSection(node);
+            return HandleAStatesSection(node);
         }
-        public virtual Result CaseAStatesSection(AStatesSection node)
+        public virtual Result HandleAStatesSection(AStatesSection node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ATokensSection node)
         {
-            return CaseATokensSection(node);
+            return HandleATokensSection(node);
         }
-        public virtual Result CaseATokensSection(ATokensSection node)
+        public virtual Result HandleATokensSection(ATokensSection node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AIgnoreSection node)
         {
-            return CaseAIgnoreSection(node);
+            return HandleAIgnoreSection(node);
         }
-        public virtual Result CaseAIgnoreSection(AIgnoreSection node)
+        public virtual Result HandleAIgnoreSection(AIgnoreSection node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AProductionsSection node)
         {
-            return CaseAProductionsSection(node);
+            return HandleAProductionsSection(node);
         }
-        public virtual Result CaseAProductionsSection(AProductionsSection node)
+        public virtual Result HandleAProductionsSection(AProductionsSection node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AASTSection node)
         {
-            return CaseAASTSection(node);
+            return HandleAASTSection(node);
         }
-        public virtual Result CaseAASTSection(AASTSection node)
+        public virtual Result HandleAASTSection(AASTSection node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AHighlightSection node)
         {
-            return CaseAHighlightSection(node);
+            return HandleAHighlightSection(node);
         }
-        public virtual Result CaseAHighlightSection(AHighlightSection node)
+        public virtual Result HandleAHighlightSection(AHighlightSection node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AHelper node)
         {
-            return CaseAHelper(node);
+            return HandleAHelper(node);
         }
-        public virtual Result CaseAHelper(AHelper node)
+        public virtual Result HandleAHelper(AHelper node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AToken node)
         {
-            return CaseAToken(node);
+            return HandleAToken(node);
         }
-        public virtual Result CaseAToken(AToken node)
+        public virtual Result HandleAToken(AToken node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ATokenlookahead node)
         {
-            return CaseATokenlookahead(node);
+            return HandleATokenlookahead(node);
         }
-        public virtual Result CaseATokenlookahead(ATokenlookahead node)
+        public virtual Result HandleATokenlookahead(ATokenlookahead node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ACharRegex node)
         {
-            return CaseACharRegex(node);
+            return HandleACharRegex(node);
         }
-        public virtual Result CaseACharRegex(ACharRegex node)
+        public virtual Result HandleACharRegex(ACharRegex node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ADecRegex node)
         {
-            return CaseADecRegex(node);
+            return HandleADecRegex(node);
         }
-        public virtual Result CaseADecRegex(ADecRegex node)
+        public virtual Result HandleADecRegex(ADecRegex node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AHexRegex node)
         {
-            return CaseAHexRegex(node);
+            return HandleAHexRegex(node);
         }
-        public virtual Result CaseAHexRegex(AHexRegex node)
+        public virtual Result HandleAHexRegex(AHexRegex node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AConcatenatedRegex node)
         {
-            return CaseAConcatenatedRegex(node);
+            return HandleAConcatenatedRegex(node);
         }
-        public virtual Result CaseAConcatenatedRegex(AConcatenatedRegex node)
+        public virtual Result HandleAConcatenatedRegex(AConcatenatedRegex node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AUnaryRegex node)
         {
-            return CaseAUnaryRegex(node);
+            return HandleAUnaryRegex(node);
         }
-        public virtual Result CaseAUnaryRegex(AUnaryRegex node)
+        public virtual Result HandleAUnaryRegex(AUnaryRegex node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ABinaryplusRegex node)
         {
-            return CaseABinaryplusRegex(node);
+            return HandleABinaryplusRegex(node);
         }
-        public virtual Result CaseABinaryplusRegex(ABinaryplusRegex node)
+        public virtual Result HandleABinaryplusRegex(ABinaryplusRegex node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ABinaryminusRegex node)
         {
-            return CaseABinaryminusRegex(node);
+            return HandleABinaryminusRegex(node);
         }
-        public virtual Result CaseABinaryminusRegex(ABinaryminusRegex node)
+        public virtual Result HandleABinaryminusRegex(ABinaryminusRegex node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AIntervalRegex node)
         {
-            return CaseAIntervalRegex(node);
+            return HandleAIntervalRegex(node);
         }
-        public virtual Result CaseAIntervalRegex(AIntervalRegex node)
+        public virtual Result HandleAIntervalRegex(AIntervalRegex node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AStringRegex node)
         {
-            return CaseAStringRegex(node);
+            return HandleAStringRegex(node);
         }
-        public virtual Result CaseAStringRegex(AStringRegex node)
+        public virtual Result HandleAStringRegex(AStringRegex node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AIdentifierRegex node)
         {
-            return CaseAIdentifierRegex(node);
+            return HandleAIdentifierRegex(node);
         }
-        public virtual Result CaseAIdentifierRegex(AIdentifierRegex node)
+        public virtual Result HandleAIdentifierRegex(AIdentifierRegex node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AParenthesisRegex node)
         {
-            return CaseAParenthesisRegex(node);
+            return HandleAParenthesisRegex(node);
         }
-        public virtual Result CaseAParenthesisRegex(AParenthesisRegex node)
+        public virtual Result HandleAParenthesisRegex(AParenthesisRegex node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AOrRegex node)
         {
-            return CaseAOrRegex(node);
+            return HandleAOrRegex(node);
         }
-        public virtual Result CaseAOrRegex(AOrRegex node)
+        public virtual Result HandleAOrRegex(AOrRegex node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AStarModifier node)
         {
-            return CaseAStarModifier(node);
+            return HandleAStarModifier(node);
         }
-        public virtual Result CaseAStarModifier(AStarModifier node)
+        public virtual Result HandleAStarModifier(AStarModifier node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AQuestionModifier node)
         {
-            return CaseAQuestionModifier(node);
+            return HandleAQuestionModifier(node);
         }
-        public virtual Result CaseAQuestionModifier(AQuestionModifier node)
+        public virtual Result HandleAQuestionModifier(AQuestionModifier node)
         {
             return HandleDefault(node);
         }
         public Result Visit(APlusModifier node)
         {
-            return CaseAPlusModifier(node);
+            return HandleAPlusModifier(node);
         }
-        public virtual Result CaseAPlusModifier(APlusModifier node)
+        public virtual Result HandleAPlusModifier(APlusModifier node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AState node)
         {
-            return CaseAState(node);
+            return HandleAState(node);
         }
-        public virtual Result CaseAState(AState node)
+        public virtual Result HandleAState(AState node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ATokenState node)
         {
-            return CaseATokenState(node);
+            return HandleATokenState(node);
         }
-        public virtual Result CaseATokenState(ATokenState node)
+        public virtual Result HandleATokenState(ATokenState node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ATransitionTokenState node)
         {
-            return CaseATransitionTokenState(node);
+            return HandleATransitionTokenState(node);
         }
-        public virtual Result CaseATransitionTokenState(ATransitionTokenState node)
+        public virtual Result HandleATransitionTokenState(ATransitionTokenState node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AProduction node)
         {
-            return CaseAProduction(node);
+            return HandleAProduction(node);
         }
-        public virtual Result CaseAProduction(AProduction node)
+        public virtual Result HandleAProduction(AProduction node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AProdtranslation node)
         {
-            return CaseAProdtranslation(node);
+            return HandleAProdtranslation(node);
         }
-        public virtual Result CaseAProdtranslation(AProdtranslation node)
+        public virtual Result HandleAProdtranslation(AProdtranslation node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AFullTranslation node)
         {
-            return CaseAFullTranslation(node);
+            return HandleAFullTranslation(node);
         }
-        public virtual Result CaseAFullTranslation(AFullTranslation node)
+        public virtual Result HandleAFullTranslation(AFullTranslation node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ANewTranslation node)
         {
-            return CaseANewTranslation(node);
+            return HandleANewTranslation(node);
         }
-        public virtual Result CaseANewTranslation(ANewTranslation node)
+        public virtual Result HandleANewTranslation(ANewTranslation node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ANewalternativeTranslation node)
         {
-            return CaseANewalternativeTranslation(node);
+            return HandleANewalternativeTranslation(node);
         }
-        public virtual Result CaseANewalternativeTranslation(ANewalternativeTranslation node)
+        public virtual Result HandleANewalternativeTranslation(ANewalternativeTranslation node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AListTranslation node)
         {
-            return CaseAListTranslation(node);
+            return HandleAListTranslation(node);
         }
-        public virtual Result CaseAListTranslation(AListTranslation node)
+        public virtual Result HandleAListTranslation(AListTranslation node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ANullTranslation node)
         {
-            return CaseANullTranslation(node);
+            return HandleANullTranslation(node);
         }
-        public virtual Result CaseANullTranslation(ANullTranslation node)
+        public virtual Result HandleANullTranslation(ANullTranslation node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AIdTranslation node)
         {
-            return CaseAIdTranslation(node);
+            return HandleAIdTranslation(node);
         }
-        public virtual Result CaseAIdTranslation(AIdTranslation node)
+        public virtual Result HandleAIdTranslation(AIdTranslation node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AIddotidTranslation node)
         {
-            return CaseAIddotidTranslation(node);
+            return HandleAIddotidTranslation(node);
         }
-        public virtual Result CaseAIddotidTranslation(AIddotidTranslation node)
+        public virtual Result HandleAIddotidTranslation(AIddotidTranslation node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AAlternative node)
         {
-            return CaseAAlternative(node);
+            return HandleAAlternative(node);
         }
-        public virtual Result CaseAAlternative(AAlternative node)
+        public virtual Result HandleAAlternative(AAlternative node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AAlternativename node)
         {
-            return CaseAAlternativename(node);
+            return HandleAAlternativename(node);
         }
-        public virtual Result CaseAAlternativename(AAlternativename node)
+        public virtual Result HandleAAlternativename(AAlternativename node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AElement node)
         {
-            return CaseAElement(node);
+            return HandleAElement(node);
         }
-        public virtual Result CaseAElement(AElement node)
+        public virtual Result HandleAElement(AElement node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AElementname node)
         {
-            return CaseAElementname(node);
+            return HandleAElementname(node);
         }
-        public virtual Result CaseAElementname(AElementname node)
+        public virtual Result HandleAElementname(AElementname node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ACleanElementid node)
         {
-            return CaseACleanElementid(node);
+            return HandleACleanElementid(node);
         }
-        public virtual Result CaseACleanElementid(ACleanElementid node)
+        public virtual Result HandleACleanElementid(ACleanElementid node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ATokenElementid node)
         {
-            return CaseATokenElementid(node);
+            return HandleATokenElementid(node);
         }
-        public virtual Result CaseATokenElementid(ATokenElementid node)
+        public virtual Result HandleATokenElementid(ATokenElementid node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AProductionElementid node)
         {
-            return CaseAProductionElementid(node);
+            return HandleAProductionElementid(node);
         }
-        public virtual Result CaseAProductionElementid(AProductionElementid node)
+        public virtual Result HandleAProductionElementid(AProductionElementid node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AHighlightrule node)
         {
-            return CaseAHighlightrule(node);
+            return HandleAHighlightrule(node);
         }
-        public virtual Result CaseAHighlightrule(AHighlightrule node)
+        public virtual Result HandleAHighlightrule(AHighlightrule node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AItalicHighlightStyle node)
         {
-            return CaseAItalicHighlightStyle(node);
+            return HandleAItalicHighlightStyle(node);
         }
-        public virtual Result CaseAItalicHighlightStyle(AItalicHighlightStyle node)
+        public virtual Result HandleAItalicHighlightStyle(AItalicHighlightStyle node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ABoldHighlightStyle node)
         {
-            return CaseABoldHighlightStyle(node);
+            return HandleABoldHighlightStyle(node);
         }
-        public virtual Result CaseABoldHighlightStyle(ABoldHighlightStyle node)
+        public virtual Result HandleABoldHighlightStyle(ABoldHighlightStyle node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ATextHighlightStyle node)
         {
-            return CaseATextHighlightStyle(node);
+            return HandleATextHighlightStyle(node);
         }
-        public virtual Result CaseATextHighlightStyle(ATextHighlightStyle node)
+        public virtual Result HandleATextHighlightStyle(ATextHighlightStyle node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ABackgroundHighlightStyle node)
         {
-            return CaseABackgroundHighlightStyle(node);
+            return HandleABackgroundHighlightStyle(node);
         }
-        public virtual Result CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        public virtual Result HandleABackgroundHighlightStyle(ABackgroundHighlightStyle node)
         {
             return HandleDefault(node);
         }
         public Result Visit(ARgbColor node)
         {
-            return CaseARgbColor(node);
+            return HandleARgbColor(node);
         }
-        public virtual Result CaseARgbColor(ARgbColor node)
+        public virtual Result HandleARgbColor(ARgbColor node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AHsvColor node)
         {
-            return CaseAHsvColor(node);
+            return HandleAHsvColor(node);
         }
-        public virtual Result CaseAHsvColor(AHsvColor node)
+        public virtual Result HandleAHsvColor(AHsvColor node)
         {
             return HandleDefault(node);
         }
         public Result Visit(AHexColor node)
         {
-            return CaseAHexColor(node);
+            return HandleAHexColor(node);
         }
-        public virtual Result CaseAHexColor(AHexColor node)
+        public virtual Result HandleAHexColor(AHexColor node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TNamespace node)
         {
-            return CaseTNamespace(node);
+            return HandleTNamespace(node);
         }
-        public virtual Result CaseTNamespace(TNamespace node)
+        public virtual Result HandleTNamespace(TNamespace node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TNamespacetoken node)
         {
-            return CaseTNamespacetoken(node);
+            return HandleTNamespacetoken(node);
         }
-        public virtual Result CaseTNamespacetoken(TNamespacetoken node)
+        public virtual Result HandleTNamespacetoken(TNamespacetoken node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TStatestoken node)
         {
-            return CaseTStatestoken(node);
+            return HandleTStatestoken(node);
         }
-        public virtual Result CaseTStatestoken(TStatestoken node)
+        public virtual Result HandleTStatestoken(TStatestoken node)
         {
             return HandleDefault(node);
         }
         public Result Visit(THelperstoken node)
         {
-            return CaseTHelperstoken(node);
+            return HandleTHelperstoken(node);
         }
-        public virtual Result CaseTHelperstoken(THelperstoken node)
+        public virtual Result HandleTHelperstoken(THelperstoken node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TTokenstoken node)
         {
-            return CaseTTokenstoken(node);
+            return HandleTTokenstoken(node);
         }
-        public virtual Result CaseTTokenstoken(TTokenstoken node)
+        public virtual Result HandleTTokenstoken(TTokenstoken node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TIgnoredtoken node)
         {
-            return CaseTIgnoredtoken(node);
+            return HandleTIgnoredtoken(node);
         }
-        public virtual Result CaseTIgnoredtoken(TIgnoredtoken node)
+        public virtual Result HandleTIgnoredtoken(TIgnoredtoken node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TProductionstoken node)
         {
-            return CaseTProductionstoken(node);
+            return HandleTProductionstoken(node);
         }
-        public virtual Result CaseTProductionstoken(TProductionstoken node)
+        public virtual Result HandleTProductionstoken(TProductionstoken node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TAsttoken node)
         {
-            return CaseTAsttoken(node);
+            return HandleTAsttoken(node);
         }
-        public virtual Result CaseTAsttoken(TAsttoken node)
+        public virtual Result HandleTAsttoken(TAsttoken node)
         {
             return HandleDefault(node);
         }
         public Result Visit(THighlighttoken node)
         {
-            return CaseTHighlighttoken(node);
+            return HandleTHighlighttoken(node);
         }
-        public virtual Result CaseTHighlighttoken(THighlighttoken node)
+        public virtual Result HandleTHighlighttoken(THighlighttoken node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TNew node)
         {
-            return CaseTNew(node);
+            return HandleTNew(node);
         }
-        public virtual Result CaseTNew(TNew node)
+        public virtual Result HandleTNew(TNew node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TNull node)
         {
-            return CaseTNull(node);
+            return HandleTNull(node);
         }
-        public virtual Result CaseTNull(TNull node)
+        public virtual Result HandleTNull(TNull node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TTokenSpecifier node)
         {
-            return CaseTTokenSpecifier(node);
+            return HandleTTokenSpecifier(node);
         }
-        public virtual Result CaseTTokenSpecifier(TTokenSpecifier node)
+        public virtual Result HandleTTokenSpecifier(TTokenSpecifier node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TProductionSpecifier node)
         {
-            return CaseTProductionSpecifier(node);
+            return HandleTProductionSpecifier(node);
         }
-        public virtual Result CaseTProductionSpecifier(TProductionSpecifier node)
+        public virtual Result HandleTProductionSpecifier(TProductionSpecifier node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TDot node)
         {
-            return CaseTDot(node);
+            return HandleTDot(node);
         }
-        public virtual Result CaseTDot(TDot node)
+        public virtual Result HandleTDot(TDot node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TDDot node)
         {
-            return CaseTDDot(node);
+            return HandleTDDot(node);
         }
-        public virtual Result CaseTDDot(TDDot node)
+        public virtual Result HandleTDDot(TDDot node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TSemicolon node)
         {
-            return CaseTSemicolon(node);
+            return HandleTSemicolon(node);
         }
-        public virtual Result CaseTSemicolon(TSemicolon node)
+        public virtual Result HandleTSemicolon(TSemicolon node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TEqual node)
         {
-            return CaseTEqual(node);
+            return HandleTEqual(node);
         }
-        public virtual Result CaseTEqual(TEqual node)
+        public virtual Result HandleTEqual(TEqual node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TLBkt node)
         {
-            return CaseTLBkt(node);
+            return HandleTLBkt(node);
         }
-        public virtual Result CaseTLBkt(TLBkt node)
+        public virtual Result HandleTLBkt(TLBkt node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TRBkt node)
         {
-            return CaseTRBkt(node);
+            return HandleTRBkt(node);
         }
-        public virtual Result CaseTRBkt(TRBkt node)
+        public virtual Result HandleTRBkt(TRBkt node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TLPar node)
         {
-            return CaseTLPar(node);
+            return HandleTLPar(node);
         }
-        public virtual Result CaseTLPar(TLPar node)
+        public virtual Result HandleTLPar(TLPar node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TRPar node)
         {
-            return CaseTRPar(node);
+            return HandleTRPar(node);
         }
-        public virtual Result CaseTRPar(TRPar node)
+        public virtual Result HandleTRPar(TRPar node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TLBrace node)
         {
-            return CaseTLBrace(node);
+            return HandleTLBrace(node);
         }
-        public virtual Result CaseTLBrace(TLBrace node)
+        public virtual Result HandleTLBrace(TLBrace node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TRBrace node)
         {
-            return CaseTRBrace(node);
+            return HandleTRBrace(node);
         }
-        public virtual Result CaseTRBrace(TRBrace node)
+        public virtual Result HandleTRBrace(TRBrace node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TPlus node)
         {
-            return CaseTPlus(node);
+            return HandleTPlus(node);
         }
-        public virtual Result CaseTPlus(TPlus node)
+        public virtual Result HandleTPlus(TPlus node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TMinus node)
         {
-            return CaseTMinus(node);
+            return HandleTMinus(node);
         }
-        public virtual Result CaseTMinus(TMinus node)
+        public virtual Result HandleTMinus(TMinus node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TQMark node)
         {
-            return CaseTQMark(node);
+            return HandleTQMark(node);
         }
-        public virtual Result CaseTQMark(TQMark node)
+        public virtual Result HandleTQMark(TQMark node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TStar node)
         {
-            return CaseTStar(node);
+            return HandleTStar(node);
         }
-        public virtual Result CaseTStar(TStar node)
+        public virtual Result HandleTStar(TStar node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TPipe node)
         {
-            return CaseTPipe(node);
+            return HandleTPipe(node);
         }
-        public virtual Result CaseTPipe(TPipe node)
+        public virtual Result HandleTPipe(TPipe node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TComma node)
         {
-            return CaseTComma(node);
+            return HandleTComma(node);
         }
-        public virtual Result CaseTComma(TComma node)
+        public virtual Result HandleTComma(TComma node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TSlash node)
         {
-            return CaseTSlash(node);
+            return HandleTSlash(node);
         }
-        public virtual Result CaseTSlash(TSlash node)
+        public virtual Result HandleTSlash(TSlash node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TArrow node)
         {
-            return CaseTArrow(node);
+            return HandleTArrow(node);
         }
-        public virtual Result CaseTArrow(TArrow node)
+        public virtual Result HandleTArrow(TArrow node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TColon node)
         {
-            return CaseTColon(node);
+            return HandleTColon(node);
         }
-        public virtual Result CaseTColon(TColon node)
+        public virtual Result HandleTColon(TColon node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TIdentifier node)
         {
-            return CaseTIdentifier(node);
+            return HandleTIdentifier(node);
         }
-        public virtual Result CaseTIdentifier(TIdentifier node)
+        public virtual Result HandleTIdentifier(TIdentifier node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TCharacter node)
         {
-            return CaseTCharacter(node);
+            return HandleTCharacter(node);
         }
-        public virtual Result CaseTCharacter(TCharacter node)
+        public virtual Result HandleTCharacter(TCharacter node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TDecChar node)
         {
-            return CaseTDecChar(node);
+            return HandleTDecChar(node);
         }
-        public virtual Result CaseTDecChar(TDecChar node)
+        public virtual Result HandleTDecChar(TDecChar node)
         {
             return HandleDefault(node);
         }
         public Result Visit(THexChar node)
         {
-            return CaseTHexChar(node);
+            return HandleTHexChar(node);
         }
-        public virtual Result CaseTHexChar(THexChar node)
+        public virtual Result HandleTHexChar(THexChar node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TString node)
         {
-            return CaseTString(node);
+            return HandleTString(node);
         }
-        public virtual Result CaseTString(TString node)
+        public virtual Result HandleTString(TString node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TBlank node)
         {
-            return CaseTBlank(node);
+            return HandleTBlank(node);
         }
-        public virtual Result CaseTBlank(TBlank node)
+        public virtual Result HandleTBlank(TBlank node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TComment node)
         {
-            return CaseTComment(node);
+            return HandleTComment(node);
         }
-        public virtual Result CaseTComment(TComment node)
+        public virtual Result HandleTComment(TComment node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TItalic node)
         {
-            return CaseTItalic(node);
+            return HandleTItalic(node);
         }
-        public virtual Result CaseTItalic(TItalic node)
+        public virtual Result HandleTItalic(TItalic node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TBold node)
         {
-            return CaseTBold(node);
+            return HandleTBold(node);
         }
-        public virtual Result CaseTBold(TBold node)
+        public virtual Result HandleTBold(TBold node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TText node)
         {
-            return CaseTText(node);
+            return HandleTText(node);
         }
-        public virtual Result CaseTText(TText node)
+        public virtual Result HandleTText(TText node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TBackground node)
         {
-            return CaseTBackground(node);
+            return HandleTBackground(node);
         }
-        public virtual Result CaseTBackground(TBackground node)
+        public virtual Result HandleTBackground(TBackground node)
         {
             return HandleDefault(node);
         }
         public Result Visit(TRgb node)
         {
-            return CaseTRgb(node);
+            return HandleTRgb(node);
         }
-        public virtual Result CaseTRgb(TRgb node)
+        public virtual Result HandleTRgb(TRgb node)
         {
             return HandleDefault(node);
         }
         public Result Visit(THsv node)
         {
-            return CaseTHsv(node);
+            return HandleTHsv(node);
         }
-        public virtual Result CaseTHsv(THsv node)
+        public virtual Result HandleTHsv(THsv node)
         {
             return HandleDefault(node);
         }
         public Result Visit(THexColor node)
         {
-            return CaseTHexColor(node);
+            return HandleTHexColor(node);
         }
-        public virtual Result CaseTHexColor(THexColor node)
+        public virtual Result HandleTHexColor(THexColor node)
         {
             return HandleDefault(node);
         }
     }
-    public class ReturnAnalysisAdapter<T1, Result> : ReturnAdapter<T1, Result, PGrammar>
+    public partial class ReturnAnalysisAdapter<T1, Result> : ReturnAdapter<T1, Result, PGrammar>
     {
         public Result Visit(AGrammar node, T1 arg1)
         {
-            return CaseAGrammar(node, arg1);
+            return HandleAGrammar(node, arg1);
         }
-        public virtual Result CaseAGrammar(AGrammar node, T1 arg1)
+        public virtual Result HandleAGrammar(AGrammar node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ANamespaceSection node, T1 arg1)
         {
-            return CaseANamespaceSection(node, arg1);
+            return HandleANamespaceSection(node, arg1);
         }
-        public virtual Result CaseANamespaceSection(ANamespaceSection node, T1 arg1)
+        public virtual Result HandleANamespaceSection(ANamespaceSection node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AHelpersSection node, T1 arg1)
         {
-            return CaseAHelpersSection(node, arg1);
+            return HandleAHelpersSection(node, arg1);
         }
-        public virtual Result CaseAHelpersSection(AHelpersSection node, T1 arg1)
+        public virtual Result HandleAHelpersSection(AHelpersSection node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AStatesSection node, T1 arg1)
         {
-            return CaseAStatesSection(node, arg1);
+            return HandleAStatesSection(node, arg1);
         }
-        public virtual Result CaseAStatesSection(AStatesSection node, T1 arg1)
+        public virtual Result HandleAStatesSection(AStatesSection node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ATokensSection node, T1 arg1)
         {
-            return CaseATokensSection(node, arg1);
+            return HandleATokensSection(node, arg1);
         }
-        public virtual Result CaseATokensSection(ATokensSection node, T1 arg1)
+        public virtual Result HandleATokensSection(ATokensSection node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AIgnoreSection node, T1 arg1)
         {
-            return CaseAIgnoreSection(node, arg1);
+            return HandleAIgnoreSection(node, arg1);
         }
-        public virtual Result CaseAIgnoreSection(AIgnoreSection node, T1 arg1)
+        public virtual Result HandleAIgnoreSection(AIgnoreSection node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AProductionsSection node, T1 arg1)
         {
-            return CaseAProductionsSection(node, arg1);
+            return HandleAProductionsSection(node, arg1);
         }
-        public virtual Result CaseAProductionsSection(AProductionsSection node, T1 arg1)
+        public virtual Result HandleAProductionsSection(AProductionsSection node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AASTSection node, T1 arg1)
         {
-            return CaseAASTSection(node, arg1);
+            return HandleAASTSection(node, arg1);
         }
-        public virtual Result CaseAASTSection(AASTSection node, T1 arg1)
+        public virtual Result HandleAASTSection(AASTSection node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AHighlightSection node, T1 arg1)
         {
-            return CaseAHighlightSection(node, arg1);
+            return HandleAHighlightSection(node, arg1);
         }
-        public virtual Result CaseAHighlightSection(AHighlightSection node, T1 arg1)
+        public virtual Result HandleAHighlightSection(AHighlightSection node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AHelper node, T1 arg1)
         {
-            return CaseAHelper(node, arg1);
+            return HandleAHelper(node, arg1);
         }
-        public virtual Result CaseAHelper(AHelper node, T1 arg1)
+        public virtual Result HandleAHelper(AHelper node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AToken node, T1 arg1)
         {
-            return CaseAToken(node, arg1);
+            return HandleAToken(node, arg1);
         }
-        public virtual Result CaseAToken(AToken node, T1 arg1)
+        public virtual Result HandleAToken(AToken node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ATokenlookahead node, T1 arg1)
         {
-            return CaseATokenlookahead(node, arg1);
+            return HandleATokenlookahead(node, arg1);
         }
-        public virtual Result CaseATokenlookahead(ATokenlookahead node, T1 arg1)
+        public virtual Result HandleATokenlookahead(ATokenlookahead node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ACharRegex node, T1 arg1)
         {
-            return CaseACharRegex(node, arg1);
+            return HandleACharRegex(node, arg1);
         }
-        public virtual Result CaseACharRegex(ACharRegex node, T1 arg1)
+        public virtual Result HandleACharRegex(ACharRegex node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ADecRegex node, T1 arg1)
         {
-            return CaseADecRegex(node, arg1);
+            return HandleADecRegex(node, arg1);
         }
-        public virtual Result CaseADecRegex(ADecRegex node, T1 arg1)
+        public virtual Result HandleADecRegex(ADecRegex node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AHexRegex node, T1 arg1)
         {
-            return CaseAHexRegex(node, arg1);
+            return HandleAHexRegex(node, arg1);
         }
-        public virtual Result CaseAHexRegex(AHexRegex node, T1 arg1)
+        public virtual Result HandleAHexRegex(AHexRegex node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AConcatenatedRegex node, T1 arg1)
         {
-            return CaseAConcatenatedRegex(node, arg1);
+            return HandleAConcatenatedRegex(node, arg1);
         }
-        public virtual Result CaseAConcatenatedRegex(AConcatenatedRegex node, T1 arg1)
+        public virtual Result HandleAConcatenatedRegex(AConcatenatedRegex node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AUnaryRegex node, T1 arg1)
         {
-            return CaseAUnaryRegex(node, arg1);
+            return HandleAUnaryRegex(node, arg1);
         }
-        public virtual Result CaseAUnaryRegex(AUnaryRegex node, T1 arg1)
+        public virtual Result HandleAUnaryRegex(AUnaryRegex node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ABinaryplusRegex node, T1 arg1)
         {
-            return CaseABinaryplusRegex(node, arg1);
+            return HandleABinaryplusRegex(node, arg1);
         }
-        public virtual Result CaseABinaryplusRegex(ABinaryplusRegex node, T1 arg1)
+        public virtual Result HandleABinaryplusRegex(ABinaryplusRegex node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ABinaryminusRegex node, T1 arg1)
         {
-            return CaseABinaryminusRegex(node, arg1);
+            return HandleABinaryminusRegex(node, arg1);
         }
-        public virtual Result CaseABinaryminusRegex(ABinaryminusRegex node, T1 arg1)
+        public virtual Result HandleABinaryminusRegex(ABinaryminusRegex node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AIntervalRegex node, T1 arg1)
         {
-            return CaseAIntervalRegex(node, arg1);
+            return HandleAIntervalRegex(node, arg1);
         }
-        public virtual Result CaseAIntervalRegex(AIntervalRegex node, T1 arg1)
+        public virtual Result HandleAIntervalRegex(AIntervalRegex node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AStringRegex node, T1 arg1)
         {
-            return CaseAStringRegex(node, arg1);
+            return HandleAStringRegex(node, arg1);
         }
-        public virtual Result CaseAStringRegex(AStringRegex node, T1 arg1)
+        public virtual Result HandleAStringRegex(AStringRegex node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AIdentifierRegex node, T1 arg1)
         {
-            return CaseAIdentifierRegex(node, arg1);
+            return HandleAIdentifierRegex(node, arg1);
         }
-        public virtual Result CaseAIdentifierRegex(AIdentifierRegex node, T1 arg1)
+        public virtual Result HandleAIdentifierRegex(AIdentifierRegex node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AParenthesisRegex node, T1 arg1)
         {
-            return CaseAParenthesisRegex(node, arg1);
+            return HandleAParenthesisRegex(node, arg1);
         }
-        public virtual Result CaseAParenthesisRegex(AParenthesisRegex node, T1 arg1)
+        public virtual Result HandleAParenthesisRegex(AParenthesisRegex node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AOrRegex node, T1 arg1)
         {
-            return CaseAOrRegex(node, arg1);
+            return HandleAOrRegex(node, arg1);
         }
-        public virtual Result CaseAOrRegex(AOrRegex node, T1 arg1)
+        public virtual Result HandleAOrRegex(AOrRegex node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AStarModifier node, T1 arg1)
         {
-            return CaseAStarModifier(node, arg1);
+            return HandleAStarModifier(node, arg1);
         }
-        public virtual Result CaseAStarModifier(AStarModifier node, T1 arg1)
+        public virtual Result HandleAStarModifier(AStarModifier node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AQuestionModifier node, T1 arg1)
         {
-            return CaseAQuestionModifier(node, arg1);
+            return HandleAQuestionModifier(node, arg1);
         }
-        public virtual Result CaseAQuestionModifier(AQuestionModifier node, T1 arg1)
+        public virtual Result HandleAQuestionModifier(AQuestionModifier node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(APlusModifier node, T1 arg1)
         {
-            return CaseAPlusModifier(node, arg1);
+            return HandleAPlusModifier(node, arg1);
         }
-        public virtual Result CaseAPlusModifier(APlusModifier node, T1 arg1)
+        public virtual Result HandleAPlusModifier(APlusModifier node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AState node, T1 arg1)
         {
-            return CaseAState(node, arg1);
+            return HandleAState(node, arg1);
         }
-        public virtual Result CaseAState(AState node, T1 arg1)
+        public virtual Result HandleAState(AState node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ATokenState node, T1 arg1)
         {
-            return CaseATokenState(node, arg1);
+            return HandleATokenState(node, arg1);
         }
-        public virtual Result CaseATokenState(ATokenState node, T1 arg1)
+        public virtual Result HandleATokenState(ATokenState node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ATransitionTokenState node, T1 arg1)
         {
-            return CaseATransitionTokenState(node, arg1);
+            return HandleATransitionTokenState(node, arg1);
         }
-        public virtual Result CaseATransitionTokenState(ATransitionTokenState node, T1 arg1)
+        public virtual Result HandleATransitionTokenState(ATransitionTokenState node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AProduction node, T1 arg1)
         {
-            return CaseAProduction(node, arg1);
+            return HandleAProduction(node, arg1);
         }
-        public virtual Result CaseAProduction(AProduction node, T1 arg1)
+        public virtual Result HandleAProduction(AProduction node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AProdtranslation node, T1 arg1)
         {
-            return CaseAProdtranslation(node, arg1);
+            return HandleAProdtranslation(node, arg1);
         }
-        public virtual Result CaseAProdtranslation(AProdtranslation node, T1 arg1)
+        public virtual Result HandleAProdtranslation(AProdtranslation node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AFullTranslation node, T1 arg1)
         {
-            return CaseAFullTranslation(node, arg1);
+            return HandleAFullTranslation(node, arg1);
         }
-        public virtual Result CaseAFullTranslation(AFullTranslation node, T1 arg1)
+        public virtual Result HandleAFullTranslation(AFullTranslation node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ANewTranslation node, T1 arg1)
         {
-            return CaseANewTranslation(node, arg1);
+            return HandleANewTranslation(node, arg1);
         }
-        public virtual Result CaseANewTranslation(ANewTranslation node, T1 arg1)
+        public virtual Result HandleANewTranslation(ANewTranslation node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ANewalternativeTranslation node, T1 arg1)
         {
-            return CaseANewalternativeTranslation(node, arg1);
+            return HandleANewalternativeTranslation(node, arg1);
         }
-        public virtual Result CaseANewalternativeTranslation(ANewalternativeTranslation node, T1 arg1)
+        public virtual Result HandleANewalternativeTranslation(ANewalternativeTranslation node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AListTranslation node, T1 arg1)
         {
-            return CaseAListTranslation(node, arg1);
+            return HandleAListTranslation(node, arg1);
         }
-        public virtual Result CaseAListTranslation(AListTranslation node, T1 arg1)
+        public virtual Result HandleAListTranslation(AListTranslation node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ANullTranslation node, T1 arg1)
         {
-            return CaseANullTranslation(node, arg1);
+            return HandleANullTranslation(node, arg1);
         }
-        public virtual Result CaseANullTranslation(ANullTranslation node, T1 arg1)
+        public virtual Result HandleANullTranslation(ANullTranslation node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AIdTranslation node, T1 arg1)
         {
-            return CaseAIdTranslation(node, arg1);
+            return HandleAIdTranslation(node, arg1);
         }
-        public virtual Result CaseAIdTranslation(AIdTranslation node, T1 arg1)
+        public virtual Result HandleAIdTranslation(AIdTranslation node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AIddotidTranslation node, T1 arg1)
         {
-            return CaseAIddotidTranslation(node, arg1);
+            return HandleAIddotidTranslation(node, arg1);
         }
-        public virtual Result CaseAIddotidTranslation(AIddotidTranslation node, T1 arg1)
+        public virtual Result HandleAIddotidTranslation(AIddotidTranslation node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AAlternative node, T1 arg1)
         {
-            return CaseAAlternative(node, arg1);
+            return HandleAAlternative(node, arg1);
         }
-        public virtual Result CaseAAlternative(AAlternative node, T1 arg1)
+        public virtual Result HandleAAlternative(AAlternative node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AAlternativename node, T1 arg1)
         {
-            return CaseAAlternativename(node, arg1);
+            return HandleAAlternativename(node, arg1);
         }
-        public virtual Result CaseAAlternativename(AAlternativename node, T1 arg1)
+        public virtual Result HandleAAlternativename(AAlternativename node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AElement node, T1 arg1)
         {
-            return CaseAElement(node, arg1);
+            return HandleAElement(node, arg1);
         }
-        public virtual Result CaseAElement(AElement node, T1 arg1)
+        public virtual Result HandleAElement(AElement node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AElementname node, T1 arg1)
         {
-            return CaseAElementname(node, arg1);
+            return HandleAElementname(node, arg1);
         }
-        public virtual Result CaseAElementname(AElementname node, T1 arg1)
+        public virtual Result HandleAElementname(AElementname node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ACleanElementid node, T1 arg1)
         {
-            return CaseACleanElementid(node, arg1);
+            return HandleACleanElementid(node, arg1);
         }
-        public virtual Result CaseACleanElementid(ACleanElementid node, T1 arg1)
+        public virtual Result HandleACleanElementid(ACleanElementid node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ATokenElementid node, T1 arg1)
         {
-            return CaseATokenElementid(node, arg1);
+            return HandleATokenElementid(node, arg1);
         }
-        public virtual Result CaseATokenElementid(ATokenElementid node, T1 arg1)
+        public virtual Result HandleATokenElementid(ATokenElementid node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AProductionElementid node, T1 arg1)
         {
-            return CaseAProductionElementid(node, arg1);
+            return HandleAProductionElementid(node, arg1);
         }
-        public virtual Result CaseAProductionElementid(AProductionElementid node, T1 arg1)
+        public virtual Result HandleAProductionElementid(AProductionElementid node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AHighlightrule node, T1 arg1)
         {
-            return CaseAHighlightrule(node, arg1);
+            return HandleAHighlightrule(node, arg1);
         }
-        public virtual Result CaseAHighlightrule(AHighlightrule node, T1 arg1)
+        public virtual Result HandleAHighlightrule(AHighlightrule node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AItalicHighlightStyle node, T1 arg1)
         {
-            return CaseAItalicHighlightStyle(node, arg1);
+            return HandleAItalicHighlightStyle(node, arg1);
         }
-        public virtual Result CaseAItalicHighlightStyle(AItalicHighlightStyle node, T1 arg1)
+        public virtual Result HandleAItalicHighlightStyle(AItalicHighlightStyle node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ABoldHighlightStyle node, T1 arg1)
         {
-            return CaseABoldHighlightStyle(node, arg1);
+            return HandleABoldHighlightStyle(node, arg1);
         }
-        public virtual Result CaseABoldHighlightStyle(ABoldHighlightStyle node, T1 arg1)
+        public virtual Result HandleABoldHighlightStyle(ABoldHighlightStyle node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ATextHighlightStyle node, T1 arg1)
         {
-            return CaseATextHighlightStyle(node, arg1);
+            return HandleATextHighlightStyle(node, arg1);
         }
-        public virtual Result CaseATextHighlightStyle(ATextHighlightStyle node, T1 arg1)
+        public virtual Result HandleATextHighlightStyle(ATextHighlightStyle node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ABackgroundHighlightStyle node, T1 arg1)
         {
-            return CaseABackgroundHighlightStyle(node, arg1);
+            return HandleABackgroundHighlightStyle(node, arg1);
         }
-        public virtual Result CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, T1 arg1)
+        public virtual Result HandleABackgroundHighlightStyle(ABackgroundHighlightStyle node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(ARgbColor node, T1 arg1)
         {
-            return CaseARgbColor(node, arg1);
+            return HandleARgbColor(node, arg1);
         }
-        public virtual Result CaseARgbColor(ARgbColor node, T1 arg1)
+        public virtual Result HandleARgbColor(ARgbColor node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AHsvColor node, T1 arg1)
         {
-            return CaseAHsvColor(node, arg1);
+            return HandleAHsvColor(node, arg1);
         }
-        public virtual Result CaseAHsvColor(AHsvColor node, T1 arg1)
+        public virtual Result HandleAHsvColor(AHsvColor node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(AHexColor node, T1 arg1)
         {
-            return CaseAHexColor(node, arg1);
+            return HandleAHexColor(node, arg1);
         }
-        public virtual Result CaseAHexColor(AHexColor node, T1 arg1)
+        public virtual Result HandleAHexColor(AHexColor node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TNamespace node, T1 arg1)
         {
-            return CaseTNamespace(node, arg1);
+            return HandleTNamespace(node, arg1);
         }
-        public virtual Result CaseTNamespace(TNamespace node, T1 arg1)
+        public virtual Result HandleTNamespace(TNamespace node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TNamespacetoken node, T1 arg1)
         {
-            return CaseTNamespacetoken(node, arg1);
+            return HandleTNamespacetoken(node, arg1);
         }
-        public virtual Result CaseTNamespacetoken(TNamespacetoken node, T1 arg1)
+        public virtual Result HandleTNamespacetoken(TNamespacetoken node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TStatestoken node, T1 arg1)
         {
-            return CaseTStatestoken(node, arg1);
+            return HandleTStatestoken(node, arg1);
         }
-        public virtual Result CaseTStatestoken(TStatestoken node, T1 arg1)
+        public virtual Result HandleTStatestoken(TStatestoken node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(THelperstoken node, T1 arg1)
         {
-            return CaseTHelperstoken(node, arg1);
+            return HandleTHelperstoken(node, arg1);
         }
-        public virtual Result CaseTHelperstoken(THelperstoken node, T1 arg1)
+        public virtual Result HandleTHelperstoken(THelperstoken node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TTokenstoken node, T1 arg1)
         {
-            return CaseTTokenstoken(node, arg1);
+            return HandleTTokenstoken(node, arg1);
         }
-        public virtual Result CaseTTokenstoken(TTokenstoken node, T1 arg1)
+        public virtual Result HandleTTokenstoken(TTokenstoken node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TIgnoredtoken node, T1 arg1)
         {
-            return CaseTIgnoredtoken(node, arg1);
+            return HandleTIgnoredtoken(node, arg1);
         }
-        public virtual Result CaseTIgnoredtoken(TIgnoredtoken node, T1 arg1)
+        public virtual Result HandleTIgnoredtoken(TIgnoredtoken node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TProductionstoken node, T1 arg1)
         {
-            return CaseTProductionstoken(node, arg1);
+            return HandleTProductionstoken(node, arg1);
         }
-        public virtual Result CaseTProductionstoken(TProductionstoken node, T1 arg1)
+        public virtual Result HandleTProductionstoken(TProductionstoken node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TAsttoken node, T1 arg1)
         {
-            return CaseTAsttoken(node, arg1);
+            return HandleTAsttoken(node, arg1);
         }
-        public virtual Result CaseTAsttoken(TAsttoken node, T1 arg1)
+        public virtual Result HandleTAsttoken(TAsttoken node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(THighlighttoken node, T1 arg1)
         {
-            return CaseTHighlighttoken(node, arg1);
+            return HandleTHighlighttoken(node, arg1);
         }
-        public virtual Result CaseTHighlighttoken(THighlighttoken node, T1 arg1)
+        public virtual Result HandleTHighlighttoken(THighlighttoken node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TNew node, T1 arg1)
         {
-            return CaseTNew(node, arg1);
+            return HandleTNew(node, arg1);
         }
-        public virtual Result CaseTNew(TNew node, T1 arg1)
+        public virtual Result HandleTNew(TNew node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TNull node, T1 arg1)
         {
-            return CaseTNull(node, arg1);
+            return HandleTNull(node, arg1);
         }
-        public virtual Result CaseTNull(TNull node, T1 arg1)
+        public virtual Result HandleTNull(TNull node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TTokenSpecifier node, T1 arg1)
         {
-            return CaseTTokenSpecifier(node, arg1);
+            return HandleTTokenSpecifier(node, arg1);
         }
-        public virtual Result CaseTTokenSpecifier(TTokenSpecifier node, T1 arg1)
+        public virtual Result HandleTTokenSpecifier(TTokenSpecifier node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TProductionSpecifier node, T1 arg1)
         {
-            return CaseTProductionSpecifier(node, arg1);
+            return HandleTProductionSpecifier(node, arg1);
         }
-        public virtual Result CaseTProductionSpecifier(TProductionSpecifier node, T1 arg1)
+        public virtual Result HandleTProductionSpecifier(TProductionSpecifier node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TDot node, T1 arg1)
         {
-            return CaseTDot(node, arg1);
+            return HandleTDot(node, arg1);
         }
-        public virtual Result CaseTDot(TDot node, T1 arg1)
+        public virtual Result HandleTDot(TDot node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TDDot node, T1 arg1)
         {
-            return CaseTDDot(node, arg1);
+            return HandleTDDot(node, arg1);
         }
-        public virtual Result CaseTDDot(TDDot node, T1 arg1)
+        public virtual Result HandleTDDot(TDDot node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TSemicolon node, T1 arg1)
         {
-            return CaseTSemicolon(node, arg1);
+            return HandleTSemicolon(node, arg1);
         }
-        public virtual Result CaseTSemicolon(TSemicolon node, T1 arg1)
+        public virtual Result HandleTSemicolon(TSemicolon node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TEqual node, T1 arg1)
         {
-            return CaseTEqual(node, arg1);
+            return HandleTEqual(node, arg1);
         }
-        public virtual Result CaseTEqual(TEqual node, T1 arg1)
+        public virtual Result HandleTEqual(TEqual node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TLBkt node, T1 arg1)
         {
-            return CaseTLBkt(node, arg1);
+            return HandleTLBkt(node, arg1);
         }
-        public virtual Result CaseTLBkt(TLBkt node, T1 arg1)
+        public virtual Result HandleTLBkt(TLBkt node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TRBkt node, T1 arg1)
         {
-            return CaseTRBkt(node, arg1);
+            return HandleTRBkt(node, arg1);
         }
-        public virtual Result CaseTRBkt(TRBkt node, T1 arg1)
+        public virtual Result HandleTRBkt(TRBkt node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TLPar node, T1 arg1)
         {
-            return CaseTLPar(node, arg1);
+            return HandleTLPar(node, arg1);
         }
-        public virtual Result CaseTLPar(TLPar node, T1 arg1)
+        public virtual Result HandleTLPar(TLPar node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TRPar node, T1 arg1)
         {
-            return CaseTRPar(node, arg1);
+            return HandleTRPar(node, arg1);
         }
-        public virtual Result CaseTRPar(TRPar node, T1 arg1)
+        public virtual Result HandleTRPar(TRPar node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TLBrace node, T1 arg1)
         {
-            return CaseTLBrace(node, arg1);
+            return HandleTLBrace(node, arg1);
         }
-        public virtual Result CaseTLBrace(TLBrace node, T1 arg1)
+        public virtual Result HandleTLBrace(TLBrace node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TRBrace node, T1 arg1)
         {
-            return CaseTRBrace(node, arg1);
+            return HandleTRBrace(node, arg1);
         }
-        public virtual Result CaseTRBrace(TRBrace node, T1 arg1)
+        public virtual Result HandleTRBrace(TRBrace node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TPlus node, T1 arg1)
         {
-            return CaseTPlus(node, arg1);
+            return HandleTPlus(node, arg1);
         }
-        public virtual Result CaseTPlus(TPlus node, T1 arg1)
+        public virtual Result HandleTPlus(TPlus node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TMinus node, T1 arg1)
         {
-            return CaseTMinus(node, arg1);
+            return HandleTMinus(node, arg1);
         }
-        public virtual Result CaseTMinus(TMinus node, T1 arg1)
+        public virtual Result HandleTMinus(TMinus node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TQMark node, T1 arg1)
         {
-            return CaseTQMark(node, arg1);
+            return HandleTQMark(node, arg1);
         }
-        public virtual Result CaseTQMark(TQMark node, T1 arg1)
+        public virtual Result HandleTQMark(TQMark node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TStar node, T1 arg1)
         {
-            return CaseTStar(node, arg1);
+            return HandleTStar(node, arg1);
         }
-        public virtual Result CaseTStar(TStar node, T1 arg1)
+        public virtual Result HandleTStar(TStar node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TPipe node, T1 arg1)
         {
-            return CaseTPipe(node, arg1);
+            return HandleTPipe(node, arg1);
         }
-        public virtual Result CaseTPipe(TPipe node, T1 arg1)
+        public virtual Result HandleTPipe(TPipe node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TComma node, T1 arg1)
         {
-            return CaseTComma(node, arg1);
+            return HandleTComma(node, arg1);
         }
-        public virtual Result CaseTComma(TComma node, T1 arg1)
+        public virtual Result HandleTComma(TComma node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TSlash node, T1 arg1)
         {
-            return CaseTSlash(node, arg1);
+            return HandleTSlash(node, arg1);
         }
-        public virtual Result CaseTSlash(TSlash node, T1 arg1)
+        public virtual Result HandleTSlash(TSlash node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TArrow node, T1 arg1)
         {
-            return CaseTArrow(node, arg1);
+            return HandleTArrow(node, arg1);
         }
-        public virtual Result CaseTArrow(TArrow node, T1 arg1)
+        public virtual Result HandleTArrow(TArrow node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TColon node, T1 arg1)
         {
-            return CaseTColon(node, arg1);
+            return HandleTColon(node, arg1);
         }
-        public virtual Result CaseTColon(TColon node, T1 arg1)
+        public virtual Result HandleTColon(TColon node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TIdentifier node, T1 arg1)
         {
-            return CaseTIdentifier(node, arg1);
+            return HandleTIdentifier(node, arg1);
         }
-        public virtual Result CaseTIdentifier(TIdentifier node, T1 arg1)
+        public virtual Result HandleTIdentifier(TIdentifier node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TCharacter node, T1 arg1)
         {
-            return CaseTCharacter(node, arg1);
+            return HandleTCharacter(node, arg1);
         }
-        public virtual Result CaseTCharacter(TCharacter node, T1 arg1)
+        public virtual Result HandleTCharacter(TCharacter node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TDecChar node, T1 arg1)
         {
-            return CaseTDecChar(node, arg1);
+            return HandleTDecChar(node, arg1);
         }
-        public virtual Result CaseTDecChar(TDecChar node, T1 arg1)
+        public virtual Result HandleTDecChar(TDecChar node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(THexChar node, T1 arg1)
         {
-            return CaseTHexChar(node, arg1);
+            return HandleTHexChar(node, arg1);
         }
-        public virtual Result CaseTHexChar(THexChar node, T1 arg1)
+        public virtual Result HandleTHexChar(THexChar node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TString node, T1 arg1)
         {
-            return CaseTString(node, arg1);
+            return HandleTString(node, arg1);
         }
-        public virtual Result CaseTString(TString node, T1 arg1)
+        public virtual Result HandleTString(TString node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TBlank node, T1 arg1)
         {
-            return CaseTBlank(node, arg1);
+            return HandleTBlank(node, arg1);
         }
-        public virtual Result CaseTBlank(TBlank node, T1 arg1)
+        public virtual Result HandleTBlank(TBlank node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TComment node, T1 arg1)
         {
-            return CaseTComment(node, arg1);
+            return HandleTComment(node, arg1);
         }
-        public virtual Result CaseTComment(TComment node, T1 arg1)
+        public virtual Result HandleTComment(TComment node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TItalic node, T1 arg1)
         {
-            return CaseTItalic(node, arg1);
+            return HandleTItalic(node, arg1);
         }
-        public virtual Result CaseTItalic(TItalic node, T1 arg1)
+        public virtual Result HandleTItalic(TItalic node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TBold node, T1 arg1)
         {
-            return CaseTBold(node, arg1);
+            return HandleTBold(node, arg1);
         }
-        public virtual Result CaseTBold(TBold node, T1 arg1)
+        public virtual Result HandleTBold(TBold node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TText node, T1 arg1)
         {
-            return CaseTText(node, arg1);
+            return HandleTText(node, arg1);
         }
-        public virtual Result CaseTText(TText node, T1 arg1)
+        public virtual Result HandleTText(TText node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TBackground node, T1 arg1)
         {
-            return CaseTBackground(node, arg1);
+            return HandleTBackground(node, arg1);
         }
-        public virtual Result CaseTBackground(TBackground node, T1 arg1)
+        public virtual Result HandleTBackground(TBackground node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(TRgb node, T1 arg1)
         {
-            return CaseTRgb(node, arg1);
+            return HandleTRgb(node, arg1);
         }
-        public virtual Result CaseTRgb(TRgb node, T1 arg1)
+        public virtual Result HandleTRgb(TRgb node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(THsv node, T1 arg1)
         {
-            return CaseTHsv(node, arg1);
+            return HandleTHsv(node, arg1);
         }
-        public virtual Result CaseTHsv(THsv node, T1 arg1)
+        public virtual Result HandleTHsv(THsv node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
         public Result Visit(THexColor node, T1 arg1)
         {
-            return CaseTHexColor(node, arg1);
+            return HandleTHexColor(node, arg1);
         }
-        public virtual Result CaseTHexColor(THexColor node, T1 arg1)
+        public virtual Result HandleTHexColor(THexColor node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
     }
-    public class ReturnAnalysisAdapter<T1, T2, Result> : ReturnAdapter<T1, T2, Result, PGrammar>
+    public partial class ReturnAnalysisAdapter<T1, T2, Result> : ReturnAdapter<T1, T2, Result, PGrammar>
     {
         public Result Visit(AGrammar node, T1 arg1, T2 arg2)
         {
-            return CaseAGrammar(node, arg1, arg2);
+            return HandleAGrammar(node, arg1, arg2);
         }
-        public virtual Result CaseAGrammar(AGrammar node, T1 arg1, T2 arg2)
+        public virtual Result HandleAGrammar(AGrammar node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ANamespaceSection node, T1 arg1, T2 arg2)
         {
-            return CaseANamespaceSection(node, arg1, arg2);
+            return HandleANamespaceSection(node, arg1, arg2);
         }
-        public virtual Result CaseANamespaceSection(ANamespaceSection node, T1 arg1, T2 arg2)
+        public virtual Result HandleANamespaceSection(ANamespaceSection node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHelpersSection node, T1 arg1, T2 arg2)
         {
-            return CaseAHelpersSection(node, arg1, arg2);
+            return HandleAHelpersSection(node, arg1, arg2);
         }
-        public virtual Result CaseAHelpersSection(AHelpersSection node, T1 arg1, T2 arg2)
+        public virtual Result HandleAHelpersSection(AHelpersSection node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AStatesSection node, T1 arg1, T2 arg2)
         {
-            return CaseAStatesSection(node, arg1, arg2);
+            return HandleAStatesSection(node, arg1, arg2);
         }
-        public virtual Result CaseAStatesSection(AStatesSection node, T1 arg1, T2 arg2)
+        public virtual Result HandleAStatesSection(AStatesSection node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ATokensSection node, T1 arg1, T2 arg2)
         {
-            return CaseATokensSection(node, arg1, arg2);
+            return HandleATokensSection(node, arg1, arg2);
         }
-        public virtual Result CaseATokensSection(ATokensSection node, T1 arg1, T2 arg2)
+        public virtual Result HandleATokensSection(ATokensSection node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AIgnoreSection node, T1 arg1, T2 arg2)
         {
-            return CaseAIgnoreSection(node, arg1, arg2);
+            return HandleAIgnoreSection(node, arg1, arg2);
         }
-        public virtual Result CaseAIgnoreSection(AIgnoreSection node, T1 arg1, T2 arg2)
+        public virtual Result HandleAIgnoreSection(AIgnoreSection node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AProductionsSection node, T1 arg1, T2 arg2)
         {
-            return CaseAProductionsSection(node, arg1, arg2);
+            return HandleAProductionsSection(node, arg1, arg2);
         }
-        public virtual Result CaseAProductionsSection(AProductionsSection node, T1 arg1, T2 arg2)
+        public virtual Result HandleAProductionsSection(AProductionsSection node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AASTSection node, T1 arg1, T2 arg2)
         {
-            return CaseAASTSection(node, arg1, arg2);
+            return HandleAASTSection(node, arg1, arg2);
         }
-        public virtual Result CaseAASTSection(AASTSection node, T1 arg1, T2 arg2)
+        public virtual Result HandleAASTSection(AASTSection node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHighlightSection node, T1 arg1, T2 arg2)
         {
-            return CaseAHighlightSection(node, arg1, arg2);
+            return HandleAHighlightSection(node, arg1, arg2);
         }
-        public virtual Result CaseAHighlightSection(AHighlightSection node, T1 arg1, T2 arg2)
+        public virtual Result HandleAHighlightSection(AHighlightSection node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHelper node, T1 arg1, T2 arg2)
         {
-            return CaseAHelper(node, arg1, arg2);
+            return HandleAHelper(node, arg1, arg2);
         }
-        public virtual Result CaseAHelper(AHelper node, T1 arg1, T2 arg2)
+        public virtual Result HandleAHelper(AHelper node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AToken node, T1 arg1, T2 arg2)
         {
-            return CaseAToken(node, arg1, arg2);
+            return HandleAToken(node, arg1, arg2);
         }
-        public virtual Result CaseAToken(AToken node, T1 arg1, T2 arg2)
+        public virtual Result HandleAToken(AToken node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ATokenlookahead node, T1 arg1, T2 arg2)
         {
-            return CaseATokenlookahead(node, arg1, arg2);
+            return HandleATokenlookahead(node, arg1, arg2);
         }
-        public virtual Result CaseATokenlookahead(ATokenlookahead node, T1 arg1, T2 arg2)
+        public virtual Result HandleATokenlookahead(ATokenlookahead node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ACharRegex node, T1 arg1, T2 arg2)
         {
-            return CaseACharRegex(node, arg1, arg2);
+            return HandleACharRegex(node, arg1, arg2);
         }
-        public virtual Result CaseACharRegex(ACharRegex node, T1 arg1, T2 arg2)
+        public virtual Result HandleACharRegex(ACharRegex node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ADecRegex node, T1 arg1, T2 arg2)
         {
-            return CaseADecRegex(node, arg1, arg2);
+            return HandleADecRegex(node, arg1, arg2);
         }
-        public virtual Result CaseADecRegex(ADecRegex node, T1 arg1, T2 arg2)
+        public virtual Result HandleADecRegex(ADecRegex node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHexRegex node, T1 arg1, T2 arg2)
         {
-            return CaseAHexRegex(node, arg1, arg2);
+            return HandleAHexRegex(node, arg1, arg2);
         }
-        public virtual Result CaseAHexRegex(AHexRegex node, T1 arg1, T2 arg2)
+        public virtual Result HandleAHexRegex(AHexRegex node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AConcatenatedRegex node, T1 arg1, T2 arg2)
         {
-            return CaseAConcatenatedRegex(node, arg1, arg2);
+            return HandleAConcatenatedRegex(node, arg1, arg2);
         }
-        public virtual Result CaseAConcatenatedRegex(AConcatenatedRegex node, T1 arg1, T2 arg2)
+        public virtual Result HandleAConcatenatedRegex(AConcatenatedRegex node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AUnaryRegex node, T1 arg1, T2 arg2)
         {
-            return CaseAUnaryRegex(node, arg1, arg2);
+            return HandleAUnaryRegex(node, arg1, arg2);
         }
-        public virtual Result CaseAUnaryRegex(AUnaryRegex node, T1 arg1, T2 arg2)
+        public virtual Result HandleAUnaryRegex(AUnaryRegex node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ABinaryplusRegex node, T1 arg1, T2 arg2)
         {
-            return CaseABinaryplusRegex(node, arg1, arg2);
+            return HandleABinaryplusRegex(node, arg1, arg2);
         }
-        public virtual Result CaseABinaryplusRegex(ABinaryplusRegex node, T1 arg1, T2 arg2)
+        public virtual Result HandleABinaryplusRegex(ABinaryplusRegex node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ABinaryminusRegex node, T1 arg1, T2 arg2)
         {
-            return CaseABinaryminusRegex(node, arg1, arg2);
+            return HandleABinaryminusRegex(node, arg1, arg2);
         }
-        public virtual Result CaseABinaryminusRegex(ABinaryminusRegex node, T1 arg1, T2 arg2)
+        public virtual Result HandleABinaryminusRegex(ABinaryminusRegex node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AIntervalRegex node, T1 arg1, T2 arg2)
         {
-            return CaseAIntervalRegex(node, arg1, arg2);
+            return HandleAIntervalRegex(node, arg1, arg2);
         }
-        public virtual Result CaseAIntervalRegex(AIntervalRegex node, T1 arg1, T2 arg2)
+        public virtual Result HandleAIntervalRegex(AIntervalRegex node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AStringRegex node, T1 arg1, T2 arg2)
         {
-            return CaseAStringRegex(node, arg1, arg2);
+            return HandleAStringRegex(node, arg1, arg2);
         }
-        public virtual Result CaseAStringRegex(AStringRegex node, T1 arg1, T2 arg2)
+        public virtual Result HandleAStringRegex(AStringRegex node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AIdentifierRegex node, T1 arg1, T2 arg2)
         {
-            return CaseAIdentifierRegex(node, arg1, arg2);
+            return HandleAIdentifierRegex(node, arg1, arg2);
         }
-        public virtual Result CaseAIdentifierRegex(AIdentifierRegex node, T1 arg1, T2 arg2)
+        public virtual Result HandleAIdentifierRegex(AIdentifierRegex node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AParenthesisRegex node, T1 arg1, T2 arg2)
         {
-            return CaseAParenthesisRegex(node, arg1, arg2);
+            return HandleAParenthesisRegex(node, arg1, arg2);
         }
-        public virtual Result CaseAParenthesisRegex(AParenthesisRegex node, T1 arg1, T2 arg2)
+        public virtual Result HandleAParenthesisRegex(AParenthesisRegex node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AOrRegex node, T1 arg1, T2 arg2)
         {
-            return CaseAOrRegex(node, arg1, arg2);
+            return HandleAOrRegex(node, arg1, arg2);
         }
-        public virtual Result CaseAOrRegex(AOrRegex node, T1 arg1, T2 arg2)
+        public virtual Result HandleAOrRegex(AOrRegex node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AStarModifier node, T1 arg1, T2 arg2)
         {
-            return CaseAStarModifier(node, arg1, arg2);
+            return HandleAStarModifier(node, arg1, arg2);
         }
-        public virtual Result CaseAStarModifier(AStarModifier node, T1 arg1, T2 arg2)
+        public virtual Result HandleAStarModifier(AStarModifier node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AQuestionModifier node, T1 arg1, T2 arg2)
         {
-            return CaseAQuestionModifier(node, arg1, arg2);
+            return HandleAQuestionModifier(node, arg1, arg2);
         }
-        public virtual Result CaseAQuestionModifier(AQuestionModifier node, T1 arg1, T2 arg2)
+        public virtual Result HandleAQuestionModifier(AQuestionModifier node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(APlusModifier node, T1 arg1, T2 arg2)
         {
-            return CaseAPlusModifier(node, arg1, arg2);
+            return HandleAPlusModifier(node, arg1, arg2);
         }
-        public virtual Result CaseAPlusModifier(APlusModifier node, T1 arg1, T2 arg2)
+        public virtual Result HandleAPlusModifier(APlusModifier node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AState node, T1 arg1, T2 arg2)
         {
-            return CaseAState(node, arg1, arg2);
+            return HandleAState(node, arg1, arg2);
         }
-        public virtual Result CaseAState(AState node, T1 arg1, T2 arg2)
+        public virtual Result HandleAState(AState node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ATokenState node, T1 arg1, T2 arg2)
         {
-            return CaseATokenState(node, arg1, arg2);
+            return HandleATokenState(node, arg1, arg2);
         }
-        public virtual Result CaseATokenState(ATokenState node, T1 arg1, T2 arg2)
+        public virtual Result HandleATokenState(ATokenState node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ATransitionTokenState node, T1 arg1, T2 arg2)
         {
-            return CaseATransitionTokenState(node, arg1, arg2);
+            return HandleATransitionTokenState(node, arg1, arg2);
         }
-        public virtual Result CaseATransitionTokenState(ATransitionTokenState node, T1 arg1, T2 arg2)
+        public virtual Result HandleATransitionTokenState(ATransitionTokenState node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AProduction node, T1 arg1, T2 arg2)
         {
-            return CaseAProduction(node, arg1, arg2);
+            return HandleAProduction(node, arg1, arg2);
         }
-        public virtual Result CaseAProduction(AProduction node, T1 arg1, T2 arg2)
+        public virtual Result HandleAProduction(AProduction node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AProdtranslation node, T1 arg1, T2 arg2)
         {
-            return CaseAProdtranslation(node, arg1, arg2);
+            return HandleAProdtranslation(node, arg1, arg2);
         }
-        public virtual Result CaseAProdtranslation(AProdtranslation node, T1 arg1, T2 arg2)
+        public virtual Result HandleAProdtranslation(AProdtranslation node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AFullTranslation node, T1 arg1, T2 arg2)
         {
-            return CaseAFullTranslation(node, arg1, arg2);
+            return HandleAFullTranslation(node, arg1, arg2);
         }
-        public virtual Result CaseAFullTranslation(AFullTranslation node, T1 arg1, T2 arg2)
+        public virtual Result HandleAFullTranslation(AFullTranslation node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ANewTranslation node, T1 arg1, T2 arg2)
         {
-            return CaseANewTranslation(node, arg1, arg2);
+            return HandleANewTranslation(node, arg1, arg2);
         }
-        public virtual Result CaseANewTranslation(ANewTranslation node, T1 arg1, T2 arg2)
+        public virtual Result HandleANewTranslation(ANewTranslation node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ANewalternativeTranslation node, T1 arg1, T2 arg2)
         {
-            return CaseANewalternativeTranslation(node, arg1, arg2);
+            return HandleANewalternativeTranslation(node, arg1, arg2);
         }
-        public virtual Result CaseANewalternativeTranslation(ANewalternativeTranslation node, T1 arg1, T2 arg2)
+        public virtual Result HandleANewalternativeTranslation(ANewalternativeTranslation node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AListTranslation node, T1 arg1, T2 arg2)
         {
-            return CaseAListTranslation(node, arg1, arg2);
+            return HandleAListTranslation(node, arg1, arg2);
         }
-        public virtual Result CaseAListTranslation(AListTranslation node, T1 arg1, T2 arg2)
+        public virtual Result HandleAListTranslation(AListTranslation node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ANullTranslation node, T1 arg1, T2 arg2)
         {
-            return CaseANullTranslation(node, arg1, arg2);
+            return HandleANullTranslation(node, arg1, arg2);
         }
-        public virtual Result CaseANullTranslation(ANullTranslation node, T1 arg1, T2 arg2)
+        public virtual Result HandleANullTranslation(ANullTranslation node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AIdTranslation node, T1 arg1, T2 arg2)
         {
-            return CaseAIdTranslation(node, arg1, arg2);
+            return HandleAIdTranslation(node, arg1, arg2);
         }
-        public virtual Result CaseAIdTranslation(AIdTranslation node, T1 arg1, T2 arg2)
+        public virtual Result HandleAIdTranslation(AIdTranslation node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AIddotidTranslation node, T1 arg1, T2 arg2)
         {
-            return CaseAIddotidTranslation(node, arg1, arg2);
+            return HandleAIddotidTranslation(node, arg1, arg2);
         }
-        public virtual Result CaseAIddotidTranslation(AIddotidTranslation node, T1 arg1, T2 arg2)
+        public virtual Result HandleAIddotidTranslation(AIddotidTranslation node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AAlternative node, T1 arg1, T2 arg2)
         {
-            return CaseAAlternative(node, arg1, arg2);
+            return HandleAAlternative(node, arg1, arg2);
         }
-        public virtual Result CaseAAlternative(AAlternative node, T1 arg1, T2 arg2)
+        public virtual Result HandleAAlternative(AAlternative node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AAlternativename node, T1 arg1, T2 arg2)
         {
-            return CaseAAlternativename(node, arg1, arg2);
+            return HandleAAlternativename(node, arg1, arg2);
         }
-        public virtual Result CaseAAlternativename(AAlternativename node, T1 arg1, T2 arg2)
+        public virtual Result HandleAAlternativename(AAlternativename node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AElement node, T1 arg1, T2 arg2)
         {
-            return CaseAElement(node, arg1, arg2);
+            return HandleAElement(node, arg1, arg2);
         }
-        public virtual Result CaseAElement(AElement node, T1 arg1, T2 arg2)
+        public virtual Result HandleAElement(AElement node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AElementname node, T1 arg1, T2 arg2)
         {
-            return CaseAElementname(node, arg1, arg2);
+            return HandleAElementname(node, arg1, arg2);
         }
-        public virtual Result CaseAElementname(AElementname node, T1 arg1, T2 arg2)
+        public virtual Result HandleAElementname(AElementname node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ACleanElementid node, T1 arg1, T2 arg2)
         {
-            return CaseACleanElementid(node, arg1, arg2);
+            return HandleACleanElementid(node, arg1, arg2);
         }
-        public virtual Result CaseACleanElementid(ACleanElementid node, T1 arg1, T2 arg2)
+        public virtual Result HandleACleanElementid(ACleanElementid node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ATokenElementid node, T1 arg1, T2 arg2)
         {
-            return CaseATokenElementid(node, arg1, arg2);
+            return HandleATokenElementid(node, arg1, arg2);
         }
-        public virtual Result CaseATokenElementid(ATokenElementid node, T1 arg1, T2 arg2)
+        public virtual Result HandleATokenElementid(ATokenElementid node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AProductionElementid node, T1 arg1, T2 arg2)
         {
-            return CaseAProductionElementid(node, arg1, arg2);
+            return HandleAProductionElementid(node, arg1, arg2);
         }
-        public virtual Result CaseAProductionElementid(AProductionElementid node, T1 arg1, T2 arg2)
+        public virtual Result HandleAProductionElementid(AProductionElementid node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHighlightrule node, T1 arg1, T2 arg2)
         {
-            return CaseAHighlightrule(node, arg1, arg2);
+            return HandleAHighlightrule(node, arg1, arg2);
         }
-        public virtual Result CaseAHighlightrule(AHighlightrule node, T1 arg1, T2 arg2)
+        public virtual Result HandleAHighlightrule(AHighlightrule node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AItalicHighlightStyle node, T1 arg1, T2 arg2)
         {
-            return CaseAItalicHighlightStyle(node, arg1, arg2);
+            return HandleAItalicHighlightStyle(node, arg1, arg2);
         }
-        public virtual Result CaseAItalicHighlightStyle(AItalicHighlightStyle node, T1 arg1, T2 arg2)
+        public virtual Result HandleAItalicHighlightStyle(AItalicHighlightStyle node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ABoldHighlightStyle node, T1 arg1, T2 arg2)
         {
-            return CaseABoldHighlightStyle(node, arg1, arg2);
+            return HandleABoldHighlightStyle(node, arg1, arg2);
         }
-        public virtual Result CaseABoldHighlightStyle(ABoldHighlightStyle node, T1 arg1, T2 arg2)
+        public virtual Result HandleABoldHighlightStyle(ABoldHighlightStyle node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ATextHighlightStyle node, T1 arg1, T2 arg2)
         {
-            return CaseATextHighlightStyle(node, arg1, arg2);
+            return HandleATextHighlightStyle(node, arg1, arg2);
         }
-        public virtual Result CaseATextHighlightStyle(ATextHighlightStyle node, T1 arg1, T2 arg2)
+        public virtual Result HandleATextHighlightStyle(ATextHighlightStyle node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ABackgroundHighlightStyle node, T1 arg1, T2 arg2)
         {
-            return CaseABackgroundHighlightStyle(node, arg1, arg2);
+            return HandleABackgroundHighlightStyle(node, arg1, arg2);
         }
-        public virtual Result CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, T1 arg1, T2 arg2)
+        public virtual Result HandleABackgroundHighlightStyle(ABackgroundHighlightStyle node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(ARgbColor node, T1 arg1, T2 arg2)
         {
-            return CaseARgbColor(node, arg1, arg2);
+            return HandleARgbColor(node, arg1, arg2);
         }
-        public virtual Result CaseARgbColor(ARgbColor node, T1 arg1, T2 arg2)
+        public virtual Result HandleARgbColor(ARgbColor node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHsvColor node, T1 arg1, T2 arg2)
         {
-            return CaseAHsvColor(node, arg1, arg2);
+            return HandleAHsvColor(node, arg1, arg2);
         }
-        public virtual Result CaseAHsvColor(AHsvColor node, T1 arg1, T2 arg2)
+        public virtual Result HandleAHsvColor(AHsvColor node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(AHexColor node, T1 arg1, T2 arg2)
         {
-            return CaseAHexColor(node, arg1, arg2);
+            return HandleAHexColor(node, arg1, arg2);
         }
-        public virtual Result CaseAHexColor(AHexColor node, T1 arg1, T2 arg2)
+        public virtual Result HandleAHexColor(AHexColor node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TNamespace node, T1 arg1, T2 arg2)
         {
-            return CaseTNamespace(node, arg1, arg2);
+            return HandleTNamespace(node, arg1, arg2);
         }
-        public virtual Result CaseTNamespace(TNamespace node, T1 arg1, T2 arg2)
+        public virtual Result HandleTNamespace(TNamespace node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TNamespacetoken node, T1 arg1, T2 arg2)
         {
-            return CaseTNamespacetoken(node, arg1, arg2);
+            return HandleTNamespacetoken(node, arg1, arg2);
         }
-        public virtual Result CaseTNamespacetoken(TNamespacetoken node, T1 arg1, T2 arg2)
+        public virtual Result HandleTNamespacetoken(TNamespacetoken node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TStatestoken node, T1 arg1, T2 arg2)
         {
-            return CaseTStatestoken(node, arg1, arg2);
+            return HandleTStatestoken(node, arg1, arg2);
         }
-        public virtual Result CaseTStatestoken(TStatestoken node, T1 arg1, T2 arg2)
+        public virtual Result HandleTStatestoken(TStatestoken node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(THelperstoken node, T1 arg1, T2 arg2)
         {
-            return CaseTHelperstoken(node, arg1, arg2);
+            return HandleTHelperstoken(node, arg1, arg2);
         }
-        public virtual Result CaseTHelperstoken(THelperstoken node, T1 arg1, T2 arg2)
+        public virtual Result HandleTHelperstoken(THelperstoken node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TTokenstoken node, T1 arg1, T2 arg2)
         {
-            return CaseTTokenstoken(node, arg1, arg2);
+            return HandleTTokenstoken(node, arg1, arg2);
         }
-        public virtual Result CaseTTokenstoken(TTokenstoken node, T1 arg1, T2 arg2)
+        public virtual Result HandleTTokenstoken(TTokenstoken node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TIgnoredtoken node, T1 arg1, T2 arg2)
         {
-            return CaseTIgnoredtoken(node, arg1, arg2);
+            return HandleTIgnoredtoken(node, arg1, arg2);
         }
-        public virtual Result CaseTIgnoredtoken(TIgnoredtoken node, T1 arg1, T2 arg2)
+        public virtual Result HandleTIgnoredtoken(TIgnoredtoken node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TProductionstoken node, T1 arg1, T2 arg2)
         {
-            return CaseTProductionstoken(node, arg1, arg2);
+            return HandleTProductionstoken(node, arg1, arg2);
         }
-        public virtual Result CaseTProductionstoken(TProductionstoken node, T1 arg1, T2 arg2)
+        public virtual Result HandleTProductionstoken(TProductionstoken node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TAsttoken node, T1 arg1, T2 arg2)
         {
-            return CaseTAsttoken(node, arg1, arg2);
+            return HandleTAsttoken(node, arg1, arg2);
         }
-        public virtual Result CaseTAsttoken(TAsttoken node, T1 arg1, T2 arg2)
+        public virtual Result HandleTAsttoken(TAsttoken node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(THighlighttoken node, T1 arg1, T2 arg2)
         {
-            return CaseTHighlighttoken(node, arg1, arg2);
+            return HandleTHighlighttoken(node, arg1, arg2);
         }
-        public virtual Result CaseTHighlighttoken(THighlighttoken node, T1 arg1, T2 arg2)
+        public virtual Result HandleTHighlighttoken(THighlighttoken node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TNew node, T1 arg1, T2 arg2)
         {
-            return CaseTNew(node, arg1, arg2);
+            return HandleTNew(node, arg1, arg2);
         }
-        public virtual Result CaseTNew(TNew node, T1 arg1, T2 arg2)
+        public virtual Result HandleTNew(TNew node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TNull node, T1 arg1, T2 arg2)
         {
-            return CaseTNull(node, arg1, arg2);
+            return HandleTNull(node, arg1, arg2);
         }
-        public virtual Result CaseTNull(TNull node, T1 arg1, T2 arg2)
+        public virtual Result HandleTNull(TNull node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TTokenSpecifier node, T1 arg1, T2 arg2)
         {
-            return CaseTTokenSpecifier(node, arg1, arg2);
+            return HandleTTokenSpecifier(node, arg1, arg2);
         }
-        public virtual Result CaseTTokenSpecifier(TTokenSpecifier node, T1 arg1, T2 arg2)
+        public virtual Result HandleTTokenSpecifier(TTokenSpecifier node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TProductionSpecifier node, T1 arg1, T2 arg2)
         {
-            return CaseTProductionSpecifier(node, arg1, arg2);
+            return HandleTProductionSpecifier(node, arg1, arg2);
         }
-        public virtual Result CaseTProductionSpecifier(TProductionSpecifier node, T1 arg1, T2 arg2)
+        public virtual Result HandleTProductionSpecifier(TProductionSpecifier node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TDot node, T1 arg1, T2 arg2)
         {
-            return CaseTDot(node, arg1, arg2);
+            return HandleTDot(node, arg1, arg2);
         }
-        public virtual Result CaseTDot(TDot node, T1 arg1, T2 arg2)
+        public virtual Result HandleTDot(TDot node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TDDot node, T1 arg1, T2 arg2)
         {
-            return CaseTDDot(node, arg1, arg2);
+            return HandleTDDot(node, arg1, arg2);
         }
-        public virtual Result CaseTDDot(TDDot node, T1 arg1, T2 arg2)
+        public virtual Result HandleTDDot(TDDot node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TSemicolon node, T1 arg1, T2 arg2)
         {
-            return CaseTSemicolon(node, arg1, arg2);
+            return HandleTSemicolon(node, arg1, arg2);
         }
-        public virtual Result CaseTSemicolon(TSemicolon node, T1 arg1, T2 arg2)
+        public virtual Result HandleTSemicolon(TSemicolon node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TEqual node, T1 arg1, T2 arg2)
         {
-            return CaseTEqual(node, arg1, arg2);
+            return HandleTEqual(node, arg1, arg2);
         }
-        public virtual Result CaseTEqual(TEqual node, T1 arg1, T2 arg2)
+        public virtual Result HandleTEqual(TEqual node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TLBkt node, T1 arg1, T2 arg2)
         {
-            return CaseTLBkt(node, arg1, arg2);
+            return HandleTLBkt(node, arg1, arg2);
         }
-        public virtual Result CaseTLBkt(TLBkt node, T1 arg1, T2 arg2)
+        public virtual Result HandleTLBkt(TLBkt node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TRBkt node, T1 arg1, T2 arg2)
         {
-            return CaseTRBkt(node, arg1, arg2);
+            return HandleTRBkt(node, arg1, arg2);
         }
-        public virtual Result CaseTRBkt(TRBkt node, T1 arg1, T2 arg2)
+        public virtual Result HandleTRBkt(TRBkt node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TLPar node, T1 arg1, T2 arg2)
         {
-            return CaseTLPar(node, arg1, arg2);
+            return HandleTLPar(node, arg1, arg2);
         }
-        public virtual Result CaseTLPar(TLPar node, T1 arg1, T2 arg2)
+        public virtual Result HandleTLPar(TLPar node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TRPar node, T1 arg1, T2 arg2)
         {
-            return CaseTRPar(node, arg1, arg2);
+            return HandleTRPar(node, arg1, arg2);
         }
-        public virtual Result CaseTRPar(TRPar node, T1 arg1, T2 arg2)
+        public virtual Result HandleTRPar(TRPar node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TLBrace node, T1 arg1, T2 arg2)
         {
-            return CaseTLBrace(node, arg1, arg2);
+            return HandleTLBrace(node, arg1, arg2);
         }
-        public virtual Result CaseTLBrace(TLBrace node, T1 arg1, T2 arg2)
+        public virtual Result HandleTLBrace(TLBrace node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TRBrace node, T1 arg1, T2 arg2)
         {
-            return CaseTRBrace(node, arg1, arg2);
+            return HandleTRBrace(node, arg1, arg2);
         }
-        public virtual Result CaseTRBrace(TRBrace node, T1 arg1, T2 arg2)
+        public virtual Result HandleTRBrace(TRBrace node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TPlus node, T1 arg1, T2 arg2)
         {
-            return CaseTPlus(node, arg1, arg2);
+            return HandleTPlus(node, arg1, arg2);
         }
-        public virtual Result CaseTPlus(TPlus node, T1 arg1, T2 arg2)
+        public virtual Result HandleTPlus(TPlus node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TMinus node, T1 arg1, T2 arg2)
         {
-            return CaseTMinus(node, arg1, arg2);
+            return HandleTMinus(node, arg1, arg2);
         }
-        public virtual Result CaseTMinus(TMinus node, T1 arg1, T2 arg2)
+        public virtual Result HandleTMinus(TMinus node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TQMark node, T1 arg1, T2 arg2)
         {
-            return CaseTQMark(node, arg1, arg2);
+            return HandleTQMark(node, arg1, arg2);
         }
-        public virtual Result CaseTQMark(TQMark node, T1 arg1, T2 arg2)
+        public virtual Result HandleTQMark(TQMark node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TStar node, T1 arg1, T2 arg2)
         {
-            return CaseTStar(node, arg1, arg2);
+            return HandleTStar(node, arg1, arg2);
         }
-        public virtual Result CaseTStar(TStar node, T1 arg1, T2 arg2)
+        public virtual Result HandleTStar(TStar node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TPipe node, T1 arg1, T2 arg2)
         {
-            return CaseTPipe(node, arg1, arg2);
+            return HandleTPipe(node, arg1, arg2);
         }
-        public virtual Result CaseTPipe(TPipe node, T1 arg1, T2 arg2)
+        public virtual Result HandleTPipe(TPipe node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TComma node, T1 arg1, T2 arg2)
         {
-            return CaseTComma(node, arg1, arg2);
+            return HandleTComma(node, arg1, arg2);
         }
-        public virtual Result CaseTComma(TComma node, T1 arg1, T2 arg2)
+        public virtual Result HandleTComma(TComma node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TSlash node, T1 arg1, T2 arg2)
         {
-            return CaseTSlash(node, arg1, arg2);
+            return HandleTSlash(node, arg1, arg2);
         }
-        public virtual Result CaseTSlash(TSlash node, T1 arg1, T2 arg2)
+        public virtual Result HandleTSlash(TSlash node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TArrow node, T1 arg1, T2 arg2)
         {
-            return CaseTArrow(node, arg1, arg2);
+            return HandleTArrow(node, arg1, arg2);
         }
-        public virtual Result CaseTArrow(TArrow node, T1 arg1, T2 arg2)
+        public virtual Result HandleTArrow(TArrow node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TColon node, T1 arg1, T2 arg2)
         {
-            return CaseTColon(node, arg1, arg2);
+            return HandleTColon(node, arg1, arg2);
         }
-        public virtual Result CaseTColon(TColon node, T1 arg1, T2 arg2)
+        public virtual Result HandleTColon(TColon node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TIdentifier node, T1 arg1, T2 arg2)
         {
-            return CaseTIdentifier(node, arg1, arg2);
+            return HandleTIdentifier(node, arg1, arg2);
         }
-        public virtual Result CaseTIdentifier(TIdentifier node, T1 arg1, T2 arg2)
+        public virtual Result HandleTIdentifier(TIdentifier node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TCharacter node, T1 arg1, T2 arg2)
         {
-            return CaseTCharacter(node, arg1, arg2);
+            return HandleTCharacter(node, arg1, arg2);
         }
-        public virtual Result CaseTCharacter(TCharacter node, T1 arg1, T2 arg2)
+        public virtual Result HandleTCharacter(TCharacter node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TDecChar node, T1 arg1, T2 arg2)
         {
-            return CaseTDecChar(node, arg1, arg2);
+            return HandleTDecChar(node, arg1, arg2);
         }
-        public virtual Result CaseTDecChar(TDecChar node, T1 arg1, T2 arg2)
+        public virtual Result HandleTDecChar(TDecChar node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(THexChar node, T1 arg1, T2 arg2)
         {
-            return CaseTHexChar(node, arg1, arg2);
+            return HandleTHexChar(node, arg1, arg2);
         }
-        public virtual Result CaseTHexChar(THexChar node, T1 arg1, T2 arg2)
+        public virtual Result HandleTHexChar(THexChar node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TString node, T1 arg1, T2 arg2)
         {
-            return CaseTString(node, arg1, arg2);
+            return HandleTString(node, arg1, arg2);
         }
-        public virtual Result CaseTString(TString node, T1 arg1, T2 arg2)
+        public virtual Result HandleTString(TString node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TBlank node, T1 arg1, T2 arg2)
         {
-            return CaseTBlank(node, arg1, arg2);
+            return HandleTBlank(node, arg1, arg2);
         }
-        public virtual Result CaseTBlank(TBlank node, T1 arg1, T2 arg2)
+        public virtual Result HandleTBlank(TBlank node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TComment node, T1 arg1, T2 arg2)
         {
-            return CaseTComment(node, arg1, arg2);
+            return HandleTComment(node, arg1, arg2);
         }
-        public virtual Result CaseTComment(TComment node, T1 arg1, T2 arg2)
+        public virtual Result HandleTComment(TComment node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TItalic node, T1 arg1, T2 arg2)
         {
-            return CaseTItalic(node, arg1, arg2);
+            return HandleTItalic(node, arg1, arg2);
         }
-        public virtual Result CaseTItalic(TItalic node, T1 arg1, T2 arg2)
+        public virtual Result HandleTItalic(TItalic node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TBold node, T1 arg1, T2 arg2)
         {
-            return CaseTBold(node, arg1, arg2);
+            return HandleTBold(node, arg1, arg2);
         }
-        public virtual Result CaseTBold(TBold node, T1 arg1, T2 arg2)
+        public virtual Result HandleTBold(TBold node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TText node, T1 arg1, T2 arg2)
         {
-            return CaseTText(node, arg1, arg2);
+            return HandleTText(node, arg1, arg2);
         }
-        public virtual Result CaseTText(TText node, T1 arg1, T2 arg2)
+        public virtual Result HandleTText(TText node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TBackground node, T1 arg1, T2 arg2)
         {
-            return CaseTBackground(node, arg1, arg2);
+            return HandleTBackground(node, arg1, arg2);
         }
-        public virtual Result CaseTBackground(TBackground node, T1 arg1, T2 arg2)
+        public virtual Result HandleTBackground(TBackground node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(TRgb node, T1 arg1, T2 arg2)
         {
-            return CaseTRgb(node, arg1, arg2);
+            return HandleTRgb(node, arg1, arg2);
         }
-        public virtual Result CaseTRgb(TRgb node, T1 arg1, T2 arg2)
+        public virtual Result HandleTRgb(TRgb node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(THsv node, T1 arg1, T2 arg2)
         {
-            return CaseTHsv(node, arg1, arg2);
+            return HandleTHsv(node, arg1, arg2);
         }
-        public virtual Result CaseTHsv(THsv node, T1 arg1, T2 arg2)
+        public virtual Result HandleTHsv(THsv node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
         public Result Visit(THexColor node, T1 arg1, T2 arg2)
         {
-            return CaseTHexColor(node, arg1, arg2);
+            return HandleTHexColor(node, arg1, arg2);
         }
-        public virtual Result CaseTHexColor(THexColor node, T1 arg1, T2 arg2)
+        public virtual Result HandleTHexColor(THexColor node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
     }
-    public class ReturnAnalysisAdapter<T1, T2, T3, Result> : ReturnAdapter<T1, T2, T3, Result, PGrammar>
+    public partial class ReturnAnalysisAdapter<T1, T2, T3, Result> : ReturnAdapter<T1, T2, T3, Result, PGrammar>
     {
         public Result Visit(AGrammar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAGrammar(node, arg1, arg2, arg3);
+            return HandleAGrammar(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAGrammar(AGrammar node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAGrammar(AGrammar node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ANamespaceSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseANamespaceSection(node, arg1, arg2, arg3);
+            return HandleANamespaceSection(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseANamespaceSection(ANamespaceSection node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleANamespaceSection(ANamespaceSection node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHelpersSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAHelpersSection(node, arg1, arg2, arg3);
+            return HandleAHelpersSection(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAHelpersSection(AHelpersSection node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAHelpersSection(AHelpersSection node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AStatesSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAStatesSection(node, arg1, arg2, arg3);
+            return HandleAStatesSection(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAStatesSection(AStatesSection node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAStatesSection(AStatesSection node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ATokensSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseATokensSection(node, arg1, arg2, arg3);
+            return HandleATokensSection(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseATokensSection(ATokensSection node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleATokensSection(ATokensSection node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AIgnoreSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAIgnoreSection(node, arg1, arg2, arg3);
+            return HandleAIgnoreSection(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAIgnoreSection(AIgnoreSection node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAIgnoreSection(AIgnoreSection node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AProductionsSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAProductionsSection(node, arg1, arg2, arg3);
+            return HandleAProductionsSection(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAProductionsSection(AProductionsSection node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAProductionsSection(AProductionsSection node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AASTSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAASTSection(node, arg1, arg2, arg3);
+            return HandleAASTSection(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAASTSection(AASTSection node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAASTSection(AASTSection node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHighlightSection node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAHighlightSection(node, arg1, arg2, arg3);
+            return HandleAHighlightSection(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAHighlightSection(AHighlightSection node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAHighlightSection(AHighlightSection node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHelper node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAHelper(node, arg1, arg2, arg3);
+            return HandleAHelper(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAHelper(AHelper node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAHelper(AHelper node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AToken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAToken(node, arg1, arg2, arg3);
+            return HandleAToken(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAToken(AToken node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAToken(AToken node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ATokenlookahead node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseATokenlookahead(node, arg1, arg2, arg3);
+            return HandleATokenlookahead(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseATokenlookahead(ATokenlookahead node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleATokenlookahead(ATokenlookahead node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ACharRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseACharRegex(node, arg1, arg2, arg3);
+            return HandleACharRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseACharRegex(ACharRegex node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleACharRegex(ACharRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ADecRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseADecRegex(node, arg1, arg2, arg3);
+            return HandleADecRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseADecRegex(ADecRegex node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleADecRegex(ADecRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHexRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAHexRegex(node, arg1, arg2, arg3);
+            return HandleAHexRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAHexRegex(AHexRegex node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAHexRegex(AHexRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AConcatenatedRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAConcatenatedRegex(node, arg1, arg2, arg3);
+            return HandleAConcatenatedRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAConcatenatedRegex(AConcatenatedRegex node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAConcatenatedRegex(AConcatenatedRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AUnaryRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAUnaryRegex(node, arg1, arg2, arg3);
+            return HandleAUnaryRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAUnaryRegex(AUnaryRegex node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAUnaryRegex(AUnaryRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ABinaryplusRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseABinaryplusRegex(node, arg1, arg2, arg3);
+            return HandleABinaryplusRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseABinaryplusRegex(ABinaryplusRegex node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleABinaryplusRegex(ABinaryplusRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ABinaryminusRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseABinaryminusRegex(node, arg1, arg2, arg3);
+            return HandleABinaryminusRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseABinaryminusRegex(ABinaryminusRegex node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleABinaryminusRegex(ABinaryminusRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AIntervalRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAIntervalRegex(node, arg1, arg2, arg3);
+            return HandleAIntervalRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAIntervalRegex(AIntervalRegex node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAIntervalRegex(AIntervalRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AStringRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAStringRegex(node, arg1, arg2, arg3);
+            return HandleAStringRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAStringRegex(AStringRegex node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAStringRegex(AStringRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AIdentifierRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAIdentifierRegex(node, arg1, arg2, arg3);
+            return HandleAIdentifierRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAIdentifierRegex(AIdentifierRegex node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAIdentifierRegex(AIdentifierRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AParenthesisRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAParenthesisRegex(node, arg1, arg2, arg3);
+            return HandleAParenthesisRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAParenthesisRegex(AParenthesisRegex node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAParenthesisRegex(AParenthesisRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AOrRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAOrRegex(node, arg1, arg2, arg3);
+            return HandleAOrRegex(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAOrRegex(AOrRegex node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAOrRegex(AOrRegex node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AStarModifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAStarModifier(node, arg1, arg2, arg3);
+            return HandleAStarModifier(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAStarModifier(AStarModifier node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAStarModifier(AStarModifier node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AQuestionModifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAQuestionModifier(node, arg1, arg2, arg3);
+            return HandleAQuestionModifier(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAQuestionModifier(AQuestionModifier node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAQuestionModifier(AQuestionModifier node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(APlusModifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAPlusModifier(node, arg1, arg2, arg3);
+            return HandleAPlusModifier(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAPlusModifier(APlusModifier node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAPlusModifier(APlusModifier node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AState node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAState(node, arg1, arg2, arg3);
+            return HandleAState(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAState(AState node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAState(AState node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ATokenState node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseATokenState(node, arg1, arg2, arg3);
+            return HandleATokenState(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseATokenState(ATokenState node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleATokenState(ATokenState node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ATransitionTokenState node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseATransitionTokenState(node, arg1, arg2, arg3);
+            return HandleATransitionTokenState(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseATransitionTokenState(ATransitionTokenState node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleATransitionTokenState(ATransitionTokenState node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AProduction node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAProduction(node, arg1, arg2, arg3);
+            return HandleAProduction(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAProduction(AProduction node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAProduction(AProduction node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAProdtranslation(node, arg1, arg2, arg3);
+            return HandleAProdtranslation(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAProdtranslation(AProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAProdtranslation(AProdtranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AFullTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAFullTranslation(node, arg1, arg2, arg3);
+            return HandleAFullTranslation(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAFullTranslation(AFullTranslation node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAFullTranslation(AFullTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ANewTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseANewTranslation(node, arg1, arg2, arg3);
+            return HandleANewTranslation(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseANewTranslation(ANewTranslation node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleANewTranslation(ANewTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ANewalternativeTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseANewalternativeTranslation(node, arg1, arg2, arg3);
+            return HandleANewalternativeTranslation(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseANewalternativeTranslation(ANewalternativeTranslation node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleANewalternativeTranslation(ANewalternativeTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AListTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAListTranslation(node, arg1, arg2, arg3);
+            return HandleAListTranslation(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAListTranslation(AListTranslation node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAListTranslation(AListTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ANullTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseANullTranslation(node, arg1, arg2, arg3);
+            return HandleANullTranslation(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseANullTranslation(ANullTranslation node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleANullTranslation(ANullTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AIdTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAIdTranslation(node, arg1, arg2, arg3);
+            return HandleAIdTranslation(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAIdTranslation(AIdTranslation node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAIdTranslation(AIdTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AIddotidTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAIddotidTranslation(node, arg1, arg2, arg3);
+            return HandleAIddotidTranslation(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAIddotidTranslation(AIddotidTranslation node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAIddotidTranslation(AIddotidTranslation node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AAlternative node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAAlternative(node, arg1, arg2, arg3);
+            return HandleAAlternative(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAAlternative(AAlternative node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAAlternative(AAlternative node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AAlternativename node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAAlternativename(node, arg1, arg2, arg3);
+            return HandleAAlternativename(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAAlternativename(AAlternativename node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAAlternativename(AAlternativename node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AElement node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAElement(node, arg1, arg2, arg3);
+            return HandleAElement(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAElement(AElement node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAElement(AElement node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AElementname node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAElementname(node, arg1, arg2, arg3);
+            return HandleAElementname(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAElementname(AElementname node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAElementname(AElementname node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ACleanElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseACleanElementid(node, arg1, arg2, arg3);
+            return HandleACleanElementid(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseACleanElementid(ACleanElementid node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleACleanElementid(ACleanElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ATokenElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseATokenElementid(node, arg1, arg2, arg3);
+            return HandleATokenElementid(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseATokenElementid(ATokenElementid node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleATokenElementid(ATokenElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AProductionElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAProductionElementid(node, arg1, arg2, arg3);
+            return HandleAProductionElementid(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAProductionElementid(AProductionElementid node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAProductionElementid(AProductionElementid node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHighlightrule node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAHighlightrule(node, arg1, arg2, arg3);
+            return HandleAHighlightrule(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAHighlightrule(AHighlightrule node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAHighlightrule(AHighlightrule node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AItalicHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAItalicHighlightStyle(node, arg1, arg2, arg3);
+            return HandleAItalicHighlightStyle(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAItalicHighlightStyle(AItalicHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAItalicHighlightStyle(AItalicHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ABoldHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseABoldHighlightStyle(node, arg1, arg2, arg3);
+            return HandleABoldHighlightStyle(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseABoldHighlightStyle(ABoldHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleABoldHighlightStyle(ABoldHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ATextHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseATextHighlightStyle(node, arg1, arg2, arg3);
+            return HandleATextHighlightStyle(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseATextHighlightStyle(ATextHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleATextHighlightStyle(ATextHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ABackgroundHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseABackgroundHighlightStyle(node, arg1, arg2, arg3);
+            return HandleABackgroundHighlightStyle(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleABackgroundHighlightStyle(ABackgroundHighlightStyle node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(ARgbColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseARgbColor(node, arg1, arg2, arg3);
+            return HandleARgbColor(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseARgbColor(ARgbColor node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleARgbColor(ARgbColor node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHsvColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAHsvColor(node, arg1, arg2, arg3);
+            return HandleAHsvColor(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAHsvColor(AHsvColor node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAHsvColor(AHsvColor node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(AHexColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseAHexColor(node, arg1, arg2, arg3);
+            return HandleAHexColor(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseAHexColor(AHexColor node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleAHexColor(AHexColor node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TNamespace node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTNamespace(node, arg1, arg2, arg3);
+            return HandleTNamespace(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTNamespace(TNamespace node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTNamespace(TNamespace node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TNamespacetoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTNamespacetoken(node, arg1, arg2, arg3);
+            return HandleTNamespacetoken(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTNamespacetoken(TNamespacetoken node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTNamespacetoken(TNamespacetoken node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TStatestoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTStatestoken(node, arg1, arg2, arg3);
+            return HandleTStatestoken(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTStatestoken(TStatestoken node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTStatestoken(TStatestoken node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(THelperstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTHelperstoken(node, arg1, arg2, arg3);
+            return HandleTHelperstoken(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTHelperstoken(THelperstoken node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTHelperstoken(THelperstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TTokenstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTTokenstoken(node, arg1, arg2, arg3);
+            return HandleTTokenstoken(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTTokenstoken(TTokenstoken node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTTokenstoken(TTokenstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TIgnoredtoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTIgnoredtoken(node, arg1, arg2, arg3);
+            return HandleTIgnoredtoken(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTIgnoredtoken(TIgnoredtoken node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTIgnoredtoken(TIgnoredtoken node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TProductionstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTProductionstoken(node, arg1, arg2, arg3);
+            return HandleTProductionstoken(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTProductionstoken(TProductionstoken node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTProductionstoken(TProductionstoken node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TAsttoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTAsttoken(node, arg1, arg2, arg3);
+            return HandleTAsttoken(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTAsttoken(TAsttoken node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTAsttoken(TAsttoken node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(THighlighttoken node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTHighlighttoken(node, arg1, arg2, arg3);
+            return HandleTHighlighttoken(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTHighlighttoken(THighlighttoken node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTHighlighttoken(THighlighttoken node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TNew node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTNew(node, arg1, arg2, arg3);
+            return HandleTNew(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTNew(TNew node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTNew(TNew node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TNull node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTNull(node, arg1, arg2, arg3);
+            return HandleTNull(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTNull(TNull node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTNull(TNull node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TTokenSpecifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTTokenSpecifier(node, arg1, arg2, arg3);
+            return HandleTTokenSpecifier(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTTokenSpecifier(TTokenSpecifier node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTTokenSpecifier(TTokenSpecifier node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TProductionSpecifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTProductionSpecifier(node, arg1, arg2, arg3);
+            return HandleTProductionSpecifier(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTProductionSpecifier(TProductionSpecifier node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTProductionSpecifier(TProductionSpecifier node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TDot node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTDot(node, arg1, arg2, arg3);
+            return HandleTDot(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTDot(TDot node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTDot(TDot node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TDDot node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTDDot(node, arg1, arg2, arg3);
+            return HandleTDDot(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTDDot(TDDot node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTDDot(TDDot node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TSemicolon node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTSemicolon(node, arg1, arg2, arg3);
+            return HandleTSemicolon(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTSemicolon(TSemicolon node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTSemicolon(TSemicolon node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TEqual node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTEqual(node, arg1, arg2, arg3);
+            return HandleTEqual(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTEqual(TEqual node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTEqual(TEqual node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TLBkt node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTLBkt(node, arg1, arg2, arg3);
+            return HandleTLBkt(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTLBkt(TLBkt node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTLBkt(TLBkt node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TRBkt node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTRBkt(node, arg1, arg2, arg3);
+            return HandleTRBkt(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTRBkt(TRBkt node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTRBkt(TRBkt node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TLPar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTLPar(node, arg1, arg2, arg3);
+            return HandleTLPar(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTLPar(TLPar node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTLPar(TLPar node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TRPar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTRPar(node, arg1, arg2, arg3);
+            return HandleTRPar(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTRPar(TRPar node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTRPar(TRPar node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TLBrace node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTLBrace(node, arg1, arg2, arg3);
+            return HandleTLBrace(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTLBrace(TLBrace node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTLBrace(TLBrace node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TRBrace node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTRBrace(node, arg1, arg2, arg3);
+            return HandleTRBrace(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTRBrace(TRBrace node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTRBrace(TRBrace node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TPlus node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTPlus(node, arg1, arg2, arg3);
+            return HandleTPlus(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTPlus(TPlus node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTPlus(TPlus node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TMinus node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTMinus(node, arg1, arg2, arg3);
+            return HandleTMinus(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTMinus(TMinus node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTMinus(TMinus node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TQMark node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTQMark(node, arg1, arg2, arg3);
+            return HandleTQMark(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTQMark(TQMark node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTQMark(TQMark node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TStar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTStar(node, arg1, arg2, arg3);
+            return HandleTStar(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTStar(TStar node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTStar(TStar node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TPipe node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTPipe(node, arg1, arg2, arg3);
+            return HandleTPipe(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTPipe(TPipe node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTPipe(TPipe node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TComma node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTComma(node, arg1, arg2, arg3);
+            return HandleTComma(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTComma(TComma node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTComma(TComma node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TSlash node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTSlash(node, arg1, arg2, arg3);
+            return HandleTSlash(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTSlash(TSlash node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTSlash(TSlash node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TArrow node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTArrow(node, arg1, arg2, arg3);
+            return HandleTArrow(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTArrow(TArrow node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTArrow(TArrow node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TColon node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTColon(node, arg1, arg2, arg3);
+            return HandleTColon(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTColon(TColon node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTColon(TColon node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TIdentifier node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTIdentifier(node, arg1, arg2, arg3);
+            return HandleTIdentifier(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTIdentifier(TIdentifier node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTIdentifier(TIdentifier node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TCharacter node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTCharacter(node, arg1, arg2, arg3);
+            return HandleTCharacter(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTCharacter(TCharacter node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTCharacter(TCharacter node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TDecChar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTDecChar(node, arg1, arg2, arg3);
+            return HandleTDecChar(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTDecChar(TDecChar node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTDecChar(TDecChar node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(THexChar node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTHexChar(node, arg1, arg2, arg3);
+            return HandleTHexChar(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTHexChar(THexChar node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTHexChar(THexChar node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TString node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTString(node, arg1, arg2, arg3);
+            return HandleTString(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTString(TString node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTString(TString node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TBlank node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTBlank(node, arg1, arg2, arg3);
+            return HandleTBlank(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTBlank(TBlank node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTBlank(TBlank node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TComment node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTComment(node, arg1, arg2, arg3);
+            return HandleTComment(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTComment(TComment node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTComment(TComment node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TItalic node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTItalic(node, arg1, arg2, arg3);
+            return HandleTItalic(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTItalic(TItalic node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTItalic(TItalic node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TBold node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTBold(node, arg1, arg2, arg3);
+            return HandleTBold(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTBold(TBold node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTBold(TBold node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TText node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTText(node, arg1, arg2, arg3);
+            return HandleTText(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTText(TText node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTText(TText node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TBackground node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTBackground(node, arg1, arg2, arg3);
+            return HandleTBackground(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTBackground(TBackground node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTBackground(TBackground node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(TRgb node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTRgb(node, arg1, arg2, arg3);
+            return HandleTRgb(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTRgb(TRgb node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTRgb(TRgb node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(THsv node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTHsv(node, arg1, arg2, arg3);
+            return HandleTHsv(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTHsv(THsv node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTHsv(THsv node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
         public Result Visit(THexColor node, T1 arg1, T2 arg2, T3 arg3)
         {
-            return CaseTHexColor(node, arg1, arg2, arg3);
+            return HandleTHexColor(node, arg1, arg2, arg3);
         }
-        public virtual Result CaseTHexColor(THexColor node, T1 arg1, T2 arg2, T3 arg3)
+        public virtual Result HandleTHexColor(THexColor node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
