@@ -17,8 +17,8 @@ namespace SablePP.Generate.Building
 
             string rootProduction = grammar.AbstractProductions.First().Name;
 
-            nameElement.Add(new ClassElement("public class {0} : {0}<object>", className));
-            nameElement.Add(adapterClass = new ClassElement("public class {0}<{1}> : AnalysisAdapter<{1}>", className, typeParameter));
+            nameElement.Add(new ClassElement($"public class {className} : {className}<object>"));
+            nameElement.Add(adapterClass = new ClassElement($"public class {className}<{typeParameter}> : AnalysisAdapter<{typeParameter}>"));
 
             #region Visit(List)
 
@@ -38,12 +38,12 @@ namespace SablePP.Generate.Building
 
             #endregion
 
-            adapterClass.Add(new MethodElement("public virtual void InStart(Start<{0}> node)", true, rootProduction));
-            adapterClass.Add(new MethodElement("public virtual void OutStart(Start<{0}> node)", true, rootProduction));
+            adapterClass.Add(new MethodElement($"public virtual void InStart(Start<{rootProduction}> node)"));
+            adapterClass.Add(new MethodElement($"public virtual void OutStart(Start<{rootProduction}> node)"));
 
             #region StartCase
 
-            adapterClass.Add(method = new MethodElement("protected override void HandleStart(Start<{0}> node)", true, rootProduction));
+            adapterClass.Add(method = new MethodElement($"protected override void HandleStart(Start<{rootProduction}> node)"));
 
             method.Body.EmitLine("InStart(node);");
             method.Body.EmitNewLine();
@@ -90,9 +90,9 @@ namespace SablePP.Generate.Building
             emitDepthFirstAdapterInOut(adapterClass, node.Name);
 
             MethodElement method;
-            adapterClass.Add(method = new MethodElement("protected override void Handle{0}({0} node)", true, node.Name));
-            method.Body.EmitLine("In{0}(node);", node.Production.Name);
-            method.Body.EmitLine("In{0}(node);", node.Name);
+            adapterClass.Add(method = new MethodElement($"protected override void Handle{node.Name}({node.Name} node)"));
+            method.Body.EmitLine($"In{node.Production.Name}(node);");
+            method.Body.EmitLine($"In{node.Name}(node);");
             method.Body.EmitNewLine();
 
             var elements = reversed ? node.Elements.Reverse() : node.Elements;
@@ -100,18 +100,18 @@ namespace SablePP.Generate.Building
                 emitDepthFirstAdapterElement(e, method);
 
             method.Body.EmitNewLine();
-            method.Body.EmitLine("Out{0}(node);", node.Name);
-            method.Body.EmitLine("Out{0}(node);", node.Production.Name);
+            method.Body.EmitLine($"Out{node.Name}(node);");
+            method.Body.EmitLine($"Out{node.Production.Name}(node);");
         }
 
         private void emitDepthFirstAdapterInOut(ClassElement adapterClass, string name)
         {
             MethodElement method;
-            adapterClass.Add(method = new MethodElement("public virtual void In{0}({0} node)", true, name));
-            method.Body.EmitLine("Default{0}In(node);", name[0]);
+            adapterClass.Add(method = new MethodElement($"public virtual void In{name}({name} node)"));
+            method.Body.EmitLine($"Default{name[0]}In(node);");
 
-            adapterClass.Add(method = new MethodElement("public virtual void Out{0}({0} node)", true, name));
-            method.Body.EmitLine("Default{0}Out(node);", name[0]);
+            adapterClass.Add(method = new MethodElement($"public virtual void Out{name}({name} node)"));
+            method.Body.EmitLine($"Default{name[0]}Out(node);");
         }
 
         private void emitDepthFirstAdapterElement(AbstractAlternative.Element node, MethodElement method)
@@ -122,19 +122,19 @@ namespace SablePP.Generate.Building
             switch (node.Modifier)
             {
                 case Modifiers.Single:
-                    method.Body.EmitLine("Visit({0}node.{1});", dynamic, name);
+                    method.Body.EmitLine($"Visit({dynamic}node.{name});");
                     break;
 
                 case Modifiers.Optional:
-                    method.Body.EmitLine("if (node.Has{0})", name);
+                    method.Body.EmitLine($"if (node.Has{name})");
                     method.Body.IncreaseIndentation();
-                    method.Body.EmitLine("Visit({0}node.{1});", dynamic, name);
+                    method.Body.EmitLine($"Visit({dynamic}node.{name});");
                     method.Body.DecreaseIndentation();
                     break;
 
                 case Modifiers.OneOrMany:
                 case Modifiers.ZeroOrMany:
-                    method.Body.EmitLine("Visit(node.{0});", name);
+                    method.Body.EmitLine($"Visit(node.{name});", name);
                     break;
             }
         }

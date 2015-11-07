@@ -16,18 +16,21 @@ namespace SablePP.Generate.Building
             baseClass += returnTypeParameter + ", " + node.AbstractProductions.First().Name;
 
             ClassElement returnAnalysisAdapter;
-            nameElement.Add(returnAnalysisAdapter = new ClassElement("public class ReturnAnalysisAdapter : ReturnAdapter<{0}>", baseClass));
+            nameElement.Add(returnAnalysisAdapter = new ClassElement($"public class ReturnAnalysisAdapter : ReturnAdapter<{baseClass}>"));
+
+            var types = returnAnalysisAdapter.TypeParameters;
+
             for (int i = 1; i <= arguments; i++)
-                returnAnalysisAdapter.TypeParameters.Add("T" + i);
-            returnAnalysisAdapter.TypeParameters.Add(returnTypeParameter);
+                types.Add("T" + i);
+            types.Add(returnTypeParameter);
 
             MethodElement method;
-            returnAnalysisAdapter.Add(method = new MethodElement("public override {0} Visit(Node node)", true, returnAnalysisAdapter.TypeParameters[arguments]));
+            returnAnalysisAdapter.Add(method = new MethodElement($"public override {returnTypeParameter} Visit(Node node)"));
             for (int i = 1; i <= arguments; i++)
-                method.Parameters.Add("{0} arg{1}", returnAnalysisAdapter.TypeParameters[i - 1], i);
+                method.Parameters.Add($"{types[i - 1]} arg{i}");
             method.Body.Emit("return Visit((dynamic)node");
             for (int i = 1; i <= arguments; i++)
-                method.Body.Emit(", arg{0}", i);
+                method.Body.Emit($", arg{i}");
             method.Body.EmitLine(");");
 
             returnAnalysisAdapter.EmitNewline();
@@ -42,25 +45,25 @@ namespace SablePP.Generate.Building
 
         private void emitReturnAnalysisAdapterCase(ClassElement returnAnalysisAdapter, string name, int arguments)
         {
-            string handleName = "Handle" + name;
+            var types = returnAnalysisAdapter.TypeParameters;
 
             MethodElement method;
-            returnAnalysisAdapter.Add(method = new MethodElement("public {0} Visit({1} node)", true, returnAnalysisAdapter.TypeParameters[arguments], name));
+            returnAnalysisAdapter.Add(method = new MethodElement($"public {types[arguments]} Visit({name} node)"));
             for (int i = 1; i <= arguments; i++)
                 method.Parameters.Add("{0} arg{1}", returnAnalysisAdapter.TypeParameters[i - 1], i);
 
-            method.Body.Emit("return {0}(node", handleName);
+            method.Body.Emit($"return Handle{name}(node");
             for (int i = 1; i <= arguments; i++)
                 method.Body.Emit(", arg{0}", i);
             method.Body.EmitLine(");");
 
-            returnAnalysisAdapter.Add(method = new MethodElement("public virtual {2} {0}({1} node)", true, handleName, name, returnAnalysisAdapter.TypeParameters[arguments]));
+            returnAnalysisAdapter.Add(method = new MethodElement($"public virtual {types[arguments]} Handle{name}({name} node)"));
             for (int i = 1; i <= arguments; i++)
-                method.Parameters.Add("{0} arg{1}", returnAnalysisAdapter.TypeParameters[i - 1], i);
+                method.Parameters.Add($"{types[i - 1]} arg{i}");
 
             method.Body.Emit("return HandleDefault(node");
             for (int i = 1; i <= arguments; i++)
-                method.Body.Emit(", arg{0}", i);
+                method.Body.Emit($", arg{i}");
             method.Body.EmitLine(");");
         }
     }

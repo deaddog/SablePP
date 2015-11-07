@@ -10,10 +10,12 @@ namespace SablePP.Generate.Building
     {
         private void emitAnalysisAdapter(Grammar node)
         {
+            string rootType = node.AbstractProductions.First().Name;
+
             ClassElement adapterClass;
 
             nameElement.Add(new ClassElement("public class AnalysisAdapter : AnalysisAdapter<object>"));
-            nameElement.Add(adapterClass = new ClassElement("public class AnalysisAdapter<{1}> : Adapter<{1}, {0}>", node.AbstractProductions.First().Name, typeParameter));
+            nameElement.Add(adapterClass = new ClassElement($"public class AnalysisAdapter<{typeParameter}> : Adapter<{typeParameter}, {rootType}>"));
 
             // Dynamic Visit(node) method
             MethodElement method;
@@ -32,19 +34,19 @@ namespace SablePP.Generate.Building
         private void emitAnalysisAdapterToken(ClassElement adapterClass, Token node)
         {
             MethodElement method;
-            adapterClass.Add(method = new MethodElement("public void Visit({0} node)", true, node.Name));
-            method.Body.EmitLine("Handle{0}(node);", node.Name);
+            adapterClass.Add(method = new MethodElement($"public void Visit({node.Name} node)"));
+            method.Body.EmitLine($"Handle{node.Name}(node);");
 
-            adapterClass.Add(method = new MethodElement("protected virtual void Handle{0}({0} node)", true, node.Name));
+            adapterClass.Add(method = new MethodElement($"protected virtual void Handle{node.Name}({node.Name} node)"));
             method.Body.EmitLine("HandleDefault(node);");
         }
         private void emitAnalysisAdapterAlternative(ClassElement adapterClass, AbstractAlternative node)
         {
             MethodElement method;
-            adapterClass.Add(method = new MethodElement("public void Visit({0} node)", true, node.Name));
-            method.Body.EmitLine("Handle{0}(node);", node.Name);
+            adapterClass.Add(method = new MethodElement($"public void Visit({node.Name} node)"));
+            method.Body.EmitLine($"Handle{node.Name}(node);");
 
-            adapterClass.Add(method = new MethodElement("protected virtual void Handle{0}({0} node)", true, node.Name));
+            adapterClass.Add(method = new MethodElement($"protected virtual void Handle{node.Name}({node.Name} node)"));
             method.Body.EmitLine("HandleDefault(node);");
         }
     }
