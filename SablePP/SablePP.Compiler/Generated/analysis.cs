@@ -13,11 +13,6 @@ namespace SablePP.Compiler.Analysis
     }
     public class AnalysisAdapter<Value> : Adapter<Value, PGrammar>
     {
-        public override void Visit(Node node)
-        {
-            Visit((dynamic)node);
-        }
-        
         public void Visit(AGrammar node)
         {
             CaseAGrammar(node);
@@ -3418,11 +3413,6 @@ namespace SablePP.Compiler.Analysis
     
     public class ReturnAnalysisAdapter<Result> : ReturnAdapter<Result, PGrammar>
     {
-        public override Result Visit(Node node)
-        {
-            return Visit((dynamic)node);
-        }
-        
         public Result Visit(AGrammar node)
         {
             return CaseAGrammar(node);
@@ -4226,11 +4216,6 @@ namespace SablePP.Compiler.Analysis
     }
     public class ReturnAnalysisAdapter<T1, Result> : ReturnAdapter<T1, Result, PGrammar>
     {
-        public override Result Visit(Node node, T1 arg1)
-        {
-            return Visit((dynamic)node, arg1);
-        }
-        
         public Result Visit(AGrammar node, T1 arg1)
         {
             return CaseAGrammar(node, arg1);
@@ -5034,11 +5019,6 @@ namespace SablePP.Compiler.Analysis
     }
     public class ReturnAnalysisAdapter<T1, T2, Result> : ReturnAdapter<T1, T2, Result, PGrammar>
     {
-        public override Result Visit(Node node, T1 arg1, T2 arg2)
-        {
-            return Visit((dynamic)node, arg1, arg2);
-        }
-        
         public Result Visit(AGrammar node, T1 arg1, T2 arg2)
         {
             return CaseAGrammar(node, arg1, arg2);
@@ -5842,11 +5822,6 @@ namespace SablePP.Compiler.Analysis
     }
     public class ReturnAnalysisAdapter<T1, T2, T3, Result> : ReturnAdapter<T1, T2, T3, Result, PGrammar>
     {
-        public override Result Visit(Node node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return Visit((dynamic)node, arg1, arg2, arg3);
-        }
-        
         public Result Visit(AGrammar node, T1 arg1, T2 arg2, T3 arg3)
         {
             return CaseAGrammar(node, arg1, arg2, arg3);

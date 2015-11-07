@@ -17,12 +17,6 @@ namespace SablePP.Generate.Building
             nameElement.Add(new ClassElement("public class AnalysisAdapter : AnalysisAdapter<object>"));
             nameElement.Add(adapterClass = new ClassElement($"public class AnalysisAdapter<{typeParameter}> : Adapter<{typeParameter}, {rootType}>"));
 
-            // Dynamic Visit(node) method
-            MethodElement method;
-            adapterClass.Add(method = new MethodElement("public override void Visit(Node node)"));
-            method.Body.EmitLine("Visit((dynamic)node);");
-
-            adapterClass.EmitNewline();
 
             foreach (var p in node.AbstractProductions)
                 foreach (var a in p.Alternatives)

@@ -24,17 +24,6 @@ namespace SablePP.Generate.Building
                 types.Add("T" + i);
             types.Add(returnTypeParameter);
 
-            MethodElement method;
-            returnAnalysisAdapter.Add(method = new MethodElement($"public override {returnTypeParameter} Visit(Node node)"));
-            for (int i = 1; i <= arguments; i++)
-                method.Parameters.Add($"{types[i - 1]} arg{i}");
-            method.Body.Emit("return Visit((dynamic)node");
-            for (int i = 1; i <= arguments; i++)
-                method.Body.Emit($", arg{i}");
-            method.Body.EmitLine(");");
-
-            returnAnalysisAdapter.EmitNewline();
-
             foreach (var p in node.AbstractProductions)
                 foreach (var a in p.Alternatives)
                     emitReturnAnalysisAdapterCase(returnAnalysisAdapter, a.Name, arguments);
