@@ -17,10 +17,22 @@ namespace SablePP.Generate.Building
             nameElement.Add(new ClassElement("public class AnalysisAdapter : AnalysisAdapter<object>"));
             nameElement.Add(adapterClass = new ClassElement($"public class AnalysisAdapter<{typeParameter}> : Adapter<{typeParameter}, {rootType}>"));
 
+            bool first = true;
 
             foreach (var p in node.AbstractProductions)
+            {
+                if (!first)
+                    adapterClass.EmitNewline();
+
+                emitAnalysisAdapterProduction(adapterClass, p);
                 foreach (var a in p.Alternatives)
                     emitAnalysisAdapterAlternative(adapterClass, a);
+
+                first = false;
+            }
+
+            adapterClass.EmitNewline();
+
             foreach (var t in node.Tokens)
                 emitAnalysisAdapterToken(adapterClass, t);
         }
@@ -37,11 +49,21 @@ namespace SablePP.Generate.Building
         private void emitAnalysisAdapterAlternative(ClassElement adapterClass, AbstractAlternative node)
         {
             MethodElement method;
-            adapterClass.Add(method = new MethodElement($"public void Visit({node.Name} node)"));
+            adapterClass.Add(method = new MethodElement($"private void dispatch({node.Name} node)"));
             method.Body.EmitLine($"Handle{node.Name}(node);");
 
             adapterClass.Add(method = new MethodElement($"protected virtual void Handle{node.Name}({node.Name} node)"));
             method.Body.EmitLine("HandleDefault(node);");
+        }
+        private void emitAnalysisAdapterProduction(ClassElement adapterClass, AbstractProduction node)
+        {
+            MethodElement method;
+
+            adapterClass.Add(method = new MethodElement($"public void Visit({node.Name} node)"));
+            method.Body.EmitLine($"Handle{node.Name}(node);");
+
+            adapterClass.Add(method = new MethodElement($"protected virtual void Handle{node.Name}({node.Name} node)"));
+            method.Body.EmitLine("dispatch((dynamic)node);");
         }
     }
 }
