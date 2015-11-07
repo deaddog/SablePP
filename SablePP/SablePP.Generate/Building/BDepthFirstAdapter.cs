@@ -17,8 +17,8 @@ namespace SablePP.Generate.Building
 
             string rootProduction = grammar.AbstractProductions.First().Name;
 
-            nameElement.Add(new ClassElement($"public class {className} : {className}<object>"));
-            nameElement.Add(adapterClass = new ClassElement($"public class {className}<{typeParameter}> : AnalysisAdapter<{typeParameter}>"));
+            nameElement.Add(new ClassElement($"public partial class {className} : {className}<object>"));
+            nameElement.Add(adapterClass = new ClassElement($"public partial class {className}<{typeParameter}> : AnalysisAdapter<{typeParameter}>"));
 
             #region Visit(List)
 

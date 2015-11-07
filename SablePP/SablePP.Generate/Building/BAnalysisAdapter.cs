@@ -14,8 +14,8 @@ namespace SablePP.Generate.Building
 
             ClassElement adapterClass;
 
-            nameElement.Add(new ClassElement("public class AnalysisAdapter : AnalysisAdapter<object>"));
-            nameElement.Add(adapterClass = new ClassElement($"public class AnalysisAdapter<{typeParameter}> : Adapter<{typeParameter}, {rootType}>"));
+            nameElement.Add(new ClassElement("public partial class AnalysisAdapter : AnalysisAdapter<object>"));
+            nameElement.Add(adapterClass = new ClassElement($"public partial class AnalysisAdapter<{typeParameter}> : Adapter<{typeParameter}, {rootType}>"));
 
             bool first = true;
 

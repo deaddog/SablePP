@@ -16,7 +16,7 @@ namespace SablePP.Generate.Building
             baseClass += returnTypeParameter + ", " + node.AbstractProductions.First().Name;
 
             ClassElement returnAnalysisAdapter;
-            nameElement.Add(returnAnalysisAdapter = new ClassElement($"public class ReturnAnalysisAdapter : ReturnAdapter<{baseClass}>"));
+            nameElement.Add(returnAnalysisAdapter = new ClassElement($"public partial class ReturnAnalysisAdapter : ReturnAdapter<{baseClass}>"));
 
             var types = returnAnalysisAdapter.TypeParameters;
 
