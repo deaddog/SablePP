@@ -22,9 +22,8 @@ namespace SablePP.Generate.Building
 
             #region Visit(List)
 
-            adapterClass.Add(method = new MethodElement("public void Visit<Element>(Production.NodeList<Element> elements) where Element : Node"));
-            method.Body.EmitLine("Element[] temp = new Element[elements.Count];");
-            method.Body.EmitLine("elements.CopyTo(temp, 0);");
+            adapterClass.Add(method = new MethodElement("public void Visit<Element>(IEnumerable<Element> elements) where Element : Node"));
+            method.Body.EmitLine("Element[] temp = elements.ToArray();");
 
             if (!reversed)
                 method.Body.EmitLine("for (int i = 0; i < temp.Length; i++)");

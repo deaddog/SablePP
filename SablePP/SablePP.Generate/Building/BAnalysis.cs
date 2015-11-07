@@ -19,8 +19,8 @@ namespace SablePP.Generate.Building
         private BAnalysis()
         {
             fileElement = new FileElement();
-            fileElement.Using.Add("System");
             fileElement.Using.Add("System.Collections.Generic");
+            fileElement.Using.Add("System.Linq");
             fileElement.Using.Add(SablePP.Generate.Namespaces.Analysis);
             fileElement.Using.Add(SablePP.Generate.Namespaces.Nodes);
         }
