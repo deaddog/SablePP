@@ -144,7 +144,7 @@ namespace SablePP.Tools.Analysis
         /// </summary>
         /// <param name="node">The <see cref="Node"/> that should be visited.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult HandleDefault(Node node)
+        protected virtual TResult HandleDefault(Node node)
         {
             return default(TResult);
         }
@@ -173,7 +173,7 @@ namespace SablePP.Tools.Analysis
         /// </summary>
         /// <param name="node">The <see cref="Start{TRoot}"/> node to handle.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult HandleStart(Start<TRoot> node)
+        protected virtual TResult HandleStart(Start<TRoot> node)
         {
             return HandleDefault(node);
         }
@@ -182,7 +182,7 @@ namespace SablePP.Tools.Analysis
         /// </summary>
         /// <param name="node">The <see cref="EOF"/> node to handle.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult HandleEOF(EOF node)
+        protected virtual TResult HandleEOF(EOF node)
         {
             return HandleDefault(node);
         }
@@ -219,7 +219,7 @@ namespace SablePP.Tools.Analysis
         /// <param name="node">The <see cref="Node"/> that should be visited.</param>
         /// <param name="arg1">The argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult HandleDefault(Node node, T1 arg1)
+        protected virtual TResult HandleDefault(Node node, T1 arg1)
         {
             return default(TResult);
         }
@@ -251,7 +251,7 @@ namespace SablePP.Tools.Analysis
         /// <param name="node">The <see cref="Start{TRoot}"/> node to handle.</param>
         /// <param name="arg1">The argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult HandleStart(Start<TRoot> node, T1 arg1)
+        protected virtual TResult HandleStart(Start<TRoot> node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
@@ -261,7 +261,7 @@ namespace SablePP.Tools.Analysis
         /// <param name="node">The <see cref="EOF"/> node to handle.</param>
         /// <param name="arg1">The argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult HandleEOF(EOF node, T1 arg1)
+        protected virtual TResult HandleEOF(EOF node, T1 arg1)
         {
             return HandleDefault(node, arg1);
         }
@@ -301,7 +301,7 @@ namespace SablePP.Tools.Analysis
         /// <param name="arg1">The first argument that is passed to this visit handler.</param>
         /// <param name="arg2">The second argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult HandleDefault(Node node, T1 arg1, T2 arg2)
+        protected virtual TResult HandleDefault(Node node, T1 arg1, T2 arg2)
         {
             return default(TResult);
         }
@@ -336,7 +336,7 @@ namespace SablePP.Tools.Analysis
         /// <param name="arg1">The first argument that is passed to this visit handler.</param>
         /// <param name="arg2">The second argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult HandleStart(Start<TRoot> node, T1 arg1, T2 arg2)
+        protected virtual TResult HandleStart(Start<TRoot> node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
@@ -347,7 +347,7 @@ namespace SablePP.Tools.Analysis
         /// <param name="arg1">The first argument that is passed to this visit handler.</param>
         /// <param name="arg2">The second argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult HandleEOF(EOF node, T1 arg1, T2 arg2)
+        protected virtual TResult HandleEOF(EOF node, T1 arg1, T2 arg2)
         {
             return HandleDefault(node, arg1, arg2);
         }
@@ -390,7 +390,7 @@ namespace SablePP.Tools.Analysis
         /// <param name="arg2">The second argument that is passed to this visit handler.</param>
         /// <param name="arg3">The third argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult HandleDefault(Node node, T1 arg1, T2 arg2, T3 arg3)
+        protected virtual TResult HandleDefault(Node node, T1 arg1, T2 arg2, T3 arg3)
         {
             return default(TResult);
         }
@@ -428,7 +428,7 @@ namespace SablePP.Tools.Analysis
         /// <param name="arg2">The second argument that is passed to this visit handler.</param>
         /// <param name="arg3">The third argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult HandleStart(Start<TRoot> node, T1 arg1, T2 arg2, T3 arg3)
+        protected virtual TResult HandleStart(Start<TRoot> node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }
@@ -440,7 +440,7 @@ namespace SablePP.Tools.Analysis
         /// <param name="arg2">The second argument that is passed to this visit handler.</param>
         /// <param name="arg3">The third argument that is passed to this visit handler.</param>
         /// <returns>A value determined by this visit handler.</returns>
-        public virtual TResult HandleEOF(EOF node, T1 arg1, T2 arg2, T3 arg3)
+        protected virtual TResult HandleEOF(EOF node, T1 arg1, T2 arg2, T3 arg3)
         {
             return HandleDefault(node, arg1, arg2, arg3);
         }

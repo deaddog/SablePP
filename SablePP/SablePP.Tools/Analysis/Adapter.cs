@@ -87,7 +87,7 @@ namespace SablePP.Tools.Analysis
         /// When overridden in a derived class, specifies default handler for visiting nodes.
         /// </summary>
         /// <param name="node">The <see cref="Node"/> that should be visited.</param>
-        public virtual void HandleDefault(Node node)
+        protected virtual void HandleDefault(Node node)
         {
         }
 
@@ -111,7 +111,7 @@ namespace SablePP.Tools.Analysis
         /// When overridden in a derived class, specifies a handler for visiting <see cref="Start{TRoot}"/> production nodes.
         /// </summary>
         /// <param name="node">The <see cref="Start{TRoot}"/> node to handle.</param>
-        public virtual void HandleStart(Start<TRoot> node)
+        protected virtual void HandleStart(Start<TRoot> node)
         {
             HandleDefault(node);
         }
@@ -119,7 +119,7 @@ namespace SablePP.Tools.Analysis
         /// When overridden in a derived class, specifies a handler for visiting <see cref="EOF"/> token nodes.
         /// </summary>
         /// <param name="node">The <see cref="EOF"/> node to handle.</param>
-        public virtual void HandleEOF(EOF node)
+        protected virtual void HandleEOF(EOF node)
         {
             HandleDefault(node);
         }

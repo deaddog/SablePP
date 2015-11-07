@@ -839,7 +839,7 @@ namespace SablePP.Compiler.Analysis
         public virtual void OutStart(Start<PGrammar> node)
         {
         }
-        public override void HandleStart(Start<PGrammar> node)
+        protected override void HandleStart(Start<PGrammar> node)
         {
             InStart(node);
             
@@ -2135,7 +2135,7 @@ namespace SablePP.Compiler.Analysis
         public virtual void OutStart(Start<PGrammar> node)
         {
         }
-        public override void HandleStart(Start<PGrammar> node)
+        protected override void HandleStart(Start<PGrammar> node)
         {
             InStart(node);
             
