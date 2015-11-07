@@ -42,19 +42,19 @@ namespace SablePP.Generate.Building
 
         private void emitReturnAnalysisAdapterCase(ClassElement returnAnalysisAdapter, string name, int arguments)
         {
-            string caseName = "Case" + name;
+            string handleName = "Handle" + name;
 
             MethodElement method;
             returnAnalysisAdapter.Add(method = new MethodElement("public {0} Visit({1} node)", true, returnAnalysisAdapter.TypeParameters[arguments], name));
             for (int i = 1; i <= arguments; i++)
                 method.Parameters.Add("{0} arg{1}", returnAnalysisAdapter.TypeParameters[i - 1], i);
 
-            method.Body.Emit("return {0}(node", caseName);
+            method.Body.Emit("return {0}(node", handleName);
             for (int i = 1; i <= arguments; i++)
                 method.Body.Emit(", arg{0}", i);
             method.Body.EmitLine(");");
 
-            returnAnalysisAdapter.Add(method = new MethodElement("public virtual {2} {0}({1} node)", true, caseName, name, returnAnalysisAdapter.TypeParameters[arguments]));
+            returnAnalysisAdapter.Add(method = new MethodElement("public virtual {2} {0}({1} node)", true, handleName, name, returnAnalysisAdapter.TypeParameters[arguments]));
             for (int i = 1; i <= arguments; i++)
                 method.Parameters.Add("{0} arg{1}", returnAnalysisAdapter.TypeParameters[i - 1], i);
 
