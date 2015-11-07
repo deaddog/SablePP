@@ -170,19 +170,19 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                     RegisterWarning(p.Identifier, "The AST production {0} is never used in another production.", p.Identifier);
         }
 
-        protected override void CaseHelpers(PHelper[] nodes)
+        protected override void HandleHelpers(PHelper[] nodes)
         {
             foreach (var h in nodes)
                 TryDeclare(h, helpers);
 
-            base.CaseHelpers(nodes);
+            base.HandleHelpers(nodes);
         }
         public override void CaseAIdentifierRegex(AIdentifierRegex node)
         {
             TryLink(node.Identifier, helpers);
         }
 
-        protected override void CaseStates(PState[] nodes)
+        protected override void HandleStates(PState[] nodes)
         {
             foreach (var s in nodes)
                 TryDeclare(s, states);
@@ -210,32 +210,32 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             TryLink(node.To, states);
         }
 
-        protected override void CaseIgnoredTokens(TIdentifier[] nodes)
+        protected override void HandleIgnoredTokens(TIdentifier[] nodes)
         {
             foreach (var item in nodes)
                 if (TryLink(item, tokens))
                     tokens[item.Text].IsIgnored = true;
         }
 
-        protected override void CaseAstProductions(PProduction[] nodes)
+        protected override void HandleAstProductions(PProduction[] nodes)
         {
             productions = astProd;
 
             foreach (var prod in nodes)
                 TryDeclare(prod, productions);
 
-            base.CaseAstProductions(nodes);
+            base.HandleAstProductions(nodes);
 
             productions = null;
         }
-        protected override void CaseProductions(PProduction[] nodes)
+        protected override void HandleProductions(PProduction[] nodes)
         {
             productions = nonastProd;
 
             foreach (var prod in nodes)
                 TryDeclare(prod, productions);
 
-            base.CaseProductions(nodes);
+            base.HandleProductions(nodes);
 
             productions = null;
         }
