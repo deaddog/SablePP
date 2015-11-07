@@ -43,7 +43,7 @@ namespace SablePP.Generate.Building
 
             #region StartCase
 
-            adapterClass.Add(method = new MethodElement("public override void HandleStart(Start<{0}> node)", true, rootProduction));
+            adapterClass.Add(method = new MethodElement("protected override void HandleStart(Start<{0}> node)", true, rootProduction));
 
             method.Body.EmitLine("InStart(node);");
             method.Body.EmitNewLine();
@@ -90,7 +90,7 @@ namespace SablePP.Generate.Building
             emitDepthFirstAdapterInOut(adapterClass, node.Name);
 
             MethodElement method;
-            adapterClass.Add(method = new MethodElement("public override void Handle{0}({0} node)", true, node.Name));
+            adapterClass.Add(method = new MethodElement("protected override void Handle{0}({0} node)", true, node.Name));
             method.Body.EmitLine("In{0}(node);", node.Production.Name);
             method.Body.EmitLine("In{0}(node);", node.Name);
             method.Body.EmitNewLine();

@@ -35,7 +35,7 @@ namespace SablePP.Generate.Building
             adapterClass.Add(method = new MethodElement("public void Visit({0} node)", true, node.Name));
             method.Body.EmitLine("Handle{0}(node);", node.Name);
 
-            adapterClass.Add(method = new MethodElement("public virtual void Handle{0}({0} node)", true, node.Name));
+            adapterClass.Add(method = new MethodElement("protected virtual void Handle{0}({0} node)", true, node.Name));
             method.Body.EmitLine("HandleDefault(node);");
         }
         private void emitAnalysisAdapterAlternative(ClassElement adapterClass, AbstractAlternative node)
@@ -44,7 +44,7 @@ namespace SablePP.Generate.Building
             adapterClass.Add(method = new MethodElement("public void Visit({0} node)", true, node.Name));
             method.Body.EmitLine("Handle{0}(node);", node.Name);
 
-            adapterClass.Add(method = new MethodElement("public virtual void Handle{0}({0} node)", true, node.Name));
+            adapterClass.Add(method = new MethodElement("protected virtual void Handle{0}({0} node)", true, node.Name));
             method.Body.EmitLine("HandleDefault(node);");
         }
     }
