@@ -44,13 +44,13 @@ namespace SablePP.Generate.Building
 
             if (!reversed)
             {
-                method.Body.EmitLine("Visit((dynamic)node.Root);");
+                method.Body.EmitLine("Visit(node.Root);");
                 method.Body.EmitLine("Visit(node.EOF);");
             }
             else
             {
                 method.Body.EmitLine("Visit(node.EOF);");
-                method.Body.EmitLine("Visit((dynamic)node.Root);");
+                method.Body.EmitLine("Visit(node.Root);");
             }
 
             adapterClass.EmitNewline();
@@ -74,19 +74,18 @@ namespace SablePP.Generate.Building
 
         private void emitDepthFirstAdapterElement(AbstractAlternative.Element node, MethodElement method)
         {
-            string dynamic = node is AbstractAlternative.ProductionElement ? "(dynamic)" : "";
             string name = node.Name;
 
             switch (node.Modifier)
             {
                 case Modifiers.Single:
-                    method.Body.EmitLine($"Visit({dynamic}node.{name});");
+                    method.Body.EmitLine($"Visit(node.{name});");
                     break;
 
                 case Modifiers.Optional:
                     method.Body.EmitLine($"if (node.Has{name})");
                     method.Body.IncreaseIndentation();
-                    method.Body.EmitLine($"Visit({dynamic}node.{name});");
+                    method.Body.EmitLine($"Visit(node.{name});");
                     method.Body.DecreaseIndentation();
                     break;
 
