@@ -61,7 +61,7 @@ namespace SablePP.Compiler
         private void ValidatePreSable(Start<PGrammar> root, ErrorManager errorManager)
         {
             if (!root.Root.HasNamespaces)
-                errorManager.Register(ErrorType.Message, "When a SablePP does not have a Namespace definition, code is generated in the {0} namespace.", PGrammar.DefaultName);
+                errorManager.Register(ErrorType.Message, "When a SablePP grammar does not have a Namespace definition, code is generated in the {0} namespace.", PGrammar.DefaultName);
             else
                 foreach (var _namespace in sections<ANamespaceSection>(root).Skip(1))
                     errorManager.Register(_namespace, "A SablePP grammar cannot contain multiple Namespace sections.");
