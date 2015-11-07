@@ -38,20 +38,14 @@ namespace SablePP.Compiler.Validation
         {
             errorManager.Register(node, ErrorType.Message, errorMessage, args);
         }
-
-        private void visitEach(Node[] nodes)
-        {
-            for (int i = 0; i < nodes.Length; i++)
-                Visit(nodes[i]);
-        }
-
+        
         public void VisitNamespaces(IEnumerable<TNamespace> nodes)
         {
             CaseNamespaces(nodes.ToArray());
         }
         protected virtual void CaseNamespaces(TNamespace[] nodes)
         {
-            visitEach(nodes);
+            Visit(nodes);
         }
 
         public void VisitHelpers(IEnumerable<PHelper> nodes)
@@ -60,7 +54,7 @@ namespace SablePP.Compiler.Validation
         }
         protected virtual void CaseHelpers(PHelper[] nodes)
         {
-            visitEach(nodes);
+            Visit(nodes);
         }
 
         public void VisitStates(IEnumerable<PState> nodes)
@@ -69,7 +63,7 @@ namespace SablePP.Compiler.Validation
         }
         protected virtual void CaseStates(PState[] nodes)
         {
-            visitEach(nodes);
+            Visit(nodes);
         }
 
         public void VisitTokens(IEnumerable<PToken> nodes)
@@ -78,7 +72,7 @@ namespace SablePP.Compiler.Validation
         }
         protected virtual void CaseTokens(PToken[] nodes)
         {
-            visitEach(nodes);
+            Visit(nodes);
         }
 
         public void VisitIgnoredTokens(IEnumerable<TIdentifier> nodes)
@@ -87,7 +81,7 @@ namespace SablePP.Compiler.Validation
         }
         protected virtual void CaseIgnoredTokens(TIdentifier[] nodes)
         {
-            visitEach(nodes);
+            Visit(nodes);
         }
 
         public void VisitProductions(IEnumerable<PProduction> nodes)
@@ -96,7 +90,7 @@ namespace SablePP.Compiler.Validation
         }
         protected virtual void CaseProductions(PProduction[] nodes)
         {
-            visitEach(nodes);
+            Visit(nodes);
         }
 
         public void VisitAstProductions(IEnumerable<PProduction> nodes)
@@ -105,7 +99,7 @@ namespace SablePP.Compiler.Validation
         }
         protected virtual void CaseAstProductions(PProduction[] nodes)
         {
-            visitEach(nodes);
+            Visit(nodes);
         }
 
         public void VisitHighlightRules(IEnumerable<PHighlightrule> nodes)
@@ -114,7 +108,7 @@ namespace SablePP.Compiler.Validation
         }
         protected virtual void CaseHighlightRules(PHighlightrule[] nodes)
         {
-            visitEach(nodes);
+            Visit(nodes);
         }
     }
 }
