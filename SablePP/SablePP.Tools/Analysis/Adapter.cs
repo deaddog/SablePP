@@ -75,14 +75,7 @@ namespace SablePP.Tools.Analysis
         {
             get { return output; }
         }
-
-        /// <summary>
-        /// Visits the specified <see cref="Node"/>.
-        /// </summary>
-        /// <param name="node">The <see cref="Node"/> that should be visited.</param>
-        public virtual void Visit(Node node)
-        {
-        }
+        
         /// <summary>
         /// When overridden in a derived class, specifies default handler for visiting nodes.
         /// </summary>
@@ -136,7 +129,7 @@ namespace SablePP.Tools.Analysis
             for (int i = 0; i < adapters.Length; i++)
             {
                 Adapter<TValue, TRoot> walker = adapters[i];
-                threads[i] = new Thread(() => walker.Visit(node));
+                threads[i] = new Thread(() => walker.Visit((dynamic)node));
                 threads[i].Start();
             }
             for (int i = 0; i < threads.Length; i++)

@@ -25,7 +25,7 @@ namespace SablePP.Tools.Analysis
             {
                 ReturnAdapter<TResult, TRoot> adapter = adapters[i];
                 int index = i;
-                threads[index] = new Thread(() => results[index] = adapter.Visit(node));
+                threads[index] = new Thread(() => results[index] = adapter.Visit((dynamic)node));
                 threads[index].Start();
             }
             for (int i = 0; i < threads.Length; i++)
@@ -51,7 +51,7 @@ namespace SablePP.Tools.Analysis
             {
                 ReturnAdapter<T1, TResult, TRoot> adapter = adapters[i];
                 int index = i;
-                threads[index] = new Thread(() => results[index] = adapter.Visit(node, arg1));
+                threads[index] = new Thread(() => results[index] = adapter.Visit((dynamic)node, arg1));
                 threads[index].Start();
             }
             for (int i = 0; i < threads.Length; i++)
@@ -78,7 +78,7 @@ namespace SablePP.Tools.Analysis
             {
                 ReturnAdapter<T1, T2, TResult, TRoot> adapter = adapters[i];
                 int index = i;
-                threads[index] = new Thread(() => results[index] = adapter.Visit(node, arg1, arg2));
+                threads[index] = new Thread(() => results[index] = adapter.Visit((dynamic)node, arg1, arg2));
                 threads[index].Start();
             }
             for (int i = 0; i < threads.Length; i++)
@@ -106,7 +106,7 @@ namespace SablePP.Tools.Analysis
             {
                 ReturnAdapter<T1, T2, T3, TResult, TRoot> adapter = adapters[i];
                 int index = i;
-                threads[index] = new Thread(() => results[index] = adapter.Visit(node, arg1, arg2, arg3));
+                threads[index] = new Thread(() => results[index] = adapter.Visit((dynamic)node, arg1, arg2, arg3));
                 threads[index].Start();
             }
             for (int i = 0; i < threads.Length; i++)
@@ -129,16 +129,7 @@ namespace SablePP.Tools.Analysis
         public ReturnAdapter()
         {
         }
-
-        /// <summary>
-        /// Visits the specified <see cref="Node"/>.
-        /// </summary>
-        /// <param name="node">The <see cref="Node"/> that should be visited.</param>
-        /// <returns>A value determined by the visit handler.</returns>
-        public virtual TResult Visit(Node node)
-        {
-            return default(TResult);
-        }
+        
         /// <summary>
         /// When overridden in a derived class, specifies default handler for visiting nodes.
         /// </summary>
@@ -202,17 +193,7 @@ namespace SablePP.Tools.Analysis
         public ReturnAdapter()
         {
         }
-
-        /// <summary>
-        /// Visits the specified <see cref="Node"/>.
-        /// </summary>
-        /// <param name="node">The <see cref="Node"/> that should be visited.</param>
-        /// <param name="arg1">The argument passed to the visit handler.</param>
-        /// <returns>A value determined by the visit handler.</returns>
-        public virtual TResult Visit(Node node, T1 arg1)
-        {
-            return default(TResult);
-        }
+        
         /// <summary>
         /// When overridden in a derived class, specifies default handler for visiting nodes.
         /// </summary>
@@ -282,18 +263,7 @@ namespace SablePP.Tools.Analysis
         public ReturnAdapter()
         {
         }
-
-        /// <summary>
-        /// Visits the specified <see cref="Node"/>.
-        /// </summary>
-        /// <param name="node">The <see cref="Node"/> that should be visited.</param>
-        /// <param name="arg1">The first argument passed to the visit handler.</param>
-        /// <param name="arg2">The second argument passed to the visit handler.</param>
-        /// <returns>A value determined by the visit handler.</returns>
-        public virtual TResult Visit(Node node, T1 arg1, T2 arg2)
-        {
-            return default(TResult);
-        }
+        
         /// <summary>
         /// When overridden in a derived class, specifies default handler for visiting nodes.
         /// </summary>
@@ -369,19 +339,7 @@ namespace SablePP.Tools.Analysis
         public ReturnAdapter()
         {
         }
-
-        /// <summary>
-        /// Visits the specified <see cref="Node"/>.
-        /// </summary>
-        /// <param name="node">The <see cref="Node"/> that should be visited.</param>
-        /// <param name="arg1">The first argument passed to the visit handler.</param>
-        /// <param name="arg2">The second argument passed to the visit handler.</param>
-        /// <param name="arg3">The third argument passed to the visit handler.</param>
-        /// <returns>A value determined by the visit handler.</returns>
-        public virtual TResult Visit(Node node, T1 arg1, T2 arg2, T3 arg3)
-        {
-            return default(TResult);
-        }
+        
         /// <summary>
         /// When overridden in a derived class, specifies default handler for visiting nodes.
         /// </summary>
