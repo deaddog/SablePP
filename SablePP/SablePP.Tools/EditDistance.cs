@@ -5,17 +5,19 @@ namespace SablePP.Tools
     /// <summary>
     /// Represents the comparison of two strings using normalized (see http://www.xavierdupre.fr/blog/documents/edit_distance_normalization.pdf) Levenshtein distance.
     /// </summary>
-    public struct EditDistance
+    public struct EditDistance<TTarget>
     {
-        private string origin, target;
+        private string origin, targetString;
+        private TTarget target;
         private double distance;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EditDistance"/> struct.
+        /// Initializes a new instance of the <see cref="EditDistance{TTarget}"/> struct.
         /// </summary>
         /// <param name="origin">The original string in the transformation.</param>
-        /// <param name="target">The target string in the transformation.</param>
-        public EditDistance(string origin, string target)
+        /// <param name="target">The object into which <paramref name="origin"/> is being transformed.</param>
+        /// <param name="targetString">The string representation of <paramref name="target"/> used in transformation.</param>
+        public EditDistance(string origin, TTarget target, string targetString)
         {
             if (origin == null)
                 throw new ArgumentNullException(nameof(origin));
@@ -25,7 +27,8 @@ namespace SablePP.Tools
 
             this.origin = origin;
             this.target = target;
-            this.distance = editDistanceNormalized(origin, target);
+            this.targetString = targetString;
+            this.distance = editDistanceNormalized(origin, targetString);
         }
 
         private static double editDistanceNormalized(string s, string t)
@@ -51,9 +54,13 @@ namespace SablePP.Tools
         /// </summary>
         public string Origin => origin;
         /// <summary>
+        /// Gets the object into which <see cref="Origin"/> is being transformed.
+        /// </summary>
+        public TTarget Target => target;
+        /// <summary>
         /// Gets the string into which <see cref="Origin"/> is being transformed.
-        /// </value>
-        public string Target => target;
+        /// </summary>
+        public string TargetString => targetString;
 
         /// <summary>
         /// Gets the "normalized" edit distance between <see cref="Origin"/> and <see cref="Target"/>. This is value in the range [0; 1.5].
