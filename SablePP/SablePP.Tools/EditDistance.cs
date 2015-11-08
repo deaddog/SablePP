@@ -17,7 +17,8 @@ namespace SablePP.Tools
         /// <param name="origin">The original string in the transformation.</param>
         /// <param name="target">The object into which <paramref name="origin"/> is being transformed.</param>
         /// <param name="targetString">The string representation of <paramref name="target"/> used in transformation.</param>
-        public EditDistance(string origin, TTarget target, string targetString)
+        /// <param name="distance">The edit distance between <paramref name="origin"/> and <paramref name="target"/>, or <c>null</c> to calculate it.</param>
+        public EditDistance(string origin, TTarget target, string targetString, double? distance = null)
         {
             if (origin == null)
                 throw new ArgumentNullException(nameof(origin));
@@ -25,10 +26,14 @@ namespace SablePP.Tools
             if (target == null)
                 throw new ArgumentNullException(nameof(target));
 
+            if (distance.HasValue && (distance < 0 || distance > 1.5))
+                throw new ArgumentOutOfRangeException(nameof(distance), "Edit distance must be in the range [0;1.5].");
+
             this.origin = origin;
             this.target = target;
             this.targetString = targetString;
-            this.distance = editDistanceNormalized(origin, targetString);
+
+            this.distance = distance ?? editDistanceNormalized(origin, targetString);
         }
 
         private static double editDistanceNormalized(string s, string t)
