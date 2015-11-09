@@ -61,20 +61,20 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             VisitHighlightRules(node.HighlightRules);
 
-            foreach (var h in helpers.NonLinked)
+            foreach (var h in helpers.UnLinked)
                 RegisterWarning(h.Identifier, "The helper {0} is never used in a helper or token definition.", h.Identifier);
 
-            foreach (var s in states.NonLinked)
+            foreach (var s in states.UnLinked)
                 RegisterWarning(s, "The state {0} is never used.", s);
 
-            foreach (var t in tokens.NonLinked)
+            foreach (var t in tokens.UnLinked)
                 RegisterWarning(t.Identifier, "The token {0} is never used in a production.", t.Identifier);
 
-            foreach (var p in nonastProd.NonLinked)
+            foreach (var p in nonastProd.UnLinked)
                 if (!p.Identifier.AsPProduction.IsFirst)
                     RegisterWarning(p.Identifier, "The production {0} is never used in another production.", p.Identifier);
 
-            foreach (var p in astProd.NonLinked)
+            foreach (var p in astProd.UnLinked)
                 if (!p.Identifier.AsPProduction.IsFirst)
                     RegisterWarning(p.Identifier, "The AST production {0} is never used in another production.", p.Identifier);
         }

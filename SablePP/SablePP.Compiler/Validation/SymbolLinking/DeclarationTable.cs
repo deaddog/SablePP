@@ -77,7 +77,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             return declarations.ContainsKey(text);
         }
 
-        public IEnumerable<TDeclaration> NonLinked
+        public IEnumerable<TDeclaration> UnLinked
         {
             get
             {
