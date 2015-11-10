@@ -173,22 +173,19 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         protected override void CaseHelpers(PHelper[] nodes)
         {
             foreach (var h in nodes)
-                if (!helpers.Declare(h))
-                    RegisterError(h.Identifier, "Helper {0} has already been defined (line {1}).", h.Identifier, helpers[h.Identifier.Text].Identifier.Line);
+                TryDeclare(h, helpers);
 
             base.CaseHelpers(nodes);
         }
         public override void CaseAIdentifierRegex(AIdentifierRegex node)
         {
-            if (!helpers.Link(node.Identifier))
-                RegisterError(node.Identifier, "The helper {0} has not been defined.", node.Identifier);
+            TryLink(node.Identifier, helpers);
         }
 
         protected override void CaseStates(PState[] nodes)
         {
             foreach (var s in nodes)
-                if (!states.Declare(s))
-                    RegisterError(s.Identifier, "State {0} has already been defined (line {1}).", s.Identifier, states[s.Identifier.Text].Identifier.Line);
+                TryDeclare(s, states);
         }
 
         public override void CaseAToken(AToken node)
@@ -196,8 +193,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (node.Statelist.Count > 0)
                 Visit(node.Statelist);
 
-            if (!tokens.Declare(node))
-                RegisterError(node.Identifier, "Token {0} has already been defined (line {1}).", node.Identifier, tokens[node.Identifier.Text].Identifier.Line);
+            TryDeclare(node, tokens);
 
             Visit(node.Regex);
             if (node.HasTokenlookahead)
@@ -206,26 +202,19 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseATokenState(ATokenState node)
         {
-            if (!states.Link(node.Identifier))
-                RegisterError(node.Identifier, "The state {0} has not been defined.", node.Identifier);
+            TryLink(node.Identifier, states);
         }
         public override void CaseATransitionTokenState(ATransitionTokenState node)
         {
-            if (!states.Link(node.From))
-                RegisterError(node.From, "The state {0} has not been defined.", node.From);
-            if (!states.Link(node.To))
-                RegisterError(node.To, "The state {0} has not been defined.", node.To);
+            TryLink(node.From, states);
+            TryLink(node.To, states);
         }
 
         protected override void CaseIgnoredTokens(TIdentifier[] nodes)
         {
             foreach (var item in nodes)
-            {
-                if (!tokens.Link(item))
-                    RegisterError(item, "The token {0} has not been defined.", item);
-                else
+                if (TryLink(item, tokens))
                     tokens[item.Text].IsIgnored = true;
-            }
         }
 
         protected override void CaseAstProductions(PProduction[] nodes)
@@ -233,8 +222,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             productions = astProd;
 
             foreach (var prod in nodes)
-                if (!productions.Declare(prod))
-                    RegisterError(prod.Identifier, "AST production {0} has already been defined (line {1}).", prod.Identifier, productions[prod.Identifier.Text].Identifier.Line);
+                TryDeclare(prod, productions);
 
             base.CaseAstProductions(nodes);
 
@@ -245,8 +233,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             productions = nonastProd;
 
             foreach (var prod in nodes)
-                if (!productions.Declare(prod))
-                    RegisterError(prod.Identifier, "Production {0} has already been defined (line {1}).", prod.Identifier, productions[prod.Identifier.Text].Identifier.Line);
+                TryDeclare(prod, productions);
 
             base.CaseProductions(nodes);
 
@@ -295,8 +282,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseAAlternativename(AAlternativename node)
         {
-            if (!alternatives.Declare(node.GetFirstParent<AAlternative>()))
-                RegisterError(node.Name, "Production alternative {0} is already in use (line {1}).", node.Name, alternatives[node.Name.Text].Alternativename.Name.Line);
+            TryDeclare(node.GetFirstParent<AAlternative>(), alternatives);
+
             base.CaseAAlternativename(node);
         }
         public override void InPElement(PElement node)
@@ -317,32 +304,27 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             if (tokens.Contains(text) && productions.Contains(text))
                 RegisterError(ident, "Unable to determine if {0} refers to a token or a production. Use T.{1} or P.{1} to specify.", ident, text);
-            else if (tokens.Link(ident))
+            else if (TryLink(ident, tokens, productions) && tokens.Contains(text))
             {
                 if (tokens[text].IsIgnored)
                     RegisterError(node, "The ignored token {0} cannot be used in a production.", ident);
             }
-            else if (!productions.Link(ident))
-                RegisterError(ident, "The token or production {0} has not been defined.", ident);
 
             base.CaseACleanElementid(node);
         }
         public override void CaseATokenElementid(ATokenElementid node)
         {
-            if (tokens.Link(node.Identifier))
+            if (TryLink(node.Identifier, tokens))
             {
                 if (tokens[node.Identifier.Text].IsIgnored)
                     RegisterError(node, "The ignored token {0} cannot be used in a production.", node.Identifier);
             }
-            else
-                RegisterError(node.Identifier, "The token {0} has not been defined.", node.Identifier);
 
             base.CaseATokenElementid(node);
         }
         public override void CaseAProductionElementid(AProductionElementid node)
         {
-            if (!productions.Link(node.Identifier))
-                RegisterError(node.Identifier, "The production {0} has not been defined.", node.Identifier);
+            TryLink(node.Identifier, productions);
 
             base.CaseAProductionElementid(node);
         }
@@ -357,38 +339,30 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseANewTranslation(ANewTranslation node)
         {
-            if (!astProd.Link(node.Production))
-                RegisterError(node.Production, "The AST production {0} has not been defined.", node.Production);
+            TryLink(node.Production, astProd);
 
             base.CaseANewTranslation(node);
         }
         public override void CaseANewalternativeTranslation(ANewalternativeTranslation node)
         {
-            if (astProd.Link(node.Production))
+            if (TryLink(node.Production, astProd))
             {
                 PProduction dp = astProd[node.Production.Text];
                 var alternatives = allAlternatives[dp];
 
-                if (!alternatives.Link(node.Alternative))
-                    RegisterError(node.Alternative, "The AST alternative {0} has not been defined.", node.Alternative);
+                TryLink(node.Alternative, "AST alternative", alternatives);
             }
-            else
-                RegisterError(node.Production, "The AST production {0} has not been defined.", node.Production);
 
             base.CaseANewalternativeTranslation(node);
         }
         public override void CaseAIdTranslation(AIdTranslation node)
         {
-            if (!elements.Link(node.Identifier))
-                RegisterError(node.Identifier, "The production element {0} has not been defined. Check for possible renames.", node.Identifier);
+            TryLink(node.Identifier, "production element", elements);
         }
         public override void CaseAIddotidTranslation(AIddotidTranslation node)
         {
-            if (!elements.Link(node.Identifier))
-                RegisterError(node.Identifier, "The production element {0} has not been defined. Check for possible renames.", node.Identifier);
-
-            if (!astProd.Link(node.Production))
-                RegisterError(node.Production, "The AST production {0} has not been defined.", node.Production);
+            TryLink(node.Identifier, "production element", elements);
+            TryLink(node.Production, astProd);
         }
 
         public override void CaseAHighlightrule(AHighlightrule node)
@@ -396,9 +370,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             for (int i = 0; i < node.Tokens.Count; i++)
             {
                 var item = node.Tokens[i];
-                if (!tokens.Link(item))
-                    RegisterError(node, "The token {0} has not been defined.", item);
-                else
+                if (TryLink(item, tokens))
                 {
                     var token = tokens[item.Text];
                     if (token.HasHighlighting)
