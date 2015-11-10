@@ -2,6 +2,7 @@
 using SablePP.Generate;
 using SablePP.Tools;
 using SablePP.Tools.Error;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -56,6 +57,48 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 return null;
             else
                 return $" Did you mean '{suggestion}'?";
+        }
+
+        private string getNames(bool lowercase, bool plural, params IDeclarationTable[] tables)
+        {
+            if (tables.Length == 0)
+                throw new ArgumentException("No tables were specified.");
+
+            string r = getName(lowercase, plural, tables[0]);
+
+            for (int i = 1; i < tables.Length - 1; i++)
+                r += ", " + getName(lowercase, plural, tables[i]);
+
+            if (tables.Length > 1)
+                r += " or " + getName(lowercase, plural, tables[tables.Length - 1]);
+
+            return r;
+        }
+        private string getName(bool lowercase, bool plural, IDeclarationTable table)
+        {
+            var name = getName(table);
+            if (lowercase && !name.StartsWith("AST"))
+                name = name.ToLower();
+            if (plural)
+                name += "s";
+            return name;
+        }
+        private string getName(IDeclarationTable table)
+        {
+            if (table == helpers)
+                return "Helper";
+            else if (table == states)
+                return "State";
+            else if (table == tokens)
+                return "Token";
+            else if (table == nonastProd)
+                return "Production";
+            else if (table == astProd)
+                return "AST production";
+            else if (table == alternatives)
+                return "Production alternative";
+            else
+                throw new ArgumentOutOfRangeException("Unknown table type.");
         }
 
         public override void CaseAGrammar(AGrammar node)
