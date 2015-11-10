@@ -62,7 +62,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         private bool TryDeclare<T>(T declaration, DeclarationTable<T> table)
             where T : SablePP.Tools.Nodes.Production, IDeclaration
         {
-            return TryDeclare(declaration, getName(true, false, table), table);
+            return TryDeclare(declaration, getName(false, table), table);
         }
         private bool TryDeclare<T>(T declaration, string typename, DeclarationTable<T> table)
             where T : SablePP.Tools.Nodes.Production, IDeclaration
@@ -79,7 +79,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         }
         private bool TryLink(TIdentifier identifier, params IDeclarationTable[] tables)
         {
-            return TryLink(identifier, getNames(true, false, tables), tables);
+            return TryLink(identifier, getNames(false, tables), tables);
         }
         private bool TryLink(TIdentifier identifier, string typename, params IDeclarationTable[] tables)
         {
@@ -92,26 +92,24 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 return true;
         }
 
-        private string getNames(bool lowercase, bool plural, params IDeclarationTable[] tables)
+        private string getNames(bool plural, params IDeclarationTable[] tables)
         {
             if (tables.Length == 0)
                 throw new ArgumentException("No tables were specified.");
 
-            string r = getName(lowercase, plural, tables[0]);
+            string r = getName(plural, tables[0]);
 
             for (int i = 1; i < tables.Length - 1; i++)
-                r += ", " + getName(lowercase, plural, tables[i]);
+                r += ", " + getName(plural, tables[i]);
 
             if (tables.Length > 1)
-                r += " or " + getName(lowercase, plural, tables[tables.Length - 1]);
+                r += " or " + getName(plural, tables[tables.Length - 1]);
 
             return r;
         }
-        private string getName(bool lowercase, bool plural, IDeclarationTable table)
+        private string getName(bool plural, IDeclarationTable table)
         {
             var name = getName(table);
-            if (lowercase && !name.StartsWith("AST"))
-                name = name.ToLower();
             if (plural)
                 name += "s";
             return name;
@@ -119,17 +117,17 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         private string getName(IDeclarationTable table)
         {
             if (table == helpers)
-                return "Helper";
+                return "helper";
             else if (table == states)
-                return "State";
+                return "state";
             else if (table == tokens)
-                return "Token";
+                return "token";
             else if (table == nonastProd)
-                return "Production";
+                return "production";
             else if (table == astProd)
                 return "AST production";
             else if (table == alternatives)
-                return "Production alternative";
+                return "production alternative";
             else
                 throw new ArgumentOutOfRangeException("Unknown table type.");
         }
