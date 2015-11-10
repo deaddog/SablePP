@@ -1,6 +1,6 @@
-﻿using SablePP.Compiler;
-using SablePP.Compiler.Nodes;
+﻿using SablePP.Compiler.Nodes;
 using SablePP.Generate;
+using SablePP.Tools;
 using SablePP.Tools.Error;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +39,23 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             this.allAlternatives = new Dictionary<PProduction, DeclarationTable<PAlternative>>();
             this.elements = null;
             this.allElements = new Dictionary<PAlternative, DeclarationTable<PElement>>();
+        }
+
+        private string getSuggestion(TIdentifier identifier, params IDeclarationTable[] tables)
+        {
+            if (tables.Length == 0)
+                return null;
+
+            var keys = from t in tables
+                       from kvp in t.Declarations
+                       select kvp.Key;
+
+            var suggestion = keys.GetDistance(identifier.Text).Where(x => x.Distance < 0.75).Cast<EditDistance<string>?>().FirstOrDefault()?.Target;
+
+            if (suggestion == null)
+                return null;
+            else
+                return $" Did you mean '{suggestion}'?";
         }
 
         public override void CaseAGrammar(AGrammar node)
