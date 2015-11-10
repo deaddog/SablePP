@@ -59,6 +59,39 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 return $" Did you mean '{suggestion}'?";
         }
 
+        private bool TryDeclare<T>(T declaration, DeclarationTable<T> table)
+            where T : SablePP.Tools.Nodes.Production, IDeclaration
+        {
+            return TryDeclare(declaration, getName(true, false, table), table);
+        }
+        private bool TryDeclare<T>(T declaration, string typename, DeclarationTable<T> table)
+            where T : SablePP.Tools.Nodes.Production, IDeclaration
+        {
+            if (!table.Declare(declaration))
+            {
+                var identifier = declaration.GetIdentifier();
+                var line = table[identifier.Text].GetIdentifier().Line;
+                RegisterError(identifier, $"The {typename} {identifier} has already been defined (line {line}).");
+                return false;
+            }
+            else
+                return true;
+        }
+        private bool TryLink(TIdentifier identifier, params IDeclarationTable[] tables)
+        {
+            return TryLink(identifier, getNames(true, false, tables), tables);
+        }
+        private bool TryLink(TIdentifier identifier, string typename, params IDeclarationTable[] tables)
+        {
+            if (!tables.Any(t => t.Link(identifier)))
+            {
+                RegisterError(identifier, $"The {typename} {identifier.Text} has not been defined." + getSuggestion(identifier, tables));
+                return false;
+            }
+            else
+                return true;
+        }
+
         private string getNames(bool lowercase, bool plural, params IDeclarationTable[] tables)
         {
             if (tables.Length == 0)
