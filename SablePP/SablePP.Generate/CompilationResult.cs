@@ -53,7 +53,7 @@ namespace SablePP.Generate
             if (token == null)
                 token = t.Name;
             else
-                token = "'" + token + "'";
+                token = "'" + token.Replace(@"\", @"\\").Replace("\"", "\\\"") + "'";
             return token;
         }
 
