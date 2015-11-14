@@ -53,7 +53,8 @@
     <Compile Include="Analysis\DepthFirstTreeWalker.cs" />
     <Compile Include="CompilationOptions.cs" />
     <Compile Include="CompilerExecuter.cs" />
-    <Compile Include="DictionaryExtension.cs" />
+    <Compile Include="EditDistance.cs" />
+    <Compile Include="EditDistanceExtension.cs" />
     <Compile Include="Editor\DeclarationLocatorCache.cs" />
     <Compile Include="Editor\EnumerationLocator.cs" />
     <Compile Include="Editor\ErrorEventArgs.cs" />

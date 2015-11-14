@@ -1,7 +1,8 @@
-﻿using SablePP.Compiler;
-using SablePP.Compiler.Nodes;
+﻿using SablePP.Compiler.Nodes;
 using SablePP.Generate;
+using SablePP.Tools;
 using SablePP.Tools.Error;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -41,6 +42,96 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             this.allElements = new Dictionary<PAlternative, DeclarationTable<PElement>>();
         }
 
+        private string getSuggestion(TIdentifier identifier, params IDeclarationTable[] tables)
+        {
+            if (tables.Length == 0)
+                return null;
+
+            var keys = from t in tables
+                       from kvp in t.Declarations
+                       select kvp.Key;
+
+            var suggestion = keys.GetDistance(identifier.Text).Where(x => x.Distance < 0.75).Cast<EditDistance<string>?>().FirstOrDefault()?.Target;
+
+            if (suggestion == null)
+                return null;
+            else
+                return $" Did you mean '{suggestion}'?";
+        }
+
+        private bool TryDeclare<T>(T declaration, DeclarationTable<T> table)
+            where T : SablePP.Tools.Nodes.Production, IDeclaration
+        {
+            return TryDeclare(declaration, getName(false, table), table);
+        }
+        private bool TryDeclare<T>(T declaration, string typename, DeclarationTable<T> table)
+            where T : SablePP.Tools.Nodes.Production, IDeclaration
+        {
+            if (!table.Declare(declaration))
+            {
+                var identifier = declaration.GetIdentifier();
+                var line = table[identifier.Text].GetIdentifier().Line;
+                RegisterError(identifier, $"The {typename} {identifier} has already been defined (line {line}).");
+                return false;
+            }
+            else
+                return true;
+        }
+        private bool TryLink(TIdentifier identifier, params IDeclarationTable[] tables)
+        {
+            return TryLink(identifier, getNames(false, tables), tables);
+        }
+        private bool TryLink(TIdentifier identifier, string typename, params IDeclarationTable[] tables)
+        {
+            if (!tables.Any(t => t.Link(identifier)))
+            {
+                RegisterError(identifier, $"The {typename} {identifier.Text} has not been defined." + getSuggestion(identifier, tables));
+                return false;
+            }
+            else
+                return true;
+        }
+
+        private string getNames(bool plural, params IDeclarationTable[] tables)
+        {
+            if (tables.Length == 0)
+                throw new ArgumentException("No tables were specified.");
+
+            string r = getName(plural, tables[0]);
+
+            for (int i = 1; i < tables.Length - 1; i++)
+                r += ", " + getName(plural, tables[i]);
+
+            if (tables.Length > 1)
+                r += " or " + getName(plural, tables[tables.Length - 1]);
+
+            return r;
+        }
+        private string getName(bool plural, IDeclarationTable table)
+        {
+            var name = getName(table);
+            if (plural)
+                name += "s";
+            return name;
+        }
+        private string getName(IDeclarationTable table)
+        {
+            if (table == helpers)
+                return "helper";
+            else if (table == states)
+                return "state";
+            else if (table == tokens)
+                return "token";
+            else if (table == nonastProd)
+                return "production";
+            else if (table == astProd)
+                return "AST production";
+            else if (table == alternatives)
+                return "production alternative";
+            else
+                throw new ArgumentOutOfRangeException("Unknown table type.");
+        }
+
         public override void CaseAGrammar(AGrammar node)
         {
             hasASTsection = node.HasAstproductions;
@@ -61,20 +152,20 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             VisitHighlightRules(node.HighlightRules);
 
-            foreach (var h in helpers.NonLinked)
+            foreach (var h in helpers.UnLinked)
                 RegisterWarning(h.Identifier, "The helper {0} is never used in a helper or token definition.", h.Identifier);
 
-            foreach (var s in states.NonLinked)
+            foreach (var s in states.UnLinked)
                 RegisterWarning(s, "The state {0} is never used.", s);
 
-            foreach (var t in tokens.NonLinked)
+            foreach (var t in tokens.UnLinked)
                 RegisterWarning(t.Identifier, "The token {0} is never used in a production.", t.Identifier);
 
-            foreach (var p in nonastProd.NonLinked)
+            foreach (var p in nonastProd.UnLinked)
                 if (!p.Identifier.AsPProduction.IsFirst)
                     RegisterWarning(p.Identifier, "The production {0} is never used in another production.", p.Identifier);
 
-            foreach (var p in astProd.NonLinked)
+            foreach (var p in astProd.UnLinked)
                 if (!p.Identifier.AsPProduction.IsFirst)
                     RegisterWarning(p.Identifier, "The AST production {0} is never used in another production.", p.Identifier);
         }
@@ -82,22 +173,19 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         protected override void CaseHelpers(PHelper[] nodes)
         {
             foreach (var h in nodes)
-                if (!helpers.Declare(h))
-                    RegisterError(h.Identifier, "Helper {0} has already been defined (line {1}).", h.Identifier, helpers[h.Identifier.Text].Identifier.Line);
+                TryDeclare(h, helpers);
 
             base.CaseHelpers(nodes);
         }
         public override void CaseAIdentifierRegex(AIdentifierRegex node)
         {
-            if (!helpers.Link(node.Identifier))
-                RegisterError(node.Identifier, "The helper {0} has not been defined.", node.Identifier);
+            TryLink(node.Identifier, helpers);
         }
 
         protected override void CaseStates(PState[] nodes)
         {
             foreach (var s in nodes)
-                if (!states.Declare(s))
-                    RegisterError(s.Identifier, "State {0} has already been defined (line {1}).", s.Identifier, states[s.Identifier.Text].Identifier.Line);
+                TryDeclare(s, states);
         }
 
         public override void CaseAToken(AToken node)
@@ -105,8 +193,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             if (node.Statelist.Count > 0)
                 Visit(node.Statelist);
 
-            if (!tokens.Declare(node))
-                RegisterError(node.Identifier, "Token {0} has already been defined (line {1}).", node.Identifier, tokens[node.Identifier.Text].Identifier.Line);
+            TryDeclare(node, tokens);
 
             Visit(node.Regex);
             if (node.HasTokenlookahead)
@@ -115,26 +202,19 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseATokenState(ATokenState node)
         {
-            if (!states.Link(node.Identifier))
-                RegisterError(node.Identifier, "The state {0} has not been defined.", node.Identifier);
+            TryLink(node.Identifier, states);
         }
         public override void CaseATransitionTokenState(ATransitionTokenState node)
         {
-            if (!states.Link(node.From))
-                RegisterError(node.From, "The state {0} has not been defined.", node.From);
-            if (!states.Link(node.To))
-                RegisterError(node.To, "The state {0} has not been defined.", node.To);
+            TryLink(node.From, states);
+            TryLink(node.To, states);
         }
 
         protected override void CaseIgnoredTokens(TIdentifier[] nodes)
         {
             foreach (var item in nodes)
-            {
-                if (!tokens.Link(item))
-                    RegisterError(item, "The token {0} has not been defined.", item);
-                else
+                if (TryLink(item, tokens))
                     tokens[item.Text].IsIgnored = true;
-            }
         }
 
         protected override void CaseAstProductions(PProduction[] nodes)
@@ -142,8 +222,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             productions = astProd;
 
             foreach (var prod in nodes)
-                if (!productions.Declare(prod))
-                    RegisterError(prod.Identifier, "AST production {0} has already been defined (line {1}).", prod.Identifier, productions[prod.Identifier.Text].Identifier.Line);
+                TryDeclare(prod, productions);
 
             base.CaseAstProductions(nodes);
 
@@ -154,8 +233,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             productions = nonastProd;
 
             foreach (var prod in nodes)
-                if (!productions.Declare(prod))
-                    RegisterError(prod.Identifier, "Production {0} has already been defined (line {1}).", prod.Identifier, productions[prod.Identifier.Text].Identifier.Line);
+                TryDeclare(prod, productions);
 
             base.CaseProductions(nodes);
 
@@ -204,8 +282,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseAAlternativename(AAlternativename node)
         {
-            if (!alternatives.Declare(node.GetFirstParent<AAlternative>()))
-                RegisterError(node.Name, "Production alternative {0} is already in use (line {1}).", node.Name, alternatives[node.Name.Text].Alternativename.Name.Line);
+            TryDeclare(node.GetFirstParent<AAlternative>(), alternatives);
+
             base.CaseAAlternativename(node);
         }
         public override void InPElement(PElement node)
@@ -226,32 +304,27 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             if (tokens.Contains(text) && productions.Contains(text))
                 RegisterError(ident, "Unable to determine if {0} refers to a token or a production. Use T.{1} or P.{1} to specify.", ident, text);
-            else if (tokens.Link(ident))
+            else if (TryLink(ident, tokens, productions) && tokens.Contains(text))
             {
                 if (tokens[text].IsIgnored)
                     RegisterError(node, "The ignored token {0} cannot be used in a production.", ident);
             }
-            else if (!productions.Link(ident))
-                RegisterError(ident, "The token or production {0} has not been defined.", ident);
 
             base.CaseACleanElementid(node);
         }
         public override void CaseATokenElementid(ATokenElementid node)
         {
-            if (tokens.Link(node.Identifier))
+            if (TryLink(node.Identifier, tokens))
             {
                 if (tokens[node.Identifier.Text].IsIgnored)
                     RegisterError(node, "The ignored token {0} cannot be used in a production.", node.Identifier);
             }
-            else
-                RegisterError(node.Identifier, "The token {0} has not been defined.", node.Identifier);
 
             base.CaseATokenElementid(node);
         }
         public override void CaseAProductionElementid(AProductionElementid node)
         {
-            if (!productions.Link(node.Identifier))
-                RegisterError(node.Identifier, "The production {0} has not been defined.", node.Identifier);
+            TryLink(node.Identifier, productions);
 
             base.CaseAProductionElementid(node);
         }
@@ -266,38 +339,30 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseANewTranslation(ANewTranslation node)
         {
-            if (!astProd.Link(node.Production))
-                RegisterError(node.Production, "The AST production {0} has not been defined.", node.Production);
+            TryLink(node.Production, astProd);
 
             base.CaseANewTranslation(node);
         }
         public override void CaseANewalternativeTranslation(ANewalternativeTranslation node)
         {
-            if (astProd.Link(node.Production))
+            if (TryLink(node.Production, astProd))
             {
                 PProduction dp = astProd[node.Production.Text];
                 var alternatives = allAlternatives[dp];
 
-                if (!alternatives.Link(node.Alternative))
-                    RegisterError(node.Alternative, "The AST alternative {0} has not been defined.", node.Alternative);
+                TryLink(node.Alternative, "AST alternative", alternatives);
             }
-            else
-                RegisterError(node.Production, "The AST production {0} has not been defined.", node.Production);
 
             base.CaseANewalternativeTranslation(node);
         }
         public override void CaseAIdTranslation(AIdTranslation node)
         {
-            if (!elements.Link(node.Identifier))
-                RegisterError(node.Identifier, "The production element {0} has not been defined. Check for possible renames.", node.Identifier);
+            TryLink(node.Identifier, "production element", elements);
         }
         public override void CaseAIddotidTranslation(AIddotidTranslation node)
         {
-            if (!elements.Link(node.Identifier))
-                RegisterError(node.Identifier, "The production element {0} has not been defined. Check for possible renames.", node.Identifier);
-
-            if (!astProd.Link(node.Production))
-                RegisterError(node.Production, "The AST production {0} has not been defined.", node.Production);
+            TryLink(node.Identifier, "production element", elements);
+            TryLink(node.Production, astProd);
         }
 
         public override void CaseAHighlightrule(AHighlightrule node)
@@ -305,9 +370,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             for (int i = 0; i < node.Tokens.Count; i++)
             {
                 var item = node.Tokens[i];
-                if (!tokens.Link(item))
-                    RegisterError(node, "The token {0} has not been defined.", item);
-                else
+                if (TryLink(item, tokens))
                 {
                     var token = tokens[item.Text];
                     if (token.HasHighlighting)

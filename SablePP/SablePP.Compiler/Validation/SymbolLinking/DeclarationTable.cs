@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SablePP.Compiler.Validation.SymbolLinking
 {
-    public class DeclarationTable<TDeclaration>
+    public class DeclarationTable<TDeclaration> : IDeclarationTable
         where TDeclaration : SablePP.Tools.Nodes.Production, IDeclaration
     {
         private Dictionary<string, TDeclaration> declarations;
@@ -22,10 +22,18 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
             get { return declarations[text]; }
         }
+        IDeclaration IDeclarationTable.this[string text] => this[text];
 
         public bool TryGetValue(string text, out TDeclaration declaration)
         {
             return declarations.TryGetValue(text, out declaration);
+        }
+        bool IDeclarationTable.TryGetValue(string text, out IDeclaration declaration)
+        {
+            TDeclaration temp;
+            bool res = TryGetValue(text, out temp);
+            declaration = temp;
+            return res;
         }
 
         public void Clear()
@@ -56,7 +64,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 return true;
             }
         }
-
+        bool IDeclarationTable.Declare(IDeclaration declaration) => Declare((TDeclaration)declaration);
         public bool Link(TIdentifier identifier)
         {
             TDeclaration declaration = null;
@@ -77,7 +85,32 @@ namespace SablePP.Compiler.Validation.SymbolLinking
             return declarations.ContainsKey(text);
         }
 
-        public IEnumerable<TDeclaration> NonLinked
+        public IEnumerable<KeyValuePair<string, TDeclaration>> Declarations
+        {
+            get
+            {
+                foreach (var kvp in declarations)
+                    yield return kvp;
+            }
+        }
+        IEnumerable<KeyValuePair<string, IDeclaration>> IDeclarationTable.Declarations
+        {
+            get
+            {
+                foreach (var kvp in declarations)
+                    yield return new KeyValuePair<string, IDeclaration>(kvp.Key, kvp.Value);
+            }
+        }
+
+        public IEnumerable<TDeclaration> UnLinked
+        {
+            get
+            {
+                foreach (var d in unusedList)
+                    yield return d;
+            }
+        }
+        IEnumerable<IDeclaration> IDeclarationTable.UnLinked
         {
             get
             {
