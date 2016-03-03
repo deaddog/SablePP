@@ -339,7 +339,8 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
         public override void CaseANewTranslation(ANewTranslation node)
         {
-            TryLink(node.Production, astProd);
+            if (TryLink(node.Production, astProd) && node.Production.AsPProduction.UnnamedAlternative == null)
+                RegisterError(node.Production, "The AST production {0} does not have an unnamed alternative.");
 
             base.CaseANewTranslation(node);
         }
