@@ -119,19 +119,10 @@ namespace SablePP.Generate.SableCC
 
                 Builder.BuildToFile(grammar, cp._grammarPath, out generatedVariables);
 
-                int exitCode;
-                string standardError;
+                var output = cp.StartSableCC();
 
-                using (Process proc = cp.StartSableCC())
-                {
-                    exitCode = proc.ExitCode;
-                    standardError = proc.StandardError.ReadToEnd();
-
-                    proc.Close();
-                }
-
-                if (exitCode != 0)
-                    return new CompilationResult(cp.handleSableException(standardError));
+                if (output.ExitCode != 0)
+                    return new CompilationResult(cp.handleSableException(output.ErrorString));
                 else
                 {
                     CompilationResult result = new CompilationResult();
@@ -147,7 +138,7 @@ namespace SablePP.Generate.SableCC
 
         private const int SABLE_MAX_WAIT = 500;
 
-        private Process StartSableCC()
+        private Output StartSableCC()
         {
             var processInfo = new ProcessStartInfo(
                 JavaExecutable,
@@ -159,20 +150,19 @@ namespace SablePP.Generate.SableCC
                 WorkingDirectory = _executing_
             };
 
-            int wait = 0;
             Process proc;
             if ((proc = Process.Start(processInfo)) == null)
                 throw new ApplicationException("Java not found - visit Java.com to install.");
 
+            StringBuilder outputText = new StringBuilder();
             while (!proc.WaitForExit(100))
-            {
-                wait += 100;
-                int err = proc.StandardError.Peek();
-                if (err > 0 && wait >= SABLE_MAX_WAIT)
-                    proc.Kill();
-            }
+                outputText.Append(proc.StandardError.ReadToEnd());
 
-            return proc;
+            Output output = new Output(proc.ExitCode, outputText.ToString());
+            proc.Close();
+            proc.Dispose();
+
+            return output;
         }
         private CompilationError handleSableException(string standardError)
         {
