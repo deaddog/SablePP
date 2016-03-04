@@ -122,7 +122,7 @@ namespace SablePP.Generate.SableCC
                 var output = cp.StartSableCC();
 
                 if (output.ExitCode != 0)
-                    return new CompilationResult(cp.handleSableException(output.ErrorString));
+                    return new CompilationResult(output.handleSableException());
                 else
                 {
                     CompilationResult result = new CompilationResult();
@@ -163,20 +163,6 @@ namespace SablePP.Generate.SableCC
             proc.Dispose();
 
             return output;
-        }
-        private CompilationError handleSableException(string standardError)
-        {
-            Regex errorRegex = new Regex(@"(?<type>shift|reduce)/reduce conflict in state");
-
-            Match m = errorRegex.Match(standardError);
-            ErrorTypes type;
-
-            if (!m.Success)
-                type = ErrorTypes.Unknown;
-            else
-                type = m.Groups["type"].Value == "shift" ? ErrorTypes.ShiftReduce : ErrorTypes.ReduceReduce;
-
-            return new CompilationError(type, standardError);
         }
     }
 }
