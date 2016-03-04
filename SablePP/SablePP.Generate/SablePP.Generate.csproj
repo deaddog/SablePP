@@ -101,6 +101,7 @@
     <Compile Include="GrammarStructure\Translations\NewTranslation.cs" />
     <Compile Include="GrammarStructure\Translations\NullTranslation.cs" />
     <Compile Include="GrammarStructure\Translations\Translation.cs" />
+    <Compile Include="SableCC\Output.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SablePP.Tools\SablePP.Tools.csproj">
