@@ -1,6 +1,6 @@
 ﻿namespace SablePP.Generate
 {
-    public class CompilationError
+    public abstract class CompilationError
     {
         private ErrorTypes errorType;
         public ErrorTypes ErrorType
@@ -8,16 +8,11 @@
             get { return errorType;  }
         }
         
-        private string message;
-        public string Message
-        {
-            get { return message; }
-        }
+        public abstract string Message { get; }
 
-        public CompilationError(ErrorTypes errorType, string message)
+        public CompilationError(ErrorTypes errorType)
         {
             this.errorType = errorType;
-            this.message = message;
         }
     }
 }

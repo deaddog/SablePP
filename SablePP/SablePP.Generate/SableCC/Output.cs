@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace SablePP.Generate.SableCC
 {
@@ -28,7 +29,13 @@ namespace SablePP.Generate.SableCC
             else
                 type = m.Groups["type"].Value == "shift" ? ErrorTypes.ShiftReduce : ErrorTypes.ReduceReduce;
 
-            return new CompilationError(type, errorString);
+            if (type == ErrorTypes.ShiftReduce)
+                return new ShiftReduceError(errorString);
+            else if (type == ErrorTypes.ReduceReduce)
+                return new ReduceReduceError(errorString);
+            else
+
+                throw new InvalidOperationException("Unknown error type from SableCC.");
         }
     }
 }
