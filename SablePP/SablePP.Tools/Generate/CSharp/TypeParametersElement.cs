@@ -52,6 +52,14 @@ namespace SablePP.Tools.Generate.CSharp
             }
         }
 
+        /// <summary>
+        /// Gets the number of types in this <see cref="TypeParametersElement"/>.
+        /// </summary>
+        public int Count
+        {
+            get { return types.Count; }
+        }
+
         IEnumerator<string> IEnumerable<string>.GetEnumerator()
         {
             foreach (var s in types)

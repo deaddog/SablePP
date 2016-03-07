@@ -75,53 +75,46 @@ namespace SablePP.Tools.Analysis
         {
             get { return output; }
         }
-
-        /// <summary>
-        /// Visits the specified <see cref="Node"/>.
-        /// </summary>
-        /// <param name="node">The <see cref="Node"/> that should be visited.</param>
-        public virtual void Visit(Node node)
-        {
-        }
+        
         /// <summary>
         /// When overridden in a derived class, specifies default handler for visiting nodes.
         /// </summary>
         /// <param name="node">The <see cref="Node"/> that should be visited.</param>
-        public virtual void DefaultCase(Node node)
+        protected virtual void HandleDefault(Node node)
         {
         }
 
         /// <summary>
-        /// Visits the specified <see cref="Start{TRoot}"/> production by calling the <see cref="CaseStart"/> method.
+        /// Visits the specified <see cref="Start{TRoot}"/> production by calling the <see cref="HandleStart"/> method.
         /// </summary>
         /// <param name="node">The <see cref="Start{TRoot}"/> node that should be visited.</param>
         public void Visit(Start<TRoot> node)
         {
-            CaseStart(node);
+            HandleStart(node);
         }
         /// <summary>
-        /// Visits the specified <see cref="EOF"/> token by calling the <see cref="CaseEOF"/> method.
+        /// Visits the specified <see cref="EOF"/> token by calling the <see cref="HandleEOF"/> method.
         /// </summary>
         /// <param name="node">The <see cref="EOF"/> node that should be visited.</param>
         public void Visit(EOF node)
         {
-            CaseEOF(node);
+            HandleEOF(node);
         }
         /// <summary>
         /// When overridden in a derived class, specifies a handler for visiting <see cref="Start{TRoot}"/> production nodes.
         /// </summary>
         /// <param name="node">The <see cref="Start{TRoot}"/> node to handle.</param>
-        public virtual void CaseStart(Start<TRoot> node)
+        protected virtual void HandleStart(Start<TRoot> node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
         /// <summary>
         /// When overridden in a derived class, specifies a handler for visiting <see cref="EOF"/> token nodes.
         /// </summary>
         /// <param name="node">The <see cref="EOF"/> node to handle.</param>
-        public virtual void CaseEOF(EOF node)
+        protected virtual void HandleEOF(EOF node)
         {
-            DefaultCase(node);
+            HandleDefault(node);
         }
 
         /// <summary>
@@ -136,7 +129,7 @@ namespace SablePP.Tools.Analysis
             for (int i = 0; i < adapters.Length; i++)
             {
                 Adapter<TValue, TRoot> walker = adapters[i];
-                threads[i] = new Thread(() => walker.Visit(node));
+                threads[i] = new Thread(() => walker.Visit((dynamic)node));
                 threads[i].Start();
             }
             for (int i = 0; i < threads.Length; i++)

@@ -121,6 +121,7 @@
     <Compile Include="Nodes\TranslationTarget.cs" />
     <Compile Include="PathInformation.cs" />
     <Compile Include="SableCCLogger.cs" />
+    <Compile Include="Validation\DepthFirstAdapter.cs" />
     <Compile Include="Validation\ExcessiveNodesVisitor.cs" />
     <Compile Include="Validation\SymbolLinking\DeclarationTable.cs" />
     <Compile Include="Validation\SymbolLinking\DeclarationVisitor.cs" />

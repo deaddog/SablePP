@@ -16,7 +16,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
         {
         }
 
-        public override void CaseAProduction(AProduction node)
+        protected override void HandleAProduction(AProduction node)
         {
             if (node.IsFirst)
             {
@@ -31,10 +31,10 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 }
             }
 
-            base.CaseAProduction(node);
+            base.HandleAProduction(node);
         }
 
-        public override void CaseAAlternative(AAlternative node)
+        protected override void HandleAAlternative(AAlternative node)
         {
             if (node.HasTranslation)
                 node.AstTarget = GetTarget(node.Translation);

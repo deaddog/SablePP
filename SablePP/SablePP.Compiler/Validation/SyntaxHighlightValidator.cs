@@ -13,12 +13,12 @@ namespace SablePP.Compiler.Validation
         {
         }
 
-        public override void CaseAGrammar(AGrammar node)
+        protected override void HandleAGrammar(AGrammar node)
         {
             VisitHighlightRules(node.HighlightRules);
         }
 
-        public override void CaseAHighlightrule(AHighlightrule node)
+        protected override void HandleAHighlightrule(AHighlightrule node)
         {
             rule = node;
 
@@ -27,7 +27,7 @@ namespace SablePP.Compiler.Validation
             text = null;
             background = null;
 
-            base.CaseAHighlightrule(node);
+            base.HandleAHighlightrule(node);
         }
 
         private AHighlightrule rule = null;
@@ -37,38 +37,40 @@ namespace SablePP.Compiler.Validation
         private ATextHighlightStyle text = null;
         private ABackgroundHighlightStyle background = null;
 
-        public override void CaseABoldHighlightStyle(ABoldHighlightStyle node)
+        protected override void HandleABoldHighlightStyle(ABoldHighlightStyle node)
         {
             if (bold != null)
                 RegisterError(node, "Highlight rule is already set to bold.");
             else
                 bold = node;
         }
-        public override void CaseAItalicHighlightStyle(AItalicHighlightStyle node)
+        protected override void HandleAItalicHighlightStyle(AItalicHighlightStyle node)
         {
             if (italic != null)
                 RegisterError(node, "Highlight rule is already set to italic.");
             else
                 italic = node;
         }
-        public override void CaseATextHighlightStyle(ATextHighlightStyle node)
+        protected override void HandleATextHighlightStyle(ATextHighlightStyle node)
         {
             if (text != null)
                 RegisterError(node, "Highlight rule has already been given a text color.");
             else
                 text = node;
-            base.CaseATextHighlightStyle(node);
+
+            base.HandleATextHighlightStyle(node);
         }
-        public override void CaseABackgroundHighlightStyle(ABackgroundHighlightStyle node)
+        protected override void HandleABackgroundHighlightStyle(ABackgroundHighlightStyle node)
         {
             if (background != null)
                 RegisterError(node, "Highlight rule has already been given a background color.");
             else
                 background = node;
-            base.CaseABackgroundHighlightStyle(node);
+
+            base.HandleABackgroundHighlightStyle(node);
         }
 
-        public override void CaseARgbColor(ARgbColor node)
+        protected override void HandleARgbColor(ARgbColor node)
         {
             if (node.Red.Value > 255)
                 RegisterError(node.Red, "The first argument (red) in a rgb color must be in the range [0-255].");
@@ -77,7 +79,7 @@ namespace SablePP.Compiler.Validation
             if (node.Blue.Value > 255)
                 RegisterError(node.Blue, "The third argument (blue) in a rgb color must be in the range [0-255].");
         }
-        public override void CaseAHsvColor(AHsvColor node)
+        protected override void HandleAHsvColor(AHsvColor node)
         {
             if (node.Hue.Value > 359)
                 RegisterError(node.Hue, "The first argument (hue) in a {0} color must be in the range [0-359].", node.Hsv.Text);
@@ -86,7 +88,7 @@ namespace SablePP.Compiler.Validation
             if (node.Brightness.Value > 100)
                 RegisterError(node.Brightness, "The third argument ({1}) in a {0} color must be in the range [0-100].", node.Hsv.Text, node.Hsv.Text == "hsv" ? "value" : "brightness");
         }
-        public override void CaseAHexColor(AHexColor node)
+        protected override void HandleAHexColor(AHexColor node)
         {
             string text = node.Color.Text.Substring(1);
             if (text.Length != 3 && text.Length != 6)

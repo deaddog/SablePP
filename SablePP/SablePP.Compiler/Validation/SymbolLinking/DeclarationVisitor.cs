@@ -132,7 +132,7 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 throw new ArgumentOutOfRangeException("Unknown table type.");
         }
 
-        public override void CaseAGrammar(AGrammar node)
+        protected override void HandleAGrammar(AGrammar node)
         {
             hasASTsection = node.HasAstproductions;
 
@@ -170,25 +170,25 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                     RegisterWarning(p.Identifier, "The AST production {0} is never used in another production.", p.Identifier);
         }
 
-        protected override void CaseHelpers(PHelper[] nodes)
+        protected override void HandleHelpers(PHelper[] nodes)
         {
             foreach (var h in nodes)
                 TryDeclare(h, helpers);
 
-            base.CaseHelpers(nodes);
+            base.HandleHelpers(nodes);
         }
-        public override void CaseAIdentifierRegex(AIdentifierRegex node)
+        protected override void HandleAIdentifierRegex(AIdentifierRegex node)
         {
             TryLink(node.Identifier, helpers);
         }
 
-        protected override void CaseStates(PState[] nodes)
+        protected override void HandleStates(PState[] nodes)
         {
             foreach (var s in nodes)
                 TryDeclare(s, states);
         }
 
-        public override void CaseAToken(AToken node)
+        protected override void HandleAToken(AToken node)
         {
             if (node.Statelist.Count > 0)
                 Visit(node.Statelist);
@@ -200,46 +200,46 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 Visit(node.Tokenlookahead);
         }
 
-        public override void CaseATokenState(ATokenState node)
+        protected override void HandleATokenState(ATokenState node)
         {
             TryLink(node.Identifier, states);
         }
-        public override void CaseATransitionTokenState(ATransitionTokenState node)
+        protected override void HandleATransitionTokenState(ATransitionTokenState node)
         {
             TryLink(node.From, states);
             TryLink(node.To, states);
         }
 
-        protected override void CaseIgnoredTokens(TIdentifier[] nodes)
+        protected override void HandleIgnoredTokens(TIdentifier[] nodes)
         {
             foreach (var item in nodes)
                 if (TryLink(item, tokens))
                     tokens[item.Text].IsIgnored = true;
         }
 
-        protected override void CaseAstProductions(PProduction[] nodes)
+        protected override void HandleAstProductions(PProduction[] nodes)
         {
             productions = astProd;
 
             foreach (var prod in nodes)
                 TryDeclare(prod, productions);
 
-            base.CaseAstProductions(nodes);
+            base.HandleAstProductions(nodes);
 
             productions = null;
         }
-        protected override void CaseProductions(PProduction[] nodes)
+        protected override void HandleProductions(PProduction[] nodes)
         {
             productions = nonastProd;
 
             foreach (var prod in nodes)
                 TryDeclare(prod, productions);
 
-            base.CaseProductions(nodes);
+            base.HandleProductions(nodes);
 
             productions = null;
         }
-        public override void CaseAProduction(AProduction node)
+        protected override void HandleAProduction(AProduction node)
         {
             alternatives = new DeclarationTable<PAlternative>();
 
@@ -273,20 +273,20 @@ namespace SablePP.Compiler.Validation.SymbolLinking
 
             allAlternatives[node] = alternatives;
         }
-        public override void CaseAAlternative(AAlternative node)
+        protected override void HandleAAlternative(AAlternative node)
         {
             elements = new DeclarationTable<PElement>();
-            base.CaseAAlternative(node);
+            base.HandleAAlternative(node);
             allElements[node] = elements;
         }
 
-        public override void CaseAAlternativename(AAlternativename node)
+        protected override void HandleAAlternativename(AAlternativename node)
         {
             TryDeclare(node.GetFirstParent<AAlternative>(), alternatives);
 
-            base.CaseAAlternativename(node);
+            base.HandleAAlternativename(node);
         }
-        public override void InPElement(PElement node)
+        protected override void HandlePElement(PElement node)
         {
             if (!elements.Declare(node))
             {
@@ -295,9 +295,11 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 else
                     RegisterError(node.Elementid.Identifier, "A {0} element (or an element named {0}) is already in use in this production.", node.Elementid.Identifier);
             }
+
+            base.HandlePElement(node);
         }
 
-        public override void CaseACleanElementid(ACleanElementid node)
+        protected override void HandleACleanElementid(ACleanElementid node)
         {
             TIdentifier ident = node.Identifier;
             string text = ident.Text;
@@ -310,9 +312,9 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                     RegisterError(node, "The ignored token {0} cannot be used in a production.", ident);
             }
 
-            base.CaseACleanElementid(node);
+            base.HandleACleanElementid(node);
         }
-        public override void CaseATokenElementid(ATokenElementid node)
+        protected override void HandleATokenElementid(ATokenElementid node)
         {
             if (TryLink(node.Identifier, tokens))
             {
@@ -320,31 +322,33 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                     RegisterError(node, "The ignored token {0} cannot be used in a production.", node.Identifier);
             }
 
-            base.CaseATokenElementid(node);
+            base.HandleATokenElementid(node);
         }
-        public override void CaseAProductionElementid(AProductionElementid node)
+        protected override void HandleAProductionElementid(AProductionElementid node)
         {
             TryLink(node.Identifier, productions);
 
-            base.CaseAProductionElementid(node);
+            base.HandleAProductionElementid(node);
         }
 
-        public override void InPProdtranslation(PProdtranslation node)
+        protected override void HandlePProdtranslation(PProdtranslation node)
         {
             if (astProd.Contains(node.Identifier.Text) && tokens.Contains(node.Identifier.Text))
                 RegisterError(node.Identifier, "Unable to determine if {0} refers to an AST production or a token.", node.Identifier.Text);
             if (!astProd.Link(node.Identifier) && !tokens.Link(node.Identifier))
                 RegisterError(node.Identifier, "The production translation target {0} has not been defined as neither an AST production or a token.", node.Identifier);
+
+            base.HandlePProdtranslation(node);
         }
 
-        public override void CaseANewTranslation(ANewTranslation node)
+        protected override void HandleANewTranslation(ANewTranslation node)
         {
             if (TryLink(node.Production, astProd) && node.Production.AsPProduction.UnnamedAlternative == null)
                 RegisterError(node.Production, "The AST production {0} does not have an unnamed alternative.");
 
-            base.CaseANewTranslation(node);
+            base.HandleANewTranslation(node);
         }
-        public override void CaseANewalternativeTranslation(ANewalternativeTranslation node)
+        protected override void HandleANewalternativeTranslation(ANewalternativeTranslation node)
         {
             if (TryLink(node.Production, astProd))
             {
@@ -354,19 +358,19 @@ namespace SablePP.Compiler.Validation.SymbolLinking
                 TryLink(node.Alternative, "AST alternative", alternatives);
             }
 
-            base.CaseANewalternativeTranslation(node);
+            base.HandleANewalternativeTranslation(node);
         }
-        public override void CaseAIdTranslation(AIdTranslation node)
+        protected override void HandleAIdTranslation(AIdTranslation node)
         {
             TryLink(node.Identifier, "production element", elements);
         }
-        public override void CaseAIddotidTranslation(AIddotidTranslation node)
+        protected override void HandleAIddotidTranslation(AIddotidTranslation node)
         {
             TryLink(node.Identifier, "production element", elements);
             TryLink(node.Production, astProd);
         }
 
-        public override void CaseAHighlightrule(AHighlightrule node)
+        protected override void HandleAHighlightrule(AHighlightrule node)
         {
             for (int i = 0; i < node.Tokens.Count; i++)
             {
