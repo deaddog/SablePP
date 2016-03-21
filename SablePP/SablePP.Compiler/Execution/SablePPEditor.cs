@@ -225,7 +225,7 @@ namespace SablePP.Compiler.Execution
         {
             OpenFile(GetDraggedFiles(e)[0]);
         }
-        
+
         protected override void OnFileChanged(EventArgs e)
         {
             outputButton.Enabled = File != null && File.Exists;
@@ -303,40 +303,52 @@ namespace SablePP.Compiler.Execution
             }
         }
 
-        private bool testForErrors(Tools.Error.CompilerError[] errors)
-        {
-            return errors.Any(e => e.ErrorType == Tools.Error.ErrorType.Error);
-        }
-
-        private void generateWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void generateWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             string path = e.Argument as string;
 
             var res = this.codeTextBox1.WaitForResult();
+            string message;
 
-            if (!testForErrors(res.Errors))
-                executer.Generate(res.Tree as SablePP.Tools.Nodes.Start<Nodes.PGrammar>, path);
+            if (res.Errors.Any(er => er.ErrorType == Tools.Error.ErrorType.Error))
+                message = "Unable to generate compiler; error in validation.";
+            else if (executer.Generate(res.Tree as Start<PGrammar>, path, out message))
+                message = null;
 
-            e.Result = res;
+            e.Result = new GenerateResult(res, message);
         }
 
-        private void generateWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        private void generateWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            var res = e.Result as CodeTextBox.Result;
+            var res = e.Result as GenerateResult;
 
-            if (testForErrors(res.Errors))
+            if (res.Failed)
                 messageTimer1.ShowMessage(MessageIcons.Error, "Unable to generate compiler; error in validation.");
             else
             {
                 messageTimer1.ShowMessage(MessageIcons.Accept, "Code generation completed!");
-                var root = res.Tree as SablePP.Tools.Nodes.Start<SablePP.Compiler.Nodes.PGrammar>;
-                var grammar = root.Root as SablePP.Compiler.Nodes.AGrammar;
+                var root = res.CompilationResult.Tree as Start<PGrammar>;
+                var grammar = root.Root as AGrammar;
 
                 if (!liveCodeSplitter.Panel2Collapsed)
                     liveCodeControl1.LoadCompiler(settings.OutputPaths[this.File.FullName], grammar.Namespace);
             }
 
             generateButton.Enabled = true;
+        }
+
+        private class GenerateResult
+        {
+            public readonly CodeTextBox.Result CompilationResult;
+            public readonly string GeneratorErrorMessage;
+
+            public bool Failed => GeneratorErrorMessage != null;
+
+            public GenerateResult(CodeTextBox.Result compilationResult, string generatorErrorMessage)
+            {
+                this.CompilationResult = compilationResult;
+                this.GeneratorErrorMessage = generatorErrorMessage;
+            }
         }
     }
 }

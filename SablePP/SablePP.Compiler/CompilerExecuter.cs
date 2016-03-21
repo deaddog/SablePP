@@ -23,13 +23,11 @@ namespace SablePP.Compiler
         private IdentifierHighlighter identifierHighlighter;
 
         private SablePP.Generate.Grammar lastGrammar;
-        private SablePP.Generate.CompilationResult lastResult;
 
         public CompilerExecuter()
         {
             this.identifierHighlighter = new IdentifierHighlighter();
             this.lastGrammar = null;
-            this.lastResult = null;
         }
 
         public override void Validate(Start<PGrammar> root, CompilationOptions compilationOptions)
@@ -39,18 +37,9 @@ namespace SablePP.Compiler
             compilationOptions.Highlight(identifierHighlighter);
 
             if (compilationOptions.ErrorManager.Errors.Count == 0)
-            {
                 this.lastGrammar = GrammarBuilder.BuildSableCCGrammar(root);
-                this.lastResult = lastGrammar.Compile();
-
-                if (lastResult.Error != null)
-                    compilationOptions.ErrorManager.Register(ErrorType.Error, "Failed to compile grammar, see details below:\r\n{0}", lastResult.Error.Message);
-            }
             else
-            {
                 this.lastGrammar = null;
-                this.lastResult = null;
-            }
         }
 
         private TSection[] sections<TSection>(Start<PGrammar> node) where TSection : PSection
@@ -78,19 +67,33 @@ namespace SablePP.Compiler
                 new ExcessiveNodesVisitor(errorManager).Visit(root);
         }
 
-        public bool Generate(Start<PGrammar> root, string directory)
+        public bool Generate(Start<PGrammar> root, string directory, out string message)
         {
+            if (lastGrammar == null)
+            {
+                message = "No validated grammar from which a compiler can be built.";
+                return false;
+            }
+
+            var result = lastGrammar.Compile();
+            if (result.Error != null)
+            {
+                message = "Failed to compile grammar, see details below:\r\n" + result.Error.Message;
+                return false;
+            }
+
             directory = directory.TrimEnd('\\');
 
             lastGrammar.GenerateTokens().ToFile(Path.Combine(directory, "tokens.cs"));
             lastGrammar.GenerateProductions().ToFile(Path.Combine(directory, "prods.cs"));
             lastGrammar.GenerateAnalysis().ToFile(Path.Combine(directory, "analysis.cs"));
 
-            lastGrammar.GenerateLexer(lastResult).ToFile(Path.Combine(directory, "lexer.cs"));
-            lastGrammar.GenerateParser(lastResult).ToFile(Path.Combine(directory, "parser.cs"));
+            lastGrammar.GenerateLexer(result).ToFile(Path.Combine(directory, "lexer.cs"));
+            lastGrammar.GenerateParser(result).ToFile(Path.Combine(directory, "parser.cs"));
 
             lastGrammar.GenerateCompilerExecuter().ToFile(Path.Combine(directory, "CompilerExecuter.cs"));
 
+            message = null;
             return true;
         }
     }
