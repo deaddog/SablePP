@@ -54,7 +54,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PGrammar Clone()
         {
-            return new AGrammar(Sections);
+            return new AGrammar(Sections.Clone());
         }
         
         public override string ToString()
@@ -242,7 +242,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PSection Clone()
         {
-            return new AHelpersSection(Helperstoken.Clone(), Helpers);
+            return new AHelpersSection(Helperstoken.Clone(), Helpers.Clone());
         }
         
         public override string ToString()
@@ -344,7 +344,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PSection Clone()
         {
-            return new AStatesSection(Statestoken.Clone(), States, Semicolon.Clone());
+            return new AStatesSection(Statestoken.Clone(), States.Clone(), Semicolon.Clone());
         }
         
         public override string ToString()
@@ -420,7 +420,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PSection Clone()
         {
-            return new ATokensSection(Tokenstoken.Clone(), Tokens);
+            return new ATokensSection(Tokenstoken.Clone(), Tokens.Clone());
         }
         
         public override string ToString()
@@ -548,7 +548,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PSection Clone()
         {
-            return new AIgnoreSection(Ignoredtoken.Clone(), Tokenstoken.Clone(), Tokens, Semicolon.Clone());
+            return new AIgnoreSection(Ignoredtoken.Clone(), Tokenstoken.Clone(), Tokens.Clone(), Semicolon.Clone());
         }
         
         public override string ToString()
@@ -624,7 +624,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PSection Clone()
         {
-            return new AProductionsSection(Productionstoken.Clone(), Productions);
+            return new AProductionsSection(Productionstoken.Clone(), Productions.Clone());
         }
         
         public override string ToString()
@@ -700,7 +700,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PSection Clone()
         {
-            return new AASTSection(Asttoken.Clone(), Productions);
+            return new AASTSection(Asttoken.Clone(), Productions.Clone());
         }
         
         public override string ToString()
@@ -776,7 +776,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PSection Clone()
         {
-            return new AHighlightSection(Highlighttoken.Clone(), Highlightrules);
+            return new AHighlightSection(Highlighttoken.Clone(), Highlightrules.Clone());
         }
         
         public override string ToString()
@@ -1102,7 +1102,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PToken Clone()
         {
-            return new AToken(Statelist, Identifier.Clone(), Equal.Clone(), Regex.Clone(), Tokenlookahead.Clone(), Semicolon.Clone());
+            return new AToken(Statelist.Clone(), Identifier.Clone(), Equal.Clone(), Regex.Clone(), Tokenlookahead?.Clone(), Semicolon.Clone());
         }
         
         public override string ToString()
@@ -1404,7 +1404,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PRegex Clone()
         {
-            return new AConcatenatedRegex(Regexs);
+            return new AConcatenatedRegex(Regexs.Clone());
         }
         
         public override string ToString()
@@ -2215,7 +2215,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PRegex Clone()
         {
-            return new AOrRegex(Regexs);
+            return new AOrRegex(Regexs.Clone());
         }
         
         public override string ToString()
@@ -2768,7 +2768,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PProduction Clone()
         {
-            return new AProduction(Identifier.Clone(), Prodtranslation.Clone(), Equal.Clone(), Alternatives, Semicolon.Clone());
+            return new AProduction(Identifier.Clone(), Prodtranslation?.Clone(), Equal.Clone(), Alternatives.Clone(), Semicolon.Clone());
         }
         
         public override string ToString()
@@ -2881,7 +2881,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PProdtranslation Clone()
         {
-            return new AProdtranslation(Arrow.Clone(), Identifier.Clone(), Modifier.Clone());
+            return new AProdtranslation(Arrow.Clone(), Identifier.Clone(), Modifier?.Clone());
         }
         
         public override string ToString()
@@ -3121,7 +3121,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PTranslation Clone()
         {
-            return new ANewTranslation(New.Clone(), Production.Clone(), Lpar.Clone(), Arguments, Rpar.Clone());
+            return new ANewTranslation(New.Clone(), Production.Clone(), Lpar.Clone(), Arguments.Clone(), Rpar.Clone());
         }
         
         public override string ToString()
@@ -3327,7 +3327,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PTranslation Clone()
         {
-            return new ANewalternativeTranslation(New.Clone(), Production.Clone(), Dot.Clone(), Alternative.Clone(), Lpar.Clone(), Arguments, Rpar.Clone());
+            return new ANewalternativeTranslation(New.Clone(), Production.Clone(), Dot.Clone(), Alternative.Clone(), Lpar.Clone(), Arguments.Clone(), Rpar.Clone());
         }
         
         public override string ToString()
@@ -3429,7 +3429,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PTranslation Clone()
         {
-            return new AListTranslation(Lpar.Clone(), Elements, Rpar.Clone());
+            return new AListTranslation(Lpar.Clone(), Elements.Clone(), Rpar.Clone());
         }
         
         public override string ToString()
@@ -3751,7 +3751,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PAlternative Clone()
         {
-            return new AAlternative(Alternativename.Clone(), Elements, Translation.Clone());
+            return new AAlternative(Alternativename?.Clone(), Elements.Clone(), Translation?.Clone());
         }
         
         public override string ToString()
@@ -3977,7 +3977,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PElement Clone()
         {
-            return new AElement(Elementname.Clone(), Elementid.Clone(), Modifier.Clone());
+            return new AElement(Elementname?.Clone(), Elementid.Clone(), Modifier?.Clone());
         }
         
         public override string ToString()
@@ -4509,7 +4509,7 @@ namespace SablePP.Compiler.Nodes
         
         public override PHighlightrule Clone()
         {
-            return new AHighlightrule(Lpar.Clone(), Tokens, Rpar.Clone(), Styles, Semicolon.Clone());
+            return new AHighlightrule(Lpar.Clone(), Tokens.Clone(), Rpar.Clone(), Styles.Clone(), Semicolon.Clone());
         }
         
         public override string ToString()
