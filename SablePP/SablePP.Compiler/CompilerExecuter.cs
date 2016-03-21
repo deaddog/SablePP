@@ -78,19 +78,33 @@ namespace SablePP.Compiler
                 new ExcessiveNodesVisitor(errorManager).Visit(root);
         }
 
-        public bool Generate(Start<PGrammar> root, string directory)
+        public bool Generate(Start<PGrammar> root, string directory, out string message)
         {
+            if (lastGrammar == null)
+            {
+                message = "No validated grammar from which a compiler can be built.";
+                return false;
+            }
+
+            var result = lastGrammar.Compile();
+            if (result.Error != null)
+            {
+                message = "Failed to compile grammar, see details below:\r\n" + result.Error.Message;
+                return false;
+            }
+
             directory = directory.TrimEnd('\\');
 
             lastGrammar.GenerateTokens().ToFile(Path.Combine(directory, "tokens.cs"));
             lastGrammar.GenerateProductions().ToFile(Path.Combine(directory, "prods.cs"));
             lastGrammar.GenerateAnalysis().ToFile(Path.Combine(directory, "analysis.cs"));
 
-            lastGrammar.GenerateLexer(lastResult).ToFile(Path.Combine(directory, "lexer.cs"));
-            lastGrammar.GenerateParser(lastResult).ToFile(Path.Combine(directory, "parser.cs"));
+            lastGrammar.GenerateLexer(result).ToFile(Path.Combine(directory, "lexer.cs"));
+            lastGrammar.GenerateParser(result).ToFile(Path.Combine(directory, "parser.cs"));
 
             lastGrammar.GenerateCompilerExecuter().ToFile(Path.Combine(directory, "CompilerExecuter.cs"));
 
+            message = null;
             return true;
         }
     }
