@@ -65,6 +65,16 @@ namespace SablePP.Tools.Nodes
             private List<T> list;
             private bool emptyAllowed;
 
+            public T[] Clone()
+            {
+                T[] result = list.ToArray();
+
+                for (int i = 0; i < result.Length; i++)
+                    result[i] = (T) result[i].CloneNode();
+
+                return result;
+            }
+
             /// <summary>
             /// Initializes a new instance of the <see cref="NodeList{T}"/> class.
             /// </summary>

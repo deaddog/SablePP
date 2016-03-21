@@ -27,11 +27,12 @@ namespace SablePP.Generate.Building
             switch (node.Modifier)
             {
                 case Modifiers.Single:
-                case Modifiers.Optional:
                     return node.Name + ".Clone()";
+                case Modifiers.Optional:
+                    return node.Name + "?.Clone()";
                 case Modifiers.ZeroOrMany:
                 case Modifiers.OneOrMany:
-                    return node.Name;
+                    return node.Name + ".Clone()";
             }
             throw new InvalidOperationException("Unknown modifier.");
         }
