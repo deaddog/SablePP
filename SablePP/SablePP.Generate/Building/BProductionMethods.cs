@@ -31,7 +31,7 @@ namespace SablePP.Generate.Building
                     return node.Name + ".Clone()";
                 case Modifiers.ZeroOrMany:
                 case Modifiers.OneOrMany:
-                    return node.Name;
+                    return node.Name + ".Clone()";
             }
             throw new InvalidOperationException("Unknown modifier.");
         }
