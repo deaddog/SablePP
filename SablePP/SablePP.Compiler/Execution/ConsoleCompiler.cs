@@ -39,9 +39,11 @@ namespace SablePP.Compiler.Execution
                 Console.WriteLine("Validated.\n");
 
             Console.WriteLine("Starting Post-Sable Process.");
-            executer.Generate(ast, outputDirectory);
-
-            Console.WriteLine("Done.");
+            string errorMessage;
+            if (!executer.Generate(ast, outputDirectory, out errorMessage))
+                Console.Write(errorMessage);
+            else
+                Console.WriteLine("Done.");
 #if DEBUG
             Console.ReadKey(true);
 #endif
