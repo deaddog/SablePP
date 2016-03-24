@@ -92,6 +92,7 @@
     <Compile Include="GrammarStructure\RegularExpressions\ReferenceRegExp.cs" />
     <Compile Include="GrammarStructure\RegularExpressions\RegExp.cs" />
     <Compile Include="GrammarStructure\RegularExpressions\SetRegExp.cs" />
+    <Compile Include="ReduceReduceError.cs" />
     <Compile Include="SableCC\Builder.cs" />
     <Compile Include="SableCC\Compiler.cs" />
     <Compile Include="GrammarStructure\State.cs" />
@@ -101,6 +102,8 @@
     <Compile Include="GrammarStructure\Translations\NewTranslation.cs" />
     <Compile Include="GrammarStructure\Translations\NullTranslation.cs" />
     <Compile Include="GrammarStructure\Translations\Translation.cs" />
+    <Compile Include="SableCC\Output.cs" />
+    <Compile Include="ShiftReduceError.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SablePP.Tools\SablePP.Tools.csproj">
