@@ -355,7 +355,7 @@ namespace SablePP.Tools.Editor
             if (!(range.Start.iChar < 1 && range.Start.iLine < 1 && range.End.iChar < 1 && range.End.iLine < 1))
             {
                 var style = getSquigglyStyle(error.ErrorType);
-                if (range.GetIntersectionWith(this.Range).IsEmpty)
+                if (range.GetIntersectionWith(this.Range).IsEmpty || range.Start.iLine < 0 || range.Start.iChar < 0)
                     directDrawErrors.Add(range, style);
                 else
                     range.SetStyle(style);
@@ -678,11 +678,24 @@ namespace SablePP.Tools.Editor
                 Node node;
                 CompilerError[] errors;
 
-                if (loadRootAndErrors(e.Result, out node, out errors))
+                object res;
+
+                try { res = e.Result; }
+                catch { res = null; }
+
+                if (loadRootAndErrors(res, out node, out errors))
                 {
                     parent.clearErrors();
                     foreach (var err in errors)
                         parent.addError(err);
+                }
+                else if (e.Error != null)
+                {
+                    var err = new CompilerError(ErrorType.Error, new Position(0, 0), new Position(0, 0), "Internal error: " + e.Error.Message);
+                    errors = new CompilerError[] { err };
+
+                    parent.clearErrors();
+                    parent.addError(err);
                 }
 
                 parent.lastResult = new Result(node, errors);
